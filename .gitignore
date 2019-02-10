@@ -1,3 +1,6 @@
+#Bot config file with API tokens
+json/_config.json
+
 # Logs
 logs
 *.log
