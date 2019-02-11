@@ -1,6 +1,9 @@
 #Bot config file with API tokens
 json/_config.json
 
+# Data file
+*.sqlite
+
 # Logs
 logs
 *.log

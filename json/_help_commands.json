@@ -1,0 +1,227 @@
+[{
+  "lookup": ["help"],
+  "command": "Help",
+  "description": "helpception",
+  "cooldown": "",
+  "example": ["help inv"],
+  "usage": ["help <command>`"],
+  "options": "`command` - The command you want to lookup."
+}, {
+  "lookup": ["inv","i","inventory","profile"],
+  "command": "Inventory",
+  "example": [""],
+  "description": "Shows your current inventory including items, health, level, xp, and money.",
+  "cooldown": "",
+  "usage": ["inv` - Shows your inventory","inv <@user>` - Shows inventory of specified user.","profile`","i`"],
+  "options": "`@user` - User to check inventory of."
+}, {
+  "lookup": ["use"],
+  "command": "Use",
+  "example": ["use ak47 @blobfysh","use medkit"],
+  "description": "Use an item on yourself or attack another user with a weapon.",
+  "cooldown": "Attack: 1 hour\nHeal: 30 minutes",
+  "usage": ["use <item>` - Uses an item on yourself, such as healing items or boxes","use <item> <@user>` - Attack user with an item or weapon."],
+  "options": "`item` - Item to use\n`@user` - User to attack."
+}, {
+  "lookup": ["craft"],
+  "command": "Craft",
+  "example": ["craft rail_cannon"],
+  "description": "Use components from `recycling` to craft items such as:\n`rail_cannon`\n`ray_gun`\n`ammo_box`\n`ultra_box`",
+  "cooldown": "",
+  "usage": ["craft <item>`"],
+  "options": "`item` - Item to craft."
+}, {
+  "lookup": ["recycle"],
+  "command": "Recycle",
+  "example": ["recycle awp"],
+  "description": "Recycle `legendary` quality items for components.",
+  "cooldown": "",
+  "usage": ["recycle <item>`"],
+  "options": "`item` - Item of atleast `legendary` quality."
+}, {
+  "lookup": ["item","items"],
+  "command": "Item",
+  "example": ["item gold_shield"],
+  "description": "Specify an item to see detailed information about it.\nFor a more detailed list check out:\nhttps://docs.google.com/spreadsheets/d/1iWWPYvCcdKlpGgtmstQ5CHGUdsVX1Q10vTO0y6ylseM/edit?usp=sharing",
+  "cooldown": "",
+  "usage": ["item <item>`","items` - Shows a list of all items."],
+  "options": "`item` - Item to search."
+}, {
+  "lookup": ["buy"],
+  "command": "Buy",
+  "example": ["buy item_box 2"],
+  "description": "Purchase items with currency. Check the `shop` to see what can be bought.",
+  "cooldown": "",
+  "usage": ["buy <item> <amount>`"],
+  "options": "`item` - Item to buy.\n`amount` - **OPTIONAL** Amount of item to purchase."
+}, {
+  "lookup": ["sellall"],
+  "command": "Sellall",
+  "example": ["sellall common"],
+  "description": "Sell all items of a certain rarity.",
+  "cooldown": "",
+  "usage": ["sellall <rarity>`"],
+  "options": "`rarity` - Rarity of items you want to sell ie. common, rare..."
+}, {
+  "lookup": ["sell"],
+  "command": "Sell",
+  "example": ["sell iron_shield"],
+  "description": "Sell items for money. Check the `shop` to see how much items can be sold for.",
+  "cooldown": "",
+  "usage": ["sell <item> <amount>`"],
+  "options": "`item` - Item to sell.\n`amount` - **OPTIONAL** Amount of item to sell."
+}, {
+  "lookup": ["shop"],
+  "command": "Shop",
+  "example": [""],
+  "description": "Show the market of all items that can be bought or sold. Occasionally, steam keys may be displayed for sale on the home page.",
+  "cooldown": "",
+  "usage": ["shop`"],
+  "options": ""
+}, {
+  "lookup": ["trade"],
+  "command": "Trade",
+  "example": ["trade @blobfysh"],
+  "description": "Start a trade with another user. Trade commands include:\n\n`add <item>` - Item to add to trade\n`addmoney <amount>` - Amount of money to add\n`accept`\n`cancel`",
+  "cooldown": "",
+  "usage": ["trade <@user>`"],
+  "options": "`@user` - Mention user to trade with."
+}, {
+  "lookup": ["trivia"],
+  "command": "Trivia",
+  "example": [""],
+  "description": "Answer a random trivia question for a reward! Rewards range from item_boxes to ammo_boxes.",
+  "cooldown": "15 minutes",
+  "usage": ["trivia`"],
+  "options": ""
+}, {
+  "lookup": ["scramble"],
+  "command": "Scramble",
+  "example": ["scramble easy"],
+  "description": "Unscramble a random word for a reward! Rewards vary depending on difficulty you choose, and the difficulty of the word.",
+  "cooldown": "15 minutes",
+  "usage": ["scramble <difficulty>`"],
+  "options": "`difficulty` - easy OR hard"
+}, {
+  "lookup": ["hourly"],
+  "command": "Hourly",
+  "example": [""],
+  "description": "Use this command to receive a free item_box every hour.",
+  "cooldown": "1 hour",
+  "usage": ["hourly`"],
+  "options": ""
+}, {
+  "lookup": ["gamble"],
+  "command": "Gamble",
+  "example": ["gamble 1000"],
+  "description": "Gamble an amount of money for a 50/50 chance of winning.",
+  "cooldown": "5 minutes",
+  "usage": ["gamble <amount>`"],
+  "options": "`amount` - Amount of money to gamble"
+}, {
+  "lookup": ["vote"],
+  "command": "Vote",
+  "example": [""],
+  "description": "Vote for the bot to receive a reward.",
+  "cooldown": "12 hours",
+  "usage": ["vote`"],
+  "options": ""
+}, {
+  "lookup": ["setprefix","prefix"],
+  "command": "Setprefix",
+  "example": ["setprefix t!"],
+  "description": "Command used to change the prefix for the server.\nUser **MUST** have the Manage Server permission.",
+  "cooldown": "",
+  "usage": ["setprefix <prefix>`"],
+  "options": "`prefix` - Input to change server prefix to. Must be 1-3 characters long."
+}, {
+  "lookup": ["deactivate"],
+  "command": "Deactivate",
+  "example": [""],
+  "description": "Deactivates your account on server it's used in. Deactivating prevents you from being attacked in that server **BUT** also prevents you from being able to use commands.",
+  "cooldown": "24 hours",
+  "usage": ["deactivate`"],
+  "options": ""
+}, {
+  "lookup": ["level","lvl"],
+  "command": "Level",
+  "example": [""],
+  "description": "Displays your level along with your current scaled damage.\nBelow is a table of stats for each level.",
+  "cooldown": "",
+  "usage": ["level`","lvl`"],
+  "options": "",
+  "imageURL": "https://cdn.discordapp.com/attachments/454163538886524928/537252087495393280/thanBotLevelsPNG.png"
+}, {
+  "lookup": ["points","xp"],
+  "command": "Points",
+  "example": [""],
+  "description": "Displays your current xp/points.",
+  "cooldown": "",
+  "usage": ["points`","xp`"],
+  "options": ""
+}, {
+  "lookup": ["health","hp"],
+  "command": "Health",
+  "example": [""],
+  "description": "Displays your current health and your maximum possible health.",
+  "cooldown": "",
+  "usage": ["health`", "hp`"],
+  "options": ""
+}, {
+  "lookup": ["money","cash"],
+  "command": "Money",
+  "example": [""],
+  "description": "Displays your current amount of money.",
+  "cooldown": "",
+  "usage": ["money`"],
+  "options": ""
+}, {
+  "lookup": ["server"],
+  "command": "Server",
+  "example": [""],
+  "description": "Displays a list of all active users on the server.",
+  "cooldown": "",
+  "usage": ["server`"],
+  "options": ""
+}, {
+  "lookup": ["update","version","botinfo"],
+  "command": "Update",
+  "example": [""],
+  "description": "Displays information about the current update and the bot.",
+  "cooldown": "",
+  "usage": ["update`","botinfo`","version`"],
+  "options": ""
+}, {
+  "lookup": ["cooldown","cd","cooldowns"],
+  "command": "Cooldown",
+  "example": [""],
+  "description": "Displays cooldowns for all commands and time remaining on your shield if you have one active.",
+  "cooldown": "",
+  "usage": ["cooldown`","cd`"],
+  "options": ""
+}, {
+  "lookup": ["leaderboard","lb"],
+  "command": "Leaderboard",
+  "example": [""],
+  "description": "Displays a leaderboard of all players with the highest level and amount of money.",
+  "cooldown": "",
+  "usage": ["leaderboard <s>`","lb <s>`"],
+  "options": "`s` - **OPTIONAL** Will show leaderboard for server"
+}, {
+  "lookup": ["delete","suicide"],
+  "command": "Delete",
+  "example": [""],
+  "description": "Deletes your account. This action can **NOT** be undone. You can only delete once every few hours",
+  "cooldown": "",
+  "usage": ["delete`","suicide`"],
+  "options": ""
+}, {
+  "lookup": ["discord","invite"],
+  "command": "Discord",
+  "example": [""],
+  "description": "Sends a link to the official Lootcord Discord Server!",
+  "cooldown": "",
+  "usage": ["discord`"],
+  "options": ""
+}
+]

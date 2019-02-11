@@ -1,0 +1,154 @@
+[{
+"_comment": "Item names should not be translated. Command names should not be translated.",
+"en_us": {
+	"noAcc": {
+		"example1": "You don't have an account. Use t-play to make one!",
+		"translation1": "INSERT HERE"
+	},
+	
+	"misc": {
+		"example1": "Your account is not active in this server! You must activate your account using t-play before you can use commands in this server!",
+		"translation1": "INSERT HERE",
+		
+		"example2": "You try to type a command but your insatiable appetite for seeds keeps you preoccupied",
+		"translation2": "INSERT HERE",
+		
+		"example3": "Your appetite will calm in 50 minutes.",
+		"translation": "INSERT HERE"
+	},
+	
+	"play": {
+		"example1": "Thanks for joining LOOTCORD",
+		"translation1": "INSERT HERE",
+		
+		"example2": "Items Received",
+		"translation2": "INSERT HERE",
+		
+		"example3": "Open it with t-use item_box",
+		"translation3": "INSERT HERE",
+		
+		"example4": "Your account is already active on this server!",
+		"translation4": "INSERT HERE",
+		
+		"example5": "Account activated in this server!",
+		"translation5": "INSERT HERE"
+	},
+
+	"levelup": {
+		"example1": "LEVEL 3!",
+		"translation1": "INSERT HERE",
+		
+		"example2": "New Max Health: 110",
+		"translation2": "INSERT HERE",
+		
+		"example3": "New Scaled Damage: 1.02x",
+		"translation3": "INSERT HERE",
+		
+		"example4": "Item received! ammo_box",
+		"translation4": "INSERT HERE"
+	},
+	
+	"inv": {
+		"example1": "You need to mention someone!",
+		"translation1": "INSERT HERE",
+		
+		"example2": "The person you're trying to search doesn't have an account!",
+		"translation2": "INSERT HERE",
+		
+		"example3": "This users inventory is empty!",
+		"translation3": "INSERT HERE",
+		
+		"example4": "Your inventory is empty",
+		"translation4": "INSERT HERE",
+		
+		"example5": "User rating: ",
+		"translation5": "INSERT HERE"
+	},
+	
+	"use": {
+		"items": {
+			"error": {
+				"example1": "You need to specify an item and mention a user to attack!",
+				"translation1": "INSERT HERE",
+				
+				"example2": "You don't have that item!",
+				"translation2": "INSERT HERE"
+			},
+			"unbox": {
+				"example1": "You just got a common rock",
+				"translation1": "INSERT HERE",
+				"example2": "You just got an uncommon bow",
+				"translation2": "INSERT HERE",
+				"example3": "You just got a RARE spear",
+				"translation3": "INSERT HERE",
+				"example4": "You just got an EPIC ak47",
+				"translation4": "INSERT HERE",
+				"example5": "You just got a LEGENDARY rpg",
+				"translation5": "INSERT HERE",
+				"example6": "You just got an ULTRA ray_gun",
+				"translation6": "INSERT HERE"
+			},
+			"shields": {
+				"example1": "Your current shield is still active for 40 minutes!",
+				"translation1": "INSERT HERE",
+				
+				"example2": "You have activated iron_shield!",
+				"translation2": "INSERT HERE"
+			},
+			"healing": {
+				"example1": "You need to wait 25 minutes before healing again.",
+				"translation1": "INSERT HERE",
+				
+				"example2": "You are already max health!",
+				"translation2": "INSERT HERE",
+				
+				"example3": "You have healed for 15 HP!",
+				"translation3": "INSERT HERE"
+			}
+		},
+		"weapons": {
+			"error": {
+				"example1": "You need to mention someone!",
+				"translation1": "INSERT HERE",
+				"example2": "ouch",
+				"translation2": "INSERT HERE",
+				"example3": "You can't attack yourself!",
+				"translation3": "INSERT HERE",
+				"example4": "The person you're trying to attack doesn't have an account!",
+				"translation4": "INSERT HERE",
+				"example5": "You can't attack while you have a shield active!",
+				"translation5": "INSERT HERE",
+				"example6": "This user has not activated their account in this server!",
+				"translation6": "INSERT HERE",
+				"example7": "This person is wearing mittens! They are untargetable for 30 minutes!",
+				"translation7": "INSERT HERE",
+				"example8": "This person is using an iron_shield! They are untargetable for 30 minutes!",
+				"translation8": "INSERT HERE",
+				"example9": "You recently deleted your account, but you still have to wait an hour to attack!",
+				"translation9": "INSERT HERE",
+				"example10": "You need to wait 20 minutes before attacking again.",
+				"translation10": "INSERT HERE",
+				"example11": "You don't have the item and/or need ammo for it!",
+				"translation11": "INSERT HERE"
+			},
+			"attack": {
+				"example1": "blobfysh hit OGSteve with a ak47 for 60 DAMAGE AND KILLED THEM!",
+				"translation1": "INSERT HERE",
+				
+				"example2": "blobfysh hit OGSteve with a ak47 for 60 DAMAGE! They now have 50 health!",
+				"translation2": "INSERT HERE",
+				
+				"example3": "blobfysh HIT OGSteve FOR 20 DAMAGE TURNING THEM INTO A CHICKEN using peck_seed!!! They now have 50 health and can't use any commands for 2 hours!",
+				"translation3": "INSERT HERE",
+				
+				"example4": "blobfysh MISSED OGSteve",
+				"translation4": "INSERT HERE"
+			}
+		}
+	}
+	
+},
+"pt_br": {
+	"play": []
+}
+}]

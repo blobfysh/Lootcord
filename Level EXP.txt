@@ -1,0 +1,31 @@
+        |XP Needed | Total XP | Max HP | Reward    | Damage Scale
+Level 1 | 50       | 0        | 100    | item_box  |	1.00
+Level 2 | 162      | 50       | 105    | ammo_box  |	1.01
+Level 3 | 323      | 212      | 110    | ammo_box  |	1.02
+Level 4 | 527      | 535      | 115    | ammo_box  |	1.03
+Level 5 | 771      | 1062     | 120    | ultra_box |	1.04
+Level 6 | 1051     | 1833     | 125    | ultra_box |	1.05
+Level 7 | 1366     | 2884     | 130    | ultra_box |	1.06
+Level 8 | 1714     | 4250     | 135    | ultra_box |	1.07
+Level 9 | 2094     | 5964     | 140    | ultra_box |	1.08
+Level 10| 2505     | 8058     | 145    | ultra_box |	1.09
+Level 11| 2946     | 10563    | 150    | ultra_box |	1.10
+Level 12| 3416     | 13509    | 155    | ultra_box |	1.11
+Level 13| 3914     | 16925    | 160    |    v      |	1.12
+Level 14| 4440     | 20839    | 165    |    v      |	1.13
+Level 15| 4992     | 25279    | 170    |    v      |	1.14
+Level 16| 5571     | 30271    | 175    |    v      |	1.15
+Level 17| 6176     | 35842    | 180    |    v      |	1.16
+Level 18| 6806     | 42018    | 185    |    v      |	1.17
+Level 19| 7461     | 48824    | 190    |    v      |	1.18
+Level 20| 8141     | 56285    | 195    |    v      |	1.19
+Level 21| 8845     | 64426    | 200    |    v      |	1.20
+Level 22| 9573     | 73271    | 205    |    v      |	1.21
+Level 23| 10325    | 82844    | 210    |    v      |	1.22
+Level 24| 11100    | 93169    | 215    |    v      |	1.23
+Level 25| 11897    | 104269   | 220    |    v      |	1.24
+Level 26| 12718    | 116166   | 225    |    v      |	1.25
+Level 27| 13560    | 129675   | 230    |    v      |	1.26
+
+Function
+y = 50 * (x^1.7)

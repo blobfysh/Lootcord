@@ -1,0 +1,197 @@
+[{
+"en_us": {
+	"noAcc": [
+		"You don't have an account. Use `",
+		"play` to make one!"
+	],
+	"misc": [
+		"Your account is not active in this server! You must activate your account using `",
+		"play` before you can use commands in this server!",
+		"`you try to type a command but your insatiable appetite for seeds keeps you preoccupied`",
+		"Your appetite will calm in ",
+		" minutes.",
+		"You need to wait  `",
+		" minutes`  before using this command again."
+	],
+	"play": [
+		"Thanks for joining LOOTCORD", 
+		"Items Received", 
+		"Open it with t-use item_box",
+		"Your account is already active on this server!",
+		"Account activated in this server!"
+	],
+	"levelup": [
+		"LEVEL **",
+		"!**\n*New* **Max Health:** `",
+		"`\n*New* **Scaled Damage:** `",
+		"x`\n**Item received!** "
+	],
+	"inv": [
+		"You need to mention someone!",
+		"The person you're trying to search doesn't have an account!",
+		"This users inventory is empty!",
+		"Your inventory is empty",
+		"User rating: "
+	],
+	"use": {
+		"items": {
+			"error": [
+				"You need to specify an item and mention a user to attack! `",
+				"You don't have that item!"
+			],
+			"unbox": [
+				"You just got a common `",
+				"You just got an uncommon `",
+				"You just got a RARE `",
+				"You just got an **EPIC** `",
+				"You just got a **LEGENDARY** `",
+				"You just got an **ULTRA** `"
+			],
+			"shields": [
+				"Your current shield is still active for `",
+				" minutes`!",
+				"You have activated `iron_shield`!",
+				"You have activated `gold_shield`!",
+				"You have activated `mittens`!"
+			],
+			"healing": [
+				"You need to wait `",
+				" minutes`  before healing again.",
+				"You are already max health!",
+				"You have healed for `",
+				"` HP!"
+			]
+		},
+		"weapons": {
+			"error": [
+				"You need to mention someone!",
+				"ow",
+				"You can't attack yourself!",
+				"The person you're trying to attack doesn't have an account!",
+				"You can't attack while you have a shield active!",
+				"This user has not activated their account in this server!",
+				"This person is wearing `mittens`!\nThey are untargetable for `",
+				"This person is using an `iron_shield`!\nThey are untargetable for `",
+				"This person is using a `gold_shield`!\nThey are untargetable for `",
+				" minutes`!",
+				"You recently deleted your account, but you still have to wait an hour to attack!",
+				"You need to wait  `",
+				" minutes`  before attacking again.",
+				"You don't have the item and/or need ammo for it!"
+			],
+			"attack": [
+				"MISSED",
+				"HIT",
+				"FOR",
+				"DAMAGE TURNING THEM INTO A **CHICKEN** using ",
+				"!!!\nThey now have",
+				" health and can't use any commands for 2 hours!",
+				"hit",
+				"with a",
+				"for",
+				"damage using",
+				"DAMAGE!\nThey now have",
+				"health!"
+			]
+		}
+	},
+	"craft": [
+		"You are missing the required materials for this item!",
+		"That item cannot be crafted!",
+		"Use `",
+		"help craft` to see how to use this command!",
+		"Craft `",
+		"` for",
+		"Successfully crafted",
+		"You didn't react in time!"
+	],
+	"recycle": [
+		"That item is not eligible for recycling.",
+		"Recycle `",
+		"` for",
+		"You don't have that item!",
+		"You didn't react in time!",
+		"` recycled for ```",
+		" module\nAND\n1 "
+	],
+	"item": [
+		"Full Items List",
+		"Use ",
+		"item <item> to retrieve more information!",
+		"Information",
+		"***Rarity***",
+		"Damage",
+		"Cost",
+		" or ",
+		"Recycles into",
+		"Items required to craft"
+	],
+	"buy": [
+		"You need to enter a valid item to buy! `",
+		"buy <item> <amount>`",
+		"That item is not for sale!",
+		"Purchase ",
+		"` for "
+	],
+	"sell": [
+		"You need to enter a valid item to sell! `",
+		"sell <item> <amount>`"
+	],
+	"sellall": [
+		"You need to enter a valid type to sell! `",
+		"sellall <rarity>`",
+		"You don't have any `",
+		"` items!",
+		"Sell ",
+		"` items for $",
+		"Successfully sold all ",
+		" items.",
+		"You didn't react in time!"
+	],
+	"shop": [
+		"**ITEM SHOP**",
+		"Use `buy <item>` to purchase and `sell <item>` to sell items.\n\nLimit 1 per person",
+		"Page "
+	],
+	"trade": {
+		"error": [
+			"Command takes `",
+			"You need to mention someone! `",
+			"trade <@user>`",
+			"They didn't react in time!",
+			"I respectfully DECLINE",
+			"You can't trade with yourself!",
+			"The person you are trying to trade doesn't have an account!",
+			"The person you are trying to trade is under the effects of `peck_seed`",
+			" would like to trade with you!"
+		],
+		"trading": [
+			"Trade window",
+			"Trade has been cancelled.",
+			"You need to put an amount! `",
+			"You don't have enough money!",
+			"That item doesn't exist!",
+			"You can't trade tokens!",
+			"You can only trade one of each item at a time!",
+			"You don't have that item!",
+			" has accepted the trade! Do you accept?",
+			" declined"
+		]
+	},
+	"trivia": [
+		"You have 15 seconds to answer.",
+		"**INCORRECT**",
+		"_COMMENT : TRIVIA CAN'T BE TRANSLATED BECAUSE THE QUESTIONS ARE IN ENGLISH."
+	],
+	"scramble": [
+		"_COMMENT : SCRAMBLE CAN'T BE TRANSLATED BECAUSE THE WORDS ARE IN ENGLISH"
+	],
+	"hourly": [
+		"Here's a free `item_box`!"
+	]
+	
+},
+"pt_br": {
+	"play": []
+}
+}]
