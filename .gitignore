@@ -4,6 +4,12 @@ json/_config.json
 # Data file
 *.sqlite
 
+# sqlite3 exe
+sqlite3.exe
+
+#Secret codes
+StartingTheGameCodes.txt
+
 # Logs
 logs
 *.log
