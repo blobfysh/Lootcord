@@ -503,14 +503,17 @@ class Commands {
             });
         });
     }
-    use(message, sql, totalXpNeeded, xpNeeded, scaledDamage, prefix){
+    use(message, sql, totalXpNeeded, xpNeeded, prefix){
         let args = message.content.split(" ").slice(1);
         let itemUsed = args[0];
         let userOldID = args[1];                          //RETURNS ID WITH <@ OR <@!                                     
         if(userOldID !== undefined){
             var userNameID = args[1].replace(/[<@!>]/g, '');  //RETURNS BASE ID WITHOUT <@ OR <@! BUT ONLY IF PLAYER MENTIONED SOMEONE  
         }
-        sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(row => {                 //GRABS INFORMATION FOR PLAYER          //
+        sql.get(`SELECT * FROM items i
+                JOIN scores s
+                ON i.userId = s.userId
+                WHERE s.userId="${message.author.id}"`).then(row => {                                     //GRABS INFORMATION FOR PLAYER          //
             sql.get(`SELECT * FROM scores WHERE userId ="${userNameID}"`).then(victimRow => {             //GRABS INFORMATION FOR PLAYERS TARGET  //
             function hitOrMiss(damage){                                                           //FUNCTION THAT ACTUALLY HANDLES DAMAGE DEALT
                 var chance = Math.floor(Math.random() * 20); //returns value 0 between 9 (1 of 10)
@@ -635,7 +638,7 @@ class Commands {
                 //CODE FOR ITEMS, NOT WEAPONS
                 if(itemUsed.toLowerCase() == "item_box" && row.item_box >= 1 || itemUsed.toLowerCase() == "box" && row.item_box >= 1 || itemUsed.toLowerCase() == "loot_box" && row.item_box >= 1){
                     
-                    let chance = Math.floor(Math.random() * 201) //1-200
+                    let chance = Math.floor(Math.random() * 201) + (row.luck * 2) //1-200 plus 2 for each luck user has.
                     let rand = "";
                     let subBox = 1;
 
@@ -734,7 +737,7 @@ class Commands {
                 }
                 else if(itemUsed.toLowerCase() == "ultra_box" && row.ultra_box >= 1 || itemUsed.toLowerCase() == "ultra" && row.ultra_box >= 1){
                     
-                    let chance = Math.floor(Math.random() * 201) //1-200
+                    let chance = Math.floor(Math.random() * 201) + (row.luck * 2) //1-200
                     let rand = "";
                     let subBox = 1;
 
@@ -808,7 +811,7 @@ class Commands {
                 }
                 else if(itemUsed.toLowerCase() == "ammo_box" && row.ammo_box >= 1 || itemUsed.toLowerCase() == "ammo" && row.ammo_box >= 1){
                     
-                    let chance = Math.floor(Math.random() * 101) //1-100
+                    let chance = Math.floor(Math.random() * 101) + (row.luck) //1-100
                     let rand = "";
                     let subBox = 1;
 
@@ -868,7 +871,7 @@ class Commands {
                 }
                 else if(itemUsed.toLowerCase() == "ultra_ammo" && row.ultra_ammo >= 1){
                     
-                    let chance = Math.floor(Math.random() * 101) //1-100
+                    let chance = Math.floor(Math.random() * 101) + (row.luck) //1-100
                     let rand = "";
                     let subBox = 1;
                     
@@ -1195,128 +1198,129 @@ class Commands {
                                 return;
                             }
                             else{                                       //WEAPONS!!!!!!!!!!!!!
+                                console.log(row.scaledDamage);
                                 if(itemUsed.toLowerCase() == "rpg" && row.rpg >= 1 && row.rocket >= 1){
                                     sql.run(`UPDATE items SET rocket = ${row.rocket - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 26) + itemRPG[1]) * scaledDamage));   //deals 85-110 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 26) + itemRPG[1]) * row.scaledDamage));   //deals 85-110 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "ak47" && row.ak47 >= 1  && row.rifle_bullet >= 1){
                                     sql.run(`UPDATE items SET rifle_bullet = ${row.rifle_bullet - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 26) + itemAK47[1]) * scaledDamage));   //deals 35-60 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 26) + itemAK47[1]) * row.scaledDamage));   //deals 35-60 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "bow" && row.bow >= 1  && row.arrow >= 1){
                                     sql.run(`UPDATE items SET arrow = ${row.arrow - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 10) + itemBOW[1]) * scaledDamage));   //deals 8-17 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 10) + itemBOW[1]) * row.scaledDamage));   //deals 8-17 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "crossbow" && row.crossbow >= 1  && row.arrow >= 1){
                                     sql.run(`UPDATE items SET arrow = ${row.arrow - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 19) + itemCROSSBOW[1]) * scaledDamage));   //deals 15-33 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 19) + itemCROSSBOW[1]) * row.scaledDamage));   //deals 15-33 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "spear" && row.spear >= 1){
                                     sql.run(`UPDATE items SET spear = ${row.spear - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 11) + itemSPEAR[1]) * scaledDamage));   //deals 15-25 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 11) + itemSPEAR[1]) * row.scaledDamage));   //deals 15-25 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "club" && row.club >= 1){
                                     sql.run(`UPDATE items SET club = ${row.club - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 6) + itemCLUB[1]) * scaledDamage));   //deals 6-11 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 6) + itemCLUB[1]) * row.scaledDamage));   //deals 6-11 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "fork" && row.fork >= 1){
                                     sql.run(`UPDATE items SET fork = ${row.fork - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 6) + itemFORK[1]) * scaledDamage));   //deals 4-9 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 6) + itemFORK[1]) * row.scaledDamage));   //deals 4-9 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "sword" && row.sword >= 1){
                                     sql.run(`UPDATE items SET sword = ${row.sword - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 11) + itemSWORD[1]) * scaledDamage));   //deals 10-20 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 11) + itemSWORD[1]) * row.scaledDamage));   //deals 10-20 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "rock" && row.rock >= 1){
                                     sql.run(`UPDATE items SET rock = ${row.rock - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 6) + itemROCK[1]) * scaledDamage));   //deals 5-10 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 6) + itemROCK[1]) * row.scaledDamage));   //deals 5-10 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "glock" && row.glock >= 1  && row.pistol_bullet >= 1){
                                     sql.run(`UPDATE items SET pistol_bullet = ${row.pistol_bullet - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 10) + itemGLOCK[1]) * scaledDamage));   //deals 21-30 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 10) + itemGLOCK[1]) * row.scaledDamage));   //deals 21-30 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "thompson" && row.thompson >= 1  && row.pistol_bullet >= 1){
                                     sql.run(`UPDATE items SET pistol_bullet = ${row.pistol_bullet - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 21) + itemTHOMPSON[1]) * scaledDamage));   //deals 25-45 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 21) + itemTHOMPSON[1]) * row.scaledDamage));   //deals 25-45 damage unscaled
                                     
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "bat" && row.bat >= 1  && row.baseball >= 1){
                                     sql.run(`UPDATE items SET baseball = ${row.baseball - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 21) + itemBAT[1]) * scaledDamage));   //deals 10-30 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 21) + itemBAT[1]) * row.scaledDamage));   //deals 10-30 damage unscaled
                                     
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "bat" && row.bat >= 1){
                                     sql.run(`UPDATE items SET bat = ${row.bat - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 9) + itemBAT[1]) * scaledDamage));   //deals 10-18 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 9) + itemBAT[1]) * row.scaledDamage));   //deals 10-18 damage unscaled
                                     
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "blunderbuss" && row.blunderbuss >= 1  && row.buckshot >= 1){
                                     sql.run(`UPDATE items SET buckshot = ${row.buckshot - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 33) + itemBLUNDERBUSS[1]) * scaledDamage));   //deals 8-40 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 33) + itemBLUNDERBUSS[1]) * row.scaledDamage));   //deals 8-40 damage unscaled
                                     
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "revolver" && row.revolver >= 1  && row.pistol_bullet >= 1){
                                     sql.run(`UPDATE items SET pistol_bullet = ${row.pistol_bullet - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 11) + itemREVOLVER[1]) * scaledDamage));   //deals 25-35 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 11) + itemREVOLVER[1]) * row.scaledDamage));   //deals 25-35 damage unscaled
                                     
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "grenade" && row.grenade >= 1){
                                     sql.run(`UPDATE items SET grenade = ${row.grenade - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 23) + itemGRENADE[1]) * scaledDamage));   //deals 8-30 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 23) + itemGRENADE[1]) * row.scaledDamage));   //deals 8-30 damage unscaled
                                     
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "spas" && row.spas >= 1  && row.buckshot >= 1){
                                     sql.run(`UPDATE items SET buckshot = ${row.buckshot - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 31) + itemSPAS[1]) * scaledDamage));   //deals 40-70 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 31) + itemSPAS[1]) * row.scaledDamage));   //deals 40-70 damage unscaled
                                     
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "m4a1" && row.m4a1 >= 1  && row.rifle_bullet >= 1){
                                     sql.run(`UPDATE items SET rifle_bullet = ${row.rifle_bullet - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 6) + itemM4A1[1]) * scaledDamage));   //deals 45-50 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 6) + itemM4A1[1]) * row.scaledDamage));   //deals 45-50 damage unscaled
                                     
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
@@ -1324,84 +1328,84 @@ class Commands {
                                 //itemUsed.toLowerCase() == "awp" && row.awp >= 1 && row.bmg_50cal >= 1
                                 else if(itemUsed.toLowerCase() == "awp" && row.awp >= 1  && row.bmg_50cal >= 1){
                                     sql.run(`UPDATE items SET bmg_50cal = ${row.bmg_50cal - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 11) + (itemAWP[1] + 20)) * scaledDamage));   //deals 80-90 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 11) + (itemAWP[1] + 20)) * row.scaledDamage));   //deals 80-90 damage unscaled
                                     
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "awp" && row.awp >= 1  && row.rifle_bullet >= 1){
                                     sql.run(`UPDATE items SET rifle_bullet = ${row.rifle_bullet - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 11) + itemAWP[1]) * scaledDamage));   //deals 60-70 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 11) + itemAWP[1]) * row.scaledDamage));   //deals 60-70 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "javelin" && row.javelin >= 1  && row.rocket >= 1){
                                     sql.run(`UPDATE items SET rocket = ${row.rocket - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(itemJAVELIN[1] * scaledDamage));   //deals 100 damage unscaled
+                                    hitOrMiss(Math.floor(itemJAVELIN[1] * row.scaledDamage));   //deals 100 damage unscaled
                                     
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "rail_cannon" && row.rail_cannon >= 1  && row.plasma >= 1){
                                     sql.run(`UPDATE items SET plasma = ${row.plasma - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 191) + itemRAIL_CANNON[1]) * scaledDamage));   //deals 10-999 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 191) + itemRAIL_CANNON[1]) * row.scaledDamage));   //deals 10-999 damage unscaled
                                     
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "fish" && row.fish >= 1){
                                     sql.run(`UPDATE items SET fish = ${row.fish - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 7) + itemFISH[1]) * scaledDamage));   //deals 5-11 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 7) + itemFISH[1]) * row.scaledDamage));   //deals 5-11 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "candycane" && row.candycane >= 1){
                                     sql.run(`UPDATE items SET candycane = ${row.candycane - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 13) + itemCANDYCANE[1]) * scaledDamage));   //deals 3-15 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 13) + itemCANDYCANE[1]) * row.scaledDamage));   //deals 3-15 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "snowball" && row.snowball >= 1){
                                     sql.run(`UPDATE items SET snowball = ${row.snowball - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 26) + itemSNOWBALL[1]) * scaledDamage));   //deals 20-45 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 26) + itemSNOWBALL[1]) * row.scaledDamage));   //deals 20-45 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "nutcracker" && row.nutcracker >= 1){
                                     sql.run(`UPDATE items SET nutcracker = ${row.nutcracker - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 36) + itemNUTCRACKER[1]) * scaledDamage));   //deals 30-65 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 36) + itemNUTCRACKER[1]) * row.scaledDamage));   //deals 30-65 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "peck_seed" && row.peck_seed >= 1){
                                     sql.run(`UPDATE items SET peck_seed = ${row.peck_seed - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 16) + itemPECK_SEED[1]) * scaledDamage));  //deals 20-35 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 16) + itemPECK_SEED[1]) * row.scaledDamage));  //deals 20-35 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "golf_club" && row.golf_club >= 1){
                                     sql.run(`UPDATE items SET golf_club = ${row.golf_club - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 10) + itemGOLF_CLUB[1]) * scaledDamage));   //deals 12-21 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 10) + itemGOLF_CLUB[1]) * row.scaledDamage));   //deals 12-21 damage unscaled
 
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "stick" && row.stick >= 1){
                                     sql.run(`UPDATE items SET stick = ${row.stick - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 4) + itemSTICK[1]) * scaledDamage));  //deals 3-6 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 4) + itemSTICK[1]) * row.scaledDamage));  //deals 3-6 damage unscaled
                                     
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
                                 }
                                 else if(itemUsed.toLowerCase() == "ray_gun" && row.ray_gun >= 1  && row.plasma >= 1){
                                     sql.run(`UPDATE items SET plasma = ${row.plasma - 1} WHERE userId = ${message.author.id}`);
-                                    hitOrMiss(Math.floor(((Math.random() * 91) + itemRAY_GUN[1]) * scaledDamage));  //deals 60-150 damage unscaled
+                                    hitOrMiss(Math.floor(((Math.random() * 91) + itemRAY_GUN[1]) * row.scaledDamage));  //deals 60-150 damage unscaled
                                     
                                     sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
                                     weapCooldown.add(message.author.id);                                                                     //user to cooldown list
@@ -3647,7 +3651,7 @@ class Commands {
             });
         });
     }
-    level(message, sql, scaledDamage, prefix){
+    level(message, sql, prefix){
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
             Jimp.read("./userImages/LvlUp.png").then(test => {
@@ -3681,7 +3685,7 @@ class Commands {
                                 console.log("oh no");
                                 return;
                             }
-                            message.reply(`Your current level is **${row.level}**.\nYour damage scaling is currently **${scaledDamage}x**`, {
+                            message.reply(`Your current level is **${row.level}**.\nYour damage scaling is currently **${row.scaledDamage.toFixed(2)}x**`, {
                                 file: buffer
                             });
                         });    

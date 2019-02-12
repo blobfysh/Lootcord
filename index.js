@@ -48,7 +48,6 @@ global.ironShieldActive = new Set();
 global.mittenShieldActive = new Set();
 global.weapCooldown = new Set();  //weapon cooldown stuff
 
-var scaledDamage; //is set to players scaled damage when they send a message | Is used in use command to apply bonus damage
 var xpNeeded; //is set to players xp needed when they send a message | used to determine level and used in t-inv command to calculate xp left until next level
 var totalXpNeeded = 0;
 
@@ -556,7 +555,7 @@ client.on("message", (message) => {
                 case 'inventory':
                 case 'inv':
                 case 'i': commands.inventory(message, sql, totalXpNeeded, xpNeeded, moddedUsers, prefix); break;
-                case 'use': commands.use(message, sql, totalXpNeeded, xpNeeded, scaledDamage, prefix); break;
+                case 'use': commands.use(message, sql, totalXpNeeded, xpNeeded, prefix); break;
                 case 'items':
                 case 'info':
                 case 'item': commands.item(message, sql, prefix); break;
@@ -591,7 +590,7 @@ client.on("message", (message) => {
                 case 'version':
                 case 'update': commands.info(message, version); break;
                 case 'lvl':
-                case 'level': commands.level(message, sql, scaledDamage, prefix); break;
+                case 'level': commands.level(message, sql, prefix); break;
                 case 'xp':
                 case 'points': commands.points(message, sql, prefix); break;
                 case 'health':

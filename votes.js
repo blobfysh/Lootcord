@@ -24,7 +24,7 @@ module.exports.voteReward = function(sql, voter, config, Discord) {
 
         const voteEmbed = new Discord.RichEmbed()
         .setTitle("Thanks for voting!")
-        .setDescription("📦 You received "+ itemReward)
+        .setDescription(itemReward)
         .setFooter("Vote every 12 hours for a reward")
         .setImage("https://cdn.discordapp.com/attachments/454163538886524928/543014649554272277/greypleLine.png")
         client.users.get(voter.user).send(voteEmbed);
