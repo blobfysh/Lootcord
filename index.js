@@ -52,7 +52,7 @@ var scaledDamage; //is set to players scaled damage when they send a message | I
 var xpNeeded; //is set to players xp needed when they send a message | used to determine level and used in t-inv command to calculate xp left until next level
 var totalXpNeeded = 0;
 
-const version = "3.4.0";
+const version = "3.5.0";
 
 client.on(`ready`,() => {
     console.log(" _                    _                           _ \n"+
@@ -276,15 +276,36 @@ client.on(`ready`,() => {
         sql.run("UPDATE items SET stick = 0");
     });
     */
-    sql.run("ALTER TABLE scores ADD spamTime").then(row => {
+    sql.run("ALTER TABLE scores ADD stats").then(row => {
+
+        sql.run("ALTER TABLE scores ADD luck").then(row => {
+
+            sql.run("ALTER TABLE scores ADD scaledDamage").then(row => {
+                console.log("restart now.");
+            }).catch(() => {
+            });
+        }).catch(() => {
+        });
     }).catch(() => {
-        console.log("added `spamTime` to scores | CHANGE THE SCRIPT NOW");
-        sql.run("UPDATE scores SET spamTime = 0");
-    });
-    sql.run("ALTER TABLE items ADD stick").then(row => {
-    }).catch(() => {
-        console.log("added `stick` to items | CHANGE THE SCRIPT NOW");
-        sql.run("UPDATE items SET stick = 0");
+        console.log("added `stats` to scores | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE scores SET stats = 0");
+        console.log("added `luck` to scores | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE scores SET luck = 0");
+        console.log("added `scaledDamage` to scores | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE scores SET scaledDamage = 1.00");
+
+        sql.all('SELECT userId, level, health, maxHealth, stats FROM scores').then(rows => { //REMOVE IN STABLE UPDATE
+            rows.forEach(function (row) {
+                //test each user
+                sql.run(`UPDATE scores SET maxHealth = 100 WHERE userId = ${row.userId}`);
+                sql.run(`UPDATE scores SET stats = ${row.level - 1} WHERE userId = ${row.userId}`);
+                console.log("successfully gave user stats points")
+                if(row.health > row.maxHealth){
+                    sql.run(`UPDATE scores SET health = 100 WHERE userId = ${row.userId}`);
+                    console.log("Successfully changed users health to 100");
+                }
+            });
+        });
     });
 });
 
@@ -394,7 +415,7 @@ client.on("message", (message) => {
                 if(message.content.startsWith(prefix + "play")){
                     sql.run("INSERT INTO scores (userId, money, points, level, health, maxHealth, healTime, attackTime, hourlyTime, triviaTime, peckTime, voteTime, "
                             + "gambleTime, ironShieldTime, goldShieldTime, prizeTime, mittenShieldTime, scrambleTime, deactivateTime, activateTime, kills, deaths, "
-                            + "spamTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [message.author.id, 100, 0, 1, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                            + "spamTime, stats, luck, scaledDamage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [message.author.id, 100, 0, 1, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
                     sql.run("INSERT INTO items (userId, item_box, rpg, rocket, ak47, rifle_bullet, rock, arrow, fork, club, sword, bow, pistol_bullet, glock, "
                             + "crossbow, spear,thompson, health_pot, ammo_box, javelin, awp, m4a1, spas, medkit, revolver, buckshot, blunderbuss, grenade,"
                             + "pills, bat, baseball, peck_seed, iron_shield, gold_shield, ultra_box, rail_cannon, plasma, fish, bmg_50cal, token, candycane, gingerbread, mittens, stocking, snowball, nutcracker,"
@@ -532,7 +553,6 @@ client.on("message", (message) => {
             switch(command.toLowerCase()){
                 case 'help': commands.help(message, prefix); break;
                 //ITEMS
-                case 'profile':
                 case 'inventory':
                 case 'inv':
                 case 'i': commands.inventory(message, sql, totalXpNeeded, xpNeeded, moddedUsers, prefix); break;
@@ -549,6 +569,7 @@ client.on("message", (message) => {
                 case 'market':
                 case 'store': commands.shop(message, sql, prefix); break;
                 case 'trade': commands.trade(message, sql, prefix); break;
+                case 'profile': commands.profile(message, sql, prefix); break;
 
                 //GAMES
                 case 'trivia': commands.trivia(message, sql, triviaQ, prefix); break;
@@ -558,7 +579,8 @@ client.on("message", (message) => {
                 case 'vote': commands.vote(message, sql, prefix); break;
 
                 //GENERAL
-                case 'ping': commands.ping(message); break;
+                case 'upgrade': commands.upgrade(message, sql, prefix); break;
+                case 'ping': commands.ping(message, sql); break;
                 case 'setprefix': commands.prefix(message, sql, prefix); break;
                 case 'invite':
                 case 'discord': commands.discord(message); break;

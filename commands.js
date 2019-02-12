@@ -115,6 +115,42 @@ class Commands {
 
     }
     //ITEMS
+    profile(message, sql, prefix){
+        sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
+            if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
+            let args = message.content.split(" ").slice(1);
+            let userOldID = args[0];//RETURNS ID WITH <@ OR <@!
+            if(userOldID !== undefined){
+                if(!userOldID.startsWith("<@")){
+                    message.reply("You need to mention someone!");
+                    return;
+                }
+                let userNameID = args[0].replace(/[<@!>]/g, '');
+                userProfile(userNameID, false);
+            }
+            else{
+                userProfile(message.author.id, true);
+            }
+            function userProfile(userId, isSelf){
+                sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
+                    if(!row){
+                        return message.reply("The person you're trying to search doesn't have an account!");
+                    }
+                    const profileEmbed = new Discord.RichEmbed()
+                    .setAuthor(message.guild.members.get(userId).displayName + "'s Profile", client.users.get(userId).avatarURL)
+                    .setDescription(row.kills+ " Kills | "+row.deaths+" Deaths ("+(row.kills/ row.deaths)+" K/D)")
+                    .addField("🌟 Skill Points", row.stats)
+                    .addField("💗 Vitality", row.health + "/" + row.maxHealth, true)
+                    .addField("💥 Strength", row.scaledDamage + "x damage", true)
+                    .addField("🍀 Luck", row.luck, true)
+                    if(row.deaths == 0){
+                        profileEmbed.setDescription(row.kills+ " Kills | "+row.deaths+" Deaths ("+row.kills+" K/D)")
+                    }
+                    message.channel.send(profileEmbed);
+                });
+            }
+        });
+    }
     inventory(message, sql, totalXpNeeded, xpNeeded, moddedUsers, prefix){
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");  //makes sure they have account
@@ -3407,6 +3443,86 @@ class Commands {
     */
 
     //GENERAL
+    upgrade(message, sql, prefix){
+        sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
+            if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
+            if(row.stats > 0){
+                const skillEmbed = new Discord.RichEmbed()
+                .setAuthor(message.member.displayName, message.author.avatarURL)
+                .setTitle("You have " + row.stats + " skill points available!")
+                .setDescription("Choose a skill to upgrade:")
+                .addField("💗 Vitality", "Increases max health by 5")
+                .addField("💥 Strength", "Increases damage by 3%")
+                .addField("🍀 Luck", "Increases chance for rare items")
+                message.channel.send(skillEmbed).then(botMessage => {
+                    botMessage.react('💗').then(() => botMessage.react('💥').then(() => botMessage.react('🍀').then(() => botMessage.react('❌') )));
+                    const filter = (reaction, user) => {
+                        return ['💗', '💥', '🍀', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
+                    };
+                    botMessage.awaitReactions(filter, {max: 1, time: 30000, errors: ['time'] })
+                    .then(collected => {
+                        function getStats(type){
+                            sql.get(`SELECT * FROM items i
+                            JOIN scores s
+                            ON i.userId = s.userId
+                            WHERE s.userId="${message.author.id}"`).then(row => {
+                                if(row.stats <= 0){
+                                    botMessage.edit("You don't have the skill points to do that!");
+                                }
+                                else if(type == "hp"){
+                                    sql.run(`UPDATE scores SET maxHealth = ${row.maxHealth + 5} WHERE userId = "${message.author.id}"`);
+                                    sql.run(`UPDATE scores SET stats = ${row.stats - 1} WHERE userId = "${message.author.id}"`);
+                                    const skillEmbed = new Discord.RichEmbed()
+                                    .setAuthor(message.member.displayName, message.author.avatarURL)
+                                    .setTitle("Successfully allocated 1 point to 💗 Vitality!")
+                                    .setDescription("You now have " + (row.maxHealth + 5) + " max health.")
+                                    .setFooter((row.stats - 1) + " skill points remaining.")
+                                    botMessage.edit(skillEmbed);
+                                }
+                                else if(type === "strength"){
+                                    sql.run(`UPDATE scores SET scaledDamage = ${row.scaledDamage + 0.03} WHERE userId = "${message.author.id}"`);
+                                    //sql.run(`UPDATE scores SET stats = ${row.stats - 1} WHERE userId = "${message.author.id}"`);
+                                    const skillEmbed = new Discord.RichEmbed()
+                                    .setAuthor(message.member.displayName, message.author.avatarURL)
+                                    .setTitle("Successfully allocated 1 point to 💥 Strength!")
+                                    .setDescription("You now deal " + (row.scaledDamage + 0.03) + "x damage.")
+                                    botMessage.edit(skillEmbed);
+                                }
+                                else if(type === "luck"){
+                                    sql.run(`UPDATE scores SET luck = ${row.luck + 2} WHERE userId = "${message.author.id}"`);
+                                    //sql.run(`UPDATE scores SET stats = ${row.stats - 1} WHERE userId = "${message.author.id}"`);
+                                    const skillEmbed = new Discord.RichEmbed()
+                                    .setAuthor(message.member.displayName, message.author.avatarURL)
+                                    .setTitle("Successfully allocated 1 point to 🍀 Luck!")
+                                    .setDescription("**Luck increased by 2**\nYour chance to get rare items has been increased.")
+                                    botMessage.edit(skillEmbed);
+                                }
+                            });
+                        }
+                        const reaction = collected.first();
+                        if(reaction.emoji.name === '💗'){
+                            getStats("hp")
+                        }
+                        else if(reaction.emoji.name === '💥'){
+                            getStats("strength")
+                        }
+                        else if(reaction.emoji.name === '🍀'){
+                            getStats("luck")
+                        }
+                        else{
+                            botMessage.delete();
+                        }
+                    }).catch(collected => {
+                        botMessage.delete();
+                        message.reply("You didn't react in time!");
+                    });
+                });
+            }
+            else{
+                message.reply("You don't have any skill points to upgrade with right now! Level up and come back.");
+            }
+        });
+    }
     prefix(message, sql, prefix){//USED TO CHANGE SERVER PREFIX
         if(message.member.hasPermission("MANAGE_GUILD")){
             let args = message.content.split(" ").slice(1);
@@ -3429,8 +3545,13 @@ class Commands {
             message.reply("You need the `Manage Server` permission to use this command!")
         }
     }
-    ping(message){
+    ping(message, sql){
         message.channel.send(`Response time to server : ${Math.round(client.ping)} ms`);
+        
+        sql.get(`SELECT * FROM scores WHERE userId = "${message.author.id}"`).then(row =>{
+            let chance = Math.floor(Math.random() * 201) + (row.luck * 2);
+            message.channel.send("With luck: " + chance+" | luck: "+row.luck);
+        });
         /*
         const voteEmbed = new Discord.RichEmbed()
         .setTitle("Thanks for voting!")
@@ -3440,7 +3561,7 @@ class Commands {
         client.users.get("168958344361541633").send(voteEmbed);
         */
     }
-    help(message, prefix){ //done, possibly remove descriptions, add args for command lookup
+    help(message, prefix){ //add new commands
         let args = message.content.split(" ").slice(1);
         let helpCommand = args[0];
         if(helpCommand !== undefined){
@@ -3830,8 +3951,8 @@ class Commands {
         .setTitle(`🖥**Lootcord Update Info**`)
         .setColor(13215302)
         .setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/529555281391386629/lc_icon.png")
-        .setDescription("🔹Voting is now instant! no more need to spam t-vote! 👏\n🔹The bot is now hosted on a VPS, hopefully this solves some of the lag issues.\n🔹3.4.0 Updates" +
-        "\n🔹Added a cooldown on sending commands as a whole, to prevent lagging even more.\n🔹Added stick as a common weapon.\n🔸Send bugs or feature ideas to us through the bots DM's\n🔹If you like the bot, be sure to tell all your friends about it! :)")
+        .setDescription("🔹New stats system! Use stat points from leveling to upgrade your health, strength, and luck.\n🔹New profile command shows users stats." +
+        "\n🔹New upgrade command.\n🔸Send bugs or feature ideas to us through the bots DM's\n🔹If you like the bot, be sure to tell all your friends about it! :)")
         .setImage()
         .addField("Users",(client.users.size - client.guilds.size),true)
         .addField("Active Servers",client.guilds.size, true)
@@ -4045,7 +4166,7 @@ class Commands {
             let quotes = ["drank bleach", "typed kill in console", "ate a tide pod"]
             let chance = Math.floor(Math.random() * 3) //0-2
             
-            message.reply("Are you sure?").then(botMessage => {
+            message.reply("Are you sure? **Deleting is not the same as deactivating.**").then(botMessage => {
                 botMessage.react('✅').then(() => botMessage.react('❌'));
                 const filter = (reaction, user) => {
                     return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
