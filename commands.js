@@ -516,120 +516,125 @@ class Commands {
                 WHERE s.userId="${message.author.id}"`).then(row => {                                     //GRABS INFORMATION FOR PLAYER          //
             sql.get(`SELECT * FROM scores WHERE userId ="${userNameID}"`).then(victimRow => {             //GRABS INFORMATION FOR PLAYERS TARGET  //
             function hitOrMiss(damage, isBroken){                                                           //FUNCTION THAT ACTUALLY HANDLES DAMAGE DEALT
-                var chance = Math.floor(Math.random() * 20); //returns value 0 between 9 (1 of 10)
-                    if(chance <= 0){
-                        message.channel.send(`<@${message.author.id}> MISSED <@`+ userNameID + '>!');
-                        return;
+                let chance = Math.floor(Math.random() * 100) + 1; //return 1-100
+                let luck = victimRow.luck >= 20 ? 20 : victimRow.luck;
+                if(chance <= luck){
+                    if(isBroken){
+                        return message.channel.send(`🍀<@${userNameID}> EVADED <@`+ message.author.id + `>'s attack! How lucky!\nThe ${itemUsed} slipped from your hands!`);
                     }
                     else{
-                        if(victimRow.health - damage <= 0){
-                            //CODE FOR IF YOU KILL TARGET
-                            if(isBroken){
-                                message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>\nThe ${itemUsed} broke!`);
-                            }
-                            else{
-                                message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>`);
-                            }
-                            sql.get(`SELECT * FROM items WHERE userId ="${userNameID}"`).then(victimItems => { 
-                                let victimItemsList = [];
-                                let itemOne = "";
-                                let itemTwo = "";
-                                var i = 0;
-                                for (i = 0; i < completeItemsCheck.length; i++) {
-                                    if(eval(`victimItems.` + completeItemsCheck[i])){
-                                        if(completeItemsCheck[i] !== "token"){
-                                            victimItemsList.push(completeItemsCheck[i]);
-                                        }
-                                    }
-                                }
-                                if(victimItemsList.length == 0){
-                                    itemOne = "They had no items that you could steal!";
-                                }
-                                else if(victimItemsList.length === 1){
-                                    itemOne = victimItemsList[Math.floor(Math.random() * victimItemsList.length)];
-                                    sql.run(`UPDATE items SET ${itemOne} = ${eval(`row.` + itemOne) + 1} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET ${itemOne} = ${eval(`victimItems.` + itemOne) - 1} WHERE userId = ${userNameID}`);
-                                }
-                                else{
-                                    itemOne = victimItemsList[Math.floor(Math.random() * victimItemsList.length)];
-                                    itemTwo = victimItemsList[Math.floor(Math.random() * victimItemsList.length)];
-                                    while (itemOne == itemTwo){
-                                        itemTwo = victimItemsList[Math.floor(Math.random() * victimItemsList.length)];
-                                    }
-                                    sql.run(`UPDATE items SET ${itemOne} = ${eval(`row.` + itemOne) + 1} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET ${itemTwo} = ${eval(`row.` + itemTwo) + 1} WHERE userId = ${message.author.id}`);
-
-                                    sql.run(`UPDATE items SET ${itemOne} = ${eval(`victimItems.` + itemOne) - 1} WHERE userId = ${userNameID}`);
-                                    sql.run(`UPDATE items SET ${itemTwo} = ${eval(`victimItems.` + itemTwo) - 1} WHERE userId = ${userNameID}`);
-                                    itemTwo = " | " + itemTwo;
-                                }
-                                //pull 2 random strings from array
-                                sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(userRow => { 
-                                    sql.run(`UPDATE scores SET money = ${userRow.money + victimRow.money} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE scores SET points = ${userRow.points + 100} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE scores SET kills = ${userRow.kills + 1} WHERE userId = ${message.author.id}`); //add 1 to kills
-
-                                    let decreaseXP = Math.floor(victimRow.points/4);
-                                    sql.run(`UPDATE scores SET points = ${decreaseXP} WHERE userId = ${userNameID}`);
-                                    totalXpNeeded = 0;
-                                    for(var i = 1; i <= victimRow.level;i++){
-                                        xpNeeded = Math.floor(50*(i**1.7));
-                                        totalXpNeeded += xpNeeded;
-                                        if(decreaseXP < totalXpNeeded){
-                                            sql.run(`UPDATE scores SET level = ${i}, maxHealth = ${95 + (i * 5)} WHERE userId = ${userNameID}`);
-                                            console.log("Changed -- " + userNameID + " -- level to " + i + " because " + victimRow.points + " was less than the " + totalXpNeeded + "xp requirement for level " + (i+1));
-                                            break;
-                                        }
-                                    }
-                                    sql.run(`UPDATE scores SET health = ${100} WHERE userId = ${userNameID}`);
-                                    //sql.run(`UPDATE scores SET maxHealth = ${100} WHERE userId = ${userNameID}`);
-                                    sql.run(`UPDATE scores SET money = ${0} WHERE userId = ${userNameID}`);
-                                    sql.run(`UPDATE scores SET deaths = ${victimRow.deaths + 1} WHERE userId = ${userNameID}`); //add 1 to deaths for killed user
-                                    //sql.run(`UPDATE scores SET level = ${1} WHERE userId = ${userNameID}`);
-                                    //sql.run(`UPDATE scores SET points = ${0} WHERE userId = ${userNameID}`);
-                                    const killedReward = new Discord.RichEmbed()  
-                                    .setTitle(`LOOT RECEIVED`)
-                                    .setDescription("Money : $" + victimRow.money + "\nExperience : `100xp`")
-                                    .setColor(7274496)
-                                    .addField("**ITEMS**", "```" + itemOne + itemTwo + "```")
-                                    .setFooter("Their experience has been decreased.")
-                                    message.channel.send(killedReward);
-
-                                    const embedInfo = new Discord.RichEmbed()
-                                    .setTitle("💀**Kill Log**\n\nKILLER: `" + message.author.tag + " : " + message.author.id + "`\nVICTIM: `"+ client.users.get(userNameID).tag +" : " + userNameID + "`")
-                                    .setDescription("Weapon used: `"+itemUsed+" : "+damage+" damage`")
-                                    .addField("Items stolen", "```" + itemOne + itemTwo + "```", true)
-                                    .addField("Money stolen", "$"+victimRow.money, true)
-                                    .setTimestamp()
-                                    .setColor(16721703)
-                                    client.guilds.get("454163538055790604").channels.get("500467081226223646").send(embedInfo);
-                                });
-                            });
+                        return message.channel.send(`🍀<@${userNameID}> EVADED <@`+ message.author.id + `>'s attack! How lucky!`);
+                    }
+                }
+                else{
+                    if(victimRow.health - damage <= 0){
+                        //CODE FOR IF YOU KILL TARGET
+                        if(isBroken){
+                            message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>\nThe ${itemUsed} broke!`);
                         }
                         else{
-                            if(itemUsed.toLowerCase() == "peck_seed"){//TURNS ENEMY INTO A CHICKEN
-                                sql.run(`UPDATE scores SET peckTime = ${(new Date()).getTime()} WHERE userId = ${userNameID}`); 
-                                peckCooldown.add(userNameID);
-                                setTimeout(() => {
-                                    peckCooldown.delete(userNameID);
-                                    sql.run(`UPDATE scores SET peckTime = ${0} WHERE userId = ${userNameID}`);
-                                }, peckCdSeconds * 1000);
-                                sql.run(`UPDATE scores SET health = ${victimRow.health - damage} WHERE userId = ${userNameID}`);
-                                message.channel.send(`<@${message.author.id}>` + ` HIT <@${userNameID}> FOR ${damage} DAMAGE TURNING THEM INTO A **CHICKEN** using ` + itemUsed + `!!!\nThey now have **${victimRow.health - damage}** health and can't use any commands for 2 hours!`);
+                            message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>`);
+                        }
+                        sql.get(`SELECT * FROM items WHERE userId ="${userNameID}"`).then(victimItems => { 
+                            let victimItemsList = [];
+                            let itemOne = "";
+                            let itemTwo = "";
+                            var i = 0;
+                            for (i = 0; i < completeItemsCheck.length; i++) {
+                                if(eval(`victimItems.` + completeItemsCheck[i])){
+                                    if(completeItemsCheck[i] !== "token"){
+                                        victimItemsList.push(completeItemsCheck[i]);
+                                    }
+                                }
+                            }
+                            if(victimItemsList.length == 0){
+                                itemOne = "They had no items that you could steal!";
+                            }
+                            else if(victimItemsList.length === 1){
+                                itemOne = victimItemsList[Math.floor(Math.random() * victimItemsList.length)];
+                                sql.run(`UPDATE items SET ${itemOne} = ${eval(`row.` + itemOne) + 1} WHERE userId = ${message.author.id}`);
+                                sql.run(`UPDATE items SET ${itemOne} = ${eval(`victimItems.` + itemOne) - 1} WHERE userId = ${userNameID}`);
                             }
                             else{
-                                sql.run(`UPDATE scores SET health = ${victimRow.health - damage} WHERE userId = ${userNameID}`);
-                                if(isBroken){
-                                    message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE!\nThey now have **${victimRow.health - damage}** health!\nThe ${itemUsed} broke.`);
+                                itemOne = victimItemsList[Math.floor(Math.random() * victimItemsList.length)];
+                                itemTwo = victimItemsList[Math.floor(Math.random() * victimItemsList.length)];
+                                while (itemOne == itemTwo){
+                                    itemTwo = victimItemsList[Math.floor(Math.random() * victimItemsList.length)];
                                 }
-                                else{
-                                    message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE!\nThey now have **${victimRow.health - damage}** health!`);
-                                }
-                                
+                                sql.run(`UPDATE items SET ${itemOne} = ${eval(`row.` + itemOne) + 1} WHERE userId = ${message.author.id}`);
+                                sql.run(`UPDATE items SET ${itemTwo} = ${eval(`row.` + itemTwo) + 1} WHERE userId = ${message.author.id}`);
+
+                                sql.run(`UPDATE items SET ${itemOne} = ${eval(`victimItems.` + itemOne) - 1} WHERE userId = ${userNameID}`);
+                                sql.run(`UPDATE items SET ${itemTwo} = ${eval(`victimItems.` + itemTwo) - 1} WHERE userId = ${userNameID}`);
+                                itemTwo = " | " + itemTwo;
                             }
-                            return;
-                        }
+                            //pull 2 random strings from array
+                            sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(userRow => { 
+                                sql.run(`UPDATE scores SET money = ${userRow.money + victimRow.money} WHERE userId = ${message.author.id}`);
+                                sql.run(`UPDATE scores SET points = ${userRow.points + 100} WHERE userId = ${message.author.id}`);
+                                sql.run(`UPDATE scores SET kills = ${userRow.kills + 1} WHERE userId = ${message.author.id}`); //add 1 to kills
+
+                                let decreaseXP = Math.floor(victimRow.points/4);
+                                sql.run(`UPDATE scores SET points = ${decreaseXP} WHERE userId = ${userNameID}`);
+                                totalXpNeeded = 0;
+                                for(var i = 1; i <= victimRow.level;i++){
+                                    xpNeeded = Math.floor(50*(i**1.7));
+                                    totalXpNeeded += xpNeeded;
+                                    if(decreaseXP < totalXpNeeded){
+                                        sql.run(`UPDATE scores SET level = ${i}, maxHealth = ${95 + (i * 5)} WHERE userId = ${userNameID}`);
+                                        console.log("Changed -- " + userNameID + " -- level to " + i + " because " + victimRow.points + " was less than the " + totalXpNeeded + "xp requirement for level " + (i+1));
+                                        break;
+                                    }
+                                }
+                                sql.run(`UPDATE scores SET health = ${100} WHERE userId = ${userNameID}`);
+                                //sql.run(`UPDATE scores SET maxHealth = ${100} WHERE userId = ${userNameID}`);
+                                sql.run(`UPDATE scores SET money = ${0} WHERE userId = ${userNameID}`);
+                                sql.run(`UPDATE scores SET deaths = ${victimRow.deaths + 1} WHERE userId = ${userNameID}`); //add 1 to deaths for killed user
+                                //sql.run(`UPDATE scores SET level = ${1} WHERE userId = ${userNameID}`);
+                                //sql.run(`UPDATE scores SET points = ${0} WHERE userId = ${userNameID}`);
+                                const killedReward = new Discord.RichEmbed()  
+                                .setTitle(`LOOT RECEIVED`)
+                                .setDescription("Money : $" + victimRow.money + "\nExperience : `100xp`")
+                                .setColor(7274496)
+                                .addField("**ITEMS**", "```" + itemOne + itemTwo + "```")
+                                .setFooter("Their experience has been decreased.")
+                                message.channel.send(killedReward);
+
+                                const embedInfo = new Discord.RichEmbed()
+                                .setTitle("💀**Kill Log**\n\nKILLER: `" + message.author.tag + " : " + message.author.id + "`\nVICTIM: `"+ client.users.get(userNameID).tag +" : " + userNameID + "`")
+                                .setDescription("Weapon used: `"+itemUsed+" : "+damage+" damage`")
+                                .addField("Items stolen", "```" + itemOne + itemTwo + "```", true)
+                                .addField("Money stolen", "$"+victimRow.money, true)
+                                .setTimestamp()
+                                .setColor(16721703)
+                                client.guilds.get("454163538055790604").channels.get("500467081226223646").send(embedInfo);
+                            });
+                        });
                     }
+                    else{
+                        if(itemUsed.toLowerCase() == "peck_seed"){//TURNS ENEMY INTO A CHICKEN
+                            sql.run(`UPDATE scores SET peckTime = ${(new Date()).getTime()} WHERE userId = ${userNameID}`); 
+                            peckCooldown.add(userNameID);
+                            setTimeout(() => {
+                                peckCooldown.delete(userNameID);
+                                sql.run(`UPDATE scores SET peckTime = ${0} WHERE userId = ${userNameID}`);
+                            }, peckCdSeconds * 1000);
+                            sql.run(`UPDATE scores SET health = ${victimRow.health - damage} WHERE userId = ${userNameID}`);
+                            message.channel.send(`<@${message.author.id}>` + ` HIT <@${userNameID}> FOR ${damage} DAMAGE TURNING THEM INTO A **CHICKEN** using ` + itemUsed + `!!!\nThey now have **${victimRow.health - damage}** health and can't use any commands for 2 hours!`);
+                        }
+                        else{
+                            sql.run(`UPDATE scores SET health = ${victimRow.health - damage} WHERE userId = ${userNameID}`);
+                            if(isBroken){
+                                message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE!\nThey now have **${victimRow.health - damage}** health!\nThe ${itemUsed} broke.`);
+                            }
+                            else{
+                                message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE!\nThey now have **${victimRow.health - damage}** health!`);
+                            }
+                            
+                        }
+                        return;
+                    }
+                }
             }
             if(!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!"); //checks for author id in sql items table(see if it doesnt exist)
             else if(itemUsed == undefined){
