@@ -16,7 +16,7 @@ const DBL = require("dblapi.js");
 const dbl = new DBL(config.dblToken, {webhookPath: '/dblwebhook', webhookPort: '5000', webhookAuth: config.dblAuth});
 const spell = require("spell");
 var dict = spell();
-dict.load("help inventory use item items buy sell sellall craft recycle shop store trade trivia scramble hourly gamble vote setprefix discord cooldown update level level points "
+dict.load("help inventory use item items buy sell sellall craft recycle shop store trade trivia scramble hourly gamble vote setprefix discord cooldown update upgrade profile level level points "
                 + "health money leaderboard server activate deactivate delete ban unban modadd unmod warn additem addcash addpoints eval modhelp")
 /*NPMS
 npm install discord js
@@ -299,7 +299,7 @@ client.on(`ready`,() => {
                 sql.run(`UPDATE scores SET maxHealth = 100 WHERE userId = ${row.userId}`);
                 sql.run(`UPDATE scores SET stats = ${row.level - 1} WHERE userId = ${row.userId}`);
                 console.log("successfully gave user stats points")
-                if(row.health > row.maxHealth){
+                if(row.health > 100){
                     sql.run(`UPDATE scores SET health = 100 WHERE userId = ${row.userId}`);
                     console.log("Successfully changed users health to 100");
                 }
@@ -467,14 +467,10 @@ client.on("message", (message) => {
                         break;
                     }
                 }
-                scaledDamage = (row.level * .01) + .99;
-                scaledDamage.toFixed(2);
                 if (row.points >= totalXpNeeded && message.member.guild.id !== "264445053596991498") {     //Sends lvlup message | IGNORES BOT LIST DISCORD
-                    row.maxHealth += 5;
                     let levelItem = "";
                     if((row.level + 1) > 4){ levelItem = "ultra_box" } else {levelItem = "ammo_box"}
-                    sql.run(`UPDATE scores SET points = ${row.points + 1}, level = ${row.level + 1}, health = ${row.health}, maxHealth = ${row.maxHealth} WHERE userId = ${message.author.id}`);
-                    //message.reply(`you are now level **${curLevel}** and have a new maximum hp of **${row.maxHealth}**!`);
+                    sql.run(`UPDATE scores SET points = ${row.points + 1}, level = ${row.level + 1}, stats = ${row.stats + 1} WHERE userId = ${message.author.id}`);
                     sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(itemRow => {
                         if((row.level + 1) > 4){
                             sql.run(`UPDATE items SET ultra_box = ${itemRow.ultra_box + 1} WHERE userId = ${message.author.id}`);
@@ -516,7 +512,7 @@ client.on("message", (message) => {
                                         console.log("oh no");
                                         return;
                                     }
-                                    message.reply(`LEVEL **${row.level + 1}!**\n*New* **Max Health:** ` + "`" + row.maxHealth + "`" + `\n*New* **Scaled Damage:** ` + "`" + (scaledDamage + 0.01).toFixed(2) + "x`" + `\n**Item received!**  ` + "`" + levelItem + "`", {
+                                    message.reply(`LEVEL **${row.level + 1}!**\n` + "**YOU EARNED A 🌟 SKILL POINT!** Use it with the `upgrade` command." + `\n**Item received!**  ` + "`" + levelItem + "`", {
                                     file: buffer
                                     });
                                 });
@@ -555,7 +551,7 @@ client.on("message", (message) => {
                 case 'inventory':
                 case 'inv':
                 case 'i': commands.inventory(message, sql, totalXpNeeded, xpNeeded, moddedUsers, prefix); break;
-                case 'use': commands.use(message, sql, totalXpNeeded, xpNeeded, prefix); break;
+                case 'use': commands.use(message, sql, prefix); break;
                 case 'items':
                 case 'info':
                 case 'item': commands.item(message, sql, prefix); break;

@@ -137,6 +137,7 @@ class Commands {
                         return message.reply("The person you're trying to search doesn't have an account!");
                     }
                     const profileEmbed = new Discord.RichEmbed()
+                    .setColor(13215302)
                     .setAuthor(message.guild.members.get(userId).displayName + "'s Profile", client.users.get(userId).avatarURL)
                     .setDescription(row.kills+ " Kills | "+row.deaths+" Deaths ("+(row.kills/ row.deaths)+" K/D)")
                     .addField("🌟 Skill Points", row.stats)
@@ -503,7 +504,7 @@ class Commands {
             });
         });
     }
-    use(message, sql, totalXpNeeded, xpNeeded, prefix){
+    use(message, sql, prefix){
         let args = message.content.split(" ").slice(1);
         let itemUsed = args[0];
         let userOldID = args[1];                          //RETURNS ID WITH <@ OR <@!                                     
@@ -574,6 +575,7 @@ class Commands {
                                 sql.run(`UPDATE scores SET points = ${userRow.points + 100} WHERE userId = ${message.author.id}`);
                                 sql.run(`UPDATE scores SET kills = ${userRow.kills + 1} WHERE userId = ${message.author.id}`); //add 1 to kills
 
+                                /* DECREASED VICTIMS XP WHEN THEY DIED
                                 let decreaseXP = Math.floor(victimRow.points/4);
                                 sql.run(`UPDATE scores SET points = ${decreaseXP} WHERE userId = ${userNameID}`);
                                 totalXpNeeded = 0;
@@ -586,10 +588,11 @@ class Commands {
                                         break;
                                     }
                                 }
+                                */
                                 sql.run(`UPDATE scores SET health = ${100} WHERE userId = ${userNameID}`);
-                                //sql.run(`UPDATE scores SET maxHealth = ${100} WHERE userId = ${userNameID}`);
                                 sql.run(`UPDATE scores SET money = ${0} WHERE userId = ${userNameID}`);
                                 sql.run(`UPDATE scores SET deaths = ${victimRow.deaths + 1} WHERE userId = ${userNameID}`); //add 1 to deaths for killed user
+                                //sql.run(`UPDATE scores SET maxHealth = ${100} WHERE userId = ${userNameID}`);
                                 //sql.run(`UPDATE scores SET level = ${1} WHERE userId = ${userNameID}`);
                                 //sql.run(`UPDATE scores SET points = ${0} WHERE userId = ${userNameID}`);
                                 const killedReward = new Discord.RichEmbed()  
@@ -597,7 +600,6 @@ class Commands {
                                 .setDescription("Money : $" + victimRow.money + "\nExperience : `100xp`")
                                 .setColor(7274496)
                                 .addField("**ITEMS**", "```" + itemOne + itemTwo + "```")
-                                .setFooter("Their experience has been decreased.")
                                 message.channel.send(killedReward);
 
                                 const embedInfo = new Discord.RichEmbed()
@@ -3462,12 +3464,13 @@ class Commands {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
             if(row.stats > 0){
                 const skillEmbed = new Discord.RichEmbed()
+                .setColor(1)
                 .setAuthor(message.member.displayName, message.author.avatarURL)
                 .setTitle("You have " + row.stats + " skill points available!")
                 .setDescription("Choose a skill to upgrade:")
-                .addField("💗 Vitality", "Increases max health by 5")
-                .addField("💥 Strength", "Increases damage by 3%")
-                .addField("🍀 Luck", "Increases chance for rare items")
+                .addField("💗 Vitality", "Increases max health by 5 (`" + (row.maxHealth + 5) + " HP`)")
+                .addField("💥 Strength", "Increases damage by 3% (`" + (row.scaledDamage + 0.03) + "x`)")
+                .addField("🍀 Luck", "Increases luck by 2 (`" + (row.luck + 2) + "`)")
                 message.channel.send(skillEmbed).then(botMessage => {
                     botMessage.react('💗').then(() => botMessage.react('💥').then(() => botMessage.react('🍀').then(() => botMessage.react('❌') )));
                     const filter = (reaction, user) => {
@@ -3487,6 +3490,7 @@ class Commands {
                                     sql.run(`UPDATE scores SET maxHealth = ${row.maxHealth + 5} WHERE userId = "${message.author.id}"`);
                                     sql.run(`UPDATE scores SET stats = ${row.stats - 1} WHERE userId = "${message.author.id}"`);
                                     const skillEmbed = new Discord.RichEmbed()
+                                    .setColor(14634070)
                                     .setAuthor(message.member.displayName, message.author.avatarURL)
                                     .setTitle("Successfully allocated 1 point to 💗 Vitality!")
                                     .setDescription("You now have " + (row.maxHealth + 5) + " max health.")
@@ -3495,20 +3499,24 @@ class Commands {
                                 }
                                 else if(type === "strength"){
                                     sql.run(`UPDATE scores SET scaledDamage = ${row.scaledDamage + 0.03} WHERE userId = "${message.author.id}"`);
-                                    //sql.run(`UPDATE scores SET stats = ${row.stats - 1} WHERE userId = "${message.author.id}"`);
+                                    sql.run(`UPDATE scores SET stats = ${row.stats - 1} WHERE userId = "${message.author.id}"`);
                                     const skillEmbed = new Discord.RichEmbed()
+                                    .setColor(10036247)
                                     .setAuthor(message.member.displayName, message.author.avatarURL)
                                     .setTitle("Successfully allocated 1 point to 💥 Strength!")
                                     .setDescription("You now deal " + (row.scaledDamage + 0.03) + "x damage.")
+                                    .setFooter((row.stats - 1) + " skill points remaining.")
                                     botMessage.edit(skillEmbed);
                                 }
                                 else if(type === "luck"){
                                     sql.run(`UPDATE scores SET luck = ${row.luck + 2} WHERE userId = "${message.author.id}"`);
-                                    //sql.run(`UPDATE scores SET stats = ${row.stats - 1} WHERE userId = "${message.author.id}"`);
+                                    sql.run(`UPDATE scores SET stats = ${row.stats - 1} WHERE userId = "${message.author.id}"`);
                                     const skillEmbed = new Discord.RichEmbed()
+                                    .setColor(5868887)
                                     .setAuthor(message.member.displayName, message.author.avatarURL)
                                     .setTitle("Successfully allocated 1 point to 🍀 Luck!")
                                     .setDescription("**Luck increased by 2**\nYour chance to get rare items has been increased.")
+                                    .setFooter((row.stats - 1) + " skill points remaining.")
                                     botMessage.edit(skillEmbed);
                                 }
                             });
@@ -3561,11 +3569,6 @@ class Commands {
     }
     ping(message, sql){
         message.channel.send(`Response time to server : ${Math.round(client.ping)} ms`);
-        
-        sql.get(`SELECT * FROM scores WHERE userId = "${message.author.id}"`).then(row =>{
-            let chance = Math.floor(Math.random() * 201) + (row.luck * 2);
-            message.channel.send("With luck: " + chance+" | luck: "+row.luck);
-        });
         /*
         const voteEmbed = new Discord.RichEmbed()
         .setTitle("Thanks for voting!")
@@ -3611,12 +3614,12 @@ class Commands {
                 //continue to post help command
             }
         }
-        let otherCmds = ["`cooldown`","`delete`","`deactivate`","`server`","`update`","`health`","`money`","`level`","`points`","`leaderboard <s>`","`setprefix`","`discord`"]
+        let otherCmds = ["`cooldown`","`delete`","`deactivate`","`server`","`update`","`health`","`money`","`level`","`points`","`leaderboard [s]`","`setprefix`","`discord`","✨`profile [@user]`","✨`upgrade`"]
         otherCmds.sort();
         const helpInfo = new Discord.RichEmbed()
         .setTitle("`"+prefix+"play`** - Adds you to the game.**")
-        .addField("⚔Items", "🔸`"+prefix+"use <item> <@user>`- Attack users with weapons or use items on self.\n🔸`"+prefix+"inv` - Displays inventory.\n▫`"+prefix+"trade <@user>` - Trade items and money with user.\n▫`"+prefix+"item <item>`" +
-        " - Lookup item information.\n▫`"+prefix+"shop` - Shows buy/sell values of all items.\n▫`"+prefix+"buy <item> <amount>` - Purchase an item.\n▫`"+prefix+"sell <item> <amount>` - Sell an item.\n▫`"+prefix+"sellall <rarity>` - Sell every item of specific rarity (ex. `"+prefix+"sellall common`)." +
+        .addField("⚔Items", "🔸`"+prefix+"use <item> [@user]`- Attack users with weapons or use items on self.\n🔸`"+prefix+"inv [@user]` - Displays inventory.\n▫`"+prefix+"trade <@user>` - Trade items and money with user.\n▫`"+prefix+"item [item]`" +
+        " - Lookup item information.\n▫`"+prefix+"shop` - Shows buy/sell values of all items.\n▫`"+prefix+"buy <item> [amount]` - Purchase an item.\n▫`"+prefix+"sell <item> [amount]` - Sell an item.\n▫`"+prefix+"sellall <rarity>` - Sell every item of specific rarity (ex. `"+prefix+"sellall common`)." +
         "\n▫`"+prefix+"craft <item>` - Craft Ultra items!\n▫`"+prefix+"recycle <item>` - Recycle Legendary+ items for components.")
         .addField("🎲Games/Free stuff", "▫`"+prefix+"scramble <easy/hard>` - Unscramble a random word for a prize!\n▫`"+prefix+"trivia` - Answer the questions right for a reward!\n▫`"+prefix+"hourly` - Claim a free item_box every hour.\n▫`"+prefix+"vote` - Vote for the bot every 12hrs to receive an `ultra_box`\n▫`"+prefix+"gamble <amount>` - Wager atleast $100 for 50/50 chance of winning.")
         //.addField("🔰Stats", ,true)
