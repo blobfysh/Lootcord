@@ -259,7 +259,7 @@
   "lookup": ["luck"],
   "command": "🍀Luck Attribute from Upgrade",
   "example": [""],
-  "description": "Luck points affect a users ability to get rare items from boxes. Luck can also allow a user to dodge attacks.",
+  "description": "Luck points affect a users chance to succeed. Several commands are impacted by luck. Most notably, rare drop rates from boxes are increased.",
   "cooldown": "",
   "usage": ["upgrade`"],
   "options": ""

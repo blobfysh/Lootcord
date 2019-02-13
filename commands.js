@@ -3324,7 +3324,9 @@ class Commands {
                     gambleCooldown.add(message.author.id);
                     sql.run(`UPDATE scores SET gambleTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
                     
-                    if(Math.random() >= 0.5){
+                    let luck = row.luck >= 20 ? 20 : row.luck;
+                    let chance = Math.floor(Math.random() * 100) + luck; //return 1-100
+                    if(chance > 50){
                         sql.run(`UPDATE scores SET money = ${row.money + parseInt(gambleAmount)} WHERE userId = ${message.author.id}`);
                         message.reply("💰 You just won $" + gambleAmount * 2 + "!");
                     }
