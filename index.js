@@ -274,8 +274,8 @@ client.on(`ready`,() => {
         console.log("added `stick` to items | CHANGE THE SCRIPT NOW");
         sql.run("UPDATE items SET stick = 0");
     });
-    */
-    sql.run("ALTER TABLE scores ADD stats").then(row => {
+
+    sql.run("ALTER TABLE scores ADD stats").then(row => { UPDATE 3.5.0 skill points add
 
         sql.run("ALTER TABLE scores ADD luck").then(row => {
 
@@ -306,6 +306,8 @@ client.on(`ready`,() => {
             });
         });
     });
+    */
+    
 });
 
 client.on("message", (message) => {    
