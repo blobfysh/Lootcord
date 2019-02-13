@@ -241,7 +241,7 @@
   "options": "`@user` - User's profile to check."
 }, {
   "lookup": ["vitality"],
-  "command": "Vitality Attribute from Upgrade",
+  "command": "💗Vitality Attribute from Upgrade",
   "example": [""],
   "description": "Vitality is your maximum possible health. When upgraded, your max health will be increased by 5.",
   "cooldown": "",
@@ -249,7 +249,7 @@
   "options": ""
 }, {
   "lookup": ["strength"],
-  "command": "Strength Attribute from Upgrade",
+  "command": "💥Strength Attribute from Upgrade",
   "example": [""],
   "description": "Strength affects how hard you hit. Upgrading strength increases the amount of damage you do when attacking others by 3%.",
   "cooldown": "",
@@ -257,9 +257,9 @@
   "options": ""
 }, {
   "lookup": ["luck"],
-  "command": "Luck Attribute from Upgrade",
+  "command": "🍀Luck Attribute from Upgrade",
   "example": [""],
-  "description": "Strength affects how hard you hit. Upgrading strength increases the amount of damage you do when attacking others by 3%.",
+  "description": "Luck points affect a users ability to get rare items from boxes. Luck can also allow a user to dodge attacks.",
   "cooldown": "",
   "usage": ["upgrade`"],
   "options": ""
