@@ -139,7 +139,7 @@ class Commands {
                     const profileEmbed = new Discord.RichEmbed()
                     .setColor(13215302)
                     .setAuthor(message.guild.members.get(userId).displayName + "'s Profile", client.users.get(userId).avatarURL)
-                    .setDescription(row.kills+ " Kills | "+row.deaths+" Deaths ("+(row.kills/ row.deaths)+" K/D)")
+                    .setDescription(row.kills+ " Kills | "+row.deaths+" Deaths ("+(row.kills/ row.deaths).toFixed(2)+" K/D)")
                     .addField("🌟 Skill Points", row.stats)
                     .addField("💗 Vitality", row.health + "/" + row.maxHealth, true)
                     .addField("💥 Strength", row.scaledDamage + "x damage", true)
