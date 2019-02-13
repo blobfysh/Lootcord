@@ -7,7 +7,7 @@
   "usage": ["help <command>`"],
   "options": "`command` - The command you want to lookup."
 }, {
-  "lookup": ["inv","i","inventory","profile"],
+  "lookup": ["inv","i","inventory"],
   "command": "Inventory",
   "example": [""],
   "description": "Shows your current inventory including items, health, level, xp, and money.",
@@ -211,7 +211,7 @@
   "lookup": ["delete","suicide"],
   "command": "Delete",
   "example": [""],
-  "description": "Deletes your account. This action can **NOT** be undone. You can only delete once every few hours",
+  "description": "Deletes your account. This action can **NOT** be undone. You can only delete once every few hours.",
   "cooldown": "",
   "usage": ["delete`","suicide`"],
   "options": ""
@@ -222,6 +222,46 @@
   "description": "Sends a link to the official Lootcord Discord Server!",
   "cooldown": "",
   "usage": ["discord`"],
+  "options": ""
+}, {
+  "lookup": ["upgrade"],
+  "command": "Upgrade",
+  "example": [""],
+  "description": "Allows user to spend skill points for upgrading attributes. Attributes include Vitality, Strength, and Luck.",
+  "cooldown": "",
+  "usage": ["upgrade`"],
+  "options": ""
+}, {
+  "lookup": ["profile"],
+  "command": "Profile",
+  "example": [""],
+  "description": "Displays various info about a user including Vitality, Strength, and Luck.",
+  "cooldown": "",
+  "usage": ["profile`","profile <@user>`"],
+  "options": "`@user` - User's profile to check."
+}, {
+  "lookup": ["vitality"],
+  "command": "💗Vitality Attribute from Upgrade",
+  "example": [""],
+  "description": "Vitality is your maximum possible health. When upgraded, your max health will be increased by 5.",
+  "cooldown": "",
+  "usage": ["upgrade`"],
+  "options": ""
+}, {
+  "lookup": ["strength"],
+  "command": "💥Strength Attribute from Upgrade",
+  "example": [""],
+  "description": "Strength affects how hard you hit. Upgrading strength increases the amount of damage you do when attacking others by 3%.",
+  "cooldown": "",
+  "usage": ["upgrade`"],
+  "options": ""
+}, {
+  "lookup": ["luck"],
+  "command": "🍀Luck Attribute from Upgrade",
+  "example": [""],
+  "description": "Luck points affect a users chance to succeed. Several commands are impacted by luck. Most notably, rare drop rates from boxes are increased.",
+  "cooldown": "",
+  "usage": ["upgrade`"],
   "options": ""
 }
 ]
