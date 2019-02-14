@@ -229,8 +229,8 @@
   "example": [""],
   "description": "Allows user to spend skill points for upgrading attributes. Attributes include Vitality, Strength, and Luck.",
   "cooldown": "",
-  "usage": ["upgrade`"],
-  "options": ""
+  "usage": ["upgrade <skill>`"],
+  "options": "`skill` - **OPTIONAL** Will upgrade selected skill when command is called, without menu."
 }, {
   "lookup": ["profile"],
   "command": "Profile",

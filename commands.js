@@ -3464,7 +3464,48 @@ class Commands {
     upgrade(message, sql, prefix){
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
-            if(row.stats > 0){
+            let args = message.content.split(" ").slice(1);
+            let upgrOpt = args[0] !== undefined ? args[0].toLowerCase() : "";
+            if(row.stats > 0 && upgrOpt == "health" || row.stats > 0 && upgrOpt == "vitality" || row.stats > 0 && upgrOpt == "strength" || row.stats > 0 && upgrOpt == "luck"){
+                if(upgrOpt == "health" || upgrOpt == "vitality"){
+                    //upgrade hp
+                    sql.run(`UPDATE scores SET maxHealth = ${row.maxHealth + 5} WHERE userId = "${message.author.id}"`);
+                    sql.run(`UPDATE scores SET stats = ${row.stats - 1} WHERE userId = "${message.author.id}"`);
+                    const skillEmbed = new Discord.RichEmbed()
+                    .setColor(14634070)
+                    .setAuthor(message.member.displayName, message.author.avatarURL)
+                    .setTitle("Successfully allocated 1 point to 💗 Vitality!")
+                    .setDescription("You now have " + (row.maxHealth + 5) + " max health.")
+                    .setFooter((row.stats - 1) + " skill points remaining.")
+                    message.channel.send(skillEmbed);
+                    return;
+                }
+                else if(upgrOpt == "strength"){
+                    sql.run(`UPDATE scores SET scaledDamage = ${row.scaledDamage + 0.03} WHERE userId = "${message.author.id}"`);
+                    sql.run(`UPDATE scores SET stats = ${row.stats - 1} WHERE userId = "${message.author.id}"`);
+                    const skillEmbed = new Discord.RichEmbed()
+                    .setColor(10036247)
+                    .setAuthor(message.member.displayName, message.author.avatarURL)
+                    .setTitle("Successfully allocated 1 point to 💥 Strength!")
+                    .setDescription("You now deal " + (row.scaledDamage + 0.03) + "x damage.")
+                    .setFooter((row.stats - 1) + " skill points remaining.")
+                    message.channel.send(skillEmbed);
+                    return;
+                }
+                else if(upgrOpt == "luck"){
+                    sql.run(`UPDATE scores SET luck = ${row.luck + 2} WHERE userId = "${message.author.id}"`);
+                    sql.run(`UPDATE scores SET stats = ${row.stats - 1} WHERE userId = "${message.author.id}"`);
+                    const skillEmbed = new Discord.RichEmbed()
+                    .setColor(5868887)
+                    .setAuthor(message.member.displayName, message.author.avatarURL)
+                    .setTitle("Successfully allocated 1 point to 🍀 Luck!")
+                    .setDescription("**Luck increased by 2**\nYour chance to get rare items has been increased.")
+                    .setFooter((row.stats - 1) + " skill points remaining.")
+                    message.channel.send(skillEmbed);
+                    return;
+                }
+            }
+            else if(row.stats > 0){
                 const skillEmbed = new Discord.RichEmbed()
                 .setColor(1)
                 .setAuthor(message.member.displayName, message.author.avatarURL)
@@ -3616,7 +3657,7 @@ class Commands {
                 //continue to post help command
             }
         }
-        let otherCmds = ["`cooldown`","`delete`","`deactivate`","`server`","`update`","`health`","`money`","`level`","`points`","`leaderboard [s]`","`setprefix`","`discord`","✨`profile [@user]`","✨`upgrade`"]
+        let otherCmds = ["`cooldown`","`delete`","`deactivate`","`server`","`update`","`health`","`money`","`level`","`points`","`leaderboard [s]`","`setprefix`","`discord`","✨`profile [@user]`","✨`upgrade [skill]`"]
         otherCmds.sort();
         const helpInfo = new Discord.RichEmbed()
         .setTitle("`"+prefix+"play`** - Adds you to the game.**")
