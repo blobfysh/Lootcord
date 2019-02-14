@@ -163,7 +163,6 @@ client.on(`ready`,() => {
                 }
                 if(userInfo.peckTime > 0){
                     let timeLeft = (7200*1000) - ((new Date()).getTime() - userInfo.peckTime);
-                    console.log(timeLeft + " | " + (timeLeft/(1000*60)) + " minutes")
                     if(timeLeft > 0){
                         peckCooldown.add(userInfo.userId);
                         setTimeout(() => {
