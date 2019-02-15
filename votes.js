@@ -6,18 +6,14 @@ module.exports.voteReward = function(sql, voter, config, Discord) {
             JOIN scores s
             ON i.userId = s.userId
             WHERE s.userId="${voter.user}"`).then(row => {
-        let chance = Math.floor(Math.random() * 101) + row.luck; 
-        if(chance <= 30){ //30%
-            itemReward = "📦 You received **$2000**!";
-            sql.run(`UPDATE scores SET money = ${row.money + 2000} WHERE userId = ${voter.user}`);
-        }
-        else if(chance <= 60){ //30%
-            itemReward = "📦 You received **2x item_box**!";
-            sql.run(`UPDATE items SET item_box = ${row.item_box + 2} WHERE userId = ${voter.user}`);
-        }
-        else{ //40%
-            itemReward = "🍀 Your luck pays off!\nYou received an **ultra_box**!";
+        let chance = Math.floor(Math.random() * 101) + (row.luck * 4);
+        if(chance <= 100){
+            itemReward = "📦 You received an **ultra_box**!";
             sql.run(`UPDATE items SET ultra_box = ${row.ultra_box + 1} WHERE userId = ${voter.user}`);
+        }
+        else{//LUCK
+            itemReward = "🍀 Your luck pays off!\nYou received __**2x**__ **ultra_box**!";
+            sql.run(`UPDATE items SET ultra_box = ${row.ultra_box + 2} WHERE userId = ${voter.user}`);
         }
         voteCooldown.add(voter.user);
         sql.run(`UPDATE scores SET voteTime = ${(new Date()).getTime()} WHERE userId = ${voter.user}`);

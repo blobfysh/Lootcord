@@ -51,7 +51,7 @@ global.weapCooldown = new Set();  //weapon cooldown stuff
 var xpNeeded; //is set to players xp needed when they send a message | used to determine level and used in t-inv command to calculate xp left until next level
 var totalXpNeeded = 0;
 
-const version = "3.6.0";
+const version = "3.6.1";
 
 client.on(`ready`,() => {
     console.log(" _                    _                           _ \n"+
@@ -306,7 +306,6 @@ client.on(`ready`,() => {
         });
     });
     */
-    
 });
 
 client.on("message", (message) => {    
@@ -415,7 +414,7 @@ client.on("message", (message) => {
                 if(message.content.startsWith(prefix + "play")){
                     sql.run("INSERT INTO scores (userId, money, points, level, health, maxHealth, healTime, attackTime, hourlyTime, triviaTime, peckTime, voteTime, "
                             + "gambleTime, ironShieldTime, goldShieldTime, prizeTime, mittenShieldTime, scrambleTime, deactivateTime, activateTime, kills, deaths, "
-                            + "spamTime, stats, luck, scaledDamage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [message.author.id, 100, 0, 1, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]);
+                            + "spamTime, stats, luck, scaledDamage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [message.author.id, 100, 0, 1, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.00]);
                     sql.run("INSERT INTO items (userId, item_box, rpg, rocket, ak47, rifle_bullet, rock, arrow, fork, club, sword, bow, pistol_bullet, glock, "
                             + "crossbow, spear,thompson, health_pot, ammo_box, javelin, awp, m4a1, spas, medkit, revolver, buckshot, blunderbuss, grenade,"
                             + "pills, bat, baseball, peck_seed, iron_shield, gold_shield, ultra_box, rail_cannon, plasma, fish, bmg_50cal, token, candycane, gingerbread, mittens, stocking, snowball, nutcracker,"

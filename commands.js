@@ -4006,7 +4006,7 @@ class Commands {
         .setColor(13215302)
         .setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/529555281391386629/lc_icon.png")
         .setDescription("🔹Attributes update! Use skill points from leveling to upgrade your health, strength, and luck.\n🔹New profile command shows users stats." +
-        "\n🔹New upgrade command.\n🔹3.6.0\n🔹Items for killing someone now depends on # of unique items they have total.🔸Send bugs or feature ideas to us through the bots DM's\n🔹If you like the bot, be sure to tell all your friends about it! :)")
+        "\n🔹New upgrade command.\n🔹Items for killing someone now depends on # of unique items they have total.\n🔹Reverted voting reward to ultra_box, luck has chance of giving 2.\n🔸Everyone that experienced the 0 damage bug has had the bug fixed and been given a free ultra_box, sorry about that.\n🔸Send bugs or feature ideas to us through the bots DM's\n🔹If you like the bot, be sure to tell all your friends about it! :)")
         .setImage()
         .addField("Users",(client.users.size - client.guilds.size),true)
         .addField("Active Servers",client.guilds.size, true)
