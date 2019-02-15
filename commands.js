@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const methods = require("./methods")
 const config = require('./json/_config.json');
 const Jimp = require("jimp"); //jimp library allows realtime editing of images
 const helpCmd = require('./json/_help_commands.json'); //opens help commands .json file
@@ -537,26 +538,31 @@ class Commands {
                             message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>`);
                         }
                         sql.get(`SELECT * FROM items WHERE userId ="${userNameID}"`).then(victimItems => { 
-                            let victimItemsList = [];
-                            let itemOne = "";
-                            let itemTwo = "";
-                            var i = 0;
-                            for (i = 0; i < completeItemsCheck.length; i++) {
+                            let victimItemCount = [];
+                            let amountToGive = 1;
+                            for (var i = 0; i < completeItemsCheck.length; i++) {
                                 if(eval(`victimItems.` + completeItemsCheck[i])){
                                     if(completeItemsCheck[i] !== "token"){
-                                        victimItemsList.push(completeItemsCheck[i]);
+                                        victimItemCount.push(completeItemsCheck[i]);
                                     }
                                 }
                             }
-                            if(victimItemsList.length == 0){
-                                itemOne = "They had no items that you could steal!";
+                            
+                            if(victimItemCount.length == 0){
+                                amountToGive = 0;
                             }
-                            else if(victimItemsList.length === 1){
-                                itemOne = victimItemsList[Math.floor(Math.random() * victimItemsList.length)];
-                                sql.run(`UPDATE items SET ${itemOne} = ${eval(`row.` + itemOne) + 1} WHERE userId = ${message.author.id}`);
-                                sql.run(`UPDATE items SET ${itemOne} = ${eval(`victimItems.` + itemOne) - 1} WHERE userId = ${userNameID}`);
+
+                            else if(victimItemCount.length <= 9){
+                                amountToGive = 2;
                             }
                             else{
+                                amountToGive = Math.floor(victimItemCount.length/5)
+                            }
+                            /*
+                            else{
+                                methods.randomItems(sql, completeItemsCheck, message.author.id, userNameID, 4).then(result => {
+                                    console.log(result);
+                                });
                                 itemOne = victimItemsList[Math.floor(Math.random() * victimItemsList.length)];
                                 itemTwo = victimItemsList[Math.floor(Math.random() * victimItemsList.length)];
                                 while (itemOne == itemTwo){
@@ -568,48 +574,36 @@ class Commands {
                                 sql.run(`UPDATE items SET ${itemOne} = ${eval(`victimItems.` + itemOne) - 1} WHERE userId = ${userNameID}`);
                                 sql.run(`UPDATE items SET ${itemTwo} = ${eval(`victimItems.` + itemTwo) - 1} WHERE userId = ${userNameID}`);
                                 itemTwo = " | " + itemTwo;
+                            
                             }
-                            //pull 2 random strings from array
-                            sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(userRow => { 
-                                sql.run(`UPDATE scores SET money = ${userRow.money + victimRow.money} WHERE userId = ${message.author.id}`);
-                                sql.run(`UPDATE scores SET points = ${userRow.points + 100} WHERE userId = ${message.author.id}`);
-                                sql.run(`UPDATE scores SET kills = ${userRow.kills + 1} WHERE userId = ${message.author.id}`); //add 1 to kills
+                            */
+                            sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(userRow => {
+                                methods.randomItems(sql, completeItemsCheck, message.author.id, userNameID, amountToGive).then(result => {
+                                
+                                    sql.run(`UPDATE scores SET money = ${userRow.money + victimRow.money} WHERE userId = ${message.author.id}`);
+                                    sql.run(`UPDATE scores SET points = ${userRow.points + 100} WHERE userId = ${message.author.id}`);
+                                    sql.run(`UPDATE scores SET kills = ${userRow.kills + 1} WHERE userId = ${message.author.id}`); //add 1 to kills
 
-                                /* DECREASED VICTIMS XP WHEN THEY DIED
-                                let decreaseXP = Math.floor(victimRow.points/4);
-                                sql.run(`UPDATE scores SET points = ${decreaseXP} WHERE userId = ${userNameID}`);
-                                totalXpNeeded = 0;
-                                for(var i = 1; i <= victimRow.level;i++){
-                                    xpNeeded = Math.floor(50*(i**1.7));
-                                    totalXpNeeded += xpNeeded;
-                                    if(decreaseXP < totalXpNeeded){
-                                        sql.run(`UPDATE scores SET level = ${i}, maxHealth = ${95 + (i * 5)} WHERE userId = ${userNameID}`);
-                                        console.log("Changed -- " + userNameID + " -- level to " + i + " because " + victimRow.points + " was less than the " + totalXpNeeded + "xp requirement for level " + (i+1));
-                                        break;
-                                    }
-                                }
-                                */
-                                sql.run(`UPDATE scores SET health = ${100} WHERE userId = ${userNameID}`);
-                                sql.run(`UPDATE scores SET money = ${0} WHERE userId = ${userNameID}`);
-                                sql.run(`UPDATE scores SET deaths = ${victimRow.deaths + 1} WHERE userId = ${userNameID}`); //add 1 to deaths for killed user
-                                //sql.run(`UPDATE scores SET maxHealth = ${100} WHERE userId = ${userNameID}`);
-                                //sql.run(`UPDATE scores SET level = ${1} WHERE userId = ${userNameID}`);
-                                //sql.run(`UPDATE scores SET points = ${0} WHERE userId = ${userNameID}`);
-                                const killedReward = new Discord.RichEmbed()  
-                                .setTitle(`LOOT RECEIVED`)
-                                .setDescription("Money : $" + victimRow.money + "\nExperience : `100xp`")
-                                .setColor(7274496)
-                                .addField("**ITEMS**", "```" + itemOne + itemTwo + "```")
-                                message.channel.send(killedReward);
+                                    sql.run(`UPDATE scores SET health = ${100} WHERE userId = ${userNameID}`);
+                                    sql.run(`UPDATE scores SET money = ${0} WHERE userId = ${userNameID}`);
+                                    sql.run(`UPDATE scores SET deaths = ${victimRow.deaths + 1} WHERE userId = ${userNameID}`); //add 1 to deaths for killed user
 
-                                const embedInfo = new Discord.RichEmbed()
-                                .setTitle("💀**Kill Log**\n\nKILLER: `" + message.author.tag + " : " + message.author.id + "`\nVICTIM: `"+ client.users.get(userNameID).tag +" : " + userNameID + "`")
-                                .setDescription("Weapon used: `"+itemUsed+" : "+damage+" damage`")
-                                .addField("Items stolen", "```" + itemOne + itemTwo + "```", true)
-                                .addField("Money stolen", "$"+victimRow.money, true)
-                                .setTimestamp()
-                                .setColor(16721703)
-                                client.guilds.get("454163538055790604").channels.get("500467081226223646").send(embedInfo);
+                                    const killedReward = new Discord.RichEmbed()  
+                                    .setTitle(`LOOT RECEIVED`)
+                                    .setDescription("Money : $" + victimRow.money + "\nExperience : `100xp`")
+                                    .setColor(7274496)
+                                    .addField("**ITEMS**", result)
+                                    message.channel.send(killedReward);
+
+                                    const embedInfo = new Discord.RichEmbed()
+                                    .setTitle("💀**Kill Log**\n\nKILLER: `" + message.author.tag + " : " + message.author.id + "`\nVICTIM: `"+ client.users.get(userNameID).tag +" : " + userNameID + "`")
+                                    .setDescription("Weapon used: `"+itemUsed+" : "+damage+" damage`")
+                                    .addField("Items stolen", result, true)
+                                    .addField("Money stolen", "$"+victimRow.money, true)
+                                    .setTimestamp()
+                                    .setColor(16721703)
+                                    client.guilds.get("454163538055790604").channels.get("500467081226223646").send(embedInfo);
+                                });
                             });
                         });
                     }
