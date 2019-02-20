@@ -3301,33 +3301,21 @@ class Commands {
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");  //makes sure they have account
             let args = message.content.split(" ").slice(1);
-            let gambleAmount = args[0];
+            let gambleType = args[0];
+            let gambleAmount = args[1];
             if(gambleCooldown.has(message.author.id)){
                 message.reply("Please wait `" + ((gambleCdSeconds * 1000 - ((new Date()).getTime() - row.gambleTime)) / 1000).toFixed(0) + " seconds` before gambling again.");
                 return;
             }
-            if(gambleAmount !== undefined && gambleAmount >= 100){
+            else if(gambleType !== "slots" && gambleType !== "roulette"){
+                return message.reply("You must specify the way you want to gamble! Use `help gamble` to see more.")
+            }
+            else if(gambleAmount !== undefined && gambleAmount >= 100){
                 if(gambleAmount > row.money){
                     message.reply("You don't have enough money!");
                 }
                 else{
-                    setTimeout(() => {
-                        gambleCooldown.delete(message.author.id);
-                        sql.run(`UPDATE scores SET gambleTime = ${0} WHERE userId = ${message.author.id}`);
-                    }, gambleCdSeconds * 1000);
-                    gambleCooldown.add(message.author.id);
-                    sql.run(`UPDATE scores SET gambleTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-                    
-                    let luck = row.luck >= 20 ? 20 : row.luck;
-                    let chance = Math.floor(Math.random() * 100) + luck; //return 1-100
-                    if(chance > 50){
-                        sql.run(`UPDATE scores SET money = ${row.money + parseInt(gambleAmount)} WHERE userId = ${message.author.id}`);
-                        message.reply("💰 You just won $" + gambleAmount * 2 + "!");
-                    }
-                    else{
-                        message.reply("<:peeposad:461045610372530177> You just lost $" + gambleAmount + "!");
-                        sql.run(`UPDATE scores SET money = ${parseInt(row.money - gambleAmount)} WHERE userId = ${message.author.id}`);
-                    }
+                    methods.slots(message, sql, message.author.id, gambleAmount);
                 }
             }
             else{
