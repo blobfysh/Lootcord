@@ -84,17 +84,36 @@ class Methods {
         let topRowGif = "<a:_slotsBOT:547787994258472980>";
         let botRowGif = "<a:_slotsTOP:547787986696142848>";
         let slotEmotes = ["<:UnboxCommon:526248905676029968>","<:UnboxRare:526248948579434496>","<:UnboxEpic:526248961892155402>","<:UnboxLegendary:526248970914234368>"];
-        let row1 = [];
-        let row2 = [];
-        let row3 = [];
+        let col1 = [];
+        let col2 = [];
+        let col3 = [];
 
         let template = " -**SLOT MACHINE**-\n⬜"+topRowGif+topRowGif+topRowGif+"⬜\n▶"+mainRowGif+mainRowGif+mainRowGif+"◀\n⬜"+botRowGif+botRowGif+botRowGif+"⬜";
         //let luck = row.luck >= 20 ? 10 : Math.floor(row.luck/2);
-        let chance = Math.floor(Math.random() * 100) //+ luck; //return 1-100
-        
+        let chance1 = Math.floor(Math.random() * 200);
+        let chance2 = Math.floor(Math.random() * 200);
+        let chance3 = Math.floor(Math.random() * 200);
+        for(var i = 1; i < 3; i++){
+            //calculate each column
+            let chance = Math.floor(Math.random() * 200);
+            if(chance <= 100){
+                //unbox common
+                eval("col"+i+".push(slotEmotes[3],slotEmotes[0],slotEmotes[1]);");
+            }
+            else if(chance <= 120){
+                //unbox rare
+            }
+        }
+        let chance = Math.floor(Math.random() * 200) //+ luck; //return 1-100
+        //legendarys 5x
+        //epics 3x
+        //rare 2x
+        //common 1x
         message.channel.send(template).then(msg => {
             row1.push(slotEmotes[0],topRowGif,topRowGif);
-            let newTemp = " -**SLOT MACHINE**-\n⬜<:UnboxRare:526248948579434496><a:_slotsBOT:547787994258472980><a:_slotsBOT:547787994258472980>⬜\n▶<:UnboxEpic:526248961892155402><a:_slots:547282654920179722><a:_slots:547282654920179722>◀\n⬜<:UnboxLegendary:526248970914234368><a:_slotsTOP:547787986696142848><a:_slotsTOP:547787986696142848>⬜";
+            let newTemp = " -**SLOT MACHINE**-\n⬜<:UnboxRare:526248948579434496><a:_slotsBOT:547787994258472980><a:_slotsBOT:547787994258472980>⬜\n"+
+                            "▶<:UnboxEpic:526248961892155402><a:_slots:547282654920179722><a:_slots:547282654920179722>◀\n"+
+                            "⬜<:UnboxLegendary:526248970914234368><a:_slotsTOP:547787986696142848><a:_slotsTOP:547787986696142848>⬜";
             let newTemp2 = " -**SLOT MACHINE**-\n⬜<:UnboxRare:526248948579434496><:UnboxRare:526248948579434496><a:_slotsBOT:547787994258472980>⬜\n▶<:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402><a:_slots:547282654920179722>◀\n⬜<:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368><a:_slotsTOP:547787986696142848>⬜";
             let newTemp3 = " -**SLOT MACHINE**-\n⬜<:UnboxRare:526248948579434496><:UnboxRare:526248948579434496><:UnboxRare:526248948579434496>⬜\n▶<:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402>◀ YOU WON!\n⬜<:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368>⬜";
             
@@ -103,7 +122,7 @@ class Methods {
             setTimeout(() => {
                 msg.edit(newTemp).then(msg => {setTimeout(() => {
                     msg.edit(newTemp2).then(msg => {setTimeout(() => {
-                            msg.edit(newTemp3)
+                            msg.edit(newTemp3);
                         }, 1200);});
                 }, 1000);});
             }, 1000);
