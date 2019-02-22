@@ -2,7 +2,6 @@ const Discord = require("discord.js");
 const methods = require("./methods")
 const config = require('./json/_config.json');
 const Jimp = require("jimp"); //jimp library allows realtime editing of images
-const helpCmd = require('./json/_help_commands.json'); //opens help commands .json file
 
 let serverReward = new Set(); //used currently, for t-present command
 let deleteCooldown = new Set(); //for delete command

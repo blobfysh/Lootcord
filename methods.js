@@ -2,10 +2,6 @@ const Discord = require("discord.js");
 const helpCmd = require('./json/_help_commands.json'); //opens help commands .json file
 const seedrandom = require('seedrandom');
 var rng = seedrandom();
-for(var i = 0; i<20;i++){
-    console.log(rng());
-    console.log("Math : " + Math.random())
-}
 
 class Methods {
     additem(sql, userId, item, amount){
