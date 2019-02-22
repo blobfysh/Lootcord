@@ -113,11 +113,11 @@
 }, {
   "lookup": ["gamble"],
   "command": "Gamble",
-  "example": ["gamble 1000"],
-  "description": "Gamble an amount of money for a 50/50 chance of winning.",
-  "cooldown": "5 minutes",
-  "usage": ["gamble <amount>`"],
-  "options": "`amount` - Amount of money to gamble"
+  "example": ["gamble slots 1000"],
+  "description": "Gamble an amount of money. Ways to gamble include slots, roulette, or coinflip.",
+  "cooldown": "1 minute",
+  "usage": ["gamble <type> <amount>`"],
+  "options": "`type` - slots, roulette, or coinflip\n`amount` - Amount of money to gamble"
 }, {
   "lookup": ["vote"],
   "command": "Vote",
@@ -150,7 +150,7 @@
   "cooldown": "",
   "usage": ["level`","lvl`"],
   "options": "",
-  "imageURL": "https://cdn.discordapp.com/attachments/454163538886524928/537252087495393280/thanBotLevelsPNG.png"
+  "imageURL": "https://cdn.discordapp.com/attachments/497302646521069570/548565512355840000/unknown.png"
 }, {
   "lookup": ["points","xp"],
   "command": "Points",
@@ -263,5 +263,29 @@
   "cooldown": "",
   "usage": ["upgrade`"],
   "options": ""
+}, {
+  "lookup": ["slot", "slots"],
+  "command": "Gamble Slots",
+  "example": ["gamble slots 1000"],
+  "description": "Play a game of slots. Minimum bet - **$100**\n\n<:UnboxCommon:526248905676029968><:UnboxCommon:526248905676029968> - **1x** multiplier\n<:UnboxRare:526248948579434496><:UnboxRare:526248948579434496> - **1.5x** multiplier\n<:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402> - **3x** multiplier\n<:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368> - **5x** multiplier\n<:UnboxCommon:526248905676029968><:UnboxCommon:526248905676029968><:UnboxCommon:526248905676029968> - **2x** multiplier\n<:UnboxRare:526248948579434496><:UnboxRare:526248948579434496><:UnboxRare:526248948579434496> - **3x** multiplier\n<:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402> - **6x** multiplier\n<:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368> - **10x** multiplier",
+  "cooldown": "1 minute",
+  "usage": ["gamble slots <amount>`"],
+  "options": "`amount` - Amount of money to gamble"
+}, {
+  "lookup": ["roulette"],
+  "command": "Gamble Roulette",
+  "example": ["gamble roulette 1000"],
+  "description": "Play a game of Russian roulette.\nIf you survive, you win **1.2x** what you bet.\nIf you lose, you'll be shot for **50** damage and lose your bet amount.",
+  "cooldown": "1 minute",
+  "usage": ["gamble roulette <amount>`"],
+  "options": "`amount` - Amount of money to gamble"
+}, {
+  "lookup": ["coinflip","cf"],
+  "command": "Gamble Coinflip",
+  "example": ["gamble coinflip 1000","gamble cf 1000 tails"],
+  "description": "Flip a coin. If it lands on the side you chose, you win 2x what you bet!",
+  "cooldown": "1 minute",
+  "usage": ["gamble coinflip <amount> <heads/tails>`"],
+  "options": "`amount` - Amount of money to gamble\n`heads/tails` - **OPTIONAL** Will default to heads if you don't put anything."
 }
 ]

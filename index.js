@@ -23,6 +23,8 @@ npm install discord js
 npm install sqlite
 npm install jimp
 npm install dblapi.js //voting
+npm install seedrandom
+npm install spell
 */
 var bannedUsers = new Set(); //contains all banned user ids
 var moddedUsers = new Set(); //add mods with t-modadd command
@@ -51,7 +53,7 @@ global.weapCooldown = new Set();  //weapon cooldown stuff
 var xpNeeded; //is set to players xp needed when they send a message | used to determine level and used in t-inv command to calculate xp left until next level
 var totalXpNeeded = 0;
 
-const version = "3.6.1";
+const version = "3.7.0";
 
 client.on(`ready`,() => {
     console.log(" _                    _                           _ \n"+

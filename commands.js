@@ -12,7 +12,7 @@ const deactivateCdSeconds = 86400 //24 hours
 const mittenShieldCd = 1800; //30 minutes
 const ironShieldCd = 7200; //2 hours
 const goldShieldCd = 28800 //8 hours
-const gambleCdSeconds = 300; //5 minutes
+const gambleCdSeconds = 60; //5 minutes
 const voteCdSeconds = 43300; //12.01 hours
 const peckCdSeconds = 7200; //2 hours in seconds
 const scrambleCdSeconds = 900; //15 minutes
@@ -3286,8 +3286,17 @@ class Commands {
                     message.reply("You need to wait  `" + ((hourlyCdSeconds * 1000 - ((new Date()).getTime() - timeRow.hourlyTime)) / 60000).toFixed(1) + " minutes`  before using this command again.");
                     return;
                 }
-                message.reply("Here's a free  `item_box`!");
-                sql.run(`UPDATE items SET item_box = ${row.item_box + 1} WHERE userId = ${message.author.id}`);
+                let luck = timeRow.luck >= 50 ? 25 : Math.floor(timeRow.luck/2);
+                let chance = Math.floor(Math.random() * 100) + luck;
+                if(chance >= 100){
+                    message.reply("🍀Here's a free `ultra_box`!");
+                    sql.run(`UPDATE items SET ultra_box = ${row.ultra_box + 1} WHERE userId = ${message.author.id}`);
+                }
+                else{
+                    message.reply("Here's a free `item_box`!");
+                    sql.run(`UPDATE items SET item_box = ${row.item_box + 1} WHERE userId = ${message.author.id}`);
+                }
+                
                 sql.run(`UPDATE scores SET hourlyTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
                 hourlyCooldown.add(message.author.id);
             });
@@ -3300,26 +3309,55 @@ class Commands {
     gamble(message, sql, prefix){
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");  //makes sure they have account
+            let gambleTypes = ["slots","slot","roulette","coinflip","cf"]
             let args = message.content.split(" ").slice(1);
             let gambleType = args[0];
             let gambleAmount = args[1];
+            let userInput = args[2];
             if(gambleCooldown.has(message.author.id)){
                 message.reply("Please wait `" + ((gambleCdSeconds * 1000 - ((new Date()).getTime() - row.gambleTime)) / 1000).toFixed(0) + " seconds` before gambling again.");
                 return;
             }
-            else if(gambleType !== "slots" && gambleType !== "roulette"){
-                return message.reply("You must specify the way you want to gamble! Use `help gamble` to see more.")
+            else if(!gambleTypes.includes(gambleType)){
+                return message.reply("You must specify the way you want to gamble! `roulette`, `slots`, `coinflip`")
             }
             else if(gambleAmount !== undefined && gambleAmount >= 100){
+                gambleAmount = Math.floor(gambleAmount);
                 if(gambleAmount > row.money){
-                    message.reply("You don't have enough money!");
+                    return message.reply("You don't have enough money!");
                 }
-                else{
+                else if(gambleType == "slots" || gambleType == "slot"){
+                    sql.run(`UPDATE scores SET money = ${row.money - gambleAmount} WHERE userId = ${message.author.id}`);
                     methods.slots(message, sql, message.author.id, gambleAmount);
                 }
+                else if(gambleType == "roulette"){
+                    if(row.health < 25){
+                        return message.reply("⚠ You need atleast **25 HP** to use the `roulette` command, you currently have **" + row.health + "/" + row.maxHealth + "**.");
+                    }
+                    sql.run(`UPDATE scores SET money = ${row.money - gambleAmount} WHERE userId = ${message.author.id}`);
+                    methods.roulette(message, sql, message.author.id, gambleAmount);
+                }
+                else if(gambleType == "coinflip" || gambleType == "cf"){
+                    methods.coinflip(message, sql, message.author.id, gambleAmount, userInput);
+                }
+                setTimeout(() => {
+                    gambleCooldown.delete(message.author.id);
+                    sql.run(`UPDATE scores SET gambleTime = ${0} WHERE userId = ${message.author.id}`);
+                }, gambleCdSeconds * 1000);
+                gambleCooldown.add(message.author.id);
+                sql.run(`UPDATE scores SET gambleTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
             }
             else{
-                message.reply("You need to enter an amount of atleast 100!");
+                //give user info on command
+                if(gambleType == "slots" || gambleType == "slot"){
+                    methods.commandhelp(message, "slots", prefix);
+                }
+                else if(gambleType == "roulette"){
+                    methods.commandhelp(message, "roulette", prefix);
+                }
+                else if(gambleType == "coinflip" || gambleType == "cf"){
+                    methods.commandhelp(message, "coinflip", prefix);
+                }
             }
         });
     }
@@ -3332,29 +3370,6 @@ class Commands {
             else{
                 message.reply("☑VOTE AVAILABLE\n🎟Vote for the bot to collect a reward!\nhttps://discordbots.org/bot/493316754689359874/vote\nYou should receive a DM after you vote!");
             }
-            /*
-            sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(timeRow => {
-                if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
-                dbl.hasVoted(message.author.id).then(voted => {
-                    if(voted && !voteCooldown.has(message.author.id)){
-                        message.reply("Thanks for voting! Here's an `ultra_box`!");
-                        sql.run(`UPDATE items SET ultra_box = ${row.ultra_box + 1} WHERE userId = ${message.author.id}`);
-                        sql.run(`UPDATE scores SET voteTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-                        voteCooldown.add(message.author.id);
-                        setTimeout(() => {
-                            voteCooldown.delete(message.author.id);
-                            sql.run(`UPDATE scores SET voteTime = ${0} WHERE userId = ${message.author.id}`);
-                        }, voteCdSeconds * 1000);
-                    }
-                    else if(voteCooldown.has(message.author.id)){
-                        message.reply("You can vote again in `" + (((voteCdSeconds * 1000 - ((new Date()).getTime() - timeRow.voteTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours`!");
-                    }
-                    else{
-                        message.reply("Vote for the bot at: https://discordbots.org/bot/493316754689359874/vote\nThen use this command to claim your FAT LOOT\nMight take a couple minutes for it to work...");
-                    }
-                });
-            });
-            */
         });
     }
     unwrap(message, sql, prefix){ //NOT USED as of 3.0.0
@@ -3607,37 +3622,7 @@ class Commands {
         let args = message.content.split(" ").slice(1);
         let helpCommand = args[0];
         if(helpCommand !== undefined){
-            try{
-                for(var i = 0; i < Object.keys(helpCmd).length; i++){
-                    if(helpCmd[i].lookup.includes(helpCommand.toLowerCase())){
-                        let cmdUsage = [];
-                        let cmdExamples = [];
-                        console.log(helpCmd[i].usage.length)
-                        for(var i2 = 0; i2 < helpCmd[i].usage.length; i2++){
-                            cmdUsage.push("`"+prefix+helpCmd[i].usage[i2])
-                        }
-                        for(var i3 = 0; i3 < helpCmd[i].example.length; i3++){
-                            cmdExamples.push("`"+prefix+helpCmd[i].example[i3]+"`")
-                        }
-                        const helpInfo = new Discord.RichEmbed()
-                        .setTitle(helpCmd[i].command+" Command Info 🔎")
-                        .setDescription(helpCmd[i].description)
-                        .setColor(13215302)
-                        if(helpCmd[i].example[0].length > 0){helpInfo.addField("Usage", cmdUsage.join("\n")+"\n\nExample\n"+cmdExamples.join("\n"))}else{helpInfo.addField("Usage", cmdUsage.join("\n"))}
-                        if(helpCmd[i].options !== ""){helpInfo.addField("Options", helpCmd[i].options)}
-                        if(helpCmd[i].cooldown !== ""){helpInfo.addField("Cooldown", helpCmd[i].cooldown)}
-                        if(helpCmd[i].imageURL && helpCmd[i].imageURL !== ""){helpInfo.setImage(helpCmd[i].imageURL)}
-                        message.channel.send(helpInfo);
-                        return;
-                    }
-                    else if(Object.keys(helpCmd).length - 1 === i){
-                        message.reply("❌ That command doesn't exist!");
-                    }
-                }
-            }
-            catch(err){
-                //continue to post help command
-            }
+            return methods.commandhelp(message, helpCommand, prefix);
         }
         let otherCmds = ["`cooldown`","`delete`","`deactivate`","`server`","`update`","`health`","`money`","`level`","`points`","`leaderboard [s]`","`setprefix`","`discord`","✨`profile [@user]`","✨`upgrade [skill]`"]
         otherCmds.sort();
@@ -3646,7 +3631,7 @@ class Commands {
         .addField("⚔Items", "🔸`"+prefix+"use <item> [@user]`- Attack users with weapons or use items on self.\n🔸`"+prefix+"inv [@user]` - Displays inventory.\n▫`"+prefix+"trade <@user>` - Trade items and money with user.\n▫`"+prefix+"item [item]`" +
         " - Lookup item information.\n▫`"+prefix+"shop` - Shows buy/sell values of all items.\n▫`"+prefix+"buy <item> [amount]` - Purchase an item.\n▫`"+prefix+"sell <item> [amount]` - Sell an item.\n▫`"+prefix+"sellall <rarity>` - Sell every item of specific rarity (ex. `"+prefix+"sellall common`)." +
         "\n▫`"+prefix+"craft <item>` - Craft Ultra items!\n▫`"+prefix+"recycle <item>` - Recycle Legendary+ items for components.")
-        .addField("🎲Games/Free stuff", "▫`"+prefix+"scramble <easy/hard>` - Unscramble a random word for a prize!\n▫`"+prefix+"trivia` - Answer the questions right for a reward!\n▫`"+prefix+"hourly` - Claim a free item_box every hour.\n▫`"+prefix+"vote` - Vote for the bot every 12hrs to receive an `ultra_box`\n▫`"+prefix+"gamble <amount>` - Wager atleast $100 for 50/50 chance of winning.")
+        .addField("🎲Games/Free stuff", "▫`"+prefix+"scramble <easy/hard>` - Unscramble a random word for a prize!\n▫`"+prefix+"trivia` - Answer the questions right for a reward!\n▫`"+prefix+"hourly` - Claim a free item_box every hour.\n▫`"+prefix+"vote` - Vote for the bot every 12hrs to receive an `ultra_box`\n▫`"+prefix+"gamble <type> <amount>` - Gamble your money away!")
         //.addField("🔰Stats", ,true)
         .addField("📈Other", otherCmds.join(" "),true)
         .setColor(13215302)
@@ -3658,7 +3643,8 @@ class Commands {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
             if(deactivateCooldown.has(message.author.id)) return message.reply("You can only deactivate a server once every 24 hours!");
             if(activateCooldown.has(message.author.id)) return message.reply("You must wait `" + ((3600 * 1000 - ((new Date()).getTime() - row.activateTime)) / 60000).toFixed(1) + " minutes` after activating in order to deactivate!");
-
+            if(weapCooldown.has(message.author.id)) return message.reply("You can't deactivate when you still have an attack cooldown! (`"+ ((weapCdSeconds * 1000 - ((new Date()).getTime() - row.attackTime)) / 60000).toFixed(1) + " minutes`)");
+            
             message.reply("Deactivating your account will prevent you from using commands or being targeted in **this** server.\n`Note : You can only do this once every 24 hours.`\n**Are you sure?**").then(botMessage => {
                 botMessage.react('✅').then(() => botMessage.react('❌'));
                 const filter = (reaction, user) => {
@@ -3993,8 +3979,8 @@ class Commands {
         .setTitle(`🖥**Lootcord Update Info**`)
         .setColor(13215302)
         .setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/529555281391386629/lc_icon.png")
-        .setDescription("🔹Attributes update! Use skill points from leveling to upgrade your health, strength, and luck.\n🔹New profile command shows users stats." +
-        "\n🔹New upgrade command.\n🔹Items for killing someone now depends on # of unique items they have total.\n🔹Reverted voting reward to ultra_box, luck has chance of giving 2.\n🔸Everyone that experienced the 0 damage bug has had the bug fixed and been given a free ultra_box, sorry about that.\n🔸Send bugs or feature ideas to us through the bots DM's\n🔹If you like the bot, be sure to tell all your friends about it! :)")
+        .setDescription("🔹More ways to gamble!\n🔹New slots, roulette, and coinflip subcommands added to gamble command." +
+        "\n🔹Added more ways for luck to impact gameplay including the hourly command and all gambling.\n🔹Reduced gamble cooldown to 1 minute.\n🔹Users can't deactivate their account while still on attack cooldown (done to prevent users from attacking someone then deactivating).\n🔸Send bugs or feature ideas to us through the bots DM's\n🔹If you like the bot, be sure to tell all your friends about it! :)")
         .setImage()
         .addField("Users",(client.users.size - client.guilds.size),true)
         .addField("Active Servers",client.guilds.size, true)
