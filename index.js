@@ -17,7 +17,7 @@ const dbl = new DBL(config.dblToken, {webhookPath: '/dblwebhook', webhookPort: '
 const spell = require("spell");
 var dict = spell();
 dict.load("help inventory use item items buy sell sellall craft recycle shop store trade trivia scramble hourly gamble vote setprefix discord cooldown update upgrade profile level level points "
-                + "health money leaderboard server activate deactivate delete ban unban modadd unmod warn additem addcash addpoints eval modhelp")
+                + "health heal money leaderboard server activate deactivate delete ban unban modadd unmod warn additem addcash addpoints eval modhelp")
 /*NPMS
 npm install discord js
 npm install sqlite
@@ -53,7 +53,7 @@ global.weapCooldown = new Set();  //weapon cooldown stuff
 var xpNeeded; //is set to players xp needed when they send a message | used to determine level and used in t-inv command to calculate xp left until next level
 var totalXpNeeded = 0;
 
-const version = "3.7.0";
+const version = "3.8.0";
 
 client.on(`ready`,() => {
     console.log(" _                    _                           _ \n"+
@@ -277,9 +277,7 @@ client.on(`ready`,() => {
     });
 
     sql.run("ALTER TABLE scores ADD stats").then(row => { UPDATE 3.5.0 skill points add
-
         sql.run("ALTER TABLE scores ADD luck").then(row => {
-
             sql.run("ALTER TABLE scores ADD scaledDamage").then(row => {
                 console.log("restart now.");
             }).catch(() => {
@@ -308,6 +306,28 @@ client.on(`ready`,() => {
         });
     });
     */
+    sql.run("ALTER TABLE items ADD reroll_scroll").then(row => {
+    }).catch(() => {
+        console.log("added `reroll_scroll` to items | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE items SET reroll_scroll = 0");
+    });
+    sql.run("ALTER TABLE items ADD xp_potion").then(row => {
+    }).catch(() => {
+        console.log("added `xp_potion` to items | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE items SET xp_potion = 0");
+    });
+    sql.run("ALTER TABLE scores ADD used_stats").then(row => {
+    }).catch(() => {
+        sql.all('SELECT userId, level, stats FROM scores').then(rows => { //REMOVE IN STABLE UPDATE
+            rows.forEach(function (row) {
+                //test each user
+                let totalStats = row.level - 1;
+                let usedStats = totalStats - row.stats;
+                sql.run(`UPDATE scores SET used_stats = ${usedStats} WHERE userId = ${row.userId}`);
+                console.log("Successfully changed users used_stats to " + usedStats);
+            });
+        });
+    });
 });
 
 client.on("message", (message) => {    
@@ -544,7 +564,7 @@ client.on("message", (message) => {
         if(message.content.startsWith("<@" + client.user.id + ">") || message.content.startsWith("<@!" + client.user.id + ">")){//send help message if user mentions bot
             return commands.help(message, prefix);
         }
-        if (!message.content.startsWith(prefix) && !message.content.startsWith(prefix.toUpperCase())) return; //Makes sure message start with prefix before moving forward
+        if(!message.content.startsWith(prefix) && !message.content.startsWith(prefix.toUpperCase())) return; //Makes sure message start with prefix before moving forward
         message.content = message.content.replace(message.content.substring(0,prefix.length), prefix.toLowerCase()); //IMPORTANT | CHANGES MESSAGE TO ALL LOWERCASE
         function commandCheck (command){
             switch(command.toLowerCase()){
@@ -581,6 +601,8 @@ client.on("message", (message) => {
                 case 'setprefix': commands.prefix(message, sql, prefix); break;
                 case 'invite':
                 case 'discord': commands.discord(message); break;
+                case 'heal': commands.heal(message, prefix); break;
+                case 'attack': commands.attack(message, prefix); break;
                 case 'cooldowns':
                 case 'cooldown':
                 case 'cd': commands.cooldown(message, sql, prefix); break;

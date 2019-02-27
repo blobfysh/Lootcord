@@ -61,6 +61,7 @@ const itemBLUNDERBUSS = ["blunderbuss",8,40,"buckshot","", 800,  "Very unreliabl
 const itemBUCKSHOT = ["buckshot","Varies","",["blunderbuss","spas"],"",2000, "Use with weapon", "Rare"];  //AMMO | UPDATE WITH NEW WEAPONS
 const itemREVOLVER = ["revolver",25,35,"pistol_bullet","", 800,  "High-recoil handgun", "Rare"];
 const itemGRENADE = ["grenade",8,30,"","", 700,  "Small hand-thrown explosive", "Rare"];
+const itemXP_POTION = ["xp_potion", "N/A", "", "N/A", 2400, 480, "Use this to instantly gain `75` xp!", "Rare"];
 //EPIC
 const itemIRON_SHIELD = ["iron_shield", "N/A", "", "N/A", 10000, 2000, "Shields you from attacks for 2 hours!", "Epic"];
 const itemAK47 = ["ak47",35, 60,"rifle_bullet","", 1800,  "High damage but inaccurate rifle", "Epic"];
@@ -504,7 +505,7 @@ class Commands {
             });
         });
     }
-    use(message, sql, prefix){
+    use(message, sql, prefix){//split into separate methods
         let args = message.content.split(" ").slice(1);
         let itemUsed = args[0];
         let userOldID = args[1];                          //RETURNS ID WITH <@ OR <@!                                     
@@ -800,7 +801,7 @@ class Commands {
                     else{
                         //ultra item here
                         rand = ultraItems[Math.floor(Math.random() * ultraItems.length)];   //ULTRA ITEMS 0.5% chance
-                        let ultraPic = "https://cdn.discordapp.com/attachments/454163538886524928/499744054074933262/UnboxLegendary.png";
+                        let ultraPic = "https://cdn.discordapp.com/attachments/454163538886524928/550079805807394827/UnboxUltra.png";
                         if(rand == "rail_cannon"){
                             ultraPic = "https://cdn.discordapp.com/attachments/454163538886524928/501237189791711254/unboxRail.png";
                         }
@@ -1142,6 +1143,11 @@ class Commands {
                             healCooldown.delete(message.author.id)
                             sql.run(`UPDATE scores SET healTime = ${0} WHERE userId = ${message.author.id}`);
                         }, healCdSeconds * 1000);
+                    });
+                }
+                else if(itemUsed == "reroll_scroll" && row.reroll_scroll >= 1 || itemUsed == "reroll" && row.reroll_scroll >= 1){
+                    //call method
+                    sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(hpRow => {
                     });
                 }
                 else{
@@ -1813,6 +1819,9 @@ class Commands {
                 }
                 else if(itemSearched == "health_pot" || itemSearched == "health"){
                     itemSearched = "HEALTH";
+                }
+                else if(itemSearched == "xp_potion" || itemSearched == "xp"){
+                    itemImg = "https://cdn.discordapp.com/attachments/454163538886524928/550331631521628172/xp_potion.png";
                 }
                 
                 itemName = eval(`item${itemSearched.toUpperCase()}[0]`) //HANDLES ALL ITEMS
@@ -4240,6 +4249,12 @@ class Commands {
     discord(message){
         message.channel.send("https://discord.gg/7XNbdzP");
     }
+    heal(message, prefix){
+        message.reply("Heal using the `use` command. (Ex. `"+prefix+"use medkit`)");
+    }
+    attack(message, prefix){
+        message.reply("Attack using the `use` command. (Ex. `"+prefix+"use rock @user`)");
+    }
 
     //MODERATOR COMMANDS
     modhelp(message, moddedUsers, prefix){
@@ -4548,6 +4563,9 @@ class Commands {
         else{
             message.reply("ERROR. `"+prefix+"activity (online/dnd/away/invisible)`");
         }
+    }
+    restoreInv(message, sql, moddedUsers, prefix){
+        //separate sql data with |, then use split() to get array of data amounts and restore data
     }
     
     //ADMIN COMMANDS
