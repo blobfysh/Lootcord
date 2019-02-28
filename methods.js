@@ -75,6 +75,18 @@ class Methods {
             });
         });
     }
+    addxp(message, sql, amount, userId){
+        sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
+            sql.run(`UPDATE scores SET points = ${row.points + amount} WHERE userId = ${userId}`);
+            message.reply("Successfully used `xp_potion` for **75XP**!");
+        });
+    }
+    resetSkills(message, sql, userId){
+        sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
+            sql.run(`UPDATE scores SET points = ${row.points + amount} WHERE userId = ${userId}`);
+            message.reply("Successfully used `xp_potion` for **75XP**!");
+        });
+    }
 
     //GAMBLE SUBCOMMANDS
     roulette(message, sql, userId, amount){

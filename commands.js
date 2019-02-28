@@ -80,6 +80,7 @@ const itemAWP = ["awp", 60,70,["bmg_50cal","rifle_bullet"],"",2700, "A bolt-acti
 const itemPECK_SEED = ["peck_seed",20,35,"","",1600, "This rare seed has the ability to turn your opponent into a chicken for 2 hours, disabling any use of their commands.\nInvented by *Arcane Sorceress Mick of Blackrain* ***THE*** *3rd*.", "Legendary",["adhesive"]];
 const itemPLASMA = ["plasma","Varies","",["rail_cannon","ray_gun"],"",6000, "Dangerous cartridge full of plasma.\nMight wanna wear some protection when handling this...", "Legendary",["adhesive"]];
 const itemBMG_50CAL = ["bmg_50cal","Varies","",["awp"],"",3500, "Sniper ammo that increases damage by `20`.\nThis ammunition is strong enough to penetrate shields.", "Legendary",["steel","adhesive"]];
+const itemREROLL_SCROLL = ["reroll_scroll", "N/A", "", "N/A", 2400, 480, "Use this to reset your attributes and gain back all used skill points!", "Legendary"];
 //COMPONENTS NEW
 const itemSCREW = ["screw", "N/A", "", "N/A", "", 550, "Metal pin used to hold objects together.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.", "Rare"];
 const itemSTEEL = ["steel", "N/A", "", "N/A", "", 500, "A cheap but extremely strong material used to craft weapons.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.", "Uncommon"];
@@ -93,9 +94,9 @@ const itemRAY_GUN = ["ray_gun",60,150,"plasma","",22500, `A lightweight particle
 const limitedItems = ["candycane", "gingerbread", "mittens","stocking"]; //missing snowball and nutcracker because those items were purchase only
 const commonItems = ["item_box", "rock", "fork", "club", "fish","stick"];
 const uncommonItems = ["sword", "bow", "ammo_box","pills","bat","golf_club"];
-const rareItems = ["glock", "crossbow", "spear","health_pot","revolver","blunderbuss","grenade"];
+const rareItems = ["glock", "crossbow", "spear","health_pot","revolver","blunderbuss","grenade"]; //add xp potion
 const epicItems = ["ak47", "thompson","m4a1","spas","medkit","ultra_box","iron_shield","ultra_ammo"];
-const legendItems = ["rpg","awp","javelin","peck_seed","gold_shield"];
+const legendItems = ["rpg","awp","javelin","peck_seed","gold_shield"]; //add reroll_scroll
 const ultraItems = ["rail_cannon","ray_gun"];
 
 const uncommonComp = ["steel"];
@@ -1147,8 +1148,10 @@ class Commands {
                 }
                 else if(itemUsed == "reroll_scroll" && row.reroll_scroll >= 1 || itemUsed == "reroll" && row.reroll_scroll >= 1){
                     //call method
-                    sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(hpRow => {
-                    });
+                }
+                else if(itemUsed == "xp_potion" && row.xp_potion >= 1 || itemUsed == "xp_pot" && row.xp_potion >= 1){
+                    //call method
+                    methods.addxp(message, sql, 75, message.author.id);
                 }
                 else{
                     return message.reply("You don't have that item!");
