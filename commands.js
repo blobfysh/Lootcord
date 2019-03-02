@@ -2702,16 +2702,16 @@ class Commands {
                                                 .addField(message.guild.members.get(userNameID).user.username + "'s MONEY", "$" + player2money,true)
                                                 .setFooter("Keep an eye on users that trade high-value for low-value")
                                                 if(player1items.length > 0){
-                                                    activeWindow.addField(message.author.username + "'s items",player1display.join("\n"));
+                                                    activeWindow.addField(message.author.username + "'s items",player1display.join("\n"), true);
                                                 }
                                                 else{
-                                                    activeWindow.addField(message.author.username + "'s items","no items");
+                                                    activeWindow.addField(message.author.username + "'s items","no items", true);
                                                 }
                                                 if(player2items.length > 0){
-                                                    activeWindow.addField(message.guild.members.get(userNameID).user.username + "'s items", player2display.join("\n"));
+                                                    activeWindow.addField(message.guild.members.get(userNameID).user.username + "'s items", player2display.join("\n"), true);
                                                 }
                                                 else{
-                                                    activeWindow.addField(message.guild.members.get(userNameID).user.username + "'s items", "no items");
+                                                    activeWindow.addField(message.guild.members.get(userNameID).user.username + "'s items", "no items", true);
                                                 }
                                                 client.guilds.get("454163538055790604").channels.get("500467081226223646").send(activeWindow);
                                             }
