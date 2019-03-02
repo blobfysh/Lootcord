@@ -19,10 +19,10 @@ var dict = spell();
 dict.load("help inventory use item items buy sell sellall craft recycle shop store trade trivia scramble hourly gamble vote setprefix discord cooldown update upgrade profile level level points "
                 + "health heal money leaderboard server activate deactivate delete ban unban modadd unmod warn additem addcash addpoints eval modhelp")
 /*NPMS
-npm install discord js
+npm install discord.js
 npm install sqlite
 npm install jimp
-npm install dblapi.js //voting
+npm install dblapi.js
 npm install seedrandom
 npm install spell
 */
@@ -41,6 +41,7 @@ global.deactivateCooldown = new Set();
 global.activateCooldown = new Set();
 global.triviaUserCooldown = new Set();
 global.scrambleCooldown = new Set();
+global.xpPotCooldown = new Set();
 global.healCooldown = new Set();  //healing cooldown id holder
 global.peckCooldown = new Set(); //peck command | lasts 2 hours
 global.peckCdSeconds = 7200; //2 hours in seconds | used in index.js and commands.js
@@ -276,7 +277,7 @@ client.on(`ready`,() => {
         sql.run("UPDATE items SET stick = 0");
     });
 
-    sql.run("ALTER TABLE scores ADD stats").then(row => { UPDATE 3.5.0 skill points add
+    sql.run("ALTER TABLE scores ADD stats").then(row => {
         sql.run("ALTER TABLE scores ADD luck").then(row => {
             sql.run("ALTER TABLE scores ADD scaledDamage").then(row => {
                 console.log("restart now.");
@@ -315,6 +316,11 @@ client.on(`ready`,() => {
     }).catch(() => {
         console.log("added `xp_potion` to items | CHANGE THE SCRIPT NOW");
         sql.run("UPDATE items SET xp_potion = 0");
+    });
+    sql.run("ALTER TABLE scores ADD xpTime").then(row => {
+    }).catch(() => {
+        console.log("added `xpTime` to scores | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE scores SET xpTime = 0");
     });
     sql.run("ALTER TABLE scores ADD used_stats").then(row => {
     }).catch(() => {
@@ -436,12 +442,13 @@ client.on("message", (message) => {
                 if(message.content.startsWith(prefix + "play")){
                     sql.run("INSERT INTO scores (userId, money, points, level, health, maxHealth, healTime, attackTime, hourlyTime, triviaTime, peckTime, voteTime, "
                             + "gambleTime, ironShieldTime, goldShieldTime, prizeTime, mittenShieldTime, scrambleTime, deactivateTime, activateTime, kills, deaths, "
-                            + "spamTime, stats, luck, scaledDamage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [message.author.id, 100, 0, 1, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.00]);
+                            + "spamTime, stats, luck, scaledDamage, used_stats, xpTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                            [message.author.id, 100, 0, 1, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.00, 0, 0]);
                     sql.run("INSERT INTO items (userId, item_box, rpg, rocket, ak47, rifle_bullet, rock, arrow, fork, club, sword, bow, pistol_bullet, glock, "
                             + "crossbow, spear,thompson, health_pot, ammo_box, javelin, awp, m4a1, spas, medkit, revolver, buckshot, blunderbuss, grenade,"
                             + "pills, bat, baseball, peck_seed, iron_shield, gold_shield, ultra_box, rail_cannon, plasma, fish, bmg_50cal, token, candycane, gingerbread, mittens, stocking, snowball, nutcracker,"
-                            + "screw, steel, adhesive, fiber_optics, module, ray_gun, golf_club, ultra_ammo, stick) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                            [message.author.id, 1, 0, 0, 0 , 0, 0, 0 , 0 , 0 , 0, 0 , 0 , 0 , 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                            + "screw, steel, adhesive, fiber_optics, module, ray_gun, golf_club, ultra_ammo, stick, xp_potion, reroll_scroll) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                            [message.author.id, 1, 0, 0, 0 , 0, 0, 0 , 0 , 0 , 0, 0 , 0 , 0 , 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
                     sql.run("INSERT INTO userGuilds (userId, guildId) VALUES (?, ?)", [message.author.id, message.guild.id]);
                     if(weapCooldown.has(message.author.id)){
                         sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);

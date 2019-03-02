@@ -4,14 +4,209 @@ const seedrandom = require('seedrandom');
 var rng = seedrandom();
 
 class Methods {
+    //GENERAL FUNCTIONS, CAN BE USED BY MULTIPLE COMMANDS
     additem(sql, userId, item, amount){
-        
+        sql.get(`SELECT * FROM items WHERE userId ="${userId}"`).then(row => {
+            if(Array.isArray(item)){
+                if(item.length == 0){
+                    return;
+                }
+                for(var i=0; i < item.length; i++){
+                    //do stuff for each item
+                    //store amounts in array as ["rock|5","ak47|2"] then use split("|")
+                    let itemToCheck = item[i].split("|");
+                    sql.run(`UPDATE items SET ${itemToCheck[0]} = ${eval(`row.${itemToCheck[0]}`) + parseInt(itemToCheck[1])} WHERE userId = ${userId}`);
+                }
+            }
+            else{
+                sql.run(`UPDATE items SET ${item} = ${eval(`row.${item}`) - amount} WHERE userId = ${userId}`);
+            }
+        });
+    }
+    addmoney(sql, userId, amount){
+        sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
+            sql.run(`UPDATE scores SET money = ${row.money + amount} WHERE userId = ${userId}`);
+        });
     }
     removeitem(sql, userId, item, amount){
-
+        sql.get(`SELECT * FROM items WHERE userId ="${userId}"`).then(row => {
+            if(Array.isArray(item)){
+                if(item.length == 0){
+                    return;
+                }
+                for(var i=0; i < item.length; i++){
+                    //do stuff for each item
+                    //store amounts in array as ["rock|5","ak47|2"] then use split("|")
+                    let itemToCheck = item[i].split("|");
+                    sql.run(`UPDATE items SET ${itemToCheck[0]} = ${eval(`row.${itemToCheck[0]}`) - parseInt(itemToCheck[1])} WHERE userId = ${userId}`);
+                }
+            }
+            else{
+                sql.run(`UPDATE items SET ${item} = ${eval(`row.${item}`) - amount} WHERE userId = ${userId}`);
+            }
+        });
     }
-    hasitems(sql, userId, item, amount){
-
+    hasmoney(sql, userId, amount){//PROMISE FUNCTION
+        return sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
+            if(row.money >= amount){
+                return true;
+            }
+            else{
+                return false;
+            }
+        });
+    }
+    hasitems(sql, userId, item, amount){//PROMISE FUNCTION
+        return sql.get(`SELECT * FROM items WHERE userId ="${userId}"`).then(row => {
+            if(Array.isArray(item)){
+                if(item.length == 0){
+                    return true;
+                }
+                for (var i = 0; i < item.length; i++) {
+                    //do stuff for each item
+                    let itemToCheck = item[i].split("|");
+                    if(eval(`row.${itemToCheck[0]}`) >= itemToCheck[1]){
+                        if(i == item.length - 1){
+                            return true;
+                        }
+                    }
+                    else{
+                        return false;
+                    }
+                }
+            }
+            else{
+                if(eval(`row.${item}`) >= amount){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        });
+    }
+    getCorrectedItemInfo(itemName, isImage, isEvaled){
+        let itemImg = "";
+        let itemSearched = itemName.toLowerCase();
+        isEvaled = (isEvaled == undefined) ? true : isEvaled;
+        if(itemName == "rpg"){
+            itemImg = "https://cdn.discordapp.com/attachments/454163538886524928/462539395078029313/Pixel_RPG.png";
+        }
+        else if(itemName == "item_box" || itemName == "box" || itemName == "item"){
+            if(isEvaled) itemSearched = "BOX";
+            else itemSearched = "ITEM_BOX";
+            
+            itemImg = "https://cdn.discordapp.com/attachments/454163538886524928/499746695370768408/thanbox_emptysmall.png";
+        }
+        else if(itemName == "ammo_box" || itemName == "ammo"){
+            if(isEvaled) itemSearched = "AMMOBOX";
+            else itemSearched = "AMMO_BOX";
+            itemImg = "https://cdn.discordapp.com/attachments/313880100934385666/493258973160407040/Military_health_kit_custom.png";
+        }
+        else if(itemName == "ultra" || itemName == "ultrabox" || itemName =="ultra_box"){
+            itemSearched = "ULTRA_BOX";
+        }
+        else if(itemName == "rail" || itemName == "cannon" || itemName == "railcannon" || itemName == "rail_cannon"){
+            itemSearched = "RAIL_CANNON";
+            itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501195476775993355/Rail_Cannon.png";
+        }
+        else if(itemName == "thompson"){
+            itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501129603536912395/Thanpson.png";
+        }
+        else if(itemName == "javelin"){
+            itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501129550617509918/Javelin.png";
+        }
+        else if(itemName == "rifle_bullet"){
+            if(isEvaled) itemSearched = "RIFLEBULLET";
+            else itemSearched = "RIFLE_BULLET";
+        }
+        else if(itemName == "bmg" || itemName == "50cal" || itemName =="bmg_50cal"){
+            itemSearched = "BMG_50CAL";
+        }
+        else if(itemName == "ray" || itemName == "raygun" || itemName =="ray_gun"){
+            itemSearched = "RAY_GUN";
+        }
+        else if(itemName.startsWith("stick")){
+            itemSearched = "STICK";
+            itemImg = "https://cdn.discordapp.com/attachments/454163538886524928/543899419276214277/455435423200575500.png";
+        }
+        else if(itemName.startsWith("golf")){
+            itemSearched = "GOLF_CLUB";
+            itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501129547316461578/Golf_club_aka_stick_for_those_who_dont_know_what_a_golf_club_is.png";
+        }
+        else if(itemName.startsWith("ultra_a") || itemName.startsWith("ultraa")){
+            itemSearched = "ULTRA_AMMO";
+        }
+        else if(itemName == "fiber" || itemName == "optics" || itemName =="fiberoptics" || itemName =="fiber_optics"){
+            itemSearched = "FIBER_OPTICS";
+        }
+        else if(itemName == "gold" || itemName == "goldshield" || itemName == "gold_shield"){
+            itemSearched = "GOLD_SHIELD";
+            itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501961870706737182/Armor_of_Gold.png";
+        }
+        else if(itemName == "iron" || itemName == "shield"){
+            itemSearched = "IRON_SHIELD";
+        }
+        else if(itemName == "peck" || itemName == "peckseed" || itemName == "peck_seed"){
+            itemSearched = "PECK_SEED";
+        }
+        else if(itemName == "awp"){
+            itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501129528911855657/AWP_green.png";
+        }
+        else if(itemName == "fish"){
+            itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501129543340261398/Fish_AI.png";
+        }
+        else if(itemName == "plasma"){
+            itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501272967909605376/Plasma_mags.png";
+        }
+        else if(itemName == "arrow"){
+            itemImg = "https://cdn.discordapp.com/attachments/454163538886524928/501139012912676889/arrow.png";
+        }
+        else if(itemName == "fork"){
+            itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501129596838739969/Thanfork.png";
+        }
+        else if(itemName == "club"){
+            itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501129591629414400/Simple_Club.png";
+        }
+        else if(itemName == "sword"){
+            
+        }
+        else if(itemSearched == "bow"){
+            itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501129557609283585/Long_Bow.png";
+        }
+        else if(itemSearched == "pistol_bullet"){
+            if(isEvaled) itemSearched = "PISTOLBULLET";
+            else itemSearched = "PISTOL_BULLET";
+        }
+        else if(itemSearched == "ak47"){
+            itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/508391183676997632/Ak47.png";
+        }
+        else if(itemSearched == "crossbow"){
+            
+        }
+        else if(itemSearched == "spear"){
+            
+        }
+        else if(itemSearched == "health_pot" || itemSearched == "health"){
+            if(isEvaled) itemSearched = "HEALTH";
+            else itemSearched = "HEALTH_POT";
+        }
+        else if(itemSearched.startsWith("xp")){
+            itemSearched = "XP_POTION";
+            itemImg = "https://cdn.discordapp.com/attachments/454163538886524928/550331631521628172/xp_potion.png";
+        }
+        else if(itemSearched.startsWith("reroll")){
+            itemSearched = "REROLL_SCROLL";
+        }
+        //RETURN VALUES BELOW
+        if(isImage){
+            //return image url
+            return itemImg;
+        }
+        else{
+            //return item name corrected if misspelled
+            return itemSearched.toLowerCase();
+        }
     }
     commandhelp(message, command, prefix){
         try{
@@ -77,14 +272,44 @@ class Methods {
     }
     addxp(message, sql, amount, userId){
         sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
+            if(xpPotCooldown.has(message.author.id)){
+                message.reply("You need to wait  `" + ((180 * 1000 - ((new Date()).getTime() - row.xpTime)) / 1000).toFixed(0) + " seconds`  before using another `xp_potion`.");
+                return;
+            }
+            sql.run(`UPDATE scores SET xpTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
+            xpPotCooldown.add(message.author.id);
+            setTimeout(() => {
+                xpPotCooldown.delete(message.author.id);
+                sql.run(`UPDATE scores SET xpTime = ${0} WHERE userId = ${message.author.id}`);
+            }, 180 * 1000);
+
             sql.run(`UPDATE scores SET points = ${row.points + amount} WHERE userId = ${userId}`);
-            message.reply("Successfully used `xp_potion` for **75XP**!");
+            let msgEmbed = new Discord.RichEmbed()
+            .setAuthor(message.member.displayName, message.author.avatarURL)
+            .setTitle("Successfully used `xp_potion`")
+            .setDescription("Gained **"+amount+" XP**!")
+            .setColor(14202368)
+            message.channel.send(msgEmbed);
         });
     }
     resetSkills(message, sql, userId){
         sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
-            sql.run(`UPDATE scores SET points = ${row.points + amount} WHERE userId = ${userId}`);
-            message.reply("Successfully used `xp_potion` for **75XP**!");
+            let usedStatPts = row.used_stats;
+            sql.run(`UPDATE scores SET stats = ${row.stats + usedStatPts} WHERE userId = ${userId}`);
+            sql.run(`UPDATE scores SET maxHealth = ${100} WHERE userId = ${userId}`);
+            sql.run(`UPDATE scores SET luck = ${0} WHERE userId = ${userId}`);
+            sql.run(`UPDATE scores SET scaledDamage = ${1.00} WHERE userId = ${userId}`);
+            sql.run(`UPDATE scores SET used_stats = ${0} WHERE userId = ${userId}`);
+            if(row.health > 100){
+                sql.run(`UPDATE scores SET health = ${100} WHERE userId = ${userId}`);
+            }
+            let msgEmbed = new Discord.RichEmbed()
+            .setAuthor(message.member.displayName, message.author.avatarURL)
+            .setTitle("Successfully used 📜`reroll_scroll`")
+            .setDescription("Restored **"+usedStatPts+"** skill points.")
+            .setFooter("Attributes reset.")
+            .setColor(14202368)
+            message.channel.send(msgEmbed);
         });
     }
 
