@@ -2702,16 +2702,16 @@ class Commands {
                                                 .addField(message.guild.members.get(userNameID).user.username + "'s MONEY", "$" + player2money,true)
                                                 .setFooter("Keep an eye on users that trade high-value for low-value")
                                                 if(player1items.length > 0){
-                                                    activeWindow.addField(message.author.username + "'s items","```"+player1items+"```");
+                                                    activeWindow.addField(message.author.username + "'s items",player1display.join("\n"));
                                                 }
                                                 else{
-                                                    activeWindow.addField(message.author.username + "'s items","```no items```");
+                                                    activeWindow.addField(message.author.username + "'s items","no items");
                                                 }
                                                 if(player2items.length > 0){
-                                                    activeWindow.addField(message.guild.members.get(userNameID).user.username + "'s items", "```"+player2items+"```");
+                                                    activeWindow.addField(message.guild.members.get(userNameID).user.username + "'s items", player2display.join("\n"));
                                                 }
                                                 else{
-                                                    activeWindow.addField(message.guild.members.get(userNameID).user.username + "'s items", "```no items```");
+                                                    activeWindow.addField(message.guild.members.get(userNameID).user.username + "'s items", "no items");
                                                 }
                                                 client.guilds.get("454163538055790604").channels.get("500467081226223646").send(activeWindow);
                                             }
@@ -4268,6 +4268,48 @@ class Commands {
         }
     }
     ban(message, sql, moddedUsers, bannedUsers, prefix){
+        if(!moddedUsers.has(message.author.id) && !adminUsers.has(message.author.id)){
+            return message.reply("Only mods can use this command!");
+        }
+        else if(message.channel.id !== "496740775212875816"){
+            return message.reply('You must be in the mod-command-center!');
+        }
+        let args = message.content.split(" ").slice(1);
+        let userNameID = args[0];
+        
+        let banReason = args.slice(1).join(" ");
+                        
+        if(userNameID !== undefined){
+            if(banReason == ""){
+                message.reply("You forgot to put the reason for banning this user! `"+prefix+"ban (ID) (REASON)`");
+            }
+            else if(moddedUsers.has(userNameID)){
+                message.reply("Hey stop trying to ban a moderator!!! >:(");
+            }
+            else{
+                const banMsg = new Discord.RichEmbed()
+                .setAuthor(`❗Your account has been banned❗`)
+                .setTitle("**" + message.author.tag + "** banned your account for the following reason:")
+                .setDescription("`" + banReason + "`")
+                .setColor(13632027)
+                .addBlankField()
+                .setFooter("Appeal : not available yet | Sorry but you probably deserved it 🤷")
+                try{
+                    client.users.get(userNameID).send(banMsg);
+                    sql.run("INSERT INTO banned (userId) VALUES (?)", [userNameID]);
+                    bannedUsers.add(userNameID);
+                    message.reply("User ("+ client.users.get(userNameID).tag +") successfully banned.");
+                }
+                catch(err){
+                    message.reply("Something went wrong. Make sure you input the correct info.")
+                }
+            }
+        }
+        else{
+            message.reply("Please use the user ID followed by your reason for banning. `"+prefix+"ban (ID) (REASON)`");
+        }
+    }
+    tradeban(message, sql, moddedUsers, bannedUsers, prefix){
         if(!moddedUsers.has(message.author.id) && !adminUsers.has(message.author.id)){
             return message.reply("Only mods can use this command!");
         }

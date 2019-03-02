@@ -54,7 +54,7 @@ global.weapCooldown = new Set();  //weapon cooldown stuff
 var xpNeeded; //is set to players xp needed when they send a message | used to determine level and used in t-inv command to calculate xp left until next level
 var totalXpNeeded = 0;
 
-const version = "3.8.0";
+const version = "3.8.1";
 
 client.on(`ready`,() => {
     console.log(" _                    _                           _ \n"+
@@ -307,33 +307,6 @@ client.on(`ready`,() => {
         });
     });
     */
-    sql.run("ALTER TABLE items ADD reroll_scroll").then(row => {
-    }).catch(() => {
-        console.log("added `reroll_scroll` to items | CHANGE THE SCRIPT NOW");
-        sql.run("UPDATE items SET reroll_scroll = 0");
-    });
-    sql.run("ALTER TABLE items ADD xp_potion").then(row => {
-    }).catch(() => {
-        console.log("added `xp_potion` to items | CHANGE THE SCRIPT NOW");
-        sql.run("UPDATE items SET xp_potion = 0");
-    });
-    sql.run("ALTER TABLE scores ADD xpTime").then(row => {
-    }).catch(() => {
-        console.log("added `xpTime` to scores | CHANGE THE SCRIPT NOW");
-        sql.run("UPDATE scores SET xpTime = 0");
-    });
-    sql.run("ALTER TABLE scores ADD used_stats").then(row => {
-    }).catch(() => {
-        sql.all('SELECT userId, level, stats FROM scores').then(rows => { //REMOVE IN STABLE UPDATE
-            rows.forEach(function (row) {
-                //test each user
-                let totalStats = row.level - 1;
-                let usedStats = totalStats - row.stats;
-                sql.run(`UPDATE scores SET used_stats = ${usedStats} WHERE userId = ${row.userId}`);
-                console.log("Successfully changed users used_stats to " + usedStats);
-            });
-        });
-    });
 });
 
 client.on("message", (message) => {    
