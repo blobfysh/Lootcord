@@ -25,7 +25,28 @@ class Methods {
     }
     addmoney(sql, userId, amount){
         sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
+            console.log((row.money + amount) + " money after addition");
             sql.run(`UPDATE scores SET money = ${row.money + amount} WHERE userId = ${userId}`);
+        });
+    }
+    removemoney(sql, userId, amount){
+        sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
+            console.log((row.money - amount) + " money after subtraction");
+            sql.run(`UPDATE scores SET money = ${row.money - amount} WHERE userId = ${userId}`);
+        });
+    }
+    trademoney(sql, user1Id, user1Amount, user2Id, user2Amount){
+        sql.get(`SELECT * FROM scores WHERE userId ="${user1Id}"`).then(row1 => {
+            sql.run(`UPDATE scores SET money = ${row1.money - user1Amount} WHERE userId = ${user1Id}`);
+            sql.get(`SELECT * FROM scores WHERE userId ="${user1Id}"`).then(row2 => {
+                sql.run(`UPDATE scores SET money = ${row2.money + user2Amount} WHERE userId = ${user1Id}`);
+                sql.get(`SELECT * FROM scores WHERE userId ="${user2Id}"`).then(row3 => {
+                    sql.run(`UPDATE scores SET money = ${row3.money - user2Amount} WHERE userId = ${user2Id}`);
+                    sql.get(`SELECT * FROM scores WHERE userId ="${user2Id}"`).then(row3 => {
+                        sql.run(`UPDATE scores SET money = ${row3.money + user1Amount} WHERE userId = ${user2Id}`);
+                    });
+                });
+            });
         });
     }
     removeitem(sql, userId, item, amount){

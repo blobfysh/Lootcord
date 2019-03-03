@@ -2911,11 +2911,14 @@ class Commands {
                                                                         methods.hasitems(sql, message.author.id, player1itemsAmounts).then(result => {
                                                                             if(result){
                                                                                 //finally trade items
+                                                                                /*
                                                                                 methods.addmoney(sql, message.author.id, player2money);
                                                                                 methods.addmoney(sql, userNameID, player1money);
-                                                                                methods.addmoney(sql, userNameID, player2money * -1);
-                                                                                methods.addmoney(sql, message.author.id, player1money * -1);
-                                                                                
+                                                                                methods.removemoney(sql, userNameID, player2money);
+                                                                                methods.removemoney(sql, message.author.id, player1money);
+                                                                                */
+                                                                                methods.trademoney(sql, message.author.id, player1money, userNameID, player2money);
+
                                                                                 methods.additem(sql, message.author.id, player2itemsAmounts);
                                                                                 methods.removeitem(sql, userNameID, player2itemsAmounts);
                                                                                 methods.additem(sql, userNameID, player1itemsAmounts);
@@ -3984,7 +3987,7 @@ class Commands {
         .setColor(13215302)
         .setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/529555281391386629/lc_icon.png")
         .setDescription("🔹Trade multiple items!\n🔹xp_potions added." +
-        "\n🔹reroll_scroll allows users to gain back used skill points.\n🔹Fixed bug where users could duplicate items with trading.\n🔸Send bugs or feature ideas to us through the bots DM's\n🔹If you like the bot, be sure to tell all your friends about it! :)")
+        "\n🔹reroll_scroll allows users to gain back used skill points.\n🔹Fixed bug where users could duplicate items with trading.\n🔹Fixed bug where money wasn't trading correctly.\n🔸Send bugs or feature ideas to us through the bots DM's\n🔹If you like the bot, be sure to tell all your friends about it! :)")
         .setImage()
         .addField("Users",(client.users.size - client.guilds.size),true)
         .addField("Active Servers",client.guilds.size, true)
