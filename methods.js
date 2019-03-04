@@ -292,7 +292,10 @@ class Methods {
         });
     }
     addxp(message, sql, amount, userId){
-        sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
+        sql.get(`SELECT * FROM items i
+                JOIN scores s
+                ON i.userId = s.userId
+                WHERE s.userId="${userId}"`).then(row => {  
             if(xpPotCooldown.has(message.author.id)){
                 message.reply("You need to wait  `" + ((180 * 1000 - ((new Date()).getTime() - row.xpTime)) / 1000).toFixed(0) + " seconds`  before using another `xp_potion`.");
                 return;
@@ -304,6 +307,7 @@ class Methods {
                 sql.run(`UPDATE scores SET xpTime = ${0} WHERE userId = ${message.author.id}`);
             }, 180 * 1000);
 
+            sql.run(`UPDATE items SET xp_potion = ${row.xp_potion - 1} WHERE userId = ${userId}`);
             sql.run(`UPDATE scores SET points = ${row.points + amount} WHERE userId = ${userId}`);
             let msgEmbed = new Discord.RichEmbed()
             .setAuthor(message.member.displayName, message.author.avatarURL)
@@ -314,8 +318,12 @@ class Methods {
         });
     }
     resetSkills(message, sql, userId){
-        sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
+        sql.get(`SELECT * FROM items i
+                JOIN scores s
+                ON i.userId = s.userId
+                WHERE s.userId="${userId}"`).then(row => {
             let usedStatPts = row.used_stats;
+            sql.run(`UPDATE items SET reroll_scroll = ${row.reroll_scroll - 1} WHERE userId = ${userId}`);
             sql.run(`UPDATE scores SET stats = ${row.stats + usedStatPts} WHERE userId = ${userId}`);
             sql.run(`UPDATE scores SET maxHealth = ${100} WHERE userId = ${userId}`);
             sql.run(`UPDATE scores SET luck = ${0} WHERE userId = ${userId}`);
