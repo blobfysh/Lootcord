@@ -287,5 +287,13 @@
   "cooldown": "1 minute",
   "usage": ["gamble coinflip <amount> <heads/tails>`"],
   "options": "`amount` - Amount of money to gamble\n`heads/tails` - **OPTIONAL** Will default to heads if you don't put anything."
+}, {
+  "lookup": ["rules","rule"],
+  "command": "Rules",
+  "description": "Displays official Lootcord rules.",
+  "cooldown": "",
+  "example": [""],
+  "usage": ["rules`"],
+  "options": ""
 }
 ]

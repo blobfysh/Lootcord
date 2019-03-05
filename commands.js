@@ -119,6 +119,53 @@ class Commands {
     ItemDescLang(message, userLang){
 
     }
+    poll(message, sql){
+        sql.get(`SELECT * FROM userPoll WHERE userId ="${message.author.id}"`).then(row => {
+            if(row){
+                message.reply("You've already voted!");
+            }
+            else{
+                message.reply("**We are considering implementing monthly inventory wipes at the beginning of every month to clear the leaderboards for new players and prevent the bot from becoming stale."
+                +"\nOf course, there's potential for users at the top of the leaderboards to receive rewards at the end of each wipe and some stats could carry over.**\nIf you would like to see this feature in the bot vote ✅, if not vote ❌").then(botMessage => {
+                    botMessage.react('✅').then(() => botMessage.react('❌'));
+                    const filter = (reaction, user) => {
+                        return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
+                    };
+                    botMessage.awaitReactions(filter, {max: 1, time: 30000, errors: ['time'] })
+                    .then(collected => {
+                        const reaction = collected.first();
+        
+                        if(reaction.emoji.name === '✅'){
+                            botMessage.delete();
+                            sql.run("INSERT INTO userPoll (userId, vote) VALUES (?, ?)", [message.author.id, "yes"]);
+
+                            message.reply(`Thanks for voting!`);
+                            const embedLog = new Discord.RichEmbed()
+                            embedLog.setTitle("🎟Vote Log\n"+message.author.username+ " ID : " + message.author.id)
+                            embedLog.setDescription("Voted : ✅ **yes**");
+                            embedLog.setColor(8257280);
+                            return client.guilds.get("454163538055790604").channels.get("500467081226223646").send(embedLog);
+                        }
+                        else{
+                            botMessage.delete();
+                            sql.run("INSERT INTO userPoll (userId, vote) VALUES (?, ?)", [message.author.id, "no"]);
+
+                            message.reply(`Thanks for voting!`);
+
+                            const embedLog = new Discord.RichEmbed()
+                            embedLog.setTitle("🎟Vote Log\n"+message.author.username+ " ID : " + message.author.id)
+                            embedLog.setDescription("Voted : ❌ **no**");
+                            embedLog.setColor(16734296);
+                            return client.guilds.get("454163538055790604").channels.get("500467081226223646").send(embedLog);
+                        }
+                    }).catch(collected => {
+                        botMessage.delete();
+                        message.reply("You didn't react in time!");
+                    });
+                });
+            }
+        });
+    }
     //ITEMS
     profile(message, sql, prefix){
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
@@ -3255,12 +3302,14 @@ class Commands {
                 });
                 collector.on("end", collected => {
                     if(correct){
+                        /*
                         const embedLog = new Discord.RichEmbed()
                         embedLog.setTitle("📝SCRAMBLE LOG CORRECT\n"+message.author.username+ " ID : " + message.author.id)
                         embedLog.setDescription("**Had a hint : `" + !isHardMode + "`**\nWord : ```" + scrambleWord+"```\nGuess attempts : `" + attempts + "`");
                         embedLog.setColor(9043800);
                         client.guilds.get("454163538055790604").channels.get("500467081226223646").send(embedLog);
                         return;
+                        */
                     }
                     else{
                         const embedScramble = new Discord.RichEmbed()
@@ -3269,11 +3318,13 @@ class Commands {
                         .setColor(16734296);
                         message.channel.send(message.author, embedScramble);
 
+                        /*
                         const embedLog = new Discord.RichEmbed()
                         embedLog.setTitle("📝SCRAMBLE LOG INCORRECT\n"+message.author.username+ " ID : " + message.author.id)
                         embedLog.setDescription("**Had a hint : `" + !isHardMode + "`**\nWord : ```" + scrambleWord+"```\nGuess attempts : `" + attempts + "`");
                         embedLog.setColor(16734296);
                         client.guilds.get("454163538055790604").channels.get("500467081226223646").send(embedLog);
+                        */
                     }
                 });
             }
@@ -3407,58 +3458,37 @@ class Commands {
         });
     }
 
-    //TESTS
-    /*
-    scramble(message, sql, prefix){
-        sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(row => {
-            if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
-            else{
-                let args = message.content.split(" ").slice(1);
-                let secretCode = Math.floor(Math.random() * (999 - 100 + 1)) + 100; //returns value between 100 and 999
-                let codeArray = [secretCode[0], secretCode[1], secretCode[2]];
-                console.log(chance + " : " + codeArray);
-                const embedScramble = new Discord.RichEmbed()
-                .setTitle("**Difficulty : **")
-                .setFooter("You have 30 seconds to unscramble this word.")
-
-                const collector = new Discord.MessageCollector(message.channel, m => m.author.id == message.author.id, { time: 30000 });
-                let correct = false;
-                let attempts = 0;
-                collector.on("collect", response => {
-                    attempts+=1;
-                    if(response.content.toLowerCase() == finalWord){
-                        sql.get(`SELECT * FROM items i
-                        JOIN scores s
-                        ON i.userId = s.userId
-                        WHERE s.userId="${message.author.id}"`).then(row => {
-                            correct = true;
-                            const embedScramble = new Discord.RichEmbed()
-                            .setTitle("**You got it correct!**")
-                            .setDescription("Reward : ```dsa```")
-                            .setColor(9043800);
-                            message.channel.send(message.author, embedScramble);
-                            collector.stop();
-                        });
-                    }
-                });
-                collector.on("end", collected => {
-                    if(correct){
-                        return;
-                    }
-                    else{
-                        const embedScramble = new Discord.RichEmbed()
-                        .setTitle("**You didn't get it in time!**")
-                        .setDescription("The word was : ```dsa```")
-                        .setColor(16734296);
-                        message.channel.send(message.author, embedScramble);
-                    }
-                });
-            }
-        });
-    }
-    */
-
     //GENERAL
+    help(message, prefix){ //add new commands
+        let args = message.content.split(" ").slice(1);
+        let helpCommand = args[0];
+        if(helpCommand !== undefined){
+            return methods.commandhelp(message, helpCommand, prefix);
+        }
+        let otherCmds = ["`rules`","`poll`","`cooldown`","`delete`","`deactivate`","`server`","`update`","`health`","`money`","`level`","`points`","`leaderboard [s]`","`setprefix`","`discord`","`profile [@user]`","`upgrade [skill]`"]
+        otherCmds.sort();
+        const helpInfo = new Discord.RichEmbed()
+        .setTitle("`"+prefix+"play`** - Adds you to the game.\nHELP US DECIDE ON A NEW FEATURE USING **`"+prefix+"poll`")
+        .addField("⚔Items", "🔸`"+prefix+"use <item> [@user]`- Attack users with weapons or use items on self.\n🔸`"+prefix+"inv [@user]` - Displays inventory.\n▫`"+prefix+"trade <@user>` - Trade items and money with user.\n▫`"+prefix+"item [item]`" +
+        " - Lookup item information.\n▫`"+prefix+"shop` - Shows buy/sell values of all items.\n▫`"+prefix+"buy <item> [amount]` - Purchase an item.\n▫`"+prefix+"sell <item> [amount]` - Sell an item.\n▫`"+prefix+"sellall <rarity>` - Sell every item of specific rarity (ex. `"+prefix+"sellall common`)." +
+        "\n▫`"+prefix+"craft <item>` - Craft Ultra items!\n▫`"+prefix+"recycle <item>` - Recycle Legendary+ items for components.")
+        .addField("🎲Games/Free stuff", "▫`"+prefix+"scramble <easy/hard>` - Unscramble a random word for a prize!\n▫`"+prefix+"trivia` - Answer the questions right for a reward!\n▫`"+prefix+"hourly` - Claim a free item_box every hour.\n▫`"+prefix+"vote` - Vote for the bot every 12hrs to receive an `ultra_box`\n▫`"+prefix+"gamble <type> <amount>` - Gamble your money away!")
+        //.addField("🔰Stats", ,true)
+        .addField("📈Other", otherCmds.join(" "),true)
+        .setColor(13215302)
+        .setFooter("To see more about a command, use "+prefix+"help <command> | Need more help? Message me!")
+        message.channel.send(helpInfo);
+    }
+    rules(message){
+        const ruleInfo = new Discord.RichEmbed()
+        .setTitle("Official Lootcord Bot Rules")
+        .setDescription(`1. **Do NOT exploit bugs.** Bugs, if found, should be reported to the moderators so we can remove it. You can send a message to the bot through DMs and it will be sent to the moderators. If found to be exploiting bugs, your account data will be reset.\n
+        2. **Do not use alt or "puppet" accounts.** The use of secondary accounts operated by you to avoid cooldowns, hoard weapons to avoid loss upon death, organize attacks on a target, farm boxes or in any other way considered unfair to others will result in a warning or in later offenses punishment.\n
+        3. **Do not leave servers after attacking someone to deactivate your account and avoid counterattacks.** This is known as cooldown dodging, and is automatically reported to moderators on offense.`)
+        .setColor(13215302)
+        .setFooter("Rules subject to change.")
+        message.channel.send(ruleInfo);
+    }
     upgrade(message, sql, prefix){
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
@@ -3624,26 +3654,6 @@ class Commands {
         .setImage("https://cdn.discordapp.com/attachments/454163538886524928/543014649554272277/greypleLine.png")
         client.users.get("168958344361541633").send(voteEmbed);
         */
-    }
-    help(message, prefix){ //add new commands
-        let args = message.content.split(" ").slice(1);
-        let helpCommand = args[0];
-        if(helpCommand !== undefined){
-            return methods.commandhelp(message, helpCommand, prefix);
-        }
-        let otherCmds = ["`cooldown`","`delete`","`deactivate`","`server`","`update`","`health`","`money`","`level`","`points`","`leaderboard [s]`","`setprefix`","`discord`","✨`profile [@user]`","✨`upgrade [skill]`"]
-        otherCmds.sort();
-        const helpInfo = new Discord.RichEmbed()
-        .setTitle("`"+prefix+"play`** - Adds you to the game.**")
-        .addField("⚔Items", "🔸`"+prefix+"use <item> [@user]`- Attack users with weapons or use items on self.\n🔸`"+prefix+"inv [@user]` - Displays inventory.\n▫`"+prefix+"trade <@user>` - Trade items and money with user.\n▫`"+prefix+"item [item]`" +
-        " - Lookup item information.\n▫`"+prefix+"shop` - Shows buy/sell values of all items.\n▫`"+prefix+"buy <item> [amount]` - Purchase an item.\n▫`"+prefix+"sell <item> [amount]` - Sell an item.\n▫`"+prefix+"sellall <rarity>` - Sell every item of specific rarity (ex. `"+prefix+"sellall common`)." +
-        "\n▫`"+prefix+"craft <item>` - Craft Ultra items!\n▫`"+prefix+"recycle <item>` - Recycle Legendary+ items for components.")
-        .addField("🎲Games/Free stuff", "▫`"+prefix+"scramble <easy/hard>` - Unscramble a random word for a prize!\n▫`"+prefix+"trivia` - Answer the questions right for a reward!\n▫`"+prefix+"hourly` - Claim a free item_box every hour.\n▫`"+prefix+"vote` - Vote for the bot every 12hrs to receive an `ultra_box`\n▫`"+prefix+"gamble <type> <amount>` - Gamble your money away!")
-        //.addField("🔰Stats", ,true)
-        .addField("📈Other", otherCmds.join(" "),true)
-        .setColor(13215302)
-        .setFooter("To see more about a command, use "+prefix+"help <command> | Need more help? Message me!")
-        message.channel.send(helpInfo);
     }
     deactivate(message, sql, prefix){ 
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
@@ -3986,8 +3996,7 @@ class Commands {
         .setTitle(`🖥**Lootcord Update Info**`)
         .setColor(13215302)
         .setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/529555281391386629/lc_icon.png")
-        .setDescription("🔹Trade multiple items!\n🔹xp_potions added." +
-        "\n🔹reroll_scroll allows users to gain back used skill points.\n🔹Fixed bug where users could duplicate items with trading.\n🔹Fixed bug where money wasn't trading correctly.\n🔸Send bugs or feature ideas to us through the bots DM's\n🔹If you like the bot, be sure to tell all your friends about it! :)")
+        .setDescription("🔹rules command added.\n🔹poll command temporarily added.\n🔸Send bugs or feature ideas to us through the bots DM's\n🔹If you like the bot, be sure to tell all your friends about it! :)")
         .setImage()
         .addField("Users",(client.users.size - client.guilds.size),true)
         .addField("Active Servers",client.guilds.size, true)
@@ -4132,7 +4141,7 @@ class Commands {
                     .addField("Level", newLevel)
                     .setFooter("Top " + newLevel.length)
                     message.channel.send(embedLeader);
-                }, 100);//raise with server count
+                }, 150);//raise with server count
             }
             else{
                 sql.all('SELECT userId,money FROM scores ORDER BY money DESC LIMIT 5').then(rows => {
@@ -4256,6 +4265,32 @@ class Commands {
     }
 
     //MODERATOR COMMANDS
+    //temporary
+    showUserVotes(message, moddedUsers, sql){
+        if(!moddedUsers.has(message.author.id)){
+            return message.reply("Only mods can use this command!");
+        }
+        else{
+            sql.all('SELECT userId, vote FROM userPoll').then(rows => {
+                let yesVotes = 0;
+                let noVotes = 0;
+                rows.forEach(function (row) {
+                    if(row.vote == "yes"){
+                        yesVotes += 1;
+                    }
+                    else if(row.vote == "no"){
+                        noVotes += 1;
+                    }
+                });
+                const embedLeader = new Discord.RichEmbed() 
+                .setTitle(`**Votes for monthly wipes**`)
+                .setColor(0)
+                .addField("Yes", yesVotes, true)
+                .addField("No", noVotes, true)
+                message.channel.send(embedLeader);
+            });
+        }
+    }
     modhelp(message, moddedUsers, prefix){
         if(!moddedUsers.has(message.author.id)){
             return message.reply("Only mods can use this command!");

@@ -16,7 +16,7 @@ const DBL = require("dblapi.js");
 const dbl = new DBL(config.dblToken, {webhookPath: '/dblwebhook', webhookPort: '5000', webhookAuth: config.dblAuth});
 const spell = require("spell");
 var dict = spell();
-dict.load("help inventory use item items buy sell sellall craft recycle shop store trade trivia scramble hourly gamble vote setprefix discord cooldown update upgrade profile level level points "
+dict.load("poll help rules inventory use item items buy sell sellall craft recycle shop store trade trivia scramble hourly gamble vote setprefix discord cooldown update upgrade profile level level points "
                 + "health heal money leaderboard server activate deactivate delete ban unban modadd unmod warn additem addcash addpoints eval modhelp")
 /*NPMS
 npm install discord.js
@@ -29,7 +29,7 @@ npm install spell
 var bannedUsers = new Set(); //contains all banned user ids
 var moddedUsers = new Set(); //add mods with t-modadd command
 
-const adminUsers = new Set(['168958344361541633']); //add admins here | Should only be me but atleast I have the option to add more ppl, will require bot restart.
+const adminUsers = new Set(['168958344361541633', '221087115893669889', '246828746789617665']); //add admins here
 
 let messageSpamCooldown = new Set(); //spam prevention on messages sent to mods
 let lvlMsgSpamCooldown = new Set(); //spam prevention on leveling up
@@ -54,7 +54,7 @@ global.weapCooldown = new Set();  //weapon cooldown stuff
 var xpNeeded; //is set to players xp needed when they send a message | used to determine level and used in t-inv command to calculate xp left until next level
 var totalXpNeeded = 0;
 
-const version = "3.8.2";
+const version = "3.9.0";
 
 client.on(`ready`,() => {
     console.log(" _                    _                           _ \n"+
@@ -307,6 +307,7 @@ client.on(`ready`,() => {
         });
     });
     */
+   sql.run(`CREATE TABLE IF NOT EXISTS userPoll (userId INTEGER, vote STRING)`);
 });
 
 client.on("message", (message) => {    
@@ -549,6 +550,10 @@ client.on("message", (message) => {
         function commandCheck (command){
             switch(command.toLowerCase()){
                 case 'help': commands.help(message, prefix); break;
+                //
+                case 'poll': commands.poll(message, sql); break;
+                case 'displayvotes': commands.showUserVotes(message, moddedUsers, sql); break;
+                //
                 //ITEMS
                 case 'inventory':
                 case 'inv':
@@ -576,6 +581,7 @@ client.on("message", (message) => {
                 case 'vote': commands.vote(message, sql, prefix); break;
 
                 //GENERAL
+                case 'rules': commands.rules(message); break;
                 case 'upgrade': commands.upgrade(message, sql, prefix); break;
                 case 'ping': commands.ping(message, sql); break;
                 case 'setprefix': commands.prefix(message, sql, prefix); break;
