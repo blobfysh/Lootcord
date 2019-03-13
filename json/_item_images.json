@@ -1,0 +1,40 @@
+{
+  "common": "https://cdn.discordapp.com/attachments/454163538886524928/499744050065309706/UnboxCommon.png",
+  
+  "item_box": "https://cdn.discordapp.com/attachments/454163538886524928/499746695370768408/thanbox_emptysmall.png",
+  "fork": "https://cdn.discordapp.com/attachments/454163538886524928/555082708028751872/lootcordFork.png",
+  "stick": "https://cdn.discordapp.com/attachments/454163538886524928/543899419276214277/455435423200575500.png",
+  "club": "https://cdn.discordapp.com/attachments/454163538886524928/555082704555868160/lootcordClub.png",
+  "fish": "https://cdn.discordapp.com/attachments/501120454136692737/501129543340261398/Fish_AI.png",
+  "arrow": "https://cdn.discordapp.com/attachments/454163538886524928/501139012912676889/arrow.png",
+  
+  "uncommon": "https://cdn.discordapp.com/attachments/454163538886524928/504263086090354693/UnboxUncommon.png",
+  
+  "golf_club": "https://cdn.discordapp.com/attachments/501120454136692737/501129547316461578/Golf_club_aka_stick_for_those_who_dont_know_what_a_golf_club_is.png",
+  "bow": "https://cdn.discordapp.com/attachments/501120454136692737/501129557609283585/Long_Bow.png",
+  "ammo_box": "https://cdn.discordapp.com/attachments/313880100934385666/493258973160407040/Military_health_kit_custom.png",
+  "pills": "https://cdn.discordapp.com/attachments/501120454136692737/549083366809665541/Pills.png",
+  
+  "rare": "https://cdn.discordapp.com/attachments/454163538886524928/526241301407072276/UnboxRare.png",
+  
+  "xp_potion": "https://cdn.discordapp.com/attachments/454163538886524928/550331631521628172/xp_potion.png",
+  "glock": "https://cdn.discordapp.com/attachments/501120454136692737/551395788018941970/ThanGlock.png",
+  "revolver": "https://cdn.discordapp.com/attachments/501120454136692737/549083780854579277/Revolver.png",
+  
+  "epic": "https://cdn.discordapp.com/attachments/454163538886524928/499744052552531989/UnboxEpic.png",
+  
+  "thompson": "https://cdn.discordapp.com/attachments/501120454136692737/501129603536912395/Thanpson.png",
+  "ak47": "https://cdn.discordapp.com/attachments/501120454136692737/508391183676997632/Ak47.png",
+  
+  "legendary": "https://cdn.discordapp.com/attachments/454163538886524928/499744054074933262/UnboxLegendary.png",
+  
+  "awp": "https://cdn.discordapp.com/attachments/454163538886524928/555084994532343818/lootcordAwp.png",
+  "gold_shield": "https://cdn.discordapp.com/attachments/501120454136692737/501961870706737182/Armor_of_Gold.png",
+  "rpg": "https://cdn.discordapp.com/attachments/454163538886524928/462539395078029313/Pixel_RPG.png",
+  "javelin": "https://cdn.discordapp.com/attachments/454163538886524928/555085474885140536/lootcordJavelin.png",
+  "plasma": "https://cdn.discordapp.com/attachments/501120454136692737/501272967909605376/Plasma_mags.png",
+  
+  "ultra": "https://cdn.discordapp.com/attachments/454163538886524928/550079805807394827/UnboxUltra.png",
+  
+  "rail_cannon": "https://cdn.discordapp.com/attachments/501120454136692737/501195476775993355/Rail_Cannon.png"
+}

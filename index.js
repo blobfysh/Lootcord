@@ -25,6 +25,7 @@ npm install jimp
 npm install dblapi.js
 npm install seedrandom
 npm install spell
+npm install cryptorjs
 */
 var bannedUsers = new Set(); //contains all banned user ids
 var moddedUsers = new Set(); //add mods with t-modadd command
@@ -54,7 +55,7 @@ global.weapCooldown = new Set();  //weapon cooldown stuff
 var xpNeeded; //is set to players xp needed when they send a message | used to determine level and used in t-inv command to calculate xp left until next level
 var totalXpNeeded = 0;
 
-const version = "3.9.0";
+const version = "3.10.0";
 
 client.on(`ready`,() => {
     console.log(" _                    _                           _ \n"+
@@ -617,6 +618,8 @@ client.on("message", (message) => {
                 case 'status': commands.status(message, moddedUsers, prefix); break;
                 case 'getbans': commands.getbans(message, moddedUsers, bannedUsers, prefix); break;
                 case 'invwipe': commands.invwipe(message, sql, moddedUsers, prefix); break;
+                case 'getinv': commands.getinv(message, sql, moddedUsers, prefix); break;
+                case 'restoreinv': commands.restoreinv(message, sql, moddedUsers, prefix); break;
 
                 //ADMIN COMMANDS
                 case 'modadd': commands.modadd(message, sql, adminUsers, moddedUsers, prefix); break;
@@ -683,7 +686,7 @@ client.on("message", (message) => {
 
 client.on("guildMemberRemove", (member) => {
     sql.run(`DELETE FROM userGuilds WHERE userId = ${member.id} AND guildId = ${member.guild.id}`); //delete user from server
-    if(activateCooldown.has(member.id)){
+    if(weapCooldown.has(member.id) && activateCooldown.has(member.id)){
         const leaveEmbed = new Discord.RichEmbed()
         .setTitle("**⛔Cooldown Dodger**\n`" + client.users.get(member.id).tag + ": " + member.id + "`")
         .setDescription("User left a server after having just activated their account in it.\nCheck the <#500467081226223646> to see if they killed someone before leaving.\nIf they did, warn/punish them. Otherwise, you can ignore this...")
@@ -706,4 +709,3 @@ dbl.webhook.on('vote', vote =>  {
 });
 
 client.login(config.botToken);
-
