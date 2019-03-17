@@ -55,7 +55,7 @@ global.weapCooldown = new Set();  //weapon cooldown stuff
 var xpNeeded; //is set to players xp needed when they send a message | used to determine level and used in t-inv command to calculate xp left until next level
 var totalXpNeeded = 0;
 
-const version = "3.10.0";
+const version = "3.10.1";
 
 client.on(`ready`,() => {
     console.log(" _                    _                           _ \n"+
@@ -308,7 +308,6 @@ client.on(`ready`,() => {
         });
     });
     */
-   sql.run(`CREATE TABLE IF NOT EXISTS userPoll (userId INTEGER, vote STRING)`);
 });
 
 client.on("message", (message) => {    
@@ -552,7 +551,6 @@ client.on("message", (message) => {
             switch(command.toLowerCase()){
                 case 'help': commands.help(message, prefix); break;
                 //
-                case 'poll': commands.poll(message, sql); break;
                 case 'displayvotes': commands.showUserVotes(message, moddedUsers, sql); break;
                 //
                 //ITEMS

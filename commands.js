@@ -123,53 +123,6 @@ class Commands {
     ItemDescLang(message, userLang){
 
     }
-    poll(message, sql){
-        sql.get(`SELECT * FROM userPoll WHERE userId ="${message.author.id}"`).then(row => {
-            if(row){
-                message.reply("You've already voted!");
-            }
-            else{
-                message.reply("**We are considering implementing monthly inventory wipes at the beginning of every month to clear the leaderboards for new players and prevent the bot from becoming stale."
-                +"\nOf course, there's potential for users at the top of the leaderboards to receive rewards at the end of each wipe and some stats could carry over.**\nIf you would like to see this feature in the bot vote ✅, if not vote ❌").then(botMessage => {
-                    botMessage.react('✅').then(() => botMessage.react('❌'));
-                    const filter = (reaction, user) => {
-                        return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
-                    };
-                    botMessage.awaitReactions(filter, {max: 1, time: 30000, errors: ['time'] })
-                    .then(collected => {
-                        const reaction = collected.first();
-        
-                        if(reaction.emoji.name === '✅'){
-                            botMessage.delete();
-                            sql.run("INSERT INTO userPoll (userId, vote) VALUES (?, ?)", [message.author.id, "yes"]);
-
-                            message.reply(`Thanks for voting!`);
-                            const embedLog = new Discord.RichEmbed()
-                            embedLog.setTitle("🎟Vote Log\n"+message.author.username+ " ID : " + message.author.id)
-                            embedLog.setDescription("Voted : ✅ **yes**");
-                            embedLog.setColor(8257280);
-                            return client.guilds.get("454163538055790604").channels.get("500467081226223646").send(embedLog);
-                        }
-                        else{
-                            botMessage.delete();
-                            sql.run("INSERT INTO userPoll (userId, vote) VALUES (?, ?)", [message.author.id, "no"]);
-
-                            message.reply(`Thanks for voting!`);
-
-                            const embedLog = new Discord.RichEmbed()
-                            embedLog.setTitle("🎟Vote Log\n"+message.author.username+ " ID : " + message.author.id)
-                            embedLog.setDescription("Voted : ❌ **no**");
-                            embedLog.setColor(16734296);
-                            return client.guilds.get("454163538055790604").channels.get("500467081226223646").send(embedLog);
-                        }
-                    }).catch(collected => {
-                        botMessage.delete();
-                        message.reply("You didn't react in time!");
-                    });
-                });
-            }
-        });
-    }
     //ITEMS
     profile(message, sql, prefix){
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
@@ -565,8 +518,12 @@ class Commands {
         let itemUsed = args[0];
         let userOldID = args[1];                          //RETURNS ID WITH <@ OR <@!
         itemUsed = methods.getCorrectedItemInfo(itemUsed, false, false);
+        methods.randomUser(message, sql).then(randUser => {
         if(userOldID !== undefined){
-            var userNameID = args[1].replace(/[<@!>]/g, '');  //RETURNS BASE ID WITHOUT <@ OR <@! BUT ONLY IF PLAYER MENTIONED SOMEONE
+            if(userOldID == "random" || userOldID == "rand"){
+                var userNameID = randUser;
+            }
+            else var userNameID = args[1].replace(/[<@!>]/g, '');  //RETURNS BASE ID WITHOUT <@ OR <@! BUT ONLY IF PLAYER MENTIONED SOMEONE
         }
         sql.get(`SELECT * FROM items i
         JOIN scores s
@@ -591,13 +548,13 @@ class Commands {
                 if(itemUsed.toLowerCase() == "item_box" && row.item_box >= userOldID || itemUsed.toLowerCase() == "box" && row.item_box >= userOldID){
                     methods.openbox(message, sql, "item_box", userOldID);
                 }
-                else if(itemUsed.toLowerCase() == "ultra_box" && row.ultra_box >= 1 || itemUsed.toLowerCase() == "ultra" && row.ultra_box >= 1){
+                else if(itemUsed.toLowerCase() == "ultra_box" && row.ultra_box >= userOldID || itemUsed.toLowerCase() == "ultra" && row.ultra_box >= userOldID){
                     methods.openbox(message, sql, "ultra_box", userOldID);
                 }
-                else if(itemUsed.toLowerCase() == "ammo_box" && row.ammo_box >= 1 || itemUsed.toLowerCase() == "ammo" && row.ammo_box >= 1){
+                else if(itemUsed.toLowerCase() == "ammo_box" && row.ammo_box >= userOldID || itemUsed.toLowerCase() == "ammo" && row.ammo_box >= userOldID){
                     methods.openbox(message, sql, "ammo_box", userOldID);
                 }
-                else if(itemUsed.toLowerCase() == "ultra_ammo" && row.ultra_ammo >= 1){
+                else if(itemUsed.toLowerCase() == "ultra_ammo" && row.ultra_ammo >= userOldID){
                     methods.openbox(message, sql, "ultra_ammo", userOldID);
                 }
                 else if(itemUsed == "stocking" && row.stocking >= 1){
@@ -950,7 +907,7 @@ class Commands {
                             }
                         }
                     }
-                    if(!userOldID.startsWith("<@")){                     //CHECKING FOR ERRORS IN MENTION
+                    if(!userOldID.startsWith("<@") && !userOldID.startsWith("rand")){                     //CHECKING FOR ERRORS IN MENTION
                         return message.reply('You need to mention someone!');
                     }
                     else if(userNameID === client.user.id){        //CHECK IF PLAYER ATTACKS BOT
@@ -1230,8 +1187,9 @@ class Commands {
                     return message.reply('ERROR: ```'+err+'```');
                 });
             }
-        }).catch(() => {
+        }).catch((err) => {
             return message.reply('You need to specify an item and mention a user to attack! `'+prefix+'use <item> <@user>`');
+        });
         });
     }
     craft(message, sql, prefix){
@@ -1798,6 +1756,9 @@ class Commands {
                             else if(buyAmount % 1 !== 0){
                                 buyAmount = 1;
                             }
+                            else if(buyAmount < 1){
+                                buyAmount = 1;
+                            }
                             itemName = eval(`item${buyItem.toUpperCase()}[0]`);
                             message.delete();
                             message.reply("Purchase "+ buyAmount+ "x `" + itemName + "` for " + (itemPrice * buyAmount) + " tokens?").then(botMessage => {
@@ -1839,6 +1800,9 @@ class Commands {
                                 buyAmount = 1;
                             }
                             else if(buyAmount % 1 !== 0){
+                                buyAmount = 1;
+                            }
+                            else if(buyAmount < 1){
                                 buyAmount = 1;
                             }
                             itemName = eval(`item${buyItem.toUpperCase()}[0]`);
@@ -2260,6 +2224,9 @@ class Commands {
                         else if(sellAmount % 1 !== 0){
                             sellAmount = 1;
                         }
+                        else if(sellAmount < 1){
+                            sellAmount = 1;
+                        }
                         let itemName = eval(`item${sellItem.toUpperCase()}[0]`);
                         message.delete();
                         message.reply("Sell " + sellAmount + "x `" + itemName + "` for $" + (itemPrice * sellAmount) + "?").then(botMessage => {
@@ -2329,18 +2296,14 @@ class Commands {
             firstEmbed.setTitle(`**ITEM SHOP**`);
             firstEmbed.setDescription("📥 Buy 📤 Sell\nUse `buy (ITEM)` to purchase and `sell (ITEM)` to sell items.\n\nLimit 1 per person");
             firstEmbed.setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/497356681139847168/thanbotShopIcon.png");
+
+            firstEmbed.addField("Unfortunately, there are no steam keys for sale at this time.","Check back at a later time.");
+            /*
             if(gameRow.startingthegame > 5){
                 firstEmbed.addField("Starting The Game (Steam key)", "📥 $2000 | 5+ Remaining | Use `"+prefix+"buy startingthegame`");
             }
             else{
                 firstEmbed.addField("Starting The Game (Steam key)", "📥 $2000 | "+gameRow.startingthegame+" Remaining | Use `"+prefix+"buy startingthegame`");
-            }
-            /*
-            if(gameRow.immortal > 0){
-                firstEmbed.addField("Immortal Redneck (Steam key)", "📥 10 tokens | "+gameRow.immortal+" Remaining | Use `"+prefix+"buy immortal`");
-            }
-            else{
-                firstEmbed.addField("Immortal Redneck (Steam key)", "📥 10 tokens | **SOLD OUT** | Use `"+prefix+"buy immortal`");
             }
             */
             firstEmbed.setFooter(`Home page`);
@@ -2634,7 +2597,7 @@ class Commands {
                                                     response.reply("You can't trade tokens!");
                                                 }
                                                 else{
-                                                    if(!Number.isInteger(parseInt(itemAmount))){
+                                                    if(itemAmount == undefined || !Number.isInteger(parseInt(itemAmount)) || itemAmount % 1 !== 0 || itemAmount < 1){
                                                         itemAmount = 1;
                                                     }
                                                     if(response.member.id == message.author.id){
@@ -3224,7 +3187,7 @@ class Commands {
         let otherCmds = ["`rules`","`poll`","`cooldown`","`delete`","`deactivate`","`server`","`update`","`health`","`money`","`level`","`points`","`leaderboard [s]`","`setprefix`","`discord`","`profile [@user]`","`upgrade [skill]`"]
         otherCmds.sort();
         const helpInfo = new Discord.RichEmbed()
-        .setTitle("`"+prefix+"play`** - Adds you to the game.\nHELP US DECIDE ON A NEW FEATURE USING **`"+prefix+"poll`")
+        .setTitle("`"+prefix+"play`** - Adds you to the game.**")
         .addField("⚔Items", "🔸`"+prefix+"use <item> [@user]`- Attack users with weapons or use items on self.\n🔸`"+prefix+"inv [@user]` - Displays inventory.\n▫`"+prefix+"trade <@user>` - Trade items and money with user.\n▫`"+prefix+"item [item]`" +
         " - Lookup item information.\n▫`"+prefix+"shop` - Shows buy/sell values of all items.\n▫`"+prefix+"buy <item> [amount]` - Purchase an item.\n▫`"+prefix+"sell <item> [amount]` - Sell an item.\n▫`"+prefix+"sellall <rarity>` - Sell every item of specific rarity (ex. `"+prefix+"sellall common`)." +
         "\n▫`"+prefix+"craft <item>` - Craft Ultra items!\n▫`"+prefix+"recycle <item>` - Recycle Legendary+ items for components.")
@@ -4225,11 +4188,9 @@ class Commands {
         if(!moddedUsers.has(message.author.id)){
             return message.reply("Only mods can use this command!");
         }
-        /*
         else if(message.channel.id !== "496740775212875816"){
             return message.reply('You must be in the mod-command-center!');
         }
-        */
         let args = message.content.split(" ").slice(1);
         let userNameID = args[0];
         

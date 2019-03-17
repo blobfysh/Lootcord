@@ -292,6 +292,26 @@ class Methods {
             });
         });
     }
+    randomUser(message, sql){//returns a random userId from the attackers guild
+        return sql.all(`SELECT * FROM userGuilds WHERE guildId ="${message.guild.id}" ORDER BY LOWER(userId)`).then(rows => {
+            var guildUsers = [];
+            rows.forEach(function (row) {
+                try{
+                    if(message.guild.members.get(row.userId).displayName){
+                        if(row.userId != message.author.id){//make sure message author isn't attacked by self
+                            guildUsers.push(row.userId);
+                        }
+                        
+                    }
+                }
+                catch(err){
+                    console.log("error in server");
+                }
+            });
+            var rand = guildUsers[Math.floor(Math.random() * guildUsers.length)];
+            return rand;
+        });
+    }
     addxp(message, sql, amount, userId){
         sql.get(`SELECT * FROM items i
                 JOIN scores s
@@ -349,6 +369,7 @@ class Methods {
         WHERE s.userId="${message.author.id}"`).then(row => {
             let itemsOpened = [];
             let multiItemArray = [];
+            let pureItemArray = [];
             let lastItem = "";
             let lastRarity = "";
             let lastQual = "";
@@ -364,52 +385,47 @@ class Methods {
                         rand = newCommonItems[Math.floor(Math.random() * newCommonItems.length)];
                         multiItemArray.push("<:UnboxCommon:526248905676029968> `" + rand + "`");
                         itemsOpened.push("You just got a common `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 10197915;
                         lastQual = "common";
-
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                         
                     }
                     else if(chance <= 175){                               //UNCOMMON ITEMS 35% chance
                         rand = uncommonItems[Math.floor(Math.random() * uncommonItems.length)];
                         multiItemArray.push("<:UnboxUncommon:526248928891371520> `" + rand + "`");
                         itemsOpened.push("You just got an uncommon `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 4755200;
                         lastQual = "uncommon";
-
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
                     else if(chance <= 190){                               //RARE ITEMS 12% chance
                         rand = rareItems[Math.floor(Math.random() * rareItems.length)];
                         multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
                         itemsOpened.push("You just got a RARE `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 30463;
                         lastQual = "rare";
-        
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
                     else if(chance <= 199){                                //EPIC ITEMS  2% chance
                         rand = epicItems[Math.floor(Math.random() * epicItems.length)];
                         multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
                         itemsOpened.push("You just got an **EPIC** `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 12390624;
                         lastQual = "epic";
-        
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
                     else{
                         rand = legendItems[Math.floor(Math.random() * legendItems.length)];   //LEGENDARY ITEMS 1% chance
                         multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
                         itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 16312092;
                         lastQual = "legendary";
-        
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
                 }
                 sql.run(`UPDATE items SET item_box = ${row.item_box - amount} WHERE userId = ${message.author.id}`);
@@ -423,11 +439,11 @@ class Methods {
                         rand = rareItems[Math.floor(Math.random() * rareItems.length)];
                         multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
                         itemsOpened.push("You just got a RARE `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 30463;
                         lastQual = "rare";
 
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
 
                     else if(chance <= 178){                                //EPIC ITEMS  23% chance
@@ -435,33 +451,30 @@ class Methods {
                         rand = newEpicItems[Math.floor(Math.random() * newEpicItems.length)];
                         multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
                         itemsOpened.push("You just got an **EPIC** `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 12390624;
                         lastQual = "epic";
-
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
 
                     else if(chance <= 199){
                         rand = legendItems[Math.floor(Math.random() * legendItems.length)];   //LEGENDARY ITEMS 10.5% chance
                         multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
                         itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 16312092;
                         lastQual = "legendary";
-                        
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
                     else{
                         //ultra item here
                         rand = ultraItems[Math.floor(Math.random() * ultraItems.length)];   //ULTRA ITEMS 0.5% chance
                         multiItemArray.push("<:UnboxUltra:526248982691840003> `" + rand + "`");
                         itemsOpened.push("You just got an **ULTRA** `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 16711778;
                         lastQual = "ultra";
-
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
                 }
                 sql.run(`UPDATE items SET ultra_box = ${row.ultra_box - amount} WHERE userId = ${message.author.id}`);
@@ -470,58 +483,53 @@ class Methods {
                 for(var i = 0; i < amount; i++){
                     let chance = Math.floor(Math.random() * 101) + (row.luck) //1-100
                     let rand = "";
-    
+
                     if(chance <= 40){                                   //COMMON AMMO 44% chance
                         rand = commonAmmo[Math.floor(Math.random() * commonAmmo.length)];
                         multiItemArray.push("<:UnboxCommon:526248905676029968> `" + rand + "`");
                         itemsOpened.push("You just got a common `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 10197915;
                         lastQual = "common";
-
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
                     else if(chance <= 72){                               //UNCOMMON AMMO 30% chance
                         rand = uncommonAmmo[Math.floor(Math.random() * uncommonAmmo.length)];
                         multiItemArray.push("<:UnboxUncommon:526248928891371520> `" + rand + "`");
                         itemsOpened.push("You just got an uncommon `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 4755200;
                         lastQual = "uncommon";
-
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
-    
+
                     else if(chance <= 94){                               //RARE AMMO 20% chance
                         rand = rareAmmo[Math.floor(Math.random() * rareAmmo.length)];
                         multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
                         itemsOpened.push("You just got a RARE `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 30463;
                         lastQual = "rare";
-
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
-    
+
                     else if(chance <= 98) {                                //EPIC AMMO  8% chance
                         rand = epicAmmo[Math.floor(Math.random() * epicAmmo.length)];
                         multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
                         itemsOpened.push("You just got an **EPIC** `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 12390624;
                         lastQual = "epic";
-
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
                     else{                                                  //LEGENDARY AMMO 2% chance
                         rand = legendAmmo[Math.floor(Math.random() * legendAmmo.length)];
                         multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
                         itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 16312092;
                         lastQual = "legendary";
-
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
                 }
                 sql.run(`UPDATE items SET ammo_box = ${row.ammo_box - amount} WHERE userId = ${message.author.id}`);
@@ -535,47 +543,52 @@ class Methods {
                         rand = uncommonAmmo[Math.floor(Math.random() * uncommonAmmo.length)];
                         multiItemArray.push("<:UnboxUncommon:526248928891371520> `" + rand + "`");
                         itemsOpened.push("You just got an uncommon `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 4755200;
                         lastQual = "uncommon";
-
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
-    
+
                     else if(chance <= 60){                               //RARE AMMO 50% chance
                         rand = rareAmmo[Math.floor(Math.random() * rareAmmo.length)];
                         multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
                         itemsOpened.push("You just got a RARE `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 30463;
                         lastQual = "rare";
-
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
-    
+
                     else if(chance <= 90) {                                //EPIC AMMO  30% chance
                         rand = epicAmmo[Math.floor(Math.random() * epicAmmo.length)];
                         multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
                         itemsOpened.push("You just got an **EPIC** `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 12390624;
                         lastQual = "epic";
-
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
                     else{                                                  //LEGENDARY AMMO 10% chance
                         rand = legendAmmo[Math.floor(Math.random() * legendAmmo.length)];
                         multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
                         itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
+                        pureItemArray.push(rand);
                         lastItem = rand;
                         lastRarity = 16312092;
                         lastQual = "legendary";
-
-                        sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
                     }
                 }
                 sql.run(`UPDATE items SET ultra_ammo = ${row.ultra_ammo - amount} WHERE userId = ${message.author.id}`);
             }
+
+            var counts = {};
+            pureItemArray.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
+
+            Object.keys(counts).forEach(key => {
+                //key is the item
+                //counts[key] is the item amount in array
+                sql.run(`UPDATE items SET ${key} = ${row[key] + counts[key]} WHERE userId = ${message.author.id}`);
+            });
             
             const embedInfo = new Discord.RichEmbed()
             .setAuthor(message.member.displayName, message.author.avatarURL)
@@ -750,7 +763,7 @@ class Methods {
         sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
             //if(coinSide !== "heads" && coinSide !== "tails") coinSide = "heads";
             //let oppoSide = coinSide == "heads" ? "tails" : "heads";
-            let luck = row.luck >= 20 ? 12 : (row.luck/2);
+            let luck = row.luck >= 20 ? 5 : Math.floor(row.luck/4);
             let chance = Math.floor(Math.random() * 100) + luck; //return 1-100
             if(chance > 50){
                 sql.run(`UPDATE scores SET money = ${row.money + parseInt(amount)} WHERE userId = ${message.author.id}`);

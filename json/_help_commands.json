@@ -15,13 +15,13 @@
   "usage": ["inv` - Shows your inventory","inv <@user>` - Shows inventory of specified user.","profile`","i`"],
   "options": "`@user` - User to check inventory of."
 }, {
-  "lookup": ["use"],
+  "lookup": ["use","attack","heal"],
   "command": "Use",
-  "example": ["use ak47 @blobfysh","use medkit"],
+  "example": ["use ak47 @blobfysh","use medkit","use rock random"],
   "description": "Use an item on yourself or attack another user with a weapon.",
   "cooldown": "Attack: 1 hour\nHeal: 30 minutes",
-  "usage": ["use <item>` - Uses an item on yourself, such as healing items or boxes","use <item> <@user>` - Attack user with an item or weapon."],
-  "options": "`item` - Item to use\n`@user` - User to attack."
+  "usage": ["use <item>` - Uses an item on yourself, such as healing items or boxes","use <item> <@user/random>` - Attack user with an item or weapon."],
+  "options": "`item` - Item to use\n`@user` or `random` - User to attack, will be random if you specifiy random."
 }, {
   "lookup": ["craft"],
   "command": "Craft",
