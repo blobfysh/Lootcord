@@ -55,7 +55,7 @@ global.weapCooldown = new Set();  //weapon cooldown stuff
 var xpNeeded; //is set to players xp needed when they send a message | used to determine level and used in t-inv command to calculate xp left until next level
 var totalXpNeeded = 0;
 
-const version = "3.10.1";
+const version = "3.10.2";
 
 client.on(`ready`,() => {
     console.log(" _                    _                           _ \n"+

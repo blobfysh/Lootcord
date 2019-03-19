@@ -539,7 +539,7 @@ class Commands {
             }
             else if(itemsList.includes(itemUsed.toLowerCase())){    //ITEMS TIME!!!!!!!!!!!!!!!!!!!
                 //CODE FOR ITEMS, NOT WEAPONS
-                if(userOldID == undefined || !Number.isInteger(parseInt(userOldID)) || userOldID % 1 !== 0){
+                if(userOldID == undefined || !Number.isInteger(parseInt(userOldID)) || userOldID % 1 !== 0 || userOldID < 1){
                     userOldID = 1;
                 }
                 else if(userOldID > 10){
