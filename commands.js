@@ -2240,14 +2240,20 @@ class Commands {
 
                                 if(reaction.emoji.name === '✅'){
                                     botMessage.delete();
-                                    if(eval(`itemRow.${itemName}`) >= sellAmount){
-                                        sql.run(`UPDATE scores SET money = ${row.money + parseInt(itemPrice * sellAmount)} WHERE userId = ${message.author.id}`);
-                                        sql.run(`UPDATE items SET ${itemName} = ${eval(`itemRow.${itemName}`) - (1 * sellAmount)} WHERE userId = ${message.author.id}`);
-                                        message.reply("Successfully sold " + sellAmount + "x " + itemName + " for " + (itemPrice * sellAmount) + ".");
-                                    }
-                                    else{
-                                        message.reply("You don't have enough of that item!");
-                                    }
+                                    sql.get(`SELECT * FROM items i
+                                    JOIN scores s
+                                    ON i.userId = s.userId
+                                    WHERE s.userId="${message.author.id}"`).then(sellRow => {
+                                        if(eval(`sellRow.${itemName}`) >= sellAmount){ //use hasitem method
+                                            //use method to remove item
+                                            sql.run(`UPDATE scores SET money = ${sellRow.money + parseInt(itemPrice * sellAmount)} WHERE userId = ${message.author.id}`);
+                                            sql.run(`UPDATE items SET ${itemName} = ${eval(`sellRow.${itemName}`) - (1 * sellAmount)} WHERE userId = ${message.author.id}`);
+                                            message.reply("Successfully sold " + sellAmount + "x " + itemName + " for " + (itemPrice * sellAmount) + ".");
+                                        }
+                                        else{
+                                            message.reply("You don't have enough of that item!");
+                                        }
+                                    });
                                 }
                                 else{
                                     botMessage.delete();
