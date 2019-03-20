@@ -515,6 +515,7 @@ class Commands {
     }
     use(message, sql, prefix){//split into separate methods
         let args = message.content.split(" ").slice(1);
+        args = args.filter(item => {return item;});//removes empty elements from args array
         let itemUsed = args[0];
         let userOldID = args[1];                          //RETURNS ID WITH <@ OR <@!
         itemUsed = methods.getCorrectedItemInfo(itemUsed, false, false);
