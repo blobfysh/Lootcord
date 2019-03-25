@@ -4,6 +4,7 @@ const config = require('./json/_config.json');
 const itemImgJSON = require('./json/_item_images.json');
 const botInfo = require('./json/_update_info.json');
 const Jimp = require("jimp"); //jimp library allows realtime editing of images
+const fs = require("fs");
 const cryptorjs = require("cryptorjs");
 const cryptor = new cryptorjs(config.encryptionAuth);
 
@@ -3191,7 +3192,7 @@ class Commands {
         if(helpCommand !== undefined){
             return methods.commandhelp(message, helpCommand, prefix);
         }
-        let otherCmds = ["`rules`","`poll`","`cooldown`","`delete`","`deactivate`","`server`","`update`","`health`","`money`","`level`","`points`","`leaderboard [s]`","`setprefix`","`discord`","`profile [@user]`","`upgrade [skill]`"]
+        let otherCmds = ["`rules`","`cooldown`","`delete`","`deactivate`","`server`","`update`","`health`","`money`","`level`","`points`","`leaderboard [s]`","`setprefix`","`discord`","`profile [@user]`","`upgrade [skill]`"]
         otherCmds.sort();
         const helpInfo = new Discord.RichEmbed()
         .setTitle("`"+prefix+"play`** - Adds you to the game.**")
@@ -4688,6 +4689,44 @@ class Commands {
         catch(err){
             message.reply("Something went wrong. Command only works with `t-` prefix. ```"+err+"```");
         }
+    }
+
+    fullwipe(message, sql, adminUsers){
+        console.log("got heres");
+        if(!adminUsers.has(message.author.id)){
+            message.reply("Only admins can use this command!");
+            return;
+        }
+        console.log("gotts here");
+        message.reply("You are about to wipe everyones inventories on the bot.\n**Continue?**").then(botMessage => {
+            botMessage.react('✅').then(() => botMessage.react('❌'));
+            const filter = (reaction, user) => {return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;};
+            botMessage.awaitReactions(filter, {max: 1, time: 15000, errors: ['time'] })
+            .then(collected => {
+                const reaction = collected.first();
+
+                if(reaction.emoji.name === '✅'){
+                    botMessage.edit("Backing up...");
+                    fs.copyFile('score.sqlite', './backups/backup.sqlite', (err) => {
+                        if(err) throw err;
+                    });
+                    botMessage.edit("Wiping...");
+                    sql.all('SELECT userId FROM scores').then(rows => { //REMOVE IN STABLE UPDATE
+                        rows.forEach(function (row) {
+                            //test each user
+                            methods.monthlywipe(sql, row.userId);
+                        });
+                    });
+                    botMessage.edit("Wiped");
+                }
+                else{
+                    botMessage.delete();
+                }
+            }).catch(collected => {
+                botMessage.delete();
+                message.reply("You didn't react in time!");
+            });
+        });
     }
 }
 

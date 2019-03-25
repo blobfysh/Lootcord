@@ -338,7 +338,7 @@ client.on("message", (message) => {
             else{
                 message.reply("Only `modhelp`, `status`, and `getbans` work in DMs!");
             }
-        return; //doesnt send mods bot messages
+            return; //doesnt send mods bot messages
         }
         if(messageSpamCooldown.has(message.author.id)){
             return message.author.send("You just sent a message! Wait 3 minutes between sending messages.");
@@ -629,6 +629,7 @@ client.on("message", (message) => {
                 case 'cdclear': commands.cdclear(message, sql, adminUsers, prefix); break;
                 case 'buffclean': commands.buffclean(message, sql, adminUsers, prefix); break;
                 case 'eval': commands.eval(message, sql, adminUsers); break;
+                case 'fullwipe': commands.fullwipe(message, sql, adminUsers); break;
                 default: return;
             }
             spamCooldown.add(message.author.id);
@@ -665,7 +666,7 @@ client.on("message", (message) => {
                 }
                 let commandWord = message.content.split(/\s+/g)[0].slice(prefix.length);
                 let wordCheck = dict.lucky(message.content.split(/\s+/g)[0].slice(prefix.length));
-                //console.log("word: "+ wordCheck)
+                console.log("word: "+ wordCheck + " | " + commandWord)
                 if(commandWord == "" || commandWord.startsWith("pose")){
                     return;
                 }

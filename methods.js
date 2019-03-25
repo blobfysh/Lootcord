@@ -810,12 +810,22 @@ class Methods {
     }
     inventorywipe(sql,  userId){
         sql.run(`UPDATE items SET item_box = ${1}, rpg = ${0}, rocket = ${0}, ak47 = ${0}, rifle_bullet = ${0}, 
-        rock = ${0}, arrow = ${0}, fork = ${0}, sword = ${0}, bow = ${0}, pistol_bullet = ${0}, glock = ${0}, crossbow = ${0}, spear = ${0}, thompson = ${0},
+        rock = ${0}, arrow = ${0}, fork = ${0}, club = ${0}, sword = ${0}, bow = ${0}, pistol_bullet = ${0}, glock = ${0}, crossbow = ${0}, spear = ${0}, thompson = ${0},
         health_pot = ${0}, ammo_box = ${0}, javelin = ${0}, awp = ${0}, m4a1 = ${0}, spas = ${0}, medkit = ${0}, revolver = ${0}, buckshot = ${0}, blunderbuss = ${0},
         grenade = ${0}, pills = ${0}, bat = ${0}, baseball = ${0}, peck_seed = ${0}, iron_shield = ${0}, gold_shield = ${0}, ultra_box = ${0}, rail_cannon = ${0}, plasma = ${0}, 
         fish = ${0}, bmg_50cal = ${0}, token = ${0}, candycane = ${0}, gingerbread = ${0}, mittens = ${0}, stocking = ${0}, snowball = ${0}, nutcracker = ${0}, screw = ${0}, 
         steel = ${0}, adhesive = ${0}, fiber_optics = ${0}, module = ${0}, ray_gun = ${0}, golf_club = ${0}, ultra_ammo = ${0}, stick = ${0}, reroll_scroll = ${0}, 
         xp_potion = ${0} WHERE userId = ${userId}`);
+        sql.run(`UPDATE scores SET money = ${0}, level = ${1}, points = ${0}, stats = ${0}, used_stats = ${0}, scaledDamage = ${1.00}, 
+        luck = ${0}, maxHealth = ${100}, health = ${100}, kills = ${0}, deaths = ${0} WHERE userId = ${userId}`);
+    }
+    monthlywipe(sql,  userId){//WIPE ALL BUT LIMITED ITEMS
+        sql.run(`UPDATE items SET item_box = ${1}, rpg = ${0}, rocket = ${0}, ak47 = ${0}, rifle_bullet = ${0}, 
+        rock = ${0}, arrow = ${0}, fork = ${0}, club = ${0}, sword = ${0}, bow = ${0}, pistol_bullet = ${0}, glock = ${0}, crossbow = ${0}, spear = ${0}, thompson = ${0},
+        health_pot = ${0}, ammo_box = ${0}, javelin = ${0}, awp = ${0}, m4a1 = ${0}, spas = ${0}, medkit = ${0}, revolver = ${0}, buckshot = ${0}, blunderbuss = ${0},
+        grenade = ${0}, pills = ${0}, bat = ${0}, baseball = ${0}, peck_seed = ${0}, iron_shield = ${0}, gold_shield = ${0}, ultra_box = ${0}, rail_cannon = ${0}, plasma = ${0}, 
+        fish = ${0}, bmg_50cal = ${0}, screw = ${0}, steel = ${0}, adhesive = ${0}, fiber_optics = ${0}, module = ${0}, ray_gun = ${0}, golf_club = ${0}, 
+        ultra_ammo = ${0}, stick = ${0}, reroll_scroll = ${0}, xp_potion = ${0} WHERE userId = ${userId}`);
         sql.run(`UPDATE scores SET money = ${0}, level = ${1}, points = ${0}, stats = ${0}, used_stats = ${0}, scaledDamage = ${1.00}, 
         luck = ${0}, maxHealth = ${100}, health = ${100}, kills = ${0}, deaths = ${0} WHERE userId = ${userId}`);
     }
