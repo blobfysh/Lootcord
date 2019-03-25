@@ -1,0 +1,7 @@
+{
+  "botToken": "bot token here",
+  "dblToken": "discord bots list API token",
+  "dblAuth": "Authentication code for dbl voting webhook",
+  "debug": "true/false | true - prevents bot from sending guild count to dbl.org, false - sends data",
+  "encryptionAuth": "Authentication for encrpyting users inventories and decoding encyptions using AES"
+}
