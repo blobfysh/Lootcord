@@ -17,7 +17,7 @@ const dbl = new DBL(config.dblToken, {webhookPath: '/dblwebhook', webhookPort: '
 const spell = require("spell");
 var dict = spell();
 dict.load("poll help rules inventory use item items buy sell sellall craft recycle shop store trade trivia scramble hourly gamble vote setprefix discord cooldown update upgrade profile level level points "
-                + "health heal money leaderboard server activate deactivate delete ban unban modadd unmod warn additem addcash addpoints eval modhelp")
+                + "health heal money leaderboard server activate deactivate delete ban unban modadd unmod warn additem addcash addpoints eval modhelp cash bal backpack")
 /*NPMS
 npm install discord.js
 npm install sqlite
@@ -55,7 +55,7 @@ global.weapCooldown = new Set();  //weapon cooldown stuff
 var xpNeeded; //is set to players xp needed when they send a message | used to determine level and used in t-inv command to calculate xp left until next level
 var totalXpNeeded = 0;
 
-const version = "3.10.4";
+const version = "3.11.0";
 
 client.on(`ready`,() => {
     console.log(" _                    _                           _ \n"+
@@ -308,6 +308,11 @@ client.on(`ready`,() => {
         });
     });
     */
+    sql.run("ALTER TABLE scores ADD inv_slots").then(row => {
+    }).catch(() => {
+        console.log("added `inv_slots` to scores | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE scores SET inv_slots = 10");
+    });
 });
 
 client.on("message", (message) => {    
@@ -407,7 +412,7 @@ client.on("message", (message) => {
 
     let nickname = message.member.displayName;
     let prefix = "t-";
-    let userLang = "langs.en_us";
+    //let userLang = "langs.en_us";
 
     sql.get(`SELECT * FROM guildPrefix WHERE guildId ="${message.guild.id}"`).then(prefixRow => {//grab server prefix
         if(prefixRow){prefix = prefixRow.prefix;}
@@ -416,8 +421,8 @@ client.on("message", (message) => {
                 if(message.content.startsWith(prefix + "play")){
                     sql.run("INSERT INTO scores (userId, money, points, level, health, maxHealth, healTime, attackTime, hourlyTime, triviaTime, peckTime, voteTime, "
                             + "gambleTime, ironShieldTime, goldShieldTime, prizeTime, mittenShieldTime, scrambleTime, deactivateTime, activateTime, kills, deaths, "
-                            + "spamTime, stats, luck, scaledDamage, used_stats, xpTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                            [message.author.id, 100, 0, 1, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.00, 0, 0]);
+                            + "spamTime, stats, luck, scaledDamage, used_stats, xpTime, inv_slots) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                            [message.author.id, 100, 0, 1, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.00, 0, 0, 10]);
                     sql.run("INSERT INTO items (userId, item_box, rpg, rocket, ak47, rifle_bullet, rock, arrow, fork, club, sword, bow, pistol_bullet, glock, "
                             + "crossbow, spear,thompson, health_pot, ammo_box, javelin, awp, m4a1, spas, medkit, revolver, buckshot, blunderbuss, grenade,"
                             + "pills, bat, baseball, peck_seed, iron_shield, gold_shield, ultra_box, rail_cannon, plasma, fish, bmg_50cal, token, candycane, gingerbread, mittens, stocking, snowball, nutcracker,"
@@ -598,8 +603,12 @@ client.on("message", (message) => {
                 case 'level': commands.level(message, sql, prefix); break;
                 case 'xp':
                 case 'points': commands.points(message, sql, prefix); break;
+                case 'backpack': commands.displayInvSlots(message, sql, prefix); break;
                 case 'health':
                 case 'hp': commands.health(message, sql, prefix); break;
+                case 'balance':
+                case 'bal':
+                case 'cash':
                 case 'money': commands.money(message, sql, prefix); break;
                 case 'leaderboard':
                 case 'lb': commands.leaderboard(message, sql, prefix); break;
@@ -632,6 +641,7 @@ client.on("message", (message) => {
                 case 'fullwipe': commands.fullwipe(message, sql, adminUsers); break;
                 default: return;
             }
+            if(config.debug == "true") return;
             spamCooldown.add(message.author.id);
             sql.run(`UPDATE scores SET spamTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
             setTimeout(() => {

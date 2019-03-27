@@ -263,6 +263,27 @@ class Methods {
             console.log(err)
         }
     }
+    getitemcount(sql, userId){//RETURNS PROMISE
+        return sql.get(`SELECT * FROM items WHERE userId ="${userId}"`).then(row => {
+            var totalItemCt = 0;
+            Object.keys(row).forEach(key => {
+                if(key !== "userId"){
+                    totalItemCt += row[key];
+                    //console.log(row[key] + " | " + key);
+                }
+            });
+            return totalItemCt;
+        });
+    }
+    hasenoughspace(sql, userId, amount = 0){//RETURNS PROMISE
+        return this.getitemcount(sql, userId).then(itemCt => {
+            return sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
+                console.log((itemCt + parseInt(amount)) + " <= " + row.inv_slots);
+                if((itemCt + amount) <= row.inv_slots) return true;
+                else return false;
+            });
+        });
+    }
 
     //USE COMMAND
     randomItems(sql, fullItemList, killerId, victimId, amount){
@@ -367,247 +388,269 @@ class Methods {
         JOIN scores s
         ON i.userId = s.userId
         WHERE s.userId="${message.author.id}"`).then(row => {
-            let itemsOpened = [];
-            let multiItemArray = [];
-            let pureItemArray = [];
-            let lastItem = "";
-            let lastRarity = "";
-            let lastQual = "";
+            this.hasenoughspace(sql, message.author.id).then(result => {
+                if(!result){
+                    return message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.");
+                }
+
+                let itemsOpened = [];
+                let multiItemArray = [];
+                let pureItemArray = [];
+                let lastItem = "";
+                let lastRarity = "";
+                let lastQual = "";
+                
+                if(type == "item_box"){
+                    for(var i = 0; i < amount; i++){
+                        //iterates for each box user specifies
+                        let chance = Math.floor(Math.random() * 201) + (row.luck * 2);
+                        let rand = "";
             
-            if(type == "item_box"){
-                for(var i = 0; i < amount; i++){
-                    //iterates for each box user specifies
-                    let chance = Math.floor(Math.random() * 201) + (row.luck * 2);
-                    let rand = "";
-        
-                    if(chance <= 120){                                   //COMMON ITEMS % chance
-                        let newCommonItems = commonItems.slice(1);
-                        rand = newCommonItems[Math.floor(Math.random() * newCommonItems.length)];
-                        multiItemArray.push("<:UnboxCommon:526248905676029968> `" + rand + "`");
-                        itemsOpened.push("You just got a common `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 10197915;
-                        lastQual = "common";
+                        if(chance <= 120){                                   //COMMON ITEMS % chance
+                            let newCommonItems = commonItems.slice(1);
+                            rand = newCommonItems[Math.floor(Math.random() * newCommonItems.length)];
+                            multiItemArray.push("<:UnboxCommon:526248905676029968> `" + rand + "`");
+                            itemsOpened.push("You just got a common `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 10197915;
+                            lastQual = "common";
+                            
+                        }
+                        else if(chance <= 175){                               //UNCOMMON ITEMS 35% chance
+                            rand = uncommonItems[Math.floor(Math.random() * uncommonItems.length)];
+                            multiItemArray.push("<:UnboxUncommon:526248928891371520> `" + rand + "`");
+                            itemsOpened.push("You just got an uncommon `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 4755200;
+                            lastQual = "uncommon";
+                        }
+                        else if(chance <= 190){                               //RARE ITEMS 12% chance
+                            rand = rareItems[Math.floor(Math.random() * rareItems.length)];
+                            multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
+                            itemsOpened.push("You just got a RARE `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 30463;
+                            lastQual = "rare";
+                        }
+                        else if(chance <= 199){                                //EPIC ITEMS  2% chance
+                            rand = epicItems[Math.floor(Math.random() * epicItems.length)];
+                            multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
+                            itemsOpened.push("You just got an **EPIC** `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 12390624;
+                            lastQual = "epic";
+                        }
+                        else{
+                            rand = legendItems[Math.floor(Math.random() * legendItems.length)];   //LEGENDARY ITEMS 1% chance
+                            multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
+                            itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 16312092;
+                            lastQual = "legendary";
+                        }
+                    }
+                    sql.run(`UPDATE items SET item_box = ${row.item_box - amount} WHERE userId = ${message.author.id}`);
+                }
+                else if(type == "ultra_box"){
+                    for(var i = 0; i < amount; i++){
+                        let chance = Math.floor(Math.random() * 201) + (row.luck * 2) //1-200
+                        let rand = "";
+
+                        if(chance <= 132){                               //RARE ITEMS 65% chance
+                            rand = rareItems[Math.floor(Math.random() * rareItems.length)];
+                            multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
+                            itemsOpened.push("You just got a RARE `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 30463;
+                            lastQual = "rare";
+
+                        }
+
+                        else if(chance <= 178){                                //EPIC ITEMS  23% chance
+                            let newEpicItems = epicItems.slice(1);
+                            rand = newEpicItems[Math.floor(Math.random() * newEpicItems.length)];
+                            multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
+                            itemsOpened.push("You just got an **EPIC** `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 12390624;
+                            lastQual = "epic";
+                        }
+
+                        else if(chance <= 199){
+                            rand = legendItems[Math.floor(Math.random() * legendItems.length)];   //LEGENDARY ITEMS 10.5% chance
+                            multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
+                            itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 16312092;
+                            lastQual = "legendary";
+                        }
+                        else{
+                            //ultra item here
+                            rand = ultraItems[Math.floor(Math.random() * ultraItems.length)];   //ULTRA ITEMS 0.5% chance
+                            multiItemArray.push("<:UnboxUltra:526248982691840003> `" + rand + "`");
+                            itemsOpened.push("You just got an **ULTRA** `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 16711778;
+                            lastQual = "ultra";
+                        }
+                    }
+                    sql.run(`UPDATE items SET ultra_box = ${row.ultra_box - amount} WHERE userId = ${message.author.id}`);
+                }
+                else if(type == "ammo_box"){
+                    for(var i = 0; i < amount; i++){
+                        let chance = Math.floor(Math.random() * 101) + (row.luck) //1-100
+                        let rand = "";
+
+                        if(chance <= 40){                                   //COMMON AMMO 44% chance
+                            rand = commonAmmo[Math.floor(Math.random() * commonAmmo.length)];
+                            multiItemArray.push("<:UnboxCommon:526248905676029968> `" + rand + "`");
+                            itemsOpened.push("You just got a common `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 10197915;
+                            lastQual = "common";
+                        }
+                        else if(chance <= 72){                               //UNCOMMON AMMO 30% chance
+                            rand = uncommonAmmo[Math.floor(Math.random() * uncommonAmmo.length)];
+                            multiItemArray.push("<:UnboxUncommon:526248928891371520> `" + rand + "`");
+                            itemsOpened.push("You just got an uncommon `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 4755200;
+                            lastQual = "uncommon";
+                        }
+
+                        else if(chance <= 94){                               //RARE AMMO 20% chance
+                            rand = rareAmmo[Math.floor(Math.random() * rareAmmo.length)];
+                            multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
+                            itemsOpened.push("You just got a RARE `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 30463;
+                            lastQual = "rare";
+                        }
+
+                        else if(chance <= 98) {                                //EPIC AMMO  8% chance
+                            rand = epicAmmo[Math.floor(Math.random() * epicAmmo.length)];
+                            multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
+                            itemsOpened.push("You just got an **EPIC** `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 12390624;
+                            lastQual = "epic";
+                        }
+                        else{                                                  //LEGENDARY AMMO 2% chance
+                            rand = legendAmmo[Math.floor(Math.random() * legendAmmo.length)];
+                            multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
+                            itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 16312092;
+                            lastQual = "legendary";
+                        }
+                    }
+                    sql.run(`UPDATE items SET ammo_box = ${row.ammo_box - amount} WHERE userId = ${message.author.id}`);
+                }
+                else if(type == "ultra_ammo"){
+                    for(var i = 0; i < amount; i++){
+                        let chance = Math.floor(Math.random() * 101) + (row.luck) //1-100
+                        let rand = "";
                         
+                        if(chance <= 10){                               //UNCOMMON AMMO 10% chance
+                            rand = uncommonAmmo[Math.floor(Math.random() * uncommonAmmo.length)];
+                            multiItemArray.push("<:UnboxUncommon:526248928891371520> `" + rand + "`");
+                            itemsOpened.push("You just got an uncommon `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 4755200;
+                            lastQual = "uncommon";
+                        }
+
+                        else if(chance <= 60){                               //RARE AMMO 50% chance
+                            rand = rareAmmo[Math.floor(Math.random() * rareAmmo.length)];
+                            multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
+                            itemsOpened.push("You just got a RARE `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 30463;
+                            lastQual = "rare";
+                        }
+
+                        else if(chance <= 90) {                                //EPIC AMMO  30% chance
+                            rand = epicAmmo[Math.floor(Math.random() * epicAmmo.length)];
+                            multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
+                            itemsOpened.push("You just got an **EPIC** `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 12390624;
+                            lastQual = "epic";
+                        }
+                        else{                                                  //LEGENDARY AMMO 10% chance
+                            rand = legendAmmo[Math.floor(Math.random() * legendAmmo.length)];
+                            multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
+                            itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
+                            pureItemArray.push(rand);
+                            lastItem = rand;
+                            lastRarity = 16312092;
+                            lastQual = "legendary";
+                        }
                     }
-                    else if(chance <= 175){                               //UNCOMMON ITEMS 35% chance
-                        rand = uncommonItems[Math.floor(Math.random() * uncommonItems.length)];
-                        multiItemArray.push("<:UnboxUncommon:526248928891371520> `" + rand + "`");
-                        itemsOpened.push("You just got an uncommon `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 4755200;
-                        lastQual = "uncommon";
-                    }
-                    else if(chance <= 190){                               //RARE ITEMS 12% chance
-                        rand = rareItems[Math.floor(Math.random() * rareItems.length)];
-                        multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
-                        itemsOpened.push("You just got a RARE `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 30463;
-                        lastQual = "rare";
-                    }
-                    else if(chance <= 199){                                //EPIC ITEMS  2% chance
-                        rand = epicItems[Math.floor(Math.random() * epicItems.length)];
-                        multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
-                        itemsOpened.push("You just got an **EPIC** `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 12390624;
-                        lastQual = "epic";
+                    sql.run(`UPDATE items SET ultra_ammo = ${row.ultra_ammo - amount} WHERE userId = ${message.author.id}`);
+                }
+
+                var counts = {};
+                pureItemArray.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
+
+                Object.keys(counts).forEach(key => {
+                    //key is the item
+                    //counts[key] is the item amount in array
+                    sql.run(`UPDATE items SET ${key} = ${row[key] + counts[key]} WHERE userId = ${message.author.id}`);
+                });
+                
+                const embedInfo = new Discord.RichEmbed()
+                .setAuthor(message.member.displayName, message.author.avatarURL)
+                .setColor(lastRarity)
+                if(amount == 1){
+                    embedInfo.setTitle(itemsOpened);
+                    if(itemImg[lastItem] != undefined){
+                        embedInfo.setImage(itemImg[lastItem]);
                     }
                     else{
-                        rand = legendItems[Math.floor(Math.random() * legendItems.length)];   //LEGENDARY ITEMS 1% chance
-                        multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
-                        itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 16312092;
-                        lastQual = "legendary";
+                        embedInfo.setImage(itemImg[lastQual]);
                     }
-                }
-                sql.run(`UPDATE items SET item_box = ${row.item_box - amount} WHERE userId = ${message.author.id}`);
-            }
-            else if(type == "ultra_box"){
-                for(var i = 0; i < amount; i++){
-                    let chance = Math.floor(Math.random() * 201) + (row.luck * 2) //1-200
-                    let rand = "";
-
-                    if(chance <= 132){                               //RARE ITEMS 65% chance
-                        rand = rareItems[Math.floor(Math.random() * rareItems.length)];
-                        multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
-                        itemsOpened.push("You just got a RARE `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 30463;
-                        lastQual = "rare";
-
-                    }
-
-                    else if(chance <= 178){                                //EPIC ITEMS  23% chance
-                        let newEpicItems = epicItems.slice(1);
-                        rand = newEpicItems[Math.floor(Math.random() * newEpicItems.length)];
-                        multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
-                        itemsOpened.push("You just got an **EPIC** `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 12390624;
-                        lastQual = "epic";
-                    }
-
-                    else if(chance <= 199){
-                        rand = legendItems[Math.floor(Math.random() * legendItems.length)];   //LEGENDARY ITEMS 10.5% chance
-                        multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
-                        itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 16312092;
-                        lastQual = "legendary";
-                    }
-                    else{
-                        //ultra item here
-                        rand = ultraItems[Math.floor(Math.random() * ultraItems.length)];   //ULTRA ITEMS 0.5% chance
-                        multiItemArray.push("<:UnboxUltra:526248982691840003> `" + rand + "`");
-                        itemsOpened.push("You just got an **ULTRA** `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 16711778;
-                        lastQual = "ultra";
-                    }
-                }
-                sql.run(`UPDATE items SET ultra_box = ${row.ultra_box - amount} WHERE userId = ${message.author.id}`);
-            }
-            else if(type == "ammo_box"){
-                for(var i = 0; i < amount; i++){
-                    let chance = Math.floor(Math.random() * 101) + (row.luck) //1-100
-                    let rand = "";
-
-                    if(chance <= 40){                                   //COMMON AMMO 44% chance
-                        rand = commonAmmo[Math.floor(Math.random() * commonAmmo.length)];
-                        multiItemArray.push("<:UnboxCommon:526248905676029968> `" + rand + "`");
-                        itemsOpened.push("You just got a common `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 10197915;
-                        lastQual = "common";
-                    }
-                    else if(chance <= 72){                               //UNCOMMON AMMO 30% chance
-                        rand = uncommonAmmo[Math.floor(Math.random() * uncommonAmmo.length)];
-                        multiItemArray.push("<:UnboxUncommon:526248928891371520> `" + rand + "`");
-                        itemsOpened.push("You just got an uncommon `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 4755200;
-                        lastQual = "uncommon";
-                    }
-
-                    else if(chance <= 94){                               //RARE AMMO 20% chance
-                        rand = rareAmmo[Math.floor(Math.random() * rareAmmo.length)];
-                        multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
-                        itemsOpened.push("You just got a RARE `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 30463;
-                        lastQual = "rare";
-                    }
-
-                    else if(chance <= 98) {                                //EPIC AMMO  8% chance
-                        rand = epicAmmo[Math.floor(Math.random() * epicAmmo.length)];
-                        multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
-                        itemsOpened.push("You just got an **EPIC** `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 12390624;
-                        lastQual = "epic";
-                    }
-                    else{                                                  //LEGENDARY AMMO 2% chance
-                        rand = legendAmmo[Math.floor(Math.random() * legendAmmo.length)];
-                        multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
-                        itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 16312092;
-                        lastQual = "legendary";
-                    }
-                }
-                sql.run(`UPDATE items SET ammo_box = ${row.ammo_box - amount} WHERE userId = ${message.author.id}`);
-            }
-            else if(type == "ultra_ammo"){
-                for(var i = 0; i < amount; i++){
-                    let chance = Math.floor(Math.random() * 101) + (row.luck) //1-100
-                    let rand = "";
-                    
-                    if(chance <= 10){                               //UNCOMMON AMMO 10% chance
-                        rand = uncommonAmmo[Math.floor(Math.random() * uncommonAmmo.length)];
-                        multiItemArray.push("<:UnboxUncommon:526248928891371520> `" + rand + "`");
-                        itemsOpened.push("You just got an uncommon `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 4755200;
-                        lastQual = "uncommon";
-                    }
-
-                    else if(chance <= 60){                               //RARE AMMO 50% chance
-                        rand = rareAmmo[Math.floor(Math.random() * rareAmmo.length)];
-                        multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
-                        itemsOpened.push("You just got a RARE `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 30463;
-                        lastQual = "rare";
-                    }
-
-                    else if(chance <= 90) {                                //EPIC AMMO  30% chance
-                        rand = epicAmmo[Math.floor(Math.random() * epicAmmo.length)];
-                        multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
-                        itemsOpened.push("You just got an **EPIC** `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 12390624;
-                        lastQual = "epic";
-                    }
-                    else{                                                  //LEGENDARY AMMO 10% chance
-                        rand = legendAmmo[Math.floor(Math.random() * legendAmmo.length)];
-                        multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
-                        itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
-                        pureItemArray.push(rand);
-                        lastItem = rand;
-                        lastRarity = 16312092;
-                        lastQual = "legendary";
-                    }
-                }
-                sql.run(`UPDATE items SET ultra_ammo = ${row.ultra_ammo - amount} WHERE userId = ${message.author.id}`);
-            }
-
-            var counts = {};
-            pureItemArray.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
-
-            Object.keys(counts).forEach(key => {
-                //key is the item
-                //counts[key] is the item amount in array
-                sql.run(`UPDATE items SET ${key} = ${row[key] + counts[key]} WHERE userId = ${message.author.id}`);
-            });
-            
-            const embedInfo = new Discord.RichEmbed()
-            .setAuthor(message.member.displayName, message.author.avatarURL)
-            .setColor(lastRarity)
-            if(amount == 1){
-                embedInfo.setTitle(itemsOpened);
-                if(itemImg[lastItem] != undefined){
-                    embedInfo.setImage(itemImg[lastItem]);
                 }
                 else{
-                    embedInfo.setImage(itemImg[lastQual]);
+                    embedInfo.setDescription(multiItemArray);
+                    embedInfo.setFooter(amount + " boxes opened.");
                 }
-            }
-            else{
-                embedInfo.setDescription(multiItemArray);
-                embedInfo.setFooter(amount + " boxes opened.");
-            }
-            message.channel.send(embedInfo);
+                message.channel.send(embedInfo);
+            });
         });
+    }
+
+
+    //TRADE COMMAND METHODS
+    getTotalItmCountFromList(list){
+        if(list.length == 0){
+            return 0;
+        }
+        let totalItemCt = 0;
+        for(var i=0; i < list.length; i++){
+            //do stuff for each item
+            //store amounts in array as ["rock|5","ak47|2"] then use split("|")
+            let itemToCheck = list[i].split("|");
+            totalItemCt += parseInt(itemToCheck[1]);
+        }
+        return totalItemCt;
     }
 
     //GAMBLE SUBCOMMANDS
@@ -774,6 +817,15 @@ class Methods {
                 sql.run(`UPDATE scores SET money = ${parseInt(row.money - amount)} WHERE userId = ${message.author.id}`);
             }
         });
+    }
+
+    //SCRAMBLE COMMAND
+    scrambleWinMsg(message, itemReward){
+        const embedScramble = new Discord.RichEmbed()
+        .setTitle("**You got it correct!**")
+        .setDescription("Reward : ```" + itemReward+"```")
+        .setColor(9043800);
+        message.channel.send(message.author, embedScramble);
     }
 
     //MODERATING FUNCTIONS

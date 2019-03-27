@@ -150,10 +150,12 @@ class Commands {
                     .setColor(13215302)
                     .setAuthor(message.guild.members.get(userId).displayName + "'s Profile", client.users.get(userId).avatarURL)
                     .setDescription(row.kills+ " Kills | "+row.deaths+" Deaths ("+(row.kills/ row.deaths).toFixed(2)+" K/D)")
-                    .addField("🌟 Skill Points", row.stats)
-                    .addField("💗 Vitality", row.health + "/" + row.maxHealth, true)
+                    .addField("💗 Vitality", row.health + "/" + row.maxHealth + " HP", true)
                     .addField("💥 Strength", (row.scaledDamage).toFixed(2) + "x damage", true)
                     .addField("🍀 Luck", row.luck, true)
+                    .addBlankField()
+                    .setImage("https://cdn.discordapp.com/attachments/497302646521069570/559899155225640970/invSlots.png")
+                    .setFooter("🌟 " + row.stats + " Available skill points")
                     if(row.deaths == 0){
                         profileEmbed.setDescription(row.kills+ " Kills | "+row.deaths+" Deaths ("+row.kills+" K/D)")
                     }
@@ -400,6 +402,7 @@ class Commands {
                     });
                 }
                 else{
+                    methods.getitemcount(sql, message.author.id).then(itemCt => {
                     for (var i = 0; i < completeItemsCheck.length; i++) {
                         itemCheck(completeItemsCheck[i]);
                     }
@@ -443,7 +446,7 @@ class Commands {
                         userScoreImage = "https://cdn.discordapp.com/attachments/501120454136692737/501971878873923599/pixelbnner4HITMAN.png";
                         userScoreColor = 16761204;
                     }
-                    
+
                     const embedInfo = new Discord.RichEmbed()
                     .setColor(userScoreColor)
                     .setAuthor(`${message.member.displayName}'s Inventory`, message.author.avatarURL)
@@ -466,10 +469,10 @@ class Commands {
                     embedInfo.addField("❤Health",`${row.health}/${row.maxHealth}`)
                     embedInfo.addField("💵Money : $" + row.money,"\u200b")
                     if(moddedUsers.has(message.author.id)){
-                        embedInfo.setFooter("User rating: " +userRating + " | This user is a Lootcord moderator! 💪");
+                        embedInfo.setFooter("Inventory space: " + itemCt + "/" + row.inv_slots + " | This user is a Lootcord moderator! 💪");
                     }
                     else{
-                        embedInfo.setFooter("User rating: " +userRating);
+                        embedInfo.setFooter("Inventory space: " + itemCt + "/" + row.inv_slots);
                     }
                     if(ultraItemList != ""){
                         let newList = ultraItemList.join('');
@@ -502,7 +505,8 @@ class Commands {
                     if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){
                         embedInfo.addField("Your inventory is empty!", "\u200b");
                     }
-                    message.channel.send(embedInfo);    
+                    message.channel.send(embedInfo);
+                    });
                 }
                 ultraItemList = [];
                 legendItemList = [];
@@ -1333,6 +1337,7 @@ class Commands {
         let recycleMax = 1;
         let extraScrap = "";
         let chance = Math.random();
+        let rand = "";
         if(sellItem !== undefined){
             sellItem = sellItem.toLowerCase();
             //THESE WILL BE USED FOR SPECIFIC FIXES (SUCH AS CHANGING NAME TO FIT ITEM ARRAYS)
@@ -1383,14 +1388,14 @@ class Commands {
                 recycleMin = 1;
                 recycleMax = 3;
                 let subArray = eval(`item${sellItem.toUpperCase()}[8]`);
-                let rand = subArray[Math.floor(Math.random() * subArray.length)];
+                rand = subArray[Math.floor(Math.random() * subArray.length)];
                 extraScrap = "0 - 1 " + eval(`item${sellItem.toUpperCase()}[8]`);
             }
             else if(eval(`item${sellItem.toUpperCase()}[7]`) == "Ultra"){
                 recycleMin = 2;
                 recycleMax = 4;
                 let subArray = eval(`item${sellItem.toUpperCase()}[8]`);
-                let rand = subArray[Math.floor(Math.random() * subArray.length)];
+                rand = subArray[Math.floor(Math.random() * subArray.length)];
                 extraScrap = "1 " + eval(`item${sellItem.toUpperCase()}[8]`);
                 chance = 1;
             }
@@ -1429,15 +1434,25 @@ class Commands {
                             if(eval(`itemRow.${itemName}`) >= sellAmount){
                                 //RECYCLE HERE
                                 if(chance >= .5){
-                                    message.reply("`" + itemName + "` recycled for ```" + (itemPrice) + " module\nAND\n1 "+rand+"```");
-                                    sql.run(`UPDATE items SET ${itemName} = ${eval(`itemRow.${itemName}`) - 1} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET module = ${itemRow.module + itemPrice} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET ${rand} = ${eval(`itemRow.${rand}`) + 1} WHERE userId = ${message.author.id}`);
+                                    methods.hasenoughspace(sql, message.author.id, itemPrice).then(hasenough => {
+                                        if(!hasenough){
+                                            return message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.");
+                                        }
+                                        message.reply("`" + itemName + "` recycled for ```" + (itemPrice) + " module\nAND\n1 "+rand+"```");
+                                        sql.run(`UPDATE items SET ${itemName} = ${eval(`itemRow.${itemName}`) - 1} WHERE userId = ${message.author.id}`);
+                                        sql.run(`UPDATE items SET module = ${itemRow.module + itemPrice} WHERE userId = ${message.author.id}`);
+                                        sql.run(`UPDATE items SET ${rand} = ${eval(`itemRow.${rand}`) + 1} WHERE userId = ${message.author.id}`);
+                                    });
                                 }
                                 else{
-                                    message.reply("`" + itemName + "` recycled for ```" + (itemPrice) + " module```");
-                                    sql.run(`UPDATE items SET ${itemName} = ${eval(`itemRow.${itemName}`) - 1} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET module = ${itemRow.module + itemPrice} WHERE userId = ${message.author.id}`);
+                                    methods.hasenoughspace(sql, message.author.id, itemPrice - 1).then(hasenough => {
+                                        if(!hasenough){
+                                            return message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.");
+                                        }
+                                        message.reply("`" + itemName + "` recycled for ```" + (itemPrice) + " module```");
+                                        sql.run(`UPDATE items SET ${itemName} = ${eval(`itemRow.${itemName}`) - 1} WHERE userId = ${message.author.id}`);
+                                        sql.run(`UPDATE items SET module = ${itemRow.module + itemPrice} WHERE userId = ${message.author.id}`);
+                                    });
                                 }
                                 //sql.run(`UPDATE scores SET money = ${row.money + parseInt(itemPrice * sellAmount)} WHERE userId = ${message.author.id}`);
                                 //sql.run(`UPDATE items SET ${itemName} = ${eval(`itemRow.${itemName}`) - (1 * sellAmount)} WHERE userId = ${message.author.id}`);
@@ -1822,14 +1837,17 @@ class Commands {
                                         botMessage.delete();
                                         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
                                         sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(itemRow => {
-                                            if(row.money >= (eval(`item${buyItem.toUpperCase()}[4]`) * buyAmount)){ //edit
-                                                sql.run(`UPDATE scores SET money = ${row.money - (itemPrice * buyAmount)} WHERE userId = ${message.author.id}`);
-                                                sql.run(`UPDATE items SET ${itemName} = ${eval(`itemRow.${itemName}`) + (1 * buyAmount)} WHERE userId = ${message.author.id}`);
-                                                message.reply("You bought " + buyAmount + "x " + itemName + "!");
-                                            }
-                                            else{
-                                                message.reply("You don't have enough money!");
-                                            }
+                                            methods.hasenoughspace(sql, message.author.id, parseInt(buyAmount)).then(result => {
+                                                if(row.money >= (eval(`item${buyItem.toUpperCase()}[4]`) * buyAmount)){
+                                                    if(!result) return message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.");
+                                                    sql.run(`UPDATE scores SET money = ${row.money - (itemPrice * buyAmount)} WHERE userId = ${message.author.id}`);
+                                                    sql.run(`UPDATE items SET ${itemName} = ${eval(`itemRow.${itemName}`) + (1 * buyAmount)} WHERE userId = ${message.author.id}`);
+                                                    message.reply("You bought " + buyAmount + "x " + itemName + "!");
+                                                }
+                                                else{
+                                                    message.reply("You don't have enough money!");
+                                                }
+                                            });
                                         });
                                         });
                                     }
@@ -2449,13 +2467,13 @@ class Commands {
 
                                         let isPlayer1 = 0; //0 means trade was cancelled, 1 means player1 accepted, 2 means player2 accepted
                                         
-                                        function activeWindow(option){
+                                        function activeWindow(option, tradeCode = '1000'){
                                             if(option == 1){
                                                 const activeWindow = new Discord.RichEmbed()
-                                                .setTitle("**🔃Trade log**")
+                                                .setTitle(tradeCode == '1000' ? "**🔃Trade log**" : "**❌Trade incompleted** `" + tradeCode + "`")
                                                 .setDescription(message.guild.members.get(userNameID).user.username + " ID : " + userNameID + " TRADED WITH\n" + message.author.username + " ID : " + message.author.id)
-                                                .setColor(2713128)
-                                                .setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/500519995277574145/thanbox_emptysmall.png")
+                                                .setColor(tradeCode == '1000' ? 2713128 : 1)
+                                                .setThumbnail(tradeCode == '1000' ? "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/white-heavy-check-mark_2705.png" : "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/cross-mark_274c.png")
                                                 .addField(message.author.username + "'s MONEY", "$" + player1money,true)
                                                 .addField(message.guild.members.get(userNameID).user.username + "'s MONEY", "$" + player2money,true)
                                                 .setFooter("Keep an eye on users that trade high-value for low-value")
@@ -2471,7 +2489,20 @@ class Commands {
                                                 else{
                                                     activeWindow.addField(message.guild.members.get(userNameID).user.username + "'s items", "no items", true);
                                                 }
-                                                client.guilds.get("454163538055790604").channels.get("500467081226223646").send(activeWindow);
+                                                //VVV TRADE CODE HANDLING VVV
+                                                var errorCodes = {
+                                                    _0001: message.author.username + " didn't have enough space in their inventory.",
+                                                    _0002: message.guild.members.get(userNameID).user.username +" didn't have enough space in their inventory.",
+                                                    _0003: message.guild.members.get(userNameID).user.username +" didn't have enough money.",
+                                                    _0004: message.author.username +" didn't have enough money.",
+                                                    _0005: message.guild.members.get(userNameID).user.username +" didn't have the items they originally wanted to trade.",
+                                                    _0006: message.author.username +" didn't have the items they originally wanted to trade.",
+                                                }
+                                                if(tradeCode !== '1000'){
+                                                    activeWindow.setFooter(tradeCode + " => " + errorCodes["_" + tradeCode]);
+                                                }
+                                                
+                                                client.guilds.get("454163538055790604").channels.get("454163538886524928").send(activeWindow);
                                             }
                                             else{
                                                 const activeWindow = new Discord.RichEmbed()
@@ -2659,40 +2690,57 @@ class Commands {
                                         });
                                         collector.on("end", response => {
                                             function swapItems(){
-                                                methods.hasmoney(sql, userNameID, player2money).then(result => {
-                                                    //give player2money to player1
-                                                    if(result){
-                                                        methods.hasmoney(sql, message.author.id, player1money).then(result => {
-                                                            if(result){
-                                                                methods.hasitems(sql, userNameID, player2itemsAmounts).then(result => {
+                                                return methods.hasenoughspace(sql, message.author.id, methods.getTotalItmCountFromList(player2itemsAmounts) - methods.getTotalItmCountFromList(player1itemsAmounts)).then(messageAuthorHasEnough => {
+                                                    if(messageAuthorHasEnough){
+                                                        return methods.hasenoughspace(sql, userNameID, methods.getTotalItmCountFromList(player1itemsAmounts) - methods.getTotalItmCountFromList(player2itemsAmounts)).then(player2HasEnough => {
+                                                            if(player2HasEnough){
+                                                                return methods.hasmoney(sql, userNameID, player2money).then(result => {
+                                                                    //give player2money to player1
                                                                     if(result){
-                                                                        methods.hasitems(sql, message.author.id, player1itemsAmounts).then(result => {
+                                                                        return methods.hasmoney(sql, message.author.id, player1money).then(result => {
                                                                             if(result){
-                                                                                //finally trade items
-                                                                                /*
-                                                                                methods.addmoney(sql, message.author.id, player2money);
-                                                                                methods.addmoney(sql, userNameID, player1money);
-                                                                                methods.removemoney(sql, userNameID, player2money);
-                                                                                methods.removemoney(sql, message.author.id, player1money);
-                                                                                */
-                                                                                methods.trademoney(sql, message.author.id, player1money, userNameID, player2money);
-
-                                                                                methods.additem(sql, message.author.id, player2itemsAmounts);
-                                                                                methods.removeitem(sql, userNameID, player2itemsAmounts);
-                                                                                methods.additem(sql, userNameID, player1itemsAmounts);
-                                                                                methods.removeitem(sql, message.author.id, player1itemsAmounts);
-                                                                                message.channel.send("✅ Trade completed!");
+                                                                                return methods.hasitems(sql, userNameID, player2itemsAmounts).then(result => {
+                                                                                    if(result){
+                                                                                        return methods.hasitems(sql, message.author.id, player1itemsAmounts).then(result => {
+                                                                                            if(result){
+                                                                                                //finally trade items
+                                                                                                /*
+                                                                                                methods.addmoney(sql, message.author.id, player2money);
+                                                                                                methods.addmoney(sql, userNameID, player1money);
+                                                                                                methods.removemoney(sql, userNameID, player2money);
+                                                                                                methods.removemoney(sql, message.author.id, player1money);
+                                                                                                */
+                                                                                                methods.trademoney(sql, message.author.id, player1money, userNameID, player2money);
+                
+                                                                                                methods.additem(sql, message.author.id, player2itemsAmounts);
+                                                                                                methods.removeitem(sql, userNameID, player2itemsAmounts);
+                                                                                                methods.additem(sql, userNameID, player1itemsAmounts);
+                                                                                                methods.removeitem(sql, message.author.id, player1itemsAmounts);
+                                                                                                message.channel.send("✅ Trade completed!");
+                                                                                                return '1000';
+                                                                                            }
+                                                                                            else message.channel.send("❌Trade could not be complete! `0006`")//player1 didnt have the items they wanted to trade
+                                                                                            return '0006';
+                                                                                        });
+                                                                                    }
+                                                                                    else message.channel.send("❌Trade could not be completed! `0005`")//player2 didnt have the items they wanted to trade
+                                                                                    return '0005';
+                                                                                });
                                                                             }
-                                                                            else message.channel.send("❌Trade could not be complete! `004`")
+                                                                            else message.channel.send("❌Trade could not be completed! `0004`")//player1 didn't have enough money
+                                                                            return '0004';
                                                                         });
                                                                     }
-                                                                    else message.channel.send("❌Trade could not be completed! `003`")
+                                                                    else message.channel.send("❌Trade could not be completed! `0003`")//player2 didn't have enough money
+                                                                    return '0003';
                                                                 });
                                                             }
-                                                            else message.channel.send("❌Trade could not be completed! `002`")
+                                                            else message.channel.send("❌" + message.guild.members.get(userNameID).displayName + " doesn't have enough space in their inventory to complete this trade!");
+                                                            return '0002';
                                                         });
                                                     }
-                                                    else message.channel.send("❌Trade could not be completed! `001`")
+                                                    else message.channel.send("❌" + message.member.displayName + " doesn't have enough space in their inventory to complete this trade!");
+                                                    return '0001';
                                                 });
                                             }
                                             let playerGiveTotal = player1money - player2money;
@@ -2708,8 +2756,9 @@ class Commands {
                         
                                                         if(reaction.emoji.name === '✅'){
                                                             botMessage.delete();
-                                                            swapItems(); //verifies users have items before completing trade.
-                                                            activeWindow(1); //sends log to mods
+                                                            swapItems().then(tradeCode => {
+                                                                activeWindow(1, tradeCode); //sends log to mods
+                                                            }); //verifies users have items before completing trade.
                                                         }
                                                         else{
                                                             botMessage.delete();
@@ -2734,8 +2783,9 @@ class Commands {
                         
                                                         if(reaction.emoji.name === '✅'){
                                                             botMessage.delete();
-                                                            swapItems();
-                                                            activeWindow(1); //sends log to mods
+                                                            swapItems().then(tradeCode => {
+                                                                activeWindow(1, tradeCode); //sends log to mods
+                                                            });
                                                         }
                                                         else{
                                                             botMessage.delete();
@@ -2763,6 +2813,14 @@ class Commands {
                     });
                     });
                 }
+            });
+        });
+    }
+    displayInvSlots(message, sql, prefix){
+        sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
+            if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
+            methods.getitemcount(sql, message.author.id).then(itemCt => {
+                message.reply("\n**Backpack equipped:** " + "`none`\n**Inventory space:** `" + itemCt + "/" + row.inv_slots + "`\nIncrease space by equipping a better backpack!");
             });
         });
     }
@@ -2813,24 +2871,25 @@ class Commands {
                                 let chanceR = Math.floor(Math.random() * 10); //returns 0-9 (10% chance)
                                 
                                 let rewardItem = "";
-
-                                if (chanceR <= 0){
-                                    rewardItem = "`ammo_box`";
-                                    sql.run(`UPDATE items SET ammo_box = ${itemRow.ammo_box + 1} WHERE userId = ${message.author.id}`);
-                                }
-                                else if (chanceR >= 6){
-                                    rewardItem = "`$1000`";
-                                    sql.run(`UPDATE scores SET money = ${timeRow.money + 1000} WHERE userId = ${message.author.id}`);
-                                }
-                                else{
-                                    rewardItem = "2x `item_box`";
-                                    sql.run(`UPDATE items SET item_box = ${itemRow.item_box + 2} WHERE userId = ${message.author.id}`);
-                                }
-                                const embedReward = new Discord.RichEmbed() 
-                                .setDescription(`**${eval(`triviaQ[chance].` + triviaQ[chance].answer).toUpperCase()} IS CORRECT**`)
-                                .setColor(720640)
-                                .addField("Reward", rewardItem)
-                                botMessage.edit(embedReward);
+                                methods.hasenoughspace(sql, message.author.id, 2).then(hasenough => {
+                                    if (chanceR <= 0 && hasenough){
+                                        rewardItem = "`ammo_box`";
+                                        sql.run(`UPDATE items SET ammo_box = ${itemRow.ammo_box + 1} WHERE userId = ${message.author.id}`);
+                                    }
+                                    else if (chanceR >= 5 && hasenough){
+                                        rewardItem = "2x `item_box`";
+                                        sql.run(`UPDATE items SET item_box = ${itemRow.item_box + 2} WHERE userId = ${message.author.id}`);
+                                    }
+                                    else{//40% chance
+                                        rewardItem = "`$1000`";
+                                        sql.run(`UPDATE scores SET money = ${timeRow.money + 1000} WHERE userId = ${message.author.id}`);
+                                    }
+                                    const embedReward = new Discord.RichEmbed() 
+                                    .setDescription(`**${eval(`triviaQ[chance].` + triviaQ[chance].answer).toUpperCase()} IS CORRECT**`)
+                                    .setColor(720640)
+                                    .addField("Reward", rewardItem)
+                                    botMessage.edit(embedReward);
+                                });
                             });
                         }
 
@@ -2946,67 +3005,92 @@ class Commands {
                             let rewardItem = "";
                             if(isHardMode){
                                 if(scrambleDifficulty =="hard"){
-                                    if(chance < scrambleJSONlength/4){
-                                        rewardItem = "ultra_box";
-                                        sql.run(`UPDATE items SET ultra_box = ${row.ultra_box + 1} WHERE userId = ${message.author.id}`);
-                                    }
-                                    else{
-                                        rewardItem = "$1700";
-                                        sql.run(`UPDATE scores SET money = ${row.money + 1700} WHERE userId = ${message.author.id}`);
-                                    }
+                                    methods.hasenoughspace(sql, message.author.id, 1).then(hasenough => {
+                                        if((chance < scrambleJSONlength/4) && hasenough){
+                                            rewardItem = "ultra_box";
+                                            methods.scrambleWinMsg(message, rewardItem);
+                                            sql.run(`UPDATE items SET ultra_box = ${row.ultra_box + 1} WHERE userId = ${message.author.id}`);
+                                        }
+                                        else{
+                                            rewardItem = "$1700";
+                                            methods.scrambleWinMsg(message, rewardItem);
+                                            sql.run(`UPDATE scores SET money = ${row.money + 1700} WHERE userId = ${message.author.id}`);
+                                        }
+                                    });
                                 }
                                 else if(scrambleDifficulty == "medium"){
-                                    if(chance < scrambleJSONlength/3){
-                                        rewardItem = "ammo_box";
-                                        sql.run(`UPDATE items SET ammo_box = ${row.ammo_box + 1} WHERE userId = ${message.author.id}`);
-                                    }
-                                    else{
-                                        rewardItem = "$1100";
-                                        sql.run(`UPDATE scores SET money = ${row.money + 1100} WHERE userId = ${message.author.id}`);
-                                    }
+                                    methods.hasenoughspace(sql, message.author.id, 1).then(hasenough => {
+                                        if((chance < scrambleJSONlength/3) && hasenough){
+                                            rewardItem = "ammo_box";
+                                            methods.scrambleWinMsg(message, rewardItem);
+                                            sql.run(`UPDATE items SET ammo_box = ${row.ammo_box + 1} WHERE userId = ${message.author.id}`);
+                                        }
+                                        else{
+                                            rewardItem = "$1100";
+                                            methods.scrambleWinMsg(message, rewardItem);
+                                            sql.run(`UPDATE scores SET money = ${row.money + 1100} WHERE userId = ${message.author.id}`);
+                                        }
+                                    });
                                 }
                                 else{
-                                    if(chance < scrambleJSONlength/3){
-                                        rewardItem = "2x item_box";
-                                        sql.run(`UPDATE items SET item_box = ${row.item_box + 2} WHERE userId = ${message.author.id}`);
-                                    }
-                                    else{
-                                        rewardItem = "$800";
-                                        sql.run(`UPDATE scores SET money = ${row.money + 800} WHERE userId = ${message.author.id}`);
-                                    }
+                                    methods.hasenoughspace(sql, message.author.id, 2).then(hasenough => {
+                                        if((chance < scrambleJSONlength/3) && hasenough){
+                                            rewardItem = "2x item_box";
+                                            methods.scrambleWinMsg(message, rewardItem);
+                                            sql.run(`UPDATE items SET item_box = ${row.item_box + 2} WHERE userId = ${message.author.id}`);
+                                        }
+                                        else{
+                                            rewardItem = "$800";
+                                            methods.scrambleWinMsg(message, rewardItem);
+                                            sql.run(`UPDATE scores SET money = ${row.money + 800} WHERE userId = ${message.author.id}`);
+                                        }
+                                    });
                                 }
                             }
                             else{
                                 if(scrambleDifficulty =="hard"){
-                                    if(chance > scrambleJSONlength/2){
-                                        rewardItem = "2x item_box";
-                                        sql.run(`UPDATE items SET item_box = ${row.item_box + 2} WHERE userId = ${message.author.id}`);
-                                    }
-                                    else{
-                                        rewardItem = "$650";
-                                        sql.run(`UPDATE scores SET money = ${row.money + 650} WHERE userId = ${message.author.id}`);
-                                    }
+                                    methods.hasenoughspace(sql, message.author.id, 2).then(hasenough => {
+                                        if((chance > scrambleJSONlength/2) && hasenough){
+                                            rewardItem = "2x item_box";
+                                            methods.scrambleWinMsg(message, rewardItem);
+                                            sql.run(`UPDATE items SET item_box = ${row.item_box + 2} WHERE userId = ${message.author.id}`);
+                                        }
+                                        else{
+                                            rewardItem = "$650";
+                                            methods.scrambleWinMsg(message, rewardItem);
+                                            sql.run(`UPDATE scores SET money = ${row.money + 650} WHERE userId = ${message.author.id}`);
+                                        }
+                                    });
                                 }
                                 else if(scrambleDifficulty == "medium"){
-                                    if(chance > scrambleJSONlength/2){
-                                        rewardItem = "item_box";
-                                        sql.run(`UPDATE items SET item_box = ${row.item_box + 1} WHERE userId = ${message.author.id}`);
-                                    }
-                                    else{
-                                        rewardItem = "$400";
-                                        sql.run(`UPDATE scores SET money = ${row.money + 400} WHERE userId = ${message.author.id}`);
-                                    }
+                                    methods.hasenoughspace(sql, message.author.id, 1).then(hasenough => {
+                                        if((chance > scrambleJSONlength/2) && hasenough){
+                                            rewardItem = "item_box";
+                                            methods.scrambleWinMsg(message, rewardItem);
+                                            sql.run(`UPDATE items SET item_box = ${row.item_box + 1} WHERE userId = ${message.author.id}`);
+                                        }
+                                        else{
+                                            rewardItem = "$400";
+                                            methods.scrambleWinMsg(message, rewardItem);
+                                            sql.run(`UPDATE scores SET money = ${row.money + 400} WHERE userId = ${message.author.id}`);
+                                        }
+                                    });
                                 }
                                 else{
-                                    rewardItem = "item_box";
-                                    sql.run(`UPDATE items SET item_box = ${row.item_box + 1} WHERE userId = ${message.author.id}`);
+                                    methods.hasenoughspace(sql, message.author.id, 1).then(hasenough => {
+                                        if(hasenough){
+                                            rewardItem = "item_box";
+                                            methods.scrambleWinMsg(message, rewardItem);
+                                            sql.run(`UPDATE items SET item_box = ${row.item_box + 1} WHERE userId = ${message.author.id}`);
+                                        }
+                                        else{
+                                            rewardItem = "$250";
+                                            methods.scrambleWinMsg(message, rewardItem);
+                                            sql.run(`UPDATE scores SET money = ${row.money + 250} WHERE userId = ${message.author.id}`);
+                                        }
+                                    });
                                 }
                             }
-                            const embedScramble = new Discord.RichEmbed()
-                            .setTitle("**You got it correct!**")
-                            .setDescription("Reward : ```" + rewardItem+"```")
-                            .setColor(9043800);
-                            message.channel.send(message.author, embedScramble);
                             collector.stop();
                         });
                     }
@@ -3049,19 +3133,22 @@ class Commands {
                     message.reply("You need to wait  `" + ((hourlyCdSeconds * 1000 - ((new Date()).getTime() - timeRow.hourlyTime)) / 60000).toFixed(1) + " minutes`  before using this command again.");
                     return;
                 }
-                let luck = timeRow.luck >= 50 ? 25 : Math.floor(timeRow.luck/2);
-                let chance = Math.floor(Math.random() * 100) + luck;
-                if(chance >= 100){
-                    message.reply("🍀Here's a free `ultra_box`!");
-                    sql.run(`UPDATE items SET ultra_box = ${row.ultra_box + 1} WHERE userId = ${message.author.id}`);
-                }
-                else{
-                    message.reply("Here's a free `item_box`!");
-                    sql.run(`UPDATE items SET item_box = ${row.item_box + 1} WHERE userId = ${message.author.id}`);
-                }
-                
-                sql.run(`UPDATE scores SET hourlyTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-                hourlyCooldown.add(message.author.id);
+                methods.hasenoughspace(sql, message.author.id, 1).then(hasenough => {
+                    if(!hasenough) return message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.");
+                    let luck = timeRow.luck >= 40 ? 10 : Math.floor(timeRow.luck/4);
+                    let chance = Math.floor(Math.random() * 100) + luck;
+                    if(chance >= 100){
+                        message.reply("🍀Here's a free `ultra_box`!");
+                        sql.run(`UPDATE items SET ultra_box = ${row.ultra_box + 1} WHERE userId = ${message.author.id}`);
+                    }
+                    else{
+                        message.reply("Here's a free `item_box`!");
+                        sql.run(`UPDATE items SET item_box = ${row.item_box + 1} WHERE userId = ${message.author.id}`);
+                    }
+                    
+                    sql.run(`UPDATE scores SET hourlyTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
+                    hourlyCooldown.add(message.author.id);
+                });
             });
         });
         setTimeout(() => {
@@ -4018,7 +4105,7 @@ class Commands {
         else{
             const modCommands = [
                 "`" + prefix + "message <id> <message>` - Messages a user. Allows attachments such as images, mp3, mp4.",
-                "`" + prefix + "warn <id> <message>` - Warns a user, similar to messaging but shows up red on the users side (for intimidation 😈).",
+                "`" + prefix + "warn <id> <message>` - Warns a user, similar to messaging but warns user for a ban.",
                 "`" + prefix + "ban <id> <reason>` - Bans user and messages them with the reason they've been banned.",
                 "`" + prefix + "unban <id>` - Unbans user and sends them message stating they've been unbanned.",
                 "`" + prefix + "status <activity> <status>` - Sets bot status.",
@@ -4690,7 +4777,6 @@ class Commands {
             message.reply("Something went wrong. Command only works with `t-` prefix. ```"+err+"```");
         }
     }
-
     fullwipe(message, sql, adminUsers){
         console.log("got heres");
         if(!adminUsers.has(message.author.id)){
