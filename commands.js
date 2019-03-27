@@ -150,10 +150,12 @@ class Commands {
                     .setColor(13215302)
                     .setAuthor(message.guild.members.get(userId).displayName + "'s Profile", client.users.get(userId).avatarURL)
                     .setDescription(row.kills+ " Kills | "+row.deaths+" Deaths ("+(row.kills/ row.deaths).toFixed(2)+" K/D)")
-                    .addField("💗 Vitality", row.health + "/" + row.maxHealth + " HP", true)
-                    .addField("💥 Strength", (row.scaledDamage).toFixed(2) + "x damage", true)
-                    .addField("🍀 Luck", row.luck, true)
+                    .addField("💗 Vitality", row.health + "/" + row.maxHealth + " HP")
+                    .addField("💥 Strength", (row.scaledDamage).toFixed(2) + "x damage")
+                    .addField("🍀 Luck", row.luck)
                     .addBlankField()
+                    .addField("=== Armor ===", "󠇰Common", true)
+                    .addField("=== Backpack ===", "**Epic**", true)
                     .setImage("https://cdn.discordapp.com/attachments/497302646521069570/559899155225640970/invSlots.png")
                     .setFooter("🌟 " + row.stats + " Available skill points")
                     if(row.deaths == 0){
@@ -4130,9 +4132,9 @@ class Commands {
         if(!moddedUsers.has(message.author.id) && !adminUsers.has(message.author.id)){
             return message.reply("Only mods can use this command!");
         }
-        else if(message.channel.id !== "496740775212875816"){
-            return message.reply('You must be in the mod-command-center!');
-        }
+        //else if(message.channel.id !== "496740775212875816"){
+        //    return message.reply('You must be in the mod-command-center!');
+        //}
         let args = message.content.split(" ").slice(1);
         let userNameID = args[0];
         
@@ -4155,7 +4157,7 @@ class Commands {
                 .setFooter("Appeal : not available yet | Sorry but you probably deserved it 🤷")
                 try{
                     client.users.get(userNameID).send(banMsg);
-                    sql.run("INSERT INTO banned (userId) VALUES (?)", [userNameID]);
+                    sql.run("INSERT INTO banned (userId, reason, date) VALUES (?, ?, ?)", [userNameID, banReason, (new Date()).getTime()]);
                     bannedUsers.add(userNameID);
                     message.reply("User ("+ client.users.get(userNameID).tag +") successfully banned.");
                 }
@@ -4374,6 +4376,29 @@ class Commands {
         catch(err){
             message.reply("Something went wrong. Make sure you input the correct info.")
         }
+    }
+    getbaninfo(message, sql, moddedUsers, bannedUsers, prefix){
+        if(!moddedUsers.has(message.author.id) && !adminUsers.has(message.author.id)){
+            message.reply("Only mods can use this command!");
+            return;
+        }
+        let args = message.content.split(" ").slice(1);
+        let bannedID = args[0];
+        if(!bannedUsers.has(bannedID)){
+            message.reply("That user wasn't banned.\nMake sure to use the users ID which can be found in the `getbans` command.");
+            return;
+        }
+        sql.get(`SELECT * FROM banned WHERE userId =${bannedID}`).then(row => {
+            console.log(bannedID);
+            const banMsg = new Discord.RichEmbed()
+            .setTitle(client.users.get(bannedID).tag + " Ban Info")
+            .addField("Reason", "```" + row.reason + "```")
+            .addField("Date", new Date(row.date).toString())
+            .setColor(13632027)
+            message.channel.send(banMsg);
+        }).catch(err => {
+            message.channel.send("ERROR GETTING BAN INFO:\n```" + err + "```")
+        });
     }
     activity(message, moddedUsers, prefix){
         if(!moddedUsers.has(message.author.id)){

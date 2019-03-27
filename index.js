@@ -313,6 +313,14 @@ client.on(`ready`,() => {
         console.log("added `inv_slots` to scores | CHANGE THE SCRIPT NOW");
         sql.run("UPDATE scores SET inv_slots = 10");
     });
+    sql.run("ALTER TABLE banned ADD reason").then(row => {
+    }).catch(() => {
+        console.log("added `reason` to banned | CHANGE THE SCRIPT NOW");
+    });
+    sql.run("ALTER TABLE banned ADD date").then(row => {
+    }).catch(() => {
+        console.log("added `date` to banned | CHANGE THE SCRIPT NOW");
+    });
 });
 
 client.on("message", (message) => {    
@@ -624,6 +632,7 @@ client.on("message", (message) => {
                 case 'message': commands.message(message, moddedUsers, prefix); break;
                 case 'status': commands.status(message, moddedUsers, prefix); break;
                 case 'getbans': commands.getbans(message, moddedUsers, bannedUsers, prefix); break;
+                case 'getbaninfo': commands.getbaninfo(message, sql, moddedUsers, bannedUsers, prefix); break;
                 case 'invwipe': commands.invwipe(message, sql, moddedUsers, prefix); break;
                 case 'getinv': commands.getinv(message, sql, moddedUsers, prefix); break;
                 case 'restoreinv': commands.restoreinv(message, sql, moddedUsers, prefix); break;
