@@ -2502,7 +2502,7 @@ class Commands {
                                                     activeWindow.setFooter(tradeCode + " => " + errorCodes["_" + tradeCode]);
                                                 }
                                                 
-                                                client.guilds.get("454163538055790604").channels.get("454163538886524928").send(activeWindow);
+                                                client.guilds.get("454163538055790604").channels.get(config.logChannel).send(activeWindow);
                                             }
                                             else{
                                                 const activeWindow = new Discord.RichEmbed()
