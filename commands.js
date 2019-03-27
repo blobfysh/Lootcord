@@ -4132,9 +4132,9 @@ class Commands {
         if(!moddedUsers.has(message.author.id) && !adminUsers.has(message.author.id)){
             return message.reply("Only mods can use this command!");
         }
-        //else if(message.channel.id !== "496740775212875816"){
-        //    return message.reply('You must be in the mod-command-center!');
-        //}
+        else if(message.channel.id !== config.modChannel){
+            return message.reply('You must be in the mod-command-center!');
+        }
         let args = message.content.split(" ").slice(1);
         let userNameID = args[0];
         
@@ -4216,7 +4216,7 @@ class Commands {
         if(!moddedUsers.has(message.author.id) && !adminUsers.has(message.author.id)){
             return message.reply("Only mods can use this command!");
         }
-        else if(message.channel.id !== "496740775212875816"){
+        else if(message.channel.id !== config.modChannel){
             return message.reply('You must be in the mod-command-center!');
         }
         let args = message.content.split(" ").slice(1);
@@ -4247,7 +4247,7 @@ class Commands {
         if(!moddedUsers.has(message.author.id)){
             return message.reply("Only mods can use this command!");
         }
-        else if(message.channel.id !== "496740775212875816"){
+        else if(message.channel.id !== config.modChannel){
             return message.reply('You must be in the mod-command-center!');
         }
         let args = message.content.split(" ").slice(1);
@@ -4285,7 +4285,7 @@ class Commands {
         if(!moddedUsers.has(message.author.id)){
             return message.reply("Only mods can use this command!");
         }
-        else if(message.channel.id !== "496740775212875816"){
+        else if(message.channel.id !== config.modChannel){
             return message.reply('You must be in the mod-command-center!');
         }
         let args = message.content.split(" ").slice(1);
@@ -4424,7 +4424,7 @@ class Commands {
         if(!moddedUsers.has(message.author.id)){
             return message.reply("Only mods can use this command!");
         }
-        else if(message.channel.id !== "496740775212875816"){
+        else if(message.channel.id !== config.modChannel){
             return message.reply('You must be in the mod-command-center!');
         }
         let args = message.content.split(" ").slice(1);
@@ -4493,7 +4493,7 @@ class Commands {
         if(!moddedUsers.has(message.author.id)){
             return message.reply("Only mods can use this command!");
         }
-        else if(message.channel.id !== "496740775212875816"){
+        else if(message.channel.id !== config.modChannel){
             return message.reply('You must be in the mod-command-center!');
         }
         let args = message.content.split(" ").slice(1);
