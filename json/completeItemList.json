@@ -24,6 +24,7 @@
     "maxDmg" : "",
     "isAmmo" : ["bat"],
     "ammo": "",
+    "craftedWith" : "",
     "recyclesTo" : [],
     "buy" : "",
     "sell" : 500,
