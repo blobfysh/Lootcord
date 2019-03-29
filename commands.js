@@ -7,6 +7,7 @@ const Jimp = require("jimp"); //jimp library allows realtime editing of images
 const fs = require("fs");
 const cryptorjs = require("cryptorjs");
 const cryptor = new cryptorjs(config.encryptionAuth);
+const itemInfoJson = require("./json/completeItemList");
 
 let serverReward = new Set(); //used currently, for t-present command
 let deleteCooldown = new Set(); //for delete command
@@ -31,7 +32,7 @@ const jackpotCdSeconds = 600;
 const completeItemsCheck = ["ray_gun","rail_cannon","javelin","rpg","awp","plasma","peck_seed","bmg_50cal","ak47","m4a1","rocket","spas","gold_shield","ultra_ammo","ultra_box","medkit","thompson","revolver", 
                         "iron_shield", "nutcracker", "glock","grenade","blunderbuss","buckshot","crossbow","ammo_box","spear","rifle_bullet","health_pot","bat","pistol_bullet",
                         "bow","sword","snowball","pills","mittens","gingerbread","candycane",,"stocking","item_box","arrow","baseball","fish","fork","club","rock","stick","token",
-                        "screw","steel","adhesive","fiber_optics","module","golf_club","reroll_scroll","xp_potion"]; //in order best-worst
+                        "screw","steel","adhesive","fiber_optics","module","golf_club","reroll_scroll","xp_potion","light_pack","canvas_bag","hikers_pack"]; //in order best-worst
 const itemsList = ["item_box","box", "loot_box", "health", "health_pot", "ammo_box","ammo", "medkit","med", "pills", "iron_shield", "gold_shield","ultra","ultra_box","mittens",
                     "gingerbread","stocking","ultra_ammo","xp_potion","reroll_scroll"]; //handled in use command to see what items exist (items are different from weapons in that they can't be used on other players)
 //LIMITED
@@ -59,6 +60,7 @@ const itemPISTOLBULLET = ["pistol_bullet","Varies","",["glock","thompson"],"",40
 const itemBAT = ["bat",10,18,"N/A","", 350,  "Hit a grand slam!\nDoes bonus damage if you have a `baseball` in your inventory", "Uncommon"];
 const itemPILLS = ["pills", "N/A", "", "N/A", 1000, 200, "Restores `5-14` HP!", "Uncommon"];
 const itemGOLF_CLUB = ["golf_club",12,21,"N/A","", 300,  "An iron club used for hitting golf balls, or enemies.", "Uncommon"];
+const itemLIGHT_PACK = ["light_pack", "N/A", "", "N/A", "", 500, "Equip this backpack to gain **5** item slots!", "Uncommon"];
 //RARE
 const itemRIFLEBULLET = ["rifle_bullet","Varies","",["ak47","m4a1","awp"],"",2250, "Use with weapon", "Rare"]; //AMMO | UPDATE WITH NEW WEAPONS
 const itemGLOCK = ["glock",21,30,"pistol_bullet","", 750,  "Simple pistol", "Rare"];
@@ -80,7 +82,8 @@ const itemMEDKIT = ["medkit", "N/A", "", "N/A", 9000, 800, "Restores `50-60` HP!
 const itemM4A1 = ["m4a1",45, 50,"rifle_bullet","", 1700,  "Accurate automatic rifle", "Epic"];
 const itemULTRA_BOX = ["ultra_box", "N/A", "", "N/A", 10000, 2000, "This box drops an item of atleast Rare quality, or potentially an Ultra item.", "Epic","","7x item_box"];
 const itemULTRA_AMMO = ["ultra_ammo", "N/A", "", "N/A", "", 2200, "This box drops ammo of atleast Uncommon quality.", "Epic","","3x ammo_box"];
- //LEGENDARY
+const itemCANVAS_BAG = ["canvas_bag", "N/A", "", "N/A", "", 2100, "Equip this backpack to gain **15** item slots!", "Epic"];
+//LEGENDARY
 const itemGOLD_SHIELD = ["gold_shield", "N/A", "", "N/A", 30000, 6000, "Shields you from attacks for 8 hours!", "Legendary",["steel","screw","adhesive"]];
 const itemRPG = ["rpg",85,110,"rocket","",2600, "Deals very high damage to a single target, requires ammo to use", "Legendary",["steel","fiber_optics"]];
 const itemJAVELIN = ["javelin",100,100,"rocket","",4000, "Target-locking rocket launcher that has 100% accuracy", "Legendary",["steel","fiber_optics"]];
@@ -89,22 +92,24 @@ const itemPECK_SEED = ["peck_seed",20,35,"","",1600, "This rare seed has the abi
 const itemPLASMA = ["plasma","Varies","",["rail_cannon","ray_gun"],"",6000, "Dangerous cartridge full of plasma.\nMight wanna wear some protection when handling this...", "Legendary",["adhesive"]];
 const itemBMG_50CAL = ["bmg_50cal","Varies","",["awp"],"",3500, "Sniper ammo that increases damage by `20`.\nThis ammunition is strong enough to penetrate shields.", "Legendary",["steel","adhesive"]];
 const itemREROLL_SCROLL = ["reroll_scroll", "N/A", "", "N/A", 25000, 3000, "Use this to reset your attributes and gain back all used skill points!", "Legendary"];
+const itemHIKERS_PACK = ["hikers_pack", "N/A", "", "N/A", "", 3300, "Equip this backpack to gain **25** item slots!", "Legendary"];
 //COMPONENTS NEW
 const itemSCREW = ["screw", "N/A", "", "N/A", "", 550, "Metal pin used to hold objects together.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.", "Rare"];
 const itemSTEEL = ["steel", "N/A", "", "N/A", "", 500, "A cheap but extremely strong material used to craft weapons.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.", "Uncommon"];
 const itemADHESIVE = ["adhesive", "N/A", "", "N/A", "", 700, "Used to hold things together.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.", "Epic"];
 const itemFIBER_OPTICS = ["fiber_optics", "N/A", "", "N/A", "", 1100, "Thin glass fibers used to transmit signals.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.", "Legendary"];
 const itemMODULE = ["module", "N/A", "", "N/A", "", 600, "A circuit board used for various tech.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.", "Legendary"];
+
 //ULTRA
 const itemRAIL_CANNON = ["rail_cannon",10,200,"plasma","",20000, `Uses electromagnetic force to blast a ball of plasma that vaporizes anything it touches.`, "Ultra",["fiber_optics"],"20x module\n3x steel\n2x fiber_optics\n1x screw"];
 const itemRAY_GUN = ["ray_gun",60,150,"plasma","",22500, `A lightweight particle-beam weapon that disintegrates targets on contact.`, "Ultra",["fiber_optics"],"23x module\n3x fiber_optics\n2x steel\n2x adhesive\n1x screw"];
 
 const limitedItems = ["candycane", "gingerbread", "mittens","stocking"]; //missing snowball and nutcracker because those items were purchase only
 global.commonItems = ["item_box", "rock", "fork", "club", "fish","stick"]; //keep item_box 1st
-global.uncommonItems = ["ammo_box","sword", "bow","pills","bat","golf_club"]; //keep ammo_box 1st
+global.uncommonItems = ["ammo_box","sword", "bow","pills","bat","golf_club","light_pack"]; //keep ammo_box 1st
 global.rareItems = ["glock", "crossbow", "spear","health_pot","revolver","blunderbuss","grenade","xp_potion"];
-global.epicItems = ["ultra_box","ak47", "thompson","m4a1","spas","medkit","iron_shield","ultra_ammo"]; //keep ultra_box and ultra_ammo 1st and last
-global.legendItems = ["rpg","awp","javelin","peck_seed","gold_shield","reroll_scroll"];
+global.epicItems = ["ultra_box","ak47", "thompson","m4a1","spas","medkit","iron_shield","ultra_ammo","canvas_bag"]; //keep ultra_box and ultra_ammo 1st and last
+global.legendItems = ["rpg","awp","javelin","peck_seed","gold_shield","reroll_scroll","hikers_pack"];
 global.ultraItems = ["rail_cannon","ray_gun"];
 
 const uncommonComp = ["steel"];
@@ -471,10 +476,10 @@ class Commands {
                     embedInfo.addField("❤Health",`${row.health}/${row.maxHealth}`)
                     embedInfo.addField("💵Money : $" + row.money,"\u200b")
                     if(moddedUsers.has(message.author.id)){
-                        embedInfo.setFooter("Inventory space: " + itemCt + "/" + row.inv_slots + " | This user is a Lootcord moderator! 💪");
+                        embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max | This user is a Lootcord moderator! 💪");
                     }
                     else{
-                        embedInfo.setFooter("Inventory space: " + itemCt + "/" + row.inv_slots);
+                        embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max");
                     }
                     if(ultraItemList != ""){
                         let newList = ultraItemList.join('');
@@ -1588,8 +1593,6 @@ class Commands {
                 .setColor(0)
                 .setTitle("Full Items List")
                 .setURL("https://lootcord.com/items")
-                .setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/529555281391386629/lc_icon.png")
-                .setImage("https://cdn.discordapp.com/attachments/454163538886524928/537232225683505163/blankBar.png")
                 .addField("<:UnboxCommon:526248905676029968>Common",fullCommonList, true)
                 .addField("<:UnboxUncommon:526248928891371520>Uncommon",fullUncommonList, true)
                 .addField("<:UnboxRare:526248948579434496>Rare",fullRareList, true)
@@ -2822,8 +2825,96 @@ class Commands {
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
             methods.getitemcount(sql, message.author.id).then(itemCt => {
-                message.reply("\n**Backpack equipped:** " + "`none`\n**Inventory space:** `" + itemCt + "/" + row.inv_slots + "`\nIncrease space by equipping a better backpack!");
+                if(row.backpack !== "none"){
+                    message.reply("\n**Backpack equipped:** `" + row.backpack + "`\n**Inventory space:** `" + itemCt.capacity + "` (base 10 ***+"+itemInfoJson[row.backpack].inv_slots+"***)\nIncrease space by equipping a better backpack!");
+                }
+                else{
+                    message.reply("\n**Backpack equipped:** `" + row.backpack + "`\n**Inventory space:** `" + itemCt.capacity + "`\nIncrease space by equipping a better backpack!");
+                }
             });
+        });
+    }
+    equipitem(message, sql, prefix){
+        sql.get(`SELECT * FROM items i
+        JOIN scores s
+        ON i.userId = s.userId
+        WHERE s.userId="${message.author.id}"`).then(row => {
+            if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
+            let args = message.content.split(" ").slice(1);
+            let equipitem = args[0];
+            equipitem = methods.getCorrectedItemInfo(equipitem, false, false);
+            if(equipitem !== undefined){
+                if(itemInfoJson[equipitem] !== undefined && itemInfoJson[equipitem].equippable == "true"){
+                    methods.hasitems(sql, message.author.id, equipitem, 1).then(haspack => {
+                        if(haspack){
+                            if(row.backpack == "none" && itemInfoJson[equipitem].type == "backpack"){
+                                sql.run(`UPDATE scores SET backpack = '${equipitem}' WHERE userId = ${message.author.id}`);
+                                sql.run(`UPDATE scores SET inv_slots = ${10 + itemInfoJson[equipitem].inv_slots} WHERE userId = ${message.author.id}`);
+                                sql.run(`UPDATE items SET ${equipitem} = ${row[equipitem] - 1} WHERE userId = ${message.author.id}`);
+                                methods.getitemcount(sql, message.author.id).then(itemCt => {
+                                    message.reply("Successfully equipped `" + equipitem + "` and gained **" + itemInfoJson[equipitem].inv_slots + "** item slots. (" + (itemInfoJson[equipitem].inv_slots + 10) + " max)");
+                                });
+                            }
+                            else if(row.armor == "none" && itemInfoJson[equipitem].type == "armor"){
+                                sql.run(`UPDATE scores SET armor = '${equipitem}' WHERE userId = ${message.author.id}`);
+                                //add armor to sql table somewhere?
+                                sql.run(`UPDATE items SET ${equipitem} = ${row[equipitem] - 1} WHERE userId = ${message.author.id}`);
+                                message.reply("Successfully equipped `" + equipitem + "`.");
+                            }
+                            else{
+                                message.reply("You already have something equipped! Unequip it with `unequip <item/backpack/armor>`")
+                            }
+                        }
+                        else{
+                            message.reply("You don't have that item.");
+                        }
+                    });
+                }
+                else{
+                    message.reply("That item cannot be equipped. Specify a backpack or armor to equip, `equip <item>`");
+                }
+            }
+            else{
+                message.reply("That item cannot be equipped. Specify a backpack or armor to equip, `equip <item>`");
+            }
+        });
+    }
+    unequipitem(message, sql, prefix){
+        sql.get(`SELECT * FROM items i
+        JOIN scores s
+        ON i.userId = s.userId
+        WHERE s.userId="${message.author.id}"`).then(row => {
+            if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
+            let args = message.content.split(" ").slice(1);
+            let equipitem = args[0];
+            equipitem = methods.getCorrectedItemInfo(equipitem, false, false);
+
+            if(row.backpack == equipitem || equipitem == "backpack"){
+                if(row.backpack !== "none"){
+                    sql.run(`UPDATE scores SET backpack = 'none' WHERE userId = ${message.author.id}`);
+                    sql.run(`UPDATE scores SET inv_slots = ${10} WHERE userId = ${message.author.id}`);
+                    sql.run(`UPDATE items SET ${row.backpack} = ${row[row.backpack] + 1} WHERE userId = ${message.author.id}`);
+                    message.reply("Successfully unequipped `" + row.backpack + "`.\nYour carry capacity is now **10** items.");
+                }
+                else{
+                    message.reply("You don't have a backpack equipped! Equip with `equip <item>`");
+                }
+            }
+
+            else if(row.armor == equipitem || equipitem == "armor"){
+                if(row.armor !== "none"){
+                    sql.run(`UPDATE scores SET armor = 'none' WHERE userId = ${message.author.id}`);
+                    sql.run(`UPDATE items SET ${row.armor} = ${row[row.armor] + 1} WHERE userId = ${message.author.id}`);
+                    message.reply("Successfully unequipped `" + row.armor + "`.");
+                }
+                else{
+                    message.reply("You don't have any armor equipped! Equip with `equip <item>`");
+                }
+            }
+
+            else{
+                message.reply("You don't have that item equipped. Specify your backpack or armor to unequip, `unequip <item>`");
+            }
         });
     }
     
@@ -3287,7 +3378,7 @@ class Commands {
         .setTitle("`"+prefix+"play`** - Adds you to the game.**")
         .addField("⚔Items", "🔸`"+prefix+"use <item> [@user]`- Attack users with weapons or use items on self.\n🔸`"+prefix+"inv [@user]` - Displays inventory.\n▫`"+prefix+"trade <@user>` - Trade items and money with user.\n▫`"+prefix+"item [item]`" +
         " - Lookup item information.\n▫`"+prefix+"shop` - Shows buy/sell values of all items.\n▫`"+prefix+"buy <item> [amount]` - Purchase an item.\n▫`"+prefix+"sell <item> [amount]` - Sell an item.\n▫`"+prefix+"sellall <rarity>` - Sell every item of specific rarity (ex. `"+prefix+"sellall common`)." +
-        "\n▫`"+prefix+"craft <item>` - Craft Ultra items!\n▫`"+prefix+"recycle <item>` - Recycle Legendary+ items for components.")
+        "\n▫`"+prefix+"craft <item>` - Craft Ultra items!\n▫`"+prefix+"recycle <item>` - Recycle Legendary+ items for components.\n✨`" +prefix+"equip <item>` - Equip a backpack or armor.")
         .addField("🎲Games/Free stuff", "▫`"+prefix+"scramble <easy/hard>` - Unscramble a random word for a prize!\n▫`"+prefix+"trivia` - Answer the questions right for a reward!\n▫`"+prefix+"hourly` - Claim a free item_box every hour.\n▫`"+prefix+"vote` - Vote for the bot every 12hrs to receive an `ultra_box`\n▫`"+prefix+"gamble <type> <amount>` - Gamble your money away!")
         //.addField("🔰Stats", ,true)
         .addField("📈Other", otherCmds.join(" "),true)
@@ -4664,6 +4755,7 @@ class Commands {
         let userNameID = args[0];
         
         let itemName = args[1];
+        itemName = methods.getCorrectedItemInfo(itemName, false, false);
         let itemAmount = args[2];
                           
         if(userNameID !== undefined){

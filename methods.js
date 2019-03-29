@@ -107,7 +107,7 @@ class Methods {
             }
         });
     }
-    getCorrectedItemInfo(itemName, isImage, isEvaled){
+    getCorrectedItemInfo(itemName="", isImage, isEvaled){
         let itemImg = "";
         let itemSearched = itemName.toLowerCase();
         isEvaled = (isEvaled == undefined) ? true : isEvaled;
@@ -220,6 +220,15 @@ class Methods {
         else if(itemSearched.startsWith("reroll")){
             itemSearched = "REROLL_SCROLL";
         }
+        else if(itemSearched.startsWith("canvas")){
+            itemSearched = "CANVAS_BAG";
+        }
+        else if(itemSearched.startsWith("light")){
+            itemSearched = "LIGHT_PACK";
+        }
+        else if(itemSearched.startsWith("hiker")){
+            itemSearched = "HIKERS_PACK";
+        }
         //RETURN VALUES BELOW
         if(isImage){
             //return image url
@@ -265,14 +274,19 @@ class Methods {
     }
     getitemcount(sql, userId){//RETURNS PROMISE
         return sql.get(`SELECT * FROM items WHERE userId ="${userId}"`).then(row => {
-            var totalItemCt = 0;
-            Object.keys(row).forEach(key => {
-                if(key !== "userId"){
-                    totalItemCt += row[key];
-                    //console.log(row[key] + " | " + key);
+            return sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row2 => {
+                var totalItemCt = 0;
+                Object.keys(row).forEach(key => {
+                    if(key !== "userId"){
+                        totalItemCt += row[key];
+                        //console.log(row[key] + " | " + key);
+                    }
+                });
+                return {
+                    itemCt : totalItemCt,
+                    capacity : (totalItemCt + "/" + row2.inv_slots)
                 }
             });
-            return totalItemCt;
         });
     }
     hasenoughspace(sql, userId, amount = 0){//RETURNS PROMISE

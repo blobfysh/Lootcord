@@ -15,6 +15,8 @@ const config = require('./json/_config.json');
 const DBL = require("dblapi.js");
 const dbl = new DBL(config.dblToken, {webhookPath: '/dblwebhook', webhookPort: '5000', webhookAuth: config.dblAuth});
 const spell = require("spell");
+
+
 var dict = spell();
 dict.load("poll help rules inventory use item items buy sell sellall craft recycle shop store trade trivia scramble hourly gamble vote setprefix discord cooldown update upgrade profile level level points "
                 + "health heal money leaderboard server activate deactivate delete ban unban modadd unmod warn additem addcash addpoints eval modhelp cash bal backpack")
@@ -308,11 +310,39 @@ client.on(`ready`,() => {
         });
     });
     */
+    //scores
     sql.run("ALTER TABLE scores ADD inv_slots").then(row => {
     }).catch(() => {
         console.log("added `inv_slots` to scores | CHANGE THE SCRIPT NOW");
         sql.run("UPDATE scores SET inv_slots = 10");
     });
+    sql.run("ALTER TABLE scores ADD backpack").then(row => {
+    }).catch(() => {
+        console.log("added `backpack` to scores | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE scores SET backpack = 'none'");
+    });
+    sql.run("ALTER TABLE scores ADD armor").then(row => {
+    }).catch(() => {
+        console.log("added `armor` to scores | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE scores SET armor = 'none'");
+    });
+    //new items
+    sql.run("ALTER TABLE items ADD light_pack").then(row => {
+    }).catch(() => {
+        console.log("added `light_pack` to items | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE items SET light_pack = 0");
+    });
+    sql.run("ALTER TABLE items ADD canvas_bag").then(row => {
+    }).catch(() => {
+        console.log("added `canvas_bag` to items | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE items SET canvas_bag = 0");
+    });
+    sql.run("ALTER TABLE items ADD hikers_pack").then(row => {
+    }).catch(() => {
+        console.log("added `hikers_pack` to items | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE items SET hikers_pack = 0");
+    });
+    //other
     sql.run("ALTER TABLE banned ADD reason").then(row => {
     }).catch(() => {
         console.log("added `reason` to banned | CHANGE THE SCRIPT NOW");
@@ -584,6 +614,8 @@ client.on("message", (message) => {
                 case 'store': commands.shop(message, sql, prefix); break;
                 case 'trade': commands.trade(message, sql, prefix); break;
                 case 'profile': commands.profile(message, sql, prefix); break;
+                case 'equip': commands.equipitem(message, sql, prefix); break;
+                case 'unequip': commands.unequipitem(message, sql, prefix); break;
 
                 //GAMES
                 case 'trivia': commands.trivia(message, sql, triviaQ, prefix); break;
@@ -686,7 +718,7 @@ client.on("message", (message) => {
                 let commandWord = message.content.split(/\s+/g)[0].slice(prefix.length);
                 let wordCheck = dict.lucky(message.content.split(/\s+/g)[0].slice(prefix.length));
                 console.log("word: "+ wordCheck + " | " + commandWord)
-                if(commandWord == "" || commandWord.startsWith("pose")){
+                if(commandWord == "" || commandWord.startsWith("pose") || commandWord.startsWith("serie")){
                     return;
                 }
                 else if(wordCheck !== undefined && commandWord.length >= 3){
