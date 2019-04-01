@@ -120,30 +120,6 @@ client.on(`ready`,() => {
                         cdsAdded++;
                     }
                 }
-                if(userInfo.healTime > 0){
-                    let timeLeft = (1800*1000) - ((new Date()).getTime() - userInfo.healTime);
-                    if(timeLeft > 0){
-                        healCooldown.add(userInfo.userId);
-                        setTimeout(() => {
-                            healCooldown.delete(userInfo.userId);
-                            sql.run(`UPDATE scores SET healTime = ${0} WHERE userId = ${userInfo.userId}`);
-                        }, timeLeft);
-                        //client.guilds.get("454163538055790604").channels.get("454163538886524928").send((timeLeft / (1000 * 60)) + " minutes remain on `heal`");
-                        cdsAdded++;
-                    }
-                }
-                if(userInfo.attackTime > 0){
-                    let timeLeft = (3600*1000) - ((new Date()).getTime() - userInfo.attackTime);
-                    if(timeLeft > 0){
-                        weapCooldown.add(userInfo.userId);
-                        setTimeout(() => {
-                            weapCooldown.delete(userInfo.userId);
-                            sql.run(`UPDATE scores SET attackTime = ${0} WHERE userId = ${userInfo.userId}`);
-                        }, timeLeft);
-                        //client.guilds.get("454163538055790604").channels.get("454163538886524928").send((timeLeft / (1000 * 60)) + " minutes remain on `attack`");
-                        cdsAdded++;
-                    }
-                }
                 if(userInfo.triviaTime > 0){
                     let timeLeft = (900*1000) - ((new Date()).getTime() - userInfo.triviaTime);
                     if(timeLeft > 0){
@@ -229,6 +205,142 @@ client.on(`ready`,() => {
                         setTimeout(() => {
                             activateCooldown.delete(userInfo.userId);
                             sql.run(`UPDATE scores SET activateTime = ${0} WHERE userId = ${userInfo.userId}`);
+                        }, timeLeft);
+                        cdsAdded++;
+                    }
+                }
+                //ATTACK COOLDOWNS BELOW
+                if(userInfo.attackTime > 0){
+                    let timeLeft = (3600*1000) - ((new Date()).getTime() - userInfo.attackTime);
+                    if(timeLeft > 0){
+                        weapCooldown.add(userInfo.userId);
+                        setTimeout(() => {
+                            weapCooldown.delete(userInfo.userId);
+                            sql.run(`UPDATE scores SET attackTime = ${0} WHERE userId = ${userInfo.userId}`);
+                        }, timeLeft);
+                        //client.guilds.get("454163538055790604").channels.get("454163538886524928").send((timeLeft / (1000 * 60)) + " minutes remain on `attack`");
+                        cdsAdded++;
+                    }
+                }
+                if(userInfo._15mCD > 0){
+                    let timeLeft = (900*1000) - ((new Date()).getTime() - userInfo._15mCD);
+                    if(timeLeft > 0){
+                        weapCooldown.add(userInfo.userId);
+                        setTimeout(() => {
+                            weapCooldown.delete(userInfo.userId);
+                            sql.run(`UPDATE scores SET _15mCD = ${0} WHERE userId = ${userInfo.userId}`);
+                        }, timeLeft);
+                        cdsAdded++;
+                    }
+                }
+                if(userInfo._30mCD > 0){
+                    let timeLeft = (1800*1000) - ((new Date()).getTime() - userInfo._30mCD);
+                    if(timeLeft > 0){
+                        weapCooldown.add(userInfo.userId);
+                        setTimeout(() => {
+                            weapCooldown.delete(userInfo.userId);
+                            sql.run(`UPDATE scores SET _30mCD = ${0} WHERE userId = ${userInfo.userId}`);
+                        }, timeLeft);
+                        cdsAdded++;
+                    }
+                }
+                if(userInfo._45mCD > 0){
+                    let timeLeft = (2700*1000) - ((new Date()).getTime() - userInfo._45mCD);
+                    if(timeLeft > 0){
+                        weapCooldown.add(userInfo.userId);
+                        setTimeout(() => {
+                            weapCooldown.delete(userInfo.userId);
+                            sql.run(`UPDATE scores SET _45mCD = ${0} WHERE userId = ${userInfo.userId}`);
+                        }, timeLeft);
+                        cdsAdded++;
+                    }
+                }
+                if(userInfo._60mCD > 0){
+                    let timeLeft = (3600*1000) - ((new Date()).getTime() - userInfo._60mCD);
+                    if(timeLeft > 0){
+                        weapCooldown.add(userInfo.userId);
+                        setTimeout(() => {
+                            weapCooldown.delete(userInfo.userId);
+                            sql.run(`UPDATE scores SET _60mCD = ${0} WHERE userId = ${userInfo.userId}`);
+                        }, timeLeft);
+                        cdsAdded++;
+                    }
+                }
+                if(userInfo._80mCD > 0){
+                    let timeLeft = (4800*1000) - ((new Date()).getTime() - userInfo._80mCD);
+                    if(timeLeft > 0){
+                        weapCooldown.add(userInfo.userId);
+                        setTimeout(() => {
+                            weapCooldown.delete(userInfo.userId);
+                            sql.run(`UPDATE scores SET _80mCD = ${0} WHERE userId = ${userInfo.userId}`);
+                        }, timeLeft);
+                        cdsAdded++;
+                    }
+                }
+                if(userInfo._100mCD > 0){
+                    let timeLeft = (6000*1000) - ((new Date()).getTime() - userInfo._100mCD);
+                    if(timeLeft > 0){
+                        weapCooldown.add(userInfo.userId);
+                        setTimeout(() => {
+                            weapCooldown.delete(userInfo.userId);
+                            sql.run(`UPDATE scores SET _100mCD = ${0} WHERE userId = ${userInfo.userId}`);
+                        }, timeLeft);
+                        cdsAdded++;
+                    }
+                }
+                if(userInfo._120mCD > 0){
+                    let timeLeft = (7200*1000) - ((new Date()).getTime() - userInfo._120mCD);
+                    if(timeLeft > 0){
+                        weapCooldown.add(userInfo.userId);
+                        setTimeout(() => {
+                            weapCooldown.delete(userInfo.userId);
+                            sql.run(`UPDATE scores SET _120mCD = ${0} WHERE userId = ${userInfo.userId}`);
+                        }, timeLeft);
+                        cdsAdded++;
+                    }
+                }
+                //HEAL COOLDOWNS
+                if(userInfo.healTime > 0){
+                    let timeLeft = (1800*1000) - ((new Date()).getTime() - userInfo.healTime);
+                    if(timeLeft > 0){
+                        healCooldown.add(userInfo.userId);
+                        setTimeout(() => {
+                            healCooldown.delete(userInfo.userId);
+                            sql.run(`UPDATE scores SET healTime = ${0} WHERE userId = ${userInfo.userId}`);
+                        }, timeLeft);
+                        //client.guilds.get("454163538055790604").channels.get("454163538886524928").send((timeLeft / (1000 * 60)) + " minutes remain on `heal`");
+                        cdsAdded++;
+                    }
+                }
+                if(userInfo._10mHEALCD > 0){
+                    let timeLeft = (600*1000) - ((new Date()).getTime() - userInfo._10mHEALCD);
+                    if(timeLeft > 0){
+                        healCooldown.add(userInfo.userId);
+                        setTimeout(() => {
+                            healCooldown.delete(userInfo.userId);
+                            sql.run(`UPDATE scores SET _10mHEALCD = ${0} WHERE userId = ${userInfo.userId}`);
+                        }, timeLeft);
+                        cdsAdded++;
+                    }
+                }
+                if(userInfo._20mHEALCD > 0){
+                    let timeLeft = (1200*1000) - ((new Date()).getTime() - userInfo._20mHEALCD);
+                    if(timeLeft > 0){
+                        healCooldown.add(userInfo.userId);
+                        setTimeout(() => {
+                            healCooldown.delete(userInfo.userId);
+                            sql.run(`UPDATE scores SET _20mHEALCD = ${0} WHERE userId = ${userInfo.userId}`);
+                        }, timeLeft);
+                        cdsAdded++;
+                    }
+                }
+                if(userInfo._40mHEALCD > 0){
+                    let timeLeft = (2400*1000) - ((new Date()).getTime() - userInfo._40mHEALCD);
+                    if(timeLeft > 0){
+                        healCooldown.add(userInfo.userId);
+                        setTimeout(() => {
+                            healCooldown.delete(userInfo.userId);
+                            sql.run(`UPDATE scores SET _40mHEALCD = ${0} WHERE userId = ${userInfo.userId}`);
                         }, timeLeft);
                         cdsAdded++;
                     }
@@ -326,6 +438,59 @@ client.on(`ready`,() => {
         console.log("added `armor` to scores | CHANGE THE SCRIPT NOW");
         sql.run("UPDATE scores SET armor = 'none'");
     });
+
+    sql.run("ALTER TABLE scores ADD _15mCD").then(row => {//common
+    }).catch(() => {
+        console.log("---CDS\nadded `_15mCD` to scores | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE scores SET _15mCD = 0");
+    });
+    sql.run("ALTER TABLE scores ADD _30mCD").then(row => {//common
+    }).catch(() => {
+        console.log("added `_30mCD` to scores | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE scores SET _30mCD = 0");
+    });
+    sql.run("ALTER TABLE scores ADD _45mCD").then(row => {//rare
+    }).catch(() => {
+        console.log("added `_45mCD` to scores | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE scores SET _45mCD = 0");
+    });
+    sql.run("ALTER TABLE scores ADD _60mCD").then(row => {//epic
+    }).catch(() => {
+        console.log("added `_60mCD` to scores | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE scores SET _60mCD = 0");
+    });
+    sql.run("ALTER TABLE scores ADD _80mCD").then(row => {//lege
+    }).catch(() => {
+        console.log("added `_80mCD` to scores | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE scores SET _80mCD = 0");
+    });
+    sql.run("ALTER TABLE scores ADD _100mCD").then(row => {//ult
+    }).catch(() => {
+        console.log("added `_100mCD` to scores | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE scores SET _100mCD = 0");
+    });
+    sql.run("ALTER TABLE scores ADD _120mCD").then(row => {//any
+    }).catch(() => {
+        console.log("added `_120mCD` to scores | CHANGE THE SCRIPT NOW\n-----");
+        sql.run("UPDATE scores SET _120mCD = 0");
+    });
+
+    sql.run("ALTER TABLE scores ADD _10mHEALCD").then(row => {//any
+    }).catch(() => {
+        console.log("added `_10mHEALCD` to scores | CHANGE THE SCRIPT NOW\n-----");
+        sql.run("UPDATE scores SET _10mHEALCD = 0");
+    });
+    sql.run("ALTER TABLE scores ADD _20mHEALCD").then(row => {//any
+    }).catch(() => {
+        console.log("added `_20mHEALCD` to scores | CHANGE THE SCRIPT NOW\n-----");
+        sql.run("UPDATE scores SET _20mHEALCD = 0");
+    });
+    sql.run("ALTER TABLE scores ADD _40mHEALCD").then(row => {//any
+    }).catch(() => {
+        console.log("added `_40mHEALCD` to scores | CHANGE THE SCRIPT NOW\n-----");
+        sql.run("UPDATE scores SET _40mHEALCD = 0");
+    });
+
     //new items
     sql.run("ALTER TABLE items ADD light_pack").then(row => {
     }).catch(() => {
@@ -342,6 +507,8 @@ client.on(`ready`,() => {
         console.log("added `hikers_pack` to items | CHANGE THE SCRIPT NOW");
         sql.run("UPDATE items SET hikers_pack = 0");
     });
+
+
     //other
     sql.run("ALTER TABLE banned ADD reason").then(row => {
     }).catch(() => {
@@ -459,13 +626,13 @@ client.on("message", (message) => {
                 if(message.content.startsWith(prefix + "play")){
                     sql.run("INSERT INTO scores (userId, money, points, level, health, maxHealth, healTime, attackTime, hourlyTime, triviaTime, peckTime, voteTime, "
                             + "gambleTime, ironShieldTime, goldShieldTime, prizeTime, mittenShieldTime, scrambleTime, deactivateTime, activateTime, kills, deaths, "
-                            + "spamTime, stats, luck, scaledDamage, used_stats, xpTime, inv_slots) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                            [message.author.id, 100, 0, 1, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.00, 0, 0, 10]);
+                            + "spamTime, stats, luck, scaledDamage, used_stats, xpTime, inv_slots, backpack, armor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                            [message.author.id, 100, 0, 1, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.00, 0, 0, 10, 'none', 'none']);
                     sql.run("INSERT INTO items (userId, item_box, rpg, rocket, ak47, rifle_bullet, rock, arrow, fork, club, sword, bow, pistol_bullet, glock, "
                             + "crossbow, spear,thompson, health_pot, ammo_box, javelin, awp, m4a1, spas, medkit, revolver, buckshot, blunderbuss, grenade,"
                             + "pills, bat, baseball, peck_seed, iron_shield, gold_shield, ultra_box, rail_cannon, plasma, fish, bmg_50cal, token, candycane, gingerbread, mittens, stocking, snowball, nutcracker,"
-                            + "screw, steel, adhesive, fiber_optics, module, ray_gun, golf_club, ultra_ammo, stick, xp_potion, reroll_scroll) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                            [message.author.id, 1, 0, 0, 0 , 0, 0, 0 , 0 , 0 , 0, 0 , 0 , 0 , 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                            + "screw, steel, adhesive, fiber_optics, module, ray_gun, golf_club, ultra_ammo, stick, xp_potion, reroll_scroll, light_pack, canvas_bag, hikers_pack) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                            [message.author.id, 1, 0, 0, 0 , 0, 0, 0 , 0 , 0 , 0, 0 , 0 , 0 , 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
                     sql.run("INSERT INTO userGuilds (userId, guildId) VALUES (?, ?)", [message.author.id, message.guild.id]);
                     if(weapCooldown.has(message.author.id)){
                         sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);

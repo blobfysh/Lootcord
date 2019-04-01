@@ -2,6 +2,8 @@ const Discord = require("discord.js");
 const helpCmd = require('./json/_help_commands.json'); //opens help commands .json file
 const itemImg = require('./json/_item_images.json');
 const seedrandom = require('seedrandom');
+const itemdata = require("./json/completeItemList");
+const fs = require("fs");
 var rng = seedrandom();
 
 class Methods {
@@ -20,7 +22,7 @@ class Methods {
                 }
             }
             else{
-                sql.run(`UPDATE items SET ${item} = ${eval(`row.${item}`) - amount} WHERE userId = ${userId}`);
+                sql.run(`UPDATE items SET ${item} = ${eval(`row.${item}`) + amount} WHERE userId = ${userId}`);
             }
         });
     }
@@ -87,7 +89,7 @@ class Methods {
                 for (var i = 0; i < item.length; i++) {
                     //do stuff for each item
                     let itemToCheck = item[i].split("|");
-                    if(eval(`row.${itemToCheck[0]}`) >= itemToCheck[1]){
+                    if(eval(`row.${itemToCheck[0]}`) >= parseInt(itemToCheck[1])){
                         if(i == item.length - 1){
                             return true;
                         }
@@ -111,86 +113,86 @@ class Methods {
         let itemImg = "";
         let itemSearched = itemName.toLowerCase();
         isEvaled = (isEvaled == undefined) ? true : isEvaled;
-        if(itemName == "rpg"){
+        if(itemSearched == "rpg"){
             itemImg = "https://cdn.discordapp.com/attachments/454163538886524928/462539395078029313/Pixel_RPG.png";
         }
-        else if(itemName == "item_box" || itemName == "box" || itemName == "item"){
+        else if(itemSearched == "item_box" || itemSearched == "box" || itemSearched == "item"){
             if(isEvaled) itemSearched = "BOX";
             else itemSearched = "ITEM_BOX";
             
             itemImg = "https://cdn.discordapp.com/attachments/454163538886524928/499746695370768408/thanbox_emptysmall.png";
         }
-        else if(itemName == "ammo_box" || itemName == "ammo"){
+        else if(itemSearched == "ammo_box" || itemSearched == "ammo"){
             if(isEvaled) itemSearched = "AMMOBOX";
             else itemSearched = "AMMO_BOX";
             itemImg = "https://cdn.discordapp.com/attachments/313880100934385666/493258973160407040/Military_health_kit_custom.png";
         }
-        else if(itemName == "ultra" || itemName == "ultrabox" || itemName =="ultra_box"){
+        else if(itemSearched == "ultra" || itemSearched == "ultrabox" || itemSearched =="ultra_box"){
             itemSearched = "ULTRA_BOX";
         }
-        else if(itemName == "rail" || itemName == "cannon" || itemName == "railcannon" || itemName == "rail_cannon"){
+        else if(itemSearched == "rail" || itemSearched == "cannon" || itemSearched == "railcannon" || itemSearched == "rail_cannon"){
             itemSearched = "RAIL_CANNON";
             itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501195476775993355/Rail_Cannon.png";
         }
-        else if(itemName == "thompson"){
+        else if(itemSearched == "thompson"){
             itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501129603536912395/Thanpson.png";
         }
-        else if(itemName == "javelin"){
+        else if(itemSearched == "javelin"){
             itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501129550617509918/Javelin.png";
         }
-        else if(itemName == "rifle_bullet"){
+        else if(itemSearched == "rifle_bullet"){
             if(isEvaled) itemSearched = "RIFLEBULLET";
             else itemSearched = "RIFLE_BULLET";
         }
-        else if(itemName == "bmg" || itemName == "50cal" || itemName =="bmg_50cal"){
+        else if(itemSearched == "bmg" || itemSearched == "50cal" || itemSearched =="bmg_50cal"){
             itemSearched = "BMG_50CAL";
         }
-        else if(itemName == "ray" || itemName == "raygun" || itemName =="ray_gun"){
+        else if(itemSearched == "ray" || itemSearched == "raygun" || itemSearched =="ray_gun"){
             itemSearched = "RAY_GUN";
         }
-        else if(itemName.startsWith("stick")){
+        else if(itemSearched.startsWith("stick")){
             itemSearched = "STICK";
             itemImg = "https://cdn.discordapp.com/attachments/454163538886524928/543899419276214277/455435423200575500.png";
         }
-        else if(itemName.startsWith("golf")){
+        else if(itemSearched.startsWith("golf")){
             itemSearched = "GOLF_CLUB";
             itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501129547316461578/Golf_club_aka_stick_for_those_who_dont_know_what_a_golf_club_is.png";
         }
-        else if(itemName.startsWith("ultra_a") || itemName.startsWith("ultraa")){
+        else if(itemSearched.startsWith("ultra_a") || itemSearched.startsWith("ultraa")){
             itemSearched = "ULTRA_AMMO";
         }
-        else if(itemName == "fiber" || itemName == "optics" || itemName =="fiberoptics" || itemName =="fiber_optics"){
+        else if(itemSearched == "fiber" || itemSearched == "optics" || itemSearched =="fiberoptics" || itemSearched =="fiber_optics"){
             itemSearched = "FIBER_OPTICS";
         }
-        else if(itemName == "gold" || itemName == "goldshield" || itemName == "gold_shield"){
+        else if(itemSearched == "gold" || itemSearched == "goldshield" || itemSearched == "gold_shield"){
             itemSearched = "GOLD_SHIELD";
             itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501961870706737182/Armor_of_Gold.png";
         }
-        else if(itemName == "iron" || itemName == "shield"){
+        else if(itemSearched == "iron" || itemSearched == "shield"){
             itemSearched = "IRON_SHIELD";
         }
-        else if(itemName == "peck" || itemName == "peckseed" || itemName == "peck_seed"){
+        else if(itemSearched == "peck" || itemSearched == "peckseed" || itemSearched == "peck_seed"){
             itemSearched = "PECK_SEED";
         }
-        else if(itemName == "awp"){
+        else if(itemSearched == "awp"){
             itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501129528911855657/AWP_green.png";
         }
-        else if(itemName == "fish"){
+        else if(itemSearched == "fish"){
             itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501129543340261398/Fish_AI.png";
         }
-        else if(itemName == "plasma"){
+        else if(itemSearched == "plasma"){
             itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501272967909605376/Plasma_mags.png";
         }
-        else if(itemName == "arrow"){
+        else if(itemSearched == "arrow"){
             itemImg = "https://cdn.discordapp.com/attachments/454163538886524928/501139012912676889/arrow.png";
         }
-        else if(itemName == "fork"){
+        else if(itemSearched == "fork"){
             itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501129596838739969/Thanfork.png";
         }
-        else if(itemName == "club"){
+        else if(itemSearched == "club"){
             itemImg = "https://cdn.discordapp.com/attachments/501120454136692737/501129591629414400/Simple_Club.png";
         }
-        else if(itemName == "sword"){
+        else if(itemSearched == "sword"){
             
         }
         else if(itemSearched == "bow"){
@@ -292,15 +294,190 @@ class Methods {
     hasenoughspace(sql, userId, amount = 0){//RETURNS PROMISE
         return this.getitemcount(sql, userId).then(itemCt => {
             return sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
-                console.log((itemCt + parseInt(amount)) + " <= " + row.inv_slots);
-                if((itemCt + amount) <= row.inv_slots) return true;
+                console.log((itemCt.itemCt + parseInt(amount)) + " <= " + row.inv_slots);
+                if((itemCt.itemCt + parseInt(amount)) <= row.inv_slots) return true;
                 else return false;
             });
         });
     }
+    getitems(rarity = "all", {type = "", type2 = "", exclude = [], excludeItem = []}){
+        rarity = rarity.toLowerCase();
+        let items = [];
+
+        Object.keys(itemdata).forEach(key => {
+            if(itemdata[key].rarity.toLowerCase() == rarity && !excludeItem.includes(key)){
+                if(type == ""){
+                    items.push(key);
+                }
+                else if(type2 ==""){
+                    if((type == "weapon" || type == "weap") && itemdata[key].isWeap == true){
+                        items.push(key);
+                    }
+                    else if(type == "ammo" && itemdata[key].isAmmo.length >= 1){
+                        items.push(key);
+                    }
+                    else if((type == "item" || type == "consumable") && itemdata[key].isItem == true){
+                        items.push(key);
+                    }
+                    else if((type == "craft" || type == "craftable") && itemdata[key].craftedWith !== ""){
+                        items.push(key);
+                    }
+                    else if((type == "unboxable") && itemdata[key].unboxable == true){
+                        if(exclude.includes("ammo") && itemdata[key].isAmmo.length == 0){
+                            items.push(key);
+                        }
+                        else if(exclude == ""){
+                            items.push(key);
+                        }
+                    }
+                }
+                else if(type2 == "weapon" && itemdata[key].isWeap == true){
+                    if((type == "weapon" || type == "weap") && itemdata[key].isWeap == true){
+                        items.push(key);
+                    }
+                    else if(type == "ammo" && itemdata[key].isAmmo.length >= 1){
+                        items.push(key);
+                    }
+                    else if((type == "item" || type == "consumable") && itemdata[key].isItem == true){
+                        items.push(key);
+                    }
+                    else if((type == "craft" || type == "craftable") && itemdata[key].craftedWith !== ""){
+                        items.push(key);
+                    }
+                    else if((type == "unboxable") && itemdata[key].unboxable == true){
+                        items.push(key);
+                    }
+                }
+                else if(type2 == "ammo" && itemdata[key].isAmmo.length >= 1){
+                    if((type == "weapon" || type == "weap") && itemdata[key].isWeap == true){
+                        items.push(key);
+                    }
+                    else if(type == "ammo" && itemdata[key].isAmmo.length >= 1){
+                        items.push(key);
+                    }
+                    else if((type == "item" || type == "consumable") && itemdata[key].isItem == true){
+                        items.push(key);
+                    }
+                    else if((type == "craft" || type == "craftable") && itemdata[key].craftedWith !== ""){
+                        items.push(key);
+                    }
+                    else if((type == "unboxable") && itemdata[key].unboxable == true){
+                        items.push(key);
+                    }
+                }
+                else if(type2 == "unboxable" && itemdata[key].unboxable == true){
+                    if((type == "weapon" || type == "weap") && itemdata[key].isWeap == true){
+                        items.push(key);
+                    }
+                    else if(type == "ammo" && itemdata[key].isAmmo.length >= 1){
+                        items.push(key);
+                    }
+                    else if((type == "item" || type == "consumable") && itemdata[key].isItem == true){
+                        items.push(key);
+                    }
+                    else if((type == "craft" || type == "craftable") && itemdata[key].craftedWith !== ""){
+                        items.push(key);
+                    }
+                    else if((type == "unboxable") && itemdata[key].unboxable == true){
+                        items.push(key);
+                    }
+                }
+                else if(type2 == "craft" && itemdata[key].craftedWith !== ""){
+                    if((type == "weapon" || type == "weap") && itemdata[key].isWeap == true){
+                        items.push(key);
+                    }
+                    else if(type == "ammo" && itemdata[key].isAmmo.length >= 1){
+                        items.push(key);
+                    }
+                    else if((type == "item" || type == "consumable") && itemdata[key].isItem == true){
+                        items.push(key);
+                    }
+                    else if((type == "craft" || type == "craftable") && itemdata[key].craftedWith !== ""){
+                        items.push(key);
+                    }
+                    else if((type == "unboxable") && itemdata[key].unboxable == true){
+                        items.push(key);
+                    }
+                }
+                else if(type2 == "item" && itemdata[key].isItem == true){
+                    if((type == "weapon" || type == "weap") && itemdata[key].isWeap == true){
+                        items.push(key);
+                    }
+                    else if(type == "ammo" && itemdata[key].isAmmo.length >= 1){
+                        items.push(key);
+                    }
+                    else if((type == "item" || type == "consumable") && itemdata[key].isItem == true){
+                        items.push(key);
+                    }
+                    else if((type == "craft" || type == "craftable") && itemdata[key].craftedWith !== ""){
+                        items.push(key);
+                    }
+                    else if((type == "unboxable") && itemdata[key].unboxable == true){
+                        items.push(key);
+                    }
+                }
+            }
+            else if(rarity == "all" && !exclude.includes(itemdata[key].rarity.toLowerCase()) && !excludeItem.includes(key)){
+                items.push(key);
+            }
+        });
+        return items;
+    }
+    getuseritems(sql, userId, {sep = "",amounts= false, icon = false}){
+        return sql.get(`SELECT * FROM items WHERE userId ="${userId}"`).then(row => {
+            let commonItems = [];
+            let uncommonItems = [];
+            let rareItems = [];
+            let epicItems = [];
+            let legendItems = [];
+            let ultraItems = [];
+            let limitedItems = [];
+            Object.keys(itemdata).forEach(key => {
+                if(row[key] >= 1){
+                    if(icon){
+                        if(itemdata[key].rarity == "Common") commonItems.push(itemdata[key].icon + sep + key + sep + "("+row[key]+")");
+                        else if(itemdata[key].rarity == "Uncommon") uncommonItems.push(itemdata[key].icon + sep + key + sep + "("+row[key]+")");
+                        else if(itemdata[key].rarity == "Rare") rareItems.push(itemdata[key].icon + sep + key + sep + "("+row[key]+")");
+                        else if(itemdata[key].rarity == "Epic") epicItems.push(itemdata[key].icon + sep + key + sep + "("+row[key]+")");
+                        else if(itemdata[key].rarity == "Legendary") legendItems.push(itemdata[key].icon + sep + key + sep + "("+row[key]+")");
+                        else if(itemdata[key].rarity == "Ultra") ultraItems.push(itemdata[key].icon + sep + key + sep + "("+row[key]+")");
+                        else if(itemdata[key].rarity == "Limited") limitedItems.push(itemdata[key].icon + sep + key + sep + "("+row[key]+")");
+                    }
+                    else{
+                        if(itemdata[key].rarity == "Common") commonItems.push(sep + key + sep + "("+row[key]+")");
+                        else if(itemdata[key].rarity == "Uncommon") uncommonItems.push(sep + key + sep + "("+row[key]+")");
+                        else if(itemdata[key].rarity == "Rare") rareItems.push(sep + key + sep + "("+row[key]+")");
+                        else if(itemdata[key].rarity == "Epic") epicItems.push(sep + key + sep + "("+row[key]+")");
+                        else if(itemdata[key].rarity == "Legendary") legendItems.push(sep + key + sep + "("+row[key]+")");
+                        else if(itemdata[key].rarity == "Ultra") ultraItems.push(sep + key + sep + "("+row[key]+")");
+                        else if(itemdata[key].rarity == "Limited") limitedItems.push(sep + key + sep + "("+row[key]+")");
+                    }
+                }
+            });
+            return {
+                common: commonItems,
+                uncommon: uncommonItems,
+                rare: rareItems,
+                epic: epicItems,
+                legendary: legendItems,
+                ultra: ultraItems,
+                limited: limitedItems,
+            }
+        });
+    }
+    formatMoney(money){
+        /*
+        var formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+        });
+        return formatter.format(money);
+        */
+       return "$" + (money).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+    }
 
     //USE COMMAND
-    randomItems(sql, fullItemList, killerId, victimId, amount){
+    randomItems(sql, killerId, victimId, amount){
         return sql.get(`SELECT * FROM items WHERE userId ="${victimId}"`).then(victimItems => {
             return sql.get(`SELECT * FROM items WHERE userId ="${killerId}"`).then(killerItems => { 
                 if(amount <= 0){
@@ -308,13 +485,14 @@ class Methods {
                 }
                 let victimItemsList = [];
 
-                for (var i = 0; i < fullItemList.length; i++) {
-                    if(eval(`victimItems.` + fullItemList[i])){
-                        if(fullItemList[i] !== "token"){
-                            victimItemsList.push(fullItemList[i]);
+                Object.keys(itemdata).forEach(key => {
+                    if(victimItems[key] >= 1){
+                        if(itemdata[key].canBeStolen){
+                            victimItemsList.push(key);
                         }
                     }
-                }
+                });
+
                 const shuffled = victimItemsList.sort(() => 0.5 - Math.random()); //shuffles array of items
                 var selected = shuffled.slice(0, amount); //picks random items
                 
@@ -413,7 +591,7 @@ class Methods {
                 let lastItem = "";
                 let lastRarity = "";
                 let lastQual = "";
-                
+
                 if(type == "item_box"){
                     for(var i = 0; i < amount; i++){
                         //iterates for each box user specifies
@@ -421,7 +599,7 @@ class Methods {
                         let rand = "";
             
                         if(chance <= 120){                                   //COMMON ITEMS % chance
-                            let newCommonItems = commonItems.slice(1);
+                            let newCommonItems = this.getitems("common", {type: "unboxable", exclude: ["ammo"], excludeItem: ["item_box"]});
                             rand = newCommonItems[Math.floor(Math.random() * newCommonItems.length)];
                             multiItemArray.push("<:UnboxCommon:526248905676029968> `" + rand + "`");
                             itemsOpened.push("You just got a common `" + rand + "`");
@@ -432,7 +610,8 @@ class Methods {
                             
                         }
                         else if(chance <= 175){                               //UNCOMMON ITEMS 35% chance
-                            rand = uncommonItems[Math.floor(Math.random() * uncommonItems.length)];
+                            let newuncommonItems = this.getitems("uncommon", {type: "unboxable", exclude: ["ammo"]});
+                            rand = newuncommonItems[Math.floor(Math.random() * newuncommonItems.length)];
                             multiItemArray.push("<:UnboxUncommon:526248928891371520> `" + rand + "`");
                             itemsOpened.push("You just got an uncommon `" + rand + "`");
                             pureItemArray.push(rand);
@@ -441,7 +620,8 @@ class Methods {
                             lastQual = "uncommon";
                         }
                         else if(chance <= 190){                               //RARE ITEMS 12% chance
-                            rand = rareItems[Math.floor(Math.random() * rareItems.length)];
+                            let newRareItems = this.getitems("rare", {type: "unboxable", exclude: ["ammo"]});
+                            rand = newRareItems[Math.floor(Math.random() * newRareItems.length)];
                             multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
                             itemsOpened.push("You just got a RARE `" + rand + "`");
                             pureItemArray.push(rand);
@@ -450,7 +630,8 @@ class Methods {
                             lastQual = "rare";
                         }
                         else if(chance <= 199){                                //EPIC ITEMS  2% chance
-                            rand = epicItems[Math.floor(Math.random() * epicItems.length)];
+                            let newEpicItems = this.getitems("epic", {type: "unboxable", exclude: ["ammo"]});
+                            rand = newEpicItems[Math.floor(Math.random() * newEpicItems.length)];
                             multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
                             itemsOpened.push("You just got an **EPIC** `" + rand + "`");
                             pureItemArray.push(rand);
@@ -459,7 +640,8 @@ class Methods {
                             lastQual = "epic";
                         }
                         else{
-                            rand = legendItems[Math.floor(Math.random() * legendItems.length)];   //LEGENDARY ITEMS 1% chance
+                            let newLegendItems = this.getitems("legendary", {type: "unboxable", exclude: ["ammo"]});
+                            rand = newLegendItems[Math.floor(Math.random() * newLegendItems.length)];   //LEGENDARY ITEMS 1% chance
                             multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
                             itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
                             pureItemArray.push(rand);
@@ -476,7 +658,8 @@ class Methods {
                         let rand = "";
 
                         if(chance <= 132){                               //RARE ITEMS 65% chance
-                            rand = rareItems[Math.floor(Math.random() * rareItems.length)];
+                            let newRareItems = this.getitems("rare", {type: "unboxable", exclude: ["ammo"]});
+                            rand = newRareItems[Math.floor(Math.random() * newRareItems.length)];
                             multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
                             itemsOpened.push("You just got a RARE `" + rand + "`");
                             pureItemArray.push(rand);
@@ -487,7 +670,7 @@ class Methods {
                         }
 
                         else if(chance <= 178){                                //EPIC ITEMS  23% chance
-                            let newEpicItems = epicItems.slice(1);
+                            let newEpicItems = this.getitems("epic", {type: "unboxable", exclude: ["ammo"], excludeItem: ["ultra_box"]});
                             rand = newEpicItems[Math.floor(Math.random() * newEpicItems.length)];
                             multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
                             itemsOpened.push("You just got an **EPIC** `" + rand + "`");
@@ -498,7 +681,8 @@ class Methods {
                         }
 
                         else if(chance <= 199){
-                            rand = legendItems[Math.floor(Math.random() * legendItems.length)];   //LEGENDARY ITEMS 10.5% chance
+                            let newLegendItems = this.getitems("legendary", {type: "unboxable", exclude: ["ammo"]});
+                            rand = newLegendItems[Math.floor(Math.random() * newLegendItems.length)];   //LEGENDARY ITEMS 10.5% chance
                             multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
                             itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
                             pureItemArray.push(rand);
@@ -508,7 +692,8 @@ class Methods {
                         }
                         else{
                             //ultra item here
-                            rand = ultraItems[Math.floor(Math.random() * ultraItems.length)];   //ULTRA ITEMS 0.5% chance
+                            let newUltraItems = this.getitems("ultra", {type: "unboxable", exclude: ["ammo"]});
+                            rand = newUltraItems[Math.floor(Math.random() * newUltraItems.length)];   //ULTRA ITEMS 0.5% chance
                             multiItemArray.push("<:UnboxUltra:526248982691840003> `" + rand + "`");
                             itemsOpened.push("You just got an **ULTRA** `" + rand + "`");
                             pureItemArray.push(rand);
@@ -525,7 +710,8 @@ class Methods {
                         let rand = "";
 
                         if(chance <= 40){                                   //COMMON AMMO 44% chance
-                            rand = commonAmmo[Math.floor(Math.random() * commonAmmo.length)];
+                            let newCommonAmmo = this.getitems("common", {type: "ammo", type2: "unboxable"});
+                            rand = newCommonAmmo[Math.floor(Math.random() * newCommonAmmo.length)];
                             multiItemArray.push("<:UnboxCommon:526248905676029968> `" + rand + "`");
                             itemsOpened.push("You just got a common `" + rand + "`");
                             pureItemArray.push(rand);
@@ -534,7 +720,8 @@ class Methods {
                             lastQual = "common";
                         }
                         else if(chance <= 72){                               //UNCOMMON AMMO 30% chance
-                            rand = uncommonAmmo[Math.floor(Math.random() * uncommonAmmo.length)];
+                            let newUncommonAmmo = this.getitems("uncommon", {type: "ammo", type2: "unboxable"});
+                            rand = newUncommonAmmo[Math.floor(Math.random() * newUncommonAmmo.length)];
                             multiItemArray.push("<:UnboxUncommon:526248928891371520> `" + rand + "`");
                             itemsOpened.push("You just got an uncommon `" + rand + "`");
                             pureItemArray.push(rand);
@@ -544,7 +731,8 @@ class Methods {
                         }
 
                         else if(chance <= 94){                               //RARE AMMO 20% chance
-                            rand = rareAmmo[Math.floor(Math.random() * rareAmmo.length)];
+                            let newRareAmmo = this.getitems("rare", {type: "ammo", type2: "unboxable"});
+                            rand = newRareAmmo[Math.floor(Math.random() * newRareAmmo.length)];
                             multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
                             itemsOpened.push("You just got a RARE `" + rand + "`");
                             pureItemArray.push(rand);
@@ -554,7 +742,8 @@ class Methods {
                         }
 
                         else if(chance <= 98) {                                //EPIC AMMO  8% chance
-                            rand = epicAmmo[Math.floor(Math.random() * epicAmmo.length)];
+                            let newEpicAmmo = this.getitems("epic", {type: "ammo", type2: "unboxable"});
+                            rand = newEpicAmmo[Math.floor(Math.random() * newEpicAmmo.length)];
                             multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
                             itemsOpened.push("You just got an **EPIC** `" + rand + "`");
                             pureItemArray.push(rand);
@@ -563,7 +752,8 @@ class Methods {
                             lastQual = "epic";
                         }
                         else{                                                  //LEGENDARY AMMO 2% chance
-                            rand = legendAmmo[Math.floor(Math.random() * legendAmmo.length)];
+                            let newLegendAmmo = this.getitems("legendary", {type: "ammo", type2: "unboxable"});
+                            rand = newLegendAmmo[Math.floor(Math.random() * newLegendAmmo.length)];
                             multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
                             itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
                             pureItemArray.push(rand);
@@ -580,7 +770,8 @@ class Methods {
                         let rand = "";
                         
                         if(chance <= 10){                               //UNCOMMON AMMO 10% chance
-                            rand = uncommonAmmo[Math.floor(Math.random() * uncommonAmmo.length)];
+                            let newUncommonAmmo = this.getitems("uncommon", {type: "ammo", type2: "unboxable"});
+                            rand = newUncommonAmmo[Math.floor(Math.random() * newUncommonAmmo.length)];
                             multiItemArray.push("<:UnboxUncommon:526248928891371520> `" + rand + "`");
                             itemsOpened.push("You just got an uncommon `" + rand + "`");
                             pureItemArray.push(rand);
@@ -590,7 +781,8 @@ class Methods {
                         }
 
                         else if(chance <= 60){                               //RARE AMMO 50% chance
-                            rand = rareAmmo[Math.floor(Math.random() * rareAmmo.length)];
+                            let newRareAmmo = this.getitems("rare", {type: "ammo", type2: "unboxable"});
+                            rand = newRareAmmo[Math.floor(Math.random() * newRareAmmo.length)];
                             multiItemArray.push("<:UnboxRare:526248948579434496> `" + rand + "`");
                             itemsOpened.push("You just got a RARE `" + rand + "`");
                             pureItemArray.push(rand);
@@ -600,7 +792,8 @@ class Methods {
                         }
 
                         else if(chance <= 90) {                                //EPIC AMMO  30% chance
-                            rand = epicAmmo[Math.floor(Math.random() * epicAmmo.length)];
+                            let newEpicAmmo = this.getitems("epic", {type: "ammo", type2: "unboxable"});
+                            rand = newEpicAmmo[Math.floor(Math.random() * newEpicAmmo.length)];
                             multiItemArray.push("<:UnboxEpic:526248961892155402> `" + rand + "`");
                             itemsOpened.push("You just got an **EPIC** `" + rand + "`");
                             pureItemArray.push(rand);
@@ -609,7 +802,8 @@ class Methods {
                             lastQual = "epic";
                         }
                         else{                                                  //LEGENDARY AMMO 10% chance
-                            rand = legendAmmo[Math.floor(Math.random() * legendAmmo.length)];
+                            let newLegendAmmo = this.getitems("legendary", {type: "ammo", type2: "unboxable"});
+                            rand = newLegendAmmo[Math.floor(Math.random() * newLegendAmmo.length)];
                             multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
                             itemsOpened.push("You just got a **LEGENDARY** `" + rand + "`");
                             pureItemArray.push(rand);
@@ -650,7 +844,75 @@ class Methods {
             });
         });
     }
+    addToHealCooldown(sql, userId, itemUsed){
+        sql.run(`UPDATE scores SET ${itemdata[itemUsed].cooldown.scoreRow} = ${(new Date()).getTime()} WHERE userId = ${userId}`);
 
+        healCooldown.add(userId);
+
+        setTimeout(() => {
+
+            healCooldown.delete(userId);
+            sql.run(`UPDATE scores SET ${itemdata[itemUsed].cooldown.scoreRow} = ${0} WHERE userId = ${userId}`);
+            
+        }, itemdata[itemUsed].cooldown.seconds * 1000);
+    }
+    getHealCooldown(sql, userId){
+        return sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
+            if(row._10mHEALCD > 0){
+                return "`" + ((600 * 1000 - ((new Date()).getTime() - row._10mHEALCD)) / 60000).toFixed(1) + " minutes`"
+            }
+            else if(row._20mHEALCD > 0){
+                return "`" + ((1200 * 1000 - ((new Date()).getTime() - row._20mHEALCD)) / 60000).toFixed(1) + " minutes`"
+            }
+            else if(row._40mHEALCD > 0){
+                return "`" + ((2400 * 1000 - ((new Date()).getTime() - row._40mHEALCD)) / 60000).toFixed(1) + " minutes`"
+            }
+            else{
+                return "`[REDACTED]`";
+            }
+        });
+    }
+    addToWeapCooldown(sql, userId, itemUsed){
+        sql.run(`UPDATE scores SET ${itemdata[itemUsed].cooldown.scoreRow} = ${(new Date()).getTime()} WHERE userId = ${userId}`);
+
+        weapCooldown.add(userId);
+
+        setTimeout(() => {
+
+            weapCooldown.delete(userId);
+            sql.run(`UPDATE scores SET ${itemdata[itemUsed].cooldown.scoreRow} = ${0} WHERE userId = ${userId}`);
+            
+        }, itemdata[itemUsed].cooldown.seconds * 1000);
+    }
+    getAttackCooldown(sql, userId){
+        return sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row => {
+            if(row._15mCD > 0){
+                return "`" + ((900 * 1000 - ((new Date()).getTime() - row._15mCD)) / 60000).toFixed(1) + " minutes`"
+            }
+            else if(row._30mCD > 0){
+                return "`" + ((1800 * 1000 - ((new Date()).getTime() - row._30mCD)) / 60000).toFixed(1) + " minutes`"
+            }
+            else if(row._45mCD > 0){
+                return "`" + ((2700 * 1000 - ((new Date()).getTime() - row._45mCD)) / 60000).toFixed(1) + " minutes`"
+            }
+            else if(row._60mCD > 0){
+                return "`" + ((3600 * 1000 - ((new Date()).getTime() - row._60mCD)) / 60000).toFixed(1) + " minutes`"
+            }
+            else if(row._80mCD > 0){
+                return "`" + ((4800 * 1000 - ((new Date()).getTime() - row._80mCD)) / 60000).toFixed(1) + " minutes`"
+            }
+            else if(row._100mCD > 0){
+                return "`" + ((6000 * 1000 - ((new Date()).getTime() - row._100mCD)) / 60000).toFixed(1) + " minutes`"
+            }
+            else if(row._120mCD > 0){
+                return "`" + ((7200 * 1000 - ((new Date()).getTime() - row._120mCD)) / 60000).toFixed(1) + " minutes`"
+            }
+            else{
+                return "`[REDACTED]`";
+            }
+            //idea for making each weapon have separate cd, (row[itemUsed].cooldown.scoreRow) so... ((itemdata[itemUsed].cooldown.seconds * 1000 - ((new Date()).getTime() - row[itemdata[itemUsed].cooldown.scoreRow])) / 60000).toFixed(1) + " minutes`"
+        });
+    }
 
     //TRADE COMMAND METHODS
     getTotalItmCountFromList(list){
@@ -885,15 +1147,51 @@ class Methods {
         sql.run(`UPDATE scores SET money = ${0}, level = ${1}, points = ${0}, stats = ${0}, used_stats = ${0}, scaledDamage = ${1.00}, 
         luck = ${0}, maxHealth = ${100}, health = ${100}, kills = ${0}, deaths = ${0} WHERE userId = ${userId}`);
     }
-    monthlywipe(sql,  userId){//WIPE ALL BUT LIMITED ITEMS
+    monthlywipe(sql){//WIPE ALL BUT LIMITED ITEMS
         sql.run(`UPDATE items SET item_box = ${1}, rpg = ${0}, rocket = ${0}, ak47 = ${0}, rifle_bullet = ${0}, 
         rock = ${0}, arrow = ${0}, fork = ${0}, club = ${0}, sword = ${0}, bow = ${0}, pistol_bullet = ${0}, glock = ${0}, crossbow = ${0}, spear = ${0}, thompson = ${0},
         health_pot = ${0}, ammo_box = ${0}, javelin = ${0}, awp = ${0}, m4a1 = ${0}, spas = ${0}, medkit = ${0}, revolver = ${0}, buckshot = ${0}, blunderbuss = ${0},
         grenade = ${0}, pills = ${0}, bat = ${0}, baseball = ${0}, peck_seed = ${0}, iron_shield = ${0}, gold_shield = ${0}, ultra_box = ${0}, rail_cannon = ${0}, plasma = ${0}, 
         fish = ${0}, bmg_50cal = ${0}, screw = ${0}, steel = ${0}, adhesive = ${0}, fiber_optics = ${0}, module = ${0}, ray_gun = ${0}, golf_club = ${0}, 
-        ultra_ammo = ${0}, stick = ${0}, reroll_scroll = ${0}, xp_potion = ${0} WHERE userId = ${userId}`);
+        ultra_ammo = ${0}, stick = ${0}, reroll_scroll = ${0}, xp_potion = ${0}`);
         sql.run(`UPDATE scores SET money = ${0}, level = ${1}, points = ${0}, stats = ${0}, used_stats = ${0}, scaledDamage = ${1.00}, 
-        luck = ${0}, maxHealth = ${100}, health = ${100}, kills = ${0}, deaths = ${0} WHERE userId = ${userId}`);
+        luck = ${0}, maxHealth = ${100}, health = ${100}, kills = ${0}, deaths = ${0}`);
+    }
+
+
+    //NOT USED BY ANY COMMAND, can be called with eval
+    addtoJSON(jsonFile){
+        Object.keys(jsonFile).forEach(key => {
+            if(jsonFile[key].isWeap == true){
+                if(jsonFile[key].rarity == "Common"){
+                    jsonFile[key].cooldown = {display: "15 minutes", scoreRow: "_15mCD", seconds: 900};
+                }
+                else if(jsonFile[key].rarity == "Uncommon"){
+                    jsonFile[key].cooldown = {display: "30 minutes", scoreRow: "_30mCD", seconds: 1800};
+                }
+                else if(jsonFile[key].rarity == "Rare"){
+                    jsonFile[key].cooldown = {display: "45 minutes", scoreRow: "_45mCD", seconds: 2700};
+                }
+                else if(jsonFile[key].rarity == "Epic"){
+                    jsonFile[key].cooldown = {display: "60 minutes", scoreRow: "_60mCD", seconds: 3600};
+                }
+                else if(jsonFile[key].rarity == "Legendary"){
+                    jsonFile[key].cooldown = {display: "1 hour 20 minutes", scoreRow: "_80mCD", seconds: 4800};
+                }
+                else if(jsonFile[key].rarity == "Ultra"){
+                    jsonFile[key].cooldown = {display: "1 hour 40 minutes", scoreRow: "_100mCD", seconds: 6000};
+                }
+                else if(jsonFile[key].rarity == "Limited"){
+                    jsonFile[key].cooldown = {display: "45 minutes", scoreRow: "_45mCD", seconds: 2700};
+                }
+            }
+            else{
+                jsonFile[key].cooldown = "";
+            }
+        });
+        fs.writeFile('testJSONfile2.json',JSON.stringify(jsonFile, null, 4), function(err) {
+            console.log("complete");
+        });
     }
 }
 

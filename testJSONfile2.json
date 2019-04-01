@@ -192,8 +192,6 @@
         "canBeStolen": true,
         "cooldown": ""
     },
-
-
     "light_pack": {
         "rarity": "Uncommon",
         "isWeap": false,
@@ -376,7 +374,6 @@
         "rarity": "Uncommon",
         "isWeap": false,
         "isItem": true,
-        "isHeal": true,
         "healMin": 5,
         "healMax": 14,
         "damage": "",
@@ -394,11 +391,7 @@
         "icon": "<:UnboxUncommon:526248928891371520>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": {
-            "display": "10 minutes",
-            "scoreRow": "_10mHEALCD",
-            "seconds": 600
-        }
+        "cooldown": ""
     },
     "steel": {
         "rarity": "Uncommon",
@@ -421,8 +414,6 @@
         "canBeStolen": true,
         "cooldown": ""
     },
-
-
     "xp_potion": {
         "rarity": "Rare",
         "isWeap": false,
@@ -580,7 +571,6 @@
         "rarity": "Rare",
         "isWeap": false,
         "isItem": true,
-        "isHeal": true,
         "healMin": 10,
         "healMax": 25,
         "damage": "",
@@ -598,11 +588,7 @@
         "icon": "<:UnboxRare:526248948579434496>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": {
-            "display": "20 minutes",
-            "scoreRow": "_20mHEALCD",
-            "seconds": 1200
-        }
+        "cooldown": ""
     },
     "blunderbuss": {
         "rarity": "Rare",
@@ -701,8 +687,6 @@
         "canBeStolen": true,
         "cooldown": ""
     },
-
-
     "canvas_bag": {
         "rarity": "Epic",
         "isWeap": false,
@@ -857,7 +841,6 @@
         "rarity": "Epic",
         "isWeap": false,
         "isItem": true,
-        "isHeal": true,
         "healMin": 50,
         "healMax": 60,
         "damage": "",
@@ -875,11 +858,7 @@
         "icon": "<:UnboxEpic:526248961892155402>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": {
-            "display": "40 minutes",
-            "scoreRow": "_40mHEALCD",
-            "seconds": 2400
-        }
+        "cooldown": ""
     },
     "m4a1": {
         "rarity": "Epic",
@@ -981,8 +960,6 @@
         "canBeStolen": true,
         "cooldown": ""
     },
-
-
     "hikers_pack": {
         "rarity": "Legendary",
         "isWeap": false,
@@ -1305,8 +1282,6 @@
         "canBeStolen": true,
         "cooldown": ""
     },
-
-
     "rail_cannon": {
         "rarity": "Ultra",
         "isWeap": true,
@@ -1390,8 +1365,6 @@
             "seconds": 6000
         }
     },
-
-    
     "stocking": {
         "rarity": "Limited",
         "isWeap": false,
@@ -1417,9 +1390,6 @@
         "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
-        "isHeal": true,
-        "healMin": 20,
-        "healMax": 25,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",

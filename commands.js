@@ -7,7 +7,7 @@ const Jimp = require("jimp"); //jimp library allows realtime editing of images
 const fs = require("fs");
 const cryptorjs = require("cryptorjs");
 const cryptor = new cryptorjs(config.encryptionAuth);
-const itemInfoJson = require("./json/completeItemList");
+const itemdata = require("./json/completeItemList");
 
 let serverReward = new Set(); //used currently, for t-present command
 let deleteCooldown = new Set(); //for delete command
@@ -29,100 +29,6 @@ const weapCdSeconds = 3600; //seconds in an hour
 let jackpotCooldown = new Set(); //holds guild id, prevents from using jackpot multiple times in same server
 const jackpotCdSeconds = 600;
 */
-const completeItemsCheck = ["ray_gun","rail_cannon","javelin","rpg","awp","plasma","peck_seed","bmg_50cal","ak47","m4a1","rocket","spas","gold_shield","ultra_ammo","ultra_box","medkit","thompson","revolver", 
-                        "iron_shield", "nutcracker", "glock","grenade","blunderbuss","buckshot","crossbow","ammo_box","spear","rifle_bullet","health_pot","bat","pistol_bullet",
-                        "bow","sword","snowball","pills","mittens","gingerbread","candycane",,"stocking","item_box","arrow","baseball","fish","fork","club","rock","stick","token",
-                        "screw","steel","adhesive","fiber_optics","module","golf_club","reroll_scroll","xp_potion","light_pack","canvas_bag","hikers_pack"]; //in order best-worst
-const itemsList = ["item_box","box", "loot_box", "health", "health_pot", "ammo_box","ammo", "medkit","med", "pills", "iron_shield", "gold_shield","ultra","ultra_box","mittens",
-                    "gingerbread","stocking","ultra_ammo","xp_potion","reroll_scroll"]; //handled in use command to see what items exist (items are different from weapons in that they can't be used on other players)
-//LIMITED
-const itemSTOCKING = ["stocking", "N/A", "", "N/A", "", 200, "Has a chance to contain `$500-$2000`, or a lump of coal...\n**Snowfest 2018 item**", "Limited"];
-const itemGINGERBREAD = ["gingerbread", "N/A", "", "N/A", "", 200, "Eat this to heal `20-25` HP!\n**Snowfest 2018 item**", "Limited"];
-const itemCANDYCANE = ["candycane",3,15,"N/A","", 300, "Sharpened for maximum efficiency\n**Snowfest 2018 item**", "Limited"];
-const itemSNOWBALL = ["snowball",20,45,"N/A","", 3500, "Tightly packed snowball\n**Snowfest 2018 item**", "Limited"];
-const itemNUTCRACKER = ["nutcracker",30,65,"N/A","", 7000, "Send the nutcracker to bite your enemies\n**Snowfest 2018 item**", "Limited"];
-const itemMITTENS = ["mittens", "N/A", "", "N/A", "", 400, "Wear these cozy gloves to shield yourself for 30 minutes!\n**Snowfest 2018 item**", "Limited"];
-const itemTOKEN = ["token", "N/A", "", "N/A", "", 350, "Limited event currency that can be used to buy event-only items!\nCheck the `store` to see what can be purchased", "Limited"];
-//COMMON
-const itemBOX = ["item_box", "N/A", "", "N/A", 1500, 300, "Use this to get a random item!\nCan drop items up to Legendary quality.", "Common"];
-const itemROCK = ["rock",5,10,"N/A","", 125,  "It's a rock.", "Common"];
-const itemARROW = ["arrow","Varies","",["bow","crossbow"],"",250, "Use with weapon", "Common"]; //AMMO | UPDATE WITH NEW WEAPONS
-const itemFORK = ["fork",4,9,"N/A","", 100,  "What you gonna do with that?", "Common"];
-const itemCLUB = ["club",6,11,"N/A","", 150,  "ME ATTACK!", "Common"];
-const itemBASEBALL = ["baseball","Varies","",["bat"],"",500, "Use with weapon", "Common"]; //AMMO | UPDATE WITH NEW WEAPONS
-const itemSTICK = ["stick", 3, 6, "N/A", "", 100,  "It fell off a tree.", "Common"];
-const itemFISH = ["fish",5,11,"N/A","", 125,  "Slap them I guess?", "Common"];
-//UNCOMMON
-const itemAMMOBOX = ["ammo_box", "N/A", "", "N/A", 3500, 1000, "Use this to get random ammunition!", "Uncommon","","3x item_box"];
-const itemSWORD = ["sword",10,20,"N/A","", 250,  "A pretty average looking sword.", "Uncommon"];
-const itemBOW = ["bow",8,17,"arrow","", 350,  "Shoots arrows", "Uncommon"];
-const itemPISTOLBULLET = ["pistol_bullet","Varies","",["glock","thompson"],"",400, "Use with weapon", "Uncommon"];  //AMMO | UPDATE WITH NEW WEAPONS
-const itemBAT = ["bat",10,18,"N/A","", 350,  "Hit a grand slam!\nDoes bonus damage if you have a `baseball` in your inventory", "Uncommon"];
-const itemPILLS = ["pills", "N/A", "", "N/A", 1000, 200, "Restores `5-14` HP!", "Uncommon"];
-const itemGOLF_CLUB = ["golf_club",12,21,"N/A","", 300,  "An iron club used for hitting golf balls, or enemies.", "Uncommon"];
-const itemLIGHT_PACK = ["light_pack", "N/A", "", "N/A", "", 500, "Equip this backpack to gain **5** item slots!", "Uncommon"];
-//RARE
-const itemRIFLEBULLET = ["rifle_bullet","Varies","",["ak47","m4a1","awp"],"",2250, "Use with weapon", "Rare"]; //AMMO | UPDATE WITH NEW WEAPONS
-const itemGLOCK = ["glock",21,30,"pistol_bullet","", 750,  "Simple pistol", "Rare"];
-const itemCROSSBOW = ["crossbow",15,33,"arrow","", 775,  "Shoots arrows at high velocity", "Rare"];
-const itemSPEAR = ["spear",15,25,"N/A","", 675,  "Stab the enemy", "Rare"];
-const itemHEALTH = ["health_pot", "N/A", "", "N/A", 2400, 480, "Restores `10-25` HP!", "Rare"];
-const itemBLUNDERBUSS = ["blunderbuss",8,40,"buckshot","", 800,  "Very unreliable makeshift shotgun", "Rare"];
-const itemBUCKSHOT = ["buckshot","Varies","",["blunderbuss","spas"],"",2000, "Use with weapon", "Rare"];  //AMMO | UPDATE WITH NEW WEAPONS
-const itemREVOLVER = ["revolver",25,35,"pistol_bullet","", 800,  "High-recoil handgun", "Rare"];
-const itemGRENADE = ["grenade",8,30,"","", 700,  "Small hand-thrown explosive", "Rare"];
-const itemXP_POTION = ["xp_potion", "N/A", "", "N/A", "", 700, "Use this to instantly gain `75` xp!", "Rare"];
-//EPIC
-const itemIRON_SHIELD = ["iron_shield", "N/A", "", "N/A", 10000, 2000, "Shields you from attacks for 2 hours!", "Epic"];
-const itemAK47 = ["ak47",35, 60,"rifle_bullet","", 1800,  "High damage but inaccurate rifle", "Epic"];
-const itemROCKET = ["rocket","Varies","",["rpg","javelin"],"",5000, "Use with weapon", "Epic"];
-const itemTHOMPSON = ["thompson",25,45,"pistol_bullet","", 1700,  "Shoots fast but is very inaccurate", "Epic"];
-const itemSPAS = ["spas",40,70,"buckshot","", 1500,  "Military shotgun", "Epic"];
-const itemMEDKIT = ["medkit", "N/A", "", "N/A", 9000, 800, "Restores `50-60` HP!", "Epic"];
-const itemM4A1 = ["m4a1",45, 50,"rifle_bullet","", 1700,  "Accurate automatic rifle", "Epic"];
-const itemULTRA_BOX = ["ultra_box", "N/A", "", "N/A", 10000, 2000, "This box drops an item of atleast Rare quality, or potentially an Ultra item.", "Epic","","7x item_box"];
-const itemULTRA_AMMO = ["ultra_ammo", "N/A", "", "N/A", "", 2200, "This box drops ammo of atleast Uncommon quality.", "Epic","","3x ammo_box"];
-const itemCANVAS_BAG = ["canvas_bag", "N/A", "", "N/A", "", 2100, "Equip this backpack to gain **15** item slots!", "Epic"];
-//LEGENDARY
-const itemGOLD_SHIELD = ["gold_shield", "N/A", "", "N/A", 30000, 6000, "Shields you from attacks for 8 hours!", "Legendary",["steel","screw","adhesive"]];
-const itemRPG = ["rpg",85,110,"rocket","",2600, "Deals very high damage to a single target, requires ammo to use", "Legendary",["steel","fiber_optics"]];
-const itemJAVELIN = ["javelin",100,100,"rocket","",4000, "Target-locking rocket launcher that has 100% accuracy", "Legendary",["steel","fiber_optics"]];
-const itemAWP = ["awp", 60,70,["bmg_50cal","rifle_bullet"],"",2700, "A bolt-action sniper rifle that deals extremely high damage with good accuracy.\nWill use `bmg_50cal` if you have it in your inventory.", "Legendary",["steel","screw"]];
-const itemPECK_SEED = ["peck_seed",20,35,"","",1600, "This rare seed has the ability to turn your opponent into a chicken for 2 hours, disabling any use of their commands.\nInvented by *Arcane Sorceress Mick of Blackrain* ***THE*** *3rd*.", "Legendary",["adhesive"]];
-const itemPLASMA = ["plasma","Varies","",["rail_cannon","ray_gun"],"",6000, "Dangerous cartridge full of plasma.\nMight wanna wear some protection when handling this...", "Legendary",["adhesive"]];
-const itemBMG_50CAL = ["bmg_50cal","Varies","",["awp"],"",3500, "Sniper ammo that increases damage by `20`.\nThis ammunition is strong enough to penetrate shields.", "Legendary",["steel","adhesive"]];
-const itemREROLL_SCROLL = ["reroll_scroll", "N/A", "", "N/A", 25000, 3000, "Use this to reset your attributes and gain back all used skill points!", "Legendary"];
-const itemHIKERS_PACK = ["hikers_pack", "N/A", "", "N/A", "", 3300, "Equip this backpack to gain **25** item slots!", "Legendary"];
-//COMPONENTS NEW
-const itemSCREW = ["screw", "N/A", "", "N/A", "", 550, "Metal pin used to hold objects together.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.", "Rare"];
-const itemSTEEL = ["steel", "N/A", "", "N/A", "", 500, "A cheap but extremely strong material used to craft weapons.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.", "Uncommon"];
-const itemADHESIVE = ["adhesive", "N/A", "", "N/A", "", 700, "Used to hold things together.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.", "Epic"];
-const itemFIBER_OPTICS = ["fiber_optics", "N/A", "", "N/A", "", 1100, "Thin glass fibers used to transmit signals.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.", "Legendary"];
-const itemMODULE = ["module", "N/A", "", "N/A", "", 600, "A circuit board used for various tech.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.", "Legendary"];
-
-//ULTRA
-const itemRAIL_CANNON = ["rail_cannon",10,200,"plasma","",20000, `Uses electromagnetic force to blast a ball of plasma that vaporizes anything it touches.`, "Ultra",["fiber_optics"],"20x module\n3x steel\n2x fiber_optics\n1x screw"];
-const itemRAY_GUN = ["ray_gun",60,150,"plasma","",22500, `A lightweight particle-beam weapon that disintegrates targets on contact.`, "Ultra",["fiber_optics"],"23x module\n3x fiber_optics\n2x steel\n2x adhesive\n1x screw"];
-
-const limitedItems = ["candycane", "gingerbread", "mittens","stocking"]; //missing snowball and nutcracker because those items were purchase only
-global.commonItems = ["item_box", "rock", "fork", "club", "fish","stick"]; //keep item_box 1st
-global.uncommonItems = ["ammo_box","sword", "bow","pills","bat","golf_club","light_pack"]; //keep ammo_box 1st
-global.rareItems = ["glock", "crossbow", "spear","health_pot","revolver","blunderbuss","grenade","xp_potion"];
-global.epicItems = ["ultra_box","ak47", "thompson","m4a1","spas","medkit","iron_shield","ultra_ammo","canvas_bag"]; //keep ultra_box and ultra_ammo 1st and last
-global.legendItems = ["rpg","awp","javelin","peck_seed","gold_shield","reroll_scroll","hikers_pack"];
-global.ultraItems = ["rail_cannon","ray_gun"];
-
-const uncommonComp = ["steel"];
-const rareComp = ["screw"];
-const epicComp = ["adhesive"];
-const legendComp = ["fiber_optics","module"];
-//AMMO BASED ON RARITY, KEEP SAME AS THEY ARE IN SQL TABLE | USED FOR AMMO BOXES
-global.commonAmmo = ["arrow","baseball"];
-global.uncommonAmmo = ["pistol_bullet"];
-global.rareAmmo = ["rifle_bullet","buckshot"];
-global.epicAmmo = ["rocket"];
-global.legendAmmo = ["plasma","bmg_50cal"];
-
 
 class Commands {
     //SET ITEMS DESCRIPTIONS BASED ON LANGUAGE
@@ -174,355 +80,152 @@ class Commands {
     inventory(message, sql, totalXpNeeded, xpNeeded, moddedUsers, prefix){
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");  //makes sure they have account
-            sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(itemRow => {                   //CHECK IF USER HAS ITEMS TO DISPLAY IN INVENTORY
-                let args = message.content.split(" ").slice(1);
-                let userOldID = args[0];                          //RETURNS ID WITH <@ OR <@!      
-                var ultraItemList = []; //handled by info command LEAVE IT EMPTY
-                var legendItemList = []; //handled by info command LEAVE IT EMPTY
-                var epicItemList = []; //handled by info command LEAVE IT EMPTY
-                var rareItemList = []; //handled by info command LEAVE IT EMPTY
-                var uncommonItemList = []; //handled by info command LEAVE IT EMPTY
-                var commonItemList = []; //handled by info command LEAVE IT EMPTY
-                var limitedItemList = []; //handled by info command LEAVE IT EMPTY
-                function itemCheck(item){
-                    if(eval(`itemRow.${item}`)){
-                        let itemName = item;
-                        if(itemName == "health_pot"){
-                            itemName = "HEALTH";
-                        }
-                        else if(itemName == "pistol_bullet"){
-                            itemName = "PISTOLBULLET";
-                        }
-                        else if(itemName == "rifle_bullet"){
-                            itemName = "RIFLEBULLET";
-                        }
-                        else if(itemName == "item_box"){
-                            itemName = "BOX";
-                        }
-                        else if(itemName == "ammo_box"){
-                            itemName = "AMMOBOX";
-                        }
-                        if(eval(`item${itemName.toUpperCase()}[7]`) == "Ultra"){
-                            ultraItemList.push((`${item}(${eval(`itemRow.${item}`)})`).toLowerCase() + "\n"); //smartest line of code OR WORST ive evr written
-                        }
-                        else if(eval(`item${itemName.toUpperCase()}[7]`) == "Legendary"){
-                            legendItemList.push((`${item}(${eval(`itemRow.${item}`)})`).toLowerCase()+ "\n"); //smartest line of code OR WORST ive evr written
-                        }
-                        else if(eval(`item${itemName.toUpperCase()}[7]`) == "Epic"){
-                            epicItemList.push((`${item}(${eval(`itemRow.${item}`)})`).toLowerCase()+ "\n");
-                        }
-                        else if(eval(`item${itemName.toUpperCase()}[7]`) == "Rare"){
-                            rareItemList.push((`${item}(${eval(`itemRow.${item}`)})`).toLowerCase()+ "\n");
-                        }
-                        else if(eval(`item${itemName.toUpperCase()}[7]`) == "Uncommon"){
-                            uncommonItemList.push((`${item}(${eval(`itemRow.${item}`)})`).toLowerCase()+ "\n");
-                        }
-                        else if(eval(`item${itemName.toUpperCase()}[7]`) == "Common"){
-                            commonItemList.push((`${item}(${eval(`itemRow.${item}`)})`).toLowerCase()+ "\n");
-                        }
-                        else if(eval(`item${itemName.toUpperCase()}[7]`) == "Limited"){
-                            limitedItemList.push((`${item}(${eval(`itemRow.${item}`)})`).toLowerCase()+ "\n");
-                        }
-                    }
-                    else{
-                        return;
-                    }
+            let args = message.content.split(" ").slice(1);
+            let userOldID = args[0];
+
+            if(userOldID !== undefined){
+                if(!userOldID.startsWith("<@")){
+                    message.reply("You need to mention someone!");
+                    return;
                 }
-                if(userOldID !== undefined){
-                    if(!userOldID.startsWith("<@")){
-                        message.reply("You need to mention someone!");
-                        return;
+                let userNameID = args[0].replace(/[<@!>]/g, '');
+                makeInventory(userNameID);
+            }
+            else{
+                makeInventory(message.author.id);
+            }
+            function makeInventory(userId){
+                sql.get(`SELECT * FROM items i
+                JOIN scores s
+                ON i.userId = s.userId
+                WHERE s.userId="${userId}"`).then(userRow => {
+                    if(!userRow){
+                        return message.reply("The person you're trying to search doesn't have an account!");
                     }
-                    let userNameID = args[0].replace(/[<@!>]/g, '');  //RETURNS BASE ID WITHOUT <@ OR <@! BUT ONLY IF PLAYER MENTIONED SOMEONE  
-                    sql.get(`SELECT * FROM items WHERE userId ="${userNameID}"`).then(victimRow => {
-                    sql.get(`SELECT * FROM scores WHERE userId ="${userNameID}"`).then(victimRowInfo => {
-                        function itemVictimCheck(item){
-                            if(eval(`victimRow.${item}`)){
-                                let itemName = item;
-                                if(itemName == "health_pot"){
-                                    itemName = "HEALTH";
+                    methods.getuseritems(sql, userId, {amounts: true}).then(usersItems => {
+                        methods.getitemcount(sql, userId).then(itemCt => {
+                            var ultraItemList = usersItems.ultra;
+                            var legendItemList = usersItems.legendary;
+                            var epicItemList = usersItems.epic;
+                            var rareItemList = usersItems.rare;
+                            var uncommonItemList = usersItems.uncommon;
+                            var commonItemList = usersItems.common;
+                            var limitedItemList = usersItems.limited;
+
+                            function userRate(){
+                                let itemScore = 0;
+                                itemScore += ultraItemList.length * 30;
+                                itemScore += legendItemList.length * 20;
+                                itemScore += epicItemList.length * 10;
+                                itemScore += rareItemList.length * 5;
+                                itemScore += uncommonItemList.length * 2;
+                                itemScore += commonItemList.length * 1;
+                                itemScore += (userRow.level * 5) - 5;
+                                if(userRow.health <= 50){
+                                    itemScore = itemScore/2
                                 }
-                                else if(itemName == "pistol_bullet"){
-                                    itemName = "PISTOLBULLET";
+                                else if(userRow.health <= 60){
+                                    itemScore = itemScore * 0.66;
                                 }
-                                else if(itemName == "rifle_bullet"){
-                                    itemName = "RIFLEBULLET";
+                                else if(userRow.health <= 70){
+                                    itemScore = itemScore * .8;
                                 }
-                                else if(itemName == "item_box"){
-                                    itemName = "BOX";
-                                }
-                                else if(itemName == "ammo_box"){
-                                    itemName = "AMMOBOX";
-                                }
-                                if(eval(`item${itemName.toUpperCase()}[7]`) == "Ultra"){
-                                    ultraItemList.push((`${item}(${eval(`victimRow.${item}`)})`).toLowerCase()+ "\n");
-                                }
-                                if(eval(`item${itemName.toUpperCase()}[7]`) == "Legendary"){
-                                    legendItemList.push((`${item}(${eval(`victimRow.${item}`)})`).toLowerCase()+ "\n"); //smartest line of code OR WORST ive evr written
-                                }
-                                else if(eval(`item${itemName.toUpperCase()}[7]`) == "Epic"){
-                                    epicItemList.push((`${item}(${eval(`victimRow.${item}`)})`).toLowerCase()+ "\n");
-                                }
-                                else if(eval(`item${itemName.toUpperCase()}[7]`) == "Rare"){
-                                    rareItemList.push((`${item}(${eval(`victimRow.${item}`)})`).toLowerCase()+ "\n");
-                                }
-                                else if(eval(`item${itemName.toUpperCase()}[7]`) == "Uncommon"){
-                                    uncommonItemList.push((`${item}(${eval(`victimRow.${item}`)})`).toLowerCase()+ "\n");
-                                }
-                                else if(eval(`item${itemName.toUpperCase()}[7]`) == "Common"){
-                                    commonItemList.push((`${item}(${eval(`victimRow.${item}`)})`).toLowerCase()+ "\n");
-                                }
-                                else if(eval(`item${itemName.toUpperCase()}[7]`) == "Limited"){
-                                    limitedItemList.push((`${item}(${eval(`victimRow.${item}`)})`).toLowerCase()+ "\n");
-                                }
+                                return itemScore.toFixed(2);
+                            }
+                            let userScoreImage = "";
+                            let userScoreColor = 0;
+                            let userRating = userRate();
+                            if(userRating <= 30){
+                                userScoreImage = "https://cdn.discordapp.com/attachments/501120454136692737/501971708585050133/pixelbnner.png";
+                                userScoreColor = 720640;
+                            }
+                            else if(userRating <= 55){
+                                userScoreImage = "https://cdn.discordapp.com/attachments/501120454136692737/501971770098843668/pixelbnner2good-Recovered.png";
+                                userScoreColor = 16761856;
+                            }
+                            else if(userRating <= 120){
+                                userScoreImage = "https://cdn.discordapp.com/attachments/501120454136692737/501971821483261953/pixelbnner3stronk.png";
+                                userScoreColor = 16734464;
                             }
                             else{
-                                return;
+                                userScoreImage = "https://cdn.discordapp.com/attachments/501120454136692737/501971878873923599/pixelbnner4HITMAN.png";
+                                userScoreColor = 16761204;
                             }
-                        }
-                        if(!victimRow){
-                            message.reply("The person you're trying to search doesn't have an account!");
-                            return;
-                        }
-                        for (i = 0; i < completeItemsCheck.length; i++) { //iterates through each item and checks if player has it
-                            itemVictimCheck(completeItemsCheck[i]);
-                        }
-                        totalXpNeeded = 0;
-                        for(var i = 1; i <= victimRowInfo.level;i++){
-                            xpNeeded = Math.floor(50*(i**1.7));
-                            totalXpNeeded += xpNeeded;
-                            if(i == victimRowInfo.level){
-                                break;
-                            }
-                        }
-    
-                        function userRate(){
-                            let itemScore = 0;
-                            itemScore += ultraItemList.length * 30;
-                            itemScore += legendItemList.length * 20;
-                            itemScore += epicItemList.length * 10;
-                            itemScore += rareItemList.length * 5;
-                            itemScore += uncommonItemList.length * 2;
-                            itemScore += commonItemList.length * 1;
-                            itemScore += (victimRowInfo.level * 5) -5;
-                            if(victimRowInfo.health <= 50){
-                                itemScore = itemScore/2
-                            }
-                            else if(victimRowInfo.health <= 60){
-                                itemScore = itemScore * 0.66;
-                            }
-                            else if(victimRowInfo.health <= 70){
-                                itemScore = itemScore * .8;
-                            }
-                            return itemScore.toFixed(2);
-                        }
-                        let userScoreImage = "";
-                        let userScoreColor = 0;
-                        
-                        if(userRate() <= 30){
-                            userScoreImage = "https://cdn.discordapp.com/attachments/501120454136692737/501971708585050133/pixelbnner.png";
-                            userScoreColor = 720640;
-                        }
-                        else if(userRate() <= 55){
-                            userScoreImage = "https://cdn.discordapp.com/attachments/501120454136692737/501971770098843668/pixelbnner2good-Recovered.png";
-                            userScoreColor = 16761856;
-                        }
-                        else if(userRate() <= 120){
-                            userScoreImage = "https://cdn.discordapp.com/attachments/501120454136692737/501971821483261953/pixelbnner3stronk.png";
-                            userScoreColor = 16734464;
-                        }
-                        else{
-                            userScoreImage = "https://cdn.discordapp.com/attachments/501120454136692737/501971878873923599/pixelbnner4HITMAN.png";
-                            userScoreColor = 16761204;
-                        }
-                        let userRating = userRate();
-    
-                        
-                        const victimInfo = new Discord.RichEmbed()
-                        .setAuthor(`${message.guild.members.get(userNameID).displayName}'s Inventory`, client.users.get(userNameID).avatarURL)
-                        .setColor(userScoreColor)
-                        .setImage(userScoreImage)
-                        console.log(totalXpNeeded - victimRowInfo.points);
-                        if(totalXpNeeded - victimRowInfo.points > 0){
-                            victimInfo.addField("Level : "+ victimRowInfo.level,"`" + (totalXpNeeded - victimRowInfo.points) +" xp until level " + (victimRowInfo.level + 1) + "`", true)
-                        }
-                        else{
-                            victimInfo.addField("Level : "+ victimRowInfo.level,"`0 xp until level " + (victimRowInfo.level) + "`", true)
-                        }
-                        if(ironShieldActive.has(userNameID)){
-                            victimInfo.addField("🛡SHIELD ACTIVE", "`" + ((ironShieldCd * 1000 - ((new Date()).getTime() - victimRowInfo.ironShieldTime)) / 60000).toFixed(1) + " minutes`", true);
-                        }
-                        if(goldShieldActive.has(userNameID)){
-                            victimInfo.addField("🛡SHIELD ACTIVE", "`" + ((goldShieldCd * 1000 - ((new Date()).getTime() - victimRowInfo.goldShieldTime)) / 60000).toFixed(1) + " minutes`", true);
-                        }
-                        if(mittenShieldActive.has(userNameID)){
-                            victimInfo.addField("🛡SHIELD ACTIVE", "`" + ((mittenShieldCd * 1000 - ((new Date()).getTime() - victimRowInfo.mittenShieldTime)) / 60000).toFixed(1) + " minutes`", true);
-                        }
-                        victimInfo.addField("❤Health", `${victimRowInfo.health}/${victimRowInfo.maxHealth}\u200b`)
-                        victimInfo.addField("💵Money : $" + victimRowInfo.money,"\u200b")
-                        if(moddedUsers.has(userNameID)){
-                            victimInfo.setFooter("User rating: " +userRating + " | This user is a Lootcord moderator! 💪");
-                        }
-                        else{
-                            victimInfo.setFooter("User rating: " +userRating);
-                        }
-                        if(ultraItemList != ""){
-                            let newList = ultraItemList.join('');
-                            victimInfo.addField("<:UnboxUltra:526248982691840003>Ultra", "```" + newList + "```", true);
-                        }
-                        if(legendItemList != ""){
-                            let newList = legendItemList.join('');
-                            victimInfo.addField("<:UnboxLegendary:526248970914234368>Legendary", "```" + newList + "```", true);
-                        }
-                        if(epicItemList != ""){
-                            let newList = epicItemList.join('');
-                            victimInfo.addField("<:UnboxEpic:526248961892155402>Epic", "```" + newList + "```", true);
-                        }
-                        if(rareItemList != ""){
-                            let newList = rareItemList.join('');
-                            victimInfo.addField("<:UnboxRare:526248948579434496>Rare", "```" + newList + "```", true);
-                        }
-                        if(uncommonItemList != ""){
-                            let newList = uncommonItemList.join('');
-                            victimInfo.addField("<:UnboxUncommon:526248928891371520>Uncommon", "```" + newList + "```", true);
-                        }
-                        if(commonItemList != ""){
-                            let newList = commonItemList.join('');
-                            victimInfo.addField("<:UnboxCommon:526248905676029968>Common", "```" + newList + "```", true);
-                        }
-                        if(limitedItemList != ""){
-                            let newList = limitedItemList.join('');
-                            victimInfo.addField("🎁Limited", "```" + newList + "```", true);
-                        }
-                        if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == "" && limitedItemList == ""){
-                            victimInfo.addField("This users inventory is empty!", "\u200b");
-                        }
-                        message.channel.send(victimInfo);
-                        ultraItemList = [];
-                        legendItemList = [];
-                        epicItemList = [];
-                        rareItemList = [];
-                        uncommonItemList = [];
-                        commonItemList = [];
-                        limitedItemList = [];
-                    });
-                    });
-                }
-                else{
-                    methods.getitemcount(sql, message.author.id).then(itemCt => {
-                    for (var i = 0; i < completeItemsCheck.length; i++) {
-                        itemCheck(completeItemsCheck[i]);
-                    }
-                    function userRate(){
-                        let itemScore = 0;
-                        itemScore += ultraItemList.length * 30;
-                        itemScore += legendItemList.length * 20;
-                        itemScore += epicItemList.length * 10;
-                        itemScore += rareItemList.length * 5;
-                        itemScore += uncommonItemList.length * 2;
-                        itemScore += commonItemList.length * 1;
-                        itemScore += (row.level * 5) - 5;
-                        if(row.health <= 50){
-                            itemScore = itemScore/2
-                        }
-                        else if(row.health <= 60){
-                            itemScore = itemScore * 0.66;
-                        }
-                        else if(row.health <= 70){
-                            itemScore = itemScore * .8;
-                        }
-                        return itemScore.toFixed(2);
-                    }
-                    let userScoreImage = "";
-                    let userScoreColor = 0;
 
-                    let userRating = userRate();
-                    if(userRating <= 30){
-                        userScoreImage = "https://cdn.discordapp.com/attachments/501120454136692737/501971708585050133/pixelbnner.png";
-                        userScoreColor = 720640;
-                    }
-                    else if(userRating <= 55){
-                        userScoreImage = "https://cdn.discordapp.com/attachments/501120454136692737/501971770098843668/pixelbnner2good-Recovered.png";
-                        userScoreColor = 16761856;
-                    }
-                    else if(userRating <= 120){
-                        userScoreImage = "https://cdn.discordapp.com/attachments/501120454136692737/501971821483261953/pixelbnner3stronk.png";
-                        userScoreColor = 16734464;
-                    }
-                    else{
-                        userScoreImage = "https://cdn.discordapp.com/attachments/501120454136692737/501971878873923599/pixelbnner4HITMAN.png";
-                        userScoreColor = 16761204;
-                    }
+                            totalXpNeeded = 0;
+                            for(var i = 1; i <= userRow.level;i++){
+                                xpNeeded = Math.floor(50*(i**1.7));
+                                totalXpNeeded += xpNeeded;
+                                if(i == userRow.level){
+                                    break;
+                                }
+                            }
 
-                    const embedInfo = new Discord.RichEmbed()
-                    .setColor(userScoreColor)
-                    .setAuthor(`${message.member.displayName}'s Inventory`, message.author.avatarURL)
-                    .setImage(userScoreImage)
-                    if(totalXpNeeded - row.points <= 0){
-                        embedInfo.addField("Level : "+ row.level,"`0 xp until level " + (row.level) + "`", true)
-                    }
-                    else{
-                        embedInfo.addField("Level : "+ row.level,"`" + (totalXpNeeded - row.points) +" xp until level " + (row.level + 1) + "`", true)
-                    }
-                    if(ironShieldActive.has(message.author.id)){
-                        embedInfo.addField("🛡SHIELD ACTIVE", "`" + ((ironShieldCd * 1000 - ((new Date()).getTime() - row.ironShieldTime)) / 60000).toFixed(1) + " minutes`", true);
-                    }
-                    if(goldShieldActive.has(message.author.id)){
-                        embedInfo.addField("🛡SHIELD ACTIVE", "`" + ((goldShieldCd * 1000 - ((new Date()).getTime() - row.goldShieldTime)) / 60000).toFixed(1) + " minutes`", true);
-                    }
-                    if(mittenShieldActive.has(message.author.id)){
-                        embedInfo.addField("🛡SHIELD ACTIVE", "`" + ((mittenShieldCd * 1000 - ((new Date()).getTime() - row.mittenShieldTime)) / 60000).toFixed(1) + " minutes`", true);
-                    }
-                    embedInfo.addField("❤Health",`${row.health}/${row.maxHealth}`)
-                    embedInfo.addField("💵Money : $" + row.money,"\u200b")
-                    if(moddedUsers.has(message.author.id)){
-                        embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max | This user is a Lootcord moderator! 💪");
-                    }
-                    else{
-                        embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max");
-                    }
-                    if(ultraItemList != ""){
-                        let newList = ultraItemList.join('');
-                        embedInfo.addField("<:UnboxUltra:526248982691840003>Ultra", "```" + newList + "```", true);
-                    }
-                    if(legendItemList != ""){
-                        let newList = legendItemList.join('');
-                        embedInfo.addField("<:UnboxLegendary:526248970914234368>Legendary", "```" + newList + "```", true);
-                    }
-                    if(epicItemList != ""){
-                        let newList = epicItemList.join('');
-                        embedInfo.addField("<:UnboxEpic:526248961892155402>Epic", "```" + newList + "```", true);
-                    }
-                    if(rareItemList != ""){
-                        let newList = rareItemList.join('');
-                        embedInfo.addField("<:UnboxRare:526248948579434496>Rare", "```" + newList + "```", true);
-                    }
-                    if(uncommonItemList != ""){
-                        let newList = uncommonItemList.join('');
-                        embedInfo.addField("<:UnboxUncommon:526248928891371520>Uncommon", "```" + newList + "```", true);
-                    }
-                    if(commonItemList != ""){
-                        let newList = commonItemList.join('');
-                        embedInfo.addField("<:UnboxCommon:526248905676029968>Common", "```" + newList + "```", true);
-                    }
-                    if(limitedItemList != ""){
-                        let newList = limitedItemList.join('');
-                        embedInfo.addField("🎁Limited", "```" + newList + "```", true);
-                    }
-                    if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){
-                        embedInfo.addField("Your inventory is empty!", "\u200b");
-                    }
-                    message.channel.send(embedInfo);
+                            const embedInfo = new Discord.RichEmbed()
+                            .setColor(userScoreColor)
+                            .setAuthor(`${message.guild.members.get(userId).displayName}'s Inventory`, client.users.get(userId).avatarURL)
+                            .setImage(userScoreImage)
+                            if(totalXpNeeded - userRow.points <= 0){
+                                embedInfo.addField("Level : "+ userRow.level,"`0 xp until level " + (userRow.level) + "`", true)
+                            }
+                            else{
+                                embedInfo.addField("Level : "+ userRow.level,"`" + (totalXpNeeded - userRow.points) +" xp until level " + (userRow.level + 1) + "`", true)
+                            }
+                            if(ironShieldActive.has(userId)){
+                                embedInfo.addField("🛡SHIELD ACTIVE", "`" + ((ironShieldCd * 1000 - ((new Date()).getTime() - userRow.ironShieldTime)) / 60000).toFixed(1) + " minutes`", true);
+                            }
+                            if(goldShieldActive.has(userId)){
+                                embedInfo.addField("🛡SHIELD ACTIVE", "`" + ((goldShieldCd * 1000 - ((new Date()).getTime() - userRow.goldShieldTime)) / 60000).toFixed(1) + " minutes`", true);
+                            }
+                            if(mittenShieldActive.has(userId)){
+                                embedInfo.addField("🛡SHIELD ACTIVE", "`" + ((mittenShieldCd * 1000 - ((new Date()).getTime() - userRow.mittenShieldTime)) / 60000).toFixed(1) + " minutes`", true);
+                            }
+                            embedInfo.addField("❤Health",`${userRow.health}/${userRow.maxHealth}`)
+                            embedInfo.addField("💵Money : " + methods.formatMoney(userRow.money),"\u200b")
+                            if(moddedUsers.has(userId)){
+                                embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max | This user is a Lootcord moderator! 💪");
+                            }
+                            else{
+                                embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max");
+                            }
+                            if(ultraItemList != ""){
+                                let newList = ultraItemList.join('\n');
+                                embedInfo.addField("<:UnboxUltra:526248982691840003>Ultra", "```" + newList + "```", true);
+                            }
+                            if(legendItemList != ""){
+                                let newList = legendItemList.join('\n');
+                                embedInfo.addField("<:UnboxLegendary:526248970914234368>Legendary", "```" + newList + "```", true);
+                            }
+                            if(epicItemList != ""){
+                                let newList = epicItemList.join('\n');
+                                embedInfo.addField("<:UnboxEpic:526248961892155402>Epic", "```" + newList + "```", true);
+                            }
+                            if(rareItemList != ""){
+                                let newList = rareItemList.join('\n');
+                                embedInfo.addField("<:UnboxRare:526248948579434496>Rare", "```" + newList + "```", true);
+                            }
+                            if(uncommonItemList != ""){
+                                let newList = uncommonItemList.join('\n');
+                                embedInfo.addField("<:UnboxUncommon:526248928891371520>Uncommon", "```" + newList + "```", true);
+                            }
+                            if(commonItemList != ""){
+                                let newList = commonItemList.join('\n');
+                                embedInfo.addField("<:UnboxCommon:526248905676029968>Common", "```" + newList + "```", true);
+                            }
+                            if(limitedItemList != ""){
+                                let newList = limitedItemList.join('\n');
+                                embedInfo.addField("🎁Limited", "```" + newList + "```", true);
+                            }
+                            if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){
+                                embedInfo.addField("This inventory is empty! :(", "\u200b");
+                            }
+                            message.channel.send(embedInfo);
+                        });
                     });
-                }
-                ultraItemList = [];
-                legendItemList = [];
-                epicItemList = [];
-                rareItemList = [];
-                uncommonItemList = [];
-                commonItemList = [];
-                limitedItemList = [];
-            });
+                }).catch(err => {
+                    message.reply("Inventory lookup failed! Make sure you mention the user.")
+                });
+            }
         });
     }
     use(message, sql, prefix){//split into separate methods
@@ -543,14 +246,10 @@ class Commands {
         ON i.userId = s.userId
         WHERE s.userId="${message.author.id}"`).then(row => {                                     //GRABS INFORMATION FOR PLAYER          //
             if(!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!"); //checks for author id in sql items table(see if it doesnt exist)
-            else if(itemUsed == undefined){
+            else if(itemdata[itemUsed] == undefined){
                 return message.reply('You need to specify an item and mention a user to attack! `'+prefix+'use <item> <@user>`');
             }
-            else if(!itemsList.includes(itemUsed.toLowerCase()) && userOldID == undefined){
-                message.reply('You need to specify an item and mention a user to attack! `'+prefix+'use <item> <@user>`');
-                return;
-            }
-            else if(itemsList.includes(itemUsed.toLowerCase())){    //ITEMS TIME!!!!!!!!!!!!!!!!!!!
+            else if(itemdata[itemUsed].isItem){    //ITEMS TIME!!!!!!!!!!!!!!!!!!!
                 //CODE FOR ITEMS, NOT WEAPONS
                 if(userOldID == undefined || !Number.isInteger(parseInt(userOldID)) || userOldID % 1 !== 0 || userOldID < 1){
                     userOldID = 1;
@@ -659,135 +358,31 @@ class Commands {
                         }, goldShieldCd * 1000);
                     });
                 }
-                else if(itemUsed.toLowerCase() == "health" && row.health_pot >= 1 || itemUsed.toLowerCase() == "health_pot" && row.health_pot >= 1){
-                    let chance = Math.floor((Math.random() * 11) + 15);
-                    sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(hpRow => {
+                else if(itemdata[itemUsed].isHeal && row[itemUsed] >= 1){
+                    methods.getHealCooldown(sql, message.author.id).then(healCdTime => {
                         if(healCooldown.has(message.author.id)){
-                            message.reply("You need to wait  `" + ((healCdSeconds * 1000 - ((new Date()).getTime() - hpRow.healTime)) / 60000).toFixed(1) + " minutes`  before healing again.");
-                            return;
+                            return message.reply("You need to wait  " + healCdTime + "  before healing again.");
                         }
-                        let userMaxHeal = hpRow.maxHealth - hpRow.health;
+                        let minHeal = itemdata[itemUsed].healMin;
+                        let maxHeal = itemdata[itemUsed].healMax;
                         
-                        if(userMaxHeal == 0){
-                            return message.reply("You are already max health!");
-                        }
-                        else if(userMaxHeal >= chance){
-                            sql.run(`UPDATE scores SET healTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-                            healCooldown.add(message.author.id);
-                            sql.run(`UPDATE scores SET health = ${hpRow.health + chance} WHERE userId = ${message.author.id}`);
-                            message.reply("You have healed for `" + chance + "` HP!");
-                            sql.run(`UPDATE items SET health_pot = ${row.health_pot - 1} WHERE userId = ${message.author.id}`);
-                        }
-                        else if(userMaxHeal <= chance){
-                            sql.run(`UPDATE scores SET healTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-                            healCooldown.add(message.author.id);
-                            sql.run(`UPDATE scores SET health = ${hpRow.health + userMaxHeal} WHERE userId = ${message.author.id}`);
-                            message.reply("You have healed for `" + userMaxHeal + "` HP!");
-                            sql.run(`UPDATE items SET health_pot = ${row.health_pot - 1} WHERE userId = ${message.author.id}`);
-                        }
-                        setTimeout(() => {
-                            healCooldown.delete(message.author.id)
-                            sql.run(`UPDATE scores SET healTime = ${0} WHERE userId = ${message.author.id}`);
-                        }, healCdSeconds * 1000);
-                    });
-                }
-                else if(itemUsed == "pills" && row.pills >= 1){
-                    let chance = Math.floor((Math.random() * 10) + 5); //AMOUNT TO HEAL
-                    sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(hpRow => {
-                        if(healCooldown.has(message.author.id)){
-                            message.reply("You need to wait  `" + ((healCdSeconds * 1000 - ((new Date()).getTime() - hpRow.healTime)) / 60000).toFixed(1) + " minutes`  before healing again.");
-                            return;
-                        }
+                        let randHeal = (Math.floor(Math.random() * (maxHeal - minHeal + 1)) + minHeal);
+                        let userMaxHeal = row.maxHealth - row.health;
 
-                        let userMaxHeal = hpRow.maxHealth - hpRow.health;
-                        
                         if(userMaxHeal == 0){
                             return message.reply("You are already max health!");
                         }
-                        else if(userMaxHeal >= chance){
-                            sql.run(`UPDATE scores SET healTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-                            healCooldown.add(message.author.id);
-                            sql.run(`UPDATE scores SET health = ${hpRow.health + chance} WHERE userId = ${message.author.id}`);
-                            message.reply("You have healed for `" + chance + "` HP!");
-                            sql.run(`UPDATE items SET pills = ${row.pills - 1} WHERE userId = ${message.author.id}`);
+                        else if(userMaxHeal > randHeal){
+                            sql.run(`UPDATE scores SET health = ${row.health + randHeal} WHERE userId = ${message.author.id}`);
+                            message.reply("You have healed for `" + randHeal + "` HP!");
+                            sql.run(`UPDATE items SET ${itemUsed} = ${row[itemUsed] - 1} WHERE userId = ${message.author.id}`);
                         }
-                        else if(userMaxHeal <= chance){
-                            sql.run(`UPDATE scores SET healTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-                            healCooldown.add(message.author.id);
-                            sql.run(`UPDATE scores SET health = ${hpRow.health + userMaxHeal} WHERE userId = ${message.author.id}`);
-                            message.reply("You have healed for `" + userMaxHeal + "` HP!");
-                            sql.run(`UPDATE items SET pills = ${row.pills - 1} WHERE userId = ${message.author.id}`);
+                        else if(userMaxHeal <= randHeal){
+                            sql.run(`UPDATE scores SET health = ${row.health + userMaxHeal} WHERE userId = ${message.author.id}`);
+                            message.reply("You have healed for `" + userMaxHeal + "` HP and hit your max health limit!");
+                            sql.run(`UPDATE items SET ${itemUsed} = ${row[itemUsed] - 1} WHERE userId = ${message.author.id}`);
                         }
-                        setTimeout(() => {
-                            healCooldown.delete(message.author.id)
-                            sql.run(`UPDATE scores SET healTime = ${0} WHERE userId = ${message.author.id}`);
-                        }, healCdSeconds * 1000);
-                    });
-                }
-                else if(itemUsed == "gingerbread" && row.gingerbread >= 1){
-                    let chance = Math.floor((Math.random() * 6) + 20); //AMOUNT TO HEAL
-                    sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(hpRow => {
-                        if(healCooldown.has(message.author.id)){
-                            message.reply("You need to wait  `" + ((healCdSeconds * 1000 - ((new Date()).getTime() - hpRow.healTime)) / 60000).toFixed(1) + " minutes`  before healing again.");
-                            return;
-                        }
-
-                        let userMaxHeal = hpRow.maxHealth - hpRow.health;
-                        
-                        if(userMaxHeal == 0){
-                            return message.reply("You are already max health!");
-                        }
-                        else if(userMaxHeal >= chance){
-                            sql.run(`UPDATE scores SET healTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-                            healCooldown.add(message.author.id);
-                            sql.run(`UPDATE scores SET health = ${hpRow.health + chance} WHERE userId = ${message.author.id}`);
-                            message.reply("You have healed for `" + chance + "` HP!");
-                            sql.run(`UPDATE items SET gingerbread = ${row.gingerbread - 1} WHERE userId = ${message.author.id}`);
-                        }
-                        else if(userMaxHeal <= chance){
-                            sql.run(`UPDATE scores SET healTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-                            healCooldown.add(message.author.id);
-                            sql.run(`UPDATE scores SET health = ${hpRow.health + userMaxHeal} WHERE userId = ${message.author.id}`);
-                            message.reply("You have healed for `" + userMaxHeal + "` HP!");
-                            sql.run(`UPDATE items SET gingerbread = ${row.gingerbread - 1} WHERE userId = ${message.author.id}`);
-                        }
-                        setTimeout(() => {
-                            healCooldown.delete(message.author.id)
-                            sql.run(`UPDATE scores SET healTime = ${0} WHERE userId = ${message.author.id}`);
-                        }, healCdSeconds * 1000);
-                    });
-                }
-                else if(itemUsed == "medkit" && row.medkit >= 1 || itemUsed =="med" && row.medkit >=1){
-                    let chance = Math.floor((Math.random() * 11) + 50); //AMOUNT TO HEAL
-                    sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(hpRow => {
-                        if(healCooldown.has(message.author.id)){
-                            message.reply("You need to wait  `" + ((healCdSeconds * 1000 - ((new Date()).getTime() - hpRow.healTime)) / 60000).toFixed(1) + " minutes`  before healing again.");
-                            return;
-                        }
-
-                        let userMaxHeal = hpRow.maxHealth - hpRow.health;
-                        
-                        if(userMaxHeal == 0){
-                            return message.reply("You are already max health!");
-                        }
-                        else if(userMaxHeal >= chance){
-                            sql.run(`UPDATE scores SET healTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-                            healCooldown.add(message.author.id);
-                            sql.run(`UPDATE scores SET health = ${hpRow.health + chance} WHERE userId = ${message.author.id}`);
-                            message.reply("You have healed for `" + chance + "` HP!");
-                            sql.run(`UPDATE items SET medkit = ${row.medkit - 1} WHERE userId = ${message.author.id}`);
-                        }
-                        else if(userMaxHeal <= chance){
-                            sql.run(`UPDATE scores SET healTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-                            healCooldown.add(message.author.id);
-                            sql.run(`UPDATE scores SET health = ${hpRow.health + userMaxHeal} WHERE userId = ${message.author.id}`);
-                            message.reply("You have healed for `" + userMaxHeal + "` HP!");
-                            sql.run(`UPDATE items SET medkit = ${row.medkit - 1} WHERE userId = ${message.author.id}`);
-                        }
-                        setTimeout(() => {
-                            healCooldown.delete(message.author.id)
-                            sql.run(`UPDATE scores SET healTime = ${0} WHERE userId = ${message.author.id}`);
-                        }, healCdSeconds * 1000);
+                        methods.addToHealCooldown(sql, message.author.id, itemUsed);
                     });
                 }
                 else if(itemUsed == "reroll_scroll" && row.reroll_scroll >= 1 || itemUsed == "reroll" && row.reroll_scroll >= 1){
@@ -803,8 +398,8 @@ class Commands {
                 }
             }
             ///////////////////////////////////WEAPON-CODING BEYOND THIS POINT/////////////////////////////////////////
-            else{
-                sql.get(`SELECT * FROM scores WHERE userId =${userNameID}`).then(victimRow => {             //GRABS INFORMATION FOR PLAYERS TARGET  //
+            else if(itemdata[itemUsed].isWeap){
+                sql.get(`SELECT * FROM scores WHERE userId ='${userNameID}'`).then(victimRow => {             //GRABS INFORMATION FOR PLAYERS TARGET  //
                     function hitOrMiss(damage, isBroken){                                                           //FUNCTION THAT ACTUALLY HANDLES DAMAGE DEALT
                         let chance = Math.floor(Math.random() * 100) + 1; //return 1-100
                         let luck = victimRow.luck >= 20 ? 20 : victimRow.luck;
@@ -828,13 +423,13 @@ class Commands {
                                 sql.get(`SELECT * FROM items WHERE userId ="${userNameID}"`).then(victimItems => { 
                                     let victimItemCount = [];
                                     let amountToGive = 1;
-                                    for (var i = 0; i < completeItemsCheck.length; i++) {
-                                        if(eval(`victimItems.` + completeItemsCheck[i])){
-                                            if(completeItemsCheck[i] !== "token"){
-                                                victimItemCount.push(completeItemsCheck[i]);
+                                    Object.keys(itemdata).forEach(key => {
+                                        if(victimItems[key]){
+                                            if(itemdata[key].canBeStolen){
+                                                victimItemCount.push(itemdata[key]);
                                             }
                                         }
-                                    }
+                                    });
                                     
                                     if(victimItemCount.length == 0){
                                         amountToGive = 0;
@@ -846,27 +441,9 @@ class Commands {
                                     else{
                                         amountToGive = Math.floor(victimItemCount.length/5)
                                     }
-                                    /*
-                                    else{
-                                        methods.randomItems(sql, completeItemsCheck, message.author.id, userNameID, 4).then(result => {
-                                            console.log(result);
-                                        });
-                                        itemOne = victimItemsList[Math.floor(Math.random() * victimItemsList.length)];
-                                        itemTwo = victimItemsList[Math.floor(Math.random() * victimItemsList.length)];
-                                        while (itemOne == itemTwo){
-                                            itemTwo = victimItemsList[Math.floor(Math.random() * victimItemsList.length)];
-                                        }
-                                        sql.run(`UPDATE items SET ${itemOne} = ${eval(`row.` + itemOne) + 1} WHERE userId = ${message.author.id}`);
-                                        sql.run(`UPDATE items SET ${itemTwo} = ${eval(`row.` + itemTwo) + 1} WHERE userId = ${message.author.id}`);
-        
-                                        sql.run(`UPDATE items SET ${itemOne} = ${eval(`victimItems.` + itemOne) - 1} WHERE userId = ${userNameID}`);
-                                        sql.run(`UPDATE items SET ${itemTwo} = ${eval(`victimItems.` + itemTwo) - 1} WHERE userId = ${userNameID}`);
-                                        itemTwo = " | " + itemTwo;
-                                    
-                                    }
-                                    */
+
                                     sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(userRow => {
-                                        methods.randomItems(sql, completeItemsCheck, message.author.id, userNameID, amountToGive).then(result => {
+                                        methods.randomItems(sql, message.author.id, userNameID, amountToGive).then(result => {
                                         
                                             sql.run(`UPDATE scores SET money = ${userRow.money + victimRow.money} WHERE userId = ${message.author.id}`);
                                             sql.run(`UPDATE scores SET points = ${userRow.points + 100} WHERE userId = ${message.author.id}`);
@@ -963,242 +540,60 @@ class Commands {
                             }
                             sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(CDRow => {
                                 if(weapCooldown.has(message.author.id)){
-                                    message.delete();
-                                    if(((weapCdSeconds * 1000 - ((new Date()).getTime() - CDRow.attackTime)) / 60000).toFixed(1) < 0){
-                                        message.reply("You recently deleted your account, but you still have to wait an hour to attack!");
-                                    }
-                                    else{
-                                        message.reply("You need to wait  `" + ((weapCdSeconds * 1000 - ((new Date()).getTime() - CDRow.attackTime)) / 60000).toFixed(1) + " minutes`  before attacking again.");
-                                    }
-                                    return;
+                                    methods.getAttackCooldown(sql, message.author.id).then(timeLeft => {
+                                        message.delete();
+                                        message.reply("You need to wait  " + timeLeft + "  before attacking again.");
+                                    });
                                 }
                                 else{                                       //WEAPONS!!!!!!!!!!!!!
-                                    console.log(row.scaledDamage);
-                                    if(itemUsed.toLowerCase() == "rpg" && row.rpg >= 1 && row.rocket >= 1){
-                                        sql.run(`UPDATE items SET rocket = ${row.rocket - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 26) + itemRPG[1]) * row.scaledDamage), false);   //deals 85-110 damage unscaled
+                                    let ammoToUse = "";
+                                    let bonusDamage = 0;
+                                    let damageMin = itemdata[itemUsed].minDmg;
+                                    let damageMax = itemdata[itemUsed].maxDmg;
 
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "ak47" && row.ak47 >= 1  && row.rifle_bullet >= 1){
-                                        sql.run(`UPDATE items SET rifle_bullet = ${row.rifle_bullet - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 26) + itemAK47[1]) * row.scaledDamage), false);   //deals 35-60 damage unscaled
+                                    if(row[itemUsed] >= 1){
+                                        if(itemdata[itemUsed].ammo.length >= 1){//remove ammo
+                                            for(var i = 0; i < itemdata[itemUsed].ammo.length; i++){
+                                                if(row[itemdata[itemUsed].ammo[i]] >= 1){
+                                                    ammoToUse = itemdata[itemUsed].ammo[i];
+                                                    if(ammoToUse == "bmg_50cal"){
+                                                        bonusDamage = 20;
+                                                    }
+                                                    else if(ammoToUse == "baseball"){
+                                                        bonusDamage = 12;
+                                                    }
+                                                    sql.run(`UPDATE items SET ${ammoToUse} = ${row[ammoToUse] - 1} WHERE userId = ${message.author.id}`);
+                                                    break;
+                                                }
+                                            }
+                                            if(ammoToUse == "" && itemdata[itemUsed].ammoOptional !== true){
+                                                return message.reply("You don't have any ammo for that weapon!");
+                                            }
+                                        }
+                                        if(itemdata[itemUsed].breaksOnUse == true){
+                                            sql.run(`UPDATE items SET ${itemUsed} = ${row[itemUsed] - 1} WHERE userId = ${message.author.id}`);
+                                        }
 
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "bow" && row.bow >= 1  && row.arrow >= 1){
-                                        sql.run(`UPDATE items SET arrow = ${row.arrow - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 10) + itemBOW[1]) * row.scaledDamage), false);   //deals 8-17 damage unscaled
-
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "crossbow" && row.crossbow >= 1  && row.arrow >= 1){
-                                        sql.run(`UPDATE items SET arrow = ${row.arrow - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 19) + itemCROSSBOW[1]) * row.scaledDamage), false);   //deals 15-33 damage unscaled
-
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "spear" && row.spear >= 1){
-                                        sql.run(`UPDATE items SET spear = ${row.spear - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 11) + itemSPEAR[1]) * row.scaledDamage), true);   //deals 15-25 damage unscaled
-
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "club" && row.club >= 1){
-                                        sql.run(`UPDATE items SET club = ${row.club - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 6) + itemCLUB[1]) * row.scaledDamage), true);   //deals 6-11 damage unscaled
-
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "fork" && row.fork >= 1){
-                                        sql.run(`UPDATE items SET fork = ${row.fork - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 6) + itemFORK[1]) * row.scaledDamage), true);   //deals 4-9 damage unscaled
-
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "sword" && row.sword >= 1){
-                                        sql.run(`UPDATE items SET sword = ${row.sword - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 11) + itemSWORD[1]) * row.scaledDamage), true);   //deals 10-20 damage unscaled
-
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "rock" && row.rock >= 1){
-                                        sql.run(`UPDATE items SET rock = ${row.rock - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 6) + itemROCK[1]) * row.scaledDamage), true);   //deals 5-10 damage unscaled
-
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "glock" && row.glock >= 1  && row.pistol_bullet >= 1){
-                                        sql.run(`UPDATE items SET pistol_bullet = ${row.pistol_bullet - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 10) + itemGLOCK[1]) * row.scaledDamage), false);   //deals 21-30 damage unscaled
-
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "thompson" && row.thompson >= 1  && row.pistol_bullet >= 1){
-                                        sql.run(`UPDATE items SET pistol_bullet = ${row.pistol_bullet - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 21) + itemTHOMPSON[1]) * row.scaledDamage), false);   //deals 25-45 damage unscaled
+                                        let randDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage);
                                         
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "bat" && row.bat >= 1  && row.baseball >= 1){
-                                        sql.run(`UPDATE items SET baseball = ${row.baseball - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 21) + itemBAT[1]) * row.scaledDamage), false);   //deals 10-30 damage unscaled
+                                        hitOrMiss(randDmg, false);
                                         
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
+                                        methods.addToWeapCooldown(sql, message.author.id, itemUsed);
                                     }
-                                    else if(itemUsed.toLowerCase() == "bat" && row.bat >= 1){
-                                        sql.run(`UPDATE items SET bat = ${row.bat - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 9) + itemBAT[1]) * row.scaledDamage), true);   //deals 10-18 damage unscaled
-                                        
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
+                                    else{
+                                        return message.reply(`You don't have that item!`);
                                     }
-                                    else if(itemUsed.toLowerCase() == "blunderbuss" && row.blunderbuss >= 1  && row.buckshot >= 1){
-                                        sql.run(`UPDATE items SET buckshot = ${row.buckshot - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 33) + itemBLUNDERBUSS[1]) * row.scaledDamage), false);   //deals 8-40 damage unscaled
-                                        
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "revolver" && row.revolver >= 1  && row.pistol_bullet >= 1){
-                                        sql.run(`UPDATE items SET pistol_bullet = ${row.pistol_bullet - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 11) + itemREVOLVER[1]) * row.scaledDamage), false);   //deals 25-35 damage unscaled
-                                        
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "grenade" && row.grenade >= 1){
-                                        sql.run(`UPDATE items SET grenade = ${row.grenade - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 23) + itemGRENADE[1]) * row.scaledDamage), true);   //deals 8-30 damage unscaled
-                                        
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "spas" && row.spas >= 1  && row.buckshot >= 1){
-                                        sql.run(`UPDATE items SET buckshot = ${row.buckshot - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 31) + itemSPAS[1]) * row.scaledDamage), false);   //deals 40-70 damage unscaled
-                                        
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "m4a1" && row.m4a1 >= 1  && row.rifle_bullet >= 1){
-                                        sql.run(`UPDATE items SET rifle_bullet = ${row.rifle_bullet - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 6) + itemM4A1[1]) * row.scaledDamage), false);   //deals 45-50 damage unscaled
-                                        
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    //itemUsed.toLowerCase() == "awp" && row.awp >= 1 && row.bmg_50cal >= 1
-                                    else if(itemUsed.toLowerCase() == "awp" && row.awp >= 1  && row.bmg_50cal >= 1){
-                                        sql.run(`UPDATE items SET bmg_50cal = ${row.bmg_50cal - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 11) + (itemAWP[1] + 20)) * row.scaledDamage), false);   //deals 80-90 damage unscaled
-                                        
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "awp" && row.awp >= 1  && row.rifle_bullet >= 1){
-                                        sql.run(`UPDATE items SET rifle_bullet = ${row.rifle_bullet - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 11) + itemAWP[1]) * row.scaledDamage), false);   //deals 60-70 damage unscaled
-
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "javelin" && row.javelin >= 1  && row.rocket >= 1){
-                                        sql.run(`UPDATE items SET rocket = ${row.rocket - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(itemJAVELIN[1] * row.scaledDamage), false);   //deals 100 damage unscaled
-                                        
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "rail_cannon" && row.rail_cannon >= 1  && row.plasma >= 1){
-                                        sql.run(`UPDATE items SET plasma = ${row.plasma - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 191) + itemRAIL_CANNON[1]) * row.scaledDamage), false);   //deals 10-999 damage unscaled
-                                        
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "fish" && row.fish >= 1){
-                                        sql.run(`UPDATE items SET fish = ${row.fish - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 7) + itemFISH[1]) * row.scaledDamage), true);   //deals 5-11 damage unscaled
-
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "candycane" && row.candycane >= 1){
-                                        sql.run(`UPDATE items SET candycane = ${row.candycane - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 13) + itemCANDYCANE[1]) * row.scaledDamage), true);   //deals 3-15 damage unscaled
-
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "snowball" && row.snowball >= 1){
-                                        sql.run(`UPDATE items SET snowball = ${row.snowball - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 26) + itemSNOWBALL[1]) * row.scaledDamage), true);   //deals 20-45 damage unscaled
-
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "nutcracker" && row.nutcracker >= 1){
-                                        sql.run(`UPDATE items SET nutcracker = ${row.nutcracker - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 36) + itemNUTCRACKER[1]) * row.scaledDamage), true);   //deals 30-65 damage unscaled
-
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "peck_seed" && row.peck_seed >= 1){
-                                        sql.run(`UPDATE items SET peck_seed = ${row.peck_seed - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 16) + itemPECK_SEED[1]) * row.scaledDamage), true);  //deals 20-35 damage unscaled
-
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "golf_club" && row.golf_club >= 1){
-                                        sql.run(`UPDATE items SET golf_club = ${row.golf_club - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 10) + itemGOLF_CLUB[1]) * row.scaledDamage), true);   //deals 12-21 damage unscaled
-
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "stick" && row.stick >= 1){
-                                        sql.run(`UPDATE items SET stick = ${row.stick - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 4) + itemSTICK[1]) * row.scaledDamage), true);  //deals 3-6 damage unscaled
-                                        
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(itemUsed.toLowerCase() == "ray_gun" && row.ray_gun >= 1  && row.plasma >= 1){
-                                        sql.run(`UPDATE items SET plasma = ${row.plasma - 1} WHERE userId = ${message.author.id}`);
-                                        hitOrMiss(Math.floor(((Math.random() * 91) + itemRAY_GUN[1]) * row.scaledDamage), false);  //deals 60-150 damage unscaled
-                                        
-                                        sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`); //code that adds
-                                        weapCooldown.add(message.author.id);                                                                     //user to cooldown list
-                                    }
-                                    else if(!weapCooldown.has(message.author.id)){
-                                        return message.reply(`You don't have the item and/or need ammo for it!`);
-                                    }
+                                    //in future add users to separate cooldown sets
                                 }
-                                setTimeout(() => {
-                                    weapCooldown.delete(message.author.id);
-                                    sql.run(`UPDATE scores SET attackTime = ${0} WHERE userId = ${message.author.id}`);
-                                }, weapCdSeconds * 1000);
                             });
                         });
                     }
                 }).catch((err) => {
                     return message.reply('ERROR: ```'+err+'```');
                 });
+            }
+            else{
+                return message.reply('That item cannot be used to attack and is not a consumable. `'+prefix+'use <item> <@user>`');
             }
         }).catch((err) => {
             return message.reply('You need to specify an item and mention a user to attack! `'+prefix+'use <item> <@user>`');
@@ -1210,40 +605,21 @@ class Commands {
         if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");  //makes sure they have account
         let args = message.content.split(" ").slice(1);
         let craftItem = args[0];
+        craftItem = methods.getCorrectedItemInfo(craftItem, false, false);
         let sellAmount = 1;
         let itemPrice = "";
         let recycleMin = 0;
         let recycleMax = 1;
         let extraScrap = "";
         let chance = Math.random();
-        if(craftItem !== undefined){
-            craftItem = craftItem.toLowerCase();
+        if(itemdata[craftItem] !== undefined){
             //THESE WILL BE USED FOR SPECIFIC FIXES (SUCH AS CHANGING NAME TO FIT ITEM ARRAYS)
-            if(craftItem.startsWith("rail")){
-                craftItem = "RAIL_CANNON";
+            if(itemdata[craftItem].craftedWith == ""){
+                return message.reply("That cannot be crafted!");
             }
-            else if(craftItem.startsWith("ray")){
-                craftItem = "RAY_GUN";
-            }
-            else if(craftItem.startsWith("ray")){
-                craftItem = "RAY_GUN";
-            }
-            else if(craftItem.startsWith("ammo")){
-                craftItem = "AMMOBOX";
-            }
-            else if(craftItem.startsWith("ultra_a")){
-                craftItem = "ULTRA_AMMO";
-            }
-            else if(craftItem.startsWith("ultra")){
-                craftItem = "ULTRA_BOX";
-            }
-            else{
-                return message.reply("That item cannot be crafted!");
-            }
-            itemPrice = eval(`item${craftItem.toUpperCase()}[9]`);
-            let itemName = eval(`item${craftItem.toUpperCase()}[0]`);
+            itemPrice = itemdata[craftItem].craftedWith.display;
             const embedInfo = new Discord.RichEmbed()
-            .setTitle("Craft `" + itemName + "` for")
+            .setTitle("Craft `" + craftItem + "` for")
             .setDescription("```" + itemPrice +"```")
             .setColor(0)
             .setImage("https://cdn.discordapp.com/attachments/454163538886524928/527740857525207060/redLine.png")
@@ -1259,63 +635,14 @@ class Commands {
 
                     if(reaction.emoji.name === '✅'){
                         botMessage.delete();
-                        sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(itemRow => {
-                            if(itemName == "rail_cannon"){
-                                if(itemRow.module >= 20 && itemRow.fiber_optics >= 2 && itemRow.steel >= 3 && itemRow.screw >= 1){
-                                    message.reply("Successfully crafted `rail_cannon`!");
-                                    sql.run(`UPDATE items SET rail_cannon = ${itemRow.rail_cannon + 1} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET module = ${itemRow.module - 20} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET fiber_optics = ${itemRow.fiber_optics - 2} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET steel = ${itemRow.steel - 3} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET screw = ${itemRow.screw - 1} WHERE userId = ${message.author.id}`);
-                                }
-                                else{
-                                    message.reply("You are missing the required materials for this item!");
-                                }
+                        methods.hasitems(sql, message.author.id, itemdata[craftItem].craftedWith.materials).then(result => {
+                            if(result){
+                                message.reply("Successfully crafted `" + craftItem + "`!");
+                                methods.removeitem(sql, message.author.id, itemdata[craftItem].craftedWith.materials);
+                                methods.additem(sql, message.author.id, craftItem, 1);
                             }
-                            else if(itemName == "ray_gun"){
-                                if(itemRow.module >= 23 && itemRow.fiber_optics >= 3 && itemRow.steel >= 2 && itemRow.adhesive >= 2 && itemRow.screw >= 1){
-                                    message.reply("Successfully crafted `ray_gun`!");
-                                    sql.run(`UPDATE items SET ray_gun = ${itemRow.ray_gun + 1} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET module = ${itemRow.module - 23} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET fiber_optics = ${itemRow.fiber_optics - 3} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET steel = ${itemRow.steel - 2} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET adhesive = ${itemRow.adhesive - 2} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET screw = ${itemRow.screw - 1} WHERE userId = ${message.author.id}`);
-                                }
-                                else{
-                                    message.reply("You are missing the required materials for this item!");
-                                }
-                            }
-                            else if(itemName == "ammo_box"){
-                                if(itemRow.item_box >= 3){
-                                    message.reply("Successfully crafted `ammo_box`!");
-                                    sql.run(`UPDATE items SET ammo_box = ${itemRow.ammo_box + 1} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET item_box = ${itemRow.item_box - 3} WHERE userId = ${message.author.id}`);
-                                }
-                                else{
-                                    message.reply("You are missing the required materials for this item!");
-                                }
-                            }
-                            else if(itemName == "ultra_ammo"){
-                                if(itemRow.ammo_box >= 3){
-                                    message.reply("Successfully crafted `ultra_ammo`!");
-                                    sql.run(`UPDATE items SET ultra_ammo = ${itemRow.ultra_ammo + 1} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET ammo_box = ${itemRow.ammo_box - 3} WHERE userId = ${message.author.id}`);
-                                }
-                                else{
-                                    message.reply("You are missing the required materials for this item!");
-                                }
-                            }
-                            else if(itemName == "ultra_box"){
-                                if(itemRow.item_box >= 7){
-                                    message.reply("Successfully crafted `ultra_box`!");
-                                    sql.run(`UPDATE items SET ultra_box = ${itemRow.ultra_box + 1} WHERE userId = ${message.author.id}`);
-                                    sql.run(`UPDATE items SET item_box = ${itemRow.item_box - 7} WHERE userId = ${message.author.id}`);
-                                }
-                                else{
-                                    message.reply("You are missing the required materials for this item!");
-                                }
+                            else{
+                                message.reply("You are missing the required materials for this item!");
                             }
                         });
                     }
@@ -1338,94 +665,23 @@ class Commands {
         if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");  //makes sure they have account
         let args = message.content.split(" ").slice(1);
         let sellItem = args[0];
-        let sellAmount = 1;
-        let itemPrice = "";
-        let recycleMin = 0;
-        let recycleMax = 1;
-        let extraScrap = "";
-        let chance = Math.random();
-        let rand = "";
-        if(sellItem !== undefined){
-            sellItem = sellItem.toLowerCase();
-            //THESE WILL BE USED FOR SPECIFIC FIXES (SUCH AS CHANGING NAME TO FIT ITEM ARRAYS)
-            if(sellItem == "rpg"){
+        sellItem = methods.getCorrectedItemInfo(sellItem, false, false);
+
+        if(itemdata[sellItem] !== undefined){
+            if(itemdata[sellItem].recyclesTo == ""){
+                return message.reply("That item cannot be recycled.");
             }
-            else if(sellItem == "item_box" || sellItem == "box"){
-                sellItem = "BOX";
-            }
-            else if(sellItem == "ammo_box" || sellItem == "ammo"){
-                sellItem = "AMMOBOX";
-            }
-            else if(sellItem == "ultra" || sellItem == "ultrabox"){
-                sellItem = "ULTRA_BOX";
-            }
-            else if(sellItem == "rail" || sellItem == "cannon"){
-                sellItem = "RAIL_CANNON";
-            }
-            else if(sellItem == "bmg" || sellItem == "50cal"){
-                sellItem = "BMG_50CAL";
-            }
-            else if(sellItem == "iron" || sellItem == "shield"){
-                sellItem = "IRON_SHIELD";
-            }
-            else if(sellItem == "gold" || sellItem == "goldshield"){
-                sellItem = "GOLD_SHIELD";
-            }
-            else if(sellItem == "rifle_bullet"){
-                sellItem = "RIFLEBULLET";
-            }
-            else if(sellItem == "pistol_bullet"){
-                sellItem = "PISTOLBULLET";
-            }
-            else if(sellItem == "health_pot" || sellItem == "health"){
-                sellItem = "HEALTH";
-            }
-            else if(sellItem == "peck" || sellItem == "peckseed"){
-                sellItem = "PECK_SEED";
-            }
-            else if(!completeItemsCheck.includes(sellItem)){
-                message.reply("Only `Legendary`+ items are eligible for recycling.");
-                return;
-            }
-            else if(eval(`item${sellItem.toUpperCase()}[7]`) !== "Legendary" && eval(`item${sellItem.toUpperCase()}[7]`) !== "Ultra"){
-                message.reply("Only `Legendary`+ items are eligible for recycling.");
-                return;
-            }
-            if(eval(`item${sellItem.toUpperCase()}[7]`) == "Legendary"){
-                recycleMin = 1;
-                recycleMax = 3;
-                let subArray = eval(`item${sellItem.toUpperCase()}[8]`);
-                rand = subArray[Math.floor(Math.random() * subArray.length)];
-                extraScrap = "0 - 1 " + eval(`item${sellItem.toUpperCase()}[8]`);
-            }
-            else if(eval(`item${sellItem.toUpperCase()}[7]`) == "Ultra"){
-                recycleMin = 2;
-                recycleMax = 4;
-                let subArray = eval(`item${sellItem.toUpperCase()}[8]`);
-                rand = subArray[Math.floor(Math.random() * subArray.length)];
-                extraScrap = "1 " + eval(`item${sellItem.toUpperCase()}[8]`);
-                chance = 1;
-            }
-            /*
-            if(sellAmount == undefined){
-                sellAmount = 1;
-            }
-            else if(!Number.isInteger(parseInt(sellAmount))){
-                sellAmount = 1;
-            }
-            else if(sellAmount % 1 !== 0){
-                sellAmount = 1;
-            }
-            itemPrice = Math.floor(Math.random() * ((recycleMax * sellAmount) - (recycleMin * sellAmount) + 1)) + (recycleMin * sellAmount) //Generates module amount
-            */
-            itemPrice = Math.floor(Math.random() * ((recycleMax) - (recycleMin) + 1)) + (recycleMin)
-            let itemName = eval(`item${sellItem.toUpperCase()}[0]`);
+
+            let recyclePrice = itemdata[sellItem].recyclesTo.display;
+
             const embedInfo = new Discord.RichEmbed()
-            .setTitle("Recycle `" + itemName + "` for")
-            .setDescription("```" + (recycleMin) +" - "+(recycleMax) + " module\n\n"+extraScrap+"```")
+            .setTitle("Recycle `" + sellItem + "` for")
+            .setDescription("```" + recyclePrice +"```")
             .setColor(0)
             .setImage("https://cdn.discordapp.com/attachments/454163538886524928/527630489851265025/goldLine.png")
             .setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/527391190975381505/LC_Recycle.png")
+            .setFooter("You will need " + methods.getTotalItmCountFromList(itemdata[sellItem].recyclesTo.materials) + " open slots in your inventory to recycle this.")
+            
             message.channel.send(message.author, {embed : embedInfo}).then(botMessage => {
                 botMessage.react('✅').then(() => botMessage.react('❌'));
                 const filter = (reaction, user) => {
@@ -1437,36 +693,16 @@ class Commands {
 
                     if(reaction.emoji.name === '✅'){
                         botMessage.delete();
-                        sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(itemRow => {
-                            if(eval(`itemRow.${itemName}`) >= sellAmount){
-                                //RECYCLE HERE
-                                if(chance >= .5){
-                                    methods.hasenoughspace(sql, message.author.id, itemPrice).then(hasenough => {
-                                        if(!hasenough){
-                                            return message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.");
-                                        }
-                                        message.reply("`" + itemName + "` recycled for ```" + (itemPrice) + " module\nAND\n1 "+rand+"```");
-                                        sql.run(`UPDATE items SET ${itemName} = ${eval(`itemRow.${itemName}`) - 1} WHERE userId = ${message.author.id}`);
-                                        sql.run(`UPDATE items SET module = ${itemRow.module + itemPrice} WHERE userId = ${message.author.id}`);
-                                        sql.run(`UPDATE items SET ${rand} = ${eval(`itemRow.${rand}`) + 1} WHERE userId = ${message.author.id}`);
-                                    });
-                                }
-                                else{
-                                    methods.hasenoughspace(sql, message.author.id, itemPrice - 1).then(hasenough => {
-                                        if(!hasenough){
-                                            return message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.");
-                                        }
-                                        message.reply("`" + itemName + "` recycled for ```" + (itemPrice) + " module```");
-                                        sql.run(`UPDATE items SET ${itemName} = ${eval(`itemRow.${itemName}`) - 1} WHERE userId = ${message.author.id}`);
-                                        sql.run(`UPDATE items SET module = ${itemRow.module + itemPrice} WHERE userId = ${message.author.id}`);
-                                    });
-                                }
-                                //sql.run(`UPDATE scores SET money = ${row.money + parseInt(itemPrice * sellAmount)} WHERE userId = ${message.author.id}`);
-                                //sql.run(`UPDATE items SET ${itemName} = ${eval(`itemRow.${itemName}`) - (1 * sellAmount)} WHERE userId = ${message.author.id}`);
-                            }
-                            else{
-                                message.reply("You don't have that item!");
-                            }
+                        methods.hasitems(sql, message.author.id, sellItem, 1).then(userHasItem => {
+                            if(!userHasItem) return message.reply("You don't have that item!");
+                            
+                            methods.hasenoughspace(sql, message.author.id, methods.getTotalItmCountFromList(itemdata[sellItem].recyclesTo.materials)).then(result => {
+                                if(!result) return message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.");
+
+                                methods.additem(sql, message.author.id, itemdata[sellItem].recyclesTo.materials);
+                                methods.removeitem(sql, message.author.id, sellItem, 1);
+                                message.reply("`" + sellItem + "` recycled for ```" + recyclePrice + "```");
+                            });
                         });
                     }
                     else{
@@ -1479,7 +715,7 @@ class Commands {
             });
         }
         else{
-            message.reply("Only `Legendary`+ items are eligible for recycling.");
+            message.reply("I don't recognize that item. `recycle <item>`");
         }
     });
     }
@@ -1487,36 +723,23 @@ class Commands {
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");  //makes sure they have account
             let args = message.content.split(" ").slice(1);
-            let itemSearched = args[0];            
-            if(itemSearched !== undefined){
-                let itemDamage = "";
-                let itemBuyPrice = "";
-                let itemSellPrice = "";
-                let itemName = "N/A";
-                let itemAmmo = "No ammo required.";
-                let itemRarity = "";
-                let itemInfo = "";
-                let itemImg = "";
-                
-                //itemImg = methods.getCorrectedItemInfo(itemSearched, true);
-                itemImg = itemImgJSON[methods.getCorrectedItemInfo(itemSearched, false, false)];
-                itemSearched = methods.getCorrectedItemInfo(itemSearched);
+            let itemSearched = args[0];
+            itemSearched = methods.getCorrectedItemInfo(itemSearched, false, false);
 
-                itemName = eval(`item${itemSearched.toUpperCase()}[0]`) //HANDLES ALL ITEMS
-    
-                if(eval(`item${itemSearched.toUpperCase()}[2]`) !== ""){
-                    itemDamage = `${eval(`item${itemSearched.toUpperCase()}[1]`)}-${eval(`item${itemSearched.toUpperCase()}[2]`)}`;
-                }
-                else{
-                    itemDamage = eval(`item${itemSearched.toUpperCase()}[1]`);
-                }
-                itemAmmo = eval(`item${itemSearched.toUpperCase()}[3]`);
-                itemBuyPrice = eval(`item${itemSearched.toUpperCase()}[4]`);
-                itemSellPrice = eval(`item${itemSearched.toUpperCase()}[5]`);
-                itemInfo = eval(`item${itemSearched.toUpperCase()}[6]`);
-                itemRarity = eval(`item${itemSearched.toUpperCase()}[7]`);
+            if(itemdata[itemSearched] !== undefined){
+                let itemDamage = itemdata[itemSearched].damage;
+                let itemBuyPrice = itemdata[itemSearched].buy;
+                let itemSellPrice = itemdata[itemSearched].sell;
+                let itemAmmo = itemdata[itemSearched].ammo;
+                let itemAmmoFor = itemdata[itemSearched].isAmmo;
+                let itemRarity = itemdata[itemSearched].rarity;
+                let itemInfo = itemdata[itemSearched].desc;
+                let itemImg = itemdata[itemSearched].image;
+                let itemRecyclesTo = itemdata[itemSearched].recyclesTo;
+                let itemCraftedWith = itemdata[itemSearched].craftedWith;
+                let itemCooldown = itemdata[itemSearched].cooldown;
                 let itemRarityColor = 0;
-    
+
                 if(itemRarity == "Ultra"){
                     itemRarityColor = 16711778;
                 }
@@ -1538,71 +761,71 @@ class Commands {
                 else{
                     itemRarityColor = 10197915;
                 }
-    
                 var embedItem = new Discord.RichEmbed()
-                .setDescription(`🏷**${itemName} Info**`)
+                .setTitle(`🏷**${itemSearched} Info**`)
                 .setColor(itemRarityColor)
                 .setThumbnail(itemImg)
-                .addField("***Rarity***", itemRarity)
-                if(itemDamage !== "" && itemDamage !== "N/A"){
-                    embedItem.addField("💥Damage", itemDamage)
-                }
-                if(itemAmmo !== "" && itemAmmo !== "N/A"){
-                    embedItem.addField("🔻Ammo Required🔻", itemAmmo)
-                }
-                if(itemBuyPrice == ""){
-                    embedItem.addField("Cost", "📤 Sell : $" + itemSellPrice)
-                }
-                else if(itemBuyPrice <= 50){
-                    embedItem.addField("Cost", "📥 Buy : " + itemBuyPrice + " `tokens` | 📤 Sell : $" + itemSellPrice)
+                if(itemCooldown !== ""){
+                    embedItem.addField("***Rarity***", itemRarity, true)
+                    embedItem.addField("**Cooldown**", "`" + itemCooldown.display + "`")
                 }
                 else{
-                    embedItem.addField("Cost", "📥 Buy : $" + itemBuyPrice + " | 📤 Sell : $" + itemSellPrice)
+                    embedItem.addField("***Rarity***", itemRarity)
                 }
-                if(itemRarity == "Legendary" && eval(`item${itemSearched.toUpperCase()}[8]`) !== undefined){
-                    let itemComponents = eval(`item${itemSearched.toUpperCase()}[8]`);
-                    let newList = itemComponents.join(' or ');
-                    embedItem.addField("Recycles into", "```1-3 module\n0-1 " + newList+"```")
+                if(itemDamage !== ""){
+                    embedItem.addField("💥Damage", itemDamage, true)
                 }
-                else if(itemRarity == "Ultra" && eval(`item${itemSearched.toUpperCase()}[8]`) !== undefined){
-                    let itemComponents = eval(`item${itemSearched.toUpperCase()}[8]`);
-                    let newList = itemComponents.join(' or ');
-                    embedItem.addField("Recycles into", "```2-4 module\n1 " + newList+"```")
-                    embedItem.addField("Items required to craft", "```"+ eval(`item${itemSearched.toUpperCase()}[9]`) +"```")
+                if(itemAmmo !== "" && itemAmmo !== "N/A"){
+                    embedItem.addField("🔻Ammo Required", itemAmmo, true)
                 }
-                else if(eval(`item${itemSearched.toUpperCase()}[9]`) !== undefined){
-                    embedItem.addField("Items required to craft", "```"+ eval(`item${itemSearched.toUpperCase()}[9]`) +"```")
+                if(itemAmmoFor.length >= 1){
+                    embedItem.addField("🔻Ammo for", itemAmmoFor, true)
                 }
-                embedItem.addField("Info", itemInfo)
+                if(itemBuyPrice == ""){
+                    embedItem.addField("Cost", "📤 Sell : " + methods.formatMoney(itemSellPrice))
+                }
+                else if(itemBuyPrice <= 50){
+                    embedItem.addField("Cost", "📥 Buy : " + itemBuyPrice + " `tokens` | 📤 Sell : " + methods.formatMoney(itemSellPrice))
+                }
+                else{
+                    embedItem.addField("Cost", "📥 Buy : " + methods.formatMoney(itemBuyPrice) + " | 📤 Sell : " + methods.formatMoney(itemSellPrice))
+                }
+                if(itemRecyclesTo.materials !== undefined){
+                    embedItem.addBlankField();
+                    embedItem.addField("Recycles into", "```"+ itemRecyclesTo.display +"```", true)
+                }
+                if(itemCraftedWith !== ""){
+                    embedItem.addField("Items required to craft", "```"+ itemCraftedWith.display +"```", true)
+                }
+                embedItem.setDescription(itemInfo)
                 message.channel.send(embedItem);
             }
-            else{
-                //message.reply("You need to input an item. `"+prefix+"item <item>`");
-                let fullCommonList = "`"+commonItems.sort().join('`\n`') + "`\n**Ammo:**\n`" + commonAmmo.sort().join('`\n`')+"`";
-                let uncommonSub = uncommonItems.concat(uncommonComp);
-                let fullUncommonList = "`"+uncommonSub.sort().join('`\n`') + "`\n**Ammo:**\n`" + uncommonAmmo.sort().join('`\n`')+"`";
-                let rareSub = rareItems.concat(rareComp);
-                let fullRareList = "`"+rareSub.sort().join('`\n`') + "`\n**Ammo:**\n`" + rareAmmo.sort().join('`\n`')+"`";
-                let epicSub = epicItems.concat(epicComp);
-                let fullEpicList = "`"+epicSub.sort().join('`\n`') + "`\n**Ammo:**\n`" + epicAmmo.sort().join('`\n`')+"`";
-                let legendSub = legendItems.concat(legendComp);
-                let fullLegendList = "`"+legendSub.sort().join('`\n`') + "`\n**Ammo:**\n`" + legendAmmo.sort().join('`\n`')+"`";
-                let fullUltraList = "`"+ultraItems.sort().join('`\n`') + "`";
-                console.log(fullCommonList);
+            else if(itemSearched == ""){
+                let commonList = methods.getitems("common", {});
+                let uncommonList = methods.getitems("uncommon", {});
+                let rareList = methods.getitems("rare", {});
+                let epicList = methods.getitems("epic", {});
+                let legendList = methods.getitems("legendary", {});
+                let ultraList = methods.getitems("ultra", {});
+                let limitList = methods.getitems("limited", {});
+
                 const embedInfo = new Discord.RichEmbed()
                 .setColor(0)
                 .setTitle("Full Items List")
                 .setURL("https://lootcord.com/items")
-                .addField("<:UnboxCommon:526248905676029968>Common",fullCommonList, true)
-                .addField("<:UnboxUncommon:526248928891371520>Uncommon",fullUncommonList, true)
-                .addField("<:UnboxRare:526248948579434496>Rare",fullRareList, true)
-                .addField("<:UnboxEpic:526248961892155402>Epic",fullEpicList, true)
-                .addField("<:UnboxLegendary:526248970914234368>Legendary",fullLegendList, true)
-                .addField("<:UnboxUltra:526248982691840003>Ultra",fullUltraList, true)
+                .addField("<:UnboxCommon:526248905676029968>Common","`" + commonList.sort().join("`\n`") + "`", true)
+                .addField("<:UnboxUncommon:526248928891371520>Uncommon","`" + uncommonList.sort().join("`\n`") + "`", true)
+                .addField("<:UnboxRare:526248948579434496>Rare","`" + rareList.sort().join("`\n`") + "`", true)
+                .addField("<:UnboxEpic:526248961892155402>Epic","`" + epicList.sort().join("`\n`") + "`", true)
+                .addField("<:UnboxLegendary:526248970914234368>Legendary","`" + legendList.sort().join("`\n`") + "`", true)
+                .addField("<:UnboxUltra:526248982691840003>Ultra","`" + ultraList.sort().join("`\n`") + "`", true)
                 .setFooter("Use "+prefix+"item <item> to retrieve more information!")
                 return message.channel.send(embedInfo);
             }
-        }).catch(() => {
+            else{
+                message.reply("That item isn't in my database! Use `"+prefix+"items` to see a full list!");
+            }
+        }).catch((err) => {
             message.reply("That item isn't in my database! Use `"+prefix+"items` to see a full list!");
             return;
         });
@@ -1612,100 +835,23 @@ class Commands {
             sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(itemRow => {
                 if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");  //makes sure they have account
                 let args = message.content.split(" ").slice(1);
-                let buyItem = args[0];   
+                let buyItem = args[0];
+                buyItem = methods.getCorrectedItemInfo(buyItem, false, false);
                 let buyAmount = args[1];
-                if(buyItem !== undefined){
-                    buyItem = buyItem.toLowerCase();
-                    let itemName = "";
-
-                    //THESE WILL BE USED FOR SPECIFIC FIXES (SUCH AS CHANGING NAME TO FIT ITEM ARRAYS)
-                    if(buyItem == "rpg"){
+                if(itemdata[buyItem] !== undefined){
+                    let itemPrice = itemdata[buyItem].buy;
+                    if(itemPrice == ""){
+                        message.reply("That item is not for sale!");
                     }
-                    else if(buyItem == "item_box" || buyItem == "box"){
-                        buyItem = "BOX";
-                    }
-                    else if(buyItem == "ammo_box" || buyItem == "ammo"){
-                        buyItem = "AMMOBOX";
-                    }
-                    else if(buyItem == "ultra" || buyItem == "ultrabox"){
-                        buyItem = "ULTRA_BOX";
-                    }
-                    else if(buyItem == "rail" || buyItem == "cannon"){
-                        buyItem = "RAIL_CANNON";
-                    }
-                    else if(buyItem == "ray" || buyItem == "raygun"){
-                        buyItem = "RAY_GUN";
-                    }
-                    else if(buyItem.startsWith("fiber")){
-                        buyItem = "FIBER_OPTICS";
-                    }
-                    else if(buyItem.startsWith("golf")){
-                        buyItem = "GOLF_CLUB";
-                    }
-                    else if(buyItem.startsWith("ultra_a")){
-                        buyItem = "ULTRA_AMMO";
-                    }
-                    else if(buyItem == "iron" || buyItem == "shield"){
-                        buyItem = "IRON_SHIELD";
-                    }
-                    else if(buyItem == "gold" || buyItem == "goldshield"){
-                        buyItem = "GOLD_SHIELD";
-                    }
-                    else if(buyItem == "bmg" || buyItem == "50cal"){
-                        buyItem = "BMG_50CAL";
-                    }
-                    else if(buyItem == "rifle_bullet"){
-                        buyItem = "RIFLEBULLET";
-                    }
-                    else if(buyItem == "pistol_bullet"){
-                        buyItem = "PISTOLBULLET";
-                    }
-                    else if(buyItem == "health_pot" || buyItem == "health"){
-                        buyItem = "HEALTH";
-                    }
-                    else if(buyItem == "peck" || buyItem == "peckseed"){
-                        buyItem = "PECK_SEED";
-                    }
-                    else if(buyItem == "candy" || buyItem == "cane"){
-                        buyItem = "CANDYCANE";
-                    }
-                    else if(buyItem == "mitten"){
-                        buyItem = "MITTENS";
-                    }
-                    else if(buyItem == "ginger" || buyItem == "bread"){
-                        buyItem = "GINGERBREAD";
-                    }
-                    else if(buyItem == "startingthegame" || buyItem == "immortal"){
-                    }
-                    else if(!completeItemsCheck.includes(buyItem)){
-                        message.reply("You need to enter a valid item to buy! `"+prefix+"buy <item> <amount>`");
-                        return;
-                    }
-                    let itemPrice = "";
-                    if(buyItem == "startingthegame" || buyItem == "immortal"){
-                        let dbName = "";
-                        let itemType = "";
-                        let itemTypeRow = "";
-                        let buyPhrase = "";
-                        buyAmount = 1;
-                        if(buyItem =="immortal"){
-                            itemName = "Immortal Redneck (Steam)";
-                            itemPrice = 10;
-                            dbName = "immortal";
-                            itemTypeRow = "itemRow.token";
-                            itemType = "token";
-                            buyPhrase = "Purchase  `" + itemName + "` for " + (itemPrice) + " tokens?";
+                    else{                                                         //CODE FOR BUYING ITEM
+                        if(buyAmount == undefined || !Number.isInteger(parseInt(buyAmount)) || buyAmount % 1 !== 0 || buyAmount < 1){
+                            buyAmount = 1;
                         }
-                        else if(buyItem =="startingthegame"){
-                            itemName = "Starting The Game (Steam)";
-                            itemPrice = 2000;
-                            dbName = "startingthegame";
-                            itemTypeRow = "row.money";
-                            itemType = "money";
-                            buyPhrase = "Purchase  `" + itemName + "` for $" + (itemPrice) + "?";
-                        }
+                        else if(buyAmount > 20) buyAmount = 20;
+                        parseInt(buyAmount);
                         message.delete();
-                        message.reply(buyPhrase).then(botMessage => {
+
+                        message.reply("Purchase "+ buyAmount+ "x `" + buyItem + "` for " + methods.formatMoney(itemPrice * buyAmount) + "?").then(botMessage => {
                             botMessage.react('✅').then(() => botMessage.react('❌'));
                             const filter = (reaction, user) => {
                                 return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
@@ -1716,42 +862,21 @@ class Commands {
 
                                 if(reaction.emoji.name === '✅'){
                                     botMessage.delete();
-                                    sql.get(`SELECT * FROM gameCodes WHERE rowId = 0`).then(gameRow => {
-                                    sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
-                                    sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(itemRow => {
-                                        let forSale = eval(`gameRow.${dbName}`);
-                                        if(forSale <= 0){
-                                            message.reply("Sorry, that game is sold out!");
-                                        }
-                                        else if(eval(itemTypeRow) >= itemPrice){ //edit
-                                            if(itemType == "token"){
-                                                sql.run(`UPDATE items SET ${itemType} = ${eval(itemTypeRow) - (itemPrice)} WHERE userId = ${message.author.id}`);
+
+                                    methods.hasenoughspace(sql, message.author.id, parseInt(buyAmount)).then(result => {
+                                        methods.hasmoney(sql, message.author.id, itemPrice * buyAmount).then(hasmoney => {
+                                            if(hasmoney && result){
+                                                methods.additem(sql, message.author.id, buyItem, buyAmount);
+                                                methods.removemoney(sql, message.author.id, itemPrice * buyAmount);
+                                                message.reply("You bought " + buyAmount + "x " + buyItem + "!");
                                             }
-                                            else if(itemType == "money"){
-                                                sql.run(`UPDATE scores SET ${itemType} = ${eval(itemTypeRow) - (itemPrice)} WHERE userId = ${message.author.id}`);
+                                            else if(!hasmoney){
+                                                message.reply("You don't have enough money!");
                                             }
-                                            sql.run(`UPDATE gameCodes SET ${dbName} = ${eval(`gameRow.${dbName}`) - 1} WHERE rowId = 0`);
-                                            message.reply("You bought `" + itemName + "`!");
-    
-                                            const embedInfo = new Discord.RichEmbed()
-                                            .setTitle(`🎁**We will PM you your game code soon!**`)
-                                            .setAuthor(message.author.tag, message.author.avatarURL)
-                                            .setColor(0)
-                                            .addBlankField()
-                                            .addField("Website", "https://lootcord.com",true)
-                                            message.author.send(embedInfo);
-                                            const embedLog = new Discord.RichEmbed()
-                                            embedLog.setTitle("🎁GAME CODE BOUGHT BY\n"+message.author.username+ " ID : " + message.author.id)
-                                            embedLog.setDescription("Game : `" + itemName + "`");
-                                            embedLog.setColor(9043800);
-                                            client.guilds.get("454163538055790604").channels.get("496740775212875816").send("<@168958344361541633>"); //change channel
-                                            client.guilds.get("454163538055790604").channels.get("496740775212875816").send(embedLog);
-                                        }
-                                        else{
-                                            message.reply("You don't have enough to purchase that item!");
-                                        }
-                                    });
-                                    });
+                                            else{
+                                                message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.");
+                                            }
+                                        });
                                     });
                                 }
                                 else{
@@ -1762,109 +887,6 @@ class Commands {
                                 message.reply("You didn't react in time!");
                             });
                         });
-                    }
-                    else{
-                        itemPrice = eval(`item${buyItem.toUpperCase()}[4]`);
-                        if(itemPrice == ""){
-                            message.reply("That item is not for sale!");
-                        }
-                        else if(itemPrice <= 50){
-                            if(buyAmount == undefined){
-                                buyAmount = 1;
-                            }
-                            else if(!Number.isInteger(parseInt(buyAmount))){
-                                buyAmount = 1;
-                            }
-                            else if(buyAmount % 1 !== 0){
-                                buyAmount = 1;
-                            }
-                            else if(buyAmount < 1){
-                                buyAmount = 1;
-                            }
-                            itemName = eval(`item${buyItem.toUpperCase()}[0]`);
-                            message.delete();
-                            message.reply("Purchase "+ buyAmount+ "x `" + itemName + "` for " + (itemPrice * buyAmount) + " tokens?").then(botMessage => {
-                                botMessage.react('✅').then(() => botMessage.react('❌'));
-                                const filter = (reaction, user) => {
-                                    return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
-                                };
-                                botMessage.awaitReactions(filter, {max: 1, time: 15000, errors: ['time'] })
-                                .then(collected => {
-                                    const reaction = collected.first();
-
-                                    if(reaction.emoji.name === '✅'){
-                                        botMessage.delete();
-                                        sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(itemRow => {
-                                            if(itemRow.token >= (eval(`item${buyItem.toUpperCase()}[4]`) * buyAmount)){ //edit
-                                                sql.run(`UPDATE items SET token = ${itemRow.token - (itemPrice * buyAmount)} WHERE userId = ${message.author.id}`);
-                                                sql.run(`UPDATE items SET ${itemName} = ${eval(`itemRow.${itemName}`) + (1 * buyAmount)} WHERE userId = ${message.author.id}`);
-                                                message.reply("You bought " + buyAmount + "x " + itemName + "!");
-                                            }
-                                            else{
-                                                message.reply("You don't have enough tokens!");
-                                            }
-                                        });
-                                    }
-                                    else{
-                                        botMessage.delete();
-                                    }
-                                }).catch(collected => {
-                                    botMessage.delete();
-                                    message.reply("You didn't react in time!");
-                                });
-                            });
-                        }
-                        else{                                                         //CODE FOR BUYING ITEM
-                            if(buyAmount == undefined){
-                                buyAmount = 1;
-                            }
-                            else if(!Number.isInteger(parseInt(buyAmount))){
-                                buyAmount = 1;
-                            }
-                            else if(buyAmount % 1 !== 0){
-                                buyAmount = 1;
-                            }
-                            else if(buyAmount < 1){
-                                buyAmount = 1;
-                            }
-                            itemName = eval(`item${buyItem.toUpperCase()}[0]`);
-                            message.delete();
-                            message.reply("Purchase "+ buyAmount+ "x `" + itemName + "` for $" + (itemPrice * buyAmount) + "?").then(botMessage => {
-                                botMessage.react('✅').then(() => botMessage.react('❌'));
-                                const filter = (reaction, user) => {
-                                    return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
-                                };
-                                botMessage.awaitReactions(filter, {max: 1, time: 15000, errors: ['time'] })
-                                .then(collected => {
-                                    const reaction = collected.first();
-
-                                    if(reaction.emoji.name === '✅'){
-                                        botMessage.delete();
-                                        sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
-                                        sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(itemRow => {
-                                            methods.hasenoughspace(sql, message.author.id, parseInt(buyAmount)).then(result => {
-                                                if(row.money >= (eval(`item${buyItem.toUpperCase()}[4]`) * buyAmount)){
-                                                    if(!result) return message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.");
-                                                    sql.run(`UPDATE scores SET money = ${row.money - (itemPrice * buyAmount)} WHERE userId = ${message.author.id}`);
-                                                    sql.run(`UPDATE items SET ${itemName} = ${eval(`itemRow.${itemName}`) + (1 * buyAmount)} WHERE userId = ${message.author.id}`);
-                                                    message.reply("You bought " + buyAmount + "x " + itemName + "!");
-                                                }
-                                                else{
-                                                    message.reply("You don't have enough money!");
-                                                }
-                                            });
-                                        });
-                                        });
-                                    }
-                                    else{
-                                        botMessage.delete();
-                                    }
-                                }).catch(collected => {
-                                    botMessage.delete();
-                                    message.reply("You didn't react in time!");
-                                });
-                            });
-                        }
                     }
                 }
                 else{
@@ -1879,190 +901,33 @@ class Commands {
                 if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");  //makes sure they have account
                 let args = message.content.split(" ").slice(1);
                 let sellItem = args[0];
+
+                console.log(itemdata[3])
                 if(sellItem !== undefined){
                     sellItem = sellItem.toLowerCase();
                     let itemType = "";
                     let commonTotal = 0;
                     let totalAmount = 0;
                     //THESE WILL BE USED FOR SPECIFIC FIXES (SUCH AS CHANGING NAME TO FIT ITEM ARRAYS)
-                    if(sellItem.startsWith("common")){
-                        itemType = "Common";
-                        for (var i = 0; i < completeItemsCheck.length; i++) { //iterates through each item and checks if player has it
-                            if(eval(`itemRow.${completeItemsCheck[i]}`)){ //checks if player has item
-                                let itemName = completeItemsCheck[i];
+                    let itemsToCheck = methods.getitems(sellItem.charAt(0).toUpperCase() + sellItem.slice(1), {});
 
-                                if(itemName == "health_pot"){
-                                    itemName = "HEALTH";
-                                }
-                                else if(itemName == "pistol_bullet"){
-                                    itemName = "PISTOLBULLET";
-                                }
-                                else if(itemName == "rifle_bullet"){
-                                    itemName = "RIFLEBULLET";
-                                }
-                                else if(itemName == "item_box"){
-                                    itemName = "BOX";
-                                }
-                                else if(itemName == "ammo_box"){
-                                    itemName = "AMMOBOX";
-                                }
-                                if(eval(`item${itemName.toUpperCase()}[7]`) == "Common"){
-                                    totalAmount += eval(`itemRow.${completeItemsCheck[i]}`);
-                                    commonTotal += (eval(`itemRow.${completeItemsCheck[i]}`) * eval(`item${itemName.toUpperCase()}[5]`));
-                                }
+                    if(itemsToCheck.length < 1){
+                        return message.reply("You need to enter a valid type to sell! `"+prefix+"sellall <rarity>`");
+                    }
+                    else{
+                        //iterate array and sell
+                        for (var i = 0; i < itemsToCheck.length; i++) {
+                            if(itemRow[itemsToCheck[i]] >= 1){
+                                totalAmount += itemRow[itemsToCheck[i]];
+                                commonTotal += (itemRow[itemsToCheck[i]] * itemdata[itemsToCheck[i]].sell);
                             }
                         }
                     }
-                    else if(sellItem.startsWith("uncommon")){
-                        itemType = "Uncommon";
-                        for (var i = 0; i < completeItemsCheck.length; i++) { //iterates through each item and checks if player has it
-                            if(eval(`itemRow.${completeItemsCheck[i]}`)){ //checks if player has item
-                                let itemName = completeItemsCheck[i];
-
-                                if(itemName == "health_pot"){
-                                    itemName = "HEALTH";
-                                }
-                                else if(itemName == "pistol_bullet"){
-                                    itemName = "PISTOLBULLET";
-                                }
-                                else if(itemName == "rifle_bullet"){
-                                    itemName = "RIFLEBULLET";
-                                }
-                                else if(itemName == "item_box"){
-                                    itemName = "BOX";
-                                }
-                                else if(itemName == "ammo_box"){
-                                    itemName = "AMMOBOX";
-                                }
-                                if(eval(`item${itemName.toUpperCase()}[7]`) == "Uncommon"){
-                                    totalAmount += eval(`itemRow.${completeItemsCheck[i]}`);
-                                    commonTotal += (eval(`itemRow.${completeItemsCheck[i]}`) * eval(`item${itemName.toUpperCase()}[5]`));
-                                }
-                            }
-                        }
-                    }
-                    else if(sellItem.startsWith("rare")){
-                        itemType = "Rare";
-                        for (var i = 0; i < completeItemsCheck.length; i++) { //iterates through each item and checks if player has it
-                            if(eval(`itemRow.${completeItemsCheck[i]}`)){ //checks if player has item
-                                let itemName = completeItemsCheck[i];
-
-                                if(itemName == "health_pot"){
-                                    itemName = "HEALTH";
-                                }
-                                else if(itemName == "pistol_bullet"){
-                                    itemName = "PISTOLBULLET";
-                                }
-                                else if(itemName == "rifle_bullet"){
-                                    itemName = "RIFLEBULLET";
-                                }
-                                else if(itemName == "item_box"){
-                                    itemName = "BOX";
-                                }
-                                else if(itemName == "ammo_box"){
-                                    itemName = "AMMOBOX";
-                                }
-                                if(eval(`item${itemName.toUpperCase()}[7]`) == "Rare"){
-                                    totalAmount += eval(`itemRow.${completeItemsCheck[i]}`);
-                                    commonTotal += (eval(`itemRow.${completeItemsCheck[i]}`) * eval(`item${itemName.toUpperCase()}[5]`));
-                                }
-                            }
-                        }
-                    }
-                    else if(sellItem.startsWith("epic")){
-                        itemType = "Epic";
-                        for (var i = 0; i < completeItemsCheck.length; i++) { //iterates through each item and checks if player has it
-                            if(eval(`itemRow.${completeItemsCheck[i]}`)){ //checks if player has item
-                                let itemName = completeItemsCheck[i];
-
-                                if(itemName == "health_pot"){
-                                    itemName = "HEALTH";
-                                }
-                                else if(itemName == "pistol_bullet"){
-                                    itemName = "PISTOLBULLET";
-                                }
-                                else if(itemName == "rifle_bullet"){
-                                    itemName = "RIFLEBULLET";
-                                }
-                                else if(itemName == "item_box"){
-                                    itemName = "BOX";
-                                }
-                                else if(itemName == "ammo_box"){
-                                    itemName = "AMMOBOX";
-                                }
-                                if(eval(`item${itemName.toUpperCase()}[7]`) == "Epic"){
-                                    totalAmount += eval(`itemRow.${completeItemsCheck[i]}`);
-                                    commonTotal += (eval(`itemRow.${completeItemsCheck[i]}`) * eval(`item${itemName.toUpperCase()}[5]`));
-                                }
-                            }
-                        }
-                    }
-                    else if(sellItem.startsWith("legendary")){
-                        itemType = "Legendary";
-                        for (var i = 0; i < completeItemsCheck.length; i++) { //iterates through each item and checks if player has it
-                            if(eval(`itemRow.${completeItemsCheck[i]}`)){ //checks if player has item
-                                let itemName = completeItemsCheck[i];
-
-                                if(itemName == "health_pot"){
-                                    itemName = "HEALTH";
-                                }
-                                else if(itemName == "pistol_bullet"){
-                                    itemName = "PISTOLBULLET";
-                                }
-                                else if(itemName == "rifle_bullet"){
-                                    itemName = "RIFLEBULLET";
-                                }
-                                else if(itemName == "item_box"){
-                                    itemName = "BOX";
-                                }
-                                else if(itemName == "ammo_box"){
-                                    itemName = "AMMOBOX";
-                                }
-                                if(eval(`item${itemName.toUpperCase()}[7]`) == "Legendary"){
-                                    totalAmount += eval(`itemRow.${completeItemsCheck[i]}`);
-                                    commonTotal += (eval(`itemRow.${completeItemsCheck[i]}`) * eval(`item${itemName.toUpperCase()}[5]`));
-                                }
-                            }
-                        }
-                    }
-                    else if(sellItem.startsWith("ultra")){
-                        itemType = "Ultra";
-                        for (var i = 0; i < completeItemsCheck.length; i++) { //iterates through each item and checks if player has it
-                            if(eval(`itemRow.${completeItemsCheck[i]}`)){ //checks if player has item
-                                let itemName = completeItemsCheck[i];
-
-                                if(itemName == "health_pot"){
-                                    itemName = "HEALTH";
-                                }
-                                else if(itemName == "pistol_bullet"){
-                                    itemName = "PISTOLBULLET";
-                                }
-                                else if(itemName == "rifle_bullet"){
-                                    itemName = "RIFLEBULLET";
-                                }
-                                else if(itemName == "item_box"){
-                                    itemName = "BOX";
-                                }
-                                else if(itemName == "ammo_box"){
-                                    itemName = "AMMOBOX";
-                                }
-                                if(eval(`item${itemName.toUpperCase()}[7]`) == "Ultra"){
-                                    totalAmount += eval(`itemRow.${completeItemsCheck[i]}`);
-                                    commonTotal += (eval(`itemRow.${completeItemsCheck[i]}`) * eval(`item${itemName.toUpperCase()}[5]`));
-                                }
-                            }
-                        }
-                    }
-                    else {
-                        message.reply("You need to enter a valid type to sell! `"+prefix+"sellall <rarity>`");
-                        return;
-                    }
-                    if(commonTotal == 0){
-                        message.reply("You don't have any `" + itemType + "` items!");
-                        return;
+                    if(totalAmount <= 0){
+                        return message.reply("You don't have any items of that quality.");
                     }
                     message.delete();
-                    message.reply("Sell " + totalAmount + "x `" + itemType +"` items for $" + (commonTotal) + "?").then(botMessage => {
+                    message.reply("Sell " + totalAmount + "x `" + sellItem +"` items for " + methods.formatMoney(commonTotal) + "?").then(botMessage => {
                         botMessage.react('✅').then(() => botMessage.react('❌'));
                         const filter = (reaction, user) => {
                             return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
@@ -2073,89 +938,29 @@ class Commands {
 
                             if(reaction.emoji.name === '✅'){
                                 botMessage.delete();
-                                /*
-                                commonTotal = 0;
-                                sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
-                                sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(itemRow => {
-                                    for (i = 0; i < completeItemsCheck.length; i++) { //iterates through each item and checks if player has it
-                                        if(eval(`itemRow.${completeItemsCheck[i]}`)){ //checks if player has item
-                                            let itemName = completeItemsCheck[i];
-            
-                                            if(itemName == "health_pot"){
-                                                itemName = "HEALTH";
-                                            }
-                                            else if(itemName == "pistol_bullet"){
-                                                itemName = "PISTOLBULLET";
-                                            }
-                                            else if(itemName == "rifle_bullet"){
-                                                itemName = "RIFLEBULLET";
-                                            }
-                                            else if(itemName == "item_box"){
-                                                itemName = "BOX";
-                                            }
-                                            else if(itemName == "ammo_box"){
-                                                itemName = "AMMOBOX";
-                                            }
-                                            if(eval(`item${itemName.toUpperCase()}[7]`) == itemType){
-                                                commonTotal += (eval(`itemRow.${completeItemsCheck[i]}`) * eval(`item${itemName.toUpperCase()}[5]`));
-                                            }
+                                sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(itemRow2 => {
+                                    let testAmount = 0;//used to verify user didnt alter inventory while selling.
+                                    let testTotalItems = 0;
+                                    for (var i = 0; i < itemsToCheck.length; i++) {
+                                        if(itemRow2[itemsToCheck[i]] >= 1){
+                                            testTotalItems += itemRow2[itemsToCheck[i]];
+                                            testAmount += (itemRow2[itemsToCheck[i]] * itemdata[itemsToCheck[i]].sell);
                                         }
                                     }
-                                    sql.run(`UPDATE scores SET money = ${row.money + parseInt(commonTotal)} WHERE userId = ${message.author.id}`);
                                     
-                                    for (i = 0; i < completeItemsCheck.length; i++) { //iterates through each item and checks if player has it
-                                        if(eval(`itemRow.${completeItemsCheck[i]}`)){
-                                            let itemName = completeItemsCheck[i];
-                                            if(itemName == "health_pot"){
-                                                itemName = "HEALTH";
-                                            }
-                                            else if(itemName == "pistol_bullet"){
-                                                itemName = "PISTOLBULLET";
-                                            }
-                                            else if(itemName == "rifle_bullet"){
-                                                itemName = "RIFLEBULLET";
-                                            }
-                                            else if(itemName == "item_box"){
-                                                itemName = "BOX";
-                                            }
-                                            else if(itemName == "ammo_box"){
-                                                itemName = "AMMOBOX";
-                                            }
-                                            if(eval(`item${itemName.toUpperCase()}[7]`) == itemType){
-                                                sql.run(`UPDATE items SET ${completeItemsCheck[i]} = ${0} WHERE userId = ${message.author.id}`);
-                                            }
+                                    if(testTotalItems == totalAmount && testAmount == commonTotal){
+                                        //VERIFIED
+                                        methods.addmoney(sql, message.author.id, parseInt(commonTotal));
+                                        for (var i = 0; i < itemsToCheck.length; i++) {
+                                            sql.run(`UPDATE items SET ${itemsToCheck[i]} = ${0} WHERE userId = ${message.author.id}`);
                                         }
+
+                                        message.reply(`Successfully sold all ${sellItem} items.`);
                                     }
-                                    message.reply(`Successfully sold all ${itemType} items.`);
-                                });
-                                });
-                                */
-                                sql.run(`UPDATE scores SET money = ${row.money + parseInt(commonTotal)} WHERE userId = ${message.author.id}`);
-                                    
-                                for (var i = 0; i < completeItemsCheck.length; i++) { //iterates through each item and checks if player has it
-                                    if(eval(`itemRow.${completeItemsCheck[i]}`)){
-                                        let itemName = completeItemsCheck[i];
-                                        if(itemName == "health_pot"){
-                                            itemName = "HEALTH";
-                                        }
-                                        else if(itemName == "pistol_bullet"){
-                                            itemName = "PISTOLBULLET";
-                                        }
-                                        else if(itemName == "rifle_bullet"){
-                                            itemName = "RIFLEBULLET";
-                                        }
-                                        else if(itemName == "item_box"){
-                                            itemName = "BOX";
-                                        }
-                                        else if(itemName == "ammo_box"){
-                                            itemName = "AMMOBOX";
-                                        }
-                                        if(eval(`item${itemName.toUpperCase()}[7]`) == itemType){
-                                            sql.run(`UPDATE items SET ${completeItemsCheck[i]} = ${0} WHERE userId = ${message.author.id}`);
-                                        }
+                                    else{
+                                        message.reply(`Sellall failed. Your inventory was altered during the sale.`);
                                     }
-                                }
-                                message.reply(`Successfully sold all ${itemType} items.`);
+                                });
                             }
                             else{
                                 botMessage.delete();
@@ -2178,83 +983,21 @@ class Commands {
                 if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");  //makes sure they have account
                 let args = message.content.split(" ").slice(1);
                 let sellItem = args[0];
+                sellItem = methods.getCorrectedItemInfo(sellItem, false, false);
                 let sellAmount = args[1];
-                if(sellItem !== undefined){
-                    sellItem = sellItem.toLowerCase();
-                    //THESE WILL BE USED FOR SPECIFIC FIXES (SUCH AS CHANGING NAME TO FIT ITEM ARRAYS)
-                    if(sellItem == "rpg"){
-                    }
-                    else if(sellItem == "item_box" || sellItem == "box"){
-                        sellItem = "BOX";
-                    }
-                    else if(sellItem == "ammo_box" || sellItem == "ammo"){
-                        sellItem = "AMMOBOX";
-                    }
-                    else if(sellItem == "ultra" || sellItem == "ultrabox"){
-                        sellItem = "ULTRA_BOX";
-                    }
-                    else if(sellItem == "rail" || sellItem == "cannon"){
-                        sellItem = "RAIL_CANNON";
-                    }
-                    else if(sellItem == "ray" || sellItem == "raygun"){
-                        sellItem = "RAY_GUN";
-                    }
-                    else if(sellItem.startsWith("fiber")){
-                        sellItem = "FIBER_OPTICS";
-                    }
-                    else if(sellItem.startsWith("golf")){
-                        sellItem = "GOLF_CLUB";
-                    }
-                    else if(sellItem.startsWith("ultra_a")){
-                        sellItem = "ULTRA_AMMO";
-                    }
-                    else if(sellItem == "bmg" || sellItem == "50cal"){
-                        sellItem = "BMG_50CAL";
-                    }
-                    else if(sellItem == "iron" || sellItem == "shield"){
-                        sellItem = "IRON_SHIELD";
-                    }
-                    else if(sellItem == "gold" || sellItem == "goldshield"){
-                        sellItem = "GOLD_SHIELD";
-                    }
-                    else if(sellItem == "rifle_bullet"){
-                        sellItem = "RIFLEBULLET";
-                    }
-                    else if(sellItem == "pistol_bullet"){
-                        sellItem = "PISTOLBULLET";
-                    }
-                    else if(sellItem == "health_pot" || sellItem == "health"){
-                        sellItem = "HEALTH";
-                    }
-                    else if(sellItem == "peck" || sellItem == "peckseed"){
-                        sellItem = "PECK_SEED";
-                    }
-                    else if(sellItem.startsWith("common") || sellItem.startsWith("uncommon") || sellItem.startsWith("rare") || sellItem.startsWith("epic") || sellItem.startsWith("legendary")){
-                        message.reply("Use the `"+prefix+"sellall` command.");
-                        return;
-                    }
-                    else if(!completeItemsCheck.includes(sellItem)){
-                        return message.reply("You need to enter a valid item to sell! `"+prefix+"sell <item> <amount>`");
-                    }
+
+                if(itemdata[sellItem] !== undefined){
+                    let itemPrice = itemdata[sellItem].sell;
                     
-                    let itemPrice = eval(`item${sellItem.toUpperCase()}[5]`);
-                    
-                    if(!itemPrice == ""){                                                         //CODE FOR BUYING ITEM | INDIVIDUALLY
-                        if(sellAmount == undefined){
+                    if(itemPrice !== ""){
+                        if(sellAmount == undefined || !Number.isInteger(parseInt(sellAmount)) || sellAmount % 1 !== 0 || sellAmount < 1){
                             sellAmount = 1;
                         }
-                        else if(!Number.isInteger(parseInt(sellAmount))){
-                            sellAmount = 1;
+                        else if(sellAmount > 30){
+                            sellAmount = 30;
                         }
-                        else if(sellAmount % 1 !== 0){
-                            sellAmount = 1;
-                        }
-                        else if(sellAmount < 1){
-                            sellAmount = 1;
-                        }
-                        let itemName = eval(`item${sellItem.toUpperCase()}[0]`);
                         message.delete();
-                        message.reply("Sell " + sellAmount + "x `" + itemName + "` for $" + (itemPrice * sellAmount) + "?").then(botMessage => {
+                        message.reply("Sell " + sellAmount + "x `" + sellItem + "` for " + methods.formatMoney(itemPrice * sellAmount) + "?").then(botMessage => {
                             botMessage.react('✅').then(() => botMessage.react('❌'));
                             const filter = (reaction, user) => {
                                 return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
@@ -2265,15 +1008,11 @@ class Commands {
 
                                 if(reaction.emoji.name === '✅'){
                                     botMessage.delete();
-                                    sql.get(`SELECT * FROM items i
-                                    JOIN scores s
-                                    ON i.userId = s.userId
-                                    WHERE s.userId="${message.author.id}"`).then(sellRow => {
-                                        if(eval(`sellRow.${itemName}`) >= sellAmount){ //use hasitem method
-                                            //use method to remove item
-                                            sql.run(`UPDATE scores SET money = ${sellRow.money + parseInt(itemPrice * sellAmount)} WHERE userId = ${message.author.id}`);
-                                            sql.run(`UPDATE items SET ${itemName} = ${eval(`sellRow.${itemName}`) - (1 * sellAmount)} WHERE userId = ${message.author.id}`);
-                                            message.reply("Successfully sold " + sellAmount + "x " + itemName + " for " + (itemPrice * sellAmount) + ".");
+                                    methods.hasitems(sql, message.author.id, sellItem, sellAmount).then(hasitem => {
+                                        if(hasitem){
+                                            methods.addmoney(sql, message.author.id, parseInt(itemPrice * sellAmount));
+                                            methods.removeitem(sql, message.author.id, sellItem, sellAmount);
+                                            message.reply("Successfully sold " + sellAmount + "x " + sellItem + " for " + methods.formatMoney(itemPrice * sellAmount) + ".");
                                         }
                                         else{
                                             message.reply("You don't have enough of that item!");
@@ -2293,6 +1032,10 @@ class Commands {
                         message.reply("You can't sell that item!");
                     }
                 }
+                else if(sellItem.startsWith("common") || sellItem.startsWith("uncommon") || sellItem.startsWith("rare") || sellItem.startsWith("epic") || sellItem.startsWith("legendary")){
+                    message.reply("Use the `"+prefix+"sellall` command to sell all items of the same rarity.");
+                    return;
+                }
                 else{
                     message.reply("You need to enter a valid item to sell! `"+prefix+"sell <item> <amount>`");
                 }
@@ -2303,23 +1046,32 @@ class Commands {
         sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(row => {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
             sql.get(`SELECT * FROM gameCodes`).then(gameRow => {
-            var shopItem = [[`item_box`, `📥 $${itemBOX[4]} | `, `📤 $${itemBOX[5]}`],[`rock`, ``, `📤 $${itemROCK[5]}`],[`arrow`, ``, `📤 $${itemARROW[5]}`],[`fork`, ``, `📤 $${itemFORK[5]}`],[`club`, ``, `📤 $${itemCLUB[5]}`],
-            [`baseball`, ``, `📤 $${itemBASEBALL[5]}`],[`fish`, ``, `📤 $${itemFISH[5]}`],[`sword`, ``, `📤 $${itemSWORD[5]}`],[`bow`, ``, `📤 $${itemBOW[5]}`],[`ammo_box`, `📥 $${itemAMMOBOX[4]} | `, `📤 $${itemAMMOBOX[5]}`],
-            [`pistol_bullet`, ``, `📤 $${itemPISTOLBULLET[5]}`],[`bat`, ``, `📤 $${itemBAT[5]}`],[`pills`, `📥 $${itemPILLS[4]} | `, `📤 $${itemPILLS[5]}`],[`spear`, ``, `📤 $${itemSPEAR[5]}`],[`health_pot`, `📥 $${itemHEALTH[4]} | `, `📤 $${itemHEALTH[5]}`],
-            [`crossbow`, ``, `📤 $${itemCROSSBOW[5]}`],[`glock`, ``, `📤 $${itemGLOCK[5]}`],[`rifle_bullet`, ``, `📤 $${itemRIFLEBULLET[5]}`],[`blunderbuss`, ``, `📤 $${itemBLUNDERBUSS[5]}`],
-            [`buckshot`, ``, `📤 $${itemBUCKSHOT[5]}`],[`revolver`, ``, `📤 $${itemREVOLVER[5]}`],[`grenade`, ``, `📤 $${itemGRENADE[5]}`],[`ak47`, ``, `📤 $${itemAK47[5]}`],
-            [`thompson`, ``, `📤 $${itemTHOMPSON[5]}`],[`rocket`, ``, `📤 $${itemROCKET[5]}`],[`spas`, ``, `📤 $${itemSPAS[5]}`],[`medkit`, `📥 $${itemMEDKIT[4]} | `, `📤 $${itemMEDKIT[5]}`],
-            [`m4a1`, ``, `📤 $${itemM4A1[5]}`],[`ultra_box`, `📥 $${itemULTRA_BOX[4]} | `, `📤 $${itemULTRA_BOX[5]}`],[`iron_shield`, `📥 $${itemIRON_SHIELD[4]} | `, `📤 $${itemIRON_SHIELD[5]}`],[`peck_seed`, ``, `📤 $${itemPECK_SEED[5]}`],
-            [`rpg`, ``, `📤 $${itemRPG[5]}`],[`javelin`, ``, `📤 $${itemJAVELIN[5]}`],[`awp`, ``, `📤 $${itemAWP[5]}`],[`gold_shield`, `📥 $${itemGOLD_SHIELD[4]} | `, `📤 $${itemGOLD_SHIELD[5]}`],[`plasma`, ``, `📤 $${itemPLASMA[5]}`],
-            [`bmg_50cal`, ``, `📤 $${itemBMG_50CAL[5]}`],[`rail_cannon<:UnboxUltra:526248982691840003>`, ``, `📤 $${itemRAIL_CANNON[5]}`],[`token`, ``, `📤 $${itemTOKEN[5]}`],[`module`, ``, `📤 $${itemMODULE[5]}`],[`screw`, ``, `📤 $${itemSCREW[5]}`],[`steel`, ``, `📤 $${itemSTEEL[5]}`],
-            [`fiber_optics`, ``, `📤 $${itemFIBER_OPTICS[5]}`],[`adhesive`, ``, `📤 $${itemADHESIVE[5]}`],[`ray_gun<:UnboxUltra:526248982691840003>`, ``, `📤 $${itemRAY_GUN[5]}`],[`golf_club`, ``, `📤 $${itemGOLF_CLUB[5]}`],[`ultra_ammo`, ``, `📤 $${itemULTRA_AMMO[5]}`],
-            [`stick`, ``, `📤 $${itemSTICK[5]}`],[`reroll_scroll`, ``, `📤 $${itemREROLL_SCROLL[5]}`],[`xp_potion`, ``, `📤 $${itemXP_POTION[5]}`]];
-            shopItem.sort(); //sort items alphabetically
-            /* LIMITED ITEMS no longer for sale
-            [`candycane`, `📥 ${itemCANDYCANE[4]} tokens | `, `📤 $${itemCANDYCANE[5]}`],
-            [`gingerbread`, `📥 ${itemGINGERBREAD[4]} tokens | `, `📤 $${itemGINGERBREAD[5]}`],[`mittens`, `📥 ${itemMITTENS[4]} tokens | `, `📤 $${itemMITTENS[5]}`],[`stocking`, `📥 ${itemSTOCKING[4]} tokens | `, `📤 $${itemSTOCKING[5]}`],[`snowball`, `📥 ${itemSNOWBALL[4]} tokens | `, `📤 $${itemSNOWBALL[5]}`],
-            [`nutcracker`, `📥 ${itemNUTCRACKER[4]} tokens | `, `📤 $${itemNUTCRACKER[5]}`]
-            */
+            var shopItem = methods.getitems("all",{});
+            for (var i = 0; i < shopItem.length; i++) {
+                let rarity = itemdata[shopItem[i]].rarity;
+                let rarityCode = rarity == "Common" ? 1 : rarity == "Uncommon" ? 2 : rarity == "Rare" ? 3 : rarity == "Epic" ? 4 : rarity == "Legendary" ? 5 : rarity == "Ultra" ? 6 : 7;
+
+                if(itemdata[shopItem[i]].buy !== ""){
+                    shopItem[i] = [itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "📥 " + methods.formatMoney(itemdata[shopItem[i]].buy) + " ", "📤 " + methods.formatMoney(itemdata[shopItem[i]].sell), rarityCode];
+                }
+                else if(itemdata[shopItem[i]].sell !== ""){
+                    shopItem[i] = [itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "","📤 "+methods.formatMoney(itemdata[shopItem[i]].sell), rarityCode];
+                }
+                else{
+                    shopItem.splice(i,1);
+                }
+            }
+
+            shopItem.sort(function(a,b) {
+                if(a[3] < b[3]) return -1;
+                else if(a[3] > b[3]) return 1;
+                else if(a[3] == b[3]){
+                    if(a[0] < b[0]) return -1;
+                    else if(a[0] > b[0]) return 1;
+                    return 0;
+                }
+                return 0;
+            });
             let pageNum = 0;
             let itemFilteredItems = [];
             let maxPage = Math.ceil(shopItem.length/8);
@@ -2329,14 +1081,6 @@ class Commands {
             firstEmbed.setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/497356681139847168/thanbotShopIcon.png");
 
             firstEmbed.addField("Unfortunately, there are no steam keys for sale at this time.","Check back at a later time.");
-            /*
-            if(gameRow.startingthegame > 5){
-                firstEmbed.addField("Starting The Game (Steam key)", "📥 $2000 | 5+ Remaining | Use `"+prefix+"buy startingthegame`");
-            }
-            else{
-                firstEmbed.addField("Starting The Game (Steam key)", "📥 $2000 | "+gameRow.startingthegame+" Remaining | Use `"+prefix+"buy startingthegame`");
-            }
-            */
             firstEmbed.setFooter(`Home page`);
             firstEmbed.setColor(0);
     
@@ -2514,8 +1258,8 @@ class Commands {
                                                 .setTitle("**🔃Trade window**")
                                                 .setColor(2713128)
                                                 .setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/500519995277574145/thanbox_emptysmall.png")
-                                                .addField("🔵"+message.member.displayName + "'s MONEY", "$" + player1money,true)
-                                                .addField("🔴"+message.guild.members.get(userNameID).displayName + "'s MONEY", "$" + player2money,true)
+                                                .addField("🔵"+message.member.displayName + "'s MONEY", methods.formatMoney(player1money),true)
+                                                .addField("🔴"+message.guild.members.get(userNameID).displayName + "'s MONEY", methods.formatMoney(player2money),true)
                                                 .setFooter("Commands : "+prefix+"add <item> <amount> | "+prefix+"remove <item> | "+prefix+"addmoney <amount> | "+prefix+"accept | "+prefix+"cancel")
                                                 if(player1items.length > 0){
                                                     activeWindow.addField("🔵"+message.member.displayName + "'s items",player1display.join("\n"), true);
@@ -2580,7 +1324,7 @@ class Commands {
                                                 let args = response.content.split(" ").slice(1);
                                                 let removeThis = args[0];
                                                 removeThis = methods.getCorrectedItemInfo(removeThis, false, false);
-                                                if(!completeItemsCheck.includes(removeThis)){
+                                                if(itemdata[removeThis] == undefined){
                                                     if(removeThis == "money"){
                                                         if(response.member.id == message.author.id){
                                                             player1money = 0;
@@ -2634,7 +1378,7 @@ class Commands {
                                                 let itemName = args[0];
                                                 let itemAmount = args[1];
                                                 itemName = methods.getCorrectedItemInfo(itemName, false, false);
-                                                if(!completeItemsCheck.includes(itemName)){
+                                                if(itemdata[itemName] == undefined){
                                                     response.reply("That item doesn't exist!");
                                                 }
                                                 else if(itemName == "token"){
@@ -2826,7 +1570,7 @@ class Commands {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
             methods.getitemcount(sql, message.author.id).then(itemCt => {
                 if(row.backpack !== "none"){
-                    message.reply("\n**Backpack equipped:** `" + row.backpack + "`\n**Inventory space:** `" + itemCt.capacity + "` (base 10 ***+"+itemInfoJson[row.backpack].inv_slots+"***)\nIncrease space by equipping a better backpack!");
+                    message.reply("\n**Backpack equipped:** `" + row.backpack + "`\n**Inventory space:** `" + itemCt.capacity + "` (base 10 ***+"+itemdata[row.backpack].inv_slots+"***)\nIncrease space by equipping a better backpack!");
                 }
                 else{
                     message.reply("\n**Backpack equipped:** `" + row.backpack + "`\n**Inventory space:** `" + itemCt.capacity + "`\nIncrease space by equipping a better backpack!");
@@ -2844,18 +1588,18 @@ class Commands {
             let equipitem = args[0];
             equipitem = methods.getCorrectedItemInfo(equipitem, false, false);
             if(equipitem !== undefined){
-                if(itemInfoJson[equipitem] !== undefined && itemInfoJson[equipitem].equippable == "true"){
+                if(itemdata[equipitem] !== undefined && itemdata[equipitem].equippable == "true"){
                     methods.hasitems(sql, message.author.id, equipitem, 1).then(haspack => {
                         if(haspack){
-                            if(row.backpack == "none" && itemInfoJson[equipitem].type == "backpack"){
+                            if(row.backpack == "none" && itemdata[equipitem].type == "backpack"){
                                 sql.run(`UPDATE scores SET backpack = '${equipitem}' WHERE userId = ${message.author.id}`);
-                                sql.run(`UPDATE scores SET inv_slots = ${10 + itemInfoJson[equipitem].inv_slots} WHERE userId = ${message.author.id}`);
+                                sql.run(`UPDATE scores SET inv_slots = ${10 + itemdata[equipitem].inv_slots} WHERE userId = ${message.author.id}`);
                                 sql.run(`UPDATE items SET ${equipitem} = ${row[equipitem] - 1} WHERE userId = ${message.author.id}`);
                                 methods.getitemcount(sql, message.author.id).then(itemCt => {
-                                    message.reply("Successfully equipped `" + equipitem + "` and gained **" + itemInfoJson[equipitem].inv_slots + "** item slots. (" + (itemInfoJson[equipitem].inv_slots + 10) + " max)");
+                                    message.reply("Successfully equipped `" + equipitem + "` and gained **" + itemdata[equipitem].inv_slots + "** item slots. (" + (itemdata[equipitem].inv_slots + 10) + " max)");
                                 });
                             }
-                            else if(row.armor == "none" && itemInfoJson[equipitem].type == "armor"){
+                            else if(row.armor == "none" && itemdata[equipitem].type == "armor"){
                                 sql.run(`UPDATE scores SET armor = '${equipitem}' WHERE userId = ${message.author.id}`);
                                 //add armor to sql table somewhere?
                                 sql.run(`UPDATE items SET ${equipitem} = ${row[equipitem] - 1} WHERE userId = ${message.author.id}`);
@@ -3900,63 +2644,61 @@ class Commands {
     }
     cooldown(message, sql, prefix){
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
-            if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
-            let hourlyReady = "✅ ready"
-            let triviaReady = "✅ ready"
-            let scrambleReady = "✅ ready"
-            let attackReady = "✅ ready"
-            let healReady = "✅ ready"
-            let voteReady = "✅ ready"
-            let gambleReady = "✅ ready"
-            //let giftReady = "✅ ready"
-            const embedLeader = new Discord.RichEmbed()
-            if(hourlyCooldown.has(message.author.id)){
-                hourlyReady = ((hourlyCdSeconds * 1000 - ((new Date()).getTime() - row.hourlyTime)) / 60000).toFixed(1) + " minutes";
-            }
-            if(triviaUserCooldown.has(message.author.id)){
-                triviaReady = ((triviaCdSeconds * 1000 - ((new Date()).getTime() - row.triviaTime)) / 60000).toFixed(1) + " minutes";
-            }
-            if(scrambleCooldown.has(message.author.id)){
-                scrambleReady = ((scrambleCdSeconds * 1000 - ((new Date()).getTime() - row.scrambleTime)) / 60000).toFixed(1) + " minutes";
-            }
-            if(weapCooldown.has(message.author.id)){
-                attackReady = ((weapCdSeconds * 1000 - ((new Date()).getTime() - row.attackTime)) / 60000).toFixed(1) + " minutes";
-            }
-            if(healCooldown.has(message.author.id)){
-                healReady = ((healCdSeconds * 1000 - ((new Date()).getTime() - row.healTime)) / 60000).toFixed(1) + " minutes";
-            }
-            if(voteCooldown.has(message.author.id)){
-                voteReady = (((voteCdSeconds * 1000 - ((new Date()).getTime() - row.voteTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours";
-            }
-            if(gambleCooldown.has(message.author.id)){
-                gambleReady = ((gambleCdSeconds * 1000 - ((new Date()).getTime() - row.gambleTime)) / 1000).toFixed(0) + " seconds";
-            }
-            /*
-            if(serverReward.has(message.author.id)){
-                giftReady = (((voteCdSeconds * 1000 - ((new Date()).getTime() - row.prizeTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours";
-            }
-            embedLeader.addField("🎁unwrap", "`" + giftReady + "`")
-            */
-            embedLeader.setThumbnail(message.author.avatarURL)
-            embedLeader.setTitle(`**${message.author.username} Cooldowns**`)
-            embedLeader.setColor(13215302)
-            embedLeader.addField("⏲hourly", "`" + hourlyReady + "`",true)
-            embedLeader.addField("❓trivia", "`" + triviaReady + "`",true)
-            embedLeader.addField("❓scramble", "`" + scrambleReady + "`",true)
-            embedLeader.addField("💰gamble", "`" + gambleReady + "`",true)
-            embedLeader.addField("🎟vote", "`" + voteReady + "`",true)
-            embedLeader.addField("⚔Attack (part of `"+prefix+"use`)", "`" + attackReady + "`",true)
-            embedLeader.addField("❤Heal (part of `"+prefix+"use`)", "`" + healReady + "`",true)
-            if(ironShieldActive.has(message.author.id)){
-                embedLeader.addField("iron_shield", "`" + ((ironShieldCd * 1000 - ((new Date()).getTime() - row.ironShieldTime)) / 60000).toFixed(1) + " minutes`",true)
-            }
-            if(goldShieldActive.has(message.author.id)){
-                embedLeader.addField("gold_shield", "`" + ((goldShieldCd * 1000 - ((new Date()).getTime() - row.goldShieldTime)) / 60000).toFixed(1) + " minutes`",true)
-            }
-            if(mittenShieldActive.has(message.author.id)){
-                embedLeader.addField("🧤mittens(shield)", "`" + ((mittenShieldCd * 1000 - ((new Date()).getTime() - row.mittenShieldTime)) / 60000).toFixed(1) + " minutes`",true)
-            }
-            message.channel.send(embedLeader);
+            methods.getAttackCooldown(sql, message.author.id).then(attackTimeLeft => {
+                methods.getHealCooldown(sql, message.author.id).then(healTimeLeft => {
+                if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
+                let hourlyReady = "✅ ready"
+                let triviaReady = "✅ ready"
+                let scrambleReady = "✅ ready"
+                let attackReady = "✅ ready"
+                let healReady = "✅ ready"
+                let voteReady = "✅ ready"
+                let gambleReady = "✅ ready"
+                //let giftReady = "✅ ready"
+                const embedLeader = new Discord.RichEmbed()
+                if(hourlyCooldown.has(message.author.id)){
+                    hourlyReady = ((hourlyCdSeconds * 1000 - ((new Date()).getTime() - row.hourlyTime)) / 60000).toFixed(1) + " minutes";
+                }
+                if(triviaUserCooldown.has(message.author.id)){
+                    triviaReady = ((triviaCdSeconds * 1000 - ((new Date()).getTime() - row.triviaTime)) / 60000).toFixed(1) + " minutes";
+                }
+                if(scrambleCooldown.has(message.author.id)){
+                    scrambleReady = ((scrambleCdSeconds * 1000 - ((new Date()).getTime() - row.scrambleTime)) / 60000).toFixed(1) + " minutes";
+                }
+                if(weapCooldown.has(message.author.id)){
+                    attackReady = attackTimeLeft;
+                }
+                if(healCooldown.has(message.author.id)){
+                    healReady = healTimeLeft;
+                }
+                if(voteCooldown.has(message.author.id)){
+                    voteReady = (((voteCdSeconds * 1000 - ((new Date()).getTime() - row.voteTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours";
+                }
+                if(gambleCooldown.has(message.author.id)){
+                    gambleReady = ((gambleCdSeconds * 1000 - ((new Date()).getTime() - row.gambleTime)) / 1000).toFixed(0) + " seconds";
+                }
+                embedLeader.setThumbnail(message.author.avatarURL)
+                embedLeader.setTitle(`**${message.author.username} Cooldowns**`)
+                embedLeader.setColor(13215302)
+                embedLeader.addField("⏲hourly", "`" + hourlyReady + "`",true)
+                embedLeader.addField("❓trivia", "`" + triviaReady + "`",true)
+                embedLeader.addField("❓scramble", "`" + scrambleReady + "`",true)
+                embedLeader.addField("💰gamble", "`" + gambleReady + "`",true)
+                embedLeader.addField("🎟vote", "`" + voteReady + "`",true)
+                embedLeader.addField("⚔Attack (part of `"+prefix+"use`)", "`" + attackReady + "`",true)
+                embedLeader.addField("❤Heal (part of `"+prefix+"use`)", "`" + healReady + "`",true)
+                if(ironShieldActive.has(message.author.id)){
+                    embedLeader.addField("iron_shield", "`" + ((ironShieldCd * 1000 - ((new Date()).getTime() - row.ironShieldTime)) / 60000).toFixed(1) + " minutes`",true)
+                }
+                if(goldShieldActive.has(message.author.id)){
+                    embedLeader.addField("gold_shield", "`" + ((goldShieldCd * 1000 - ((new Date()).getTime() - row.goldShieldTime)) / 60000).toFixed(1) + " minutes`",true)
+                }
+                if(mittenShieldActive.has(message.author.id)){
+                    embedLeader.addField("🧤mittens(shield)", "`" + ((mittenShieldCd * 1000 - ((new Date()).getTime() - row.mittenShieldTime)) / 60000).toFixed(1) + " minutes`",true)
+                }
+                message.channel.send(embedLeader);
+                });
+            });
         });
     }
     leaderboard(message, sql, prefix){
@@ -4007,7 +2749,7 @@ class Commands {
                     guildUsers.sort(compareValues('MONEY'));
                     guildUsers.forEach(function (row) {
                         try{
-                            leadersMoney.push(`💵**${client.users.get(row.USERID).tag}**` + ' - $' + row.MONEY);
+                            leadersMoney.push(`💵**${client.users.get(row.USERID).tag}**` + ' - ' + methods.formatMoney(row.MONEY));
                         }
                         catch(err){
                         }
@@ -4035,35 +2777,53 @@ class Commands {
                 }, 150);//raise with server count
             }
             else{
-                sql.all('SELECT userId,money FROM scores ORDER BY money DESC LIMIT 5').then(rows => {
-                    rows.forEach(function (row) {
+                sql.all('SELECT userId,money FROM scores ORDER BY money DESC LIMIT 20').then(rows => {
+                    let counter = 0;
+                    let success = 0;
+                    while(success < 5){
                         try{
-                            leaders.push(`💵**${client.users.get(row.userId).tag}**` + ' - $' + row.money);  
+                            leaders.push(`💵**${client.users.get(rows[counter].userId).tag}**` + ' - ' + methods.formatMoney(rows[counter].money));
+                            success += 1;
                         }
                         catch(err){
-                            leaders.push(`💵Unknown - $` + row.money);  
+                            if(counter >= 20){
+                                break;
+                            }
                         }
-                    });
+                        counter += 1;
+                    }
                     leaders[0] = leaders[0].replace("💵", "💰");
-                    sql.all('SELECT userId,level FROM scores ORDER BY level DESC LIMIT 5').then(lvlRows => {
-                        lvlRows.forEach(function (lvlRow) {
+                    sql.all('SELECT userId,level FROM scores ORDER BY level DESC LIMIT 20').then(lvlRows => {
+                        counter = 0;
+                        success = 0;
+                        while(success < 5){
                             try{
-                                levelLeaders.push(`🔹**${client.users.get(lvlRow.userId).tag}**` + ' - Level :  ' + lvlRow.level);  
+                                levelLeaders.push(`🔹**${client.users.get(lvlRows[counter].userId).tag}**` + ' - Level :  ' + lvlRows[counter].level);
+                                success += 1;
                             }
                             catch(err){
-                                levelLeaders.push(`🔹Unknown - Level : ` + lvlRow.level);  
+                                if(counter >= 20){
+                                    break;
+                                }
                             }
-                        });
+                            counter += 1;
+                        }
                         levelLeaders[0] = levelLeaders[0].replace("🔹","💠");
-                        sql.all('SELECT userId,kills FROM scores ORDER BY kills DESC LIMIT 5').then(rows => {
-                            rows.forEach(function (row) {
+                        sql.all('SELECT userId,kills FROM scores ORDER BY kills DESC LIMIT 20').then(rows => {
+                            counter = 0;
+                            success = 0;
+                            while(success < 5){
                                 try{
-                                    killLeaders.push(`🏅**${client.users.get(row.userId).tag}**` + ' - ' + row.kills + " kills");  
+                                    killLeaders.push(`🏅**${client.users.get(rows[counter].userId).tag}**` + ' - ' + rows[counter].kills + " kills");
+                                    success += 1;
                                 }
                                 catch(err){
-                                    killLeaders.push(`🏅Unknown - ` + row.kills + " kills");  
+                                    if(counter >= 20){
+                                        break;
+                                    }
                                 }
-                            });
+                                counter += 1;
+                            }
                             killLeaders[0] = killLeaders[0].replace("🏅","🏆");
                             const embedLeader = new Discord.RichEmbed() 
                             .setTitle(`**Global Leaderboard**`)
@@ -4091,7 +2851,7 @@ class Commands {
     money(message, sql, prefix){
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
-            message.reply(`You currently have $${row.money}`);
+            message.reply(`You currently have ${methods.formatMoney(row.money)}`);
         });
     }
     delete(message, sql, prefix){
@@ -4765,7 +3525,7 @@ class Commands {
             if(itemName == ""){
                 message.reply("You forgot to put an item! `"+prefix+"additem (ID) (ITEM) (AMOUNT)`");
             }
-            else if(!completeItemsCheck.includes(itemName)){
+            else if(itemdata[itemName] == undefined){
                 message.reply("That item isn't in my database!");
             }
             else{
@@ -4838,7 +3598,8 @@ class Commands {
                     deleteCooldown.delete(userId);
                     weapCooldown.delete(userId);
                     sql.run(`UPDATE scores SET voteTime = ${0}, scrambleTime = ${0}, triviaTime = ${0}, hourlyTime = ${0}, gambleTime = ${0}, 
-                    healTime = ${0}, deactivateTime = ${0}, activateTime = ${0}, attackTime = ${0} WHERE userId = ${userId}`);
+                    healTime = ${0}, deactivateTime = ${0}, activateTime = ${0}, attackTime = ${0}, _15mCD = ${0}, _30mCD = ${0}, _45mCD = ${0},
+                    _60mCD = ${0}, _80mCD = ${0}, _100mCD = ${0}, _120mCD = ${0} WHERE userId = ${userId}`);
                     message.reply("Cooldowns cleared for user.");
                 }
                 catch(err){
@@ -4915,12 +3676,10 @@ class Commands {
                         if(err) throw err;
                     });
                     botMessage.edit("Wiping...");
-                    sql.all('SELECT userId FROM scores').then(rows => { //REMOVE IN STABLE UPDATE
-                        rows.forEach(function (row) {
-                            //test each user
-                            methods.monthlywipe(sql, row.userId);
-                        });
-                    });
+                    
+                    sql.run(`DELETE FROM userGuilds`);
+                    methods.monthlywipe(sql);
+
                     botMessage.edit("Wiped");
                 }
                 else{
@@ -4928,7 +3687,7 @@ class Commands {
                 }
             }).catch(collected => {
                 botMessage.delete();
-                message.reply("You didn't react in time!");
+                message.reply("You didn't react in time!" + collected);
             });
         });
     }
