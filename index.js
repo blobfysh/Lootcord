@@ -622,7 +622,8 @@ client.on("message", (message) => {
                 if(message.content.startsWith(prefix + "play")){
                     sql.run("INSERT INTO scores (userId, money, points, level, health, maxHealth, healTime, attackTime, hourlyTime, triviaTime, peckTime, voteTime, "
                             + "gambleTime, ironShieldTime, goldShieldTime, prizeTime, mittenShieldTime, scrambleTime, deactivateTime, activateTime, kills, deaths, "
-                            + "spamTime, stats, luck, scaledDamage, used_stats, xpTime, inv_slots, backpack, armor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                            + "spamTime, stats, luck, scaledDamage, used_stats, xpTime, inv_slots, backpack, armor, _15mCD, _30mCD, _45mCD, _60mCD, _80mCD, _100mCD, "
+                            + "_120mCD, _10mHEALCD, _20mHEALCD, _40mHEALCD) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
                             [message.author.id, 100, 0, 1, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.00, 0, 0, 10, 'none', 'none']);
                     sql.run("INSERT INTO items (userId, item_box, rpg, rocket, ak47, rifle_bullet, rock, arrow, fork, club, sword, bow, pistol_bullet, glock, "
                             + "crossbow, spear,thompson, health_pot, ammo_box, javelin, awp, m4a1, spas, medkit, revolver, buckshot, blunderbuss, grenade,"
@@ -834,6 +835,7 @@ client.on("message", (message) => {
 
                 //ADMIN COMMANDS
                 case 'addgamecode': commands.addgamecode(message, sql, adminUsers); break;
+                case 'removegamecode': commands.removegamecode(message, sql, adminUsers); break;
                 case 'modadd': commands.modadd(message, sql, adminUsers, moddedUsers, prefix); break;
                 case 'unmod': commands.unmod(message, sql, adminUsers, moddedUsers, prefix); break;
                 case 'getmods': commands.getmods(message, sql, adminUsers, moddedUsers, prefix); break;

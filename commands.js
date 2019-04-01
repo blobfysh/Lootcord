@@ -857,10 +857,14 @@ class Commands {
                 }
                 else if(gamesRow[buyItem] !== undefined){
                     //code for buying game here
+                    let gameAmount = gamesRow[buyItem].gameAmount;
                     let currency = gamesRow[buyItem].gameCurrency;
                     let itemPrice = gamesRow[buyItem].gamePrice;
                     buyAmount = 1;
 
+                    if(gameAmount <= 0){
+                        return message.reply("That game is sold out! 😞");
+                    }
                     methods.buyitem(message, sql, buyItem, parseInt(buyAmount), itemPrice, currency, true);
                 }
                 else{
@@ -3350,6 +3354,20 @@ class Commands {
         else{
             sql.run(`CREATE TABLE IF NOT EXISTS gamesData (gameName STRING, gameAmount INTEGER, gamePrice INTEGER, gameCurrency INTEGER, gameDisplay STRING)`);
             sql.run("INSERT INTO gamesData (gameName, gameAmount, gamePrice, gameCurrency, gameDisplay) VALUES (?, ?, ?, ?, ?)", [gameName, parseInt(gameAmount), parseInt(gamePrice), gameCurrency, gameDisplay]);
+        }
+    }
+    removegamecode(message, sql, adminUsers){
+        if(!adminUsers.has(message.author.id)){
+            message.reply("Only admins can use this command!");
+            return;
+        }
+        let args = message.content.split(" ").slice(1);
+        let gameName = args[0];
+        try{
+            sql.run(`DELETE FROM gamesData WHERE gameName = ${gameName}`);
+        }
+        catch(err){
+            message.reply("Error removing game `removegamecode <game_name>`: ```" + err + "```");
         }
     }
     modadd(message, sql, adminUsers, moddedUsers, prefix){

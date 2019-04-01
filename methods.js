@@ -931,7 +931,7 @@ class Methods {
 
     //BUY COMMAND
     buyitem(message, sql, buyItem, buyAmount, itemPrice, currency, isGame = false){
-        let displayPrice = currency == 'money' ? this.formatMoney(itemPrice * buyAmount) : itemPrice * buyAmount + " `" + currency + "`";
+        let displayPrice = currency == 'money' ? this.formatMoney(itemPrice * buyAmount) : itemPrice * buyAmount + "x `" + currency + "`";
         console.log(itemPrice + " " + buyAmount);
         message.reply("Purchase "+ buyAmount+ "x `" + buyItem + "` for " + displayPrice + "?").then(botMessage => {
             botMessage.react('✅').then(() => botMessage.react('❌'));
@@ -945,21 +945,73 @@ class Methods {
                 if(reaction.emoji.name === '✅'){
                     botMessage.delete();
 
-                    this.hasenoughspace(sql, message.author.id, parseInt(buyAmount)).then(result => {
-                        this.hasmoney(sql, message.author.id, itemPrice * buyAmount).then(hasmoney => {
-                            if(hasmoney && result){
-                                this.additem(sql, message.author.id, buyItem, buyAmount);
-                                this.removemoney(sql, message.author.id, itemPrice * buyAmount);
-                                message.reply("You bought " + buyAmount + "x " + buyItem + "!");
-                            }
-                            else if(!hasmoney){
-                                message.reply("You don't have enough money!");
+                    if(isGame){
+                        //item is a game and needs to message admins when its sold... Doesn't need to check for inventory space since they only lose items
+                        this.hasitems(sql, message.author.id, currency, itemPrice).then(hasItems => {
+                            if(hasItems){
+                                sql.get(`SELECT * FROM gamesData WHERE gameName = ${buyItem}`).then(gameRow => {
+
+                                    sql.run(`UPDATE gamesData SET ${buyItem} = ${gameRow[buyItem] - 1} WHERE gameName = ${buyItem}`);
+
+                                    this.removeitem(sql, message.author.id, itemPrice);
+                                    
+                                    message.reply("Successfully bought `" + buyItem + "`!");
+
+                                    const buyerEmbed = new Discord.RichEmbed()
+                                    .setTitle("✅ Game Purchased!")
+                                    .setDescription("The moderators have received confirmation that you purchased a game and will respond with your key soon.")
+                                    .setFooter('Please do not message asking "Where is my code?" unless atleast 12 hours have passed. We have the right to cancel this purchase if we suspect you of cheating.')
+                                    .setTimestamp()
+                                    message.author.send(buyerEmbed);
+
+                                    const gameEmbed = new Discord.RichEmbed()
+                                    .setTitle("✅ Game Purchased!")
+                                    .addField("Game Sold", buyItem)
+                                    .addField("Buyer", message.author.tag + "\n" + message.author.id)
+                                    .setTimestamp()
+                                    client.guilds.get("454163538055790604").channels.get(config.modChannel).send("moderators", {embed: gameEmbed});
+                                });
                             }
                             else{
-                                message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.");
+                                message.reply("You are missing the following items needed to purchase this: `" + displayPrice + "`");
                             }
                         });
-                    });
+                    }
+                    else if(currency == "money"){
+                        this.hasenoughspace(sql, message.author.id, parseInt(buyAmount)).then(result => {
+                            this.hasmoney(sql, message.author.id, itemPrice * buyAmount).then(hasmoney => {
+                                if(hasmoney && result){
+                                    this.additem(sql, message.author.id, buyItem, buyAmount);
+                                    this.removemoney(sql, message.author.id, itemPrice * buyAmount);
+                                    message.reply("You bought " + buyAmount + "x " + buyItem + "!");
+                                }
+                                else if(!hasmoney){
+                                    message.reply("You don't have enough money!");
+                                }
+                                else{
+                                    message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.");
+                                }
+                            });
+                        });
+                    }
+                    else{
+                        //currency must be an item
+                        this.hasenoughspace(sql, message.author.id, buyAmount - (buyAmount * itemPrice)).then(hasSpace => {
+                            this.hasitems(sql, message.author.id, currency, itemPrice).then(hasItems => {
+                            //if user bought 3 rpgs at 5 tokens each, they would need 3 - 15 = -12 space in their inventory
+                            //if they had 20/10 slots at time of purchasing, this would return true because 20 - 12 = 8/10 slots
+                                if(hasItems && hasSpace){
+                                    //they have enough of the currency and space, can buy item
+                                }
+                                else if(!hasitems){
+                                    //they dont have enough of the items(currency)
+                                }
+                                else{
+                                    //no space
+                                }
+                            });
+                        });
+                    }
                 }
                 else{
                     botMessage.delete();
