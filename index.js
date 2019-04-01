@@ -422,7 +422,6 @@ client.on(`ready`,() => {
         });
     });
     */
-    //scores
     sql.run("ALTER TABLE scores ADD inv_slots").then(row => {
     }).catch(() => {
         console.log("added `inv_slots` to scores | CHANGE THE SCRIPT NOW");
@@ -491,7 +490,6 @@ client.on(`ready`,() => {
         sql.run("UPDATE scores SET _40mHEALCD = 0");
     });
 
-    //new items
     sql.run("ALTER TABLE items ADD light_pack").then(row => {
     }).catch(() => {
         console.log("added `light_pack` to items | CHANGE THE SCRIPT NOW");
@@ -508,8 +506,6 @@ client.on(`ready`,() => {
         sql.run("UPDATE items SET hikers_pack = 0");
     });
 
-
-    //other
     sql.run("ALTER TABLE banned ADD reason").then(row => {
     }).catch(() => {
         console.log("added `reason` to banned | CHANGE THE SCRIPT NOW");
@@ -837,6 +833,7 @@ client.on("message", (message) => {
                 case 'restoreinv': commands.restoreinv(message, sql, moddedUsers, prefix); break;
 
                 //ADMIN COMMANDS
+                case 'addgamecode': commands.addgamecode(message, sql, adminUsers); break;
                 case 'modadd': commands.modadd(message, sql, adminUsers, moddedUsers, prefix); break;
                 case 'unmod': commands.unmod(message, sql, adminUsers, moddedUsers, prefix); break;
                 case 'getmods': commands.getmods(message, sql, adminUsers, moddedUsers, prefix); break;

@@ -929,6 +929,48 @@ class Methods {
         return totalItemCt;
     }
 
+    //BUY COMMAND
+    buyitem(message, sql, buyItem, buyAmount, itemPrice, currency, isGame = false){
+        let displayPrice = currency == 'money' ? this.formatMoney(itemPrice * buyAmount) : itemPrice * buyAmount + " `" + currency + "`";
+        console.log(itemPrice + " " + buyAmount);
+        message.reply("Purchase "+ buyAmount+ "x `" + buyItem + "` for " + displayPrice + "?").then(botMessage => {
+            botMessage.react('✅').then(() => botMessage.react('❌'));
+            const filter = (reaction, user) => {
+                return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
+            };
+            botMessage.awaitReactions(filter, {max: 1, time: 15000, errors: ['time'] })
+            .then(collected => {
+                const reaction = collected.first();
+
+                if(reaction.emoji.name === '✅'){
+                    botMessage.delete();
+
+                    this.hasenoughspace(sql, message.author.id, parseInt(buyAmount)).then(result => {
+                        this.hasmoney(sql, message.author.id, itemPrice * buyAmount).then(hasmoney => {
+                            if(hasmoney && result){
+                                this.additem(sql, message.author.id, buyItem, buyAmount);
+                                this.removemoney(sql, message.author.id, itemPrice * buyAmount);
+                                message.reply("You bought " + buyAmount + "x " + buyItem + "!");
+                            }
+                            else if(!hasmoney){
+                                message.reply("You don't have enough money!");
+                            }
+                            else{
+                                message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.");
+                            }
+                        });
+                    });
+                }
+                else{
+                    botMessage.delete();
+                }
+            }).catch(collected => {
+                botMessage.delete();
+                message.reply("You didn't react in time!");
+            });
+        });
+    }
+
     //GAMBLE SUBCOMMANDS
     roulette(message, sql, userId, amount){
         let multiplier = 1.2;
@@ -1104,6 +1146,57 @@ class Methods {
         message.channel.send(message.author, embedScramble);
     }
 
+    //SHOP COMMAND
+    getHomePage(sql){
+        return sql.all(`SELECT * FROM gamesData`).then(gameRows => {
+            let gameCount = 0;
+
+            const firstEmbed = new Discord.RichEmbed()
+            firstEmbed.setTitle(`**ITEM SHOP**`);
+            firstEmbed.setDescription("📥 Buy 📤 Sell\nUse `buy (ITEM)` to purchase and `sell (ITEM)` to sell items.\n\nLimit 1 per person");
+            firstEmbed.setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/497356681139847168/thanbotShopIcon.png");
+            firstEmbed.setFooter(`Home page`);
+            firstEmbed.setColor(0);
+
+            gameRows.forEach(function (gameRow) {
+                if(gameRow !== null){
+                    if(gameRow.gameCurrency == "money"){
+                        firstEmbed.addField(gameRow.gameDisplay,"Price: $" + gameRow.gamePrice + " | **" + gameRow.gameAmount + "** left! Use `buy " + gameRow.gameName + "` to purchase!");
+                    }
+                    else{
+                        firstEmbed.addField(gameRow.gameDisplay,"Price: " + gameRow.gamePrice + " `" + gameRow.gameCurrency + "` | **" + gameRow.gameAmount + "** left! Use `buy " + gameRow.gameName + "` to purchase!");
+                    }
+                    gameCount += 1;
+                }
+            });
+            if(gameCount == 0){
+                firstEmbed.addField("Unfortunately, there are no steam keys for sale at this time.","Check back at a later time.");
+                return firstEmbed;
+            }
+            else{
+                return firstEmbed;
+            }
+        });
+    }
+    getGamesData(sql){
+        return sql.all(`SELECT * FROM gamesData`).then(gameRows => {
+            let gameCount = 0;
+            let gameData = {};
+            gameRows.forEach(function (gameRow) {
+                if(gameRow !== null){
+                    gameData[gameRow.gameName] = gameRow;
+                    gameCount += 1;
+                }
+            });
+            if(gameCount == 0){
+                return false;
+            }
+            else{
+                return gameData;
+            }
+        });
+    }
+
     //MODERATING FUNCTIONS
     getinventorycode(message, sql, cryptor, userId, isHidden = false){
         return sql.get(`SELECT * FROM items i
@@ -1119,8 +1212,11 @@ class Methods {
                     userObjectArray.push("`"+invCount+"`| `"+keys+"`: `0`");
                     userInvCode.push(0);
                 }
-                else{
+                else if(row[keys] !== 0){
                     userObjectArray.push("`"+invCount+"`| `"+keys+"`: `"+row[keys]+"`");
+                    userInvCode.push(row[keys]);
+                }
+                else{
                     userInvCode.push(row[keys]);
                 }
                 invCount += 1;
@@ -1128,7 +1224,8 @@ class Methods {
             var encoded = cryptor.encode(userInvCode.join("|"));
             return {
                 invCode : encoded, 
-                objArray : userObjectArray
+                objArray : userObjectArray,
+                objArrayLength : userInvCode.length
             };
         }).catch((err) => {
             if(!isHidden){
@@ -1162,31 +1259,8 @@ class Methods {
     //NOT USED BY ANY COMMAND, can be called with eval
     addtoJSON(jsonFile){
         Object.keys(jsonFile).forEach(key => {
-            if(jsonFile[key].isWeap == true){
-                if(jsonFile[key].rarity == "Common"){
-                    jsonFile[key].cooldown = {display: "15 minutes", scoreRow: "_15mCD", seconds: 900};
-                }
-                else if(jsonFile[key].rarity == "Uncommon"){
-                    jsonFile[key].cooldown = {display: "30 minutes", scoreRow: "_30mCD", seconds: 1800};
-                }
-                else if(jsonFile[key].rarity == "Rare"){
-                    jsonFile[key].cooldown = {display: "45 minutes", scoreRow: "_45mCD", seconds: 2700};
-                }
-                else if(jsonFile[key].rarity == "Epic"){
-                    jsonFile[key].cooldown = {display: "60 minutes", scoreRow: "_60mCD", seconds: 3600};
-                }
-                else if(jsonFile[key].rarity == "Legendary"){
-                    jsonFile[key].cooldown = {display: "1 hour 20 minutes", scoreRow: "_80mCD", seconds: 4800};
-                }
-                else if(jsonFile[key].rarity == "Ultra"){
-                    jsonFile[key].cooldown = {display: "1 hour 40 minutes", scoreRow: "_100mCD", seconds: 6000};
-                }
-                else if(jsonFile[key].rarity == "Limited"){
-                    jsonFile[key].cooldown = {display: "45 minutes", scoreRow: "_45mCD", seconds: 2700};
-                }
-            }
-            else{
-                jsonFile[key].cooldown = "";
+            if(jsonFile[key].buy !== ""){
+                jsonFile[key].buy = {amount: jsonFile[key].buy, currency: "money"}
             }
         });
         fs.writeFile('testJSONfile2.json',JSON.stringify(jsonFile, null, 4), function(err) {

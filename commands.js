@@ -832,14 +832,16 @@ class Commands {
     }
     buy(message, sql, prefix){
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
-            sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(itemRow => {
+            methods.getGamesData(sql).then(gamesRow => {
                 if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");  //makes sure they have account
                 let args = message.content.split(" ").slice(1);
                 let buyItem = args[0];
                 buyItem = methods.getCorrectedItemInfo(buyItem, false, false);
                 let buyAmount = args[1];
+
                 if(itemdata[buyItem] !== undefined){
-                    let itemPrice = itemdata[buyItem].buy;
+                    let currency = itemdata[buyItem].buy.currency;
+                    let itemPrice = itemdata[buyItem].buy.amount;
                     if(itemPrice == ""){
                         message.reply("That item is not for sale!");
                     }
@@ -848,46 +850,18 @@ class Commands {
                             buyAmount = 1;
                         }
                         else if(buyAmount > 20) buyAmount = 20;
-                        parseInt(buyAmount);
                         message.delete();
 
-                        message.reply("Purchase "+ buyAmount+ "x `" + buyItem + "` for " + methods.formatMoney(itemPrice * buyAmount) + "?").then(botMessage => {
-                            botMessage.react('✅').then(() => botMessage.react('❌'));
-                            const filter = (reaction, user) => {
-                                return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
-                            };
-                            botMessage.awaitReactions(filter, {max: 1, time: 15000, errors: ['time'] })
-                            .then(collected => {
-                                const reaction = collected.first();
-
-                                if(reaction.emoji.name === '✅'){
-                                    botMessage.delete();
-
-                                    methods.hasenoughspace(sql, message.author.id, parseInt(buyAmount)).then(result => {
-                                        methods.hasmoney(sql, message.author.id, itemPrice * buyAmount).then(hasmoney => {
-                                            if(hasmoney && result){
-                                                methods.additem(sql, message.author.id, buyItem, buyAmount);
-                                                methods.removemoney(sql, message.author.id, itemPrice * buyAmount);
-                                                message.reply("You bought " + buyAmount + "x " + buyItem + "!");
-                                            }
-                                            else if(!hasmoney){
-                                                message.reply("You don't have enough money!");
-                                            }
-                                            else{
-                                                message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.");
-                                            }
-                                        });
-                                    });
-                                }
-                                else{
-                                    botMessage.delete();
-                                }
-                            }).catch(collected => {
-                                botMessage.delete();
-                                message.reply("You didn't react in time!");
-                            });
-                        });
+                        methods.buyitem(message, sql, buyItem, parseInt(buyAmount), itemPrice, currency, false);
                     }
+                }
+                else if(gamesRow[buyItem] !== undefined){
+                    //code for buying game here
+                    let currency = gamesRow[buyItem].gameCurrency;
+                    let itemPrice = gamesRow[buyItem].gamePrice;
+                    buyAmount = 1;
+
+                    methods.buyitem(message, sql, buyItem, parseInt(buyAmount), itemPrice, currency, true);
                 }
                 else{
                     message.reply("You need to enter a valid item to buy! `"+prefix+"buy <item> <amount>`");
@@ -1045,14 +1019,13 @@ class Commands {
     shop(message, sql, prefix){
         sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(row => {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
-            sql.get(`SELECT * FROM gameCodes`).then(gameRow => {
             var shopItem = methods.getitems("all",{});
             for (var i = 0; i < shopItem.length; i++) {
                 let rarity = itemdata[shopItem[i]].rarity;
                 let rarityCode = rarity == "Common" ? 1 : rarity == "Uncommon" ? 2 : rarity == "Rare" ? 3 : rarity == "Epic" ? 4 : rarity == "Legendary" ? 5 : rarity == "Ultra" ? 6 : 7;
 
                 if(itemdata[shopItem[i]].buy !== ""){
-                    shopItem[i] = [itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "📥 " + methods.formatMoney(itemdata[shopItem[i]].buy) + " ", "📤 " + methods.formatMoney(itemdata[shopItem[i]].sell), rarityCode];
+                    shopItem[i] = [itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "📥 " + methods.formatMoney(itemdata[shopItem[i]].buy.amount) + " ", "📤 " + methods.formatMoney(itemdata[shopItem[i]].sell), rarityCode];
                 }
                 else if(itemdata[shopItem[i]].sell !== ""){
                     shopItem[i] = [itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "","📤 "+methods.formatMoney(itemdata[shopItem[i]].sell), rarityCode];
@@ -1063,11 +1036,16 @@ class Commands {
             }
 
             shopItem.sort(function(a,b) {
-                if(a[3] < b[3]) return -1;
+                if(a[3] < b[3]) return -1;//3 index is rarity
+
                 else if(a[3] > b[3]) return 1;
-                else if(a[3] == b[3]){
-                    if(a[0] < b[0]) return -1;
+
+                else if(a[3] == b[3]){//if rarity is the same, we compare names
+
+                    if(a[0] < b[0]) return -1; //0 index is item name
+
                     else if(a[0] > b[0]) return 1;
+                    
                     return 0;
                 }
                 return 0;
@@ -1075,76 +1053,71 @@ class Commands {
             let pageNum = 0;
             let itemFilteredItems = [];
             let maxPage = Math.ceil(shopItem.length/8);
-            const firstEmbed = new Discord.RichEmbed()
-            firstEmbed.setTitle(`**ITEM SHOP**`);
-            firstEmbed.setDescription("📥 Buy 📤 Sell\nUse `buy (ITEM)` to purchase and `sell (ITEM)` to sell items.\n\nLimit 1 per person");
-            firstEmbed.setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/497356681139847168/thanbotShopIcon.png");
 
-            firstEmbed.addField("Unfortunately, there are no steam keys for sale at this time.","Check back at a later time.");
-            firstEmbed.setFooter(`Home page`);
-            firstEmbed.setColor(0);
-    
-            message.channel.send(firstEmbed).then(botMessage => {
-                botMessage.react('◀').then(() => botMessage.react('▶')).then(() => botMessage.react('❌'));
-                return botMessage;
-            }).then((collectorMsg) => { 
-                const collector = collectorMsg.createReactionCollector((reaction, user) => user.id === message.author.id && reaction.emoji.name === "◀" || user.id === message.author.id && reaction.emoji.name === "▶" || user.id === message.author.id && reaction.emoji.name === "❌");
-                setTimeout(() => {          //STOPS COLLECTING AFTER 2 MINUTES TO REDUCE MEMORY USAGE
-                    collector.stop();
-                }, 120000);
-                collector.on("collect", reaction => {
-                    const chosen = reaction.emoji.name;
-                    if(chosen === "◀"){
-                        if(pageNum > 1){
-                            pageNum -= 1;
-                            editEmbed();
+            //get home page method for shop
+            methods.getHomePage(sql).then(homePage => {
+
+                message.channel.send(homePage).then(botMessage => {
+                    botMessage.react('◀').then(() => botMessage.react('▶')).then(() => botMessage.react('❌'));
+                    return botMessage;
+                }).then((collectorMsg) => { 
+                    const collector = collectorMsg.createReactionCollector((reaction, user) => user.id === message.author.id && reaction.emoji.name === "◀" || user.id === message.author.id && reaction.emoji.name === "▶" || user.id === message.author.id && reaction.emoji.name === "❌");
+                    setTimeout(() => {          //STOPS COLLECTING AFTER 2 MINUTES TO REDUCE MEMORY USAGE
+                        collector.stop();
+                    }, 120000);
+                    collector.on("collect", reaction => {
+                        const chosen = reaction.emoji.name;
+                        if(chosen === "◀"){
+                            if(pageNum > 1){
+                                pageNum -= 1;
+                                editEmbed();
+                            }
+                            else if(pageNum == 1){
+                                pageNum = 0;
+                                collectorMsg.edit(homePage);
+                            }
+                            reaction.remove(message.author.id);
+                            //previous page
+                        }else if(chosen === "▶"){
+                            if(pageNum < maxPage){
+                                pageNum += 1;
+                                editEmbed();
+                            }
+                            reaction.remove(message.author.id);
+                            // Next page
+                        }else if(chosen === "❌"){
+                            // Stop navigating pages
+                            collectorMsg.delete();
                         }
-                        else if(pageNum == 1){
-                            pageNum = 0;
-                            collectorMsg.edit(firstEmbed);
-                        }
-                        reaction.remove(message.author.id);
-                        //previous page
-                    }else if(chosen === "▶"){
-                        if(pageNum < maxPage){
-                            pageNum += 1;
-                            editEmbed();
-                        }
-                        reaction.remove(message.author.id);
-                        // Next page
-                    }else if(chosen === "❌"){
-                        // Stop navigating pages
-                        collectorMsg.delete();
-                    }
-                    function editEmbed(){
-                        itemFilteredItems = [];
-                        let indexFirst = (8 * pageNum) - 8;
-                        let indexLast = (8 * pageNum) - 1;
-                        const newEmbed = new Discord.RichEmbed({
-                            footer: {
-                                text: `Page ${pageNum}/${maxPage}`
-                            },
-                            color: 0
-                        });
-                        newEmbed.setTitle(`**ITEM SHOP**`)
-                        newEmbed.setDescription("📥 Buy 📤 Sell\nUse `buy (ITEM)` to purchase and `sell (ITEM)` to sell items.")
-                        newEmbed.setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/497356681139847168/thanbotShopIcon.png")
-                        shopItem.forEach(function (itemVar) {
-                            try{
-                                if(shopItem.indexOf(itemVar) >= indexFirst && shopItem.indexOf(itemVar) <= indexLast){
-                                    itemFilteredItems.push(itemVar);
-                                    newEmbed.addField(itemVar[0], itemVar[1] + itemVar[2], true);
+                        function editEmbed(){
+                            itemFilteredItems = [];
+                            let indexFirst = (8 * pageNum) - 8;
+                            let indexLast = (8 * pageNum) - 1;
+                            const newEmbed = new Discord.RichEmbed({
+                                footer: {
+                                    text: `Page ${pageNum}/${maxPage}`
+                                },
+                                color: 0
+                            });
+                            newEmbed.setTitle(`**ITEM SHOP**`)
+                            newEmbed.setDescription("📥 Buy 📤 Sell\nUse `buy (ITEM)` to purchase and `sell (ITEM)` to sell items.")
+                            newEmbed.setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/497356681139847168/thanbotShopIcon.png")
+                            shopItem.forEach(function (itemVar) {
+                                try{
+                                    if(shopItem.indexOf(itemVar) >= indexFirst && shopItem.indexOf(itemVar) <= indexLast){
+                                        itemFilteredItems.push(itemVar);
+                                        newEmbed.addField(itemVar[0], itemVar[1] + itemVar[2], true);
+                                    }
                                 }
-                            }
-                            catch(err){
-                            }
-                        });
-                        collectorMsg.edit(newEmbed);
-                    }
+                                catch(err){
+                                }
+                            });
+                            collectorMsg.edit(newEmbed);
+                        }
+                    });
+                    collector.on("end", reaction => {
+                    });
                 });
-                collector.on("end", reaction => {
-                });
-            });
             });
         });
     }
@@ -1381,8 +1354,8 @@ class Commands {
                                                 if(itemdata[itemName] == undefined){
                                                     response.reply("That item doesn't exist!");
                                                 }
-                                                else if(itemName == "token"){
-                                                    response.reply("You can't trade tokens!");
+                                                else if(!itemdata[itemName].canBeStolen){
+                                                    response.reply("You can't trade that item!");
                                                 }
                                                 else{
                                                     if(itemAmount == undefined || !Number.isInteger(parseInt(itemAmount)) || itemAmount % 1 !== 0 || itemAmount < 1){
@@ -2925,32 +2898,6 @@ class Commands {
     }
 
     //MODERATOR COMMANDS
-    //temporary
-    showUserVotes(message, moddedUsers, sql){
-        if(!moddedUsers.has(message.author.id)){
-            return message.reply("Only mods can use this command!");
-        }
-        else{
-            sql.all('SELECT userId, vote FROM userPoll').then(rows => {
-                let yesVotes = 0;
-                let noVotes = 0;
-                rows.forEach(function (row) {
-                    if(row.vote == "yes"){
-                        yesVotes += 1;
-                    }
-                    else if(row.vote == "no"){
-                        noVotes += 1;
-                    }
-                });
-                const embedLeader = new Discord.RichEmbed() 
-                .setTitle(`**Votes for monthly wipes**`)
-                .setColor(0)
-                .addField("Yes", yesVotes, true)
-                .addField("No", noVotes, true)
-                message.channel.send(embedLeader);
-            });
-        }
-    }
     modhelp(message, moddedUsers, prefix){
         if(!moddedUsers.has(message.author.id)){
             return message.reply("Only mods can use this command!");
@@ -3333,9 +3280,12 @@ class Commands {
             const embedInfo = new Discord.RichEmbed()
             .setTitle("`"+client.users.get(userID).tag + " : " + userID + "` **Data**")
             .setDescription("User inventory code:\n```" + result.invCode + "```")
+            .setThumbnail(client.users.get(userID).avatarURL)
             .addField("User", result.objArray.slice(0,result.objArray.length/2), true)
-            .addField("Data", result.objArray.slice(result.objArray.length/2,100), true)
-            .setFooter(result.objArray.length)
+            .addField("Data", result.objArray.slice(result.objArray.length/2, result.objArray.length), true)
+            //.addField("User1", result.objArray.slice(result.objArray.length/4, result.objArray.length/4 *2), true)
+            //.addField("Data1", result.objArray.slice(result.objArray.length/4 * 3, result.objArray.length), true)
+            .setFooter(result.objArrayLength)
             .setTimestamp()
             .setColor(11346517)
             message.channel.send(embedInfo);
@@ -3361,7 +3311,7 @@ class Commands {
         da = decoded.split("|");
         let userId = da[0];
 
-        if(da.length < 85){
+        if(da.length < 100){
             message.reply("Not a valid code. `" + prefix + "restoreinv <code>`");
         }
         else{
@@ -3373,14 +3323,35 @@ class Commands {
             baseball = ${da[30]}, peck_seed = ${da[31]}, iron_shield = ${da[32]}, gold_shield = ${da[33]}, ultra_box = ${da[34]}, rail_cannon = ${da[35]}, plasma = ${da[36]}, 
             fish = ${da[37]}, bmg_50cal = ${da[38]}, token = ${da[39]}, candycane = ${da[40]}, gingerbread = ${da[42]}, mittens = ${da[41]}, stocking = ${da[43]}, 
             snowball = ${da[44]}, nutcracker = ${da[45]}, screw = ${da[49]}, steel = ${da[48]}, adhesive = ${da[47]}, fiber_optics = ${da[50]}, module = ${da[46]}, 
-            ray_gun = ${da[51]}, golf_club = ${da[52]}, ultra_ammo = ${da[53]}, stick = ${da[54]}, reroll_scroll = ${da[55]}, xp_potion = ${da[56]} WHERE userId = ${userId}`);
+            ray_gun = ${da[51]}, golf_club = ${da[52]}, ultra_ammo = ${da[53]}, stick = ${da[54]}, reroll_scroll = ${da[55]}, xp_potion = ${da[56]},
+            canvas_bag = ${da[57]}, light_pack = ${da[58]}, hikers_pack = ${da[59]} WHERE userId = ${userId}`);
 
-            sql.run(`UPDATE scores SET money = ${da[57]}, level = ${da[59]}, points = ${da[58]}, stats = ${da[80]}, used_stats = ${da[83]}, scaledDamage = ${da[82]}, 
-            luck = ${da[81]}, maxHealth = ${da[61]}, health = ${da[60]}, kills = ${da[78]}, deaths = ${da[77]} WHERE userId = ${userId}`);
+            sql.run(`UPDATE scores SET money = ${da[60]}, points = ${da[61]}, level = ${da[62]}, health = ${da[63]}, maxHealth = ${da[64]}, stats = ${da[83]}, used_stats = ${da[86]}, 
+            scaledDamage = ${da[85]}, luck = ${da[84]}, kills = ${da[81]}, deaths = ${da[80]}, inv_slots = ${da[88]}, backpack = '${da[89]}', armor = '${da[90]}' WHERE userId = ${userId}`);
         }
     }
     
     //ADMIN COMMANDS
+    addgamecode(message, sql, adminUsers){
+        if(!adminUsers.has(message.author.id)){
+            message.reply("Only admins can use this command!");
+            return;
+        }
+        let args = message.content.split(" ").slice(1);
+        let gameName = args[0];
+        let gameAmount = args[1];
+        let gamePrice = args[2];
+        let gameCurrency = args[3];
+        let gameDisplay = args.slice(4).join(" ");
+
+        if(gameDisplay == undefined || gameName == undefined || gameAmount == undefined || gamePrice == undefined || gameCurrency == undefined){
+            return message.reply("ERROR ADDING GAME:\n`addgamecode <game_sql_name> <Amount to sell> <game price> <currency to purchase with> <game name to display>`");
+        }
+        else{
+            sql.run(`CREATE TABLE IF NOT EXISTS gamesData (gameName STRING, gameAmount INTEGER, gamePrice INTEGER, gameCurrency INTEGER, gameDisplay STRING)`);
+            sql.run("INSERT INTO gamesData (gameName, gameAmount, gamePrice, gameCurrency, gameDisplay) VALUES (?, ?, ?, ?, ?)", [gameName, parseInt(gameAmount), parseInt(gamePrice), gameCurrency, gameDisplay]);
+        }
+    }
     modadd(message, sql, adminUsers, moddedUsers, prefix){
         if(!adminUsers.has(message.author.id)){
             message.reply("Only admins can use this command!");

@@ -58,7 +58,10 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
-        "buy": 1500,
+        "buy": {
+            "amount": 1500,
+            "currency": "money"
+        },
         "sell": 300,
         "desc": "Use this to get a random item!\nCan drop items up to Legendary quality.",
         "image": "https://cdn.discordapp.com/attachments/454163538886524928/499746695370768408/thanbox_emptysmall.png",
@@ -192,8 +195,6 @@
         "canBeStolen": true,
         "cooldown": ""
     },
-
-
     "light_pack": {
         "rarity": "Uncommon",
         "isWeap": false,
@@ -362,7 +363,10 @@
             ]
         },
         "recyclesTo": [],
-        "buy": 3500,
+        "buy": {
+            "amount": 3500,
+            "currency": "money"
+        },
         "sell": 1000,
         "desc": "Use this to get random ammunition!",
         "image": "https://cdn.discordapp.com/attachments/313880100934385666/493258973160407040/Military_health_kit_custom.png",
@@ -386,7 +390,10 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
-        "buy": 1000,
+        "buy": {
+            "amount": 1000,
+            "currency": "money"
+        },
         "sell": 200,
         "desc": "Restores `5-14` HP!",
         "image": "https://cdn.discordapp.com/attachments/501120454136692737/549083366809665541/Pills.png",
@@ -421,8 +428,6 @@
         "canBeStolen": true,
         "cooldown": ""
     },
-
-
     "xp_potion": {
         "rarity": "Rare",
         "isWeap": false,
@@ -590,7 +595,10 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
-        "buy": 2400,
+        "buy": {
+            "amount": 2400,
+            "currency": "money"
+        },
         "sell": 480,
         "desc": "Restores `10-25` HP!",
         "image": "",
@@ -701,8 +709,6 @@
         "canBeStolen": true,
         "cooldown": ""
     },
-
-
     "canvas_bag": {
         "rarity": "Epic",
         "isWeap": false,
@@ -792,7 +798,10 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
-        "buy": 10000,
+        "buy": {
+            "amount": 10000,
+            "currency": "money"
+        },
         "sell": 2000,
         "desc": "Shields you from attacks for 2 hours!",
         "image": "",
@@ -867,7 +876,10 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
-        "buy": 9000,
+        "buy": {
+            "amount": 9000,
+            "currency": "money"
+        },
         "sell": 800,
         "desc": "Restores `50-60` HP!",
         "image": "",
@@ -924,7 +936,10 @@
             ]
         },
         "recyclesTo": [],
-        "buy": 10000,
+        "buy": {
+            "amount": 10000,
+            "currency": "money"
+        },
         "sell": 2000,
         "desc": "This box drops an item of atleast Rare quality, or potentially an Ultra item.",
         "image": "",
@@ -981,8 +996,6 @@
         "canBeStolen": true,
         "cooldown": ""
     },
-
-
     "hikers_pack": {
         "rarity": "Legendary",
         "isWeap": false,
@@ -1067,7 +1080,10 @@
                 "adhesive|1"
             ]
         },
-        "buy": 30000,
+        "buy": {
+            "amount": 30000,
+            "currency": "money"
+        },
         "sell": 6000,
         "desc": "Shields you from attacks for 8 hours!",
         "image": "https://cdn.discordapp.com/attachments/501120454136692737/501961870706737182/Armor_of_Gold.png",
@@ -1253,7 +1269,10 @@
                 "adhesive|1"
             ]
         },
-        "buy": 25000,
+        "buy": {
+            "amount": 25000,
+            "currency": "money"
+        },
         "sell": 3000,
         "desc": "Use this to reset your attributes and gain back all used skill points!",
         "image": "",
@@ -1305,8 +1324,6 @@
         "canBeStolen": true,
         "cooldown": ""
     },
-
-
     "rail_cannon": {
         "rarity": "Ultra",
         "isWeap": true,
@@ -1390,8 +1407,6 @@
             "seconds": 6000
         }
     },
-
-    
     "stocking": {
         "rarity": "Limited",
         "isWeap": false,

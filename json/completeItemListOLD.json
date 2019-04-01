@@ -20,7 +20,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "15 minutes",
-            "scoreRow": "_15mCD"
+            "scoreRow": "_15mCD",
+            "seconds": 900
         }
     },
     "baseball": {
@@ -88,7 +89,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "15 minutes",
-            "scoreRow": "_15mCD"
+            "scoreRow": "_15mCD",
+            "seconds": 900
         }
     },
     "stick": {
@@ -112,7 +114,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "15 minutes",
-            "scoreRow": "_15mCD"
+            "scoreRow": "_15mCD",
+            "seconds": 900
         }
     },
     "club": {
@@ -136,7 +139,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "15 minutes",
-            "scoreRow": "_15mCD"
+            "scoreRow": "_15mCD",
+            "seconds": 900
         }
     },
     "fish": {
@@ -160,7 +164,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "15 minutes",
-            "scoreRow": "_15mCD"
+            "scoreRow": "_15mCD",
+            "seconds": 900
         }
     },
     "arrow": {
@@ -187,6 +192,8 @@
         "canBeStolen": true,
         "cooldown": ""
     },
+
+
     "light_pack": {
         "rarity": "Uncommon",
         "isWeap": false,
@@ -231,7 +238,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "30 minutes",
-            "scoreRow": "_30mCD"
+            "scoreRow": "_30mCD",
+            "seconds": 1800
         }
     },
     "pistol_bullet": {
@@ -282,7 +290,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "30 minutes",
-            "scoreRow": "_30mCD"
+            "scoreRow": "_30mCD",
+            "seconds": 1800
         }
     },
     "golf_club": {
@@ -306,7 +315,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "30 minutes",
-            "scoreRow": "_30mCD"
+            "scoreRow": "_30mCD",
+            "seconds": 1800
         }
     },
     "bow": {
@@ -332,7 +342,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "30 minutes",
-            "scoreRow": "_30mCD"
+            "scoreRow": "_30mCD",
+            "seconds": 1800
         }
     },
     "ammo_box": {
@@ -365,6 +376,7 @@
         "rarity": "Uncommon",
         "isWeap": false,
         "isItem": true,
+        "isHeal": true,
         "healMin": 5,
         "healMax": 14,
         "damage": "",
@@ -382,7 +394,11 @@
         "icon": "<:UnboxUncommon:526248928891371520>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": {
+            "display": "10 minutes",
+            "scoreRow": "_10mHEALCD",
+            "seconds": 600
+        }
     },
     "steel": {
         "rarity": "Uncommon",
@@ -405,6 +421,8 @@
         "canBeStolen": true,
         "cooldown": ""
     },
+
+
     "xp_potion": {
         "rarity": "Rare",
         "isWeap": false,
@@ -450,7 +468,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "45 minutes",
-            "scoreRow": "_45mCD"
+            "scoreRow": "_45mCD",
+            "seconds": 2700
         }
     },
     "revolver": {
@@ -476,7 +495,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "45 minutes",
-            "scoreRow": "_45mCD"
+            "scoreRow": "_45mCD",
+            "seconds": 2700
         }
     },
     "rifle_bullet": {
@@ -527,7 +547,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "45 minutes",
-            "scoreRow": "_45mCD"
+            "scoreRow": "_45mCD",
+            "seconds": 2700
         }
     },
     "spear": {
@@ -551,13 +572,15 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "45 minutes",
-            "scoreRow": "_45mCD"
+            "scoreRow": "_45mCD",
+            "seconds": 2700
         }
     },
     "health_pot": {
         "rarity": "Rare",
         "isWeap": false,
         "isItem": true,
+        "isHeal": true,
         "healMin": 10,
         "healMax": 25,
         "damage": "",
@@ -575,7 +598,11 @@
         "icon": "<:UnboxRare:526248948579434496>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": {
+            "display": "20 minutes",
+            "scoreRow": "_20mHEALCD",
+            "seconds": 1200
+        }
     },
     "blunderbuss": {
         "rarity": "Rare",
@@ -600,7 +627,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "45 minutes",
-            "scoreRow": "_45mCD"
+            "scoreRow": "_45mCD",
+            "seconds": 2700
         }
     },
     "buckshot": {
@@ -648,7 +676,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "45 minutes",
-            "scoreRow": "_45mCD"
+            "scoreRow": "_45mCD",
+            "seconds": 2700
         }
     },
     "screw": {
@@ -672,6 +701,8 @@
         "canBeStolen": true,
         "cooldown": ""
     },
+
+
     "canvas_bag": {
         "rarity": "Epic",
         "isWeap": false,
@@ -719,7 +750,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "60 minutes",
-            "scoreRow": "_60mCD"
+            "scoreRow": "_60mCD",
+            "seconds": 3600
         }
     },
     "ak47": {
@@ -745,7 +777,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "60 minutes",
-            "scoreRow": "_60mCD"
+            "scoreRow": "_60mCD",
+            "seconds": 3600
         }
     },
     "iron_shield": {
@@ -816,13 +849,15 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "60 minutes",
-            "scoreRow": "_60mCD"
+            "scoreRow": "_60mCD",
+            "seconds": 3600
         }
     },
     "medkit": {
         "rarity": "Epic",
         "isWeap": false,
         "isItem": true,
+        "isHeal": true,
         "healMin": 50,
         "healMax": 60,
         "damage": "",
@@ -840,7 +875,11 @@
         "icon": "<:UnboxEpic:526248961892155402>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": {
+            "display": "40 minutes",
+            "scoreRow": "_40mHEALCD",
+            "seconds": 2400
+        }
     },
     "m4a1": {
         "rarity": "Epic",
@@ -865,7 +904,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "60 minutes",
-            "scoreRow": "_60mCD"
+            "scoreRow": "_60mCD",
+            "seconds": 3600
         }
     },
     "ultra_box": {
@@ -941,6 +981,8 @@
         "canBeStolen": true,
         "cooldown": ""
     },
+
+
     "hikers_pack": {
         "rarity": "Legendary",
         "isWeap": false,
@@ -1002,7 +1044,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "1 hour 20 minutes",
-            "scoreRow": "_80mCD"
+            "scoreRow": "_80mCD",
+            "seconds": 4800
         }
     },
     "gold_shield": {
@@ -1064,7 +1107,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "1 hour 20 minutes",
-            "scoreRow": "_80mCD"
+            "scoreRow": "_80mCD",
+            "seconds": 4800
         }
     },
     "javelin": {
@@ -1097,7 +1141,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "1 hour 20 minutes",
-            "scoreRow": "_80mCD"
+            "scoreRow": "_80mCD",
+            "seconds": 4800
         }
     },
     "plasma": {
@@ -1157,7 +1202,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "1 hour 20 minutes",
-            "scoreRow": "_80mCD"
+            "scoreRow": "_80mCD",
+            "seconds": 4800
         }
     },
     "bmg_50cal": {
@@ -1259,6 +1305,8 @@
         "canBeStolen": true,
         "cooldown": ""
     },
+
+
     "rail_cannon": {
         "rarity": "Ultra",
         "isWeap": true,
@@ -1296,7 +1344,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "1 hour 40 minutes",
-            "scoreRow": "_100mCD"
+            "scoreRow": "_100mCD",
+            "seconds": 6000
         }
     },
     "ray_gun": {
@@ -1337,9 +1386,12 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "1 hour 40 minutes",
-            "scoreRow": "_100mCD"
+            "scoreRow": "_100mCD",
+            "seconds": 6000
         }
     },
+
+    
     "stocking": {
         "rarity": "Limited",
         "isWeap": false,
@@ -1365,6 +1417,9 @@
         "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
+        "isHeal": true,
+        "healMin": 20,
+        "healMax": 25,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -1403,7 +1458,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "45 minutes",
-            "scoreRow": "_45mCD"
+            "scoreRow": "_45mCD",
+            "seconds": 2700
         }
     },
     "snowball": {
@@ -1427,7 +1483,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "45 minutes",
-            "scoreRow": "_45mCD"
+            "scoreRow": "_45mCD",
+            "seconds": 2700
         }
     },
     "nutcracker": {
@@ -1451,7 +1508,8 @@
         "canBeStolen": true,
         "cooldown": {
             "display": "45 minutes",
-            "scoreRow": "_45mCD"
+            "scoreRow": "_45mCD",
+            "seconds": 2700
         }
     },
     "mittens": {
