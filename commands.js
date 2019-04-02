@@ -1,7 +1,6 @@
 const Discord = require("discord.js");
 const methods = require("./methods")
 const config = require('./json/_config.json');
-const itemImgJSON = require('./json/_item_images.json');
 const botInfo = require('./json/_update_info.json');
 const Jimp = require("jimp"); //jimp library allows realtime editing of images
 const fs = require("fs");
@@ -9,7 +8,6 @@ const cryptorjs = require("cryptorjs");
 const cryptor = new cryptorjs(config.encryptionAuth);
 const itemdata = require("./json/completeItemList");
 
-let serverReward = new Set(); //used currently, for t-present command
 let deleteCooldown = new Set(); //for delete command
 let gambleCooldown = new Set();
 
@@ -65,9 +63,7 @@ class Commands {
                     .addField("💥 Strength", (row.scaledDamage).toFixed(2) + "x damage")
                     .addField("🍀 Luck", row.luck)
                     .addBlankField()
-                    .addField("=== Armor ===", "󠇰Common", true)
-                    .addField("=== Backpack ===", "**Epic**", true)
-                    .setImage("https://cdn.discordapp.com/attachments/497302646521069570/559899155225640970/invSlots.png")
+                    .addField("=== Backpack ===", "**" + row.backpack + "**", true)
                     .setFooter("🌟 " + row.stats + " Available skill points")
                     if(row.deaths == 0){
                         profileEmbed.setDescription(row.kills+ " Kills | "+row.deaths+" Deaths ("+row.kills+" K/D)")
@@ -385,6 +381,16 @@ class Commands {
                         methods.addToHealCooldown(sql, message.author.id, itemUsed);
                     });
                 }
+                else if(itemdata[itemUsed].givesMoneyOnUse && row[itemUsed] >= 1){
+                    let minAmt = itemdata[itemUsed].itemMin;
+                    let maxAmt = itemdata[itemUsed].itemMax;
+                    
+                    let randAmt = Math.floor((Math.random() * (maxAmt - minAmt + 1)) + minAmt);
+
+                    message.reply("You open the " + itemUsed + " to find...\n```"+ methods.formatMoney(randAmt) + "```");
+                    sql.run(`UPDATE scores SET money = ${row.money + randAmt} WHERE userId = ${message.author.id}`);
+                    sql.run(`UPDATE items SET ${itemUsed} = ${row[itemUsed] - 1} WHERE userId = ${message.author.id}`);
+                }
                 else if(itemUsed == "reroll_scroll" && row.reroll_scroll >= 1 || itemUsed == "reroll" && row.reroll_scroll >= 1){
                     //call method
                     methods.resetSkills(message, sql, message.author.id);
@@ -497,7 +503,7 @@ class Commands {
                             }
                         }
                     }
-                    if(!userOldID.startsWith("<@") && !userOldID.startsWith("rand")){                     //CHECKING FOR ERRORS IN MENTION
+                    if(userOldID == undefined || !userOldID.startsWith("<@") && !userOldID.startsWith("rand")){                     //CHECKING FOR ERRORS IN MENTION
                         return message.reply('You need to mention someone!');
                     }
                     else if(userNameID === client.user.id){        //CHECK IF PLAYER ATTACKS BOT
@@ -576,7 +582,7 @@ class Commands {
 
                                         let randDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage);
                                         
-                                        hitOrMiss(randDmg, false);
+                                        hitOrMiss(randDmg, itemdata[itemUsed].breaksOnUse);
                                         
                                         methods.addToWeapCooldown(sql, message.author.id, itemUsed);
                                     }
@@ -853,7 +859,7 @@ class Commands {
                 if(itemdata[buyItem] !== undefined){
                     let currency = itemdata[buyItem].buy.currency;
                     let itemPrice = itemdata[buyItem].buy.amount;
-                    if(itemPrice == ""){
+                    if(itemPrice == undefined){
                         message.reply("That item is not for sale!");
                     }
                     else{                                                         //CODE FOR BUYING ITEM
@@ -1037,7 +1043,8 @@ class Commands {
             var shopItem = methods.getitems("all",{});
             for (var i = 0; i < shopItem.length; i++) {
                 let rarity = itemdata[shopItem[i]].rarity;
-                let rarityCode = rarity == "Common" ? 1 : rarity == "Uncommon" ? 2 : rarity == "Rare" ? 3 : rarity == "Epic" ? 4 : rarity == "Legendary" ? 5 : rarity == "Ultra" ? 6 : 7;
+                //let rarityCode = rarity == "Common" ? 1 : rarity == "Uncommon" ? 2 : rarity == "Rare" ? 3 : rarity == "Epic" ? 4 : rarity == "Legendary" ? 5 : rarity == "Ultra" ? 6 : 7;
+                let rarityCode = itemdata[shopItem[i]].shopOrderCode;
 
                 if(itemdata[shopItem[i]].buy !== ""){
                     shopItem[i] = [itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "📥 " + methods.formatMoney(itemdata[shopItem[i]].buy.amount) + " ", "📤 " + methods.formatMoney(itemdata[shopItem[i]].sell), rarityCode];
@@ -1055,7 +1062,7 @@ class Commands {
 
                 else if(a[3] > b[3]) return 1;
 
-                else if(a[3] == b[3]){//if rarity is the same, we compare names
+                else if(a[3] == b[3]){//if rarityCode is the same, we compare names
 
                     if(a[0] < b[0]) return -1; //0 index is item name
 
@@ -2046,37 +2053,48 @@ class Commands {
             }
         });
     }
-    unwrap(message, sql, prefix){ //NOT USED as of 3.0.0
-        sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(row => {
-        sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(timeRow => {
+    basket(message, sql, prefix){ //3.11 changed from unwrap to basket
+        sql.get(`SELECT * FROM items i
+        JOIN scores s
+        ON i.userId = s.userId
+        WHERE s.userId="${message.author.id}"`).then(row => {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
-            if(serverReward.has(message.author.id)){
-                message.reply("You need to wait  `" + (((voteCdSeconds * 1000 - ((new Date()).getTime() - timeRow.prizeTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours` before unwrapping another present.");
+            if(eventCooldown.has(message.author.id)){
+                message.reply("You need to wait  `" + (((voteCdSeconds * 1000 - ((new Date()).getTime() - row.prizeTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours` for your basket to refill!");
                 return;
             }
-            setTimeout(() => {
-                serverReward.delete(message.author.id);
-                sql.run(`UPDATE scores SET prizeTime = ${0} WHERE userId = ${message.author.id}`);
-            }, voteCdSeconds * 1000);
-            let chance = Math.floor(Math.random() * 201) //1-200
-            let rand = "";
-            if(chance <= 150){                                   //LIMITED ITEMS % chance
-                rand = limitedItems[Math.floor(Math.random() * limitedItems.length)];
-                sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
-            }
-            else if(chance <= 185){                               //RARE ITEMS 35% chance
-                rand = rareItems[Math.floor(Math.random() * rareItems.length)];
-                sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
-            }
-            else{                               //RARE ITEMS 12% chance
-                rand = epicItems[Math.floor(Math.random() * epicItems.length)];
-                sql.run(`UPDATE items SET ${rand} = ${eval("row." + rand) + 1} WHERE userId = ${message.author.id}`);
-            }
-            sql.run(`UPDATE items SET token = ${row.token + 1} WHERE userId = ${message.author.id}`);
-            message.reply("🎁 You open the gift and receive : \n```" + rand + " and a token!```");
-            sql.run(`UPDATE scores SET prizeTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-            serverReward.add(message.author.id);
-        });
+            methods.hasenoughspace(sql, message.author.id, 2).then(hasSpace => {
+                if(!hasSpace){
+                    return message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.\nNeed atleast 2 slots open for this command.");
+                }
+                else{
+                    let chance = Math.floor(Math.random() * 100);
+                    let eventItems = methods.getitems("Limited", {type: "unboxable"});
+                    let rand = eventItems[Math.floor(Math.random() * eventItems.length)];
+                    let display = itemdata[rand].icon + "`" +rand + "`";
+                    
+                    if(chance == 92){
+                        rand = "tnt_egg";
+                        display = "**A RARE **" + itemdata[rand].icon + "`" + rand + "`";
+                    }
+                    else if(chance == 93){
+                        rand = "golden_egg";
+                        display = "**A RARE **" + itemdata[rand].icon + "`" +rand + "`";
+                    }
+                    
+                    sql.run(`UPDATE items SET ${rand} = ${row[rand] + 1} WHERE userId = ${message.author.id}`);
+                    sql.run(`UPDATE items SET token = ${row.token + 1} WHERE userId = ${message.author.id}`);
+                    message.reply("🎊 You look in the basket and find : \n" + display + " and a `token`!");
+        
+                    sql.run(`UPDATE scores SET prizeTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
+                    eventCooldown.add(message.author.id);
+        
+                    setTimeout(() => {
+                        eventCooldown.delete(message.author.id);
+                        sql.run(`UPDATE scores SET prizeTime = ${0} WHERE userId = ${message.author.id}`);
+                    }, voteCdSeconds * 1000);
+                }
+            });
         });
     }
 
@@ -2107,10 +2125,10 @@ class Commands {
         let otherCmds = ["`rules`","`cooldowns`","`delete`","`deactivate`","`server`","`update`","`health`","`money`","`level`","`points`","`leaderboard [s]`","`setprefix`","`discord`","`upgrade [skill]`","`backpack`"]
         otherCmds.sort();
         const helpInfo = new Discord.RichEmbed()
-        .setTitle("`"+prefix+"play`** - Adds you to the game.**")
+        .setTitle("🐰EASTER EVENT APRIL 2 - APRIL 24!🌻 Use the `basket` command to get event items and buy steam keys from the `shop`!\n\n" + "`"+prefix+"play`** - Adds you to the game.**")
         .addField("⚔Items", "🔸`"+prefix+"use <item> [@user]`- Attack users with weapons or use items on self.\n🔸`"+prefix+"inv [@user]` - Displays inventory.\n▫`"+prefix+"trade <@user>` - Trade items and money with user.\n▫`"+prefix+"item [item]`" +
         " - Lookup item information.\n▫`"+prefix+"shop` - Shows buy/sell values of all items.\n▫`"+prefix+"buy <item> [amount]` - Purchase an item.\n▫`"+prefix+"sell <item> [amount]` - Sell an item.\n▫`"+prefix+"sellall <rarity>` - Sell every item of specific rarity (ex. `"+prefix+"sellall common`)." +
-        "\n▫`"+prefix+"craft <item>` - Craft Ultra items!\n▫`"+prefix+"recycle <item>` - Recycle Legendary+ items for components.\n▫`"+prefix+ "profile [@user]` - View profile and stats of user.\n✨`" +prefix+"equip <item>` - Equip a backpack or armor.")
+        "\n▫`"+prefix+"craft <item>` - Craft Ultra items!\n▫`"+prefix+"recycle <item>` - Recycle Legendary+ items for components.\n▫`"+prefix+ "profile [@user]` - View profile and stats of user.\n✨`" +prefix+"equip/unequip <item>` - Equip a backpack or unequip it.")
         .addField("🎲Games/Free stuff", "▫`"+prefix+"scramble <easy/hard>` - Unscramble a random word for a prize!\n▫`"+prefix+"trivia` - Answer the questions right for a reward!\n▫`"+prefix+"hourly` - Claim a free item_box every hour.\n▫`"+prefix+"vote` - Vote for the bot every 12hrs to receive an `ultra_box`\n▫`"+prefix+"gamble <type> <amount>` - Gamble your money away!")
         //.addField("🔰Stats", ,true)
         .addField("📈Other", otherCmds.join(" "),true)
@@ -2632,9 +2650,9 @@ class Commands {
     }
     cooldown(message, sql, prefix){
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
+            if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
             methods.getAttackCooldown(sql, message.author.id).then(attackTimeLeft => {
                 methods.getHealCooldown(sql, message.author.id).then(healTimeLeft => {
-                if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
                 let hourlyReady = "✅ ready"
                 let triviaReady = "✅ ready"
                 let scrambleReady = "✅ ready"
@@ -2642,7 +2660,8 @@ class Commands {
                 let healReady = "✅ ready"
                 let voteReady = "✅ ready"
                 let gambleReady = "✅ ready"
-                //let giftReady = "✅ ready"
+
+                let giftReady = "✅ ready"
                 const embedLeader = new Discord.RichEmbed()
                 if(hourlyCooldown.has(message.author.id)){
                     hourlyReady = ((hourlyCdSeconds * 1000 - ((new Date()).getTime() - row.hourlyTime)) / 60000).toFixed(1) + " minutes";
@@ -2665,6 +2684,9 @@ class Commands {
                 if(gambleCooldown.has(message.author.id)){
                     gambleReady = ((gambleCdSeconds * 1000 - ((new Date()).getTime() - row.gambleTime)) / 1000).toFixed(0) + " seconds";
                 }
+                if(eventCooldown.has(message.author.id)){
+                    giftReady = (((voteCdSeconds * 1000 - ((new Date()).getTime() - row.prizeTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours";
+                }
                 embedLeader.setThumbnail(message.author.avatarURL)
                 embedLeader.setTitle(`**${message.author.username} Cooldowns**`)
                 embedLeader.setColor(13215302)
@@ -2675,6 +2697,7 @@ class Commands {
                 embedLeader.addField("🎟vote", "`" + voteReady + "`",true)
                 embedLeader.addField("⚔Attack (part of `"+prefix+"use`)", "`" + attackReady + "`",true)
                 embedLeader.addField("❤Heal (part of `"+prefix+"use`)", "`" + healReady + "`",true)
+                embedLeader.addField("🐰basket", "`" + giftReady + "`",true)
                 if(ironShieldActive.has(message.author.id)){
                     embedLeader.addField("iron_shield", "`" + ((ironShieldCd * 1000 - ((new Date()).getTime() - row.ironShieldTime)) / 60000).toFixed(1) + " minutes`",true)
                 }
@@ -2693,6 +2716,7 @@ class Commands {
         var leaders = [];
         var levelLeaders = [];
         var killLeaders = [];
+        var tokenLeaders = [];
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
             if(message.content.startsWith(prefix+"leaderboard s") || message.content.startsWith(prefix+"lb s")){
                 if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
@@ -2813,6 +2837,33 @@ class Commands {
                                 counter += 1;
                             }
                             killLeaders[0] = killLeaders[0].replace("🏅","🏆");
+                            sql.all('SELECT userId,token FROM items ORDER BY token DESC LIMIT 20').then(rows => {
+                                counter = 0;
+                                success = 0;
+                                while(success < 5){
+                                    try{
+                                        tokenLeaders.push(`🥚**${client.users.get(rows[counter].userId).tag}**` + ' - ' + rows[counter].token + " tokens");
+                                        success += 1;
+                                    }
+                                    catch(err){
+                                        if(counter >= 20){
+                                            break;
+                                        }
+                                    }
+                                    counter += 1;
+                                }
+                                tokenLeaders[0] = tokenLeaders[0].replace("🥚","<:golden_egg:562529468703440907>");
+                                const embedLeader = new Discord.RichEmbed() 
+                                .setTitle(`**Global Leaderboard**`)
+                                .setColor(0)
+                                .addField("Money", leaders, true)
+                                .addField("Level", levelLeaders, true)
+                                .addField("Kills", killLeaders, true)
+                                .addField("Event tokens", tokenLeaders, true)
+                                .setFooter("Top 5")
+                                message.channel.send(embedLeader);
+                            });
+                            /*
                             const embedLeader = new Discord.RichEmbed() 
                             .setTitle(`**Global Leaderboard**`)
                             .setColor(0)
@@ -2821,16 +2872,9 @@ class Commands {
                             .addField("Kills", killLeaders, true)
                             .setFooter("Top 5")
                             message.channel.send(embedLeader);
+                            */
                         });
-                        /*
-                        const embedLeader = new Discord.RichEmbed() 
-                        .setTitle(`**Global Leaderboard**`)
-                        .setColor(13215302)
-                        .addField("Money", leaders)
-                        .addField("Level", levelLeaders)
-                        .setFooter("Top 5")
-                        message.channel.send(embedLeader);
-                        */
+                        
                     });
                 });
             }
@@ -2861,12 +2905,6 @@ class Commands {
                     if(reaction.emoji.name === '✅'){
                         botMessage.delete();
                         methods.getinventorycode(message, sql, cryptor, message.author.id, true).then(result => {
-                            const embedInfo = new Discord.RichEmbed()
-                            .setTitle("⛔Account deleted⛔\n`"+message.author.tag + " : " + message.author.id + "` **Data**")
-                            .setDescription("User inventory code prior to deletion:\n```" + result.invCode + "```")
-                            .setTimestamp()
-                            .setColor(16636672)
-                            client.guilds.get("454163538055790604").channels.get("500467081226223646").send(embedInfo);
 
                             sql.run(`DELETE FROM scores WHERE userId ="${message.author.id}"`);
                             sql.run(`DELETE FROM items WHERE userId ="${message.author.id}"`);
@@ -2881,6 +2919,14 @@ class Commands {
                             goldShieldActive.delete(message.author.id);
     
                             deleteCooldown.add(message.author.id);
+
+                            const embedInfo = new Discord.RichEmbed()
+                            .setTitle("⛔Account deleted⛔\n`"+message.author.tag + " : " + message.author.id + "` **Data**")
+                            .setDescription("User inventory code prior to deletion:\n```" + result.invCode + "```")
+                            .setTimestamp()
+                            .setColor(16636672)
+                            client.guilds.get("454163538055790604").channels.get("500467081226223646").send(embedInfo);
+
                             setTimeout(() => {
                                 deleteCooldown.delete(message.author.id);
                             }, hourlyCdSeconds * 1000);
@@ -2890,6 +2936,8 @@ class Commands {
                             else{
                                 message.reply(`Your account has been deleted.`);
                             }
+                        }).catch(err => {
+
                         });
                     }
                     else{
@@ -3298,7 +3346,7 @@ class Commands {
             .setThumbnail(client.users.get(userID).avatarURL)
             .addField("User", result.objArray.slice(0,result.objArray.length/2), true)
             .addField("Data", result.objArray.slice(result.objArray.length/2, result.objArray.length), true)
-            //.addField("User1", result.objArray.slice(result.objArray.length/4, result.objArray.length/4 *2), true)
+            //.addField("User1", result.objArray.slice(result.objArray.length/4 * 2, result.objArray.length/4 *3), true)
             //.addField("Data1", result.objArray.slice(result.objArray.length/4 * 3, result.objArray.length), true)
             .setFooter(result.objArrayLength)
             .setTimestamp()
@@ -3599,6 +3647,7 @@ class Commands {
                     activateCooldown.delete(userId);
                     deleteCooldown.delete(userId);
                     weapCooldown.delete(userId);
+                    eventCooldown.delete(userId);
                     sql.run(`UPDATE scores SET voteTime = ${0}, scrambleTime = ${0}, triviaTime = ${0}, hourlyTime = ${0}, gambleTime = ${0}, 
                     healTime = ${0}, deactivateTime = ${0}, activateTime = ${0}, attackTime = ${0}, _15mCD = ${0}, _30mCD = ${0}, _45mCD = ${0},
                     _60mCD = ${0}, _80mCD = ${0}, _100mCD = ${0}, _120mCD = ${0} WHERE userId = ${userId}`);

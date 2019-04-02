@@ -45,6 +45,7 @@ global.activateCooldown = new Set();
 global.triviaUserCooldown = new Set();
 global.scrambleCooldown = new Set();
 global.xpPotCooldown = new Set();
+global.eventCooldown = new Set();
 global.healCooldown = new Set();  //healing cooldown id holder
 global.peckCooldown = new Set(); //peck command | lasts 2 hours
 global.peckCdSeconds = 7200; //2 hours in seconds | used in index.js and commands.js
@@ -345,6 +346,18 @@ client.on(`ready`,() => {
                         cdsAdded++;
                     }
                 }
+                //EASTER ONLY
+                if(userInfo.prizeTime > 0){
+                    let timeLeft = (43300*1000) - ((new Date()).getTime() - userInfo.prizeTime);
+                    if(timeLeft > 0){
+                        eventCooldown.add(userInfo.userId);
+                        setTimeout(() => {
+                            eventCooldown.delete(userInfo.userId);
+                            sql.run(`UPDATE scores SET prizeTime = ${0} WHERE userId = ${userInfo.userId}`);
+                        }, timeLeft);
+                        cdsAdded++;
+                    }
+                }
             }
         });
         console.log(cdsAdded + " cooldowns added to users.")
@@ -506,6 +519,38 @@ client.on(`ready`,() => {
         sql.run("UPDATE items SET hikers_pack = 0");
     });
 
+    sql.run("ALTER TABLE items ADD golden_egg").then(row => {
+    }).catch(() => {
+        console.log("==>added `golden_egg` to items | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE items SET golden_egg = 0");
+    });
+    sql.run("ALTER TABLE items ADD easter_egg").then(row => {
+    }).catch(() => {
+        console.log("==>added `easter_egg` to items | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE items SET easter_egg = 0");
+    });
+    sql.run("ALTER TABLE items ADD bunny").then(row => {
+    }).catch(() => {
+        console.log("==>added `bunny` to items | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE items SET bunny = 0");
+    });
+    sql.run("ALTER TABLE items ADD carrot").then(row => {
+    }).catch(() => {
+        console.log("==>added `carrot` to items | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE items SET carrot = 0");
+    });
+
+    sql.run("ALTER TABLE items ADD candy_egg").then(row => {
+    }).catch(() => {
+        console.log("==>added `candy_egg` to items | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE items SET candy_egg = 0");
+    });
+    sql.run("ALTER TABLE items ADD tnt_egg").then(row => {
+    }).catch(() => {
+        console.log("==>added `tnt_egg` to items | CHANGE THE SCRIPT NOW");
+        sql.run("UPDATE items SET tnt_egg = 0");
+    });
+
     sql.run("ALTER TABLE banned ADD reason").then(row => {
     }).catch(() => {
         console.log("added `reason` to banned | CHANGE THE SCRIPT NOW");
@@ -628,8 +673,9 @@ client.on("message", (message) => {
                     sql.run("INSERT INTO items (userId, item_box, rpg, rocket, ak47, rifle_bullet, rock, arrow, fork, club, sword, bow, pistol_bullet, glock, "
                             + "crossbow, spear,thompson, health_pot, ammo_box, javelin, awp, m4a1, spas, medkit, revolver, buckshot, blunderbuss, grenade,"
                             + "pills, bat, baseball, peck_seed, iron_shield, gold_shield, ultra_box, rail_cannon, plasma, fish, bmg_50cal, token, candycane, gingerbread, mittens, stocking, snowball, nutcracker,"
-                            + "screw, steel, adhesive, fiber_optics, module, ray_gun, golf_club, ultra_ammo, stick, xp_potion, reroll_scroll, light_pack, canvas_bag, hikers_pack) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                            [message.author.id, 1, 0, 0, 0 , 0, 0, 0 , 0 , 0 , 0, 0 , 0 , 0 , 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                            + "screw, steel, adhesive, fiber_optics, module, ray_gun, golf_club, ultra_ammo, stick, xp_potion, reroll_scroll, light_pack, canvas_bag, hikers_pack,"
+                            + "golden_egg, easter_egg, bunny, carrot, candy_egg, tnt_egg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                            [message.author.id, 1, 0, 0, 0 , 0, 0, 0 , 0 , 0 , 0, 0 , 0 , 0 , 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
                     sql.run("INSERT INTO userGuilds (userId, guildId) VALUES (?, ?)", [message.author.id, message.guild.id]);
                     if(weapCooldown.has(message.author.id)){
                         sql.run(`UPDATE scores SET attackTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
@@ -781,6 +827,7 @@ client.on("message", (message) => {
                 case 'equip': commands.equipitem(message, sql, prefix); break;
                 case 'unequip': commands.unequipitem(message, sql, prefix); break;
 
+                case 'basket': commands.basket(message, sql, prefix); break;
                 //GAMES
                 case 'trivia': commands.trivia(message, sql, triviaQ, prefix); break;
                 case 'scramble': commands.scramble(message, sql, scrambleQ, prefix); break;

@@ -232,6 +232,18 @@ class Methods {
         else if(itemSearched.startsWith("hiker")){
             itemSearched = "HIKERS_PACK";
         }
+        else if(itemSearched.startsWith("easter") || itemSearched == "egg"){
+            itemSearched = "EASTER_EGG";
+        }
+        else if(itemSearched.startsWith("golden")){
+            itemSearched = "GOLDEN_EGG";
+        }
+        else if(itemSearched.startsWith("tnt")){
+            itemSearched = "TNT_EGG";
+        }
+        else if(itemSearched.startsWith("candy")){
+            itemSearched = "CANDY_EGG";
+        }
         //RETURN VALUES BELOW
         if(isImage){
             //return image url
@@ -1318,8 +1330,26 @@ class Methods {
     //NOT USED BY ANY COMMAND, can be called with eval
     addtoJSON(jsonFile){
         Object.keys(jsonFile).forEach(key => {
-            if(jsonFile[key].buy !== ""){
-                jsonFile[key].buy = {amount: jsonFile[key].buy, currency: "money"}
+            if(jsonFile[key].rarity == "Common"){
+                jsonFile[key].shopOrderCode = 2;
+            }
+            else if(jsonFile[key].rarity == "Uncommon"){
+                jsonFile[key].shopOrderCode = 3;
+            }
+            else if(jsonFile[key].rarity == "Rare"){
+                jsonFile[key].shopOrderCode = 4;
+            }
+            else if(jsonFile[key].rarity == "Epic"){
+                jsonFile[key].shopOrderCode = 5;
+            }
+            else if(jsonFile[key].rarity == "Legendary"){
+                jsonFile[key].shopOrderCode = 6;
+            }
+            else if(jsonFile[key].rarity == "Ultra"){
+                jsonFile[key].shopOrderCode = 7;
+            }
+            else if(jsonFile[key].rarity == "Limited"){
+                jsonFile[key].shopOrderCode = 8;
             }
         });
         fs.writeFile('testJSONfile2.json',JSON.stringify(jsonFile, null, 4), function(err) {

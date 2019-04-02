@@ -22,7 +22,8 @@
             "display": "15 minutes",
             "scoreRow": "_15mCD",
             "seconds": 900
-        }
+        },
+        "shopOrderCode": 2
     },
     "baseball": {
         "rarity": "Common",
@@ -45,7 +46,8 @@
         "icon": "<:UnboxCommon:526248905676029968>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 2
     },
     "item_box": {
         "rarity": "Common",
@@ -69,7 +71,8 @@
         "icon": "<:UnboxCommon:526248905676029968>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 2
     },
     "fork": {
         "rarity": "Common",
@@ -94,7 +97,8 @@
             "display": "15 minutes",
             "scoreRow": "_15mCD",
             "seconds": 900
-        }
+        },
+        "shopOrderCode": 2
     },
     "stick": {
         "rarity": "Common",
@@ -119,7 +123,8 @@
             "display": "15 minutes",
             "scoreRow": "_15mCD",
             "seconds": 900
-        }
+        },
+        "shopOrderCode": 2
     },
     "club": {
         "rarity": "Common",
@@ -144,7 +149,8 @@
             "display": "15 minutes",
             "scoreRow": "_15mCD",
             "seconds": 900
-        }
+        },
+        "shopOrderCode": 2
     },
     "fish": {
         "rarity": "Common",
@@ -169,7 +175,8 @@
             "display": "15 minutes",
             "scoreRow": "_15mCD",
             "seconds": 900
-        }
+        },
+        "shopOrderCode": 2
     },
     "arrow": {
         "rarity": "Common",
@@ -193,7 +200,8 @@
         "icon": "<:UnboxCommon:526248905676029968>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 2
     },
     "light_pack": {
         "rarity": "Uncommon",
@@ -216,7 +224,8 @@
         "icon": "<:UnboxUncommon:526248928891371520>",
         "breaksOnUse": false,
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 3
     },
     "sword": {
         "rarity": "Uncommon",
@@ -241,7 +250,8 @@
             "display": "30 minutes",
             "scoreRow": "_30mCD",
             "seconds": 1800
-        }
+        },
+        "shopOrderCode": 3
     },
     "pistol_bullet": {
         "rarity": "Uncommon",
@@ -265,7 +275,8 @@
         "icon": "<:UnboxUncommon:526248928891371520>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 3
     },
     "bat": {
         "rarity": "Uncommon",
@@ -293,7 +304,8 @@
             "display": "30 minutes",
             "scoreRow": "_30mCD",
             "seconds": 1800
-        }
+        },
+        "shopOrderCode": 3
     },
     "golf_club": {
         "rarity": "Uncommon",
@@ -318,7 +330,8 @@
             "display": "30 minutes",
             "scoreRow": "_30mCD",
             "seconds": 1800
-        }
+        },
+        "shopOrderCode": 3
     },
     "bow": {
         "rarity": "Uncommon",
@@ -345,7 +358,8 @@
             "display": "30 minutes",
             "scoreRow": "_30mCD",
             "seconds": 1800
-        }
+        },
+        "shopOrderCode": 3
     },
     "ammo_box": {
         "rarity": "Uncommon",
@@ -374,7 +388,8 @@
         "icon": "<:UnboxUncommon:526248928891371520>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 3
     },
     "pills": {
         "rarity": "Uncommon",
@@ -405,7 +420,8 @@
             "display": "10 minutes",
             "scoreRow": "_10mHEALCD",
             "seconds": 600
-        }
+        },
+        "shopOrderCode": 3
     },
     "steel": {
         "rarity": "Uncommon",
@@ -426,7 +442,8 @@
         "icon": "<:UnboxUncommon:526248928891371520>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 3
     },
     "xp_potion": {
         "rarity": "Rare",
@@ -448,7 +465,8 @@
         "icon": "<:UnboxRare:526248948579434496>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 4
     },
     "glock": {
         "rarity": "Rare",
@@ -475,7 +493,8 @@
             "display": "45 minutes",
             "scoreRow": "_45mCD",
             "seconds": 2700
-        }
+        },
+        "shopOrderCode": 4
     },
     "revolver": {
         "rarity": "Rare",
@@ -502,7 +521,8 @@
             "display": "45 minutes",
             "scoreRow": "_45mCD",
             "seconds": 2700
-        }
+        },
+        "shopOrderCode": 4
     },
     "rifle_bullet": {
         "rarity": "Rare",
@@ -527,7 +547,8 @@
         "icon": "<:UnboxRare:526248948579434496>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 4
     },
     "crossbow": {
         "rarity": "Rare",
@@ -554,7 +575,8 @@
             "display": "45 minutes",
             "scoreRow": "_45mCD",
             "seconds": 2700
-        }
+        },
+        "shopOrderCode": 4
     },
     "spear": {
         "rarity": "Rare",
@@ -579,7 +601,8 @@
             "display": "45 minutes",
             "scoreRow": "_45mCD",
             "seconds": 2700
-        }
+        },
+        "shopOrderCode": 4
     },
     "health_pot": {
         "rarity": "Rare",
@@ -610,7 +633,8 @@
             "display": "20 minutes",
             "scoreRow": "_20mHEALCD",
             "seconds": 1200
-        }
+        },
+        "shopOrderCode": 4
     },
     "blunderbuss": {
         "rarity": "Rare",
@@ -637,7 +661,8 @@
             "display": "45 minutes",
             "scoreRow": "_45mCD",
             "seconds": 2700
-        }
+        },
+        "shopOrderCode": 4
     },
     "buckshot": {
         "rarity": "Rare",
@@ -661,7 +686,8 @@
         "icon": "<:UnboxRare:526248948579434496>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 4
     },
     "grenade": {
         "rarity": "Rare",
@@ -686,7 +712,8 @@
             "display": "45 minutes",
             "scoreRow": "_45mCD",
             "seconds": 2700
-        }
+        },
+        "shopOrderCode": 4
     },
     "screw": {
         "rarity": "Rare",
@@ -707,7 +734,8 @@
         "icon": "<:UnboxRare:526248948579434496>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 4
     },
     "canvas_bag": {
         "rarity": "Epic",
@@ -731,7 +759,8 @@
         "icon": "<:UnboxEpic:526248961892155402>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 5
     },
     "thompson": {
         "rarity": "Epic",
@@ -758,7 +787,8 @@
             "display": "60 minutes",
             "scoreRow": "_60mCD",
             "seconds": 3600
-        }
+        },
+        "shopOrderCode": 5
     },
     "ak47": {
         "rarity": "Epic",
@@ -785,7 +815,8 @@
             "display": "60 minutes",
             "scoreRow": "_60mCD",
             "seconds": 3600
-        }
+        },
+        "shopOrderCode": 5
     },
     "iron_shield": {
         "rarity": "Epic",
@@ -809,7 +840,8 @@
         "icon": "<:UnboxEpic:526248961892155402>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 5
     },
     "rocket": {
         "rarity": "Epic",
@@ -833,7 +865,8 @@
         "icon": "<:UnboxEpic:526248961892155402>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 5
     },
     "spas": {
         "rarity": "Epic",
@@ -860,7 +893,8 @@
             "display": "60 minutes",
             "scoreRow": "_60mCD",
             "seconds": 3600
-        }
+        },
+        "shopOrderCode": 5
     },
     "medkit": {
         "rarity": "Epic",
@@ -891,7 +925,8 @@
             "display": "40 minutes",
             "scoreRow": "_40mHEALCD",
             "seconds": 2400
-        }
+        },
+        "shopOrderCode": 5
     },
     "m4a1": {
         "rarity": "Epic",
@@ -918,7 +953,8 @@
             "display": "60 minutes",
             "scoreRow": "_60mCD",
             "seconds": 3600
-        }
+        },
+        "shopOrderCode": 5
     },
     "ultra_box": {
         "rarity": "Epic",
@@ -947,7 +983,8 @@
         "icon": "<:UnboxEpic:526248961892155402>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 5
     },
     "ultra_ammo": {
         "rarity": "Epic",
@@ -973,7 +1010,8 @@
         "icon": "<:UnboxEpic:526248961892155402>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 5
     },
     "adhesive": {
         "rarity": "Epic",
@@ -994,7 +1032,8 @@
         "icon": "<:UnboxEpic:526248961892155402>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 5
     },
     "hikers_pack": {
         "rarity": "Legendary",
@@ -1024,7 +1063,8 @@
         "icon": "<:UnboxLegendary:526248970914234368>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 6
     },
     "awp": {
         "rarity": "Legendary",
@@ -1059,7 +1099,8 @@
             "display": "1 hour 20 minutes",
             "scoreRow": "_80mCD",
             "seconds": 4800
-        }
+        },
+        "shopOrderCode": 6
     },
     "gold_shield": {
         "rarity": "Legendary",
@@ -1091,7 +1132,8 @@
         "icon": "<:UnboxLegendary:526248970914234368>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 6
     },
     "rpg": {
         "rarity": "Legendary",
@@ -1125,7 +1167,8 @@
             "display": "1 hour 20 minutes",
             "scoreRow": "_80mCD",
             "seconds": 4800
-        }
+        },
+        "shopOrderCode": 6
     },
     "javelin": {
         "rarity": "Legendary",
@@ -1159,7 +1202,8 @@
             "display": "1 hour 20 minutes",
             "scoreRow": "_80mCD",
             "seconds": 4800
-        }
+        },
+        "shopOrderCode": 6
     },
     "plasma": {
         "rarity": "Legendary",
@@ -1189,7 +1233,8 @@
         "icon": "<:UnboxLegendary:526248970914234368>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 6
     },
     "peck_seed": {
         "rarity": "Legendary",
@@ -1220,7 +1265,8 @@
             "display": "1 hour 20 minutes",
             "scoreRow": "_80mCD",
             "seconds": 4800
-        }
+        },
+        "shopOrderCode": 6
     },
     "bmg_50cal": {
         "rarity": "Legendary",
@@ -1250,7 +1296,8 @@
         "icon": "<:UnboxLegendary:526248970914234368>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 6
     },
     "reroll_scroll": {
         "rarity": "Legendary",
@@ -1280,7 +1327,8 @@
         "icon": "<:UnboxLegendary:526248970914234368>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 6
     },
     "fiber_optics": {
         "rarity": "Legendary",
@@ -1301,7 +1349,8 @@
         "icon": "<:UnboxLegendary:526248970914234368>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 6
     },
     "module": {
         "rarity": "Legendary",
@@ -1322,7 +1371,8 @@
         "icon": "<:UnboxLegendary:526248970914234368>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 6
     },
     "rail_cannon": {
         "rarity": "Ultra",
@@ -1363,7 +1413,8 @@
             "display": "1 hour 40 minutes",
             "scoreRow": "_100mCD",
             "seconds": 6000
-        }
+        },
+        "shopOrderCode": 7
     },
     "ray_gun": {
         "rarity": "Ultra",
@@ -1405,7 +1456,8 @@
             "display": "1 hour 40 minutes",
             "scoreRow": "_100mCD",
             "seconds": 6000
-        }
+        },
+        "shopOrderCode": 7
     },
     "stocking": {
         "rarity": "Limited",
@@ -1426,7 +1478,8 @@
         "icon": "🎁",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 8
     },
     "gingerbread": {
         "rarity": "Limited",
@@ -1450,7 +1503,8 @@
         "icon": "🎁",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 8
     },
     "candycane": {
         "rarity": "Limited",
@@ -1475,7 +1529,8 @@
             "display": "45 minutes",
             "scoreRow": "_45mCD",
             "seconds": 2700
-        }
+        },
+        "shopOrderCode": 8
     },
     "snowball": {
         "rarity": "Limited",
@@ -1500,7 +1555,8 @@
             "display": "45 minutes",
             "scoreRow": "_45mCD",
             "seconds": 2700
-        }
+        },
+        "shopOrderCode": 8
     },
     "nutcracker": {
         "rarity": "Limited",
@@ -1525,7 +1581,8 @@
             "display": "45 minutes",
             "scoreRow": "_45mCD",
             "seconds": 2700
-        }
+        },
+        "shopOrderCode": 8
     },
     "mittens": {
         "rarity": "Limited",
@@ -1546,7 +1603,8 @@
         "icon": "🎁",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 8
     },
     "token": {
         "rarity": "Limited",
@@ -1567,7 +1625,8 @@
         "icon": "🎁",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 8
     },
     "testgame": {
         "rarity": "Limited",
@@ -1588,6 +1647,7 @@
         "icon": "🎁",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "shopOrderCode": 8
     }
 }

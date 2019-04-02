@@ -319,5 +319,13 @@
   "example": ["unequip light_pack","unequip backpack"],
   "usage": ["unequip <item>`","unequip <armor>`"],
   "options": "`item` - Item to equip. Must be backpack or armor.\nbackpack - Will unequip backpack if you have one equipped."
+}, {
+  "lookup": ["basket"],
+  "command": "Basket",
+  "description": "Limited Easter 2019 event command. Gives the user a limited item and a token.",
+  "cooldown": "",
+  "example": [""],
+  "usage": ["basket`"],
+  "options": ""
 }
 ]
