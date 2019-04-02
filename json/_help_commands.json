@@ -42,7 +42,7 @@
   "lookup": ["item","items"],
   "command": "Item",
   "example": ["item gold_shield"],
-  "description": "Specify an item to see detailed information about it.\nFor a more detailed list check out:\nhttps://docs.google.com/spreadsheets/d/1iWWPYvCcdKlpGgtmstQ5CHGUdsVX1Q10vTO0y6ylseM/edit?usp=sharing",
+  "description": "Specify an item to see detailed information about it.",
   "cooldown": "",
   "usage": ["item <item>`","items` - Shows a list of all items."],
   "options": "`item` - Item to search."
