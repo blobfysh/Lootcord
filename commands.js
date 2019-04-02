@@ -728,7 +728,8 @@ class Commands {
 
             if(itemdata[itemSearched] !== undefined){
                 let itemDamage = itemdata[itemSearched].damage;
-                let itemBuyPrice = itemdata[itemSearched].buy;
+                let itemBuyCurr = itemdata[itemSearched].buy.currency;
+                let itemBuyPrice = itemdata[itemSearched].buy.amount;
                 let itemSellPrice = itemdata[itemSearched].sell;
                 let itemAmmo = itemdata[itemSearched].ammo;
                 let itemAmmoFor = itemdata[itemSearched].isAmmo;
@@ -738,6 +739,7 @@ class Commands {
                 let itemRecyclesTo = itemdata[itemSearched].recyclesTo;
                 let itemCraftedWith = itemdata[itemSearched].craftedWith;
                 let itemCooldown = itemdata[itemSearched].cooldown;
+                let isBound = itemdata[itemSearched].canBeStolen;
                 let itemRarityColor = 0;
 
                 if(itemRarity == "Ultra"){
@@ -765,6 +767,13 @@ class Commands {
                 .setTitle(`🏷**${itemSearched} Info**`)
                 .setColor(itemRarityColor)
                 .setThumbnail(itemImg)
+                if(!isBound){
+                    embedItem.setDescription(itemInfo + "```css\nThis item binds to the user when received, and cannot be traded or stolen.```");
+                    //embedItem.addField("***This item is protected***", "||```css\nThis item binds to the user when received, and cannot be traded or stolen.```||")
+                }
+                else{
+                    embedItem.setDescription(itemInfo);
+                }
                 if(itemCooldown !== ""){
                     embedItem.addField("***Rarity***", itemRarity, true)
                     embedItem.addField("**Cooldown**", "`" + itemCooldown.display + "`")
@@ -781,15 +790,17 @@ class Commands {
                 if(itemAmmoFor.length >= 1){
                     embedItem.addField("🔻Ammo for", itemAmmoFor, true)
                 }
-                if(itemBuyPrice == ""){
-                    embedItem.addField("Cost", "📤 Sell : " + methods.formatMoney(itemSellPrice))
-                }
-                else if(itemBuyPrice <= 50){
-                    embedItem.addField("Cost", "📥 Buy : " + itemBuyPrice + " `tokens` | 📤 Sell : " + methods.formatMoney(itemSellPrice))
-                }
-                else{
+
+                if(itemBuyCurr !== undefined && itemBuyCurr == "money"){
                     embedItem.addField("Cost", "📥 Buy : " + methods.formatMoney(itemBuyPrice) + " | 📤 Sell : " + methods.formatMoney(itemSellPrice))
                 }
+                else if(itemBuyCurr !== undefined){
+                    embedItem.addField("Cost", "📥 Buy : " + itemBuyPrice + "`" + itemBuyCurr +"` | 📤 Sell : " + methods.formatMoney(itemSellPrice))
+                }
+                else if(itemSellPrice !== ""){
+                    embedItem.addField("Cost", "📤 Sell : " + methods.formatMoney(itemSellPrice))
+                }
+                
                 if(itemRecyclesTo.materials !== undefined){
                     embedItem.addBlankField();
                     embedItem.addField("Recycles into", "```"+ itemRecyclesTo.display +"```", true)
@@ -797,7 +808,6 @@ class Commands {
                 if(itemCraftedWith !== ""){
                     embedItem.addField("Items required to craft", "```"+ itemCraftedWith.display +"```", true)
                 }
-                embedItem.setDescription(itemInfo)
                 message.channel.send(embedItem);
             }
             else if(itemSearched == ""){
@@ -826,6 +836,7 @@ class Commands {
                 message.reply("That item isn't in my database! Use `"+prefix+"items` to see a full list!");
             }
         }).catch((err) => {
+            console.log(err);
             message.reply("That item isn't in my database! Use `"+prefix+"items` to see a full list!");
             return;
         });
@@ -1542,7 +1553,7 @@ class Commands {
             });
         });
     }
-    displayInvSlots(message, sql, prefix){
+    backpack(message, sql, prefix){
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
             methods.getitemcount(sql, message.author.id).then(itemCt => {
@@ -2093,13 +2104,13 @@ class Commands {
         if(helpCommand !== undefined){
             return methods.commandhelp(message, helpCommand, prefix);
         }
-        let otherCmds = ["`rules`","`cooldowns`","`delete`","`deactivate`","`server`","`update`","`health`","`money`","`level`","`points`","`leaderboard [s]`","`setprefix`","`discord`","`profile [@user]`","`upgrade [skill]`","`backpack`"]
+        let otherCmds = ["`rules`","`cooldowns`","`delete`","`deactivate`","`server`","`update`","`health`","`money`","`level`","`points`","`leaderboard [s]`","`setprefix`","`discord`","`upgrade [skill]`","`backpack`"]
         otherCmds.sort();
         const helpInfo = new Discord.RichEmbed()
         .setTitle("`"+prefix+"play`** - Adds you to the game.**")
         .addField("⚔Items", "🔸`"+prefix+"use <item> [@user]`- Attack users with weapons or use items on self.\n🔸`"+prefix+"inv [@user]` - Displays inventory.\n▫`"+prefix+"trade <@user>` - Trade items and money with user.\n▫`"+prefix+"item [item]`" +
         " - Lookup item information.\n▫`"+prefix+"shop` - Shows buy/sell values of all items.\n▫`"+prefix+"buy <item> [amount]` - Purchase an item.\n▫`"+prefix+"sell <item> [amount]` - Sell an item.\n▫`"+prefix+"sellall <rarity>` - Sell every item of specific rarity (ex. `"+prefix+"sellall common`)." +
-        "\n▫`"+prefix+"craft <item>` - Craft Ultra items!\n▫`"+prefix+"recycle <item>` - Recycle Legendary+ items for components.\n✨`" +prefix+"equip <item>` - Equip a backpack or armor.")
+        "\n▫`"+prefix+"craft <item>` - Craft Ultra items!\n▫`"+prefix+"recycle <item>` - Recycle Legendary+ items for components.\n▫`"+prefix+ "profile [@user]` - View profile and stats of user.\n✨`" +prefix+"equip <item>` - Equip a backpack or armor.")
         .addField("🎲Games/Free stuff", "▫`"+prefix+"scramble <easy/hard>` - Unscramble a random word for a prize!\n▫`"+prefix+"trivia` - Answer the questions right for a reward!\n▫`"+prefix+"hourly` - Claim a free item_box every hour.\n▫`"+prefix+"vote` - Vote for the bot every 12hrs to receive an `ultra_box`\n▫`"+prefix+"gamble <type> <amount>` - Gamble your money away!")
         //.addField("🔰Stats", ,true)
         .addField("📈Other", otherCmds.join(" "),true)
@@ -3354,6 +3365,7 @@ class Commands {
         else{
             sql.run(`CREATE TABLE IF NOT EXISTS gamesData (gameName STRING, gameAmount INTEGER, gamePrice INTEGER, gameCurrency INTEGER, gameDisplay STRING)`);
             sql.run("INSERT INTO gamesData (gameName, gameAmount, gamePrice, gameCurrency, gameDisplay) VALUES (?, ?, ?, ?, ?)", [gameName, parseInt(gameAmount), parseInt(gamePrice), gameCurrency, gameDisplay]);
+            message.reply("Game added!")
         }
     }
     removegamecode(message, sql, adminUsers){
@@ -3364,7 +3376,8 @@ class Commands {
         let args = message.content.split(" ").slice(1);
         let gameName = args[0];
         try{
-            sql.run(`DELETE FROM gamesData WHERE gameName = ${gameName}`);
+            sql.run(`DELETE FROM gamesData WHERE gameName = '${gameName}'`);
+            message.reply("success")
         }
         catch(err){
             message.reply("Error removing game `removegamecode <game_name>`: ```" + err + "```");

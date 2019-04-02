@@ -19,7 +19,7 @@
   "command": "Use",
   "example": ["use ak47 @blobfysh","use medkit","use rock random"],
   "description": "Use an item on yourself or attack another user with a weapon.",
-  "cooldown": "Attack: 1 hour\nHeal: 30 minutes",
+  "cooldown": "Depends on the item used, check with the `item` command",
   "usage": ["use <item>` - Uses an item on yourself, such as healing items or boxes","use <item> <@user/random>` - Attack user with an item or weapon."],
   "options": "`item` - Item to use\n`@user` or `random` - User to attack, will be random if you specifiy random."
 }, {
@@ -295,5 +295,29 @@
   "example": [""],
   "usage": ["rules`"],
   "options": ""
+}, {
+  "lookup": ["backpack","pack"],
+  "command": "Backpack",
+  "description": "Shows currently equipped backpack and current inventory space.",
+  "cooldown": "",
+  "example": [""],
+  "usage": ["backpack`"],
+  "options": ""
+}, {
+  "lookup": ["equip"],
+  "command": "Equip",
+  "description": "Allows user to equip different backpacks and armor.",
+  "cooldown": "",
+  "example": ["equip light_pack"],
+  "usage": ["equip <item>`"],
+  "options": "`item` - Item to equip. Must be backpack or armor."
+}, {
+  "lookup": ["unequip"],
+  "command": "Unequip",
+  "description": "Unequip your current backback or armor.",
+  "cooldown": "",
+  "example": ["unequip light_pack","unequip backpack"],
+  "usage": ["unequip <item>`","unequip <armor>`"],
+  "options": "`item` - Item to equip. Must be backpack or armor.\nbackpack - Will unequip backpack if you have one equipped."
 }
 ]

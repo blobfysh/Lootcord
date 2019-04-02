@@ -594,9 +594,9 @@ client.on("message", (message) => {
                     }
                     client.guilds.get("454163538055790604").channels.get("496740775212875816").send("<@&495162711102062592>");
                     if(Array.isArray(imageAttached) && imageAttached.length){
-                        if( imageAttached[0].url.endsWith(".mp4") || imageAttached[0].url.endsWith(".mp3")){return client.guilds.get("454163538055790604").channels.get("496740775212875816").send({embed : sentInfo, files: [{attachment: imageAttached[0].url}]});}
+                        if( imageAttached[0].url.endsWith(".mp4") || imageAttached[0].url.endsWith(".mp3")){return client.guilds.get("454163538055790604").channels.get(config.modChannel).send({embed : sentInfo, files: [{attachment: imageAttached[0].url}]});}
                     }
-                    return client.guilds.get("454163538055790604").channels.get("496740775212875816").send(sentInfo);
+                    return client.guilds.get("454163538055790604").channels.get(config.modChannel).send(sentInfo);
                 }
                 else{
                     botMessage.delete();
@@ -623,8 +623,8 @@ client.on("message", (message) => {
                     sql.run("INSERT INTO scores (userId, money, points, level, health, maxHealth, healTime, attackTime, hourlyTime, triviaTime, peckTime, voteTime, "
                             + "gambleTime, ironShieldTime, goldShieldTime, prizeTime, mittenShieldTime, scrambleTime, deactivateTime, activateTime, kills, deaths, "
                             + "spamTime, stats, luck, scaledDamage, used_stats, xpTime, inv_slots, backpack, armor, _15mCD, _30mCD, _45mCD, _60mCD, _80mCD, _100mCD, "
-                            + "_120mCD, _10mHEALCD, _20mHEALCD, _40mHEALCD) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                            [message.author.id, 100, 0, 1, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.00, 0, 0, 10, 'none', 'none']);
+                            + "_120mCD, _10mHEALCD, _20mHEALCD, _40mHEALCD) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                            [message.author.id, 100, 0, 1, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.00, 0, 0, 10, 'none', 'none', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
                     sql.run("INSERT INTO items (userId, item_box, rpg, rocket, ak47, rifle_bullet, rock, arrow, fork, club, sword, bow, pistol_bullet, glock, "
                             + "crossbow, spear,thompson, health_pot, ammo_box, javelin, awp, m4a1, spas, medkit, revolver, buckshot, blunderbuss, grenade,"
                             + "pills, bat, baseball, peck_seed, iron_shield, gold_shield, ultra_box, rail_cannon, plasma, fish, bmg_50cal, token, candycane, gingerbread, mittens, stocking, snowball, nutcracker,"
@@ -807,7 +807,7 @@ client.on("message", (message) => {
                 case 'level': commands.level(message, sql, prefix); break;
                 case 'xp':
                 case 'points': commands.points(message, sql, prefix); break;
-                case 'backpack': commands.displayInvSlots(message, sql, prefix); break;
+                case 'backpack': commands.backpack(message, sql, prefix); break;
                 case 'health':
                 case 'hp': commands.health(message, sql, prefix); break;
                 case 'balance':

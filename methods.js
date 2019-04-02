@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const helpCmd = require('./json/_help_commands.json'); //opens help commands .json file
 const itemImg = require('./json/_item_images.json');
 const seedrandom = require('seedrandom');
+const config = require('./json/_config.json');
 const itemdata = require("./json/completeItemList");
 const fs = require("fs");
 var rng = seedrandom();
@@ -949,11 +950,11 @@ class Methods {
                         //item is a game and needs to message admins when its sold... Doesn't need to check for inventory space since they only lose items
                         this.hasitems(sql, message.author.id, currency, itemPrice).then(hasItems => {
                             if(hasItems){
-                                sql.get(`SELECT * FROM gamesData WHERE gameName = ${buyItem}`).then(gameRow => {
+                                sql.get(`SELECT * FROM gamesData WHERE gameName = '${buyItem}'`).then(gameRow => {
 
-                                    sql.run(`UPDATE gamesData SET ${buyItem} = ${gameRow[buyItem] - 1} WHERE gameName = ${buyItem}`);
+                                    sql.run(`UPDATE gamesData SET gameAmount = ${gameRow.gameAmount - 1} WHERE gameName = '${buyItem}'`);
 
-                                    this.removeitem(sql, message.author.id, itemPrice);
+                                    this.removeitem(sql, message.author.id, currency, itemPrice);
                                     
                                     message.reply("Successfully bought `" + buyItem + "`!");
 
@@ -966,14 +967,15 @@ class Methods {
 
                                     const gameEmbed = new Discord.RichEmbed()
                                     .setTitle("✅ Game Purchased!")
-                                    .addField("Game Sold", buyItem)
-                                    .addField("Buyer", message.author.tag + "\n" + message.author.id)
+                                    .addField("Game Sold", "**" + gameRow.gameDisplay + "**")
+                                    .addField("Buyer", message.author.tag + "\nID: ```" + message.author.id + "```")
                                     .setTimestamp()
-                                    client.guilds.get("454163538055790604").channels.get(config.modChannel).send("moderators", {embed: gameEmbed});
+                                    //<@&495162711102062592>
+                                    client.guilds.get("454163538055790604").channels.get(config.modChannel).send(gameEmbed);
                                 });
                             }
                             else{
-                                message.reply("You are missing the following items needed to purchase this: `" + displayPrice + "`");
+                                message.reply("You are missing the following items needed to purchase this: " + displayPrice + "");
                             }
                         });
                     }
@@ -997,17 +999,22 @@ class Methods {
                     else{
                         //currency must be an item
                         this.hasenoughspace(sql, message.author.id, buyAmount - (buyAmount * itemPrice)).then(hasSpace => {
-                            this.hasitems(sql, message.author.id, currency, itemPrice).then(hasItems => {
+                            this.hasitems(sql, message.author.id, currency, (buyAmount * itemPrice)).then(hasItems => {
                             //if user bought 3 rpgs at 5 tokens each, they would need 3 - 15 = -12 space in their inventory
                             //if they had 20/10 slots at time of purchasing, this would return true because 20 - 12 = 8/10 slots
                                 if(hasItems && hasSpace){
                                     //they have enough of the currency and space, can buy item
+                                    this.removeitem(sql, message.author.id, currency, itemPrice * buyAmount);
+                                    this.additem(sql, message.author.id, buyItem, buyAmount);
+                                    message.reply("You bought " + buyAmount + "x " + buyItem + "!");
                                 }
-                                else if(!hasitems){
+                                else if(!hasItems){
                                     //they dont have enough of the items(currency)
+                                    message.reply("You are missing the following items needed to purchase this: " + displayPrice + "");
                                 }
                                 else{
                                     //no space
+                                    message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.");
                                 }
                             });
                         });
