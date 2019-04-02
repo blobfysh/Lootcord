@@ -262,6 +262,7 @@
         "maxDmg": "",
         "isAmmo": [
             "glock",
+            "revolver",
             "thompson"
         ],
         "ammo": "",

@@ -967,7 +967,64 @@ class Commands {
                     });
                 }
                 else{
-                    message.reply("You need to enter a valid type to sell! `"+prefix+"sellall <rarity>`");
+                    let commonTotal = 0;
+                    let totalAmount = 0;
+                    //THESE WILL BE USED FOR SPECIFIC FIXES (SUCH AS CHANGING NAME TO FIT ITEM ARRAYS)
+                    let itemsToCheck = methods.getitems("all", {});
+
+                    for (var i = 0; i < itemsToCheck.length; i++) {
+                        if(itemRow[itemsToCheck[i]] >= 1){
+                            totalAmount += itemRow[itemsToCheck[i]];
+                            commonTotal += (itemRow[itemsToCheck[i]] * itemdata[itemsToCheck[i]].sell);
+                        }
+                    }
+                    if(totalAmount <= 0){
+                        return message.reply("You don't have any items of that quality.");
+                    }
+
+                    message.reply("Sell " + totalAmount + "x items for " + methods.formatMoney(commonTotal) + "?").then(botMessage => {
+                        botMessage.react('✅').then(() => botMessage.react('❌'));
+                        const filter = (reaction, user) => {
+                            return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
+                        };
+                        botMessage.awaitReactions(filter, {max: 1, time: 15000, errors: ['time'] })
+                        .then(collected => {
+                            const reaction = collected.first();
+
+                            if(reaction.emoji.name === '✅'){
+                                botMessage.delete();
+                                sql.get(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(itemRow2 => {
+                                    let testAmount = 0;//used to verify user didnt alter inventory while selling.
+                                    let testTotalItems = 0;
+                                    for (var i = 0; i < itemsToCheck.length; i++) {
+                                        if(itemRow2[itemsToCheck[i]] >= 1){
+                                            testTotalItems += itemRow2[itemsToCheck[i]];
+                                            testAmount += (itemRow2[itemsToCheck[i]] * itemdata[itemsToCheck[i]].sell);
+                                        }
+                                    }
+                                    
+                                    if(testTotalItems == totalAmount && testAmount == commonTotal){
+                                        //VERIFIED
+                                        methods.addmoney(sql, message.author.id, parseInt(commonTotal));
+                                        for (var i = 0; i < itemsToCheck.length; i++) {
+                                            sql.run(`UPDATE items SET ${itemsToCheck[i]} = ${0} WHERE userId = ${message.author.id}`);
+                                        }
+
+                                        message.reply(`Successfully sold all items.`);
+                                    }
+                                    else{
+                                        message.reply(`Sellall failed. Your inventory was altered during the sale.`);
+                                    }
+                                });
+                            }
+                            else{
+                                botMessage.delete();
+                            }
+                        }).catch(collected => {
+                            botMessage.delete();
+                            message.reply("You didn't react in time!");
+                        });
+                    });
                 }
             });
         });

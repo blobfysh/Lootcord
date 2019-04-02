@@ -58,10 +58,10 @@
   "lookup": ["sellall"],
   "command": "Sellall",
   "example": ["sellall common"],
-  "description": "Sell all items of a certain rarity.",
+  "description": "Sell all items of a certain rarity. If no rarity is specified, it will sell all items in your inventory.",
   "cooldown": "",
-  "usage": ["sellall <rarity>`"],
-  "options": "`rarity` - Rarity of items you want to sell ie. common, rare..."
+  "usage": ["sellall <rarity>`", "sellall`"],
+  "options": "`rarity` - **OPTIONAL** Rarity of items you want to sell ie. common, rare..."
 }, {
   "lookup": ["sell"],
   "command": "Sell",
