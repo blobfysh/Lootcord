@@ -1311,9 +1311,11 @@ class Methods {
         grenade = ${0}, pills = ${0}, bat = ${0}, baseball = ${0}, peck_seed = ${0}, iron_shield = ${0}, gold_shield = ${0}, ultra_box = ${0}, rail_cannon = ${0}, plasma = ${0}, 
         fish = ${0}, bmg_50cal = ${0}, token = ${0}, candycane = ${0}, gingerbread = ${0}, mittens = ${0}, stocking = ${0}, snowball = ${0}, nutcracker = ${0}, screw = ${0}, 
         steel = ${0}, adhesive = ${0}, fiber_optics = ${0}, module = ${0}, ray_gun = ${0}, golf_club = ${0}, ultra_ammo = ${0}, stick = ${0}, reroll_scroll = ${0}, 
-        xp_potion = ${0} WHERE userId = ${userId}`);
+        xp_potion = ${0}, canvas_bag = ${0}, light_pack = ${0}, hikers_pack = ${0}, golden_egg = ${0}, easter_egg = ${0}, bunny = ${0}, carrot = ${0},
+        candy_egg = ${0}, tnt_egg = ${0} WHERE userId = ${userId}`);
+        
         sql.run(`UPDATE scores SET money = ${0}, level = ${1}, points = ${0}, stats = ${0}, used_stats = ${0}, scaledDamage = ${1.00}, 
-        luck = ${0}, maxHealth = ${100}, health = ${100}, kills = ${0}, deaths = ${0} WHERE userId = ${userId}`);
+        luck = ${0}, maxHealth = ${100}, health = ${100}, kills = ${0}, deaths = ${0}, inv_slots = ${10}, backpack = 'none', armor = 'none' WHERE userId = ${userId}`);
     }
     monthlywipe(sql){//WIPE ALL BUT LIMITED ITEMS
         sql.run(`UPDATE items SET item_box = ${1}, rpg = ${0}, rocket = ${0}, ak47 = ${0}, rifle_bullet = ${0}, 

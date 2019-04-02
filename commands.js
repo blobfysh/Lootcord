@@ -3387,10 +3387,11 @@ class Commands {
             fish = ${da[37]}, bmg_50cal = ${da[38]}, token = ${da[39]}, candycane = ${da[40]}, gingerbread = ${da[42]}, mittens = ${da[41]}, stocking = ${da[43]}, 
             snowball = ${da[44]}, nutcracker = ${da[45]}, screw = ${da[49]}, steel = ${da[48]}, adhesive = ${da[47]}, fiber_optics = ${da[50]}, module = ${da[46]}, 
             ray_gun = ${da[51]}, golf_club = ${da[52]}, ultra_ammo = ${da[53]}, stick = ${da[54]}, reroll_scroll = ${da[55]}, xp_potion = ${da[56]},
-            canvas_bag = ${da[57]}, light_pack = ${da[58]}, hikers_pack = ${da[59]} WHERE userId = ${userId}`);
+            canvas_bag = ${da[57]}, light_pack = ${da[58]}, hikers_pack = ${da[59]}, golden_egg = ${da[60]}, easter_egg = ${da[61]}, bunny = ${da[62]}, carrot = ${da[63]},
+            candy_egg = ${da[64]}, tnt_egg = ${da[65]} WHERE userId = ${userId}`);
 
-            sql.run(`UPDATE scores SET money = ${da[60]}, points = ${da[61]}, level = ${da[62]}, health = ${da[63]}, maxHealth = ${da[64]}, stats = ${da[83]}, used_stats = ${da[86]}, 
-            scaledDamage = ${da[85]}, luck = ${da[84]}, kills = ${da[81]}, deaths = ${da[80]}, inv_slots = ${da[88]}, backpack = '${da[89]}', armor = '${da[90]}' WHERE userId = ${userId}`);
+            sql.run(`UPDATE scores SET money = ${da[66]}, points = ${da[67]}, level = ${da[68]}, health = ${da[69]}, maxHealth = ${da[70]}, stats = ${da[89]}, used_stats = ${da[92]}, 
+            scaledDamage = ${da[91]}, luck = ${da[90]}, kills = ${da[87]}, deaths = ${da[86]}, inv_slots = ${da[94]}, backpack = '${da[95]}', armor = '${da[96]}' WHERE userId = ${userId}`);
         }
     }
     
@@ -3708,12 +3709,10 @@ class Commands {
         }
     }
     fullwipe(message, sql, adminUsers){
-        console.log("got heres");
         if(!adminUsers.has(message.author.id)){
             message.reply("Only admins can use this command!");
             return;
         }
-        console.log("gotts here");
         message.reply("You are about to wipe everyones inventories on the bot.\n**Continue?**").then(botMessage => {
             botMessage.react('✅').then(() => botMessage.react('❌'));
             const filter = (reaction, user) => {return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;};
