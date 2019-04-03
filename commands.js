@@ -2120,9 +2120,9 @@ class Commands {
                 message.reply("You need to wait  `" + (((voteCdSeconds * 1000 - ((new Date()).getTime() - row.prizeTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours` for your basket to refill!");
                 return;
             }
-            methods.hasenoughspace(sql, message.author.id, 2).then(hasSpace => {
+            methods.hasenoughspace(sql, message.author.id, 1).then(hasSpace => {
                 if(!hasSpace){
-                    return message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.\nNeed atleast 2 slots open for this command.");
+                    return message.reply("**You don't have enough space in your inventory!** You can clear up space by selling some items.\nNeed atleast 1 slot open for this command.");
                 }
                 else{
                     let chance = Math.floor(Math.random() * 100);
