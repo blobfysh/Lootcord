@@ -211,18 +211,6 @@ client.on(`ready`,() => {
                     }
                 }
                 //ATTACK COOLDOWNS BELOW
-                if(userInfo.attackTime > 0){
-                    let timeLeft = (3600*1000) - ((new Date()).getTime() - userInfo.attackTime);
-                    if(timeLeft > 0){
-                        weapCooldown.add(userInfo.userId);
-                        setTimeout(() => {
-                            weapCooldown.delete(userInfo.userId);
-                            sql.run(`UPDATE scores SET attackTime = ${0} WHERE userId = ${userInfo.userId}`);
-                        }, timeLeft);
-                        //client.guilds.get("454163538055790604").channels.get("454163538886524928").send((timeLeft / (1000 * 60)) + " minutes remain on `attack`");
-                        cdsAdded++;
-                    }
-                }
                 if(userInfo._15mCD > 0){
                     let timeLeft = (900*1000) - ((new Date()).getTime() - userInfo._15mCD);
                     if(timeLeft > 0){
@@ -434,7 +422,6 @@ client.on(`ready`,() => {
             });
         });
     });
-    */
     sql.run("ALTER TABLE scores ADD inv_slots").then(row => {
     }).catch(() => {
         console.log("added `inv_slots` to scores | CHANGE THE SCRIPT NOW");
@@ -559,6 +546,7 @@ client.on(`ready`,() => {
     }).catch(() => {
         console.log("added `date` to banned | CHANGE THE SCRIPT NOW");
     });
+    */
 });
 
 client.on("message", (message) => {    

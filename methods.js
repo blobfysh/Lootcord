@@ -287,14 +287,19 @@ class Methods {
             console.log(err)
         }
     }
-    getitemcount(sql, userId){//RETURNS PROMISE
+    getitemcount(sql, userId, cntTokens = false){//RETURNS PROMISE
         return sql.get(`SELECT * FROM items WHERE userId ="${userId}"`).then(row => {
             return sql.get(`SELECT * FROM scores WHERE userId ="${userId}"`).then(row2 => {
                 var totalItemCt = 0;
                 Object.keys(row).forEach(key => {
                     if(key !== "userId"){
-                        totalItemCt += row[key];
-                        //console.log(row[key] + " | " + key);
+                        if(key == "token" && cntTokens){
+                            totalItemCt += row[key];
+                            //console.log(row[key] + " | " + key);
+                        }
+                        else if(key !== "token"){
+                            totalItemCt += row[key];
+                        }
                     }
                 });
                 return {

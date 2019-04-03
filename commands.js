@@ -2974,6 +2974,7 @@ class Commands {
                             peckCooldown.delete(message.author.id);
                             ironShieldActive.delete(message.author.id);
                             goldShieldActive.delete(message.author.id);
+                            eventCooldown.delete(message.author.id);
     
                             deleteCooldown.add(message.author.id);
 
