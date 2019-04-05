@@ -1364,7 +1364,7 @@ class Methods {
         });
     }
 
-    sendlbtoweb(sql, whereToWrite = "leaders.json"){
+    sendlbtoweb(sql, whereToWrite = "../../lootcord.com/-page-home/leaders.json"){
         var leaderJSON = {money: {}, level: {}, kills: {}, tokens: {}};
 
         sql.all('SELECT userId,money FROM scores ORDER BY money DESC LIMIT 20').then(rows => {
