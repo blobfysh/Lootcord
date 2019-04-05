@@ -1,10 +1,10 @@
 {
   "info": [
-    "🔹Changed gamble coinflip back to 50/50.",
-	  "🔹More amazing art by OGSteve added!",
-    "🔹Multiple boxes can now be opened at the same time with the `use` command (`use item_box 5`). Works up to 10 boxes.",
-    "🔹Ability to attack random users with the `use` command.",
-    "🔹Multiple bug fixes.",
+    "✨**EASTER EVENT! April 2nd - April 24th**",
+	  "🔹`basket` command added, look inside your basket and get free items!",
+    "🔹Inventory capacity added along with backpacks! Equip a better backpack to gain more slots.",
+    "🔹`equip` and `unequip` commands added, equip backpacks and in the future armor.",
+    "🔹Everyones inventories have been wiped for this update, let the grinding begin!",
     "🔸Send bugs or feature ideas to us through the bots DM's",
     "🔸If you like the bot, be sure to tell all your friends about it! :)"
   ]
