@@ -211,6 +211,7 @@
         "minDmg": "",
         "maxDmg": "",
         "isAmmo": [],
+        "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",

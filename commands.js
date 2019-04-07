@@ -461,10 +461,12 @@ class Commands {
         
                                             const killedReward = new Discord.RichEmbed()  
                                             .setTitle(`LOOT RECEIVED`)
-                                            .setDescription("Money : $" + victimRow.money + "\nExperience : `100xp`")
+                                            .setDescription("Money : " + methods.formatMoney(victimRow.money) + "\nExperience : `100xp`")
                                             .setColor(7274496)
                                             .addField("**ITEMS**", result)
                                             message.channel.send(killedReward);
+
+                                            methods.sendtokillfeed(message, sql, message.author.id, userNameID, itemUsed, damage, result, methods.formatMoney(victimRow.money));
         
                                             const embedInfo = new Discord.RichEmbed()
                                             .setTitle("💀**Kill Log**\n\nKILLER: `" + message.author.tag + " : " + message.author.id + "`\nVICTIM: `"+ client.users.get(userNameID).tag +" : " + userNameID + "`")
@@ -2179,15 +2181,17 @@ class Commands {
         if(helpCommand !== undefined){
             return methods.commandhelp(message, helpCommand, prefix);
         }
-        let otherCmds = ["`rules`","`cooldowns`","`delete`","`deactivate`","`server`","`update`","`health`","`money`","`level`","`points`","`leaderboard [s]`","`setprefix`","`discord`","`upgrade [skill]`","`backpack`"]
+        let otherCmds = ["`rules`","`cooldowns`","`delete`","`deactivate`","`server`","`update`","`health`","`money`","`level`","`points`","`leaderboard`","`discord`","`upgrade`","`backpack`"];
+        let utilities = ["`utility` -", "`setprefix`", "`setkillfeed`", "`setlevelchannel`", "`disablekillfeed`", "`disablelevelchannel`"];
         otherCmds.sort();
         const helpInfo = new Discord.RichEmbed()
         .setTitle("🐰EASTER EVENT APRIL 2 - APRIL 24!🌻 Use the `basket` command to get event items and buy steam keys from the `shop`!\n\n" + "`"+prefix+"play`** - Adds you to the game.**")
         .addField("⚔Items", "🔸`"+prefix+"use <item> [@user]`- Attack users with weapons or use items on self.\n🔸`"+prefix+"inv [@user]` - Displays inventory.\n▫`"+prefix+"trade <@user>` - Trade items and money with user.\n▫`"+prefix+"item [item]`" +
-        " - Lookup item information.\n▫`"+prefix+"shop` - Shows buy/sell values of all items.\n▫`"+prefix+"buy <item> [amount]` - Purchase an item.\n▫`"+prefix+"sell <item> [amount]` - Sell an item.\n▫`"+prefix+"sellall <rarity>` - Sell every item of specific rarity (ex. `"+prefix+"sellall common`)." +
+        " - Lookup item information.\n▫`"+prefix+"shop` - Shows buy/sell values of all items.\n▫`"+prefix+"buy <item> [amount]` - Purchase an item.\n▫`"+prefix+"sell <item> [amount]` - Sell an item.\n▫`"+prefix+"sellall [rarity]` - Sell multiple or all items (ex. `"+prefix+"sellall common`)." +
         "\n▫`"+prefix+"craft <item>` - Craft Ultra items!\n▫`"+prefix+"recycle <item>` - Recycle Legendary+ items for components.\n▫`"+prefix+ "profile [@user]` - View profile and stats of user.\n✨`" +prefix+"equip/unequip <item>` - Equip a backpack or unequip it.")
         .addField("🎲Games/Free stuff", "▫`"+prefix+"scramble <easy/hard>` - Unscramble a random word for a prize!\n▫`"+prefix+"trivia` - Answer the questions right for a reward!\n▫`"+prefix+"hourly` - Claim a free item_box every hour.\n▫`"+prefix+"vote` - Vote for the bot every 12hrs to receive an `ultra_box`\n▫`"+prefix+"gamble <type> <amount>` - Gamble your money away!")
         //.addField("🔰Stats", ,true)
+        .addField("⚙Utility", utilities.join(" "),true)
         .addField("📈Other", otherCmds.join(" "),true)
         .setColor(13215302)
         .setFooter("To see more about a command, use "+prefix+"help <command> | Need more help? Message me!")
@@ -2336,28 +2340,6 @@ class Commands {
                 message.reply("You don't have any skill points to upgrade with right now! Level up and come back.");
             }
         });
-    }
-    prefix(message, sql, prefix){//USED TO CHANGE SERVER PREFIX
-        if(message.member.hasPermission("MANAGE_GUILD")){
-            let args = message.content.split(" ").slice(1);
-            let prefixString = args[0];
-            if(prefixString == undefined || prefixString == "" || prefixString.length > 3){
-                return message.reply("Please enter a prefix up to 3 characters long! `"+prefix+"setprefix ***`")
-            }
-            else{
-                sql.get(`SELECT * FROM guildPrefix WHERE guildId ="${message.guild.id}"`).then(prefixRow => {
-                    if(prefixRow){
-                        sql.run(`DELETE FROM guildPrefix WHERE guildId ="${message.guild.id}"`);
-                    }
-                    prefixString = prefixString.toLowerCase();
-                    sql.run("INSERT INTO guildPrefix (guildId, prefix) VALUES (?, ?)", [message.guild.id, prefixString]);
-                    message.reply("Server prefix successfully changed to `" + prefixString + "`");
-                });
-            }
-        }
-        else{
-            message.reply("You need the `Manage Server` permission to use this command!")
-        }
     }
     ping(message, sql){
         message.channel.send(`Response time to server : ${Math.round(client.ping)} ms`);
@@ -3016,6 +2998,100 @@ class Commands {
     }
     attack(message, prefix){
         message.reply("Attack using the `use` command. (Ex. `"+prefix+"use rock @user`)");
+    }
+
+    //UTILITY COMMAND
+    utility(message, sql, prefix){
+        if(message.member.hasPermission("MANAGE_GUILD")){
+            let args = message.content.split(" ").slice(1);
+            let subCommand = args[0] == undefined ? "none" : args[0];
+
+            switch(subCommand.toLowerCase()){
+                //ADMIN COMMANDS
+                case 'setprefix': this.prefix(message, sql); break;
+
+                case 'setkillfeed': this.setkillfeed(message, sql); break;
+                case 'disablekillfeed': this.disablekillfeed(message, sql); break;
+
+                case 'setlevelchannel': this.setlevelchannel(message, sql); break;
+                case 'disablelevelchannel': this.disablelevelchannel(message, sql); break;
+
+                case 'getkillfeed': this.getkillfeed(message, sql); break;
+
+                default: message.reply("You need to specify a sub-command! `" + prefix + "help util`")
+            }
+        }
+        else{
+            message.reply("You need the `Manage Server` permission to use this command!");
+        }
+    }
+
+    prefix(message, sql, prefix){
+        let args = message.content.split(" ").slice(2);
+        let prefixString = args[0];
+        if(prefixString == undefined || prefixString == "" || prefixString.length > 3){
+            return message.reply("Please enter a prefix up to 3 characters long! `"+prefix+"setprefix ***`")
+        }
+        else{
+            sql.get(`SELECT * FROM guildPrefix WHERE guildId ="${message.guild.id}"`).then(prefixRow => {
+                if(prefixRow){
+                    sql.run(`DELETE FROM guildPrefix WHERE guildId ="${message.guild.id}"`);
+                }
+                prefixString = prefixString.toLowerCase();
+                sql.run("INSERT INTO guildPrefix (guildId, prefix) VALUES (?, ?)", [message.guild.id, prefixString]);
+                message.reply("Server prefix successfully changed to `" + prefixString + "`");
+            });
+        }
+    }
+    setkillfeed(message, sql){
+        sql.get(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`).then(guildRow => {
+            if(!guildRow) sql.run("INSERT INTO guildInfo (guildId, killChan, levelChan) VALUES (?, ?, ?)", [message.guild.id, "", ""]);
+
+            sql.run(`UPDATE guildInfo SET killChan = ${message.channel.id} WHERE guildId = ${message.guild.id}`);
+
+            message.reply("✅ Set this channel as the kill feed channel!");
+        });
+    }
+    disablekillfeed(message, sql){
+        sql.get(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`).then(guildRow => {
+            if(!guildRow) sql.run("INSERT INTO guildInfo (guildId, killChan, levelChan) VALUES (?, ?, ?)", [message.guild.id, "", ""]);
+
+            sql.run(`UPDATE guildInfo SET killChan = "" WHERE guildId = "${message.guild.id}"`);
+            message.reply("✅ Disabled kill feed for this server!");
+        });
+    }
+
+    setlevelchannel(message, sql){
+        sql.get(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`).then(guildRow => {
+            if(!guildRow) sql.run("INSERT INTO guildInfo (guildId, killChan, levelChan) VALUES (?, ?, ?)", [message.guild.id, "", ""]);
+
+            sql.run(`UPDATE guildInfo SET levelChan = "${message.channel.id}" WHERE guildId = "${message.guild.id}"`);
+            message.reply("✅ Now sending level up messages to this channel!");
+        });
+    }
+    disablelevelchannel(message, sql){
+        sql.get(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`).then(guildRow => {
+            if(!guildRow) sql.run("INSERT INTO guildInfo (guildId, killChan, levelChan) VALUES (?, ?, ?)", [message.guild.id, "", ""]);
+
+            sql.run(`UPDATE guildInfo SET levelChan = "" WHERE guildId = "${message.guild.id}"`);
+            message.reply("✅ Disabled level channel for this server!");
+        });
+    }
+
+    getkillfeed(message, sql){
+        sql.get(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`).then(guildRow => {
+            message.reply(guildRow.killChan);
+            console.log(guildRow.killChan);
+
+            try{
+                message.guild.channels.get(guildRow.killChan).send("Killchannel works!");
+                message.guild.channels.get(guildRow.levelChan).send("Levelchannel works!");
+            }
+            catch(err){
+                console.log(err);
+                message.reply("There is none!");
+            }
+        });
     }
 
     //MODERATOR COMMANDS

@@ -4,6 +4,7 @@ global.client = new Discord.Client({
     messageCacheMaxSize: 50
 });
 const commands = require("./commands");
+const methods = require("./methods");
 const votes = require("./votes");
 const sql = require("sqlite"); //sql library used to save data
 sql.open(`./score.sqlite`); //opens sql data table, or makes one if it doesn't exist
@@ -58,7 +59,7 @@ global.weapCooldown = new Set();  //weapon cooldown stuff
 var xpNeeded; //is set to players xp needed when they send a message | used to determine level and used in t-inv command to calculate xp left until next level
 var totalXpNeeded = 0;
 
-const version = "3.11.2";
+const version = "3.12.0";
 
 client.on(`ready`,() => {
     console.log(" _                    _                           _ \n"+
@@ -73,6 +74,7 @@ client.on(`ready`,() => {
 
     if(config.debug == "false"){
         setInterval(() => {
+            methods.sendlbtoweb(sql);
             dbl.postStats(client.guilds.size);
         }, 1800000);
     }
@@ -350,7 +352,7 @@ client.on(`ready`,() => {
         });
         console.log(cdsAdded + " cooldowns added to users.")
     });
-    sql.run(`CREATE TABLE IF NOT EXISTS guildNPC (guildId INTEGER, health INTEGER, damage INTEGER, level INTEGER, item STRING)`);
+    sql.run(`CREATE TABLE IF NOT EXISTS guildInfo (guildId TEXT, killChan TEXT, levelChan TEXT)`);
     /*
     sql.run("ALTER TABLE scores ADD deactivateTime").then(row => {
     }).catch(() => {
@@ -724,48 +726,7 @@ client.on("message", (message) => {
                         }
                     }).catch();
 
-                    Jimp.read("./userImages/LvlUp.png").then(test => { //start creating levelup image
-                        Jimp.read(message.author.avatarURL).then(avatar => {
-                            avatar.resize(64,64);
-                            test.quality(70);
-
-                            Jimp.loadFont("./fonts/BebasNeue37.fnt").then(font2 => {
-                                test.print(font2, 0, 0, {
-                                    text: "lvl " + (row.level + 1),
-                                    alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
-                                    alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM
-                                }, 128, 144);
-                                Jimp.loadFont("./fonts/BebasNeue25.fnt").then(font => {
-                                test.print(
-                                    font,
-                                    0,
-                                    0,
-                                    {
-                                    text: message.author.username.substring(0,13),
-                                    alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
-                                    alignmentY: Jimp.VERTICAL_ALIGN_TOP
-                                    },
-                                    128,
-                                    144
-                                );
-                                //test.print(font, 0, 0, message.author.username);
-                                test.composite(avatar, 32, 32);
-                                test.write("./userImages/userLvl.jpeg");
-                                test.getBuffer(Jimp.AUTO, (err, buffer) => {
-                                    if(err){
-                                        console.log("oh no");
-                                        return;
-                                    }
-                                    message.reply(`LEVEL **${row.level + 1}!**\n` + "**YOU EARNED A 🌟 SKILL POINT!** Use it with the `upgrade` command." + `\n**Item received!**  ` + "`" + levelItem + "`", {
-                                    file: buffer
-                                    });
-                                });
-                                
-                            });
-                            
-                            });
-                        });
-                    });
+                    methods.sendlvlupmsg(message, sql, row.level + 1, levelItem);
                 }
                 sql.get(`SELECT * FROM xpBoost WHERE boost`).then(boostAmount => {
                     sql.get(`SELECT * FROM userGuilds WHERE userId ="${message.author.id}" AND guildId = "${message.guild.id}"`).then(playRow => {
@@ -827,7 +788,6 @@ client.on("message", (message) => {
                 case 'rules': commands.rules(message); break;
                 case 'upgrade': commands.upgrade(message, sql, prefix); break;
                 case 'ping': commands.ping(message, sql); break;
-                case 'setprefix': commands.prefix(message, sql, prefix); break;
                 case 'invite':
                 case 'discord': commands.discord(message); break;
                 case 'heal': commands.heal(message, prefix); break;
@@ -855,6 +815,11 @@ client.on("message", (message) => {
                 case 'deactivate': commands.deactivate(message, sql, prefix); break;
                 case 'suicide':
                 case 'delete': commands.delete(message, sql, prefix); break;
+
+                //UTILITY COMMAND HANDLER
+                case 'util':
+                case 'utility': commands.utility(message, sql, prefix); break;
+
                 //MODERATOR COMMANDS
                 case 'modhelp': commands.modhelp(message, moddedUsers, prefix); break;
                 case 'ban': commands.ban(message, sql, moddedUsers, bannedUsers, prefix); break;

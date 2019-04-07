@@ -2,12 +2,73 @@ const Discord = require("discord.js");
 const helpCmd = require('./json/_help_commands.json'); //opens help commands .json file
 const itemImg = require('./json/_item_images.json');
 const seedrandom = require('seedrandom');
+const Jimp = require('jimp');
 const config = require('./json/_config.json');
 const itemdata = require("./json/completeItemList");
 const fs = require("fs");
 var rng = seedrandom();
 
 class Methods {
+    //PLAY COMMAND
+    sendlvlupmsg(message, sql, level, levelitem){
+        sql.get(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`).then(guildRow => {
+            console.log(guildRow.levelChan);
+            Jimp.read("./userImages/LvlUp.png").then(test => { //start creating levelup image
+                Jimp.read(message.author.avatarURL).then(avatar => {
+                    avatar.resize(64,64);
+                    test.quality(70);
+
+                    Jimp.loadFont("./fonts/BebasNeue37.fnt").then(font2 => {
+                        test.print(font2, 0, 0, {
+                            text: "lvl " + level,
+                            alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+                            alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM
+                        }, 128, 144);
+                        Jimp.loadFont("./fonts/BebasNeue25.fnt").then(font => {
+                        test.print(
+                            font,
+                            0,
+                            0,
+                            {
+                            text: message.author.username.substring(0,13),
+                            alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+                            alignmentY: Jimp.VERTICAL_ALIGN_TOP
+                            },
+                            128,
+                            144
+                        );
+                        //test.print(font, 0, 0, message.author.username);
+                        test.composite(avatar, 32, 32);
+                        test.write("./userImages/userLvl.jpeg");
+                        test.getBuffer(Jimp.AUTO, (err, buffer) => {
+                            if(err){
+                                console.log("oh no");
+                                return;
+                            }
+                            if(guildRow.levelChan !== undefined && guildRow.levelChan !== ""){
+                                message.guild.channels.get(guildRow.levelChan).send(message.author + `\nLEVEL **${level}!**\n` + "**YOU EARNED A 🌟 SKILL POINT!** Use it with the `upgrade` command." + `\n**Item received!**  ` + "`" + levelitem + "`", {
+                                    file: buffer
+                                }).catch(err => {
+                                    message.reply(`LEVEL **${level}!**\n` + "**YOU EARNED A 🌟 SKILL POINT!** Use it with the `upgrade` command." + `\n**Item received!**  ` + "`" + levelitem + "`", {
+                                        file: buffer
+                                    });
+                                });
+                            }
+                            else{
+                                message.reply(`LEVEL **${level}!**\n` + "**YOU EARNED A 🌟 SKILL POINT!** Use it with the `upgrade` command." + `\n**Item received!**  ` + "`" + levelitem + "`", {
+                                    file: buffer
+                                });
+                            }
+                        });
+                        
+                    });
+                    
+                    });
+                });
+            });
+        });
+    }
+
     //GENERAL FUNCTIONS, CAN BE USED BY MULTIPLE COMMANDS
     additem(sql, userId, item, amount){
         sql.get(`SELECT * FROM items WHERE userId ="${userId}"`).then(row => {
@@ -931,6 +992,24 @@ class Methods {
             //idea for making each weapon have separate cd, (row[itemUsed].cooldown.scoreRow) so... ((itemdata[itemUsed].cooldown.seconds * 1000 - ((new Date()).getTime() - row[itemdata[itemUsed].cooldown.scoreRow])) / 60000).toFixed(1) + " minutes`"
         });
     }
+    sendtokillfeed(message, sql, killerId, victimId, itemName, itemDmg, itemsStolen, moneyStolen){
+        sql.get(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`).then(guildRow => {
+            if(guildRow.killChan !== undefined && guildRow.killChan !== ""){
+                const killEmbed = new Discord.RichEmbed()
+                .setTitle(message.guild.members.get(killerId).displayName + " 🗡 " + message.guild.members.get(victimId).displayName + " 💀")
+                .setDescription("**Weapon**: `" + itemName + "` - **" + itemDmg + " damage**")
+                .setColor(16721703)
+                .setTimestamp()
+
+                message.guild.channels.get(guildRow.killChan).send(killEmbed).catch(err => {
+                    return;//didn't work...
+                });
+            }
+            else{
+                return; //no killfeed on server...
+            }
+        });
+    }
 
     //TRADE COMMAND METHODS
     getTotalItmCountFromList(list){
@@ -1361,6 +1440,22 @@ class Methods {
         });
         fs.writeFile('testJSONfile2.json',JSON.stringify(jsonFile, null, 4), function(err) {
             console.log("complete");
+        });
+    }
+    getActiveAccount(sql, userId){
+        return sql.all(`SELECT * FROM userGuilds WHERE userId ="${userId}"`).then(rows => {
+            var userGuilds = [];
+            var servers = 0;
+            rows.forEach(row => {
+                userGuilds.push(client.guilds.get(row.guildId).name);
+                servers++;
+            });
+            console.log(userGuilds);
+            console.log(servers);
+            return {
+                guildsArr: userGuilds,
+                count: servers
+            }
         });
     }
 

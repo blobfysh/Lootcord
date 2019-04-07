@@ -127,14 +127,6 @@
   "usage": ["vote`"],
   "options": ""
 }, {
-  "lookup": ["setprefix","prefix"],
-  "command": "Setprefix",
-  "example": ["setprefix t!"],
-  "description": "Command used to change the prefix for the server.\nUser **MUST** have the Manage Server permission.",
-  "cooldown": "",
-  "usage": ["setprefix <prefix>`"],
-  "options": "`prefix` - Input to change server prefix to. Must be 1-3 characters long."
-}, {
   "lookup": ["deactivate"],
   "command": "Deactivate",
   "example": [""],
@@ -326,6 +318,54 @@
   "cooldown": "",
   "example": [""],
   "usage": ["basket`"],
+  "options": ""
+}, {
+  "lookup": ["utility", "util"],
+  "command": "Utility",
+  "description": "Command used to change server settings of Lootcord using these sub-commands:\n`setprefix`, `setkillfeed`, `setlevelchannel`, `disablekillfeed`, `disablelevelchannel`",
+  "cooldown": "",
+  "example": ["utility setprefix t!","util setkillfeed"],
+  "usage": ["utility <sub-command>`"],
+  "options": ""
+}, {
+  "lookup": ["setprefix","prefix"],
+  "command": "Setprefix",
+  "example": ["util setprefix t!"],
+  "description": "Command used to change the prefix for the server.\nUser **MUST** have the Manage Server permission.",
+  "cooldown": "",
+  "usage": ["util setprefix <prefix>`"],
+  "options": "`prefix` - Input to change server prefix to. Must be 1-3 characters long."
+}, {
+  "lookup": ["setkillfeed","killfeed"],
+  "command": "Setkillfeed",
+  "example": ["util setkillfeed"],
+  "description": "Sets the current channel as the kill feed channel, will log all kills from the server in that channel.\nUser **MUST** have the Manage Server permission.",
+  "cooldown": "",
+  "usage": ["util setkillfeed`"],
+  "options": ""
+}, {
+  "lookup": ["setlevelchannel","levelchannel"],
+  "command": "Setlevelchannel",
+  "example": ["util setlevelchannel"],
+  "description": "Set a channel to send all level up messages to.\nUser **MUST** have the Manage Server permission.",
+  "cooldown": "",
+  "usage": ["util setlevelchannel`"],
+  "options": ""
+}, {
+  "lookup": ["disablelevelchannel"],
+  "command": "Disablelevelchannel",
+  "example": ["util disablelevelchannel"],
+  "description": "Removes the level channel from the server, will cause the bot to default back to replying when users level up.\nUser **MUST** have the Manage Server permission.",
+  "cooldown": "",
+  "usage": ["util disablelevelchannel`"],
+  "options": ""
+}, {
+  "lookup": ["disablekillfeed"],
+  "command": "Disablekillfeed",
+  "example": ["util disablekillfeed"],
+  "description": "Stops the bot from logging all kills in the server.\nUser **MUST** have the Manage Server permission.",
+  "cooldown": "",
+  "usage": ["util disablekillfeed`"],
   "options": ""
 }
 ]
