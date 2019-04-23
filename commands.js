@@ -224,6 +224,7 @@ class Commands {
             }
         });
     }
+
     use(message, sql, prefix){//split into separate methods
         let args = message.content.split(" ").slice(1);
         args = args.filter(item => {return item;});//removes empty elements from args array
@@ -608,6 +609,7 @@ class Commands {
         });
         });
     }
+    
     craft(message, sql, prefix){
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
         if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");  //makes sure they have account
@@ -1202,6 +1204,7 @@ class Commands {
             });
         });
     }
+
     trade(message, sql, prefix){    //updated 3.8 multi-item trades
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
             if(!row) return message.reply("You don't have an account. Use " + prefix + "play to make one!");
@@ -1619,6 +1622,7 @@ class Commands {
             });
         });
     }
+
     backpack(message, sql, prefix){
         sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
             if (!row) return message.reply("You don't have an account. Use `" + prefix + "play` to make one!");
@@ -2112,6 +2116,7 @@ class Commands {
             }
         });
     }
+    /*
     basket(message, sql, prefix){ //3.11 changed from unwrap to basket
         sql.get(`SELECT * FROM items i
         JOIN scores s
@@ -2156,6 +2161,7 @@ class Commands {
             });
         });
     }
+    */
 
     //GENERAL
     info(message, version){
@@ -2185,10 +2191,10 @@ class Commands {
         let utilities = ["`utility` -", "`setprefix`", "`setkillfeed`", "`setlevelchannel`", "`disablekillfeed`", "`disablelevelchannel`"];
         otherCmds.sort();
         const helpInfo = new Discord.RichEmbed()
-        .setTitle("🐰EASTER EVENT APRIL 2 - APRIL 24!🌻 Use the `basket` command to get event items and buy steam keys from the `shop`!\n\n" + "`"+prefix+"play`** - Adds you to the game.**")
+        .setTitle("`"+prefix+"play`** - Adds you to the game.**")
         .addField("⚔Items", "🔸`"+prefix+"use <item> [@user]`- Attack users with weapons or use items on self.\n🔸`"+prefix+"inv [@user]` - Displays inventory.\n▫`"+prefix+"trade <@user>` - Trade items and money with user.\n▫`"+prefix+"item [item]`" +
         " - Lookup item information.\n▫`"+prefix+"shop` - Shows buy/sell values of all items.\n▫`"+prefix+"buy <item> [amount]` - Purchase an item.\n▫`"+prefix+"sell <item> [amount]` - Sell an item.\n▫`"+prefix+"sellall [rarity]` - Sell multiple or all items (ex. `"+prefix+"sellall common`)." +
-        "\n▫`"+prefix+"craft <item>` - Craft Ultra items!\n▫`"+prefix+"recycle <item>` - Recycle Legendary+ items for components.\n▫`"+prefix+ "profile [@user]` - View profile and stats of user.\n✨`" +prefix+"equip/unequip <item>` - Equip a backpack or unequip it.")
+        "\n▫`"+prefix+"craft <item>` - Craft Ultra items!\n▫`"+prefix+"recycle <item>` - Recycle Legendary+ items for components.\n▫`"+prefix+ "profile [@user]` - View profile and stats of user.\n▫`" +prefix+"equip/unequip <item>` - Equip a backpack or unequip it.")
         .addField("🎲Games/Free stuff", "▫`"+prefix+"scramble <easy/hard>` - Unscramble a random word for a prize!\n▫`"+prefix+"trivia` - Answer the questions right for a reward!\n▫`"+prefix+"hourly` - Claim a free item_box every hour.\n▫`"+prefix+"vote` - Vote for the bot every 12hrs to receive an `ultra_box`\n▫`"+prefix+"gamble <type> <amount>` - Gamble your money away!")
         //.addField("🔰Stats", ,true)
         .addField("⚙Utility", utilities.join(" "),true)
@@ -2736,7 +2742,7 @@ class Commands {
                 embedLeader.addField("🎟vote", "`" + voteReady + "`",true)
                 embedLeader.addField("⚔Attack (part of `"+prefix+"use`)", "`" + attackReady + "`",true)
                 embedLeader.addField("❤Heal (part of `"+prefix+"use`)", "`" + healReady + "`",true)
-                embedLeader.addField("🐰basket", "`" + giftReady + "`",true)
+                //embedLeader.addField("🐰basket", "`" + giftReady + "`",true)
                 if(ironShieldActive.has(message.author.id)){
                     embedLeader.addField("iron_shield", "`" + ((ironShieldCd * 1000 - ((new Date()).getTime() - row.ironShieldTime)) / 60000).toFixed(1) + " minutes`",true)
                 }
@@ -2876,6 +2882,8 @@ class Commands {
                                 counter += 1;
                             }
                             killLeaders[0] = killLeaders[0].replace("🏅","🏆");
+
+                            /*
                             sql.all('SELECT userId,token FROM items ORDER BY token DESC LIMIT 20').then(rows => {
                                 counter = 0;
                                 success = 0;
@@ -2902,7 +2910,7 @@ class Commands {
                                 .setFooter("Top 5")
                                 message.channel.send(embedLeader);
                             });
-                            /*
+                            */
                             const embedLeader = new Discord.RichEmbed() 
                             .setTitle(`**Global Leaderboard**`)
                             .setColor(0)
@@ -2911,7 +2919,6 @@ class Commands {
                             .addField("Kills", killLeaders, true)
                             .setFooter("Top 5")
                             message.channel.send(embedLeader);
-                            */
                         });
                         
                     });

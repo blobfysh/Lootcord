@@ -1632,7 +1632,7 @@
         "breaksOnUse": "",
         "canBeStolen": false,
         "cooldown": "",
-        "shopOrderCode": 1
+        "shopOrderCode": 8
     },
     "easter_egg": {
         "rarity": "Limited",
@@ -1657,12 +1657,12 @@
         "sell": 150,
         "desc": "Has a chance to contain `$300-$1500`!\n**Easter 2019 item**",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/562550734944731157/easter_egg.png",
-        "unboxable": true,
+        "unboxable": false,
         "icon": "<:easter_egg:562550831132704790>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
-        "shopOrderCode": 1
+        "shopOrderCode": 8
     },
     "bunny": {
         "rarity": "Limited",
@@ -1684,7 +1684,7 @@
         "sell": 200,
         "desc": "Send this rabid bunny to chomp your foes...  🐰\n**Easter 2019 item**",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/562621501241688074/067.png",
-        "unboxable": true,
+        "unboxable": false,
         "icon": "🐰",
         "breaksOnUse": true,
         "canBeStolen": true,
@@ -1693,7 +1693,7 @@
             "scoreRow": "_30mCD",
             "seconds": 1800
         },
-        "shopOrderCode": 1
+        "shopOrderCode": 8
     },
     "carrot": {
         "rarity": "Limited",
@@ -1718,7 +1718,7 @@
         "sell": 200,
         "desc": "Eat this healthy carrot to heal `17-25` HP!\n**Easter 2019 item**",
         "image": "",
-        "unboxable": true,
+        "unboxable": false,
         "icon": "🥕",
         "breaksOnUse": "",
         "canBeStolen": true,
@@ -1727,7 +1727,7 @@
             "scoreRow": "_20mHEALCD",
             "seconds": 1200
         },
-        "shopOrderCode": 1
+        "shopOrderCode": 8
     },
     "golden_egg": {
         "rarity": "Limited",
@@ -1757,7 +1757,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
-        "shopOrderCode": 1
+        "shopOrderCode": 8
     },
     "candy_egg": {
         "rarity": "Limited",
@@ -1782,7 +1782,7 @@
         "sell": 200,
         "desc": "Delicious chocolate candy eggs that heal `22-30` HP when you eat them!\n**Easter 2019 item**",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/562550732574818309/candy_egg.png",
-        "unboxable": true,
+        "unboxable": false,
         "icon": "<:candy_egg:562550819745038356>",
         "breaksOnUse": "",
         "canBeStolen": true,
@@ -1791,7 +1791,7 @@
             "scoreRow": "_20mHEALCD",
             "seconds": 1200
         },
-        "shopOrderCode": 1
+        "shopOrderCode": 8
     },
     "tnt_egg": {
         "rarity": "Limited",
@@ -1822,6 +1822,6 @@
             "scoreRow": "_30mCD",
             "seconds": 1800
         },
-        "shopOrderCode": 1
+        "shopOrderCode": 8
     }
 }

@@ -776,7 +776,6 @@ client.on("message", (message) => {
                 case 'equip': commands.equipitem(message, sql, prefix); break;
                 case 'unequip': commands.unequipitem(message, sql, prefix); break;
 
-                case 'basket': commands.basket(message, sql, prefix); break;
                 //GAMES
                 case 'trivia': commands.trivia(message, sql, triviaQ, prefix); break;
                 case 'scramble': commands.scramble(message, sql, scrambleQ, prefix); break;

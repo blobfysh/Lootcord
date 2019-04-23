@@ -1,8 +1,13 @@
-/*
+
 const Discord = require('discord.js');
-const Manager = new Discord.ShardingManager('./index.js');
+const config = require('./json/_config.json');
+//global.sql = require("sqlite").open("./score.sqlite");
+//const DBL = require("dblapi.js");
+//global.dbl = new DBL(config.dblToken, {webhookPath: '/dblwebhook', webhookPort: '5000', webhookAuth: config.dblAuth});
+const Manager = new Discord.ShardingManager('./index.js',);
 Manager.spawn(2); //2 shards
-*/
+
+/*
 let Client = require('ssh2-sftp-client');
 let sftp = new Client();
 sftp.connect({
@@ -18,8 +23,9 @@ sftp.connect({
 }).catch((err) => {
     console.log(err, 'catch error');
 });
-//Put this ftp code in a setInterval() that refreshes the file every hour
+*/
 
+/*
 function GetPalavra(msg){
     var anagrama = msg
     var palavras = "**Words**"
@@ -45,3 +51,4 @@ function GetPalavra(msg){
         message.channel.send(p.join(" "))
     }
 }
+*/
