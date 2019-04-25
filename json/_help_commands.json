@@ -314,7 +314,7 @@
 }, {
   "lookup": ["basket"],
   "command": "Basket",
-  "description": "Limited Easter 2019 event command. Gives the user a limited item and a token.",
+  "description": "Limited Easter 2019 event command. Gave the user a limited item and a token.",
   "cooldown": "",
   "example": [""],
   "usage": ["basket`"],

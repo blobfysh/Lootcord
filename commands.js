@@ -974,7 +974,7 @@ class Commands {
                     let commonTotal = 0;
                     let totalAmount = 0;
                     //THESE WILL BE USED FOR SPECIFIC FIXES (SUCH AS CHANGING NAME TO FIT ITEM ARRAYS)
-                    let itemsToCheck = methods.getitems("all", {excludeItem: "token"});
+                    let itemsToCheck = methods.getitems("all", {exclude: "limited"});
 
                     for (var i = 0; i < itemsToCheck.length; i++) {
                         if(itemRow[itemsToCheck[i]] >= 1){
