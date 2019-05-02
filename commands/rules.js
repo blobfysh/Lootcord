@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 module.exports = {
     name: 'rules',
     aliases: [''],
-    description: 'Receive a free item_box every hour!',
+    description: 'View the rules of Lootcord.',
     hasArgs: false,
     worksInDM: true,
     requiresAcc: false,

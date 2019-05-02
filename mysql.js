@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS scores (
     used_stats INT,
     status VARCHAR(255),
     banner VARCHAR(255))
-    ENGINE = InnoDB
+    ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `
 
 const createCooldownsSQL = `CREATE TABLE IF NOT EXISTS cooldowns (
@@ -134,10 +134,17 @@ const createCooldownsSQL = `CREATE TABLE IF NOT EXISTS cooldowns (
 
 function connectSQL(){
     db = mysql.createConnection({
+        /*
         host     : config.sqlhostname,
         user     : config.sqluser,
         password : config.sqlpass,
         database : config.sqldatabase,
+        */
+        host     : 'localhost',
+        user     : 'root',
+        password : 'password',
+        database : 'lootcord',
+        
         supportBigNumbers: true,
         bigNumberStrings: false,
         charset: "utf8mb4",
@@ -148,7 +155,7 @@ function connectSQL(){
         
         console.log('MySQL Connected.');
 
-        /*remove drop statements before production
+        /* remove drop statements before production
         db.query(`DROP TABLE scores`);
         db.query(`DROP TABLE items`);
         db.query(`DROP TABLE userGuilds`);
@@ -159,22 +166,22 @@ function connectSQL(){
         */
         
         
-        //create scores table (main table)
+        // create scores table (main table)
         db.query(createScoreSQL, (err, result) => {
             if(err) return console.log(err);
         });
 
-        //items table
+        // items table
         db.query(createItemsSQL, (err, result) => {
             if(err) return console.log(err);
         });
 
-        //NEW cooldowns table
+        // cooldowns table
         db.query(createCooldownsSQL, (err, result) => {
             if(err) return console.log(err);
         });
 
-        //userGuilds table for keeping track of which servers users are activated in
+        // userGuilds table for keeping track of which servers users are activated in
         db.query('CREATE TABLE IF NOT EXISTS userGuilds (userId bigint, guildId bigint) ENGINE = InnoDB', (err, result) => {
             if(err) return console.log(err);
         });

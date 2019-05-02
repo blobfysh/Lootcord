@@ -290,42 +290,58 @@
 }, {
   "lookup": ["basket"],
   "command": "Basket",
-  "description": "Limited Easter 2019 event command. Gives the user a limited item and a token.",
+  "description": "Limited Easter 2019 event command. Gave the user a limited item and a token.",
   "cooldown": "",
   "example": [""],
   "usage": ["basket`"],
   "options": ""
 }, {
-  "lookup": ["utility", "util"],
-  "command": "Utility",
-  "description": "Command used to change server settings of Lootcord using these sub-commands:\n`setprefix`, `setkillfeed`, `setlevelchannel`, `disablekillfeed`, `disablelevelchannel`",
-  "cooldown": "",
-  "example": ["utility setprefix t!","util setkillfeed"],
-  "usage": ["utility <sub-command>`"],
-  "options": ""
-}, {
   "lookup": ["setprefix","prefix"],
   "command": "Setprefix",
-  "example": ["util setprefix t!"],
+  "example": ["setprefix t!"],
   "description": "Command used to change the prefix for the server.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
-  "usage": ["util setprefix <prefix>`"],
+  "usage": ["setprefix <prefix>`"],
   "options": "`prefix` - Input to change server prefix to. Must be 1-3 characters long."
 }, {
   "lookup": ["setkillfeed","killfeed"],
   "command": "Setkillfeed",
-  "example": ["util setkillfeed"],
+  "example": ["setkillfeed"],
   "description": "Sets the current channel as the kill feed channel, will log all kills from the server in that channel.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
-  "usage": ["util setkillfeed`"],
+  "usage": ["setkillfeed`"],
   "options": ""
 }, {
   "lookup": ["setlevelchannel","levelchannel"],
   "command": "Setlevelchannel",
-  "example": ["util setlevelchannel"],
+  "example": ["setlevelchannel"],
   "description": "Set a channel to send all level up messages to.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
-  "usage": ["util setlevelchannel`"],
+  "usage": ["setlevelchannel`"],
+  "options": ""
+}, {
+  "lookup": ["setdropchan","airdrop","setdropchannel"],
+  "command": "Setdropchannel",
+  "example": ["setdropchannel"],
+  "description": "Request care_packages to be sent to the specified channel.\nServer **MUST** have atleast 5 active players.\nUser **MUST** have the Manage Server permission.",
+  "cooldown": "",
+  "usage": ["setlevelchannel`"],
+  "options": ""
+}, {
+  "lookup": ["setstatus", "status"],
+  "command": "setstatus",
+  "example": ["setstatus"],
+  "description": "Changes your status in the profile command.",
+  "cooldown": "",
+  "usage": ["setstatus <status>`"],
+  "options": "`status` - Status to set in the profile command."
+}, {
+  "lookup": ["disabledropchannel", "disabledropchan"],
+  "command": "Disabledropchannel",
+  "example": ["disabledropchannel"],
+  "description": "Stop airdrops from being sent to the server.\nUser **MUST** have the Manage Server permission.",
+  "cooldown": "",
+  "usage": ["disabledropchannel`"],
   "options": ""
 }, {
   "lookup": ["disablelevelchannel"],
@@ -333,15 +349,15 @@
   "example": ["util disablelevelchannel"],
   "description": "Removes the level channel from the server, will cause the bot to default back to replying when users level up.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
-  "usage": ["util disablelevelchannel`"],
+  "usage": ["disablelevelchannel`"],
   "options": ""
 }, {
   "lookup": ["disablekillfeed"],
   "command": "Disablekillfeed",
-  "example": ["util disablekillfeed"],
+  "example": ["disablekillfeed"],
   "description": "Stops the bot from logging all kills in the server.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
-  "usage": ["util disablekillfeed`"],
+  "usage": ["disablekillfeed`"],
   "options": ""
 }
 ]
