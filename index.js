@@ -13,7 +13,7 @@ manager.on('launch', shard => {
 
     if(shard.id == manager.totalShards - 1){
         console.log('Shards successfully loaded...');
-        
+
         //set bot status
         setTimeout(() => {
             manager.broadcastEval(`this.shard.fetchClientValues('guilds.size').then(results => {

@@ -1,6 +1,7 @@
-const Discord = require('discord.js');
+const Discord   = require('discord.js');
 const { query } = require('../mysql.js');
-const methods = require('../methods/methods.js');
+const methods   = require('../methods/methods.js');
+const globalLB  = require('../methods/global_leaderboard.js');
 
 module.exports = {
     name: 'leaderboard',
@@ -92,48 +93,15 @@ module.exports = {
             message.channel.send(embedLeader);
         }
         else{
-            const moneyRows = await query('SELECT userId,money FROM scores ORDER BY money DESC LIMIT 10');
-            const levelRows = await query('SELECT userId,level FROM scores ORDER BY level DESC LIMIT 10');
-            const killRows = await query('SELECT userId,kills FROM scores ORDER BY kills DESC LIMIT 10');
+            const leaders = await globalLB.create_lb(message.client);
 
-            for(var key in moneyRows){
-                try{
-                    var userInfo = await message.client.fetchUser(moneyRows[key].userId);
-                    leaders.push(`💵 **${userInfo.tag}**` + ' - ' + methods.formatMoney(moneyRows[key].money));
-                }
-                catch(err){
-                    //dont push user
-                }
-            }
-            for(var key in levelRows){
-                try{
-                    var userInfo = await message.client.fetchUser(levelRows[key].userId);
-                    levelLeaders.push(`🔹 **${userInfo.tag}**` + ' - Level :  ' + levelRows[key].level);
-                }
-                catch(err){
-                    //dont push user
-                }
-            }
-            for(var key in killRows){
-                try{
-                    var userInfo = await message.client.fetchUser(killRows[key].userId);
-                    killLeaders.push(`🏅 **${userInfo.tag}**` + ' - ' + killRows[key].kills + " kills");
-                }
-                catch(err){
-                    //dont push user
-                }
-            }
-
-            leaders[0] = leaders[0].replace("💵", "💰");
-            levelLeaders[0] = levelLeaders[0].replace("🔹","💠");
-            killLeaders[0] = killLeaders[0].replace("🏅","🏆");
-
+            console.log(leaders.leadersOBJ);
             const embedLeader = new Discord.RichEmbed() 
             .setTitle(`**Global Leaderboard**`)
             .setColor(0)
-            .addField("Money", leaders, true)
-            .addField("Level", levelLeaders, true)
-            .addField("Kills", killLeaders, true)
+            .addField("Money", leaders.moneyLB, true)
+            .addField("Level", leaders.levelLB, true)
+            .addField("Kills", leaders.killLB, true)
             .setFooter("Top 5")
             message.channel.send(embedLeader);
 

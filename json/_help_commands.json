@@ -331,7 +331,7 @@
   "lookup": ["setstatus", "status"],
   "command": "setstatus",
   "example": ["setstatus"],
-  "description": "Changes your status in the profile command.",
+  "description": "Changes your status in the profile command. Supports Discord unicode emoji!",
   "cooldown": "",
   "usage": ["setstatus <status>`"],
   "options": "`status` - Status to set in the profile command."
@@ -358,6 +358,14 @@
   "description": "Stops the bot from logging all kills in the server.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
   "usage": ["disablekillfeed`"],
+  "options": ""
+}, {
+  "lookup": ["link"],
+  "command": "Link",
+  "example": ["link"],
+  "description": "Sends a link to invite the bot.",
+  "cooldown": "",
+  "usage": ["link`"],
   "options": ""
 }
 ]

@@ -1,72 +1,11 @@
 const Discord = require("discord.js");
 const { query } = require('../mysql.js');
 const helpCmd = require('../json/_help_commands.json');
-const Jimp = require('jimp');
 const config = require('../json/_config.json');
 const itemdata = require("../json/completeItemList");
 const fs = require("fs");
 
 class Methods {
-    //PLAY COMMAND
-    sendlvlupmsg(message, level, levelitem){
-        query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`).then(oldRow => {
-            const guildRow = oldRow;
-
-            Jimp.read("../userImages/LvlUp.png").then(test => { //start creating levelup image
-                Jimp.read(message.author.avatarURL).then(avatar => {
-                    avatar.resize(64,64);
-                    test.quality(70);
-
-                    Jimp.loadFont("../fonts/BebasNeue37.fnt").then(font2 => {
-                        test.print(font2, 0, 0, {
-                            text: "lvl " + level,
-                            alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
-                            alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM
-                        }, 128, 144);
-                        Jimp.loadFont("../fonts/BebasNeue25.fnt").then(font => {
-                        test.print(
-                            font,
-                            0,
-                            0,
-                            {
-                            text: message.author.username.substring(0,13),
-                            alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
-                            alignmentY: Jimp.VERTICAL_ALIGN_TOP
-                            },
-                            128,
-                            144
-                        );
-                        //test.print(font, 0, 0, message.author.username);
-                        test.composite(avatar, 32, 32);
-                        test.write("../userImages/userLvl.jpeg");
-                        test.getBuffer(Jimp.AUTO, (err, buffer) => {
-                            if(err){
-                                return;
-                            }
-                            if(guildRow.levelChan !== undefined && guildRow.levelChan !== ""){
-                                message.guild.channels.get(guildRow.levelChan).send(message.author + `\nLEVEL **${level}!**\n` + "**YOU EARNED A 🌟 SKILL POINT!** Use it with the `upgrade` command." + `\n**Item received!**  ` + "`" + levelitem + "`", {
-                                    file: buffer
-                                }).catch(err => {
-                                    message.reply(`LEVEL **${level}!**\n` + "**YOU EARNED A 🌟 SKILL POINT!** Use it with the `upgrade` command." + `\n**Item received!**  ` + "`" + levelitem + "`", {
-                                        file: buffer
-                                    });
-                                });
-                            }
-                            else{
-                                message.reply(`LEVEL **${level}!**\n` + "**YOU EARNED A 🌟 SKILL POINT!** Use it with the `upgrade` command." + `\n**Item received!**  ` + "`" + levelitem + "`", {
-                                    file: buffer
-                                });
-                            }
-                        });
-                        
-                    });
-                    
-                    });
-                });
-            });
-        });
-    }
-
     //GENERAL FUNCTIONS, CAN BE USED BY MULTIPLE COMMANDS
     additem(userId, item, amount){
         query(`SELECT * FROM items WHERE userId ="${userId}"`).then(oldRow => {
@@ -1429,7 +1368,7 @@ class Methods {
         });
     }
 
-    sendlbtoweb(sql, whereToWrite = "../../lootcord.com/-page-home/leaders.json"){
+    sendlbtoweb(sql, whereToWrite = "../../../lootcord.com/-page-home/leaders.json"){
         var leaderJSON = {money: {}, level: {}, kills: {}, tokens: {}};
 
         sql.all('SELECT userId,money FROM scores ORDER BY money DESC LIMIT 20').then(rows => {
