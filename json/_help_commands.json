@@ -232,30 +232,6 @@
   "usage": ["profile`","profile <@user>`"],
   "options": "`@user` - User's profile to check."
 }, {
-  "lookup": ["vitality"],
-  "command": "💗Vitality Attribute from Upgrade",
-  "example": [""],
-  "description": "Vitality is your maximum possible health. When upgraded, your max health will be increased by 5.",
-  "cooldown": "",
-  "usage": ["upgrade`"],
-  "options": ""
-}, {
-  "lookup": ["strength"],
-  "command": "💥Strength Attribute from Upgrade",
-  "example": [""],
-  "description": "Strength affects how hard you hit. Upgrading strength increases the amount of damage you do when attacking others by 3%.",
-  "cooldown": "",
-  "usage": ["upgrade`"],
-  "options": ""
-}, {
-  "lookup": ["luck"],
-  "command": "🍀Luck Attribute from Upgrade",
-  "example": [""],
-  "description": "Luck points affect a users chance to succeed. Several commands are impacted by luck. Most notably, rare drop rates from boxes are increased.",
-  "cooldown": "",
-  "usage": ["upgrade`"],
-  "options": ""
-}, {
   "lookup": ["slot", "slots"],
   "command": "Gamble Slots",
   "example": ["gamble slots 1000"],

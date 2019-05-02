@@ -1,4 +1,4 @@
-#Bot config file with API tokens
+# Bot config file with API tokens
 json/_config.json
 
 # Data file
@@ -6,6 +6,9 @@ json/_config.json
 
 # sqlite3 exe
 sqlite3.exe
+
+# Level XP file
+Level_EXP.txt
 
 #Secret codes
 StartingTheGameCodes.txt

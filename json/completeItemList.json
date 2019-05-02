@@ -824,6 +824,12 @@
         "rarity": "Epic",
         "isWeap": false,
         "isItem": true,
+        "isShield": true,
+        "shieldInfo": {
+            "display": "120 minutes",
+            "shieldRow": "ironShieldTime",
+            "seconds": 7200
+        },
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -988,6 +994,28 @@
         "cooldown": "",
         "shopOrderCode": 5
     },
+    "care_package": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 8000,
+        "desc": "A supply drop that may infrequently land in your server after requesting them.\nCan only be looted by the first person to claim it.\nHas a chance to contain `3 - 15` items of varying quality including legendary and ultra items.",
+        "image": "https://rustlabs.com/img/screenshots/supply-drop.png",
+        "unboxable": false,
+        "icon": "<:UnboxEpic:526248961892155402>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 5
+    },
     "ultra_ammo": {
         "rarity": "Epic",
         "isWeap": false,
@@ -1077,7 +1105,7 @@
         "maxDmg": 70,
         "isAmmo": [],
         "ammo": [
-            "bmg_50cal",
+            "50_cal",
             "rifle_bullet"
         ],
         "craftedWith": "",
@@ -1091,7 +1119,7 @@
         },
         "buy": "",
         "sell": 2700,
-        "desc": "A bolt-action sniper rifle that deals extremely high damage with good accuracy.\nWill use `bmg_50cal` if you have it in your inventory.",
+        "desc": "A bolt-action sniper rifle that deals extremely high damage with good accuracy.\nWill use `50_cal` if you have it in your inventory.",
         "image": "https://cdn.discordapp.com/attachments/454163538886524928/555084994532343818/lootcordAwp.png",
         "unboxable": true,
         "icon": "<:UnboxLegendary:526248970914234368>",
@@ -1108,6 +1136,12 @@
         "rarity": "Legendary",
         "isWeap": false,
         "isItem": true,
+        "isShield": true,
+        "shieldInfo": {
+            "display": "8 hours",
+            "shieldRow": "goldShieldTime",
+            "seconds": 28800
+        },
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -1270,7 +1304,7 @@
         },
         "shopOrderCode": 6
     },
-    "bmg_50cal": {
+    "50_cal": {
         "rarity": "Legendary",
         "isWeap": false,
         "isItem": false,
@@ -1465,6 +1499,9 @@
         "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
+        "givesMoneyOnUse": true,
+        "itemMin": 500,
+        "itemMax": 2000,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -1473,8 +1510,8 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 200,
-        "desc": "Has a chance to contain `$500-$2000`, or a lump of coal...\n**Christmas 2018 item**",
+        "sell": 700,
+        "desc": "Has a chance to contain `$500-$2000`\n**Christmas 2018 item**",
         "image": "",
         "unboxable": false,
         "icon": "🎁",
@@ -1594,6 +1631,12 @@
         "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
+        "isShield": true,
+        "shieldInfo": {
+            "display": "30 minutes",
+            "shieldRow": "mittenShieldTime",
+            "seconds": 1800
+        },
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -1632,7 +1675,7 @@
         "breaksOnUse": "",
         "canBeStolen": false,
         "cooldown": "",
-        "shopOrderCode": 1
+        "shopOrderCode": 8
     },
     "easter_egg": {
         "rarity": "Limited",
@@ -1662,7 +1705,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
-        "shopOrderCode": 1
+        "shopOrderCode": 8
     },
     "bunny": {
         "rarity": "Limited",
@@ -1693,7 +1736,7 @@
             "scoreRow": "_30mCD",
             "seconds": 1800
         },
-        "shopOrderCode": 1
+        "shopOrderCode": 8
     },
     "carrot": {
         "rarity": "Limited",
@@ -1727,7 +1770,7 @@
             "scoreRow": "_20mHEALCD",
             "seconds": 1200
         },
-        "shopOrderCode": 1
+        "shopOrderCode": 8
     },
     "golden_egg": {
         "rarity": "Limited",
@@ -1757,7 +1800,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
-        "shopOrderCode": 1
+        "shopOrderCode": 8
     },
     "candy_egg": {
         "rarity": "Limited",
@@ -1791,7 +1834,7 @@
             "scoreRow": "_20mHEALCD",
             "seconds": 1200
         },
-        "shopOrderCode": 1
+        "shopOrderCode": 8
     },
     "tnt_egg": {
         "rarity": "Limited",
@@ -1822,6 +1865,116 @@
             "scoreRow": "_30mCD",
             "seconds": 1800
         },
-        "shopOrderCode": 1
+        "shopOrderCode": 8
+    },
+
+    "recruit": {
+        "rarity": "Common",
+        "isBanner": true,
+        "bannerColor": 720640,
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 100,
+        "desc": "Given when you create an account! Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971708585050133/pixelbnner.png",
+        "equippable": "true",
+        "unboxable": false,
+        "icon": "<:UnboxCommon:526248905676029968>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "shopOrderCode": 2
+    },
+    "looter": {
+        "rarity": "Uncommon",
+        "isBanner": true,
+        "bannerColor": 16761856,
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 5000,
+            "currency": "money"
+        },
+        "sell": 600,
+        "desc": "Inventory banner that can only be bought. Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971770098843668/pixelbnner2good-Recovered.png",
+        "equippable": "true",
+        "unboxable": false,
+        "icon": "<:UnboxUncommon:526248928891371520>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "shopOrderCode": 3
+    },
+    "killer": {
+        "rarity": "Rare",
+        "isBanner": true,
+        "bannerColor": 16734464,
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 15000,
+            "currency": "money"
+        },
+        "sell": 1000,
+        "desc": "Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971821483261953/pixelbnner3stronk.png",
+        "equippable": "true",
+        "unboxable": false,
+        "icon": "<:UnboxRare:526248948579434496>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "shopOrderCode": 4
+    },
+    "hitman": {
+        "rarity": "Legendary",
+        "isBanner": true,
+        "bannerColor": 16761204,
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 25000,
+            "currency": "money"
+        },
+        "sell": 2500,
+        "desc": "For only the best. Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971878873923599/pixelbnner4HITMAN.png",
+        "equippable": "true",
+        "unboxable": false,
+        "icon": "<:UnboxLegendary:526248970914234368>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "shopOrderCode": 6
     }
 }

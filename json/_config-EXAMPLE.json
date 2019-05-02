@@ -1,9 +1,0 @@
-{
-  "botToken": "bot token here",
-  "dblToken": "discord bots list API token",
-  "dblAuth": "Authentication code for dbl voting webhook",
-  "debug": "true/false | true - prevents bot from sending guild count to dbl.org, false - sends data",
-  "encryptionAuth": "Authentication for encrpyting users inventories and decoding encyptions using AES",
-  "logChannel": "ID of channel to send logs to ie. trade logs, kill logs, cooldown dodgers.",
-  "modChannel": "ID of channel where moderators can use mod-only commands. Good for allowing admins to monitor moderators."
-}
