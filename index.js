@@ -5,6 +5,7 @@ const manager = new Discord.ShardingManager('./app.js', {
 });
 const { connectSQL, query } = require('./mysql.js');
 const voteHandler = require('./utils/votes.js').votingManager(manager); // Handles DBL webhooks
+const testAPI = require('./utils/testAPI.js');
 
 manager.spawn(3);
 

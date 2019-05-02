@@ -6,6 +6,8 @@
 *
 */
 
+const Discord    = require('discord.js');
+const client     = new Discord.Client();
 const express    = require('express');
 const bodyParser = require('body-parser');
 const config     = require('../json/_config.json');
@@ -15,7 +17,7 @@ const app        = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-exports.getLbRequests = async (client) => {
+client.on('ready', async () => {
     const leaders = await globalLB.create_lb(client);
 
     app.post('/api/leaderboard', (req, res) => {
@@ -33,4 +35,6 @@ exports.getLbRequests = async (client) => {
     app.listen(5001, () => {
         console.log(`API running on port 5001`);
     });
-}
+});
+
+client.login(config.botToken);

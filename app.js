@@ -79,10 +79,6 @@ client.on('error', (err) => {
 
 client.on('ready', () => {
     console.log(`Launched shard ${client.shard.id}`);
-    
-    if(client.shard.id === 0){
-        const testAPI = require('./utils/testAPI.js').getLbRequests(client);
-    }
 
     if(config.debug == false){
         setInterval(() => {
