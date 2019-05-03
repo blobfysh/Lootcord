@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql  = require('mysql');
 const config = require('./json/_config.json');
 
 var db;
@@ -102,7 +102,8 @@ CREATE TABLE IF NOT EXISTS scores (
     ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `
 
-const createCooldownsSQL = `CREATE TABLE IF NOT EXISTS cooldowns (
+const createCooldownsSQL = `
+CREATE TABLE IF NOT EXISTS cooldowns (
     userId BIGINT,
     healTime BIGINT,
     attackTime BIGINT,
@@ -130,7 +131,8 @@ const createCooldownsSQL = `CREATE TABLE IF NOT EXISTS cooldowns (
     _10mHEALCD BIGINT,
     _20mHEALCD BIGINT,
     _40mHEALCD BIGINT)
-    ENGINE = InnoDB`
+    ENGINE = InnoDB
+`
 
 function connectSQL(){
     db = mysql.createConnection({

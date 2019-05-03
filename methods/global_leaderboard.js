@@ -29,8 +29,8 @@ exports.create_lb = async function(client){
                 avatar: userInfo.avatarURL
             };
         }
-        catch(err){
-            //dont push user
+        catch(me){
+            // if you can...
         }
     }
     for(var key in levelRows){
@@ -44,7 +44,7 @@ exports.create_lb = async function(client){
             };
         }
         catch(err){
-            //dont push user
+
         }
     }
     for(var key in killRows){
@@ -58,7 +58,7 @@ exports.create_lb = async function(client){
             };
         }
         catch(err){
-            //dont push user
+            
         }
     }
 

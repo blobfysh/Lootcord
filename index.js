@@ -35,17 +35,3 @@ process.on('exit', () => {
     console.log('Ending process...');
     manager.broadcastEval('process.exit(0)');
 });
-
-function refreshAirdrops(){
-    // Decided to move this into each shard's start-up instead of here because it might take long for all the shards to launch and this code has to wait until all shards have launched before it can give users cooldowns.
-    
-    query(`SELECT * FROM guildInfo`).then(rows => {
-        let airdropsCalled = 0;
-        rows.forEach((guild) => {
-            if(guild.guildId !== undefined && guild.guildId !== null && guild.dropChan !== 0){
-                airdropper.initAirdrop(client, guild.guildId);
-            }
-        });
-        console.log(airdropsCalled + " airdrops called.")
-    });
-}
