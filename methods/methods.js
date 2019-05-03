@@ -583,12 +583,13 @@ class Methods {
                     return message.reply(lang.errors[2]);
                 }
 
-                let itemsOpened = [];
+                let itemsOpened    = [];
                 let multiItemArray = [];
-                let pureItemArray = [];
-                let lastItem = "";
-                let lastRarity = "";
-                let lastQual = "";
+                let pureItemArray  = [];
+                let lastItem       = "";
+                let lastRarity     = "";
+                let lastQual       = "";
+                let xpToAdd        = 0;
 
                 if(type == "item_box"){
                     for(var i = 0; i < amount; i++){
@@ -606,6 +607,7 @@ class Methods {
                             lastRarity = 10197915;
                             lastQual = "common";
                             
+                            xpToAdd += 10;
                         }
                         else if(chance <= 175){                              //UNCOMMON ITEMS 35% chance
                             let newuncommonItems = this.getitems("uncommon", {type: "unboxable", exclude: ["ammo"]});
@@ -616,6 +618,8 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 4755200;
                             lastQual = "uncommon";
+
+                            xpToAdd += 15;
                         }
                         else if(chance <= 190){                              //RARE ITEMS 12% chance
                             let newRareItems = this.getitems("rare", {type: "unboxable", exclude: ["ammo"]});
@@ -626,6 +630,8 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 30463;
                             lastQual = "rare";
+
+                            xpToAdd += 30;
                         }
                         else if(chance <= 199){                              //EPIC ITEMS  2% chance
                             let newEpicItems = this.getitems("epic", {type: "unboxable", exclude: ["ammo"]});
@@ -636,6 +642,8 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 12390624;
                             lastQual = "epic";
+
+                            xpToAdd += 50;
                         }
                         else{
                             let newLegendItems = this.getitems("legendary", {type: "unboxable", exclude: ["ammo"]});
@@ -646,13 +654,15 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 16312092;
                             lastQual = "legendary";
+
+                            xpToAdd += 80;
                         }
                     }
                     query(`UPDATE items SET item_box = ${row.item_box - amount} WHERE userId = ${message.author.id}`);
                 }
                 else if(type == "ultra_box"){
                     for(var i = 0; i < amount; i++){
-                        let chance = Math.floor(Math.random() * 201) + (row.luck * 2) //1-200
+                        let chance = Math.floor(Math.random() * 201) + Math.floor(row.luck * 1.5) //1-200
                         let rand = "";
 
                         if(chance <= 132){                               //RARE ITEMS 65% chance
@@ -665,6 +675,7 @@ class Methods {
                             lastRarity = 30463;
                             lastQual = "rare";
 
+                            xpToAdd += 35;
                         }
 
                         else if(chance <= 178){                                //EPIC ITEMS  23% chance
@@ -676,9 +687,11 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 12390624;
                             lastQual = "epic";
+
+                            xpToAdd += 55;
                         }
 
-                        else if(chance <= 199){
+                        else if(chance <= 200){
                             let newLegendItems = this.getitems("legendary", {type: "unboxable", exclude: ["ammo"]});
                             rand = newLegendItems[Math.floor(Math.random() * newLegendItems.length)];   //LEGENDARY ITEMS 10.5% chance
                             multiItemArray.push("<:UnboxLegendary:526248970914234368> `" + rand + "`");
@@ -687,6 +700,8 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 16312092;
                             lastQual = "legendary";
+
+                            xpToAdd += 85;
                         }
                         else{
                             //ultra item here
@@ -698,6 +713,8 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 16711778;
                             lastQual = "ultra";
+
+                            xpToAdd += 125;
                         }
                     }
                     query(`UPDATE items SET ultra_box = ${row.ultra_box - amount} WHERE userId = ${message.author.id}`);
@@ -716,6 +733,8 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 10197915;
                             lastQual = "common";
+
+                            xpToAdd += 15;
                         }
                         else if(chance <= 72){                               //UNCOMMON AMMO 30% chance
                             let newUncommonAmmo = this.getitems("uncommon", {type: "ammo", type2: "unboxable"});
@@ -726,6 +745,8 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 4755200;
                             lastQual = "uncommon";
+
+                            xpToAdd += 20;
                         }
 
                         else if(chance <= 94){                               //RARE AMMO 20% chance
@@ -737,6 +758,8 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 30463;
                             lastQual = "rare";
+
+                            xpToAdd += 35;
                         }
 
                         else if(chance <= 98) {                                //EPIC AMMO  8% chance
@@ -748,6 +771,8 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 12390624;
                             lastQual = "epic";
+
+                            xpToAdd += 55;
                         }
                         else{                                                  //LEGENDARY AMMO 2% chance
                             let newLegendAmmo = this.getitems("legendary", {type: "ammo", type2: "unboxable"});
@@ -758,6 +783,8 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 16312092;
                             lastQual = "legendary";
+
+                            xpToAdd += 85;
                         }
                     }
                     query(`UPDATE items SET ammo_box = ${row.ammo_box - amount} WHERE userId = ${message.author.id}`);
@@ -776,6 +803,8 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 4755200;
                             lastQual = "uncommon";
+
+                            xpToAdd += 25;
                         }
 
                         else if(chance <= 60){                               //RARE AMMO 50% chance
@@ -787,6 +816,8 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 30463;
                             lastQual = "rare";
+
+                            xpToAdd += 40;
                         }
 
                         else if(chance <= 90) {                                //EPIC AMMO  30% chance
@@ -798,6 +829,8 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 12390624;
                             lastQual = "epic";
+
+                            xpToAdd += 60;
                         }
                         else{                                                  //LEGENDARY AMMO 10% chance
                             let newLegendAmmo = this.getitems("legendary", {type: "ammo", type2: "unboxable"});
@@ -808,6 +841,8 @@ class Methods {
                             lastItem = rand;
                             lastRarity = 16312092;
                             lastQual = "legendary";
+
+                            xpToAdd += 90;
                         }
                     }
                     query(`UPDATE items SET ultra_ammo = ${row.ultra_ammo - amount} WHERE userId = ${message.author.id}`);
@@ -821,12 +856,14 @@ class Methods {
                     //counts[key] is the item amount in array
                     query(`UPDATE items SET ${key} = ${row[key] + counts[key]} WHERE userId = ${message.author.id}`);
                 });
+                query(`UPDATE scores SET points = ${row.points + xpToAdd} WHERE userId = ${message.author.id}`);
                 
                 const embedInfo = new Discord.RichEmbed()
                 .setAuthor(message.member.displayName, message.author.avatarURL)
                 .setColor(lastRarity)
                 if(amount == 1){
                     embedInfo.setTitle(itemsOpened);
+                    embedInfo.setFooter('⭐ ' + xpToAdd + ' XP earned!')
                     if(itemdata[lastItem].image != ""){
                         embedInfo.setImage(itemdata[lastItem].image);
                     }
@@ -835,8 +872,9 @@ class Methods {
                     }
                 }
                 else{
+                    embedInfo.setFooter('⭐ ' + xpToAdd + ' XP earned!');
                     embedInfo.setDescription(multiItemArray);
-                    embedInfo.setFooter(amount + " boxes opened.");
+                    embedInfo.setTitle(amount + " boxes opened.");
                 }
                 message.channel.send(embedInfo);
             });

@@ -39,7 +39,7 @@ for(const file of commandFiles){
 var prefix = config.prefix;
 
 client.on('message', message => {
-    if(message.author.bot && message.author.id !== message.client.user.id) return;
+    if(message.author.bot && message.author.id !== message.client.user.id || message.author.bot && message.channel.type == 'dm') return;
     if(message.client.sets.bannedUsers.has(message.author.id)) return;
 
     const lang = languages['en_us']; // selects language to use.
@@ -74,7 +74,12 @@ client.on("guildDelete", (guild) => {
 });
 
 client.on('error', (err) => {
-    console.log('Random error: ' + err);
+    console.log(err);
+});
+
+client.on('disconnect', (err) => {
+    console.log(err);
+    client.destroy().then(client.login(config.botToken));
 });
 
 client.on('ready', () => {

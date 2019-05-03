@@ -3,9 +3,9 @@ const methods   = require('./methods.js');
 const { query } = require('../mysql.js');
 
 exports.create_lb = async function(client){
-    const moneyRows = await query('SELECT userId, money FROM scores ORDER BY money DESC LIMIT 10');
-    const levelRows = await query('SELECT userId, level FROM scores ORDER BY level DESC LIMIT 10');
-    const killRows  = await query('SELECT userId, kills FROM scores ORDER BY kills DESC LIMIT 10');
+    const moneyRows = await query('SELECT userId, money FROM scores ORDER BY money DESC LIMIT 5');
+    const levelRows = await query('SELECT userId, level FROM scores ORDER BY level DESC LIMIT 5');
+    const killRows  = await query('SELECT userId, kills FROM scores ORDER BY kills DESC LIMIT 5');
 
     var leaders      = [];
     var levelLeaders = [];

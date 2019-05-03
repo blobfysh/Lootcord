@@ -95,7 +95,6 @@ module.exports = {
         else{
             const leaders = await globalLB.create_lb(message.client);
 
-            console.log(leaders.leadersOBJ);
             const embedLeader = new Discord.RichEmbed() 
             .setTitle(`**Global Leaderboard**`)
             .setColor(0)
@@ -103,9 +102,9 @@ module.exports = {
             .addField("Level", leaders.levelLB, true)
             .addField("Kills", leaders.killLB, true)
             .setFooter("Top 5")
-            message.channel.send(embedLeader);
 
-            return;
+            return message.channel.send(embedLeader);
+            
         }
     },
 }

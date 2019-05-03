@@ -31,9 +31,37 @@ client.on('ready', () => {
         }
     });
 
+    /* 
+    *  This DOES work for receiving dbl votes without use of the dblapi.js library,
+    *  may switch to this in the future but for now I'm going to keep the vote handling in a separate file.
+    * 
+    app.post(config.dblWebhookPath, async (req, res) => {
+        if(req.headers.authorization == config.dblAuth){
+            
+            try{
+                const voter = await client.users.get(req.body.user);
+
+                voter.send('Nice I received a vote from ' + req.body.user);
+            }
+            catch(err){
+                console.log('ERROR GETTING USER: ' + err);
+            }
+
+            res.status(200).send('Successfully received vote!');
+        }
+        else{
+            res.status(400).send('Could not authorize vote.');
+        }
+    });
+    */
+
     app.listen(5001, () => {
         console.log(`API running on port 5001`);
     });
+});
+
+client.on('error', (err) => {
+    console.log('Error with Discord connection in the API: ' + err);
 });
 
 client.login(config.botToken);

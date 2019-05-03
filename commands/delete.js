@@ -37,7 +37,10 @@ module.exports = {
                             if(channel){
                                 channel.send({embed: {
                                         color: 16636672,
-                                        title: "⛔ Account deleted",
+                                        author: {
+                                            name: "⛔ Account deleted"
+                                        },
+                                        title: "${message.author.username} : ${message.author.id}",
                                         description: "User inventory code prior to deletion:\`\`\`${userCode.invCode}\`\`\`",
                                     }
                                 });
@@ -57,6 +60,22 @@ module.exports = {
 
                     message.client.shard.broadcastEval(`this.sets.activeShield.delete('${message.author.id}');
                     this.sets.deleteCooldown.add('${message.author.id}');
+                    `);
+
+                    message.client.shard.broadcastEval(`
+                        this.shieldTimes.forEach(arrObj => {
+            
+                            if(arrObj.userId == ${message.author.id}){
+                                //stop the timer
+                                clearTimeout(arrObj.timer);
+                    
+                                //remove from airdropTimes array
+                                this.shieldTimes.splice(this.shieldTimes.indexOf(arrObj), 1);
+                    
+                                console.log('canceled a timeout');
+                            }
+                    
+                        });
                     `);
 
                     setTimeout(() => {
