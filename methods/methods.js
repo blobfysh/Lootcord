@@ -1324,7 +1324,8 @@ class Methods {
     }
 
 
-    //NOT USED BY ANY COMMAND, can be called with eval
+    // NOT USED BY ANY COMMAND, can be called with eval
+    // These are not updated to work with sharding, and might not function as intended
     addtoJSON(jsonFile){
         Object.keys(jsonFile).forEach(key => {
             if(jsonFile[key].rarity == "Common"){
@@ -1365,79 +1366,6 @@ class Methods {
                 guildsArr: userGuilds,
                 count: servers
             }
-        });
-    }
-
-    sendlbtoweb(sql, whereToWrite = "../../../lootcord.com/-page-home/leaders.json"){
-        var leaderJSON = {money: {}, level: {}, kills: {}, tokens: {}};
-
-        sql.all('SELECT userId,money FROM scores ORDER BY money DESC LIMIT 20').then(rows => {
-            let counter = 0;
-            let success = 0;
-            while(success < 5){
-                try{
-                    leaderJSON.money[client.users.get(rows[counter].userId).username] = {data: this.formatMoney(rows[counter].money), avatar: client.users.get(rows[counter].userId).avatarURL};
-                    success += 1;
-                }
-                catch(err){
-                    if(counter >= 20){
-                        break;
-                    }
-                }
-                counter += 1;
-            }
-            sql.all('SELECT userId,level FROM scores ORDER BY level DESC LIMIT 20').then(lvlRows => {
-                counter = 0;
-                success = 0;
-                while(success < 5){
-                    try{
-                        leaderJSON.level[client.users.get(lvlRows[counter].userId).username] = {data: lvlRows[counter].level, avatar: client.users.get(lvlRows[counter].userId).avatarURL};
-                        success += 1;
-                    }
-                    catch(err){
-                        if(counter >= 20){
-                            break;
-                        }
-                    }
-                    counter += 1;
-                }
-                sql.all('SELECT userId,kills FROM scores ORDER BY kills DESC LIMIT 20').then(rows => {
-                    counter = 0;
-                    success = 0;
-                    while(success < 5){
-                        try{
-                            leaderJSON.kills[client.users.get(rows[counter].userId).username] = {data: rows[counter].kills, avatar: client.users.get(rows[counter].userId).avatarURL};
-                            success += 1;
-                        }
-                        catch(err){
-                            if(counter >= 20){
-                                break;
-                            }
-                        }
-                        counter += 1;
-                    }
-                    sql.all('SELECT userId,token FROM items ORDER BY token DESC LIMIT 20').then(rows => {
-                        counter = 0;
-                        success = 0;
-                        while(success < 5){
-                            try{
-                                leaderJSON.tokens[client.users.get(rows[counter].userId).username] = {data: rows[counter].token, avatar: client.users.get(rows[counter].userId).avatarURL};
-                                success += 1;
-                            }
-                            catch(err){
-                                if(counter >= 20){
-                                    break;
-                                }
-                            }
-                            counter += 1;
-                        }
-                        
-                        fs.writeFile(whereToWrite,JSON.stringify(leaderJSON, null, 4), function(err) {
-                            console.log("complete");
-                        });
-                    });
-                });
-            });
         });
     }
 }

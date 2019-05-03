@@ -134,17 +134,16 @@ const createCooldownsSQL = `CREATE TABLE IF NOT EXISTS cooldowns (
 
 function connectSQL(){
     db = mysql.createConnection({
-        /*
         host     : config.sqlhostname,
         user     : config.sqluser,
         password : config.sqlpass,
         database : config.sqldatabase,
-        */
+        /*
         host     : 'localhost',
         user     : 'root',
         password : 'password',
         database : 'lootcord',
-        
+        */
         supportBigNumbers: true,
         bigNumberStrings: false,
         charset: "utf8mb4",

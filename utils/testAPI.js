@@ -17,10 +17,8 @@ const app        = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-client.on('ready', async () => {
-    const leaders = await globalLB.create_lb(client);
-
-    app.post('/api/leaderboard', (req, res) => {
+client.on('ready', () => {
+    app.post('/api/leaderboard', async (req, res) => {
         if(!req.body.apiAuth){
             return res.status(400).send('Missing authorization!');
         }
@@ -28,6 +26,7 @@ client.on('ready', async () => {
             return res.status(400).send('Invalid authorization!');
         }
         else{
+            const leaders = await globalLB.create_lb(client);
             res.status(200).send(leaders.leadersOBJ);
         }
     });

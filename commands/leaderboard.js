@@ -14,9 +14,9 @@ module.exports = {
     adminOnly: false,
     
     async execute(message, args, lang, prefix){
-        var leaders = [];
+        var leaders      = [];
         var levelLeaders = [];
-        var killLeaders = [];
+        var killLeaders  = [];
         var tokenLeaders = [];
 
         if(message.content.startsWith(prefix+"leaderboard s") || message.content.startsWith(prefix+"lb s")){

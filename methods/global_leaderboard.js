@@ -1,5 +1,5 @@
-const Discord = require('discord.js');
-const methods = require('./methods.js');
+const Discord   = require('discord.js');
+const methods   = require('./methods.js');
 const { query } = require('../mysql.js');
 
 exports.create_lb = async function(client){
