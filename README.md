@@ -5,7 +5,7 @@
     <a href="https://discordbots.org/bot/493316754689359874"><img src="https://discordbots.org/api/widget/upvotes/493316754689359874.svg"/></a>
     <a href="https://discordbots.org/bot/493316754689359874"><img src="https://discordbots.org/api/widget/servers/493316754689359874.svg"/></a>
   </p>
-  <h1 align="center">Collect items and battle your friends!</h1>
+  <h3 align="center"><strong>Collect items and battle your friends!</strong></h3>
 </div>
 
 ## About
