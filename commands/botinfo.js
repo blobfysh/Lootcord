@@ -1,5 +1,6 @@
-const Discord = require('discord.js');
+const Discord     = require('discord.js');
 const { version } = require('../package.json');
+const botInfo     = require('../json/_update_info.json');
 
 module.exports = {
     name: 'update',
@@ -24,7 +25,7 @@ module.exports = {
         .setTitle(`<:update:264184209617321984>**Lootcord Update Info**`)
         .setColor(13215302)
         .setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/529555281391386629/lc_icon.png")
-        .setDescription("Bot has been rewritten, we've moved over to a new DBMS which has caused inventories to be wiped. **HOWEVER,** we will try restore anyones inventory who contacts us by messaging the bot.")
+        .setDescription(botInfo.info)
         .addField("Users",(usersCount),true)
         .addField("Active Servers",guildsCount, true)
         .addField("Version", "`" + version +"`", true)

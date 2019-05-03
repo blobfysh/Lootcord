@@ -1,7 +1,7 @@
 {
   "info": [
-    "Ended easter event :(",
-	"🔹`basket` command removed",
+    "Bot has been rewritten, we've moved over to a new DBMS which has caused inventories to be wiped. **HOWEVER,** we will try restore anyones inventory who contacts us by messaging the bot.",
+	  "🔹`basket` command removed",
     "🔹`sellall` now ignores limited items.",
     "🔹Working on adding more backpacks, making shields unequippable.",
     "🔹Be sure to save those tokens!",
