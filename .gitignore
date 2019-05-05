@@ -1,5 +1,11 @@
-# Bot config file with API tokens
+# Bot config file
 json/_config.json
+
+# Trivia json to prevent cheating
+json/_trivia_questions.json
+
+# Scramble json to prevent cheating
+json/scramble_words.json
 
 # Data file
 *.sqlite
