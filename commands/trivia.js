@@ -30,18 +30,16 @@ module.exports = {
                 let chance = Math.floor(Math.random() * Object.keys(triviaQ).length); //returns value 0 between LENGTH OF JSON FILE (1 of 10)               |   JSON FILE HAS 547 QUESTIONS AVAILABLE
 
                 let questionInfo = triviaQ[chance].question;
-                let questionA = triviaQ[chance].A;
-                let questionB = triviaQ[chance].B;
-                let questionC = triviaQ[chance].C;
-                let questionD = triviaQ[chance].D;
+                let questionA = triviaQ[chance].a;
+                let questionB = triviaQ[chance].b;
+                let questionC = triviaQ[chance].c;
+                let questionD = triviaQ[chance].d;
 
-                const embedTrivia = new Discord.RichEmbed() 
-                .setDescription(`**${questionInfo}**`)
+                const embedTrivia = new Discord.RichEmbed()
+                .setAuthor('Category - ' + triviaQ[chance].category)
+                .setTitle(questionInfo)
                 .setColor(16777215)
-                .addField("A: ", questionA)
-                .addField("B: ", questionB)
-                .addField("C: ", questionC)
-                .addField("D: ", questionD)
+                .setDescription(`🇦: ${questionA}\n🇧: ${questionB}\n🇨: ${questionC}\n🇩: ${questionD}`)
                 .setFooter(lang.trivia[0])
 
                 message.channel.send(embedTrivia).then(botMessage => {
@@ -71,8 +69,8 @@ module.exports = {
                                         rewardItem = "`$1000`";
                                         query(`UPDATE scores SET money = ${rewardRow[0].money + 1000} WHERE userId = ${message.author.id}`);
                                     }
-                                    const embedReward = new Discord.RichEmbed() 
-                                    .setDescription(`**${eval(`triviaQ[chance].` + triviaQ[chance].answer).toUpperCase()} IS CORRECT**`)
+                                    const embedReward = new Discord.RichEmbed()
+                                    .setTitle(`${(triviaQ[chance][triviaQ[chance].correct_answer]).toUpperCase()} IS CORRECT`)
                                     .setColor(720640)
                                     .addField("Reward", rewardItem)
                                     botMessage.edit(embedReward);
@@ -80,25 +78,25 @@ module.exports = {
                             });
                         }
 
-                        if(reaction.emoji.name === '🇦' && triviaQ[chance].answer == "A"){
+                        if(reaction.emoji.name === '🇦' && triviaQ[chance].correct_answer == "a"){
                             
                             triviaReward();
                         }
-                        else if(reaction.emoji.name === '🇧' && triviaQ[chance].answer == "B"){
+                        else if(reaction.emoji.name === '🇧' && triviaQ[chance].correct_answer == "b"){
                             
                             triviaReward();
                         }
-                        else if(reaction.emoji.name === '🇨' && triviaQ[chance].answer == "C"){
+                        else if(reaction.emoji.name === '🇨' && triviaQ[chance].correct_answer == "c"){
                             
                             triviaReward();
                         }
-                        else if(reaction.emoji.name === '🇩' && triviaQ[chance].answer == "D"){
+                        else if(reaction.emoji.name === '🇩' && triviaQ[chance].correct_answer == "d"){
                             
                             triviaReward();
                         }
                         else{
                             const embedWrong = new Discord.RichEmbed() 
-                            .setDescription(`**INCORRECT**`)
+                            .setTitle('INCORRECT')
                             .setColor(13632027)
                             .addField("Reward", "`shame`")
                             botMessage.edit(embedWrong);
