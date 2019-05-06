@@ -1,11 +1,43 @@
 {
   "info": [
-    "Bot has been rewritten, we've moved over to a new DBMS which has caused inventories to be wiped. **HOWEVER,** we will try restore anyones inventory who contacts us by messaging the bot.",
-	  "🔹`basket` command removed",
-    "🔹`sellall` now ignores limited items.",
-    "🔹Working on adding more backpacks, making shields unequippable.",
-    "🔹Be sure to save those tokens!",
-    "🔸Send bugs or feature ideas to us through the bots DM's",
-    "🔸If you like the bot, be sure to tell all your friends about it! :)"
+    [
+      "🔹 **The ability to unequip shields with the `unequip` command.**",
+      "Unequipping shields will give you a 60 minute attack cooldown to prevent users from unequipping their shield bopping someone"
+    ],
+    [
+      "🔹 **Better trivia questions**",
+      "These new questions aren't insanely obscure and difficult like the previous."
+    ],
+    [
+      "🔹 **Airdrops!**",
+      "Random airdrops carrying a new item `care_package` will occasionally drop in a servers channel! Open the `care_package` to receive 3-15 items with a high chance for legendary items. Currently only available to players in the official Lootcord server, but expect this to be released to all servers after we're finished testing it."
+    ],
+    [
+      "🔹 **Cooldowns are now persistent after account deletion.**",
+      "No more \"`[REDACTED]`\" and \"`-12315431` minutes\""
+    ],
+    [
+      "🔹 *New* inventory **banners** that can be equipped and unequipped.",
+      "Everyone will start with the recruit banner but you can buy more with the buy command. Check information for a banner using the `item` command, they are treated the same as items except: **They don't take inventory space** and **they don't show in your inventory, instead they are displayed in the `profile` command.** Right now the only banners available are: `recruit`, `looter`, `killer`, and `hitman` but there's room for more in the future."
+    ],
+    [
+      "🔹 *New* **profile status.**",
+      "I felt like the profile command didn't have much purpose so what better than to allow everyone to express themselves on their profile! Change your status with the `setstatus` command, it even supports unicode emoji 😃"
+    ],
+    [
+      "🔹 **XP no longer rewarded per message sent.**",
+      "Instead, XP will be given for every box opened and kills. The XP you get from the box depends on: **what item you get from the box**, and **the type of box opened**. Keep in mind `xp_potion`'s are still a thing. Why change this??? To add more incentive to opening lower-tier boxes and discourage spamming."
+    ],
+    [
+      "🔹***\"HOLD UP, MY ACCOUNT WAS DELETED?!?!?!\"***",
+      "Don't worry, this is a side effect of moving to a new database, **IF YOU'D LIKE YOUR ACCOUNT RESTORED, MESSAGE THE BOT**"
+    ]
+  ],
+  "desc": [
+    "🔹 **Bot has been rewritten, is now sharded, and uses a new database!**",
+    "🔹 **Source code is public on github: **https://github.com/blobfysh/Lootcord",
+    "🔹 ***\"MY ACCOUNT WAS DELETED??\"*** This is a result of the new database, **WE ARE RESTORING ACCOUNTS FOR ANYONE WHO MESSAGES THE BOT**",
+    "🔹 The update notes were a little too long to fit in this command, if you'd like to see the in-depth update notes use the `update-info` command.",
+    "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
 }
