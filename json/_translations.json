@@ -29,7 +29,12 @@
 	],
 	"help": [
 		"{0} - Creates an account!",
-		"{0} - Attack users with weapons or use items on self."
+		"{0} - Attack users with weapons or use items on self.",
+		"⚔ Items",
+		"🎲 Games/Free stuff",
+		"📈 Other",
+		"⚙ Utility",
+		"To see more about a command, use {0}help <command> | Need more help? Message me!"
 	],
 	"inventory": [
 		"`{0} xp until level {1}`",

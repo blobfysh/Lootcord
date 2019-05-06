@@ -47,13 +47,13 @@ module.exports = {
 
         const helpInfo = new Discord.RichEmbed()
         .setTitle(lang.help[0].replace('{0}', `\`${prefix}play\``))
-        .addField("⚔ Items", itemsString, true)
-        .addField("🎲 Games/Free stuff", gamesString, true)
+        .addField(lang.help[2], itemsString, true)
+        .addField(lang.help[3], gamesString, true)
         //.addField("🔰Stats", ,true)
-        .addField("📈 Other", otherCmds.join(" "),true)
-        .addField("⚙ Utility", utilities.join(" "),true)
+        .addField(lang.help[4], otherCmds.join(" "),true)
+        .addField(lang.help[5], utilities.join(" "),true)
         .setColor(13215302)
-        .setFooter("To see more about a command, use "+prefix+"help <command> | Need more help? Message me!")
+        .setFooter(lang.help[6].replace('{0}', prefix))
         
         message.channel.send(helpInfo);
     },
