@@ -75,7 +75,8 @@ CREATE TABLE IF NOT EXISTS items (
     recruit INT,
     looter INT,
     killer INT,
-    hitman INT)
+    hitman INT,
+    cyber_pack INT)
     ENGINE = InnoDB
 `
 

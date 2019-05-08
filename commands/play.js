@@ -73,7 +73,8 @@ INSERT IGNORE INTO items (
     recruit,
     looter,
     killer,
-    hitman)
+    hitman,
+    cyber_pack)
     VALUES (
         ?,
         ?,
@@ -83,7 +84,7 @@ INSERT IGNORE INTO items (
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     )
 `
 

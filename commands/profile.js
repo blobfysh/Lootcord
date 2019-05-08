@@ -56,6 +56,7 @@ module.exports = {
             .setThumbnail(message.guild.members.get(userId).user.avatarURL)
             .setDescription(row.kills+ " Kills | "+row.deaths+" Deaths ("+(row.kills/ row.deaths).toFixed(2)+" K/D)")
             .addField('Status', '```' + userStatus + '```')
+            .addBlankField()
             .addField("💗 Vitality", row.health + "/" + row.maxHealth + " HP", true)
             .addField('🔰 Banners', bannersList, true)
             .addField("💥 Strength", parseFloat(row.scaledDamage).toFixed(2) + "x damage", true)

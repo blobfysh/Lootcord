@@ -198,6 +198,9 @@ class Methods {
         else if(itemSearched.startsWith("care") || itemSearched == "package"){
             itemSearched = "CARE_PACKAGE";
         }
+        else if(itemSearched.startsWith("cyber")){
+            itemSearched = "CYBER_PACK";
+        }
         
         return itemSearched.toLowerCase();
     }

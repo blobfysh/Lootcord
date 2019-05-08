@@ -23,7 +23,7 @@ manager.on('launch', shard => {
                     result;
                 })
             `);
-        }, 10000);
+        }, 25000);
     }
 });
 
@@ -33,5 +33,5 @@ manager.on('message', (shard, message) => {
 
 process.on('exit', () => {
     console.log('Ending process...');
-    manager.broadcastEval('process.exit(0)');
+    manager.broadcastEval('process.exit()');
 });
