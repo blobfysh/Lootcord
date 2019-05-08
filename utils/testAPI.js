@@ -12,6 +12,7 @@ const express    = require('express');
 const bodyParser = require('body-parser');
 const config     = require('../json/_config.json');
 const globalLB   = require('../methods/global_leaderboard.js');
+const patrons    = require('../methods/patron_list.js');
 const app        = express();
 
 app.use(bodyParser.json());
@@ -28,6 +29,19 @@ client.on('ready', () => {
         else{
             const leaders = await globalLB.create_lb(client);
             res.status(200).send(leaders.leadersOBJ);
+        }
+    });
+
+    app.post('/api/patrons', async (req, res) => {
+        if(!req.body.apiAuth){
+            return res.status(400).send('Missing authorization!');
+        }
+        else if(req.body.apiAuth !== config.lootcordAPIAuth){
+            return res.status(400).send('Invalid authorization!');
+        }
+        else{
+            const patronList = await patrons.list_patrons(client);
+            res.status(200).send(patronList.patronJSON);
         }
     });
 

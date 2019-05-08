@@ -29,6 +29,10 @@
       "Instead, XP will be given for every box opened and kills. The XP you get from the box depends on: **what item you get from the box**, and **the type of box opened**. Keep in mind `xp_potion`'s are still a thing. Why change this??? To add more incentive to opening lower-tier boxes and discourage spamming."
     ],
     [
+      "🔹 **Translation preparation!**",
+      "The bot now supports language files. If you'd like to help translate the bot, join our official discord and grab a copy of the translation file!"
+    ],
+    [
       "🔹***\"HOLD UP, MY ACCOUNT WAS DELETED?!?!?!\"***",
       "Don't worry, this is a side effect of moving to a new database, **IF YOU'D LIKE YOUR ACCOUNT RESTORED, MESSAGE THE BOT**"
     ]

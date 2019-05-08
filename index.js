@@ -6,8 +6,9 @@ const manager               = new Discord.ShardingManager('./app.js', {
     token: config.botToken
 });
 const voteHandler           = require('./utils/votes.js').votingManager(manager); // Handles DBL webhooks
+const patreonHandler        = require('./utils/patreonHandler.js');
 
-manager.spawn();
+manager.spawn(3);
 
 manager.on('launch', shard => {
 
@@ -23,6 +24,7 @@ manager.on('launch', shard => {
                     result;
                 })
             `);
+            patreonHandler.refreshPatrons(manager);
         }, 25000);
     }
 });

@@ -10,6 +10,7 @@ const { connectSQL, query } = require('./mysql.js');
 const { handleCmd }         = require('./commandhandler.js');
 const { checkLevelXp }      = require('./utils/checklevel.js');
 const airdropper            = require('./utils/airdrop.js');
+const patreonHandler        = require('./utils/patreonHandler.js');
 
 const client = new Discord.Client({
     fetchAllMembers: true,
@@ -67,6 +68,10 @@ client.on("guildMemberRemove", (member) => {
         return client.guilds.get("454163538055790604").channels.get("496740775212875816").send(leaveEmbed); //send to moderator channel
     }
     */
+});
+
+client.on('guildMemberUpdate', (oldMember, newMember) => {
+    patreonHandler.checkIfPatron(oldMember, newMember);
 });
 
 client.on("guildDelete", (guild) => {

@@ -209,6 +209,10 @@ function connectSQL(){
         db.query('CREATE TABLE IF NOT EXISTS gamesData (gameName VARCHAR(255), gameAmount INT, gamePrice INT, gameCurrency VARCHAR(255), gameDisplay VARCHAR(255)) ENGINE = InnoDB', (err, result) => {
             if(err) return console.log(err);
         });
+
+        db.query('CREATE TABLE IF NOT EXISTS patrons (userId bigint, tier INT) ENGINE = InnoDB', (err, result) => {
+            if(err) return console.log(err);
+        });
     });
 
     db.on('error', (err) => {
