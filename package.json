@@ -1,25 +1,22 @@
 {
   "name": "lootcord",
-  "version": "3.2.1",
-  "description": "A simple but fun item bot to fight with your friends!",
+  "version": "4.0.0",
+  "description": "A fun item bot to battle your friends!",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "dependencies": {
-    "cryptorjs": "^3.0.0",
-    "dblapi.js": "^2.2.0",
-    "discord.js": "^11.3.2",
-    "discord.js-commando": "^0.10.0",
-    "jimp": "^0.5.3",
-    "jquery": "^3.3.1",
-    "jquery-migrate": "^3.0.1",
-    "jsdom": "^12.0.0",
-    "seedrandom": "^2.4.4",
-    "spell": "^1.0.0",
-    "sqlite": "^2.9.2",
-    "ssh2-sftp-client": "^2.4.3"
+    "bad-words": "^3.0.2",
+    "body-parser": "^1.19.0",
+    "dblapi.js": "^2.3.0",
+    "discord.js": "^11.4.2",
+    "express": "^4.16.4",
+    "jimp": "^0.6.1",
+    "mysql": "^2.16.0",
+    "object-encode": "^1.0.2",
+    "sqlite": "^3.0.3"
   }
 }

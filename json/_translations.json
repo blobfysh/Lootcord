@@ -1,197 +1,273 @@
-[{
+{
+"_COMMENT": "Ignore all {0}'s, {1}'s, etc. these are variable placeholders. Translate only the quotes inside the [] brackets. Keep discord markdown such as **, `, ```, these are used to style the text.",
 "en_us": {
-	"noAcc": [
-		"You don't have an account. Use `",
-		"play` to make one!"
-	],
-	"misc": [
-		"Your account is not active in this server! You must activate your account using `",
-		"play` before you can use commands in this server!",
+	"general": [
+		"You don't have an account. Use `{0}play` to make one!",
+		"Your account is not active in this server! Use `{0}play` to activate it here.",
+		"You must be a Lootcord moderator to use that command!",
+		"You must be a Lootcord admin to use that command!",
+		"That commands requires arguments! Try `{0}help {1}`",
+		"That command doesn't work in DMs!",
+		"⏱ **You're talking too fast, I can't understand! Please slow down...** `{0}",
 		"`you try to type a command but your insatiable appetite for seeds keeps you preoccupied`",
-		"Your appetite will calm in ",
-		" minutes.",
-		"You need to wait  `",
-		" minutes`  before using this command again."
+		"Your appetite will calm in {0} minutes.",
+		"You need to wait  `{0} minutes`  before using this command again.",
+		"You need to wait  `{0} seconds`  before using this command again."
+	],
+	"errors": [
+		"❌ The person you're trying to search doesn't have an account!",
+		"❌ You need to mention someone!",
+		"❌ **You don't have enough space in your inventory!** You can clear up space by selling some items.",
+		"You didn't react in time!",
+		"That item doesn't exist!",
+		"You didn't pick in time!",
+		"You need the `Manage Server` permission to use this command!"
 	],
 	"play": [
-		"Thanks for joining LOOTCORD", 
-		"Items Received", 
-		"Open it with t-use item_box",
 		"Your account is already active on this server!",
 		"Account activated in this server!"
 	],
-	"levelup": [
-		"LEVEL **",
-		"!**\n*New* **Max Health:** `",
-		"`\n*New* **Scaled Damage:** `",
-		"x`\n**Item received!** "
+	"help": [
+		"{0} - Creates an account!",
+		"{0} - Attack users with weapons or use items on self.",
+		"⚔ Items",
+		"🎲 Games/Free stuff",
+		"📈 Other",
+		"⚙ Utility",
+		"To see more about a command, use {0}help <command> | Need more help? Message me!"
 	],
-	"inv": [
-		"You need to mention someone!",
-		"The person you're trying to search doesn't have an account!",
-		"This users inventory is empty!",
-		"Your inventory is empty",
-		"User rating: "
-	],
-	"use": {
-		"items": {
-			"error": [
-				"You need to specify an item and mention a user to attack! `",
-				"You don't have that item!"
-			],
-			"unbox": [
-				"You just got a common `",
-				"You just got an uncommon `",
-				"You just got a RARE `",
-				"You just got an **EPIC** `",
-				"You just got a **LEGENDARY** `",
-				"You just got an **ULTRA** `"
-			],
-			"shields": [
-				"Your current shield is still active for `",
-				" minutes`!",
-				"You have activated `iron_shield`!",
-				"You have activated `gold_shield`!",
-				"You have activated `mittens`!"
-			],
-			"healing": [
-				"You need to wait `",
-				" minutes`  before healing again.",
-				"You are already max health!",
-				"You have healed for `",
-				"` HP!"
-			]
-		},
-		"weapons": {
-			"error": [
-				"You need to mention someone!",
-				"ow",
-				"You can't attack yourself!",
-				"The person you're trying to attack doesn't have an account!",
-				"You can't attack while you have a shield active!",
-				"This user has not activated their account in this server!",
-				"This person is wearing `mittens`!\nThey are untargetable for `",
-				"This person is using an `iron_shield`!\nThey are untargetable for `",
-				"This person is using a `gold_shield`!\nThey are untargetable for `",
-				" minutes`!",
-				"You recently deleted your account, but you still have to wait an hour to attack!",
-				"You need to wait  `",
-				" minutes`  before attacking again.",
-				"You don't have the item and/or need ammo for it!"
-			],
-			"attack": [
-				"MISSED",
-				"HIT",
-				"FOR",
-				"DAMAGE TURNING THEM INTO A **CHICKEN** using ",
-				"!!!\nThey now have",
-				" health and can't use any commands for 2 hours!",
-				"hit",
-				"with a",
-				"for",
-				"damage using",
-				"DAMAGE!\nThey now have",
-				"health!"
-			]
-		}
-	},
-	"craft": [
-		"You are missing the required materials for this item!",
-		"That item cannot be crafted!",
-		"Use `",
-		"help craft` to see how to use this command!",
-		"Craft `",
-		"` for",
-		"Successfully crafted",
-		"You didn't react in time!"
-	],
-	"recycle": [
-		"That item is not eligible for recycling.",
-		"Recycle `",
-		"` for",
-		"You don't have that item!",
-		"You didn't react in time!",
-		"` recycled for ```",
-		" module\nAND\n1 "
-	],
-	"item": [
-		"Full Items List",
-		"Use ",
-		"item <item> to retrieve more information!",
-		"Information",
-		"***Rarity***",
-		"Damage",
-		"Cost",
-		" or ",
-		"Recycles into",
-		"Items required to craft"
+	"inventory": [
+		"`{0} xp until level {1}`",
+		"Active in this server?",
+		"❌ There was an error trying to fetch inventory. Make sure you mention the user.",
+		"This inventory is empty! :("
 	],
 	"buy": [
-		"You need to enter a valid item to buy! `",
-		"buy <item> <amount>`",
 		"That item is not for sale!",
-		"Purchase ",
-		"` for "
+		"You need to enter a valid item to buy! `{0}buy <item> <amount>`",
+		"Purchase {0}x `{1}` for {2}?",
+		"You bought {0}x {1}!",
+		"You don't have enough money!",
+		"You are missing the following items needed to purchase this: {0}"
 	],
 	"sell": [
-		"You need to enter a valid item to sell! `",
-		"sell <item> <amount>`"
+		"Sell {0}x `{1}` for {2}?",
+		"Successfully sold {0}x {1} for {2}.",
+		"You don't have enough of that item!",
+		"You can't sell that item!",
+		"You need to enter a valid item to sell! `{0}sell <item> <amount>`",
+		"Use the `{0}sellall` command to sell all items of the same rarity."
 	],
 	"sellall": [
-		"You need to enter a valid type to sell! `",
-		"sellall <rarity>`",
-		"You don't have any `",
-		"` items!",
-		"Sell ",
-		"` items for $",
-		"Successfully sold all ",
-		" items.",
-		"You didn't react in time!"
+		"Sell {0}x `{1}` items for {2}?",
+		"You don't have any items of that quality.",
+		"Sellall failed. Your inventory was altered during the sale.",
+		"You need to enter a valid type to sell! `{0}sellall <rarity>`",
+		"Successfully sold all {0} items.",
+		"Successfully sold all items.",
+		"Sell {0}x items for {1}?"
+	],
+	"recycle": [
+		"That item cannot be recycled.",
+		"Recycle `{0}` for",
+		"You don't have that item!",
+		"`{0}` recycled for ```{1}```"
+	],
+	"craft": [
+		"Craft `{0}` for",
+		"That cannot be crafted!",
+		"You are missing the required materials for this item!",
+		"Use `{0}help craft` to see how to use this command!",
+		"Successfully crafted `{0}`!"
+	],
+	"item": [
+		"That item isn't in my database! Use `{0}items` to see a full list!",
+		"Use {0}item <item> to retrieve more information!"
 	],
 	"shop": [
-		"**ITEM SHOP**",
-		"Use `buy <item>` to purchase and `sell <item>` to sell items.\n\nLimit 1 per person",
-		"Page "
+		"📥 Buy 📤 Sell\nUse `buy <item>` to purchase and `sell <item>` to sell items."
 	],
+	"equip": [
+		"Successfully equipped `{0}` and gained **{1}** item slots. ({2} max)",
+		"Successfully equipped `{0}`.",
+		"You already have something equipped! Unequip it with `unequip <item/backpack/armor>`",
+		"You don't have that item.",
+		"That item cannot be equipped. Specify a backpack or armor to equip, `equip <item>`"
+	],
+	"unequip": [
+		"Successfully unequipped `{0}`.\nYour carry capacity is now **{1}** items.",
+		"You don't have a backpack equipped! Equip with `equip <item>`",
+		"Successfully unequipped `{0}`.",
+		"You don't have any armor equipped! Equip with `equip <item>`",
+		"You don't have that item equipped. Specify your backpack or armor to unequip, `unequip <item>`",
+		"Successfully unequipped your {0}, you have also been given a 60 minute cooldown from attacking other players.",
+		"❌ You cannot unequip your shield while you have an attack cooldown! {0}"
+	],
+	"use": {
+		"errors": [
+			"❌ You need to specify an item and mention a user to attack! `{0}use <item> <@user>`",
+			"❌ That item cannot be used to attack and is not a consumable. `{0}use <item> <@user>`",
+			"❌ You don't have enough of that item!",
+			"🛡 This person has a shield active!\nThey are untargetable for {0}!",
+			"❌ You can't attack yourself!",
+			"❌ The person you're trying to attack doesn't have an account!",
+			"❌ You can't attack while you have a shield active!",
+			"This user has not activated their account in this server!",
+			"You don't have any ammo for that weapon!",
+			"You need to wait  {0}  before attacking again."
+		],
+		"items": [
+			"You have healed for `{0}` HP!",
+			"You have healed for `{0}` HP and hit your max health limit!",
+			"You open the {0} to find...\n```{1}```",
+			"Your current shield is still active for  {0}!",
+			"You have activated `{0}`!",
+			"You are already max health!",
+			"You need to wait  {0}  before healing again.",
+			"You need to wait  `{0} seconds`  before using another `xp_potion`."
+		],
+		"weapons": [
+			"LOOT RECEIVED",
+			"🍀{0} EVADED {1}'s attack! How lucky!",
+			"{0} + ` HIT {1} FOR {2} DAMAGE TURNING THEM INTO A **CHICKEN** using {3}!!!\nThey now have **{4}** health and can't use any commands for 2 hours!",
+			"ow..."
+		]
+	},
 	"trade": {
-		"error": [
-			"Command takes `",
-			"You need to mention someone! `",
-			"trade <@user>`",
-			"They didn't react in time!",
+		"errors": [
+			"The person you're trying to trade is under the effects of `peck_seed`",
 			"I respectfully DECLINE",
 			"You can't trade with yourself!",
-			"The person you are trying to trade doesn't have an account!",
-			"The person you are trying to trade is under the effects of `peck_seed`",
-			" would like to trade with you!"
+			"Trade has been cancelled.",
+			"You don't have enough money!",
+			"You don't have that item in the trade.",
+			"You can't trade that item!",
+			"That item is already in the trade.",
+			"❌ {0} doesn't have enough space in their inventory to complete this trade!"
 		],
 		"trading": [
-			"Trade window",
+			"{0}, {1} would like to trade with you!",
 			"Trade has been cancelled.",
-			"You need to put an amount! `",
-			"You don't have enough money!",
-			"That item doesn't exist!",
-			"You can't trade tokens!",
-			"You can only trade one of each item at a time!",
-			"You don't have that item!",
-			" has accepted the trade! Do you accept?",
-			" declined"
+			"You need to put an amount! `{0}addmoney <amount>`",
+			"Money removed.",
+			"Item `{0}` removed.",
+			"{0}, {1} has accepted the trade! Do you accept?",
+			"{0} declined.",
+			"✅ Trade completed!"
 		]
 	},
 	"trivia": [
-		"You have 15 seconds to answer.",
-		"**INCORRECT**",
-		"_COMMENT : TRIVIA CAN'T BE TRANSLATED BECAUSE THE QUESTIONS ARE IN ENGLISH."
+		"You have 15 seconds to answer."
 	],
 	"scramble": [
-		"_COMMENT : SCRAMBLE CAN'T BE TRANSLATED BECAUSE THE WORDS ARE IN ENGLISH"
+		"You have 30 seconds to unscramble this word.",
+		"You need to choose a difficulty `{0}scramble easy/hard`\nEasy : Hint but less reward\nHard : Better reward, no hint",
+		"**You didn't get it in time!**"
 	],
 	"hourly": [
-		"Here's a free `item_box`!"
+		"Here's a free `{0}`!",
+		"🍀Here's a free `{1}`!"
+	],
+	"gamble": {
+		"general": [
+			"You must specify the way you want to gamble! `roulette`, `slots`, `coinflip`",
+			"⚠ You need atleast **25 HP** to use the `roulette` command, you currently have **{0}/{1}**."
+		],
+		"slots": [
+			"You won **${0}**! ({1}x)",
+			"You lost!",
+			"Better luck next time."
+		],
+		"roulette": [
+			"{0}, 💥 The gun fires! You took *{1}* damage and now have **{2} health**. Oh, and you also lost ${3}",
+			"{0}, You survived! Your winnings are: ${1} 💵"
+		],
+		"coinflip": [
+			"You just won ${0}!",
+			"You just lost ${0}!"
+		]
+	},
+	"vote": [
+		"Vote available in `{0} hours`!\n🎟Vote for the bot to collect a reward!\nhttps://discordbots.org/bot/493316754689359874/vote\nYou should receive a DM after you vote!",
+		"☑VOTE AVAILABLE\n🎟Vote for the bot to collect a reward!\nhttps://discordbots.org/bot/493316754689359874/vote\nYou should receive a DM after you vote!"
+	],
+	"upgrade": [
+		"You have {0} skill points available!",
+		"Choose a skill to upgrade:",
+		"Increases max health by 5 (`{0} HP`)",
+		"Increases damage by 3% (`{0}x`)",
+		"Increases luck by 2 (`{0}`)",
+		"Successfully allocated 1 point to 💗 Vitality!",
+		"Successfully allocated 1 point to 💥 Strength!",
+		"Successfully allocated 1 point to 🍀 Luck!",
+		"You now have {0} max health.",
+		"You now deal {0}x damage.",
+		"**Luck increased by 2**\nYour chance to get rare items has been increased.",
+		"{0} skill points remaining.",
+		"You don't have any skill points to upgrade with right now! Level up and come back."
+	],
+	"deactivate": [
+		"You can only deactivate a server once every 24 hours!",
+		"You must wait `{0} minutes` after activating in order to deactivate!",
+		"You can't deactivate when you still have an attack cooldown!",
+		"Deactivating your account will prevent you from using commands or being targeted in **this** server.\n`Note : You can only do this once every 24 hours.`\n**Are you sure?**",
+		"Your account has been disabled on this server."
+	],
+	"level": [
+		"Your current level is **{0}**.\nYour damage scaling is currently **{1}x**"
+	],
+	"points": [
+		"You currently have {0} points!"
+	],
+	"server": [
+		"**Active users in {0}**"
+	],
+	"leaderboard": [
+		"**Global Leaderboard**",
+		"**Server Leaderboard**"
+	],
+	"money": [
+		"You currently have {0}"
+	],
+	"delete": [
+		"Are you sure? **Deleting is not the same as deactivating.**",
+		"Your account has been deleted.",
+		"You just deleted your account CHILL"
+	],
+	"setprefix": [
+		"Please enter a prefix up to 5 characters long! `{0}setprefix *****`",
+		"Server prefix successfully changed to `{0}`"
+	],
+	"setkillfeed": [
+		"✅ Set this channel as the kill feed channel!"
+	],
+	"disablekillfeed": [
+		"✅ Disabled kill feed for this server!"
+	],
+	"setlevelchannel": [
+		"✅ Now sending level up messages to this channel!"
+	],
+	"disablelevelchannel": [
+		"✅ Disabled level channel for this server!"
+	],
+	"setdropchannel": [
+		"✅ Now requesting for `care_package`'s to be sent to this channel!",
+		"❌ There needs to be atleast `5` active players in this server to call in airdrops."
+	],
+	"disabledropchannel": [
+		"Successfully stopped requesting airdrops."
+	],
+	"claimdrop": [
+		"There is no `care_package` in this channel.",
+		"There is no lootable `care_package`."
+	],
+	"setstatus": [
+		"Your status can only be up to 120 characters long! You tried to set one that was {0} characters long.",
+		"Successfully set status to: {0}",
+		"❌ There was an error trying to modify your status."
 	]
-	
 },
 "pt_br": {
 	"play": []
 }
-}]
+}
