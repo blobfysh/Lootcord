@@ -18,11 +18,11 @@ module.exports = {
         let userID = args[0];
 
         try{
-            const row = await query(`SELECT * FROM scores WHERE userId = '${userID}'`);
+            const row        = await query(`SELECT * FROM scores WHERE userId = '${userID}'`);
             const activeRows = await query(`SELECT * FROM userGuilds WHERE userId = '${userID}'`);
-            const userInfo = await message.client.fetchUser(userID);
-            const accCode = await method.getinvcode(message, userID);
-            const usersItems     = await methods.getuseritems(userID, {amounts: true});
+            const userInfo   = await message.client.fetchUser(userID);
+            const accCode    = await method.getinvcode(message, userID);
+            const usersItems = await methods.getuseritems(userID, {amounts: true});
 
             var ultraItemList    = usersItems.ultra;
             var legendItemList   = usersItems.legendary;
@@ -41,7 +41,7 @@ module.exports = {
             .setTitle("`" + userInfo.tag + "`'s data")
             .setDescription('User account code:\n```' + accCode.invCode + "```")
             .setThumbnail(userInfo.avatarURL)
-            .addField('Account Created', new Date(row[0].createdAt).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'}) + ' at ' + new Date(row[0].createdAt).toLocaleTimeString('en-US') + ' (EST)', true)
+            .addField('Account Created', new Date(row[0].createdAt).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric', timeZone: 'America/New_York'}) + ' at ' + new Date(row[0].createdAt).toLocaleTimeString('en-US', {timeZone: 'America/New_York'}) + ' (EST)', true)
             .addField('Activated in ' + activeGuilds.length + ' servers', activeGuilds.length > 0 ? activeGuilds : 'none', true)
             .setColor(11346517)
 

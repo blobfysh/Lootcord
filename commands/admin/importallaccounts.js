@@ -23,12 +23,12 @@ module.exports = {
         const allUsers = await sql.all(`SELECT userId FROM scores`);
         var timeStarted = new Date().getTime();
 
-        message.channel.send('STARTING IMPORT AT ' + new Date(timeStarted).toLocaleTimeString('en-US'))
+        message.channel.send('STARTING IMPORT AT ' + new Date(timeStarted).toLocaleTimeString('en-US'));
 
         message.channel.send('Accounts imported: `0`/' + allUsers.length).then(async msgg => {
             setInterval(() => {
                 msgg.edit('Accounts imported: `' + accsImported + '`/' + allUsers.length);
-            }, 2000);
+            }, 5000);
             for(var i = 0; i < allUsers.length; i++){
                 const finished = await importer.import_acc(allUsers[i].userId);
                 if(finished){
@@ -37,7 +37,5 @@ module.exports = {
                 }
             }
         });
-
-        message.channel.send('Finished, took ' + (new Date().getTime() - timeStarted)/1000/60 + ' minutes')
     },
 }
