@@ -4,7 +4,7 @@ const methods = require('../methods/methods.js');
 
 module.exports = {
     name: 'hourly',
-    aliases: [''],
+    aliases: ['hour'],
     description: 'Receive a free item_box every hour!',
     hasArgs: false,
     worksInDM: false,

@@ -10,8 +10,10 @@ exports.checkIfPatron = async function(oldMember, newMember) {
     if(!oldMember.roles.has(config.tier1PatronRoleID) && newMember.roles.has(config.tier1PatronRoleID)){
         // just gained patron tier 1
         query(`INSERT IGNORE INTO patrons (userId, tier) VALUES (${newMember.id}, 1)`);
+        newMember.send(makePatronEmbed());
         console.log('someone gained patron tier 1.');
     }
+    
     else if(oldMember.roles.has(config.tier1PatronRoleID) && !newMember.roles.has(config.tier1PatronRoleID)){
         // just lost patron
         query(`DELETE FROM patrons WHERE userId = ${newMember.id}`);
@@ -62,8 +64,9 @@ exports.refreshPatrons = async function(manager){
 
 function makePatronEmbed(){
     const patronEmbed = new Discord.RichEmbed()
-    .setTitle('Thank you!!!')
-    .setDescription('welcome to the patreon club!')
+    .setTitle('😲 a new patron!')
+    .setDescription('Thank you for helping me create this awesome bot!!\nIf you need any help don\'t hesitate to ask me!')
+    .setFooter('💙 blobfysh')
     .setColor(16345172)
 
     return patronEmbed;

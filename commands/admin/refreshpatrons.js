@@ -1,5 +1,4 @@
 const Discord        = require('discord.js');
-const patrons        = require('../../methods/patron_list.js');
 const patreonHandler = require('../../utils/patreonHandler.js');
 
 module.exports = {
@@ -20,7 +19,7 @@ module.exports = {
             const patronMsg = new Discord.RichEmbed()
             .setTitle('Refreshed patrons!')
             .setDescription(results.patronsAdded + ' patrons added to the database.\n' + results.patronsRemoved + ' patrons removed')
-            .setColor(720640)
+            .setColor(16345172)
             message.channel.send(patronMsg);
         }
         catch(err){

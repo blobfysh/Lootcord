@@ -20,6 +20,7 @@ module.exports = {
             shardInfoArr.push(this.users.size);
             shardInfoArr.push(this.guilds.size);
             shardInfoArr.push(this.uptime);
+            shardInfoArr.push(this.commandsUsed);
 
             shardInfoArr;
         `);
@@ -32,13 +33,14 @@ module.exports = {
             let userCt = shardsInfo[i][1];
             let guildCt = shardsInfo[i][2];
             let shrdUptime = shardsInfo[i][3];
+            let shrdCommands = shardsInfo[i][4];
             let shardId = 'Shard ' + shardsInfo[i][0];
 
             if(shardsInfo[i][0] == message.client.shard.id){
                 shardId = '✅ Shard ' + shardsInfo[i][0];
             }
             
-            shardEmb.addField(shardId, `◽ Users: ${userCt.toString().padEnd(10, ' . .')} ◽ Guilds: ${guildCt.toString().padEnd(10, ' . .')} ◽ Uptime: ${convertToTime(shrdUptime)}`);
+            shardEmb.addField(shardId, `◽ Users: ${userCt.toString().padEnd(10, ' . .')} ◽ Guilds: ${guildCt.toString().padEnd(10, ' . .')} ◽ Uptime: ${convertToTime(shrdUptime).padEnd(10, ' . .')} ◽ Cmds called: ${shrdCommands}`);
         }
 
         message.channel.send(shardEmb);

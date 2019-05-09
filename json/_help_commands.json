@@ -325,7 +325,7 @@
   "example": ["setdropchannel"],
   "description": "Request care_packages to be sent to the specified channel.\nServer **MUST** have atleast 5 active players.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
-  "usage": ["setlevelchannel`"],
+  "usage": ["setdropchannel`"],
   "options": ""
 }, {
   "lookup": ["setstatus", "status"],

@@ -33,8 +33,8 @@ exports.checkLevelXp = async function(message){
                     query(`UPDATE items SET ammo_box = ${row.ammo_box + 1} WHERE userId = ${message.author.id}`);
                 }
 
-                const oldRow = await query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`);
-                const guildRow = oldRow[0];
+                const oldRow2 = await query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`);
+                const guildRow = oldRow2[0];
 
 
                 //Create level image

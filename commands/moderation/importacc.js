@@ -1,8 +1,8 @@
-const Discord = require('discord.js');
+const Discord   = require('discord.js');
 const { query } = require('../../mysql.js');
-const sql = require('sqlite');
+const config    = require('../../json/_config.json');
+const sql       = require('sqlite');
 sql.open('./score.sqlite');
-const config = require('../../json/_config.json');
 
 module.exports = {
     name: 'importacc',
@@ -35,7 +35,6 @@ module.exports = {
                 WHERE items.userId = "${userId}"`).then(liteRow => {
                     if(!liteRow) return message.reply("This user didn't have an old account.");
 
-                    console.log('yarrr  ' + liteRow.backpack);
                     var changedVals = [];
     
                     //iterate every column in row

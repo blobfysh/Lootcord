@@ -91,7 +91,7 @@ module.exports = {
                     embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max | This user is a Lootcord moderator! 💪");
                 }
                 else{
-                    embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max");
+                    embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max | Worth: " + methods.formatMoney(usersItems.invValue));
                 }
                 
                 if(ultraItemList != ""){

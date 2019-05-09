@@ -99,7 +99,8 @@ CREATE TABLE IF NOT EXISTS scores (
     luck INT,
     used_stats INT,
     status VARCHAR(255),
-    banner VARCHAR(255))
+    banner VARCHAR(255),
+    language VARCHAR(30))
     ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `
 
@@ -147,7 +148,6 @@ function connectSQL(){
         user     : 'root',
         password : 'password',
         database : 'lootcord',
-        
         supportBigNumbers: true,
         bigNumberStrings: false,
         charset: "utf8mb4",
@@ -161,6 +161,7 @@ function connectSQL(){
         /* remove drop statements before production
         db.query(`DROP TABLE scores`);
         db.query(`DROP TABLE items`);
+        db.query(`DROP TABLE cooldowns`);
         db.query(`DROP TABLE userGuilds`);
         db.query(`DROP TABLE guildPrefix`);
         db.query(`DROP TABLE guildInfo`);

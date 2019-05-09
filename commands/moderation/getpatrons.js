@@ -10,8 +10,8 @@ module.exports = {
     worksInDM: false,
     requiresAcc: false,
     guildModsOnly: false,
-    modOnly: false,
-    adminOnly: true,
+    modOnly: true,
+    adminOnly: false,
     
     async execute(message, args, lang, prefix){
         try{
@@ -22,7 +22,7 @@ module.exports = {
             .addField('Tier 1', patronList.tier1s.length > 0 ? patronList.tier1s : 'none')
             .addField('Tier 2', patronList.tier2s.length > 0 ? patronList.tier2s : 'none')
             .addField('Tier 3', patronList.tier3s.length > 0 ? patronList.tier3s : 'none')
-            .setColor(720640)
+            .setColor(16345172)
             message.channel.send(modMsg);
         }
         catch(err){

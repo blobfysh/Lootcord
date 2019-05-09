@@ -1,7 +1,7 @@
 const config = require('../../json/_config.json');
 
 module.exports = {
-    name: 'status',
+    name: 'botstatus',
     aliases: [''],
     description: 'Changes the bots status.',
     hasArgs: false,

@@ -409,13 +409,14 @@ class Methods {
         return query(`SELECT * FROM items WHERE userId ="${userId}"`).then(oldRow => {
             const row = oldRow[0];
 
-            let commonItems = [];
+            let commonItems   = [];
             let uncommonItems = [];
-            let rareItems = [];
-            let epicItems = [];
-            let legendItems = [];
-            let ultraItems = [];
-            let limitedItems = [];
+            let rareItems     = [];
+            let epicItems     = [];
+            let legendItems   = [];
+            let ultraItems    = [];
+            let limitedItems  = [];
+            let invValue      = 0;
 
             Object.keys(itemdata).forEach(key => {
                 if(onlyBanners && itemdata[key].isBanner){
@@ -449,6 +450,7 @@ class Methods {
                     else if(itemdata[key].rarity == "Ultra") ultraItems.push(sep + key + sep + "("+row[key]+")");
                     else if(itemdata[key].rarity == "Limited") limitedItems.push(sep + key + sep + "("+row[key]+")");
                 }
+                invValue += itemdata[key].sell;
             }
 
             return {
@@ -459,6 +461,7 @@ class Methods {
                 legendary: legendItems,
                 ultra: ultraItems,
                 limited: limitedItems,
+                invValue: invValue
             }
         });
     }

@@ -107,7 +107,8 @@ INSERT IGNORE INTO scores (
     luck,
     used_stats,
     status,
-    banner)
+    banner,
+    language)
     VALUES (
         ?,
         ?,
@@ -118,7 +119,7 @@ INSERT IGNORE INTO scores (
         ?,
         ?,
         ?,
-        0, 0, 0, 0, 0, 0, 0, '', 'recruit'
+        0, 0, 0, 0, 0, 0, 0, '', 'recruit', 'en-us'
     )
 `
 

@@ -21,6 +21,7 @@ client.sets         = require('./utils/sets.js'); //load cooldown sets into clie
 client.commands     = new Discord.Collection();
 client.airdropTimes = [];
 client.shieldTimes  = [];
+client.commandsUsed = 0;
 
 const commandFiles      = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 const moderatorCommands = fs.readdirSync('./commands/moderation').filter(file => file.endsWith('.js'));
