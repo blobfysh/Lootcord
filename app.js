@@ -17,7 +17,7 @@ const client = new Discord.Client({
     messageCacheMaxSize: 50
 });
 
-client.sets         = require('./utils/sets.js'); //load cooldown sets into client variable so we can broadcastEval()
+client.sets         = require('./utils/sets.js');
 client.commands     = new Discord.Collection();
 client.airdropTimes = [];
 client.shieldTimes  = [];
@@ -90,10 +90,16 @@ client.on('disconnect', (err) => {
 
 client.on('ready', () => {
     console.log(`Launched shard ${client.shard.id}`);
-
     if(config.debug == false){
         setInterval(() => {
             //methods.sendlbtoweb(sql);
+            client.shard.broadcastEval(`
+                this.shard.fetchClientValues('users.size').then(results => {
+                    var result = results.reduce((prev, userCount) => prev + userCount, 0);
+                    this.user.setActivity('t-help | ' + result + ' looters!', {type: 'LISTENING'});
+                    result;
+                })
+            `);
             dbl.postStats(client.guilds.size, client.shard.id, client.shard.count);
         }, 1800000); // 30 minutes
     }
