@@ -8,10 +8,9 @@ exports.handleCmd = async function(message, prefix, lang){
     const commandName = args.shift().toLowerCase();
     const command = message.client.commands.get(commandName) || message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
+    if(!command && message.channel.type !== 'dm' || !commandName && message.channel.type !== 'dm') return;//command doesnt exist
 
-    if(!command && message.channel.type !== 'dm') return;//command doesnt exist
-
-    else if(!command && message.channel.type == 'dm') return DM.sendToMods(message, lang);//send message to mod channel
+    else if(!command && message.channel.type == 'dm' || !commandName && message.channel.type == 'dm') return DM.sendToMods(message, lang);//send message to mod channel
 
     else if(!command.worksInDM && message.channel.type !== 'text') return message.reply(lang.general[5]);
 
