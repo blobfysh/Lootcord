@@ -1,9 +1,9 @@
 const { query } = require('../mysql.js');
 
 module.exports = {
-    name: 'setlevelchannel',
-    aliases: ['setlevelchan'],
-    description: 'Sends all level up messages for the server to the channel this command is used in.',
+    name: 'disablelevelchannel',
+    aliases: ['disablelevelchan'],
+    description: 'Disables the dedicated channel for level-up messages.',
     hasArgs: false,
     worksInDM: false,
     requiresAcc: true,
