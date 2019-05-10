@@ -85,7 +85,7 @@ exports.sendToMods = function(message, lang){
                                     url: "${message.author.avatarURL}",
                                 },
                                 author: {
-                                    name: "Sent from shard ${message.client.shard.id}",
+                                    name: "${message.author.tag} | ID: ${message.author.id}",
                                 },
                                 fields: [
                                     {
