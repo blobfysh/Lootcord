@@ -450,7 +450,7 @@ class Methods {
                     else if(itemdata[key].rarity == "Ultra") ultraItems.push(sep + key + sep + "("+row[key]+")");
                     else if(itemdata[key].rarity == "Limited") limitedItems.push(sep + key + sep + "("+row[key]+")");
                 }
-                invValue += itemdata[key].sell;
+                invValue += itemdata[key].sell * row[key];
             }
 
             return {
