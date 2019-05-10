@@ -28,6 +28,7 @@ module.exports = {
             }
 
             try{
+                const userAccInfo = await method.getinvcode(message, userId);
                 const oldRow = await query(`SELECT * FROM items 
                 INNER JOIN scores
                 ON items.userId = scores.userId
@@ -50,8 +51,11 @@ module.exports = {
                             case 'money': resetVal = 100; break;
                             case 'backpack': resetVal = 'none'; break;
                             case 'armor': resetVal = 'none'; break;
-                            case 'inv_slots': resetVal = 10; break;
+                            case 'inv_slots': resetVal = 0; break;
                             case 'scaledDamage': resetVal = 1.00; break;
+                            case 'banner': resetVal = 'recruit'; break;
+                            case 'language': resetVal = 'en-us'; break;
+                            case 'status': resetVal = ''; break;
                             default: resetVal = 0;
                         }
 
@@ -65,7 +69,6 @@ module.exports = {
                 });
 
                 const user = await message.client.fetchUser(userId);
-                const userAccInfo = await method.getinvcode(message, userId);
 
                 message.client.shard.broadcastEval(`
                     const channel = this.channels.get('${config.logChannel}');
