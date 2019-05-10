@@ -191,6 +191,8 @@ module.exports = {
                                             else{
                                                 amountToGive = Math.floor(victimItemCount.length/5)
                                             }
+
+                                            var xpToGive = amountToGive * 50;
     
                                             query(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(oldUserRow => {
                                                 const userRow = oldUserRow[0];
@@ -198,7 +200,7 @@ module.exports = {
                                                 methods.randomItems(message.author.id, userNameID, amountToGive).then(result => {
                                                 
                                                     query(`UPDATE scores SET money = ${parseInt(userRow.money) + victimRow.money} WHERE userId = ${message.author.id}`);
-                                                    query(`UPDATE scores SET points = ${userRow.points + 100} WHERE userId = ${message.author.id}`);
+                                                    query(`UPDATE scores SET points = ${userRow.points + xpToGive} WHERE userId = ${message.author.id}`);
                                                     query(`UPDATE scores SET kills = ${userRow.kills + 1} WHERE userId = ${message.author.id}`); //add 1 to kills
                 
                                                     query(`UPDATE scores SET health = ${100} WHERE userId = ${userNameID}`);
@@ -207,7 +209,7 @@ module.exports = {
                 
                                                     const killedReward = new Discord.RichEmbed()  
                                                     .setTitle(`LOOT RECEIVED`)
-                                                    .setDescription("Money : " + methods.formatMoney(victimRow.money) + "\nExperience : `100xp`")
+                                                    .setDescription("Money : " + methods.formatMoney(victimRow.money) + "\nExperience : `" + xpToGive + "xp`")
                                                     .setColor(7274496)
                                                     .addField("**ITEMS**", result[0])
                                                     message.channel.send(killedReward);

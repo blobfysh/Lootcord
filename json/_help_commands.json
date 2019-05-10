@@ -227,7 +227,7 @@
   "lookup": ["profile"],
   "command": "Profile",
   "example": [""],
-  "description": "Displays various info about a user including Vitality, Strength, and Luck.",
+  "description": "Displays a users profile. Shows their stats, currently equipped items and their status.",
   "cooldown": "",
   "usage": ["profile`","profile <@user>`"],
   "options": "`@user` - User's profile to check."
@@ -274,19 +274,19 @@
 }, {
   "lookup": ["equip"],
   "command": "Equip",
-  "description": "Allows user to equip different backpacks and armor.",
+  "description": "Allows user to equip different backpacks, armor, and inventory banners.",
   "cooldown": "",
-  "example": ["equip light_pack"],
-  "usage": ["equip <item>`"],
-  "options": "`item` - Item to equip. Must be backpack or armor."
+  "example": ["equip light_pack", "equip recruit"],
+  "usage": ["equip <item>`", "equip <banner>`"],
+  "options": "`item` - Item to equip."
 }, {
   "lookup": ["unequip"],
   "command": "Unequip",
-  "description": "Unequip your current backback or armor.",
+  "description": "Unequip your current backback, armor, or banner. Can also unequip your shield, but will give you an hour attack cooldown for doing so.",
   "cooldown": "",
-  "example": ["unequip light_pack","unequip backpack"],
-  "usage": ["unequip <item>`","unequip <armor>`"],
-  "options": "`item` - Item to equip. Must be backpack or armor.\nbackpack - Will unequip backpack if you have one equipped."
+  "example": ["unequip light_pack","unequip backpack", "unequip shield", "unequip banner"],
+  "usage": ["unequip <item>`","unequip <armor>`", "unequip <shield>`", "unequip <banner>`"],
+  "options": "`item` - Item to equip.\nbackpack - Will unequip backpack if you have one equipped."
 }, {
   "lookup": ["basket"],
   "command": "Basket",
