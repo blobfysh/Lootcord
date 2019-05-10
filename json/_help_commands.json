@@ -304,20 +304,20 @@
   "usage": ["setprefix <prefix>`"],
   "options": "`prefix` - Input to change server prefix to. Must be 1-3 characters long."
 }, {
-  "lookup": ["setkillfeed","killfeed"],
-  "command": "Setkillfeed",
-  "example": ["setkillfeed"],
-  "description": "Sets the current channel as the kill feed channel, will log all kills from the server in that channel.\nUser **MUST** have the Manage Server permission.",
+  "lookup": ["setkillfeed","killfeed", "togglekillfeed", "togglekillchan"],
+  "command": "Togglekillfeed",
+  "example": ["togglekillfeed"],
+  "description": "Toggle the current channel as the kill feed channel, will log all kills from the server in that channel.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
-  "usage": ["setkillfeed`"],
+  "usage": ["togglekillfeed`"],
   "options": ""
 }, {
-  "lookup": ["setlevelchannel","levelchannel"],
-  "command": "Setlevelchannel",
-  "example": ["setlevelchannel"],
-  "description": "Set a channel to send all level up messages to.\nUser **MUST** have the Manage Server permission.",
+  "lookup": ["setlevelchannel","levelchannel", "togglelvlchan", "togglelevelchannel", "togglelevelchan"],
+  "command": "Togglelevelchannel",
+  "example": ["togglelevelchannel"],
+  "description": "Toggle a channel to send all level up messages to.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
-  "usage": ["setlevelchannel`"],
+  "usage": ["togglelevelchannel`"],
   "options": ""
 }, {
   "lookup": ["setdropchan","airdrop","setdropchannel"],

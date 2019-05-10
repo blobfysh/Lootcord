@@ -2,7 +2,7 @@ const { query } = require('../mysql.js');
 
 module.exports = {
     name: 'togglekillfeed',
-    aliases: ['setkillfeed', 'setkillchan'],
+    aliases: ['setkillfeed', 'setkillchan', 'togglekillchan'],
     description: 'Toggles the channel its used in as the kill feed for the server.',
     hasArgs: false,
     worksInDM: false,
