@@ -9,7 +9,7 @@ module.exports = {
     aliases: [''],
     description: 'Admin-only command.',
     hasArgs: true,
-    worksInDM: false,
+    worksInDM: true,
     requiresAcc: false,
     modOnly: false,
     adminOnly: true,

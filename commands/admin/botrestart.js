@@ -3,7 +3,7 @@ module.exports = {
     aliases: ['botrestart', 'shardrestart'],
     description: 'Admin-only command.',
     hasArgs: false,
-    worksInDM: false,
+    worksInDM: true,
     requiresAcc: false,
     modOnly: false,
     adminOnly: true,

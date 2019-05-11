@@ -16,16 +16,28 @@ exports.handleCmd = async function(message, prefix, lang){
 
     const row       = await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`);
     const CDrow     = await query(`SELECT * FROM cooldowns WHERE userId = ${message.author.id}`);
-    const activeRow = await query(`SELECT * FROM userGuilds WHERE userId = ${message.author.id} && guildId = ${message.guild !== null ? message.guild.id : 0}`);
+    const activeRow = await query(`SELECT * FROM userGuilds WHERE userId = ${message.author.id} AND guildId = ${message.guild !== null ? message.guild.id : 0}`);
 
-    if(message.client.sets.spamCooldown.has(message.author.id)){
-        let spamSeconds = CDrow.length && CDrow[0].spamTime > 0 ? ((2000 - ((new Date()).getTime() - CDrow[0].spamTime)) / 1000).toFixed(0) : 2;
-        let secondAmount = (spamSeconds > 1) ? " seconds`" : (spamSeconds > 0) ? " second`" : " seconds` (now)";
-        message.reply(lang.general[6].replace('{0}', spamSeconds + secondAmount)).then(spamMsg => {
+    if(message.channel.type == 'text' && !message.guild.me.hasPermission(['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY', 'ATTACH_FILES', 'EMBED_LINKS', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS', 'ADD_REACTIONS', 'MANAGE_MESSAGES'])){
+        return message.author.send(`I don't have sufficient permissions in the following server: ${message.guild.name}. I require the following permissions:\`\`\`
+        READ_MESSAGES
+        READ_MESSAGE_HISTORY
+        ATTACH_FILES
+        EMBED_LINKS
+        SEND_MESSAGES
+        USE_EXTERNAL_EMOJIS
+        ADD_REACTIONS
+        MANAGE_MESSAGES\`\`\`If you are confused on how to give me these permissions, you should remove me from the server and invite me using the following link:
+        https://discordapp.com/oauth2/authorize?client_id=493316754689359874&permissions=388160&scope=bot`)
+    }
+
+    else if(message.client.sets.spamCooldown.has(message.author.id)){
+        message.reply(lang.general[6].replace('{0}', '2 seconds`')).then(spamMsg => {
             spamMsg.delete(3000);
         }).catch();
         return;
     }
+
     else if(message.client.sets.peckCooldown.has(message.author.id)){//SENDS MESSAGE IF USER IS CHICKEN AND PREVENTS THEM FROM USING COMMANDS
         message.delete();
         const embedChicken = new Discord.RichEmbed()
@@ -60,11 +72,9 @@ exports.handleCmd = async function(message, prefix, lang){
         
         if(config.debug == true || message.client.sets.adminUsers.has(message.author.id)) return;
 
-        message.client.shard.broadcastEval(`this.sets.spamCooldown.add('${message.author.id}')`);
-        query(`UPDATE cooldowns SET spamTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
+        message.client.sets.spamCooldown.add(message.author.id);
         setTimeout(() => {
-            message.client.shard.broadcastEval(`this.sets.spamCooldown.delete('${message.author.id}');`);
-            query(`UPDATE cooldowns SET spamTime = ${0} WHERE userId = ${message.author.id}`);
+            message.client.sets.spamCooldown.delete(message.author.id);
         }, 2000);//2 second spam cooldown
         
     }

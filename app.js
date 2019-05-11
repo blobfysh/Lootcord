@@ -41,19 +41,28 @@ for(const file of commandFiles){
 var prefix = config.prefix;
 
 client.on('message', message => {
-    if(message.author.bot && message.author.id !== message.client.user.id || message.author.bot && message.channel.type == 'dm') return;
+    if(message.author.bot) return; // && message.author.id !== message.client.user.id || message.author.bot && message.channel.type == 'dm'
     if(message.client.sets.bannedUsers.has(message.author.id)) return;
 
     const lang = languages['en_us']; // selects language to use.
 
-    query(`SELECT prefix FROM guildPrefix WHERE guildId = ${message.guild !== null ? message.guild.id : 0}`).then(prefixRow => {
-        if(prefixRow.length) prefix = prefixRow[0].prefix;
+    query(`SELECT * FROM guildPrefix WHERE guildId = ${message.guild !== null ? message.guild.id : 0}`).then(prefixRow => {
+        
+        if(prefixRow !== undefined && prefixRow.length > 0) {
+            prefix = prefixRow[0].prefix;
+        }
+        else{
+            prefix = config.prefix;
+        }
 
         if(!message.content.toLowerCase().startsWith(prefix) && message.channel.type !== "dm") return checkLevelXp(message);
         
         if(message.channel.type === "dm") handleCmd(message, 't-', lang);
         
         else handleCmd(message, prefix, lang);
+    }).catch(err => {
+        console.log('[LOG] query F A I L E D:')
+        console.log(err);
     });
 });
 

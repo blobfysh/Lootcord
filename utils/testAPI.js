@@ -78,4 +78,9 @@ client.on('error', (err) => {
     console.log('Error with Discord connection in the API: ' + err);
 });
 
+client.on('disconnect', (err) => {
+    console.log(err);
+    client.destroy().then(client.login(config.botToken));
+});
+
 client.login(config.botToken);

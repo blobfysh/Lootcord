@@ -64,6 +64,11 @@ exports.votingManager = (manager) => {
     });
 }
 
+client.on('disconnect', (err) => {
+    console.log(err);
+    client.destroy().then(client.login(config.botToken));
+});
+
 client.on('error', (err) => {
     console.log('Error with connection in votes.js: ' + err);
 });
