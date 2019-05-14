@@ -1032,7 +1032,10 @@
             ]
         },
         "recyclesTo": [],
-        "buy": "",
+        "buy": {
+            "amount": 11000,
+            "currency": "money"
+        },
         "sell": 2200,
         "desc": "This box drops ammo of atleast Uncommon quality.",
         "image": "",

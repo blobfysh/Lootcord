@@ -27,10 +27,13 @@ module.exports = {
         methods.randomUser(message).then(randUser => {
             if(userOldID !== undefined || serverInf[0].randomOnly == 1){
                 if(userOldID == "random" || userOldID == "rand" || serverInf[0].randomOnly == 1){
-                    if(randUser == undefined){
+                    if(randUser == undefined && (itemdata[itemUsed] !== undefined && itemdata[itemUsed].isWeap)){
                         return message.reply(lang.use.errors[10]);
                     }
-                    userOldID = 'random';
+                    else if(itemdata[itemUsed] !== undefined && itemdata[itemUsed].isWeap){
+                        userOldID = 'random';
+                    }
+                    
                     var userNameID = randUser;
                 }
                 else var userNameID = args[1].replace(/[<@!>]/g, '');  //RETURNS BASE ID WITHOUT <@ OR <@! BUT ONLY IF PLAYER MENTIONED SOMEONE
