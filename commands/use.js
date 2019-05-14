@@ -1,3 +1,6 @@
+/*
+    TODO rewrite execute() as async/await
+*/
 const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
@@ -15,13 +18,19 @@ module.exports = {
     modOnly: false,
     adminOnly: false,
     
-    execute(message, args, lang, prefix){
+    async execute(message, args, lang, prefix){
         let itemUsed = methods.getCorrectedItemInfo(args[0]);
         let userOldID = args[1];
 
+        const serverInf = await query(`SELECT * FROM guildInfo WHERE guildId = ${message.guild.id}`);
+
         methods.randomUser(message).then(randUser => {
-            if(userOldID !== undefined){
-                if(userOldID == "random" || userOldID == "rand"){
+            if(userOldID !== undefined || serverInf[0].randomOnly == 1){
+                if(userOldID == "random" || userOldID == "rand" || serverInf[0].randomOnly == 1){
+                    if(randUser == undefined){
+                        return message.reply(lang.use.errors[10]);
+                    }
+                    userOldID = 'random';
                     var userNameID = randUser;
                 }
                 else var userNameID = args[1].replace(/[<@!>]/g, '');  //RETURNS BASE ID WITHOUT <@ OR <@! BUT ONLY IF PLAYER MENTIONED SOMEONE
@@ -369,6 +378,9 @@ module.exports = {
                     }).catch(err => {
                         return message.reply(lang.errors[1]);
                     });
+                }
+                else if(!userNameID){
+                    return message.reply(lang.use.errors[0].replace('{0}', prefix));
                 }
                 else{
                     return message.reply(lang.use.errors[1].replace('{0}', prefix));

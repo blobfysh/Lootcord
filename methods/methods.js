@@ -1035,7 +1035,7 @@ class Methods {
                             if(hasItems){
                                 query(`SELECT * FROM gamesData WHERE gameName = '${buyItem}'`).then(gameRow => {
 
-                                    query(`UPDATE gamesData SET gameAmount = ${gameRow.gameAmount - 1} WHERE gameName = '${buyItem}'`);
+                                    query(`UPDATE gamesData SET gameAmount = ${gameRow[0].gameAmount - 1} WHERE gameName = '${buyItem}'`);
 
                                     this.removeitem(message.author.id, currency, itemPrice);
                                     
@@ -1050,7 +1050,7 @@ class Methods {
 
                                     const gameEmbed = new Discord.RichEmbed()
                                     .setTitle("✅ Game Purchased!")
-                                    .addField("Game Sold", "**" + gameRow.gameDisplay + "**")
+                                    .addField("Game Sold", "**" + gameRow[0].gameDisplay + "**")
                                     .addField("Buyer", message.author.tag + "\nID: ```" + message.author.id + "```")
                                     .setTimestamp()
                                     //<@&495162711102062592>
@@ -1059,11 +1059,11 @@ class Methods {
                                 
                                         if(channel){
                                             channel.send({embed: {
-                                                    title: "✅ Game Purchased!"
+                                                    title: "✅ Game Purchased!",
                                                     fields: [
                                                         {
                                                             name: "Game Sold",
-                                                            value: "**${gameRow.gameDisplay}**",
+                                                            value: "**${gameRow[0].gameDisplay}**",
                                                         },
                                                         {
                                                             name: "Buyer",

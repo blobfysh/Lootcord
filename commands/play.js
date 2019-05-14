@@ -180,7 +180,7 @@ module.exports = {
 
             const guildRow = await query(`SELECT * FROM guildInfo WHERE guildId = ${message.guild.id}`);
             if(!guildRow.length){
-                query(`INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItem) VALUES (${message.guild.id}, '', '', '', '')`);
+                query(`INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItem, randomOnly) VALUES (${message.guild.id}, '', '', '', '', 0)`);
             }
 
             //cooldowns row is never deleted, will keep cooldowns persistent even after account deletion
@@ -207,7 +207,7 @@ module.exports = {
 
             const guildRow = await query(`SELECT * FROM guildInfo WHERE guildId = ${message.guild.id}`);
             if(!guildRow.length){
-                query(`INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItem) VALUES (${message.guild.id}, '', '', '', '')`);
+                query(`INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItem, randomOnly) VALUES (${message.guild.id}, '', '', '', '', 0)`);
             }
 
             const activate = await query(`INSERT INTO userGuilds (userId, guildId) VALUES (${message.author.id}, ${message.guild.id})`);

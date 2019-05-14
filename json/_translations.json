@@ -114,7 +114,8 @@
 			"❌ You can't attack while you have a shield active!",
 			"This user has not activated their account in this server!",
 			"You don't have any ammo for that weapon!",
-			"You need to wait  {0}  before attacking again."
+			"You need to wait  {0}  before attacking again.",
+			"❌ There aren't any players you can attack in this server!"
 		],
 		"items": [
 			"You have healed for `{0}` HP!",
@@ -265,6 +266,10 @@
 		"Your status can only be up to 120 characters long! You tried to set one that was {0} characters long.",
 		"Successfully set status to: {0}",
 		"❌ There was an error trying to modify your status."
+	],
+	"togglerandomattacks": [
+		"✅ This server is now in random-only mode.",
+		"❌ Server no longer in random-only mode."
 	]
 },
 "pt_br": {

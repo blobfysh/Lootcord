@@ -195,7 +195,7 @@ function connectSQL(){
         });
 
         //guildInfo table for keeping information about specific guild
-        db.query('CREATE TABLE IF NOT EXISTS guildInfo (guildId bigint, killChan bigint, levelChan bigint, dropChan bigint, dropItem VARCHAR(255)) ENGINE = InnoDB', (err, result) => {
+        db.query('CREATE TABLE IF NOT EXISTS guildInfo (guildId bigint, killChan bigint, levelChan bigint, dropChan bigint, dropItem VARCHAR(255), randomOnly BOOLEAN) ENGINE = InnoDB', (err, result) => {
             if(err) return console.log(err);
         });
 

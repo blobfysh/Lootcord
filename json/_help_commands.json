@@ -329,7 +329,7 @@
   "options": ""
 }, {
   "lookup": ["setstatus", "status"],
-  "command": "setstatus",
+  "command": "Setstatus",
   "example": ["setstatus"],
   "description": "Changes your status in the profile command. Supports Discord unicode emoji!",
   "cooldown": "",
@@ -346,7 +346,7 @@
 }, {
   "lookup": ["disablelevelchannel"],
   "command": "Disablelevelchannel",
-  "example": ["util disablelevelchannel"],
+  "example": ["disablelevelchannel"],
   "description": "Removes the level channel from the server, will cause the bot to default back to replying when users level up.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
   "usage": ["disablelevelchannel`"],
@@ -358,6 +358,14 @@
   "description": "Stops the bot from logging all kills in the server.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
   "usage": ["disablekillfeed`"],
+  "options": ""
+}, {
+  "lookup": ["togglerandonly","togglerandomonly", "togglerandattacks", "togglerandomattacks"],
+  "command": "Togglerandomattacks",
+  "example": ["togglerandomattacks"],
+  "description": "Toggle the server to only support random attacks with the use command.\nUser **MUST** have the Manage Server permission.",
+  "cooldown": "",
+  "usage": ["togglerandomattacks`"],
   "options": ""
 }, {
   "lookup": ["link"],

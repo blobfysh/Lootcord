@@ -40,7 +40,7 @@
   "desc": [
     "🔹 **Bot has been rewritten, is now sharded, and uses a new database!**",
     "🔹 **Source code is public on github: **https://github.com/blobfysh/Lootcord",
-    "🔹 ***\"MY ACCOUNT WAS DELETED??\"*** This is a result of the new database, **WE ARE RESTORING ACCOUNTS FOR ANYONE WHO MESSAGES THE BOT**",
+    "🔹 **Added togglerandomattacks command. Server-owners can enable random only attacks now!**",
     "🔹 The update notes were a little too long to fit in this command, if you'd like to see the in-depth update notes use the `update-info` command.",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
