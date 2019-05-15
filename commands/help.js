@@ -21,7 +21,7 @@ module.exports = {
         let otherCmds = ["`rules`","`cooldowns`","`delete`","`deactivate`","`server`","`update`","`health`",
         "`money`","`level`","`points`","`leaderboard`","`discord`","`upgrade`","`backpack`", "`invite`"];
         
-        let utilities = ["`setprefix`", "`setstatus`", "`togglekillfeed`", "`togglelevelchannel`","`togglerandomattacks`"];
+        let utilities = ["`setprefix`", "`setstatus`", "`togglekillfeed`", "`togglelevelchannel`","`togglerandomattacks`","`setdropchannel`","`disabledropchannel`"];
         
         otherCmds.sort();
 
