@@ -10,7 +10,7 @@ module.exports = {
     requiresAcc: true,
     guildModsOnly: true,
     modOnly: false,
-    adminOnly: true,
+    adminOnly: false,
     
     async execute(message, args, lang, prefix){
         const guildRow = await query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`)
