@@ -37,3 +37,11 @@ process.on('exit', () => {
     console.log('Ending process...');
     manager.broadcastEval('process.exit()');
 });
+/*
+process.on('SIGINT', () => {
+    manager.broadcastEval('process.exit()');
+});
+process.on('SIGTERM', () => {
+    manager.broadcastEval('process.exit()');
+});
+*/

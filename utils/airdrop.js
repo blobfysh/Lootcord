@@ -31,6 +31,14 @@ exports.initAirdrop = async function(client, guildId){
 exports.callAirdrop = async function(client, guildId, itemToDrop, callAnother = true) {
     const dropChan    = await query(`SELECT * FROM guildInfo WHERE guildId = ${guildId}`);
     const guildPrefix = await query(`SELECT * FROM guildPrefix WHERE guildId = ${guildId}`);
+    const activeRow   = await query(`SELECT * FROM userGuilds WHERE guildId = ${guildId}`);
+
+    // Cancels airdrop if guild has less than 5 active players.
+    if(Object.keys(activeRow).length < 5){
+        query(`UPDATE guildInfo SET dropChan = 0 WHERE guildId ='${guildId}'`);
+        exports.cancelAirdrop(client, guildId);
+        return;
+    }
 
     var prefix = config.prefix;
 
@@ -56,7 +64,7 @@ exports.callAirdrop = async function(client, guildId, itemToDrop, callAnother = 
         else{
             false;
         }
-    `).then(array => {
+    `).then(async array => {
         console.log(array);
         // array will equal something like: [ true, false, false ]
         // Only allow claiming of drop if the drop was successfully sent.

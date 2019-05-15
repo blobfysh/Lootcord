@@ -27,7 +27,7 @@ module.exports = {
                 };
                 botMessage.awaitReactions(filter, {max: 1, time: 15000, errors: ['time'] }).then(collected => {
                     const reaction = collected.first();
-    
+                    
                     if(reaction.emoji.name === '✅'){
                         botMessage.delete();
                         query(`DELETE FROM userGuilds WHERE userId = ${message.author.id} AND guildId = ${message.guild.id}`); //delete user from server 

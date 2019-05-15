@@ -130,7 +130,7 @@
 		"weapons": [
 			"LOOT RECEIVED",
 			"🍀{0} EVADED {1}'s attack! How lucky!",
-			"{0} + ` HIT {1} FOR {2} DAMAGE TURNING THEM INTO A **CHICKEN** using {3}!!!\nThey now have **{4}** health and can't use any commands for 2 hours!",
+			"{0} HIT {1} FOR {2} DAMAGE TURNING THEM INTO A **CHICKEN** using {3}!!!\nThey now have **{4}** health and can't use any commands for 2 hours!",
 			"ow..."
 		]
 	},

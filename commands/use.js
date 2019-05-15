@@ -270,12 +270,12 @@ module.exports = {
                                     }
                                     else{
                                         if(itemUsed.toLowerCase() == "peck_seed"){//TURNS ENEMY INTO A CHICKEN
-                                            query(`UPDATE scores SET peckTime = ${(new Date()).getTime()} WHERE userId = ${userNameID}`);
+                                            query(`UPDATE cooldowns SET peckTime = ${(new Date()).getTime()} WHERE userId = ${userNameID}`);
 
                                             message.client.shard.broadcastEval(`this.sets.peckCooldown.add('${userNameID}')`);
                                             setTimeout(() => {
                                                 message.client.shard.broadcastEval(`this.sets.peckCooldown.delete('${userNameID}')`);
-                                                query(`UPDATE scores SET peckTime = ${0} WHERE userId = ${userNameID}`);
+                                                query(`UPDATE cooldowns SET peckTime = ${0} WHERE userId = ${userNameID}`);
                                             }, 7200 * 1000);
                                             query(`UPDATE scores SET health = ${parseInt(victimRow.health) - damage} WHERE userId = ${userNameID}`);
                                             message.channel.send(lang.use.weapons[2].replace('{0}', '<@' + message.author.id + '>').replace('{1}', '<@' + userNameID + '>').replace('{2}', damage).replace('{3}', itemUsed).replace('{4}', victimRow.health - damage));
