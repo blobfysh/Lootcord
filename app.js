@@ -67,7 +67,7 @@ client.on('message', message => {
 });
 
 client.on("guildMemberRemove", (member) => {
-    query(`DELETE FROM userGuilds WHERE userId = ${member.id} AND guildId = ${member.guild.id}`); //delete user from server
+    query(`DELETE FROM userGuilds WHERE userId = ${member.id} AND guildId = ${member.guild.id}`); // delete user from server
     /*
     if(weapCooldown.has(member.id) && activateCooldown.has(member.id)){
         const leaveEmbed = new Discord.RichEmbed()

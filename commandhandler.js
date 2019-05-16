@@ -38,7 +38,7 @@ exports.handleCmd = async function(message, prefix, lang){
         return;
     }
 
-    else if(message.client.sets.peckCooldown.has(message.author.id)){//SENDS MESSAGE IF USER IS CHICKEN AND PREVENTS THEM FROM USING COMMANDS
+    else if(message.client.sets.peckCooldown.has(message.author.id) && !command.modOnly && !command.adminOnly){//SENDS MESSAGE IF USER IS CHICKEN AND PREVENTS THEM FROM USING COMMANDS
         message.delete();
         const embedChicken = new Discord.RichEmbed()
         .setAuthor(message.author.tag, message.author.avatarURL)
