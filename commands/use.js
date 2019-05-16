@@ -223,7 +223,7 @@ module.exports = {
                                                     .setTitle(`LOOT RECEIVED`)
                                                     .setDescription("Money : " + methods.formatMoney(victimRow.money) + "\nExperience : `" + xpToGive + "xp`")
                                                     .setColor(7274496)
-                                                    .addField("**ITEMS**", result[0])
+                                                    .addField("**ITEMS**", amountToGive !== 0 ? result[0] : result)
                                                     message.channel.send(killedReward);
     
                                                     methods.sendtokillfeed(message, message.author.id, userNameID, itemUsed, damage, result[0], methods.formatMoney(victimRow.money));
@@ -247,7 +247,7 @@ module.exports = {
                                                                         },
                                                                         {
                                                                             name: "Items stolen",
-                                                                            value: "${result[1]}",
+                                                                            value: "${amountToGive !== 0 ? result[1] : 'No items stolen'}",
                                                                             inline: true
                                                                         },
                                                                         {
