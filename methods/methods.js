@@ -202,6 +202,9 @@ class Methods {
         else if(itemSearched.startsWith("cyber")){
             itemSearched = "CYBER_PACK";
         }
+        else if(itemSearched.startsWith("supply")){
+            itemSearched = "SUPPLY_SIGNAL";
+        }
         
         return itemSearched.toLowerCase();
     }

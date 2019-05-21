@@ -75,7 +75,7 @@ INSERT IGNORE INTO items (
     killer,
     hitman,
     cyber_pack,
-    suppy_signal)
+    supply_signal)
     VALUES (
         ?,
         ?,
