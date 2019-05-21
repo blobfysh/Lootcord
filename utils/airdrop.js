@@ -4,7 +4,7 @@ const itemdata = require('../json/completeItemList.json');
 const Discord = require('discord.js');
 
 exports.initAirdrop = async function(client, guildId){
-    var rand       = Math.round(Math.random() * (14400 * 1000)) + (14400 * 1000); // Generate random time from 4 - 8 hours 14400
+    var rand       = Math.round(Math.random() * (14400 * 5)) + (14400 * 5); // Generate random time from 4 - 8 hours 14400
     const dropChan = await query(`SELECT * FROM guildInfo WHERE guildId = ${guildId}`);
     var foundChan  = client.channels.get(dropChan[0].dropChan);
 
@@ -28,16 +28,20 @@ exports.initAirdrop = async function(client, guildId){
 * Will call an airdrop with rpg to be sent to the messager's guild.
 */
 
-exports.callAirdrop = async function(client, guildId, itemToDrop, callAnother = true) {
+exports.callAirdrop = async function(client, guildId, itemToDrop, callAnother = true, channelID = 0) {
     const dropChan    = await query(`SELECT * FROM guildInfo WHERE guildId = ${guildId}`);
     const guildPrefix = await query(`SELECT * FROM guildPrefix WHERE guildId = ${guildId}`);
     const activeRow   = await query(`SELECT * FROM userGuilds WHERE guildId = ${guildId}`);
 
+    var channelToDrop = dropChan[0].dropChan;
     // Cancels airdrop if guild has less than 5 active players.
-    if(Object.keys(activeRow).length < 5){
+    if(Object.keys(activeRow).length < 5 && callAnother){
         query(`UPDATE guildInfo SET dropChan = 0 WHERE guildId ='${guildId}'`);
         exports.cancelAirdrop(client, guildId);
         return;
+    }
+    else if(!callAnother){
+        channelToDrop = channelID;
     }
 
     var prefix = config.prefix;
@@ -47,7 +51,7 @@ exports.callAirdrop = async function(client, guildId, itemToDrop, callAnother = 
     }
     
     client.shard.broadcastEval(`
-        const channel = this.channels.get('${dropChan[0].dropChan}');
+        const channel = this.channels.get('${channelToDrop}');
 
         if(channel){
             channel.send({embed: {
@@ -69,6 +73,7 @@ exports.callAirdrop = async function(client, guildId, itemToDrop, callAnother = 
         // array will equal something like: [ true, false, false ]
         // Only allow claiming of drop if the drop was successfully sent.
         if(array.includes(true)){
+            query(`UPDATE guildInfo SET dropItemChan = '${channelToDrop}' WHERE guildId = ${guildId}`);
             query(`UPDATE guildInfo SET dropItem = '${itemToDrop}' WHERE guildId = ${guildId}`);
         }
         if(callAnother) {

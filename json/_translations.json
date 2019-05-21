@@ -190,7 +190,8 @@
 	},
 	"vote": [
 		"Vote available in `{0} hours`!\n🎟Vote for the bot to collect a reward!\nhttps://discordbots.org/bot/493316754689359874/vote\nYou should receive a DM after you vote!",
-		"☑VOTE AVAILABLE\n🎟Vote for the bot to collect a reward!\nhttps://discordbots.org/bot/493316754689359874/vote\nYou should receive a DM after you vote!"
+		"☑VOTE AVAILABLE\n🎟Vote for the bot to collect a reward!\nhttps://discordbots.org/bot/493316754689359874/vote\nYou should receive a DM after you vote!",
+		"☑VOTE AVAILABLE `{0} hours left to vote before vote counter expires.`\n🎟Vote for the bot to collect a reward!\nhttps://discordbots.org/bot/493316754689359874/vote\nYou should receive a DM after you vote!"
 	],
 	"upgrade": [
 		"You have {0} skill points available!",

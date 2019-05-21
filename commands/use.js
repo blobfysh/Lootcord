@@ -7,6 +7,7 @@ const methods = require('../methods/methods.js');
 const open = require('../methods/open_care_package.js');
 const config = require('../json/_config.json');
 const itemdata = require('../json/completeItemList.json');
+const airdrop = require('../utils/airdrop.js');
 
 module.exports = {
     name: 'use',
@@ -70,6 +71,30 @@ module.exports = {
                     }
                     else if(itemUsed == "care_package" && row.care_package >= 1){
                         open.open_package(message, lang);
+                    }
+                    else if(itemUsed == "supply_signal" && row.supply_signal >= 1){
+                        // Add a 30 second timeout before sending airdrop
+                        message.reply('📻 Requesting immediate airdrop...').then(msg => {
+                            setTimeout(() => {
+                                message.channel.send('**📻 Airdrop arriving in `30 seconds`!**');
+                            }, 3000);
+                            setTimeout(() => {
+                                message.channel.send('**📻 `10 seconds`!**');
+                            }, 20000);
+                            setTimeout(() => {
+                                message.channel.send('**📻 `5`...**');
+                            }, 25000);
+                            setTimeout(() => {
+                                message.channel.send('**📻 `4`...**');
+                            }, 26000);
+                            setTimeout(() => {
+                                message.channel.send('**📻 `3`...**');
+                            }, 27000);
+                            setTimeout(() => {
+                                airdrop.callAirdrop(message.client, message.guild.id, 'care_package', false, message.channel.id);
+                            }, 30000);
+                        });
+                        query(`UPDATE items SET ${itemUsed} = ${row[itemUsed] - 1} WHERE userId = ${message.author.id}`);
                     }
                     else if(itemdata[itemUsed].isShield && row[itemUsed] >= 1){
                         if(message.client.sets.activeShield.has(message.author.id)){

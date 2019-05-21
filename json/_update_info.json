@@ -40,9 +40,10 @@
   "desc": [
     "🔹 **Bot has been rewritten, is now sharded, and uses a new database!**",
     "🔹 **Source code is public on github: **https://github.com/blobfysh/Lootcord",
-    "🔹 **Added togglerandomattacks command. Server-owners can enable random only attacks now!**",
+    "🔹 **Added new item: supply_signal**",
+    "🔹 **Better reward for voting, receive a supply_signal for every 6 days in a row that you vote!**",
     "🔹 **Call in airdrops with the setdropchannel command!**",
-    "🔹 The update notes were a little too long to fit in this command, if you'd like to see the in-depth update notes use the `update-info` command.",
+    "🔹 v4 update notes can be viewed with the `update-info` command.",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
 }

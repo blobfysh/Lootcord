@@ -155,7 +155,7 @@ client.on('ready', () => {
                     }
                 }
                 if(userInfo.voteTime > 0){
-                    let timeLeft = (43300*1000) - ((new Date()).getTime() - userInfo.voteTime);
+                    let timeLeft = (43200*1000) - ((new Date()).getTime() - userInfo.voteTime);
                     if(timeLeft > 0){
                         client.sets.voteCooldown.add(userInfo.userId);
                         setTimeout(() => {

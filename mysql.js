@@ -101,7 +101,8 @@ CREATE TABLE IF NOT EXISTS scores (
     used_stats INT,
     status VARCHAR(255),
     banner VARCHAR(255),
-    language VARCHAR(30))
+    language VARCHAR(30),
+    voteCounter INT)
     ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `
 
@@ -114,6 +115,7 @@ CREATE TABLE IF NOT EXISTS cooldowns (
     triviaTime BIGINT,
     peckTime BIGINT,
     voteTime BIGINT,
+    voteTimeLeft BIGINT,
     gambleTime BIGINT,
     ironShieldTime BIGINT,
     goldShieldTime BIGINT,
@@ -190,7 +192,7 @@ function connectSQL(){
         });
 
         //guildInfo table for keeping information about specific guild
-        db.query('CREATE TABLE IF NOT EXISTS guildInfo (guildId bigint, killChan bigint, levelChan bigint, dropChan bigint, dropItem VARCHAR(255), randomOnly BOOLEAN) ENGINE = InnoDB', (err, result) => {
+        db.query('CREATE TABLE IF NOT EXISTS guildInfo (guildId bigint, killChan bigint, levelChan bigint, dropChan bigint, dropItemChan bigint, dropItem VARCHAR(255), randomOnly BOOLEAN) ENGINE = InnoDB', (err, result) => {
             if(err) return console.log(err);
         });
 

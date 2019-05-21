@@ -74,7 +74,8 @@ INSERT IGNORE INTO items (
     looter,
     killer,
     hitman,
-    cyber_pack)
+    cyber_pack,
+    suppy_signal)
     VALUES (
         ?,
         ?,
@@ -84,7 +85,8 @@ INSERT IGNORE INTO items (
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0
     )
 `
 
@@ -108,7 +110,8 @@ INSERT IGNORE INTO scores (
     used_stats,
     status,
     banner,
-    language)
+    language,
+    voteCounter)
     VALUES (
         ?,
         ?,
@@ -119,7 +122,7 @@ INSERT IGNORE INTO scores (
         ?,
         ?,
         ?,
-        0, 0, 0, 0, 0, 0, 0, '', 'recruit', 'en-us'
+        0, 0, 0, 0, 0, 0, 0, '', 'recruit', 'en-us', 0
     )
 `
 
@@ -132,6 +135,7 @@ INSERT IGNORE INTO cooldowns (
     triviaTime,
     peckTime,
     voteTime,
+    voteTimeLeft,
     gambleTime,
     ironShieldTime,
     goldShieldTime,
@@ -156,7 +160,7 @@ INSERT IGNORE INTO cooldowns (
         ?,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0
+        0, 0, 0, 0, 0, 0, 0
     )
 `
 
@@ -180,7 +184,7 @@ module.exports = {
 
             const guildRow = await query(`SELECT * FROM guildInfo WHERE guildId = ${message.guild.id}`);
             if(!guildRow.length){
-                query(`INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItem, randomOnly) VALUES (${message.guild.id}, '', '', '', '', 0)`);
+                query(`INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItemChan, dropItem, randomOnly) VALUES (${message.guild.id}, '', '', '', '', 0, 0)`);
             }
 
             //cooldowns row is never deleted, will keep cooldowns persistent even after account deletion
@@ -207,7 +211,7 @@ module.exports = {
 
             const guildRow = await query(`SELECT * FROM guildInfo WHERE guildId = ${message.guild.id}`);
             if(!guildRow.length){
-                query(`INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItem, randomOnly) VALUES (${message.guild.id}, '', '', '', '', 0)`);
+                query(`INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItemChan, dropItem, randomOnly) VALUES (${message.guild.id}, '', '', '', '', 0, 0)`);
             }
 
             const activate = await query(`INSERT INTO userGuilds (userId, guildId) VALUES (${message.author.id}, ${message.guild.id})`);

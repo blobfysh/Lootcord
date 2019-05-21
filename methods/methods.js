@@ -7,25 +7,26 @@ const fs = require("fs");
 
 class Methods {
     //GENERAL FUNCTIONS, CAN BE USED BY MULTIPLE COMMANDS
-    additem(userId, item, amount){
-        query(`SELECT * FROM items WHERE userId ="${userId}"`).then(oldRow => {
-            const row = oldRow[0];
+    async additem(userId, item, amount){
+        const oldRow = await query(`SELECT * FROM items WHERE userId ="${userId}"`);
+        const row = oldRow[0];
             
-            if(Array.isArray(item)){
-                if(item.length == 0){
-                    return;
-                }
-                for(var i=0; i < item.length; i++){
-                    //do stuff for each item
-                    //store amounts in array as ["rock|5","ak47|2"] then use split("|")
-                    let itemToCheck = item[i].split("|");
-                    query(`UPDATE items SET ${itemToCheck[0]} = ${row[itemToCheck[0]] + parseInt(itemToCheck[1])} WHERE userId = ${userId}`);
-                }
+        if(Array.isArray(item)){
+            if(item.length == 0){
+                return;
             }
-            else{
-                query(`UPDATE items SET ${item} = ${row[item] + amount} WHERE userId = ${userId}`);
+            for(var i=0; i < item.length; i++){
+                const oldRow2 = await query(`SELECT * FROM items WHERE userId ="${userId}"`);
+                const row2 = oldRow2[0];
+                //do stuff for each item
+                //store amounts in array as ["rock|5","ak47|2"] then use split("|")
+                let itemToCheck = item[i].split("|");
+                query(`UPDATE items SET ${itemToCheck[0]} = ${row2[itemToCheck[0]] + parseInt(itemToCheck[1])} WHERE userId = ${userId}`);
             }
-        });
+        }
+        else{
+            query(`UPDATE items SET ${item} = ${row[item] + amount} WHERE userId = ${userId}`);
+        }
     }
 
     addmoney(userId, amount){

@@ -16,10 +16,13 @@ module.exports = {
             const row = oldRow[0];
 
             if(message.client.sets.voteCooldown.has(message.author.id)){
-                message.reply(lang.vote[0].replace('{0}', (((43300 * 1000 - ((new Date()).getTime() - row.voteTime)) / 60000).toFixed(1)/60).toFixed(1)));
+                message.reply(lang.vote[0].replace('{0}', (((43200 * 1000 - ((new Date()).getTime() - row.voteTime)) / 60000).toFixed(1)/60).toFixed(1)));
+            }
+            else if(row.voteTimeLeft > 0){
+                message.reply(lang.vote[2].replace('{0}', (((43200 * 1000 - ((new Date()).getTime() - row.voteTimeLeft)) / 60000).toFixed(1)/60).toFixed(1)));
             }
             else{
-                message.reply("☑VOTE AVAILABLE\n🎟Vote for the bot to collect a reward!\nhttps://discordbots.org/bot/493316754689359874/vote\nYou should receive a DM after you vote!");
+                message.reply(lang.vote[1]);
             }
         });
     },

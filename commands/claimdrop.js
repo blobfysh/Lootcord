@@ -21,11 +21,11 @@ module.exports = {
         const hasEnough = await methods.hasenoughspace(message.author.id, 1);
     
 
-        if(message.channel.id !== guildInfo[0].dropChan){
+        if(message.channel.id !== guildInfo[0].dropItemChan){
             return message.reply(lang.claimdrop[0]);
         }
         
-        else if(guildInfo[0].dropItem == ''){
+        if(guildInfo[0].dropItem == ''){
             return message.reply(lang.claimdrop[1]);
         }
 
@@ -35,6 +35,7 @@ module.exports = {
             message.reply(`You got the \`${guildInfo[0].dropItem}\`!`);
             query(`UPDATE items SET ${guildInfo[0].dropItem} = ${userItems[guildInfo[0].dropItem] + 1} WHERE userId = ${message.author.id}`);
             query(`UPDATE guildInfo SET dropItem = '' WHERE guildId = ${message.guild.id}`);
+            query(`UPDATE guildInfo SET dropItemChan = 0 WHERE guildId = ${message.guild.id}`);
         }
     },
 }
