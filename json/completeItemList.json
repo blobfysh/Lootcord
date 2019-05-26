@@ -1423,11 +1423,17 @@
         "isAmmo": [],
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "display": "2x module\n2x steel",
+            "materials": [
+                "module|2",
+                "steel|2"
+            ]
+        },
         "buy": "",
         "sell": 3000,
-        "desc": "A supply signal that calls in an airdrop.",
-        "image": "https://cdn.discordapp.com/attachments/454163538886524928/499746695370768408/thanbox_emptysmall.png",
+        "desc": "A signal used to call in an immediate airdrop. Be careful though, the airdrop can still be stolen by other players the same way a real airdrop can.",
+        "image": "",
         "unboxable": false,
         "icon": "<:UnboxLegendary:526248970914234368>",
         "breaksOnUse": "",

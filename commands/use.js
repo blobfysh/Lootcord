@@ -340,7 +340,7 @@ module.exports = {
                                         return message.reply(lang.use.errors[7]);
                                     }
                                     else if(message.client.sets.activeShield.has(userNameID)){        //CHECK IF PLAYER HAS SHIELD ACTIVE
-                                        if(itemUsed == "awp" && row.awp >= 1 && row.bmg_50cal >= 1){
+                                        if(itemUsed == "awp" && row.awp >= 1 && row['50_cal'] >= 1){
                                         }
                                         else{
                                             return methods.getShieldTime(userNameID).then(shieldTimeLeft => {

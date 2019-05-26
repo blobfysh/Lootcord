@@ -80,13 +80,7 @@ exports.votingManager = (manager) => {
                 }, 43200 * 1000)}; // 12 hours
         
                 client.voteTimers.push(timeObj);
-            }, 43200 * 900); // 12 hours
-
-            const voteEmbed = new Discord.RichEmbed()
-            .setTitle('Thanks for voting!')
-            .setDescription(itemReward)
-            .setFooter('Vote every 12 hours for a reward')
-            .setImage("https://cdn.discordapp.com/attachments/454163538886524928/543014649554272277/greypleLine.png")
+            }, 43200 * 1000); // 12 hours
 
             voter.send('**Thanks for voting!**\n' + itemReward, {embed: voteEmb.getCounter(row.voteCounter + 1)});
         }
@@ -131,6 +125,7 @@ client.on('ready', () => {
                         client.voteTimers.push(timeObj);
                     }
                     else{
+                        query(`UPDATE cooldowns SET voteTimeLeft = ${0} WHERE userId = ${userInfo.userId}`);
                         query(`UPDATE scores SET voteCounter = ${0} WHERE userId = ${userInfo.userId}`);
                     }
                 }

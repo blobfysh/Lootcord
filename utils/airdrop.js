@@ -4,7 +4,7 @@ const itemdata = require('../json/completeItemList.json');
 const Discord = require('discord.js');
 
 exports.initAirdrop = async function(client, guildId){
-    var rand       = Math.round(Math.random() * (14400 * 5)) + (14400 * 5); // Generate random time from 4 - 8 hours 14400
+    var rand       = Math.round(Math.random() * (14400 * 1000)) + (14400 * 1000); // Generate random time from 4 - 8 hours 14400
     const dropChan = await query(`SELECT * FROM guildInfo WHERE guildId = ${guildId}`);
     var foundChan  = client.channels.get(dropChan[0].dropChan);
 
