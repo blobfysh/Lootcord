@@ -129,6 +129,29 @@ client.on('ready', () => {
                         query(`UPDATE scores SET voteCounter = ${0} WHERE userId = ${userInfo.userId}`);
                     }
                 }
+                if(userInfo.voteTime > 0){
+                    let timeLeft = (43200*1000) - ((new Date()).getTime() - userInfo.voteTime);
+                    if(timeLeft > 0){
+                        setTimeout(() => {
+                            console.log('Vote from startup ended! starting voteCounter countdown...');
+
+                            query(`UPDATE cooldowns SET voteTimeLeft = ${(new Date()).getTime()} WHERE userId = ${userInfo.userId}`);
+                            exports.resetCounter(userInfo.userId);
+                            let timeObj = {user: userInfo.userId ,timer: setTimeout(() => {
+                                console.log('User didnt vote in time and lost counter');
+                                // The point of concurrent voting is to stop this from executing.
+                                query(`UPDATE cooldowns SET voteTimeLeft = ${0} WHERE userId = ${userInfo.userId}`);
+                                query(`UPDATE scores SET voteCounter = ${0} WHERE userId = ${userInfo.userId}`);
+                                exports.resetCounter(userInfo.userId);
+                            }, 43200 * 1000)}; // 12 hours
+
+                            client.voteTimers.push(timeObj);
+                        }, timeLeft);
+                    }
+                    else{
+                        query(`UPDATE cooldowns SET voteTime = ${0} WHERE userId = ${userInfo.userId}`);
+                    }
+                }
             }
 
         });
