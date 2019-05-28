@@ -23,6 +23,9 @@ var triviaUserCooldown = new Set();
 //scramble command cooldown
 var scrambleCooldown = new Set();
 
+//Set of users playing scramble to prevent level-up message
+var activeScramblers = new Set();
+
 //gamble command cooldown
 var gambleCooldown = new Set();
 
@@ -58,6 +61,7 @@ module.exports = {
     activateCooldown,
     triviaUserCooldown,
     scrambleCooldown,
+    activeScramblers,
     gambleCooldown,
     xpPotCooldown,
     eventCooldown,

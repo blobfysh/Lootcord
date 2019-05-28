@@ -67,6 +67,7 @@ module.exports = {
 
             message.channel.send(message.author, embedScramble);
 
+            message.client.sets.activeScramblers.add(message.author.id);
             message.client.shard.broadcastEval(`this.sets.scrambleCooldown.add('${message.author.id}')`);
             query(`UPDATE cooldowns SET scrambleTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
             setTimeout(() => {
@@ -206,6 +207,7 @@ module.exports = {
                     client.guilds.get("454163538055790604").channels.get("500467081226223646").send(embedLog);
                     */
                 }
+                message.client.sets.activeScramblers.delete(message.author.id);
             });
         }
     },
