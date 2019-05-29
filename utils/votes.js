@@ -60,17 +60,18 @@ exports.votingManager = (manager) => {
             manager.broadcastEval(`this.sets.voteCooldown.add('${vote.user}')`);
             query(`UPDATE cooldowns SET voteTime = ${(new Date()).getTime()} WHERE userId = ${vote.user}`);
             
+            query(`UPDATE cooldowns SET voteTimeLeft = ${0} WHERE userId = ${vote.user}`); // 4.3.4 fixes vote issue? Prior to adding this, if user voted the voteTimeLeft would remain the same
+                                                                                           // which meant if bot was restarted there would be a timeout() that was waaay too short causing voteCounter to be reset early
             // Start counting concurrent votes vvv
             exports.resetCounter(vote.user);
 
-            console.log(row.voteCounter + 1);
             setTimeout(() => {
                 console.log('User can vote again.');
                 manager.broadcastEval(`this.sets.voteCooldown.delete('${vote.user}');`);
                 query(`UPDATE cooldowns SET voteTime = ${0} WHERE userId = ${vote.user}`);
 
                 query(`UPDATE cooldowns SET voteTimeLeft = ${(new Date()).getTime()} WHERE userId = ${vote.user}`);
-                exports.resetCounter(vote.user);
+                //exports.resetCounter(vote.user);
                 let timeObj = {user: vote.user ,timer: setTimeout(() => {
                     console.log('User didnt vote in time and lost counter');
                     // The point of concurrent voting is to stop this from executing.
@@ -91,7 +92,7 @@ exports.votingManager = (manager) => {
 }
 
 exports.resetCounter = function(userId) {
-
+    // console.log('I just reset someones vote counter with the id: ' + userId);
     client.voteTimers.forEach(arrObj => {
 
         if(arrObj.user == userId){
@@ -116,7 +117,6 @@ client.on('ready', () => {
                         console.log('added voteTimeLeft user');
                         let timeObj = {user: userInfo.userId ,timer: setTimeout(() => {
                             console.log('User didnt vote in time and lost counter');
-                            // The point of concurrent voting is to stop this from executing.
                             query(`UPDATE cooldowns SET voteTimeLeft = ${0} WHERE userId = ${userInfo.userId}`);
                             query(`UPDATE scores SET voteCounter = ${0} WHERE userId = ${userInfo.userId}`);
                             exports.resetCounter(userInfo.userId);
@@ -136,7 +136,7 @@ client.on('ready', () => {
                             console.log('Vote from startup ended! starting voteCounter countdown...');
 
                             query(`UPDATE cooldowns SET voteTimeLeft = ${(new Date()).getTime()} WHERE userId = ${userInfo.userId}`);
-                            exports.resetCounter(userInfo.userId);
+                            //exports.resetCounter(userInfo.userId);
                             let timeObj = {user: userInfo.userId ,timer: setTimeout(() => {
                                 console.log('User didnt vote in time and lost counter');
                                 // The point of concurrent voting is to stop this from executing.
