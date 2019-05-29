@@ -1035,59 +1035,110 @@ class Methods {
 
                     if(isGame){
                         //item is a game and needs to message admins when its sold... Doesn't need to check for inventory space since they only lose items
-                        this.hasitems(message.author.id, currency, itemPrice).then(hasItems => {
-                            if(hasItems){
-                                query(`SELECT * FROM gamesData WHERE gameName = '${buyItem}'`).then(gameRow => {
+                        if(currency == 'money'){
+                            this.hasmoney(message.author.id, itemPrice).then(hasMoney => {
+                                if(hasMoney){
+                                    query(`SELECT * FROM gamesData WHERE gameName = '${buyItem}'`).then(gameRow => {
 
-                                    query(`UPDATE gamesData SET gameAmount = ${gameRow[0].gameAmount - 1} WHERE gameName = '${buyItem}'`);
+                                        query(`UPDATE gamesData SET gameAmount = ${gameRow[0].gameAmount - 1} WHERE gameName = '${buyItem}'`);
 
-                                    this.removeitem(message.author.id, currency, itemPrice);
+                                        this.removemoney(message.author.id, itemPrice);
+                                        
+                                        message.reply("Successfully bought `" + buyItem + "`!");
+
+                                        const buyerEmbed = new Discord.RichEmbed()
+                                        .setTitle("✅ Game Purchased!")
+                                        .setDescription("The moderators have received confirmation that you purchased a game and will respond with your key soon.")
+                                        .setFooter('Please do not message asking "Where is my code?" unless atleast 12 hours have passed. We have the right to cancel this purchase if we suspect you of cheating.')
+                                        .setTimestamp()
+                                        message.author.send(buyerEmbed);
+
+                                        return message.client.shard.broadcastEval(`
+                                            const channel = this.channels.get('${config.modChannel}');
                                     
-                                    message.reply("Successfully bought `" + buyItem + "`!");
+                                            if(channel){
+                                                channel.send({embed: {
+                                                        title: "✅ Game Purchased!",
+                                                        fields: [
+                                                            {
+                                                                name: "Game Sold",
+                                                                value: "**${gameRow[0].gameDisplay}**",
+                                                            },
+                                                            {
+                                                                name: "Buyer",
+                                                                value: "${message.author.tag} ID: \`\`\`${message.author.id}\`\`\`",
+                                                            },
+                                                        ],
+                                                    }
+                                                });
+                                                true;
+                                            }
+                                            else{
+                                                false;
+                                            }
+                                        `).then(console.log);
+                                    });
+                                }
+                                else{
+                                    message.reply(lang.buy[5].replace('{0}', displayPrice));
+                                }
+                            });
+                        }
+                        else{
+                            this.hasitems(message.author.id, currency, itemPrice).then(hasItems => {
+                                if(hasItems){
+                                    query(`SELECT * FROM gamesData WHERE gameName = '${buyItem}'`).then(gameRow => {
 
-                                    const buyerEmbed = new Discord.RichEmbed()
-                                    .setTitle("✅ Game Purchased!")
-                                    .setDescription("The moderators have received confirmation that you purchased a game and will respond with your key soon.")
-                                    .setFooter('Please do not message asking "Where is my code?" unless atleast 12 hours have passed. We have the right to cancel this purchase if we suspect you of cheating.')
-                                    .setTimestamp()
-                                    message.author.send(buyerEmbed);
+                                        query(`UPDATE gamesData SET gameAmount = ${gameRow[0].gameAmount - 1} WHERE gameName = '${buyItem}'`);
 
-                                    const gameEmbed = new Discord.RichEmbed()
-                                    .setTitle("✅ Game Purchased!")
-                                    .addField("Game Sold", "**" + gameRow[0].gameDisplay + "**")
-                                    .addField("Buyer", message.author.tag + "\nID: ```" + message.author.id + "```")
-                                    .setTimestamp()
-                                    //<@&495162711102062592>
-                                    return message.client.shard.broadcastEval(`
-                                        const channel = this.channels.get('${config.modChannel}');
-                                
-                                        if(channel){
-                                            channel.send({embed: {
-                                                    title: "✅ Game Purchased!",
-                                                    fields: [
-                                                        {
-                                                            name: "Game Sold",
-                                                            value: "**${gameRow[0].gameDisplay}**",
-                                                        },
-                                                        {
-                                                            name: "Buyer",
-                                                            value: "${message.author.tag} ID: \`\`\`${message.author.id}\`\`\`",
-                                                        },
-                                                    ],
-                                                }
-                                            });
-                                            true;
-                                        }
-                                        else{
-                                            false;
-                                        }
-                                    `).then(console.log);
-                                });
-                            }
-                            else{
-                                message.reply(lang.buy[5].replace('{0}', displayPrice));
-                            }
-                        });
+                                        this.removeitem(message.author.id, currency, itemPrice);
+                                        
+                                        message.reply("Successfully bought `" + buyItem + "`!");
+
+                                        const buyerEmbed = new Discord.RichEmbed()
+                                        .setTitle("✅ Game Purchased!")
+                                        .setDescription("The moderators have received confirmation that you purchased a game and will respond with your key soon.")
+                                        .setFooter('Please do not message asking "Where is my code?" unless atleast 12 hours have passed. We have the right to cancel this purchase if we suspect you of cheating.')
+                                        .setTimestamp()
+                                        message.author.send(buyerEmbed);
+
+                                        const gameEmbed = new Discord.RichEmbed()
+                                        .setTitle("✅ Game Purchased!")
+                                        .addField("Game Sold", "**" + gameRow[0].gameDisplay + "**")
+                                        .addField("Buyer", message.author.tag + "\nID: ```" + message.author.id + "```")
+                                        .setTimestamp()
+                                        //<@&495162711102062592>
+                                        return message.client.shard.broadcastEval(`
+                                            const channel = this.channels.get('${config.modChannel}');
+                                    
+                                            if(channel){
+                                                channel.send({embed: {
+                                                        title: "✅ Game Purchased!",
+                                                        fields: [
+                                                            {
+                                                                name: "Game Sold",
+                                                                value: "**${gameRow[0].gameDisplay}**",
+                                                            },
+                                                            {
+                                                                name: "Buyer",
+                                                                value: "${message.author.tag} ID: \`\`\`${message.author.id}\`\`\`",
+                                                            },
+                                                        ],
+                                                    }
+                                                });
+                                                true;
+                                            }
+                                            else{
+                                                false;
+                                            }
+                                        `).then(console.log);
+                                    });
+                                }
+                                else{
+                                    message.reply(lang.buy[5].replace('{0}', displayPrice));
+                                }
+                            });
+                        }
                     }
                     else if(currency == "money"){
                         this.hasenoughspace(message.author.id, parseInt(buyAmount)).then(result => {
