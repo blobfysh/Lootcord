@@ -271,6 +271,19 @@
 	"togglerandomattacks": [
 		"✅ This server is now in random-only mode.",
 		"❌ Server no longer in random-only mode."
+	],
+	"jackpot": [
+		"You are about to start a server jackpot with an entry of: `{0}`\nAre you sure?",
+		"Please enter an amount of atleast $100",
+		"Amount cannot be higher than $50,000",
+		"There is already an active jackpot in this server.",
+		"**A jackpot has started! A winner will be chosen in `2 minutes`**",
+		"⏱ **`{0}` remaining to enter the jackpot! Use `{1}join <amount>` to enter!**",
+		"⏱ **Jackpot ends in... {0}**",
+		"And the winner is...",
+		"You already entered this jackpot!",
+		"Sorry, this jackpot is full!",
+		"**{0}** won the {1} jackpot with a {2}% chance of winning!"
 	]
 },
 "pt_br": {

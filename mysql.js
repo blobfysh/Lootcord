@@ -126,6 +126,7 @@ CREATE TABLE IF NOT EXISTS cooldowns (
     activateTime BIGINT,
     spamTime BIGINT,
     xpTime BIGINT,
+    jackpotTime BIGINT,
     _15mCD BIGINT,
     _30mCD BIGINT,
     _45mCD BIGINT,

@@ -22,11 +22,13 @@ module.exports = {
         if(activityType !== undefined){
             try{
                 if(statusInfo == 'reset'){
-                    message.client.shard.broadcastEval(`this.shard.fetchClientValues('guilds.size').then(results => {
-                        var result = results.reduce((prev, guildCount) => prev + guildCount, 0);
-                        this.user.setActivity('t-help | ' + result + ' servers!', {type: '${activityType}'});
+                    message.client.shard.broadcastEval(`
+                    this.shard.fetchClientValues('users.size').then(results => {
+                        var result = results.reduce((prev, userCount) => prev + userCount, 0);
+                        this.user.setActivity('t-help | ' + result + ' looters!', {type: 'LISTENING'});
                         result;
-                    })`).then(console.log)
+                    })
+                `);
                 }
                 else if(statusInfo == ''){
                     message.client.shard.broadcastEval(`this.user.setActivity('t-help', {type: '${activityType}'});`);

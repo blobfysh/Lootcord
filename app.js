@@ -22,6 +22,7 @@ client.commands     = new Discord.Collection();
 client.airdropTimes = [];
 client.shieldTimes  = [];
 client.commandsUsed = 0;
+client.restartLockdown = false;
 
 const commandFiles      = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 const moderatorCommands = fs.readdirSync('./commands/moderation').filter(file => file.endsWith('.js'));
@@ -102,16 +103,33 @@ client.on('ready', () => {
     if(config.debug == false){
         setInterval(() => {
             //methods.sendlbtoweb(sql);
-            client.shard.broadcastEval(`
-                this.shard.fetchClientValues('users.size').then(results => {
-                    var result = results.reduce((prev, userCount) => prev + userCount, 0);
-                    this.user.setActivity('t-help | ' + result + ' looters!', {type: 'LISTENING'});
-                    result;
-                })
-            `);
+            if(message.client.user.presence.game.name.endsWith('looters!')){
+                client.shard.broadcastEval(`
+                    this.shard.fetchClientValues('users.size').then(results => {
+                        var result = results.reduce((prev, userCount) => prev + userCount, 0);
+                        this.user.setActivity('t-help | ' + result + ' looters!', {type: 'LISTENING'});
+                        result;
+                    })
+                `);
+            }
             dbl.postStats(client.guilds.size, client.shard.id, client.shard.count);
         }, 1800000); // 30 minutes
     }
+
+    query(`SELECT * FROM mods`).then(rows => {        //refreshes the list of moderators on startup
+        rows.forEach((moderatorId) => {
+            if(moderatorId.userId !== undefined && moderatorId.userId !== null){
+                client.sets.moddedUsers.add(moderatorId.userId);
+            }
+        });
+    });
+    query(`SELECT * FROM banned`).then(rows => {        //refreshes the list of banned users on startup
+        rows.forEach((bannedId) => {
+            if(bannedId.userId !== undefined && bannedId.userId !== null){
+                client.sets.bannedUsers.add(bannedId.userId);
+            }
+        });
+    });
 
     // refreshes cooldowns for all users
     query(`SELECT * FROM cooldowns`).then(rows => {

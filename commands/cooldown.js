@@ -27,6 +27,7 @@ module.exports = {
                         let healReady = "✅ ready"
                         let voteReady = "✅ ready"
                         let gambleReady = "✅ ready"
+                        let jackpotReady = "✅ ready"
 
                         let giftReady = "✅ ready"
 
@@ -49,6 +50,9 @@ module.exports = {
                         if(message.client.sets.voteCooldown.has(message.author.id)){
                             voteReady = (((43300 * 1000 - ((new Date()).getTime() - row.voteTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours";
                         }
+                        if(message.client.sets.jackpotCooldown.has(message.author.id)){
+                            jackpotReady = ((300 * 1000 - ((new Date()).getTime() - row.jackpotTime)) / 1000).toFixed(0) + " seconds";
+                        }
                         if(message.client.sets.gambleCooldown.has(message.author.id)){
                             gambleReady = ((60 * 1000 - ((new Date()).getTime() - row.gambleTime)) / 1000).toFixed(0) + " seconds";
                         }
@@ -63,6 +67,7 @@ module.exports = {
                         embedLeader.addField("❓ scramble", "`" + scrambleReady + "`",true)
                         embedLeader.addField("💰 gamble", "`" + gambleReady + "`",true)
                         embedLeader.addField("🎟 vote", "`" + voteReady + "`",true)
+                        embedLeader.addField("🎲 jackpot", "`" + jackpotReady + "`",true)
                         embedLeader.addField("⚔ Attack (part of `"+prefix+"use`)", "`" + attackReady + "`",true)
                         embedLeader.addField("❤ Heal (part of `"+prefix+"use`)", "`" + healReady + "`",true)
                         if(message.client.sets.activeShield.has(message.author.id)){

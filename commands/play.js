@@ -146,6 +146,7 @@ INSERT IGNORE INTO cooldowns (
     activateTime,
     spamTime,
     xpTime,
+    jackpotTime,
     _15mCD,
     _30mCD,
     _45mCD,
@@ -160,7 +161,7 @@ INSERT IGNORE INTO cooldowns (
         ?,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0
+        0, 0, 0, 0, 0, 0, 0, 0
     )
 `
 

@@ -43,6 +43,7 @@ module.exports = {
         ▫\`${prefix}hourly\`
         ▫\`${prefix}vote\`
         ▫\`${prefix}gamble <type> <amount>\`
+        ✨\`${prefix}jackpot <amount> - Start a server jackpot that everyone can enter!\`
         `
 
         const helpInfo = new Discord.RichEmbed()

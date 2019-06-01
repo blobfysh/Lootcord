@@ -38,11 +38,8 @@
     ]
   ],
   "desc": [
-    "🔹 **Bot has been rewritten, is now sharded, and uses a new database!**",
-    "🔹 **Source code is public on github: **https://github.com/blobfysh/Lootcord",
-    "🔹 **Added new item: supply_signal**",
-    "🔹 **Better reward for voting, receive a supply_signal for every 6 days in a row that you vote!**",
-    "🔹 **Call in airdrops with the setdropchannel command!**",
+    "🔹 **Source code: **https://github.com/blobfysh/Lootcord",
+    "🔹 **Added new command: `jackpot`**",
     "🔹 v4 update notes can be viewed with the `update-info` command.",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
