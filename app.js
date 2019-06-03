@@ -103,7 +103,7 @@ client.on('ready', () => {
     if(config.debug == false){
         setInterval(() => {
             //methods.sendlbtoweb(sql);
-            if(message.client.user.presence.game.name.endsWith('looters!')){
+            if(client.user.presence.game.name.endsWith('looters!')){
                 client.shard.broadcastEval(`
                     this.shard.fetchClientValues('users.size').then(results => {
                         var result = results.reduce((prev, userCount) => prev + userCount, 0);
