@@ -2,6 +2,7 @@ const Discord   = require('discord.js');
 const { query } = require('../mysql.js');
 const config    = require('../json/_config.json');
 const accCodes  = require('../methods/acc_code_handler.js');
+const refresher = require('../methods/refresh_active_role.js');
 
 module.exports = {
     name: 'delete',
@@ -88,6 +89,9 @@ module.exports = {
                     }
                     else{
                         message.reply(lang.delete[1]);
+                    }
+                    if(message.guild.id == config.supportGuildID){
+                        refresher.refreshactives(message);
                     }
                 }
                 else{

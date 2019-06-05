@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const { query } = require('../mysql.js');
+const config    = require('../json/_config.json');
+const refresher = require('../methods/refresh_active_role.js');
 
 module.exports = {
     name: 'deactivate',
@@ -41,6 +43,10 @@ module.exports = {
                             query(`UPDATE cooldowns SET deactivateTime = ${0} WHERE userId = ${message.author.id}`);
                         }, 86400 * 1000);
                         message.reply(lang.deactivate[4]);
+
+                        if(message.guild.id == config.supportGuildID){
+                            refresher.refreshactives(message);
+                        }
                     }
                     else{
                         botMessage.delete();

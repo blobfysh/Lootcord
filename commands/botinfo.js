@@ -1,5 +1,6 @@
 const Discord     = require('discord.js');
 const { version } = require('../package.json');
+const os          = require('os');
 const botInfo     = require('../json/_update_info.json');
 
 module.exports = {
@@ -29,7 +30,7 @@ module.exports = {
         embedInfo.addField("Users",(usersCount),true)
         embedInfo.addField("Active Servers",guildsCount, true)
         embedInfo.addField("Version", "`" + version +"`", true)
-        embedInfo.addField("Memory Usage",Math.round(used) + " MB",true)
+        embedInfo.addField("Memory Usage",Math.round(used) + "/" + Math.round(os.totalmem() / 1024 / 1024) + " MB",true)
         embedInfo.addField("Website", "https://lootcord.com",true)
         embedInfo.addField("Creators","blobfysh#4679\nOGSteve#0007",true)
         embedInfo.setFooter("Need help? Message the bot! | PM's to Lootcord are sent directly to moderators.")

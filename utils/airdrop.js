@@ -23,7 +23,7 @@ exports.initAirdrop = async function(client, guildId){
 /* The callAirdrop function can be called from the eval command to drop an item of your choice.
 *
 * ----EXAMPLE----
-* t-eval airdrop.callAirdrop(message.client, message.guild.id, 'rpg', false);
+* t-eval airdrop.callAirdrop(message.client, message.guild.id, 'rpg', false, message.channel.id);
 * 
 * Will call an airdrop with rpg to be sent to the messager's guild.
 */

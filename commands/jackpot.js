@@ -118,7 +118,7 @@ module.exports = {
                             
 
                             const collector = new Discord.MessageCollector(message.channel, m => {
-                                return !m.author.bot && m.content.startsWith(prefix + 'join');
+                                return !m.author.bot && m.content.toLowerCase().startsWith(prefix + 'join');
                             }, { time: 120000 });
 
                             collector.on("collect", async response => {

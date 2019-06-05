@@ -3,6 +3,7 @@ const { query } = require('../../mysql.js');
 const methods   = require('../../methods/methods.js');
 const itemdata  = require('../../json/completeItemList.json');
 const airdrop   = require('../../utils/airdrop.js');
+const os        = require('os');
 
 module.exports = {
     name: 'eval',

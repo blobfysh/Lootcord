@@ -1,5 +1,7 @@
-const Discord = require('discord.js');
+const Discord   = require('discord.js');
 const { query } = require('../mysql.js');
+const config    = require('../json/_config.json');
+const refresher = require('../methods/refresh_active_role.js');
 
 const insertItemsSQL = `
 INSERT IGNORE INTO items (
@@ -225,6 +227,9 @@ module.exports = {
                 message.client.shard.broadcastEval(`this.sets.activateCooldown.delete('${message.author.id}')`);
                 query(`UPDATE cooldowns SET activateTime = ${0} WHERE userId = ${message.author.id}`);
             }, 3600 * 1000);
+        }
+        if(message.guild.id == config.supportGuildID){
+            refresher.refreshactives(message);
         }
     },
 }
