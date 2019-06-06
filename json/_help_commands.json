@@ -25,19 +25,19 @@
 }, {
   "lookup": ["craft"],
   "command": "Craft",
-  "example": ["craft rail_cannon"],
+  "example": ["craft rail_cannon 2"],
   "description": "Use components from `recycling` to craft items such as:\n`rail_cannon`\n`ray_gun`\n`ammo_box`\n`ultra_box`",
   "cooldown": "",
-  "usage": ["craft <item>`"],
-  "options": "`item` - Item to craft."
+  "usage": ["craft <item> <amount>`"],
+  "options": "`item` - Item to craft.\n`amount` - **OPTIONAL** Amount of items to craft."
 }, {
   "lookup": ["recycle"],
   "command": "Recycle",
-  "example": ["recycle awp"],
+  "example": ["recycle awp 2"],
   "description": "Recycle `legendary` quality items for components.",
   "cooldown": "",
-  "usage": ["recycle <item>`"],
-  "options": "`item` - Item of atleast `legendary` quality."
+  "usage": ["recycle <item> <amount>`"],
+  "options": "`item` - Item of atleast `legendary` quality.\n`amount` - **OPTIONAL** Amount of item to recycle."
 }, {
   "lookup": ["item","items"],
   "command": "Item",

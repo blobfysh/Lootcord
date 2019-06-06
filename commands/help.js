@@ -33,8 +33,8 @@ module.exports = {
         ▫\`${prefix}buy <item> [amount]\`
         ▫\`${prefix}sell <item> [amount]\`
         ▫\`${prefix}sellall [rarity]\`
-        ▫\`${prefix}craft <item>\`
-        ▫\`${prefix}recycle <item>\`
+        ▫\`${prefix}craft <item> [amount]\`
+        ▫\`${prefix}recycle <item> [amount]\`
         ▫\`${prefix}profile [@user]\`
         ▫\`${prefix}equip/unequip <item>\`
         `

@@ -15,17 +15,23 @@ module.exports = {
     
     execute(message, args, lang, prefix){
         let craftItem = methods.getCorrectedItemInfo(args[0]);
-        let itemPrice = "";
+        let craftAmount = args[1];
 
         if(itemdata[craftItem] !== undefined){
             if(itemdata[craftItem].craftedWith == ""){
                 return message.reply(lang.craft[1]);
             }
-            itemPrice = itemdata[craftItem].craftedWith.display;
+
+            if(craftAmount == undefined || !Number.isInteger(parseInt(craftAmount)) || craftAmount % 1 !== 0 || craftAmount < 1){
+                craftAmount = 1;
+            }
+            else if(craftAmount > 20) craftAmount = 20;
+
+            var itemMats = getItemMats(itemdata[craftItem].craftedWith.materials, craftAmount);
 
             const embedInfo = new Discord.RichEmbed()
-            .setTitle(lang.craft[0].replace('{0}', craftItem))
-            .setDescription("```" + itemPrice +"```")
+            .setTitle(lang.craft[0].replace('{0}', craftAmount).replace('{1}', craftItem))
+            .setDescription("```" + getMatsDisplay(itemMats) + "```")
             .setColor(0)
             .setImage("https://cdn.discordapp.com/attachments/454163538886524928/527740857525207060/redLine.png")
             .setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/527739509740142592/UnboxUltra.png")
@@ -41,11 +47,11 @@ module.exports = {
 
                     if(reaction.emoji.name === '✅'){
                         botMessage.delete();
-                        methods.hasitems(message.author.id, itemdata[craftItem].craftedWith.materials).then(result => {
+                        methods.hasitems(message.author.id, itemMats).then(result => {
                             if(result){
-                                message.reply(lang.craft[4].replace('{0}', craftItem));
-                                methods.removeitem(message.author.id, itemdata[craftItem].craftedWith.materials);
-                                methods.additem(message.author.id, craftItem, 1);
+                                message.reply(lang.craft[4].replace('{0}', craftAmount).replace('{1}', craftItem));
+                                methods.removeitem(message.author.id, itemMats);
+                                methods.additem(message.author.id, craftItem, parseInt(craftAmount));
                             }
                             else{
                                 message.reply(lang.craft[2]);
@@ -65,4 +71,28 @@ module.exports = {
             message.reply(lang.craft[3].replace('{0}', prefix));
         }
     },
+}
+
+function getItemMats(itemMats, craftAmount){
+    var itemPrice = [];
+
+    for(var i = 0; i < itemMats.length; i++){
+        let matAmount = itemMats[i].split('|');
+
+        itemPrice.push(matAmount[0] + '|' + (matAmount[1] * craftAmount));
+    }
+
+    return itemPrice;
+}
+
+function getMatsDisplay(itemMats){
+    var displayTxt = '';
+
+    for(var i = 0; i < itemMats.length; i++){
+        let matAmount = itemMats[i].split('|');
+
+        displayTxt += matAmount[1] + 'x ' + matAmount[0] + '\n';
+    }
+
+    return displayTxt;
 }
