@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
-const scrambleQ = require('../json/_scramble_words.json');
+const scrambleQ = require('../json/scramble_words.json');
 
 module.exports = {
     name: 'scramble',
@@ -25,7 +25,10 @@ module.exports = {
             let chance = Math.floor(Math.random() * scrambleJSONlength); //returns value 0 between 32 (1 of 10)
             let scrambleWord = scrambleQ[chance].word;  //json data word to scramble
             let scrambleDifficulty = scrambleQ[chance].difficulty;
-            let scrambleHint = scrambleQ[chance].hint;
+            let scrambleHint = scrambleQ[chance].define;
+            if(Math.random() <= .7){
+                scrambleHint = scrambleQ[chance].hint;
+            }
             let finalWord = scrambleWord.toLowerCase(); //final word to check if user got correct
             let isHardMode = false;
             function shuffelWord(word) {
@@ -37,17 +40,17 @@ module.exports = {
                 return shuffledWord;
             }
             const embedScramble = new Discord.RichEmbed()
-            .setTitle("**Difficulty : " + scrambleDifficulty + "**")
+            //.setTitle("**Difficulty : " + scrambleDifficulty + "**")
             .setFooter(lang.scramble[0])
             if(!option){
                 message.reply(lang.scramble[1].replace('{0}', prefix));
                 return;
             }
             else if(option.toLowerCase() == "easy"){
-                embedScramble.setDescription("**Hint : `" + scrambleHint + "`**\nWord : ```" + (shuffelWord(scrambleWord))+"```");
+                embedScramble.setDescription("**Hint:** " + scrambleHint + "\nWord: ```" + (shuffelWord(scrambleWord))+"```");
             }
             else if(option.toLowerCase() == "hard"){
-                embedScramble.setDescription("Word : ```" + shuffelWord(scrambleWord.toLowerCase())+"```");
+                embedScramble.setDescription("Word: ```" + shuffelWord(scrambleWord.toLowerCase())+"```");
                 isHardMode = true;
             }
             else{
