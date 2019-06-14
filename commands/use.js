@@ -4,6 +4,7 @@
 const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
+const boxes = require('../methods/open_box.js');
 const open = require('../methods/open_care_package.js');
 const config = require('../json/_config.json');
 const itemdata = require('../json/completeItemList.json');
@@ -58,10 +59,12 @@ module.exports = {
                     }
 
                     if(itemUsed == "item_box" && row.item_box >= userOldID){
-                        methods.openbox(message, lang, "item_box", userOldID);
+                        boxes.open_box(message, lang, 'item_box', userOldID);
+                        //methods.openbox(message, lang, "item_box", userOldID);
                     }
                     else if(itemUsed == "ultra_box" && row.ultra_box >= userOldID){
-                        methods.openbox(message, lang, "ultra_box", userOldID);
+                        boxes.open_box(message, lang, 'ultra_box', userOldID);
+                        //methods.openbox(message, lang, "ultra_box", userOldID);
                     }
                     else if(itemUsed == "ammo_box" && row.ammo_box >= userOldID){
                         methods.openbox(message, lang, "ammo_box", userOldID);

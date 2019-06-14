@@ -25,7 +25,7 @@ class Methods {
             }
         }
         else{
-            query(`UPDATE items SET ${item} = ${row[item] + amount} WHERE userId = ${userId}`);
+            query(`UPDATE items SET ${item} = ${row[item] + parseInt(amount)} WHERE userId = ${userId}`);
         }
     }
 

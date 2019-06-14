@@ -72,7 +72,61 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
-        "shopOrderCode": 2
+        "shopOrderCode": 2,
+        "rates": {
+            "50": {
+                "xp": 10,
+                "items": [
+                    "club|1",
+                    "fish|1",
+                    "fork|1",
+                    "rock|1",
+                    "stick|1"
+                ]
+            },
+            "35": {
+                "xp": 15,
+                "items": [
+                    "bat|1",
+                    "golf_club|1",
+                    "pills|1",
+                    "steel|1",
+                    "sword|1"
+                ]
+            },
+            "10": {
+                "xp": 30,
+                "items": [
+                    "grenade|1",
+                    "health_pot|1",
+                    "screw|1",
+                    "spear|1",
+                    "xp_potion|1"
+                ]
+            },
+            "3": {
+                "xp": 50,
+                "items": [
+                    "bow|1",
+                    "crossbow|1"
+                ]
+            },
+            "1.5": {
+                "xp": 50,
+                "items": [
+                    "glock|1",
+                    "adhesive|1"
+                ]
+            },
+            "0.5": {
+                "xp": 80,
+                "items": [
+                    "peck_seed|1",
+                    "fiber_optics|1",
+                    "spas|1"
+                ]
+            }
+        }
     },
     "fork": {
         "rarity": "Common",
@@ -992,7 +1046,62 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
-        "shopOrderCode": 5
+        "shopOrderCode": 5,
+        "rates": {
+            "50": {
+                "xp": 30,
+                "items": [
+                    "screw|2",
+                    "spear|1",
+                    "health_pot|1",
+                    "xp_potion|1"
+                ]
+            },
+            "35": {
+                "xp": 40,
+                "items": [
+                    "crossbow|1",
+                    "grenade|1",
+                    "adhesive|1"
+                ]
+            },
+            "10": {
+                "xp": 50,
+                "items": [
+                    "glock|1",
+                    "iron_shield|1"
+                ]
+            },
+            "3": {
+                "xp": 80,
+                "items": [
+                    "revolver|1",
+                    "fiber_optics|1",
+                    "spas|1",
+                    "blunderbuss|1"
+                ]
+            },
+            "1.5": {
+                "xp": 90,
+                "items": [
+                    "thompson|1",
+                    "gold_shield|1",
+                    "medkit|1",
+                    "peck_seed|1"
+                ]
+            },
+            "0.5": {
+                "xp": 100,
+                "items": [
+                    "ak47|1",
+                    "m4a1|1",
+                    "awp|1",
+                    "rpg|1",
+                    "ray_gun|1",
+                    "rail_cannon|1"
+                ]
+            }
+        }
     },
     "care_package": {
         "rarity": "Epic",
