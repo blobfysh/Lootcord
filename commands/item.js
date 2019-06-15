@@ -3,6 +3,16 @@ const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
 const itemdata = require('../json/completeItemList.json');
 
+const weaponEmote = '551394726624886796';
+const weaponEmotePrint = '<:glock:551394726624886796>';
+const itemsEmote = '588677752358436867';
+const itemsEmotePrint = '<:xp_potion:588677752358436867>';
+const bannerEmote = '🔰';
+const ammoEmote = '588677607805943828';
+const ammoEmotePrint = '<:new_ammo_box:588677607805943828>';
+const matsEmote = '🔩';
+const backpackEmote = '💼';
+
 module.exports = {
     name: 'item',
     aliases: ['items'],
@@ -130,10 +140,111 @@ module.exports = {
             .addField("<:UnboxLegendary:526248970914234368>Legendary","`" + legendList.sort().join("`\n`") + "`", true)
             .addField("<:UnboxUltra:526248982691840003>Ultra","`" + ultraList.sort().join("`\n`") + "`", true)
             .setFooter(lang.item[1].replace('{0}', prefix))
-            return message.channel.send(embedInfo);
+            //.addField(lang.item[2], lang.item[3].replace('{0}', weaponEmotePrint).replace('{1}', itemsEmotePrint).replace('{2}', ammoEmotePrint).replace('{3}', bannerEmote).replace('{4}', matsEmote).replace('{5}', backpackEmote), true)
+            .setDescription(lang.item[2].replace('{0}', weaponEmotePrint).replace('{1}', itemsEmotePrint).replace('{2}', ammoEmotePrint).replace('{3}', bannerEmote).replace('{4}', matsEmote).replace('{5}', backpackEmote))
+
+            message.channel.send(embedInfo).then(botMessage => {
+                botMessage.react(weaponEmote).then(() => 
+                botMessage.react(itemsEmote)).then(() => 
+                botMessage.react(ammoEmote)).then(() => 
+                botMessage.react(bannerEmote)).then(() =>
+                botMessage.react(matsEmote)).then(() =>
+                botMessage.react(backpackEmote));
+                return botMessage;
+            }).then((collectorMsg) => {
+                const collector = collectorMsg.createReactionCollector((reaction, user) => 
+                    user.id === message.author.id && reaction.emoji.id === weaponEmote || 
+                    user.id === message.author.id && reaction.emoji.id === itemsEmote || 
+                    user.id === message.author.id && reaction.emoji.id === ammoEmote || 
+                    user.id === message.author.id && reaction.emoji.name === matsEmote || 
+                    user.id === message.author.id && reaction.emoji.name === backpackEmote || 
+                    user.id === message.author.id && reaction.emoji.name === bannerEmote, {time: 60000});
+                collector.on("collect", reaction => {
+                    if(reaction.emoji.id === weaponEmote){
+                        collectorMsg.edit(editEmbed('weapon', lang, prefix));
+                        reaction.remove(message.author.id);
+                    }
+                    else if(reaction.emoji.id === itemsEmote){
+                        collectorMsg.edit(editEmbed('item', lang, prefix));
+                        reaction.remove(message.author.id);
+                    }
+                    else if(reaction.emoji.id === ammoEmote){
+                        collectorMsg.edit(editEmbed('ammo', lang, prefix));
+                        reaction.remove(message.author.id);
+                    }
+                    else if(reaction.emoji.name == bannerEmote){
+                        collectorMsg.edit(editEmbed('banner', lang, prefix));
+                        reaction.remove(message.author.id);
+                    }
+                    else if(reaction.emoji.name == matsEmote){
+                        collectorMsg.edit(editEmbed('material', lang, prefix));
+                        reaction.remove(message.author.id);
+                    }
+                    else if(reaction.emoji.name == backpackEmote){
+                        collectorMsg.edit(editEmbed('backpack', lang, prefix));
+                        reaction.remove(message.author.id);
+                    }
+                });
+                collector.on("end", reaction => {
+                });
+            });
         }
         else{
             message.reply(lang.item[0].replace('{0}', prefix));
         }
     },
+}
+
+function editEmbed(type, lang, prefix){
+    let commonList = methods.getitems("common", {type: type});
+    let uncommonList = methods.getitems("uncommon", {type: type});
+    let rareList = methods.getitems("rare", {type: type});
+    let epicList = methods.getitems("epic", {type: type});
+    let legendList = methods.getitems("legendary", {type: type});
+    let ultraList = methods.getitems("ultra", {type: type});
+    //let limitList = methods.getitems("limited", {type: type});
+
+    const embedInfo = new Discord.RichEmbed()
+    .setColor(0)
+    .setTitle(type == 'weapon' ? 'Weapons' : type == 'item' ? 'Consumables' : type == 'ammo' ? 'Ammunition' : type == 'banner' ? 'Banners' : type == 'backpack' ? 'Backpacks' : 'Materials')
+    if(commonList.length > 0){
+        embedInfo.addField("<:UnboxCommon:526248905676029968>Common","`" + commonList.sort().join("`\n`") + "`", true)
+    }
+    if(uncommonList.length > 0){
+        embedInfo.addField("<:UnboxUncommon:526248928891371520>Uncommon","`" + uncommonList.sort().join("`\n`") + "`", true)
+    }
+    if(rareList.length > 0){
+        embedInfo.addField("<:UnboxRare:526248948579434496>Rare","`" + rareList.sort().join("`\n`") + "`", true)
+    }
+    if(epicList.length > 0){
+        embedInfo.addField("<:UnboxEpic:526248961892155402>Epic","`" + epicList.sort().join("`\n`") + "`", true)
+    }
+    if(legendList.length > 0){
+        embedInfo.addField("<:UnboxLegendary:526248970914234368>Legendary","`" + legendList.sort().join("`\n`") + "`", true)
+    }
+    if(ultraList.length > 0){
+        embedInfo.addField("<:UnboxUltra:526248982691840003>Ultra","`" + ultraList.sort().join("`\n`") + "`", true)
+    }
+    else{
+        embedInfo.addBlankField(true)
+    }
+    if(commonList.length <= 0){
+        embedInfo.addBlankField(true)
+    }
+    if(uncommonList.length <= 0){
+        embedInfo.addBlankField(true)
+    }
+    if(rareList.length <= 0){
+        embedInfo.addBlankField(true)
+    }
+    if(epicList.length <= 0){
+        embedInfo.addBlankField(true)
+    }
+    if(legendList.length <= 0){
+        embedInfo.addBlankField(true)
+    }
+    embedInfo.setDescription(lang.item[2].replace('{0}', weaponEmotePrint).replace('{1}', itemsEmotePrint).replace('{2}', ammoEmotePrint).replace('{3}', bannerEmote).replace('{4}', matsEmote).replace('{5}', backpackEmote))
+    embedInfo.setFooter(lang.item[1].replace('{0}', prefix))
+
+    return embedInfo
 }

@@ -417,36 +417,6 @@
         },
         "shopOrderCode": 3
     },
-    "ammo_box": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [],
-        "ammo": "",
-        "craftedWith": {
-            "display": "3x item_box",
-            "materials": [
-                "item_box|3"
-            ]
-        },
-        "recyclesTo": [],
-        "buy": {
-            "amount": 3500,
-            "currency": "money"
-        },
-        "sell": 1000,
-        "desc": "Use this to get random ammunition!",
-        "image": "https://cdn.discordapp.com/attachments/501120454136692737/557131254617604096/Ammo_Box_Updated.png",
-        "unboxable": true,
-        "icon": "<:UnboxUncommon:526248928891371520>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "shopOrderCode": 3
-    },
     "pills": {
         "rarity": "Uncommon",
         "isWeap": false,
@@ -483,6 +453,7 @@
         "rarity": "Uncommon",
         "isWeap": false,
         "isItem": false,
+        "isMaterial": true,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -775,6 +746,7 @@
         "rarity": "Rare",
         "isWeap": false,
         "isItem": false,
+        "isMaterial": true,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -1125,40 +1097,11 @@
         "cooldown": "",
         "shopOrderCode": 5
     },
-    "ultra_ammo": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [],
-        "ammo": "",
-        "craftedWith": {
-            "display": "3x ammo_box",
-            "materials": [
-                "ammo_box|3"
-            ]
-        },
-        "recyclesTo": [],
-        "buy": {
-            "amount": 10000,
-            "currency": "money"
-        },
-        "sell": 2200,
-        "desc": "This box drops ammo of atleast Uncommon quality.",
-        "image": "",
-        "unboxable": true,
-        "icon": "<:UnboxEpic:526248961892155402>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "shopOrderCode": 5
-    },
     "adhesive": {
         "rarity": "Epic",
         "isWeap": false,
         "isItem": false,
+        "isMaterial": true,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -1482,6 +1425,7 @@
         "rarity": "Legendary",
         "isWeap": false,
         "isItem": false,
+        "isMaterial": true,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -1504,6 +1448,7 @@
         "rarity": "Legendary",
         "isWeap": false,
         "isItem": false,
+        "isMaterial": true,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",

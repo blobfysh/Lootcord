@@ -21,7 +21,6 @@ exports.open_box = async function(message, lang, type, amount = 1){
     var finalItemsAmounts = [];
     var xpToAdd           = 0;
     var weightedArr       = generateWeightedArray(type, row.luck);
-    console.log(weightedArr.length);
 
     for(var i = 0; i < amount; i++){
         var rand = pickRandomItem(type, weightedArr);

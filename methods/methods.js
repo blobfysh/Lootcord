@@ -248,6 +248,22 @@ class Methods {
                 const row2 = oldRow2[0];
 
                 var totalItemCt = 0;
+
+                Object.keys(itemdata).forEach(key => {
+                    if(row[key] > 0){
+                        if(key == 'token' && cntTokens){
+                            totalItemCt += row[key];
+                        }
+                        else if(itemdata[key].isBanner && cntBanners){
+                            totalItemCt += row[key];
+                        }
+                        else if(key !== 'token' && !itemdata[key].isBanner){
+                            totalItemCt += row[key];
+                        }
+                    }
+                });
+
+                /*
                 Object.keys(row).forEach(key => {
                     if(key !== "userId"){
                         if(key == "token" && cntTokens){
@@ -262,6 +278,7 @@ class Methods {
                         }
                     }
                 });
+                */
                 return {
                     itemCt : totalItemCt,
                     capacity : (totalItemCt + "/" + (config.base_inv_slots + row2.inv_slots))
@@ -292,6 +309,15 @@ class Methods {
                 }
                 else if(type2 ==""){
                     if((type == "weapon" || type == "weap") && itemdata[key].isWeap == true){
+                        items.push(key);
+                    }
+                    else if(type == "material" && itemdata[key].isMaterial){
+                        items.push(key);
+                    }
+                    else if(type == "banner" && itemdata[key].isBanner){
+                        items.push(key);
+                    }
+                    else if(type == "backpack" && itemdata[key].type == "backpack"){
                         items.push(key);
                     }
                     else if(type == "ammo" && itemdata[key].isAmmo.length >= 1){
@@ -505,7 +531,7 @@ class Methods {
             });
         });
     }
-    randomUser(message){//returns a random userId from the attackers guild
+    randomUser(message, weapon = ''){//returns a random userId from the attackers guild
         return query(`SELECT * FROM userGuilds WHERE guildId ="${message.guild.id}" ORDER BY LOWER(userId)`).then(rows => {
             var guildUsers = [];
             rows.forEach(function (row) {
