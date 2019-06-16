@@ -60,18 +60,18 @@ module.exports = {
 
                     if(itemUsed == "item_box" && row.item_box >= userOldID){
                         boxes.open_box(message, lang, 'item_box', userOldID);
-                        //methods.openbox(message, lang, "item_box", userOldID);
                     }
                     else if(itemUsed == "ultra_box" && row.ultra_box >= userOldID){
                         boxes.open_box(message, lang, 'ultra_box', userOldID);
-                        //methods.openbox(message, lang, "ultra_box", userOldID);
                     }
+                    /* Ammo boxes removed in update 4.7
                     else if(itemUsed == "ammo_box" && row.ammo_box >= userOldID){
                         methods.openbox(message, lang, "ammo_box", userOldID);
                     }
                     else if(itemUsed == "ultra_ammo" && row.ultra_ammo >= userOldID){
                         methods.openbox(message, lang, "ultra_ammo", userOldID);
                     }
+                    */
                     else if(itemUsed == "care_package" && row.care_package >= 1){
                         open.open_package(message, lang);
                     }

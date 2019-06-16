@@ -257,6 +257,29 @@
         "cooldown": "",
         "shopOrderCode": 2
     },
+    "wood": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 50,
+        "desc": "Basic resource used for crafting many items.",
+        "image": "",
+        "unboxable": false,
+        "icon": "<:UnboxCommon:526248905676029968>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 2
+    },
     "light_pack": {
         "rarity": "Uncommon",
         "isWeap": false,
@@ -266,8 +289,19 @@
         "maxDmg": "",
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
+        "craftedWith": {
+            "display": "2x cloth\n1x adhesive",
+            "materials": [
+                "cloth|2",
+                "adhesive|1"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x cloth",
+            "materials": [
+                "cloth|1"
+            ]
+        },
         "buy": "",
         "sell": 500,
         "desc": "Equip this backpack to gain **5** item slots!",
@@ -321,7 +355,13 @@
             "thompson"
         ],
         "ammo": "",
-        "craftedWith": "",
+        "craftedWith": {
+            "display": "1x gunpowder\n1x steel",
+            "materials": [
+                "gunpowder|1",
+                "steel|1"
+            ]
+        },
         "recyclesTo": [],
         "buy": "",
         "sell": 400,
@@ -401,7 +441,13 @@
             "arrow"
         ],
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "display": "1x wood\n1x cloth",
+            "materials": [
+                "wood|1",
+                "cloth|1"
+            ]
+        },
         "buy": "",
         "sell": 350,
         "desc": "Shoots arrows.",
@@ -463,7 +509,53 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 500,
-        "desc": "A cheap but extremely strong material used to craft weapons.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.",
+        "desc": "A cheap but strong material used to craft items.",
+        "image": "",
+        "unboxable": false,
+        "icon": "<:UnboxUncommon:526248928891371520>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 3
+    },
+    "cloth": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 100,
+        "desc": "Fibrous material used for crafting items such as clothing.",
+        "image": "",
+        "unboxable": false,
+        "icon": "<:UnboxUncommon:526248928891371520>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 3
+    },
+    "pistol_body": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 500,
+        "desc": "Parts used to craft handguns.",
         "image": "",
         "unboxable": false,
         "icon": "<:UnboxUncommon:526248928891371520>",
@@ -506,8 +598,20 @@
         "ammo": [
             "pistol_bullet"
         ],
-        "craftedWith": "",
-        "recyclesTo": [],
+        "craftedWith": {
+            "display": "1x pistol_body\n1x screw\n2x steel",
+            "materials": [
+                "pistol_body|1",
+                "screw|1",
+                "steel|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x pistol_body",
+            "materials": [
+                "pistol_body|1"
+            ]
+        },
         "buy": "",
         "sell": 750,
         "desc": "Simple and effective pistol.",
@@ -534,8 +638,20 @@
         "ammo": [
             "pistol_bullet"
         ],
-        "craftedWith": "",
-        "recyclesTo": [],
+        "craftedWith": {
+            "display": "1x pistol_body\n2x screw\n2x steel",
+            "materials": [
+                "pistol_body|1",
+                "screw|2",
+                "steel|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x pistol_body",
+            "materials": [
+                "pistol_body|1"
+            ]
+        },
         "buy": "",
         "sell": 800,
         "desc": "High-recoil handgun",
@@ -564,7 +680,13 @@
             "awp"
         ],
         "ammo": "",
-        "craftedWith": "",
+        "craftedWith": {
+            "display": "2x gunpowder\n1x steel",
+            "materials": [
+                "gunpowder|2",
+                "steel|1"
+            ]
+        },
         "recyclesTo": [],
         "buy": "",
         "sell": 2250,
@@ -674,11 +796,18 @@
         "ammo": [
             "buckshot"
         ],
-        "craftedWith": "",
+        "craftedWith": {
+            "display": "3x wood\n3x steel\n1x screw",
+            "materials": [
+                "wood|3",
+                "steel|3",
+                "screw|1"
+            ]
+        },
         "recyclesTo": [],
         "buy": "",
         "sell": 800,
-        "desc": "Very unreliable makeshift shotgun.",
+        "desc": "Unreliable makeshift shotgun.",
         "image": "",
         "unboxable": true,
         "icon": "<:UnboxRare:526248948579434496>",
@@ -703,7 +832,13 @@
             "spas"
         ],
         "ammo": "",
-        "craftedWith": "",
+        "craftedWith": {
+            "display": "2x gunpowder\n1x steel",
+            "materials": [
+                "gunpowder|2",
+                "steel|1"
+            ]
+        },
         "recyclesTo": [],
         "buy": "",
         "sell": 2000,
@@ -765,6 +900,52 @@
         "cooldown": "",
         "shopOrderCode": 4
     },
+    "smg_body": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 550,
+        "desc": "Parts used to craft smaller automatic weapons.",
+        "image": "",
+        "unboxable": false,
+        "icon": "<:UnboxRare:526248948579434496>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 4
+    },
+    "pump_body": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 550,
+        "desc": "Parts used to craft shotguns.",
+        "image": "",
+        "unboxable": false,
+        "icon": "<:UnboxRare:526248948579434496>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 4
+    },
     "canvas_bag": {
         "rarity": "Epic",
         "isWeap": false,
@@ -774,8 +955,19 @@
         "maxDmg": "",
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
+        "craftedWith": {
+            "display": "4x cloth\n1x adhesive",
+            "materials": [
+                "cloth|4",
+                "adhesive|1"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x cloth",
+            "materials": [
+                "cloth|1"
+            ]
+        },
         "buy": "",
         "sell": 2100,
         "desc": "Equip this backpack to gain **15** item slots!",
@@ -801,8 +993,20 @@
         "ammo": [
             "pistol_bullet"
         ],
-        "craftedWith": "",
-        "recyclesTo": [],
+        "craftedWith": {
+            "display": "1x smg_body\n2x steel\n2x wood",
+            "materials": [
+                "smg_body|1",
+                "steel|2",
+                "wood|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x smg_body",
+            "materials": [
+                "smg_body|1"
+            ]
+        },
         "buy": "",
         "sell": 1700,
         "desc": "Shoots fast but is very inaccurate",
@@ -829,8 +1033,20 @@
         "ammo": [
             "rifle_bullet"
         ],
-        "craftedWith": "",
-        "recyclesTo": [],
+        "craftedWith": {
+            "display": "1x assault_body\n3x steel\n2x wood",
+            "materials": [
+                "assault_body|1",
+                "steel|3",
+                "wood|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x assault_body",
+            "materials": [
+                "assault_body|1"
+            ]
+        },
         "buy": "",
         "sell": 1800,
         "desc": "High damage rifle",
@@ -889,8 +1105,19 @@
             "javelin"
         ],
         "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
+        "craftedWith": {
+            "display": "4x gunpowder\n2x steel",
+            "materials": [
+                "gunpowder|4",
+                "steel|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "2x gunpowder",
+            "materials": [
+                "gunpowder|2"
+            ]
+        },
         "buy": "",
         "sell": 5000,
         "desc": "Explosive ammunition, use with weapon.",
@@ -913,8 +1140,20 @@
         "ammo": [
             "buckshot"
         ],
-        "craftedWith": "",
-        "recyclesTo": [],
+        "craftedWith": {
+            "display": "1x pump_body\n2x steel\n2x screw",
+            "materials": [
+                "pump_body|1",
+                "steel|2",
+                "screw|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x pump_body",
+            "materials": [
+                "pump_body|1"
+            ]
+        },
         "buy": "",
         "sell": 1500,
         "desc": "Military shotgun.",
@@ -973,8 +1212,20 @@
         "ammo": [
             "rifle_bullet"
         ],
-        "craftedWith": "",
-        "recyclesTo": [],
+        "craftedWith": {
+            "display": "1x assault_body\n3x steel\n2x screw",
+            "materials": [
+                "assault_body|1",
+                "steel|3",
+                "screw|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x assault_body",
+            "materials": [
+                "assault_body|1"
+            ]
+        },
         "buy": "",
         "sell": 1700,
         "desc": "Accurate automatic rifle",
@@ -1023,7 +1274,7 @@
             "50": {
                 "xp": 30,
                 "items": [
-                    "screw|2",
+                    "screw|1",
                     "spear|1",
                     "health_pot|1",
                     "xp_potion|1"
@@ -1034,14 +1285,15 @@
                 "items": [
                     "crossbow|1",
                     "grenade|1",
-                    "adhesive|1"
+                    "pistol_body|1"
                 ]
             },
             "10": {
                 "xp": 50,
                 "items": [
                     "glock|1",
-                    "iron_shield|1"
+                    "iron_shield|1",
+                    "adhesive|1"
                 ]
             },
             "3": {
@@ -1111,7 +1363,76 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 700,
-        "desc": "Used to hold things together.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.",
+        "desc": "Used to hold things together.",
+        "image": "",
+        "unboxable": false,
+        "icon": "<:UnboxEpic:526248961892155402>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 5
+    },
+    "gunpowder": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 700,
+        "desc": "Makes things go boom. Useful for crafting ammunition.",
+        "image": "",
+        "unboxable": false,
+        "icon": "<:UnboxEpic:526248961892155402>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 5
+    },
+    "rifle_body": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 700,
+        "desc": "Parts used to craft high damage rifles.",
+        "image": "",
+        "unboxable": false,
+        "icon": "<:UnboxEpic:526248961892155402>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 5
+    },
+    "assault_body": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 700,
+        "desc": "Parts used to craft high damage automatic weapons.",
         "image": "",
         "unboxable": false,
         "icon": "<:UnboxEpic:526248961892155402>",
@@ -1129,11 +1450,17 @@
         "maxDmg": "",
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": {
-            "display": "1x module\n1x adhesive",
+        "craftedWith": {
+            "display": "8x cloth\n3x adhesive",
             "materials": [
-                "module|1",
+                "cloth|8",
+                "adhesive|3"
+            ]
+        },
+        "recyclesTo": {
+            "display": "3x cloth\n1x adhesive",
+            "materials": [
+                "cloth|3",
                 "adhesive|1"
             ]
         },
@@ -1163,13 +1490,18 @@
             "50_cal",
             "rifle_bullet"
         ],
-        "craftedWith": "",
-        "recyclesTo": {
-            "display": "2x module\n1x steel\n1x screw",
+        "craftedWith": {
+            "display": "1x rifle_body\n2x steel\n2x screw",
             "materials": [
-                "module|2",
-                "steel|1",
-                "screw|1"
+                "rifle_body|1",
+                "steel|2",
+                "screw|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x rifle_body",
+            "materials": [
+                "rifle_body|1"
             ]
         },
         "buy": "",
@@ -1203,15 +1535,7 @@
         "isAmmo": [],
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": {
-            "display": "1x module\n1x adhesive\n1x steel\n1x screw",
-            "materials": [
-                "module|1",
-                "steel|1",
-                "screw|1",
-                "adhesive|1"
-            ]
-        },
+        "recyclesTo": [],
         "buy": {
             "amount": 30000,
             "currency": "money"
@@ -1239,11 +1563,10 @@
         ],
         "craftedWith": "",
         "recyclesTo": {
-            "display": "1x module\n1x fiber_optics\n1x steel",
+            "display": "3x steel\n2x screw",
             "materials": [
-                "module|1",
-                "fiber_optics|1",
-                "steel|1"
+                "steel|4",
+                "screw|3"
             ]
         },
         "buy": "",
@@ -1274,11 +1597,11 @@
         ],
         "craftedWith": "",
         "recyclesTo": {
-            "display": "1x module\n1x fiber_optics\n1x steel",
+            "display": "1x fiber_optics\n3x steel\n2x screw",
             "materials": [
-                "module|1",
                 "fiber_optics|1",
-                "steel|1"
+                "steel|3",
+                "screw|2"
             ]
         },
         "buy": "",
@@ -1309,13 +1632,7 @@
         ],
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": {
-            "display": "1x module\n1x adhesive",
-            "materials": [
-                "module|1",
-                "adhesive|1"
-            ]
-        },
+        "recyclesTo": [],
         "buy": "",
         "sell": 6000,
         "desc": "Dangerous cartridge full of plasma.\nMight wanna wear some protection when handling this...",
@@ -1337,13 +1654,7 @@
         "isAmmo": [],
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": {
-            "display": "1x module\n1x adhesive",
-            "materials": [
-                "module|1",
-                "adhesive|1"
-            ]
-        },
+        "recyclesTo": [],
         "buy": "",
         "sell": 1600,
         "desc": "This rare seed has the ability to turn your opponent into a chicken for 2 hours, disabling any use of their commands.\nInvented by *Arcane Sorceress Michela*.",
@@ -1370,13 +1681,17 @@
             "awp"
         ],
         "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": {
-            "display": "1x module\n1x adhesive\n1x steel",
+        "craftedWith": {
+            "display": "4x gunpowder\n1x steel",
             "materials": [
-                "module|1",
-                "adhesive|1",
+                "gunpowder|4",
                 "steel|1"
+            ]
+        },
+        "recyclesTo": {
+            "display": "2x gunpowder",
+            "materials": [
+                "gunpowder|2"
             ]
         },
         "buy": "",
@@ -1400,13 +1715,7 @@
         "isAmmo": [],
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": {
-            "display": "1x module\n1x adhesive",
-            "materials": [
-                "module|1",
-                "adhesive|1"
-            ]
-        },
+        "recyclesTo": [],
         "buy": {
             "amount": 25000,
             "currency": "money"
@@ -1435,7 +1744,7 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 1100,
-        "desc": "Thin glass fibers used to transmit signals.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.",
+        "desc": "Thin glass fibers used to transmit signals.",
         "image": "",
         "unboxable": false,
         "icon": "<:UnboxLegendary:526248970914234368>",
@@ -1458,7 +1767,7 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 600,
-        "desc": "A circuit board used for various tech.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.",
+        "desc": "A piece of machinery used for various tech.",
         "image": "",
         "unboxable": false,
         "icon": "<:UnboxLegendary:526248970914234368>",
@@ -1478,9 +1787,8 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": {
-            "display": "2x module\n2x steel",
+            "display": "2x steel",
             "materials": [
-                "module|2",
                 "steel|2"
             ]
         },
@@ -1514,9 +1822,8 @@
             ]
         },
         "recyclesTo": {
-            "display": "4x module\n2x adhesive\n2x fiber_optics",
+            "display": "2x adhesive\n2x fiber_optics",
             "materials": [
-                "module|4",
                 "adhesive|2",
                 "fiber_optics|2"
             ]
@@ -1602,7 +1909,7 @@
             "display": "1x module\n4x fiber_optics",
             "materials": [
                 "module|1",
-                "fiber_optics|5"
+                "fiber_optics|3"
             ]
         },
         "buy": "",

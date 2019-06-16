@@ -110,13 +110,13 @@ module.exports = {
             else if(itemSellPrice !== ""){
                 embedItem.addField("Cost", "📤 Sell : " + methods.formatMoney(itemSellPrice))
             }
-            
-            if(itemRecyclesTo.materials !== undefined){
-                embedItem.addBlankField();
-                embedItem.addField("Recycles into", "```"+ itemRecyclesTo.display +"```", true)
-            }
+
             if(itemCraftedWith !== ""){
-                embedItem.addField("Items required to craft", "```"+ itemCraftedWith.display +"```", true)
+                embedItem.addBlankField();
+                embedItem.addField("🔩 Craft Ingredients", "```"+ itemCraftedWith.display +"```", true)
+            }
+            if(itemRecyclesTo.materials !== undefined){
+                embedItem.addField("♻ Recycles into", "```"+ itemRecyclesTo.display +"```", true)
             }
             message.channel.send(embedItem);
         }

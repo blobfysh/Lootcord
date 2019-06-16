@@ -77,7 +77,15 @@ INSERT IGNORE INTO items (
     killer,
     hitman,
     cyber_pack,
-    supply_signal)
+    supply_signal,
+    wood,
+    cloth,
+    pistol_body,
+    smg_body,
+    pump_body,
+    assault_body,
+    rifle_body,
+    gunpowder)
     VALUES (
         ?,
         ?,
@@ -88,7 +96,7 @@ INSERT IGNORE INTO items (
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0
+        0, 0, 0, 0, 0, 0, 0, 0, 0
     )
 `
 
