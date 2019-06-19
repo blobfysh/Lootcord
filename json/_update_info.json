@@ -31,17 +31,12 @@
     [
       "🔹 **Translation preparation!**",
       "The bot now supports language files. If you'd like to help translate the bot, join our official discord and grab a copy of the translation file!"
-    ],
-    [
-      "🔹***\"HOLD UP, MY ACCOUNT WAS DELETED?!?!?!\"***",
-      "Don't worry, this is a side effect of moving to a new database, **IF YOU'D LIKE YOUR ACCOUNT RESTORED, MESSAGE THE BOT**"
     ]
   ],
   "desc": [
     "🔹 **Source code: **https://github.com/blobfysh/Lootcord",
-    "🔹 **Added nearly 300 new words to the scramble command!**",
-    "🔹 **Crafting and recycling commands both supports amounts**",
-    "🔹 **New server! Hopefully the bot stops going offline randomly**",
+    "🔹 Added more crafting materials!",
+    "🔹 Gun are now craftable as well as ammunition.",
     "🔹 v4 update notes can be viewed with the `update-info` command.",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]

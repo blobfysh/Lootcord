@@ -31,14 +31,7 @@ module.exports = {
             }
             let finalWord = scrambleWord.toLowerCase(); //final word to check if user got correct
             let isHardMode = false;
-            function shuffelWord(word) {
-                var shuffledWord = '';
-                word = word.split('');
-                while (word.length > 0) {
-                    shuffledWord +=  word.splice(word.length * Math.random() << 0, 1);
-                }
-                return shuffledWord;
-            }
+            
             const embedScramble = new Discord.RichEmbed()
             //.setTitle("**Difficulty : " + scrambleDifficulty + "**")
             .setFooter(lang.scramble[0])
@@ -47,10 +40,10 @@ module.exports = {
                 return;
             }
             else if(option.toLowerCase() == "easy"){
-                embedScramble.setDescription("**Hint:** " + scrambleHint + "\nWord: ```" + (shuffelWord(scrambleWord))+"```");
+                embedScramble.setDescription("**Hint:** " + scrambleHint + "\nWord: ```" + (shuffleWordNoDupe(scrambleWord))+"```");
             }
             else if(option.toLowerCase() == "hard"){
-                embedScramble.setDescription("Word: ```" + shuffelWord(scrambleWord.toLowerCase())+"```");
+                embedScramble.setDescription("Word: ```" + shuffleWordNoDupe(scrambleWord.toLowerCase())+"```");
                 isHardMode = true;
             }
             else{
@@ -214,4 +207,23 @@ module.exports = {
             });
         }
     },
+}
+
+function shuffle(word){
+    var shuffledWord = '';
+    word = word.split('');
+    while (word.length > 0) {
+        shuffledWord +=  word.splice(word.length * Math.random() << 0, 1);
+    }
+    return shuffledWord;
+}
+
+function shuffleWordNoDupe(word){
+    var shuffled = shuffle(word);
+
+    while(shuffled == word){
+        shuffled = shuffle(word);
+    }
+
+    return shuffled
 }
