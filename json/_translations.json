@@ -82,7 +82,8 @@
 	],
 	"item": [
 		"That item isn't in my database! Use `{0}items` to see a full list!",
-		"Use {0}item <item> to retrieve more information!"
+		"Use {0}item <item> to retrieve more information!",
+		"{0} - Weapons\n{1} - Consumables\n{2} - Ammunition\n{3} - Banners\n{4} - Materials\n{5} - Backpacks"
 	],
 	"shop": [
 		"📥 Buy 📤 Sell\nUse `buy <item>` to purchase and `sell <item>` to sell items."

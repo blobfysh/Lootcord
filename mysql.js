@@ -77,7 +77,15 @@ CREATE TABLE IF NOT EXISTS items (
     killer INT,
     hitman INT,
     cyber_pack INT,
-    supply_signal INT)
+    supply_signal INT,
+    wood INT,
+    cloth INT,
+    pistol_body INT,
+    smg_body INT,
+    pump_body INT,
+    assault_body INT,
+    rifle_body INT,
+    gunpowder INT)
     ENGINE = InnoDB
 `
 

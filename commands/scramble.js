@@ -31,14 +31,7 @@ module.exports = {
             }
             let finalWord = scrambleWord.toLowerCase(); //final word to check if user got correct
             let isHardMode = false;
-            function shuffelWord(word) {
-                var shuffledWord = '';
-                word = word.split('');
-                while (word.length > 0) {
-                    shuffledWord +=  word.splice(word.length * Math.random() << 0, 1);
-                }
-                return shuffledWord;
-            }
+            
             const embedScramble = new Discord.RichEmbed()
             //.setTitle("**Difficulty : " + scrambleDifficulty + "**")
             .setFooter(lang.scramble[0])
@@ -47,10 +40,10 @@ module.exports = {
                 return;
             }
             else if(option.toLowerCase() == "easy"){
-                embedScramble.setDescription("**Hint:** " + scrambleHint + "\nWord: ```" + (shuffelWord(scrambleWord))+"```");
+                embedScramble.setDescription("**Hint:** " + scrambleHint + "\nWord: ```" + (shuffleWordNoDupe(scrambleWord))+"```");
             }
             else if(option.toLowerCase() == "hard"){
-                embedScramble.setDescription("Word: ```" + shuffelWord(scrambleWord.toLowerCase())+"```");
+                embedScramble.setDescription("Word: ```" + shuffleWordNoDupe(scrambleWord.toLowerCase())+"```");
                 isHardMode = true;
             }
             else{
@@ -110,9 +103,9 @@ module.exports = {
                             else if(scrambleDifficulty == "medium"){
                                 methods.hasenoughspace(message.author.id, 1).then(hasenough => {
                                     if((chance < scrambleJSONlength/3) && hasenough){
-                                        rewardItem = "ammo_box";
+                                        rewardItem = "2x item_box";
                                         methods.scrambleWinMsg(message, rewardItem);
-                                        query(`UPDATE items SET ammo_box = ${row.ammo_box + 1} WHERE userId = ${message.author.id}`);
+                                        query(`UPDATE items SET item_box = ${row.item_box + 2} WHERE userId = ${message.author.id}`);
                                     }
                                     else{
                                         rewardItem = "$1100";
@@ -214,4 +207,23 @@ module.exports = {
             });
         }
     },
+}
+
+function shuffle(word){
+    var shuffledWord = '';
+    word = word.split('');
+    while (word.length > 0) {
+        shuffledWord +=  word.splice(word.length * Math.random() << 0, 1);
+    }
+    return shuffledWord;
+}
+
+function shuffleWordNoDupe(word){
+    var shuffled = shuffle(word);
+
+    while(shuffled == word){
+        shuffled = shuffle(word);
+    }
+
+    return shuffled
 }
