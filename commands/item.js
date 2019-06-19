@@ -64,7 +64,7 @@ module.exports = {
                 itemRarityColor = 10197915;
             }
             var embedItem = new Discord.RichEmbed()
-            .setTitle(`🏷**${itemSearched} Info**`)
+            .setTitle(`${itemdata[itemSearched].icon} **${itemSearched} Info**`)
             .setColor(itemRarityColor)
             if(itemdata[itemSearched].isBanner){
                 embedItem.setImage(itemImg);
@@ -81,12 +81,12 @@ module.exports = {
                 embedItem.setDescription(itemInfo);
             }
 
+            embedItem.addField("***Rarity***", itemRarity)
             if(itemCooldown !== ""){
-                embedItem.addField("***Rarity***", itemRarity, true)
-                embedItem.addField("**Cooldown**", "`" + itemCooldown.display + "`")
+                embedItem.addField("Cooldown", "`" + itemCooldown.display + "`")
             }
-            else{
-                embedItem.addField("***Rarity***", itemRarity)
+            if(itemdata[itemSearched].chanceToBreak){
+                embedItem.addField("Chance to break", "`" + (itemdata[itemSearched].chanceToBreak * 100) + "%`")
             }
 
             if(itemDamage !== ""){

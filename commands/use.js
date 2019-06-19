@@ -190,12 +190,17 @@ module.exports = {
 
                             function hitOrMiss(damage, isBroken){//FUNCTION THAT ACTUALLY HANDLES DAMAGE DEALT
                                 let chance = Math.floor(Math.random() * 100) + 1; //return 1-100
-                                let luck = victimRow.luck >= 20 ? 20 : victimRow.luck;
+                                let luck = victimRow.luck >= 10 ? 10 : victimRow.luck;
+
+                                var finalString = '';
+
                                 if(chance <= luck){
                                     if(isBroken){
+                                        //finalString += `🍀<@${userNameID}> EVADED <@`+ message.author.id + `>'s attack! How lucky!\nThe ${itemUsed} slipped from your hands!`;
                                         return message.channel.send(`🍀<@${userNameID}> EVADED <@`+ message.author.id + `>'s attack! How lucky!\nThe ${itemUsed} slipped from your hands!`);
                                     }
                                     else{
+                                        //finalString += `🍀<@${userNameID}> EVADED <@`+ message.author.id + `>'s attack! How lucky!`;
                                         return message.channel.send(`🍀<@${userNameID}> EVADED <@`+ message.author.id + `>'s attack! How lucky!`);
                                     }
                                 }
@@ -203,10 +208,12 @@ module.exports = {
                                     if(victimRow.health - damage <= 0){
                                         //CODE FOR IF YOU KILL TARGET
                                         if(isBroken){
-                                            message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>\nThe ${itemUsed} broke!`);
+                                            finalString += `<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>\nThe ${itemUsed} broke!`;
+                                            //message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>\nThe ${itemUsed} broke!`);
                                         }
                                         else{
-                                            message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>`);
+                                            finalString += `<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>`;
+                                            //message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>`);
                                         }
                                         query(`SELECT * FROM items WHERE userId ="${userNameID}"`).then(oldVictims => {
                                             const victimItems = oldVictims[0];
@@ -252,7 +259,7 @@ module.exports = {
                                                     .setDescription("Money : " + methods.formatMoney(victimRow.money) + "\nExperience : `" + xpToGive + "xp`")
                                                     .setColor(7274496)
                                                     .addField("**ITEMS**", amountToGive !== 0 ? result[0] : result)
-                                                    message.channel.send(killedReward);
+                                                    message.channel.send(finalString, {embed: killedReward});
     
                                                     methods.sendtokillfeed(message, message.author.id, userNameID, itemUsed, damage, result[0], methods.formatMoney(victimRow.money));
 
@@ -390,6 +397,11 @@ module.exports = {
                                             if(itemdata[itemUsed].breaksOnUse == true){
                                                 query(`UPDATE items SET ${itemUsed} = ${row[itemUsed] - 1} WHERE userId = ${message.author.id}`);
                                             }
+                                            else if(Math.random() <= parseFloat(itemdata[itemUsed].chanceToBreak)){
+                                                query(`UPDATE items SET ${itemUsed} = ${row[itemUsed] - 1} WHERE userId = ${message.author.id}`);
+                                                methods.additem(message.author.id, itemdata[itemUsed].recyclesTo.materials);
+                                                weaponBreakAlert(message, itemUsed);
+                                            }
 
                                             let randDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage);
                                             
@@ -422,4 +434,13 @@ module.exports = {
             });
         });
     },
+}
+
+function weaponBreakAlert(message, itemUsed){
+    const brokeEmbed = new Discord.RichEmbed()
+    .setTitle('💥 Unfortunately, your `' + itemUsed + '` broke from your last attack!')
+    .setDescription('After rummaging through the pieces you were able to find: ```fix\n' + itemdata[itemUsed].recyclesTo.display + '```')
+    .setColor(14831897)
+
+    message.author.send(brokeEmbed);
 }

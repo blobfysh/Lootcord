@@ -205,6 +205,21 @@ class Methods {
         else if(itemSearched.startsWith("supply")){
             itemSearched = "SUPPLY_SIGNAL";
         }
+        else if(itemSearched.startsWith("powder")){
+            itemSearched = "GUNPOWDER";
+        }
+        else if(itemSearched.startsWith("smg")){
+            itemSearched = "SMG_BODY";
+        }
+        else if(itemSearched.startsWith("pump")){
+            itemSearched = "PUMP_BODY";
+        }
+        else if(itemSearched.startsWith("assault")){
+            itemSearched = "ASSAULT_BODY";
+        }
+        else if(itemSearched.startsWith("body")){
+            itemSearched = "RIFLE_BODY";
+        }
         
         return itemSearched.toLowerCase();
     }
@@ -521,7 +536,9 @@ class Methods {
                 try{
                     if(message.guild.members.get(row.userId).displayName){
                         if(row.userId != message.author.id){//make sure message author isn't attacked by self
-                            guildUsers.push(row.userId);
+                            if(!message.client.sets.activeShield.has(row.userId)){
+                                guildUsers.push(row.userId);
+                            }
                         }
                     }
                 }

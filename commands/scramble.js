@@ -110,9 +110,9 @@ module.exports = {
                             else if(scrambleDifficulty == "medium"){
                                 methods.hasenoughspace(message.author.id, 1).then(hasenough => {
                                     if((chance < scrambleJSONlength/3) && hasenough){
-                                        rewardItem = "ammo_box";
+                                        rewardItem = "2x item_box";
                                         methods.scrambleWinMsg(message, rewardItem);
-                                        query(`UPDATE items SET ammo_box = ${row.ammo_box + 1} WHERE userId = ${message.author.id}`);
+                                        query(`UPDATE items SET item_box = ${row.item_box + 2} WHERE userId = ${message.author.id}`);
                                     }
                                     else{
                                         rewardItem = "$1100";

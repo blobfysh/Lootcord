@@ -64,8 +64,6 @@ function generateWeightedArray(type, luck){
     Object.keys(itemdata[type].rates).forEach(percentage => {
         if(parseFloat(percentage) <= 25){
             luckMltplr = luck/2;
-
-            console.log(percentage + ' got boosted');
         }
         else{
             luckMltplr = 0;

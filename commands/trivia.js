@@ -58,8 +58,8 @@ module.exports = {
                                 let rewardItem = "";
                                 methods.hasenoughspace(message.author.id, 2).then(hasenough => {
                                     if (chanceR <= 0 && hasenough){
-                                        rewardItem = "`ammo_box`";
-                                        query(`UPDATE items SET ammo_box = ${rewardRow[0].ammo_box + 1} WHERE userId = ${message.author.id}`);
+                                        rewardItem = "`ultra_box`";
+                                        query(`UPDATE items SET ultra_box = ${rewardRow[0].ultra_box + 1} WHERE userId = ${message.author.id}`);
                                     }
                                     else if (chanceR >= 5 && hasenough){
                                         rewardItem = "2x `item_box`";
