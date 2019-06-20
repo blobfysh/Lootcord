@@ -56,7 +56,12 @@ client.on('message', message => {
             prefix = config.prefix;
         }
 
-        if(!message.content.toLowerCase().startsWith(prefix) && message.channel.type !== "dm" && !client.sets.activeScramblers.has(message.author.id)) return checkLevelXp(message);
+        if(!message.content.toLowerCase().startsWith(prefix) && message.channel.type !== "dm"){
+            if(!client.sets.activeScramblers.has(message.author.id)){
+                return checkLevelXp(message);
+            }
+            else return;
+        }
         
         if(message.channel.type === "dm") handleCmd(message, 't-', lang);
         
