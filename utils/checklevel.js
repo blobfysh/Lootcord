@@ -22,7 +22,7 @@ exports.checkLevelXp = async function(message){
 
             if(row.points >= totalXpNeeded && message.guild.id !== "264445053596991498") {     //Sends lvlup message | IGNORES BOT LIST DISCORD
                 let levelItem = "";
-                if((row.level + 1) > 4){ levelItem = "ultra_box" } else {levelItem = "ammo_box"}
+                if((row.level + 1) > 4){ levelItem = "ultra_box" } else {levelItem = "2x item_box"}
 
                 query(`UPDATE scores SET points = ${row.points + 1}, level = ${row.level + 1}, stats = ${row.stats + 1} WHERE userId = ${message.author.id}`);
 
@@ -30,7 +30,7 @@ exports.checkLevelXp = async function(message){
                     query(`UPDATE items SET ultra_box = ${row.ultra_box + 1} WHERE userId = ${message.author.id}`);
                 }
                 else{
-                    query(`UPDATE items SET ammo_box = ${row.ammo_box + 1} WHERE userId = ${message.author.id}`);
+                    query(`UPDATE items SET item_box = ${row.item_box + 2} WHERE userId = ${message.author.id}`);
                 }
 
                 const oldRow2 = await query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`);
