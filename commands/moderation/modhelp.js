@@ -23,7 +23,6 @@ module.exports = {
             "`" + prefix + "invwipe <id> <reason>` - Wipes a users data and sends them message with reason. Will also log the users inventory and unique code prior to wipe in <#500467081226223646>.",
             "`" + prefix + "getinv <id>` - Displays a users inventory along with their unique inventory code.",
             "`" + prefix + "restoreinv <unique inventory code>` - Restores a users inventory using a code from either the getinv or invwipe commands.",
-            "`" + prefix + "importacc <id>` - Imports a users account from the old sqlite database.",
             "`" + prefix + "shardsinfo` - Show information about all running shards."
         ];
         let filteredList = [];

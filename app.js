@@ -98,6 +98,14 @@ client.on('disconnect', (err) => {
     client.destroy().then(client.login(config.botToken));
 });
 
+client.on('debug', (message) => {
+	console.debug(message);
+});
+
+client.on('reconnecting', () => {
+	console.log(client.shard.id + ' is reconnecting...');
+});
+
 client.on('ready', () => {
     console.log(`Launched shard ${client.shard.id}`);
     if(config.debug == false){

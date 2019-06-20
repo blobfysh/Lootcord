@@ -1,6 +1,6 @@
 {
   "name": "lootcord",
-  "version": "4.7.0",
+  "version": "4.8.0",
   "description": "A fun item bot to battle your friends!",
   "main": "index.js",
   "scripts": {
@@ -12,11 +12,10 @@
     "bad-words": "^3.0.2",
     "body-parser": "^1.19.0",
     "dblapi.js": "^2.3.0",
-    "discord.js": "^11.4.2",
+    "discord.js": "^11.5.1",
     "express": "^4.16.4",
     "jimp": "^0.6.1",
     "mysql": "^2.16.0",
-    "object-encode": "^1.0.2",
-    "sqlite": "^3.0.3"
+    "object-encode": "^1.0.2"
   }
 }

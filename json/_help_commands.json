@@ -383,5 +383,13 @@
   "cooldown": "5 minutes",
   "usage": ["jackpot <amount>`"],
   "options": "`amount` - Amount of money to put in the pot."
+}, {
+  "lookup": ["craftitems","craftitem","recycleitems","recycleitem"],
+  "command": "Craftitems",
+  "example": ["craftitems gunpowder"],
+  "description": "View what an item can craft and what it recycles from.",
+  "cooldown": "",
+  "usage": ["craftitems <item>`"],
+  "options": "`item` - Item to search."
 }
 ]
