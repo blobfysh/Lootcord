@@ -1,6 +1,4 @@
-/*
-    TODO rewrite execute() as async/await
-*/
+//TODO rewrite execute() as async/await
 const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');

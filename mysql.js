@@ -110,7 +110,11 @@ CREATE TABLE IF NOT EXISTS scores (
     status VARCHAR(255),
     banner VARCHAR(255),
     language VARCHAR(30),
-    voteCounter INT)
+    voteCounter INT,
+    power INT,
+    max_power INT,
+    clanId BIGINT,
+    clanRank TINYINT)
     ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `
 
@@ -146,6 +150,19 @@ CREATE TABLE IF NOT EXISTS cooldowns (
     _20mHEALCD BIGINT,
     _40mHEALCD BIGINT)
     ENGINE = InnoDB
+`
+
+const createClansSQL = `
+CREATE TABLE IF NOT EXISTS clans (
+    clanId BIGINT AUTO_INCREMENT,
+    name VARCHAR(20),
+    ownerId BIGINT,
+    money BIGINT,
+    status VARCHAR(255),
+    iconURL VARCHAR(255),
+    clanCreated BIGINT,
+    PRIMARY KEY (clanId))
+    ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `
 
 function connectSQL(){
@@ -188,6 +205,11 @@ function connectSQL(){
 
         // cooldowns table
         db.query(createCooldownsSQL, (err, result) => {
+            if(err) return console.log(err);
+        });
+
+        // clans table
+        db.query(createClansSQL, (err, result) => {
             if(err) return console.log(err);
         });
 

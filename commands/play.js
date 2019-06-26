@@ -121,7 +121,11 @@ INSERT IGNORE INTO scores (
     status,
     banner,
     language,
-    voteCounter)
+    voteCounter,
+    power,
+    max_power,
+    clanId,
+    clanRank)
     VALUES (
         ?,
         ?,
@@ -132,7 +136,8 @@ INSERT IGNORE INTO scores (
         ?,
         ?,
         ?,
-        0, 0, 0, 0, 0, 0, 0, '', 'recruit', 'en-us', 0
+        0, 0, 0, 0, 0, 0, 0, '', 'recruit', 'en-us', 
+        0, 5, 5, 0, 0
     )
 `
 

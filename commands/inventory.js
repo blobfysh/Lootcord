@@ -32,14 +32,14 @@ module.exports = {
                 const oldRow = await query(`SELECT * FROM items i
                 INNER JOIN scores s
                 ON i.userId = s.userId
-                WHERE s.userId="${userId}"`);
+                WHERE s.userId= ?`, [userId]);
     
                 if(!oldRow.length){
                     return message.reply(lang.errors[0]);
                 }
                 
                 const userRow        = oldRow[0];
-                const activeRow      = await query(`SELECT * FROM userGuilds WHERE userId = ${userId} AND guildId = ${message.guild.id}`);
+                const activeRow      = await query(`SELECT * FROM userGuilds WHERE userId = ? AND guildId = ?`, [userId, message.guild.id]);
                 const usersItems     = await methods.getuseritems(userId, {amounts: true});
                 const itemCt         = await methods.getitemcount(userId);
                 const shieldLeft     = await methods.getShieldTime(userId);

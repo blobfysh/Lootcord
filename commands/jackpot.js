@@ -45,7 +45,6 @@ module.exports = {
             message.reply(lang.jackpot[3]);
         }
         else if(message.client.sets.jackpotCooldown.has(message.author.id)){
-            // TODO replace gambleTime
             const timeRow = await query(`SELECT * FROM cooldowns WHERE userId ="${message.author.id}"`);
             return message.reply(lang.general[10].replace('{0}', ((300 * 1000 - ((new Date()).getTime() - timeRow[0].jackpotTime)) / 1000).toFixed(0)));
         }

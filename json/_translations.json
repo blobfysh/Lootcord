@@ -285,7 +285,42 @@
 		"You already entered this jackpot!",
 		"Sorry, this jackpot is full!",
 		"**{0}** won the {1} jackpot with a {2}% chance of winning!"
-	]
+	],
+	"clans": {
+		"promote": [
+			"Promote member to `{0}`? This rank grants the following permissions:\n```{1}```",
+			"Promoting this member will make them the leader of the clan! Are you sure you want to give leadership to {0}?"
+		],
+		"demote": [
+			"Demote member to `{0}`? They will LOSE these permissions:\n```{1}```",
+			"That member is already the lowest possible rank!"
+		],
+		"clan_ranks": {
+			"0": {
+				"title": "Recruit",
+				"perms": [
+					"Deposit items into the clan vault",
+					"Deposit money into the clan bank"
+				]
+			  },
+			  "1": {
+				"title": "Officer",
+				"perms": [
+					"Invite new members to the clan.",
+					"Deposit and withdraw from the clan vault",
+					"Deposit and withdraw from the clan bank",
+					"Change the clan status"
+				]
+			  },
+			  "2": {
+				"title": "Leader",
+				"perms": [
+					"Disband the clan",
+					"Promote and demote other members"
+				]
+			  }
+		}
+	}
 },
 "pt_br": {
 	"play": []

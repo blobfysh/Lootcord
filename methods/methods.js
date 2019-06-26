@@ -445,6 +445,7 @@ class Methods {
             let ultraItems    = [];
             let limitedItems  = [];
             let invValue      = 0;
+            let itemCount     = 0;
 
             Object.keys(itemdata).forEach(key => {
                 if(onlyBanners && itemdata[key].isBanner){
@@ -479,6 +480,7 @@ class Methods {
                     else if(itemdata[key].rarity == "Limited") limitedItems.push(sep + key + sep + "("+row[key]+")");
                 }
                 invValue += itemdata[key].sell * row[key];
+                itemCount++;
             }
 
             return {
@@ -489,7 +491,8 @@ class Methods {
                 legendary: legendItems,
                 ultra: ultraItems,
                 limited: limitedItems,
-                invValue: invValue
+                invValue: invValue,
+                itemCount: itemCount
             }
         });
     }

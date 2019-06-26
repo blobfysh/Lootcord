@@ -17,16 +17,18 @@ const client = new Discord.Client({
     messageCacheMaxSize: 50
 });
 
-client.sets         = require('./utils/sets.js');
-client.commands     = new Discord.Collection();
-client.airdropTimes = [];
-client.shieldTimes  = [];
-client.commandsUsed = 0;
+client.sets          = require('./utils/sets.js');
+client.commands      = new Discord.Collection();
+client.clanCommands  = new Discord.Collection();
+client.airdropTimes  = [];
+client.shieldTimes   = [];
+client.commandsUsed  = 0;
 client.restartLockdown = false;
 
 const commandFiles      = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 const moderatorCommands = fs.readdirSync('./commands/moderation').filter(file => file.endsWith('.js'));
 const adminCommands     = fs.readdirSync('./commands/admin').filter(file => file.endsWith('.js'));
+const clanCommandFiles  = fs.readdirSync('./commands/clans').filter(file => file.endsWith('.js'));
 
 for(const file of moderatorCommands){
     commandFiles.push(`moderation/${file}`);
@@ -37,6 +39,10 @@ for(const file of adminCommands){
 for(const file of commandFiles){
     const command = require(`./commands/${file}`);
     client.commands.set(command.name, command);
+}
+for(const file of clanCommandFiles){
+    const clanCmd = require(`./commands/clans/${file}`);
+    client.clanCommands.set(clanCmd.name, clanCmd);
 }
 
 var prefix = config.prefix;

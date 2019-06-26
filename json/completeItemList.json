@@ -110,7 +110,8 @@
                 "xp": 50,
                 "items": [
                     "pistol_body|1",
-                    "crossbow|1"
+                    "crossbow|1",
+                    "gunpowder|1"
                 ]
             },
             "1.5": {
@@ -125,8 +126,7 @@
                 "items": [
                     "peck_seed|1",
                     "fiber_optics|1",
-                    "spas|1",
-                    "gunpowder|1"
+                    "spas|1"
                 ]
             }
         }
@@ -1322,7 +1322,8 @@
                     "screw|1",
                     "spear|1",
                     "health_pot|1",
-                    "xp_potion|1"
+                    "xp_potion|1",
+                    "gunpowder|1"
                 ]
             },
             "35": {
