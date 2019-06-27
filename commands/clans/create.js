@@ -80,11 +80,12 @@ INSERT IGNORE INTO clans (
     money,
     status,
     iconURL,
-    clanCreated)
+    clanCreated,
+    clanViews)
     VALUES (
         ?, ?,
         0, '', '',
-        ?
+        ?, 0
     )
 `
 

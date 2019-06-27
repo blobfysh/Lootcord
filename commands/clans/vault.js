@@ -50,7 +50,7 @@ async function getVaultInfo(message, lang, clanId){
     const clanRow = (await query(`SELECT * FROM clans WHERE clanId = ${clanId}`))[0];
     //const clanMembers = await clans.getMembers(clanId);
     //const clanPower = await clans.getPower(clanId);
-    const clanItems = await methods.getuseritems(clanId, {amounts: true});
+    const clanItems = await methods.getuseritems(clanId, {amounts: true, countBanners: true});
 
     var ultraItemList    = clanItems.ultra;
     var legendItemList   = clanItems.legendary;
@@ -65,6 +65,7 @@ async function getVaultInfo(message, lang, clanId){
     .setTitle(clanRow.name + ' VAULT')
     .setDescription(clanRow.status !== '' ? clanRow.status : 'This clan is too mysterious for a status...')
     .setThumbnail(clanRow.iconURL)
+    .setFooter(`Power(slots) used: ${clanItems.itemCount} | Vault value: ${methods.formatMoney(clanItems.invValue)}`)
     if(ultraItemList != ""){
         let newList = ultraItemList.join('\n');
         embedInfo.addField("<:UnboxUltra:526248982691840003> Ultra", "```" + newList + "```", true);
@@ -97,7 +98,7 @@ async function getVaultInfo(message, lang, clanId){
     
     if(limitedItemList != ""){
         let newList = limitedItemList.join('\n');
-        embedInfo.addField("🎁Limited", "```" + newList + "```", true);
+        embedInfo.addField("🎁 Limited", "```" + newList + "```", true);
     }
     
     if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){

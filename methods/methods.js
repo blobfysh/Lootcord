@@ -32,7 +32,7 @@ class Methods {
     addmoney(userId, amount){
         query(`SELECT * FROM scores WHERE userId ="${userId}"`).then(oldRow => {
             const row = oldRow[0];
-            query(`UPDATE scores SET money = ${parseInt(row.money) + amount} WHERE userId = ${userId}`);
+            query(`UPDATE scores SET money = ${row.money + parseInt(amount)} WHERE userId = ${userId}`);
         });
     }
     removemoney(userId, amount){
@@ -433,7 +433,7 @@ class Methods {
         });
         return items;
     }
-    getuseritems(userId, {sep = "",amounts= false, icon = false, onlyBanners = false}){
+    getuseritems(userId, {sep = "",amounts= false, icon = false, onlyBanners = false, countBanners = false}){
         return query(`SELECT * FROM items WHERE userId ="${userId}"`).then(oldRow => {
             const row = oldRow[0];
 
@@ -448,7 +448,12 @@ class Methods {
             let itemCount     = 0;
 
             Object.keys(itemdata).forEach(key => {
-                if(onlyBanners && itemdata[key].isBanner){
+                if(countBanners){
+                    if(row[key] >= 1){
+                        addIt(key);
+                    }
+                }
+                else if(onlyBanners && itemdata[key].isBanner){
                     if(row[key] >= 1){
                         addIt(key);
                     }
@@ -480,7 +485,7 @@ class Methods {
                     else if(itemdata[key].rarity == "Limited") limitedItems.push(sep + key + sep + "("+row[key]+")");
                 }
                 invValue += itemdata[key].sell * row[key];
-                itemCount++;
+                itemCount+= row[key];
             }
 
             return {

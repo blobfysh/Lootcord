@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const { query } = require('../mysql.js');
 const config = require('../json/_config.json');
 const itemdata = require("../json/completeItemList");
+const methods = require('./methods.js');
 //const fs = require("fs");
 
 class Methods {
@@ -34,6 +35,8 @@ class Methods {
         var currPower = 0;
         var maxPower = 0;
 
+        const clanItems = await methods.getuseritems(clanId, {amounts: true, countBanners: true});
+
         for(var i = 0; i < members.count; i++){
             const scoreRow = (await query(`SELECT * FROM scores WHERE userId = ${members.memberIds[i]}`))[0];
 
@@ -42,10 +45,36 @@ class Methods {
         }
         
         return {
-            usedPower: usedPower,
+            usedPower: clanItems.itemCount,
             currPower: currPower,
             maxPower: maxPower
         }
+    }
+
+    async hasPower(clanId, amount){
+        const clanPower = (await this.getPower(clanId));
+
+        if((clanPower.currPower - clanPower.usedPower) >= amount){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    async hasMoney(clanId, amount){
+        const clan = (await query(`SELECT * FROM clans WHERE clanId = ${clanId}`))[0];
+
+        if(clan.money >= amount){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    async removeMoney(clanId, amount){
+        query(`UPDATE clans SET money = money - ${parseInt(amount)} WHERE clanId = ${clanId}`);
     }
 }
 
