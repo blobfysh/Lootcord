@@ -5,7 +5,9 @@
   "cooldown": "",
   "example": ["help inv"],
   "usage": ["help <command>`"],
-  "options": "`command` - The command you want to lookup."
+  "options": "`command` - The command you want to lookup.",
+  "category": "info",
+  "ignoreHelp": false
 }, {
   "lookup": ["inv","i","inventory"],
   "command": "Inventory",
@@ -13,7 +15,9 @@
   "description": "Shows your current inventory including items, health, level, xp, and money.",
   "cooldown": "",
   "usage": ["inv` - Shows your inventory","inv <@user>` - Shows inventory of specified user.","profile`","i`"],
-  "options": "`@user` - User to check inventory of."
+  "options": "`@user` - User to check inventory of.",
+  "category": "info",
+  "ignoreHelp": false
 }, {
   "lookup": ["use","attack","heal"],
   "command": "Use",
@@ -21,7 +25,9 @@
   "description": "Use an item on yourself or attack another user with a weapon.",
   "cooldown": "Depends on the item used, check with the `item` command",
   "usage": ["use <item>` - Uses an item on yourself, such as healing items or boxes","use <item> <@user/random>` - Attack user with an item or weapon."],
-  "options": "`item` - Item to use\n`@user` or `random` - User to attack, will be random if you specifiy random."
+  "options": "`item` - Item to use\n`@user` or `random` - User to attack, will be random if you specifiy random.",
+  "category": "items",
+  "ignoreHelp": false
 }, {
   "lookup": ["craft"],
   "command": "Craft",
@@ -29,7 +35,9 @@
   "description": "Use components from `recycling` to craft items such as:\n`rail_cannon`\n`ray_gun`\n`ammo_box`\n`ultra_box`",
   "cooldown": "",
   "usage": ["craft <item> <amount>`"],
-  "options": "`item` - Item to craft.\n`amount` - **OPTIONAL** Amount of items to craft."
+  "options": "`item` - Item to craft.\n`amount` - **OPTIONAL** Amount of items to craft.",
+  "category": "items",
+  "ignoreHelp": false
 }, {
   "lookup": ["recycle"],
   "command": "Recycle",
@@ -37,7 +45,9 @@
   "description": "Recycle `legendary` quality items for components.",
   "cooldown": "",
   "usage": ["recycle <item> <amount>`"],
-  "options": "`item` - Item of atleast `legendary` quality.\n`amount` - **OPTIONAL** Amount of item to recycle."
+  "options": "`item` - Item of atleast `legendary` quality.\n`amount` - **OPTIONAL** Amount of item to recycle.",
+  "category": "items",
+  "ignoreHelp": false
 }, {
   "lookup": ["item","items"],
   "command": "Item",
@@ -45,7 +55,9 @@
   "description": "Specify an item to see detailed information about it.",
   "cooldown": "",
   "usage": ["item <item>`","items` - Shows a list of all items."],
-  "options": "`item` - Item to search."
+  "options": "`item` - Item to search.",
+  "category": "items",
+  "ignoreHelp": false
 }, {
   "lookup": ["buy"],
   "command": "Buy",
@@ -53,7 +65,9 @@
   "description": "Purchase items with currency. Check the `shop` to see what can be bought.",
   "cooldown": "",
   "usage": ["buy <item> <amount>`"],
-  "options": "`item` - Item to buy.\n`amount` - **OPTIONAL** Amount of item to purchase."
+  "options": "`item` - Item to buy.\n`amount` - **OPTIONAL** Amount of item to purchase.",
+  "category": "items",
+  "ignoreHelp": false
 }, {
   "lookup": ["sellall"],
   "command": "Sellall",
@@ -61,7 +75,9 @@
   "description": "Sell all items of a certain rarity. If no rarity is specified, it will sell all items in your inventory.",
   "cooldown": "",
   "usage": ["sellall <rarity>`", "sellall`"],
-  "options": "`rarity` - **OPTIONAL** Rarity of items you want to sell ie. common, rare..."
+  "options": "`rarity` - **OPTIONAL** Rarity of items you want to sell ie. common, rare...",
+  "category": "items",
+  "ignoreHelp": false
 }, {
   "lookup": ["sell"],
   "command": "Sell",
@@ -69,7 +85,9 @@
   "description": "Sell items for money. Check the `shop` to see how much items can be sold for.",
   "cooldown": "",
   "usage": ["sell <item> <amount>`"],
-  "options": "`item` - Item to sell.\n`amount` - **OPTIONAL** Amount of item to sell."
+  "options": "`item` - Item to sell.\n`amount` - **OPTIONAL** Amount of item to sell.",
+  "category": "items",
+  "ignoreHelp": false
 }, {
   "lookup": ["shop"],
   "command": "Shop",
@@ -77,7 +95,9 @@
   "description": "Show the market of all items that can be bought or sold. Occasionally, steam keys may be displayed for sale on the home page.",
   "cooldown": "",
   "usage": ["shop`"],
-  "options": ""
+  "options": "",
+  "category": "info",
+  "ignoreHelp": false
 }, {
   "lookup": ["trade"],
   "command": "Trade",
@@ -85,7 +105,9 @@
   "description": "Start a trade with another user. Trade commands include:\n\n`add <item> <amount>` - Item to add to trade\n`remove <item>` - Remove item from trade\n`addmoney <amount>` - Amount of money to add\n`accept`\n`cancel`",
   "cooldown": "",
   "usage": ["trade <@user>`"],
-  "options": "`@user` - Mention user to trade with."
+  "options": "`@user` - Mention user to trade with.",
+  "category": "items",
+  "ignoreHelp": false
 }, {
   "lookup": ["trivia"],
   "command": "Trivia",
@@ -93,7 +115,9 @@
   "description": "Answer a random trivia question for a reward! Rewards range from item_boxes to ammo_boxes.",
   "cooldown": "15 minutes",
   "usage": ["trivia`"],
-  "options": ""
+  "options": "",
+  "category": "games",
+  "ignoreHelp": false
 }, {
   "lookup": ["scramble"],
   "command": "Scramble",
@@ -101,7 +125,9 @@
   "description": "Unscramble a random word for a reward! Rewards vary depending on difficulty you choose, and the difficulty of the word.",
   "cooldown": "15 minutes",
   "usage": ["scramble <difficulty>`"],
-  "options": "`difficulty` - easy OR hard"
+  "options": "`difficulty` - easy OR hard",
+  "category": "games",
+  "ignoreHelp": false
 }, {
   "lookup": ["hourly"],
   "command": "Hourly",
@@ -109,7 +135,9 @@
   "description": "Use this command to receive a free item_box every hour.",
   "cooldown": "1 hour",
   "usage": ["hourly`"],
-  "options": ""
+  "options": "",
+  "category": "games",
+  "ignoreHelp": false
 }, {
   "lookup": ["gamble"],
   "command": "Gamble",
@@ -117,7 +145,9 @@
   "description": "Gamble an amount of money. Ways to gamble include slots, roulette, or coinflip.",
   "cooldown": "1 minute",
   "usage": ["gamble <type> <amount>`"],
-  "options": "`type` - slots, roulette, or coinflip\n`amount` - Amount of money to gamble"
+  "options": "`type` - slots, roulette, or coinflip\n`amount` - Amount of money to gamble",
+  "category": "games",
+  "ignoreHelp": false
 }, {
   "lookup": ["vote"],
   "command": "Vote",
@@ -125,7 +155,9 @@
   "description": "Vote for the bot to receive a reward.",
   "cooldown": "12 hours",
   "usage": ["vote`"],
-  "options": ""
+  "options": "",
+  "category": "games",
+  "ignoreHelp": false
 }, {
   "lookup": ["deactivate"],
   "command": "Deactivate",
@@ -133,7 +165,9 @@
   "description": "Deactivates your account on server it's used in. Deactivating prevents you from being attacked in that server **BUT** also prevents you from being able to use commands.",
   "cooldown": "24 hours",
   "usage": ["deactivate`"],
-  "options": ""
+  "options": "",
+  "category": "other",
+  "ignoreHelp": false
 }, {
   "lookup": ["level","lvl"],
   "command": "Level",
@@ -142,7 +176,9 @@
   "cooldown": "",
   "usage": ["level`","lvl`"],
   "options": "",
-  "imageURL": "https://cdn.discordapp.com/attachments/497302646521069570/548565512355840000/unknown.png"
+  "imageURL": "https://cdn.discordapp.com/attachments/497302646521069570/548565512355840000/unknown.png",
+  "category": "info",
+  "ignoreHelp": false
 }, {
   "lookup": ["points","xp"],
   "command": "Points",
@@ -150,7 +186,9 @@
   "description": "Displays your current xp/points.",
   "cooldown": "",
   "usage": ["points`","xp`"],
-  "options": ""
+  "options": "",
+  "category": "info",
+  "ignoreHelp": false
 }, {
   "lookup": ["health","hp"],
   "command": "Health",
@@ -158,7 +196,9 @@
   "description": "Displays your current health and your maximum possible health.",
   "cooldown": "",
   "usage": ["health`", "hp`"],
-  "options": ""
+  "options": "",
+  "category": "info",
+  "ignoreHelp": false
 }, {
   "lookup": ["money","cash"],
   "command": "Money",
@@ -166,7 +206,9 @@
   "description": "Displays your current amount of money.",
   "cooldown": "",
   "usage": ["money`"],
-  "options": ""
+  "options": "",
+  "category": "info",
+  "ignoreHelp": false
 }, {
   "lookup": ["server"],
   "command": "Server",
@@ -174,7 +216,9 @@
   "description": "Displays a list of all active users on the server.",
   "cooldown": "",
   "usage": ["server`"],
-  "options": ""
+  "options": "",
+  "category": "info",
+  "ignoreHelp": false
 }, {
   "lookup": ["update","version","botinfo"],
   "command": "Update",
@@ -182,7 +226,9 @@
   "description": "Displays information about the current update and the bot.",
   "cooldown": "",
   "usage": ["update`","botinfo`","version`"],
-  "options": ""
+  "options": "",
+  "category": "info",
+  "ignoreHelp": false
 }, {
   "lookup": ["cooldown","cd","cooldowns"],
   "command": "Cooldown",
@@ -190,7 +236,9 @@
   "description": "Displays cooldowns for all commands and time remaining on your shield if you have one active.",
   "cooldown": "",
   "usage": ["cooldown`","cd`"],
-  "options": ""
+  "options": "",
+  "category": "info",
+  "ignoreHelp": false
 }, {
   "lookup": ["leaderboard","lb"],
   "command": "Leaderboard",
@@ -198,7 +246,9 @@
   "description": "Displays a leaderboard of all players with the highest level and amount of money.",
   "cooldown": "",
   "usage": ["leaderboard <s>`","lb <s>`"],
-  "options": "`s` - **OPTIONAL** Will show leaderboard for server"
+  "options": "`s` - **OPTIONAL** Will show leaderboard for server",
+  "category": "info",
+  "ignoreHelp": false
 }, {
   "lookup": ["delete","suicide"],
   "command": "Delete",
@@ -206,7 +256,9 @@
   "description": "Deletes your account. This action can **NOT** be undone. You can only delete once every few hours.",
   "cooldown": "",
   "usage": ["delete`","suicide`"],
-  "options": ""
+  "options": "",
+  "category": "other",
+  "ignoreHelp": false
 }, {
   "lookup": ["discord","invite"],
   "command": "Discord",
@@ -214,7 +266,9 @@
   "description": "Sends a link to the official Lootcord Discord Server!",
   "cooldown": "",
   "usage": ["discord`"],
-  "options": ""
+  "options": "",
+  "category": "other",
+  "ignoreHelp": false
 }, {
   "lookup": ["upgrade"],
   "command": "Upgrade",
@@ -222,7 +276,9 @@
   "description": "Allows user to spend skill points for upgrading attributes. Attributes include Vitality, Strength, and Luck.",
   "cooldown": "",
   "usage": ["upgrade <skill>`"],
-  "options": "`skill` - **OPTIONAL** Will upgrade selected skill when command is called, without menu."
+  "options": "`skill` - **OPTIONAL** Will upgrade selected skill when command is called, without menu.",
+  "category": "games",
+  "ignoreHelp": false
 }, {
   "lookup": ["profile"],
   "command": "Profile",
@@ -230,7 +286,9 @@
   "description": "Displays a users profile. Shows their stats, currently equipped items and their status.",
   "cooldown": "",
   "usage": ["profile`","profile <@user>`"],
-  "options": "`@user` - User's profile to check."
+  "options": "`@user` - User's profile to check.",
+  "category": "info",
+  "ignoreHelp": false
 }, {
   "lookup": ["slot", "slots"],
   "command": "Gamble Slots",
@@ -238,7 +296,9 @@
   "description": "Play a game of slots. Minimum bet - **$100**\n\n<:UnboxCommon:526248905676029968><:UnboxCommon:526248905676029968> - **1x** multiplier\n<:UnboxRare:526248948579434496><:UnboxRare:526248948579434496> - **1.5x** multiplier\n<:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402> - **3x** multiplier\n<:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368> - **5x** multiplier\n<:UnboxCommon:526248905676029968><:UnboxCommon:526248905676029968><:UnboxCommon:526248905676029968> - **2x** multiplier\n<:UnboxRare:526248948579434496><:UnboxRare:526248948579434496><:UnboxRare:526248948579434496> - **3x** multiplier\n<:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402> - **6x** multiplier\n<:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368> - **10x** multiplier",
   "cooldown": "1 minute",
   "usage": ["gamble slots <amount>`"],
-  "options": "`amount` - Amount of money to gamble."
+  "options": "`amount` - Amount of money to gamble.",
+  "category": "games",
+  "ignoreHelp": true
 }, {
   "lookup": ["roulette"],
   "command": "Gamble Roulette",
@@ -246,7 +306,9 @@
   "description": "Play a game of Russian roulette.\nIf you survive, you win **1.2x** what you bet.\nIf you lose, you'll be shot for **50** damage and lose your bet amount.",
   "cooldown": "1 minute",
   "usage": ["gamble roulette <amount>`"],
-  "options": "`amount` - Amount of money to gamble."
+  "options": "`amount` - Amount of money to gamble.",
+  "category": "games",
+  "ignoreHelp": true
 }, {
   "lookup": ["coinflip","cf"],
   "command": "Gamble Coinflip",
@@ -254,7 +316,9 @@
   "description": "Gamble your money for a 50% chance of winning 2x what you bet!",
   "cooldown": "1 minute",
   "usage": ["gamble coinflip <amount>`"],
-  "options": "`amount` - Amount of money to gamble."
+  "options": "`amount` - Amount of money to gamble.",
+  "category": "games",
+  "ignoreHelp": true
 }, {
   "lookup": ["rules","rule"],
   "command": "Rules",
@@ -262,7 +326,9 @@
   "cooldown": "",
   "example": [""],
   "usage": ["rules`"],
-  "options": ""
+  "options": "",
+  "category": "info",
+  "ignoreHelp": false
 }, {
   "lookup": ["backpack","pack"],
   "command": "Backpack",
@@ -270,7 +336,9 @@
   "cooldown": "",
   "example": [""],
   "usage": ["backpack`"],
-  "options": ""
+  "options": "",
+  "category": "info",
+  "ignoreHelp": false
 }, {
   "lookup": ["equip"],
   "command": "Equip",
@@ -278,7 +346,9 @@
   "cooldown": "",
   "example": ["equip light_pack", "equip recruit"],
   "usage": ["equip <item>`", "equip <banner>`"],
-  "options": "`item` - Item to equip."
+  "options": "`item` - Item to equip.",
+  "category": "items",
+  "ignoreHelp": false
 }, {
   "lookup": ["unequip"],
   "command": "Unequip",
@@ -286,15 +356,9 @@
   "cooldown": "",
   "example": ["unequip light_pack","unequip backpack", "unequip shield", "unequip banner"],
   "usage": ["unequip <item>`","unequip <armor>`", "unequip <shield>`", "unequip <banner>`"],
-  "options": "`item` - Item to equip.\nbackpack - Will unequip backpack if you have one equipped."
-}, {
-  "lookup": ["basket"],
-  "command": "Basket",
-  "description": "Limited Easter 2019 event command. Gave the user a limited item and a token.",
-  "cooldown": "",
-  "example": [""],
-  "usage": ["basket`"],
-  "options": ""
+  "options": "`item` - Item to equip.\nbackpack - Will unequip backpack if you have one equipped.",
+  "category": "items",
+  "ignoreHelp": false
 }, {
   "lookup": ["setprefix","prefix"],
   "command": "Setprefix",
@@ -302,7 +366,9 @@
   "description": "Command used to change the prefix for the server.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
   "usage": ["setprefix <prefix>`"],
-  "options": "`prefix` - Input to change server prefix to. Must be 1-3 characters long."
+  "options": "`prefix` - Input to change server prefix to. Must be 1-3 characters long.",
+  "category": "utility",
+  "ignoreHelp": false
 }, {
   "lookup": ["setkillfeed","killfeed", "togglekillfeed", "togglekillchan"],
   "command": "Togglekillfeed",
@@ -310,7 +376,9 @@
   "description": "Toggle the current channel as the kill feed channel, will log all kills from the server in that channel.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
   "usage": ["togglekillfeed`"],
-  "options": ""
+  "options": "",
+  "category": "utility",
+  "ignoreHelp": false
 }, {
   "lookup": ["setlevelchannel","levelchannel", "togglelvlchan", "togglelevelchannel", "togglelevelchan"],
   "command": "Togglelevelchannel",
@@ -318,7 +386,9 @@
   "description": "Toggle a channel to send all level up messages to.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
   "usage": ["togglelevelchannel`"],
-  "options": ""
+  "options": "",
+  "category": "utility",
+  "ignoreHelp": false
 }, {
   "lookup": ["setdropchan","airdrop","setdropchannel"],
   "command": "Setdropchannel",
@@ -326,7 +396,9 @@
   "description": "Request care_packages to be sent to the specified channel.\nServer **MUST** have atleast 5 active players.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
   "usage": ["setdropchannel`"],
-  "options": ""
+  "options": "",
+  "category": "utility",
+  "ignoreHelp": false
 }, {
   "lookup": ["setstatus", "status"],
   "command": "Setstatus",
@@ -334,7 +406,9 @@
   "description": "Changes your status in the profile command. Supports Discord unicode emoji!",
   "cooldown": "",
   "usage": ["setstatus <status>`"],
-  "options": "`status` - Status to set in the profile command."
+  "options": "`status` - Status to set in the profile command.",
+  "category": "utility",
+  "ignoreHelp": false
 }, {
   "lookup": ["disabledropchannel", "disabledropchan"],
   "command": "Disabledropchannel",
@@ -342,7 +416,9 @@
   "description": "Stop airdrops from being sent to the server.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
   "usage": ["disabledropchannel`"],
-  "options": ""
+  "options": "",
+  "category": "utility",
+  "ignoreHelp": false
 }, {
   "lookup": ["disablelevelchannel"],
   "command": "Disablelevelchannel",
@@ -350,7 +426,9 @@
   "description": "Removes the level channel from the server, will cause the bot to default back to replying when users level up.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
   "usage": ["disablelevelchannel`"],
-  "options": ""
+  "options": "",
+  "category": "utility",
+  "ignoreHelp": true
 }, {
   "lookup": ["disablekillfeed"],
   "command": "Disablekillfeed",
@@ -358,7 +436,9 @@
   "description": "Stops the bot from logging all kills in the server.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
   "usage": ["disablekillfeed`"],
-  "options": ""
+  "options": "",
+  "category": "utility",
+  "ignoreHelp": true
 }, {
   "lookup": ["togglerandonly","togglerandomonly", "togglerandattacks", "togglerandomattacks"],
   "command": "Togglerandomattacks",
@@ -366,7 +446,9 @@
   "description": "Toggle the server to only support random attacks with the use command.\nUser **MUST** have the Manage Server permission.",
   "cooldown": "",
   "usage": ["togglerandomattacks`"],
-  "options": ""
+  "options": "",
+  "category": "utility",
+  "ignoreHelp": false
 }, {
   "lookup": ["link"],
   "command": "Link",
@@ -374,7 +456,9 @@
   "description": "Sends a link to invite the bot.",
   "cooldown": "",
   "usage": ["link`"],
-  "options": ""
+  "options": "",
+  "category": "other",
+  "ignoreHelp": false
 }, {
   "lookup": ["jackpot"],
   "command": "Jackpot",
@@ -382,7 +466,9 @@
   "description": "Start a server jackpot that lasts 2 minutes! Other players can join the jackpot with the join command. The more you put into the pot, the higher your chance of winning it all.",
   "cooldown": "5 minutes",
   "usage": ["jackpot <amount>`"],
-  "options": "`amount` - Amount of money to put in the pot."
+  "options": "`amount` - Amount of money to put in the pot.",
+  "category": "games",
+  "ignoreHelp": false
 }, {
   "lookup": ["craftitems","craftitem","recycleitems","recycleitem"],
   "command": "Craftitems",
@@ -390,6 +476,8 @@
   "description": "View what an item can craft and what it recycles from.",
   "cooldown": "",
   "usage": ["craftitems <item>`"],
-  "options": "`item` - Item to search."
+  "options": "`item` - Item to search.",
+  "category": "info",
+  "ignoreHelp": false
 }
 ]

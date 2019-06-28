@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const methods = require('../methods/methods.js');
+const helpJSON = require('../json/_help_commands.json');
 
 module.exports = {
     name: 'help',
@@ -18,42 +19,32 @@ module.exports = {
             return methods.commandhelp(message, helpCommand, prefix);
         }
 
-        let otherCmds = ["`rules`","`cooldowns`","`delete`","`deactivate`","`server`","`update`","`health`",
-        "`money`","`level`","`points`","`leaderboard`","`discord`","`upgrade`","`backpack`", "`invite`", "`craftitems`"];
-        
-        let utilities = ["`setprefix`", "`setstatus`", "`togglekillfeed`", "`togglelevelchannel`","`togglerandomattacks`","`setdropchannel`","`disabledropchannel`"];
-        
-        otherCmds.sort();
+        var itemCmds = [];
+        var gameCmds = [];
+        var infoCmds = [];
+        var utilCmds = [];
+        var otherCmds = [];
 
-        let itemsString = `${lang.help[1].replace('{0}', `🔸\`${prefix}use <item> [@user]\``)}
-        🔸\`${prefix}inv [@user]\`
-        ▫\`${prefix}trade <@user>\`
-        ▫\`${prefix}item [item]\`
-        ▫\`${prefix}shop\`
-        ▫\`${prefix}buy <item> [amount]\`
-        ▫\`${prefix}sell <item> [amount]\`
-        ▫\`${prefix}sellall [rarity]\`
-        ▫\`${prefix}craft <item> [amount]\`
-        ▫\`${prefix}recycle <item> [amount]\`
-        ▫\`${prefix}profile [@user]\`
-        ▫\`${prefix}equip/unequip <item>\`
-        `
-        let gamesString = `▫\`${prefix}scramble <easy/hard>\`
-        ▫\`${prefix}trivia\`
-        ▫\`${prefix}hourly\`
-        ▫\`${prefix}vote\`
-        ▫\`${prefix}gamble <type> <amount>\`
-        ▫\`${prefix}jackpot <amount> - Start a server jackpot that everyone can enter!\`
-        `
+        console.log(helpJSON.length);
+        for(var i = 0; i < helpJSON.length; i++){
+            if(!helpJSON[i].ignoreHelp){
+                if(helpJSON[i].category == 'items') itemCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')
+                else if(helpJSON[i].category == 'games') gameCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')
+                else if(helpJSON[i].category == 'info') infoCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')
+                else if(helpJSON[i].category == 'utility') utilCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')
+                else if(helpJSON[i].category == 'other') otherCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')
+            }
+        }
 
         const helpInfo = new Discord.RichEmbed()
         .setTitle(lang.help[0].replace('{0}', `\`${prefix}play\``))
-        .addField(lang.help[2], itemsString, true)
-        .addField(lang.help[3], gamesString, true)
-        .addField(lang.help[4], otherCmds.join(" "),true)
-        .addField(lang.help[5], utilities.join(" "),true)
+        .addField(lang.help[2], itemCmds.join(', '), true)
+        .addField(lang.help[3], gameCmds.join(', '), true)
+        .addField(lang.help[4], infoCmds.join(', '),true)
+        .addField(lang.help[5], utilCmds.join(', '),true)
+        .addField(lang.help[6], otherCmds.join(', '),true)
         .setColor(13215302)
-        .setFooter(lang.help[6].replace('{0}', prefix))
+        .setFooter(lang.help[7].replace('{0}', prefix))
         
         message.channel.send(helpInfo);
     },
