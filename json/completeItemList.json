@@ -1622,7 +1622,7 @@
         ],
         "craftedWith": "",
         "recyclesTo": {
-            "display": "3x steel\n2x screw",
+            "display": "4x steel\n3x screw",
             "materials": [
                 "steel|4",
                 "screw|3"

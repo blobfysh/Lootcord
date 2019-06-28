@@ -28,6 +28,9 @@ module.exports = {
         else if(invitedScoreRow.clanId !== 0){
             return message.reply('That user is already in a clan!');
         }
+        else if((await clans.getMembers(scoreRow.clanId)).count >= 20){
+            return message.reply('Your clan has the max limit of members! (20/20)');
+        }
 
         message.channel.send(invitedUser + `, ${message.member.displayName} invited you to join the clan: \`${clanRow.name}\`. Do you accept?`).then(botMessage => {
             botMessage.react('✅').then(() => botMessage.react('❌'));
@@ -47,6 +50,9 @@ module.exports = {
                     }
                     else if(invitedScoreRow2.clanId !== 0){
                         return message.channel.send(invitedUser + ', you are already in a clan!');
+                    }
+                    else if((await clans.getMembers(scoreRow.clanId)).count >= 20){
+                        return message.reply('The clan has the max limit of members! (20/20)');
                     }
 
                     joinClan(invitedUser.id, clanRow.clanId);

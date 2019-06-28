@@ -287,6 +287,19 @@
 		"**{0}** won the {1} jackpot with a {2}% chance of winning!"
 	],
 	"clans": {
+		"errors": [
+			"You are already in a clan!"
+		],
+		"create": [
+			"**📤 Cost: $50,000**\n\nCreate clan with the tag: `{0}`?",
+			"Please specify a clan tag.",
+			"Special characters are not supported in clan tags. Supported: Alphanumeric characters and space",
+			"Clan tags must be atleast 4 characters long and max 20 characters. The one you entered is {0} characters.",
+			"The clan tag you are trying to use contains innappropiate language. **Vulgar clan tags will not be tolerated.**",
+			"A clan with that tag already exists!",
+			"You need atleast $50,000 to create a clan! You only have {0}.\n\nCome back when you've racked up some more money...",
+			"Congratulations! You are now the proud leader of the `{0}` clan!\n\nView your clan information with `{1}clan info` and check the vault with `{2}clan vault`."
+		],
 		"promote": [
 			"Promote member to `{0}`? This rank grants the following permissions:\n```{1}```",
 			"Promoting this member will make them the leader of the clan! Are you sure you want to give leadership to {0}?"

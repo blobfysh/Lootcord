@@ -18,39 +18,54 @@ module.exports = {
         const clanRow = (await query(`SELECT * FROM clans WHERE LOWER(name) = ?`, [clanName.toLowerCase()]));
 
         if(!args.length){
-            return message.reply('Please specify a clan tag.');
+            return message.reply(lang.clans.create[1]);
         }
         else if(scoreRow.clanId !== 0){
-            return message.reply('You are already in a clan!');
+            return message.reply(lang.clans.errors[0]);
         }
         else if(!/^[a-zA-Z0-9 ]+$/.test(clanName)){
-            return message.reply('Special characters are not supported in clan tags. Supported: Alphanumeric characters and space');
+            return message.reply(lang.clans.create[2]);
         }
         else if(clanName.length > 20){
-            return message.reply(lang.setstatus[0].replace('{0}', clanName.length));
+            return message.reply(lang.clans.create[3].replace('{0}', clanName.length));
         }
         else if(filter.isProfane(clanName)){
-            return message.reply('The clan tag you are trying to use contains innappropiate language. **Vulgar clan tags will not be tolerated.**');
+            return message.reply(lang.clans.create[4]);
         }
         else if(clanRow.length){
-            return message.reply('A clan with that tag already exists!');
+            return message.reply(lang.clans.create[5]);
         }
         else if(scoreRow.money < 50000){
-            return message.reply('You need atleast $50,000 to create a clan! Come back when you\'ve racked up some more money...');
+            return message.reply(lang.clans.create[6].replace('{0}', methods.formatMoney(scoreRow.money)));
         }
         else{
-            message.reply('**📤 Cost: $50,000**\n\nCreate clan with the tag: `' + clanName + '`?').then(botMessage => {
+            message.reply(lang.clans.create[0].replace('{0}', clanName)).then(botMessage => {
                 botMessage.react('✅').then(() => botMessage.react('❌'));
                 const filter = (reaction, user) => {
                     return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
                 };
-                botMessage.awaitReactions(filter, {max: 1, time: 15000, errors: ['time'] }).then(collected => {
+                botMessage.awaitReactions(filter, {max: 1, time: 15000, errors: ['time'] }).then(async collected => {
                     const reaction = collected.first();
     
                     if(reaction.emoji.name === '✅'){
                         botMessage.delete();
-                        message.reply('Success!');
+
+                        const scoreRow2 = (await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`))[0];
+                        const clanRow2 = (await query(`SELECT * FROM clans WHERE LOWER(name) = ?`, [clanName.toLowerCase()]));
+
+                        if(scoreRow2.clanId !== 0){
+                            return message.reply(lang.clans.errors[0]);
+                        }
+                        else if(scoreRow2.money < 50000){
+                            return message.reply(lang.clans.create[6].replace('{0}', methods.formatMoney(scoreRow2.money)));
+                        }
+                        else if(clanRow2.length){
+                            return message.reply(lang.clans.create[5]);
+                        }
+                        
+                        methods.removemoney(message.author.id, 50000);
                         createClan(clanName, message.author.id);
+                        message.reply(lang.clans.create[7].replace('{0}', clanName).replace('{1}', prefix).replace('{2}', prefix));
                     }
                     else{
                         botMessage.delete();
