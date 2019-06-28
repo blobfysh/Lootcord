@@ -6,7 +6,7 @@ const methods = require('../../methods/methods.js');
 
 module.exports = {
     name: 'vault',
-    aliases: ['inv'],
+    aliases: ['inv', 'v'],
     description: 'Show the items in a clans vault.',
     minimumRank: 0,
     requiresClan: false,
@@ -16,7 +16,7 @@ module.exports = {
         const mentionedUser = message.mentions.users.first();
 
         if(!args.length && scoreRow.clanId == 0){
-            return message.reply('You are not a member of any clan! You can look up other clans by searching their name.');
+            return message.reply(lang.clans.info[0]);
         }
         else if(!args.length){
             getVaultInfo(message, lang, scoreRow.clanId);
@@ -27,7 +27,7 @@ module.exports = {
                 return message.reply(lang.errors[0]);
             }
             else if(invitedScoreRow.clanId == 0){
-                return message.reply('That user is not in a clan.');
+                return message.reply(lang.clans.errors[1]);
             }
             else{
                 getVaultInfo(message, lang, invitedScoreRow.clanId);
@@ -38,7 +38,7 @@ module.exports = {
             const clanRow = (await query(`SELECT * FROM clans WHERE LOWER(name) = ?`, [clanName.toLowerCase()]));
 
             if(!clanRow.length){
-                return message.reply('I could not find a clan with that name! Maybe you misspelled it?');
+                return message.reply(lang.clans.info[1]);
             }
             
             getVaultInfo(message, lang, clanRow[0].clanId);
@@ -63,7 +63,7 @@ async function getVaultInfo(message, lang, clanId){
     const embedInfo = new Discord.RichEmbed()
     .setColor(14202368)
     .setTitle(clanRow.name + ' VAULT')
-    .setDescription(clanRow.status !== '' ? clanRow.status : 'This clan is too mysterious for a status...')
+    .setDescription(clanRow.status !== '' ? clanRow.status : lang.clans.info[2])
     .setThumbnail(clanRow.iconURL)
     .setFooter(`Power(slots) used: ${clanItems.itemCount} | Vault value: ${methods.formatMoney(clanItems.invValue)}`)
     if(ultraItemList != ""){

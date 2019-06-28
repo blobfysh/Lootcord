@@ -2,8 +2,6 @@ const Discord = require('discord.js');
 const { query } = require('../../mysql.js');
 const clans = require('../../methods/clan_methods.js');
 
-// TODO check if clan member count is equal to 20 before allowing invite to clan
-
 module.exports = {
     name: 'demote',
     aliases: [''],
@@ -26,7 +24,7 @@ module.exports = {
             return message.reply(lang.errors[0]);
         }
         else if(invitedScoreRow.clanId !== scoreRow.clanId){
-            return message.reply('That user is not in your clan.');
+            return message.reply(lang.clans.kick[0]);
         }
         else if(message.author.id == invitedUser.id){
             return message.reply(lang.errors[1]);
@@ -58,7 +56,7 @@ module.exports = {
                         query(`UPDATE scores SET clanRank = ${invitedScoreRow2.clanRank - 1} WHERE userId = ${invitedUser.id}`);
                     }
 
-                    message.reply('Success');
+                    message.reply(lang.clans.demote[2].replace('{0}', lang.clans.clan_ranks[invitedScoreRow2.clanRank].title));
                 }
                 else{
                     botMessage.delete();

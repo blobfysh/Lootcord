@@ -15,10 +15,10 @@ module.exports = {
         const clanRow = (await query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0];
 
         var isLeader = false;
-        var leaveMsg = `Leave clan: \`${clanRow.name}\`?`;
+        var leaveMsg = lang.clans.leave[1].replace('{0}', clanRow.name);
 
         if(lang.clans.clan_ranks[scoreRow.clanRank].title == 'Leader'){
-            leaveMsg = `Leaving a clan you are the leader of will disband the clan. Are you sure you want to disband \`${clanRow.name}\`?`;
+            leaveMsg = lang.clans.leave[2].replace('{1}', clanRow.name);
         }
 
         message.reply(leaveMsg).then(botMessage => {
@@ -34,14 +34,14 @@ module.exports = {
 
                     const scoreRow2 = (await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`))[0];
                     if(scoreRow2.clanId == 0 || scoreRow2.clanId !== scoreRow.clanId){
-                        return message.reply('You are not a member of any clan.');
+                        return message.reply(lang.clans.leave[0]);
                     }
                     if(lang.clans.clan_ranks[scoreRow.clanRank].title == 'Leader'){
                         isLeader = true;
                     }
 
-                    message.reply('Success!');
                     leaveClan(message.author.id, scoreRow.clanId, isLeader);
+                    message.reply(lang.clans.leave[3].replace('{0}', clanRow.name));
                 }
                 else{
                     botMessage.delete();

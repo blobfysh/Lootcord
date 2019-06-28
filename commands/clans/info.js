@@ -6,7 +6,7 @@ const methods = require('../../methods/methods.js');
 
 module.exports = {
     name: 'info',
-    aliases: [''],
+    aliases: ['i', 'inf'],
     description: 'Show information about a clan.',
     minimumRank: 0,
     requiresClan: false,
@@ -16,7 +16,7 @@ module.exports = {
         const mentionedUser = message.mentions.users.first();
 
         if(!args.length && scoreRow.clanId == 0){
-            return message.reply('You are not a member of any clan! You can look up other clans by searching their name.');
+            return message.reply(lang.clans.info[0]);
         }
         else if(!args.length){
             getClanInfo(message, lang, scoreRow.clanId);
@@ -27,7 +27,7 @@ module.exports = {
                 return message.reply(lang.errors[0]);
             }
             else if(invitedScoreRow.clanId == 0){
-                return message.reply('That user is not in a clan.');
+                return message.reply(lang.clans.errors[1]);
             }
             else{
                 getClanInfo(message, lang, invitedScoreRow.clanId);
@@ -38,7 +38,7 @@ module.exports = {
             const clanRow = (await query(`SELECT * FROM clans WHERE LOWER(name) = ?`, [clanName.toLowerCase()]));
 
             if(!clanRow.length){
-                return message.reply('I could not find a clan with that name! Maybe you misspelled it?');
+                return message.reply(lang.clans.info[1]);
             }
             
             getClanInfo(message, lang, clanRow[0].clanId);
@@ -49,7 +49,7 @@ module.exports = {
 async function getClanInfo(message, lang, clanId){
     const clanRow = (await query(`SELECT * FROM clans WHERE clanId = ${clanId}`))[0];
     const clanMembers = await clans.getMembers(clanId);
-    const clanPower = await clans.getPower(clanId);
+    const clanPower = await clans.getClanData(clanId);
 
     var membersRanksList = [];
     var membersList = [];
@@ -73,20 +73,21 @@ async function getClanInfo(message, lang, clanId){
     const clanEmbed = new Discord.RichEmbed()
     .setColor(14202368)
     .setTitle(clanRow.name)
-    .setDescription(clanRow.status !== '' ? clanRow.status : 'This clan is too mysterious for a status...')
+    .setDescription(clanRow.status !== '' ? clanRow.status : lang.clans.info[2])
     .setThumbnail(clanRow.iconURL)
-    .addField('Clan Power (Used / Current / Max)', clanPower.usedPower + '/' + clanPower.currPower + '/' + clanPower.maxPower, true)
-    .addField('Founded', getShortDate(clanRow.clanCreated), true)
+    .addField(lang.clans.info[3], clanPower.usedPower + '/' + clanPower.currPower + '/' + clanPower.maxPower, true)
+    .addField(lang.clans.info[4], getShortDate(clanRow.clanCreated), true)
     .addBlankField()    
-    .addField('Bank', methods.formatMoney(clanRow.money))
-    .addField('Members', membersList.join('\n'))
-
+    .addField(lang.clans.info[5], methods.formatMoney(clanRow.money))
+    .addField(lang.clans.info[6].replace('{0}', clanMembers.count), membersList.join('\n'), true)
+    .addField('Member Stats', `${clanPower.kills + ' kills | ' + clanPower.deaths + ' deaths'}\n${convertToTime(clanPower.playtime)} of total playtime`, true)
+    
     message.channel.send(clanEmbed);
 }
 
 function getShortDate(date){
     var convertedTime = new Date(date).toLocaleString('en-US', {
-        timeZone: 'America/Los_Angeles'
+        timeZone: 'America/New_York'
     });
     convertedTime = new Date(convertedTime);
     
@@ -97,4 +98,27 @@ function getShortDate(date){
     var time = d.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'}).replace(' ', '');
     
     return month + '/' + day + '/' + year.toString().slice(2) + ' ' + time + ' EST';
+}
+
+function convertToTime(ms){
+    var seconds = (ms / 1000).toFixed(1);
+
+    var minutes = (ms / (1000 * 60)).toFixed(1);
+
+    var hours = (ms / (1000 * 60 * 60)).toFixed(1);
+
+    var days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
+
+    if (seconds < 60) {
+        return seconds + " seconds";
+    } 
+    else if (minutes < 60) {
+        return minutes + " minutes";
+    } 
+    else if (hours < 24) {
+        return hours + " hours";
+    }
+    else {
+        return days + " days"
+    }
 }

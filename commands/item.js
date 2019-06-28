@@ -90,15 +90,15 @@ module.exports = {
             }
 
             if(itemDamage !== ""){
-                embedItem.addField("💥Damage", itemDamage, true)
+                embedItem.addField("💥 Damage", itemDamage, true)
             }
 
             if(itemAmmo !== "" && itemAmmo !== "N/A"){
-                embedItem.addField("🔻Ammo Required", itemAmmo, true)
+                embedItem.addField("Ammo Required", itemAmmo, true)
             }
 
             if(itemAmmoFor.length >= 1){
-                embedItem.addField("🔻Ammo for", itemAmmoFor, true)
+                embedItem.addField("Ammo for", itemAmmoFor, true)
             }
 
             if(itemBuyCurr !== undefined && itemBuyCurr == "money"){
@@ -133,12 +133,12 @@ module.exports = {
             .setColor(0)
             .setTitle("Full Items List")
             .setURL("https://lootcord.com/items")
-            .addField("<:UnboxCommon:526248905676029968>Common","`" + commonList.sort().join("`\n`") + "`", true)
-            .addField("<:UnboxUncommon:526248928891371520>Uncommon","`" + uncommonList.sort().join("`\n`") + "`", true)
-            .addField("<:UnboxRare:526248948579434496>Rare","`" + rareList.sort().join("`\n`") + "`", true)
-            .addField("<:UnboxEpic:526248961892155402>Epic","`" + epicList.sort().join("`\n`") + "`", true)
-            .addField("<:UnboxLegendary:526248970914234368>Legendary","`" + legendList.sort().join("`\n`") + "`", true)
-            .addField("<:UnboxUltra:526248982691840003>Ultra","`" + ultraList.sort().join("`\n`") + "`", true)
+            .addField("<:UnboxCommon:526248905676029968> Common","`" + commonList.sort().join("`\n`") + "`", true)
+            .addField("<:UnboxUncommon:526248928891371520> Uncommon","`" + uncommonList.sort().join("`\n`") + "`", true)
+            .addField("<:UnboxRare:526248948579434496> Rare","`" + rareList.sort().join("`\n`") + "`", true)
+            .addField("<:UnboxEpic:526248961892155402> Epic","`" + epicList.sort().join("`\n`") + "`", true)
+            .addField("<:UnboxLegendary:526248970914234368> Legendary","`" + legendList.sort().join("`\n`") + "`", true)
+            .addField("<:UnboxUltra:526248982691840003> Ultra","`" + ultraList.sort().join("`\n`") + "`", true)
             .setFooter(lang.item[1].replace('{0}', prefix))
             //.addField(lang.item[2], lang.item[3].replace('{0}', weaponEmotePrint).replace('{1}', itemsEmotePrint).replace('{2}', ammoEmotePrint).replace('{3}', bannerEmote).replace('{4}', matsEmote).replace('{5}', backpackEmote), true)
             .setDescription(lang.item[2].replace('{0}', weaponEmotePrint).replace('{1}', itemsEmotePrint).replace('{2}', ammoEmotePrint).replace('{3}', bannerEmote).replace('{4}', matsEmote).replace('{5}', backpackEmote))

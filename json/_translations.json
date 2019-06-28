@@ -288,7 +288,8 @@
 	],
 	"clans": {
 		"errors": [
-			"You are already in a clan!"
+			"You are already in a clan!",
+			"That user is not in a clan."
 		],
 		"create": [
 			"**📤 Cost: $50,000**\n\nCreate clan with the tag: `{0}`?",
@@ -300,13 +301,55 @@
 			"You need atleast $50,000 to create a clan! You only have {0}.\n\nCome back when you've racked up some more money...",
 			"Congratulations! You are now the proud leader of the `{0}` clan!\n\nView your clan information with `{1}clan info` and check the vault with `{2}clan vault`."
 		],
+		"info": [
+			"You are not a member of any clan! You can look up other clans by searching their name.",
+			"I could not find a clan with that name! Maybe you misspelled it?",
+			"This clan is too mysterious for a status...",
+			"Clan Power (Used / Current / Max)",
+			"Founded",
+			"Bank",
+			"Members ({0})"
+		],
+		"leave": [
+			"You are not a member of any clan.",
+			"Leave clan: `{0}`?",
+			"Leaving a clan you are the leader of will disband the clan. Are you sure you want to disband `{0}`?",
+			"Successfully left clan: `{0}`"
+		],
+		"kick": [
+			"That user is not in your clan.",
+			"Successfully kicked {0}"
+		],
+		"invite": [
+			"That user is already in a clan!",
+			"Your clan has the max limit of members! (20/20)",
+			"{0}, {1} invited you to join the clan: `{2}`. Do you accept?",
+			"{0}, you are already in a clan!",
+			"{0}, You are now a member of `{1}`\n\nView your clan information with `{2}clan info` and check the vault with `{3}clan vault`."
+		],
+		"deposit": [
+			"I don't recognize that item.",
+			"Error trying to deposit. Try again? 😟",
+			"Theres not enough power available in the clan! Your vault is currently using **{0}** power and you only have **{1}** current power.",
+			"`{0}`'s are bound to the player, meaning you can't trade them or put them in the clan vault.",
+			"Deposited {0}x `{1}` to your clan vault.\n\nThe vault now has **{2}x** `{3}` and is using **{4}** power.",
+			"Deposited **{0}**\n\nThe clan bank now has **{1}**"
+		],
+		"withdraw": [
+			"Your clan bank only has {0}...",
+			"Your clan vault has **{0}** `{1}`'s...",
+			"Withdrew {0}x `{1}` from your clan vault.\n\nThe vault now has **{2}x** `{3}` and is using **{4}** power.",
+			"Withdrew **{0}**\n\nThe clan bank now has **{1}**"
+		],
 		"promote": [
 			"Promote member to `{0}`? This rank grants the following permissions:\n```{1}```",
-			"Promoting this member will make them the leader of the clan! Are you sure you want to give leadership to {0}?"
+			"Promoting this member will make them the leader of the clan! Are you sure you want to give leadership to {0}?",
+			"Successfully promoted member to rank `{0}`"
 		],
 		"demote": [
 			"Demote member to `{0}`? They will LOSE these permissions:\n```{1}```",
-			"That member is already the lowest possible rank!"
+			"That member is already the lowest possible rank!",
+			"Demoted member to rank `{0}`"
 		],
 		"clan_ranks": {
 			"0": {

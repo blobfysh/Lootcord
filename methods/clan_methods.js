@@ -29,30 +29,40 @@ class Methods {
         query(`DELETE FROM clans WHERE clanId = ${clanId}`);
     }
 
-    async getPower(clanId){
+    async getClanData(clanId){
         var members = await this.getMembers(clanId);
         var usedPower = 0;
         var currPower = 0;
         var maxPower = 0;
+        var kills = 0;
+        var deaths = 0;
+        var timePlayed = 0;
+        const dateTime = new Date().getTime();
 
         const clanItems = await methods.getuseritems(clanId, {amounts: true, countBanners: true});
 
         for(var i = 0; i < members.count; i++){
             const scoreRow = (await query(`SELECT * FROM scores WHERE userId = ${members.memberIds[i]}`))[0];
 
+            kills += scoreRow.kills;
+            deaths += scoreRow.deaths;
             currPower += scoreRow.power;
             maxPower += scoreRow.max_power;
+            timePlayed += (dateTime - scoreRow.createdAt);
         }
         
         return {
             usedPower: clanItems.itemCount,
             currPower: currPower,
-            maxPower: maxPower
+            maxPower: maxPower,
+            kills: kills,
+            deaths: deaths,
+            playtime: timePlayed
         }
     }
 
     async hasPower(clanId, amount){
-        const clanPower = (await this.getPower(clanId));
+        const clanPower = (await this.getClanData(clanId));
 
         if((clanPower.currPower - clanPower.usedPower) >= amount){
             return true;

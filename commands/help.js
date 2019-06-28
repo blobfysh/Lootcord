@@ -45,6 +45,16 @@ module.exports = {
         ▫\`${prefix}gamble <type> <amount>\`
         ▫\`${prefix}jackpot <amount> - Start a server jackpot that everyone can enter!\`
         `
+        const helpInfo = new Discord.RichEmbed()
+        .setTitle(lang.help[0].replace('{0}', `\`${prefix}play\``))
+        .addField(lang.help[2], itemsString, true)
+        .addField(lang.help[3], gamesString, true)
+        .addField(lang.help[4], otherCmds.join(" "),true)
+        .addField(lang.help[5], utilities.join(" "),true)
+        .setColor(13215302)
+        .setFooter(lang.help[6].replace('{0}', prefix))
+
+        return;
 
         const helpInfo = new Discord.RichEmbed()
         .setTitle(lang.help[0].replace('{0}', `\`${prefix}play\``))

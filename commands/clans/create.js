@@ -26,7 +26,7 @@ module.exports = {
         else if(!/^[a-zA-Z0-9 ]+$/.test(clanName)){
             return message.reply(lang.clans.create[2]);
         }
-        else if(clanName.length > 20){
+        else if(clanName.length < 4 || clanName.length > 20){
             return message.reply(lang.clans.create[3].replace('{0}', clanName.length));
         }
         else if(filter.isProfane(clanName)){

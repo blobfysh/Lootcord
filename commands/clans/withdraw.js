@@ -22,34 +22,50 @@ module.exports = {
         }
 
         if(!args.length){
-            return message.reply('You are not a member of any clan! You can look up other clans by searching their name.');
+            return message.reply(lang.clans.leave[0]);
         }
         else if(itemName !== 'money' && itemdata[itemName] == undefined){
-            return message.reply('I don\'t recognize that item.');
+            return message.reply(lang.clans.deposit[0]);
         }
         else{
             if(itemAmnt == undefined || !Number.isInteger(parseInt(itemAmnt)) || itemAmnt % 1 !== 0){
                 itemAmnt = 1;
             }
             else if(itemAmnt < 1){
-                return message.reply('Error trying to deposit. Try again? 😟');
+                return message.reply(lang.clans.deposit[1]);
             }
             
             if(itemName == 'money'){
                 const hasMoney = await clans.hasMoney(scoreRow.clanId, itemAmnt);
 
-                if(!hasMoney) return message.reply('The clan does not have that much in the bank!');
+                if(!hasMoney) return message.reply(lang.clans.withdraw[0].replace('{0}', methods.formatMoney(
+                    (await query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0].money
+                )));
 
-                clans.removeMoney(scoreRow.clanId, itemAmnt);
-                methods.addmoney(message.author.id, itemAmnt);
+                await clans.removeMoney(scoreRow.clanId, itemAmnt);
+                await methods.addmoney(message.author.id, itemAmnt);
+
+                message.reply(lang.clans.withdraw[3].replace('{0}', methods.formatMoney(itemAmnt)).replace('{1}',
+                    methods.formatMoney((await query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0][itemName])
+                ));
             }
             else{
                 const hasItems = await methods.hasitems(scoreRow.clanId, itemName, itemAmnt);
+                if(!hasItems) return message.reply(lang.clans.withdraw[1].replace('{0}',
+                    (await query(`SELECT * FROM items WHERE userId = ${scoreRow.clanId}`))[0][itemName]
+                ).replace('{1}', itemName));
 
-                if(!hasItems) return message.reply('The clan does not have enough of that item in the vault.');
+                const hasSpace = await methods.hasenoughspace(message.author.id, itemAmnt);
+                if(!hasSpace) return message.reply(lang.errors[2]);
 
-                methods.removeitem(scoreRow.clanId, itemName, itemAmnt);
-                methods.additem(message.author.id, itemName, itemAmnt);
+                await methods.removeitem(scoreRow.clanId, itemName, itemAmnt);
+                await methods.additem(message.author.id, itemName, itemAmnt);
+
+                message.reply(lang.clans.withdraw[2].replace('{0}', itemAmnt).replace('{1}', itemName).replace('{2}', 
+                    (await query(`SELECT * FROM items WHERE userId = ${scoreRow.clanId}`))[0][itemName]
+                ).replace('{3}', itemName).replace('{4}', 
+                    (await clans.getClanData(scoreRow.clanId)).usedPower + '/' + (await clans.getClanData(scoreRow.clanId)).currPower
+                ));
             }
         }
     },

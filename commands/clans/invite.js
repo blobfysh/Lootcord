@@ -17,7 +17,7 @@ module.exports = {
         const invitedUser = message.mentions.users.first();
 
         if(!args.length || invitedUser == undefined){
-            return message.reply('You need to mention the person you want to invite!');
+            return message.reply(lang.errors[1]);
         }
 
         const invitedScoreRow = (await query(`SELECT * FROM scores WHERE userId = ${invitedUser.id}`))[0];
@@ -26,13 +26,12 @@ module.exports = {
             return message.reply(lang.errors[0]);
         }
         else if(invitedScoreRow.clanId !== 0){
-            return message.reply('That user is already in a clan!');
+            return message.reply(lang.clans.invite[0]);
         }
         else if((await clans.getMembers(scoreRow.clanId)).count >= 20){
-            return message.reply('Your clan has the max limit of members! (20/20)');
+            return message.reply(lang.clans.invite[1]);
         }
-
-        message.channel.send(invitedUser + `, ${message.member.displayName} invited you to join the clan: \`${clanRow.name}\`. Do you accept?`).then(botMessage => {
+        message.channel.send(lang.clans.invite[2].replace('{0}', invitedUser).replace('{1}', message.member.displayName).replace('{2}', clanRow.name)).then(botMessage => {
             botMessage.react('✅').then(() => botMessage.react('❌'));
             const filter = (reaction, user) => {
                 return ['✅', '❌'].includes(reaction.emoji.name) && user.id === invitedUser.id || ['❌'].includes(reaction.emoji.name) && user.id === message.author.id;
@@ -46,17 +45,17 @@ module.exports = {
                     const invitedScoreRow2 = (await query(`SELECT * FROM scores WHERE userId = ${invitedUser.id}`))[0];
 
                     if(!invitedScoreRow2){
-                        return message.channel.send(invitedUser + ', you need an account to join a clan!');
+                        return message.channel.send(lang.general[0].replace('{0}', prefix));
                     }
                     else if(invitedScoreRow2.clanId !== 0){
-                        return message.channel.send(invitedUser + ', you are already in a clan!');
+                        return message.channel.send(lang.clans.invite[3].replace('{0}', invitedUser));
                     }
                     else if((await clans.getMembers(scoreRow.clanId)).count >= 20){
-                        return message.reply('The clan has the max limit of members! (20/20)');
+                        return message.reply(lang.clans.invite[1]);
                     }
 
                     joinClan(invitedUser.id, clanRow.clanId);
-                    message.channel.send(invitedUser + ', success!');
+                    message.channel.send(lang.clans.invite[0].replace('{0}', invitedUser).replace('{1}', clanRow.name).replace('{2}', prefix).replace('{3}', prefix));
                 }
                 else{
                     botMessage.delete();
