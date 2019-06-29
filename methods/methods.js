@@ -227,6 +227,7 @@ class Methods {
         try{
             for(var i = 0; i < Object.keys(helpCmd).length; i++){
                 if(helpCmd[i].lookup.includes(command.toLowerCase())){
+                    const commandInf = message.client.commands.get(helpCmd[i].command.toLowerCase());
                     let cmdUsage = [];
                     let cmdExamples = [];
                     for(var i2 = 0; i2 < helpCmd[i].usage.length; i2++){
@@ -238,7 +239,8 @@ class Methods {
                     const helpInfo = new Discord.RichEmbed()
                     .setTitle(helpCmd[i].command+" Command Info 🔎")
                     .setColor(13215302)
-                    if(helpCmd[i].example[0].length > 0){helpInfo.setDescription("Example: "+cmdExamples.join(", ") + "\n\n**" + helpCmd[i].description+"**")}else{helpInfo.setDescription("**"+helpCmd[i].description+"**")}
+                    if(helpCmd[i].example[0].length > 0){helpInfo.setDescription("Example: "+cmdExamples.join(", ") + "\n\n" + helpCmd[i].description)}else{helpInfo.setDescription(helpCmd[i].description)}
+                    if(commandInf !== undefined && commandInf.aliases[0].length > 0) helpInfo.addField("Aliases", commandInf.aliases.map(alias => '`' + alias + '`').join(", "))
                     helpInfo.addField("Usage", cmdUsage.join("\n"))
                     if(helpCmd[i].options !== ""){helpInfo.addField("Options", helpCmd[i].options)}
                     if(helpCmd[i].cooldown !== ""){helpInfo.addField("Cooldown", helpCmd[i].cooldown)}

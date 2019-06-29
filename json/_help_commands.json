@@ -14,7 +14,7 @@
   "example": [""],
   "description": "Shows your current inventory including items, health, level, xp, and money.",
   "cooldown": "",
-  "usage": ["inv` - Shows your inventory","inv <@user>` - Shows inventory of specified user.","profile`","i`"],
+  "usage": ["inv` - Shows your inventory","inv <@user>` - Shows inventory of specified user."],
   "options": "`@user` - User to check inventory of.",
   "category": "info",
   "ignoreHelp": false
@@ -176,7 +176,6 @@
   "cooldown": "",
   "usage": ["level`","lvl`"],
   "options": "",
-  "imageURL": "https://cdn.discordapp.com/attachments/497302646521069570/548565512355840000/unknown.png",
   "category": "info",
   "ignoreHelp": false
 }, {
