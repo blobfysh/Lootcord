@@ -13,8 +13,11 @@ const airdropper            = require('./utils/airdrop.js');
 const patreonHandler        = require('./utils/patreonHandler.js');
 
 const client = new Discord.Client({
-    fetchAllMembers: true,
-    messageCacheMaxSize: 50
+    messageCacheMaxSize: 50,
+    messageCacheLifetime: 300,
+    messageSweepInterval: 500,
+    disableEveryone: true,
+    fetchAllMembers: true
 });
 
 client.sets          = require('./utils/sets.js');

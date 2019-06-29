@@ -268,7 +268,8 @@
 	"setstatus": [
 		"Your status can only be up to 120 characters long! You tried to set one that was {0} characters long.",
 		"Successfully set status to: {0}",
-		"❌ There was an error trying to modify your status."
+		"❌ There was an error trying to modify your status.",
+		"Statuses cannot contain the characters ', \", `"
 	],
 	"togglerandomattacks": [
 		"✅ This server is now in random-only mode.",

@@ -62,10 +62,9 @@ async function getVaultInfo(message, lang, clanId){
 
     const embedInfo = new Discord.RichEmbed()
     .setColor(14202368)
-    .setTitle(clanRow.name + ' VAULT')
+    .setTitle(clanRow.name + ' Vault')
     .setDescription(clanRow.status !== '' ? clanRow.status : lang.clans.info[2])
     .setThumbnail(clanRow.iconURL)
-    .setFooter(`Power(slots) used: ${clanItems.itemCount} | Vault value: ${methods.formatMoney(clanItems.invValue)}`)
     if(ultraItemList != ""){
         let newList = ultraItemList.join('\n');
         embedInfo.addField("<:UnboxUltra:526248982691840003> Ultra", "```" + newList + "```", true);
@@ -104,6 +103,8 @@ async function getVaultInfo(message, lang, clanId){
     if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){
         embedInfo.addField(lang.inventory[3], "\u200b");
     }
+
+    embedInfo.addField("\u200b", `Power(slots) used: ${clanItems.itemCount} | Vault value: ${methods.formatMoney(clanItems.invValue)}`)
 
     message.channel.send(embedInfo);
 }

@@ -18,7 +18,7 @@ module.exports = {
         var leaveMsg = lang.clans.leave[1].replace('{0}', clanRow.name);
 
         if(lang.clans.clan_ranks[scoreRow.clanRank].title == 'Leader'){
-            leaveMsg = lang.clans.leave[2].replace('{1}', clanRow.name);
+            leaveMsg = lang.clans.leave[2].replace('{0}', clanRow.name);
         }
 
         message.reply(leaveMsg).then(botMessage => {

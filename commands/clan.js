@@ -25,7 +25,7 @@ module.exports = {
             return message.client.clanCommands.get('info').execute(message, args, lang, prefix);
         }
         else if(scoreRow.clanId == 0 && command.requiresClan){
-            return message.reply('You are not a member of any clan. 2');
+            return message.reply('You are not a member of any clan.');
         }
         else if(scoreRow.clanRank < command.minimumRank){
             return message.reply('Your clan rank is not high enough to use this command! Your rank: `' + lang.clans.clan_ranks[scoreRow.clanRank].title + '` Required: `' + lang.clans.clan_ranks[command.minimumRank].title + '`+');

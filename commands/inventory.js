@@ -72,27 +72,20 @@ module.exports = {
                 }
                 
                 if(totalXpNeeded - userRow.points <= 0){
-                    embedInfo.addField("Level : "+ userRow.level, lang.inventory[0].replace('{0}', '0').replace('{1}', userRow.level), true)
+                    embedInfo.addField("Level: " + userRow.level, lang.inventory[0].replace('{0}', '0').replace('{1}', userRow.level), true)
                 }
                 else{
-                    embedInfo.addField("Level : "+ userRow.level, lang.inventory[0].replace('{0}', totalXpNeeded - userRow.points).replace('{1}', userRow.level + 1), true)
+                    embedInfo.addField("Level: " + userRow.level, lang.inventory[0].replace('{0}', totalXpNeeded - userRow.points).replace('{1}', userRow.level + 1), true)
                 }
 
                 embedInfo.addField(lang.inventory[1], activeRow.length ? '**Yes**' : '**No**', true)
-                embedInfo.addField("❤Health",`${userRow.health}/${userRow.maxHealth}`, true)
+                embedInfo.addField("Health",`❤ ${userRow.health}/${userRow.maxHealth}`, true)
 
                 if(message.client.sets.activeShield.has(userId)){
-                    embedInfo.addField("🛡SHIELD ACTIVE", shieldLeft, true);
+                    embedInfo.addField("Shield Active", '🛡 ' + shieldLeft, true);
                 }
                 
-                embedInfo.addField("💵Money : " + methods.formatMoney(userRow.money),"\u200b")
-                
-                if(message.client.sets.moddedUsers.has(userId)){
-                    embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max | This user is a Lootcord moderator! 💪");
-                }
-                else{
-                    embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max | Worth: " + methods.formatMoney(usersItems.invValue));
-                }
+                embedInfo.addField("Money", methods.formatMoney(userRow.money))
                 
                 if(ultraItemList != ""){
                     let newList = ultraItemList.join('\n');
@@ -131,6 +124,13 @@ module.exports = {
                 
                 if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){
                     embedInfo.addField(lang.inventory[3], "\u200b");
+                }
+
+                if(message.client.sets.moddedUsers.has(userId)){
+                    embedInfo.addField("\u200b", "Inventory space: " + itemCt.capacity + " max | This user is a Lootcord moderator! 💪");
+                }
+                else{
+                    embedInfo.addField("\u200b", "Inventory space: " + itemCt.capacity + " max | Worth: " + methods.formatMoney(usersItems.invValue));
                 }
                 
                 message.channel.send(embedInfo);
