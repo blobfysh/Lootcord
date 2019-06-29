@@ -21,3 +21,5 @@ A list of items and their descriptions can be found [here](https://lootcord.com/
 
 ## Self-hosting when?
 Although I'm sure it can be done, self-hosting is not one of my priorites at the moment. Maybe for a future update.
+
+(Alternatively, if you know how to host it but just need the config json, contact me on Discord and I will send you trivia, scramble, and the example config files. **blobfysh#4679**)
