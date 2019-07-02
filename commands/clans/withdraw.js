@@ -27,6 +27,9 @@ module.exports = {
         else if(itemName !== 'money' && itemdata[itemName] == undefined){
             return message.reply(lang.clans.deposit[0]);
         }
+        else if(message.client.sets.raided.has(scoreRow.clanId.toString())){
+            return message.reply(lang.clans.withdraw[4]);
+        }
         else{
             if(itemAmnt == undefined || !Number.isInteger(parseInt(itemAmnt)) || itemAmnt % 1 !== 0){
                 itemAmnt = 1;

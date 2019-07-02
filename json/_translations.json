@@ -310,7 +310,8 @@
 			"Clan Power (Used / Current / Max)",
 			"Founded",
 			"Bank",
-			"Members ({0})"
+			"Members ({0})",
+			"Raid Timer"
 		],
 		"leave": [
 			"You are not a member of any clan.",
@@ -332,7 +333,7 @@
 		"deposit": [
 			"I don't recognize that item.",
 			"Error trying to deposit. Try again? 😟",
-			"Theres not enough power available in the clan! Your vault is currently using **{0}** power and you only have **{1}** current power.",
+			"Theres not enough power available in the clan! Your vault is currently using **{0}** power and only has **{1}** current power.",
 			"`{0}`'s are bound to the player, meaning you can't trade them or put them in the clan vault.",
 			"Deposited {0}x `{1}` to your clan vault.\n\nThe vault now has **{2}x** `{3}` and is using **{4}** power.",
 			"Deposited **{0}**\n\nThe clan bank now has **{1}**"
@@ -341,7 +342,8 @@
 			"Your clan bank only has {0}...",
 			"Your clan vault has **{0}** `{1}`'s...",
 			"Withdrew {0}x `{1}` from your clan vault.\n\nThe vault now has **{2}x** `{3}` and is using **{4}** power.",
-			"Withdrew **{0}**\n\nThe clan bank now has **{1}**"
+			"Withdrew **{0}**\n\nThe clan bank now has **{1}**",
+			"Your clan is being raided **RIGHT NOW**, you cannot withdraw items while being raided."
 		],
 		"promote": [
 			"Promote member to `{0}`? This rank grants the following permissions:\n```{1}```",
@@ -353,6 +355,25 @@
 			"That member is already the lowest possible rank!",
 			"Demoted member to rank `{0}`"
 		],
+		"raid": [
+			"You need to specify the name of the clan you want to raid.",
+			"Raiding yourself???? What.",
+			"Your clan just raided! Wait `{0}` before raiding another clan.",
+			"That clan is being raided **RIGHT NOW**. Only 1 clan can raid it at a time. Step in line!",
+			"Raiding: `{0}`",
+			"<a:loadgif:594877067837833237>",
+			"Raid successful!\n\nChoose up to **{0}** items to steal from their vault.\n\nExample: `item_box 2` to steal 2 boxes from the vault. Not sure what items they have? Check with `{1}clan vault {2}`.",
+			"You have 2 minutes to pick the items. | You can type stop to end the raid early.",
+			"❌ Raid failed!\n\n`{0}` has too much power to be raided.\n\nCurrent: **{1}** | Using: **{2}**",
+			"Too many items! You can only steal {0} more items.",
+			"'Successfully stole {0}x `{1}`.\n\nYou can steal **{2}** more items.",
+			"Items Stolen:",
+			"These items can be found in your clan vault.",
+			"-> Max items stolen. Ending raid.",
+			"-> Ending raid.",
+			"Their vault doesn't have enough of that item.",
+			"Money Stolen: {0}"
+		],
 		"clan_ranks": {
 			"0": {
 				"title": "Recruit",
@@ -360,8 +381,8 @@
 					"Deposit items into the clan vault",
 					"Deposit money into the clan bank"
 				]
-			  },
-			  "1": {
+			},
+			"1": {
 				"title": "Officer",
 				"perms": [
 					"Invite new members to the clan.",
@@ -369,14 +390,14 @@
 					"Deposit and withdraw from the clan bank",
 					"Change the clan status"
 				]
-			  },
-			  "2": {
+			},
+			"2": {
 				"title": "Leader",
 				"perms": [
 					"Disband the clan",
 					"Promote and demote other members"
 				]
-			  }
+			}
 		}
 	}
 },

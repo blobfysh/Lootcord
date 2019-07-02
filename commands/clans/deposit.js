@@ -39,7 +39,7 @@ module.exports = {
                 return message.reply(lang.clans.deposit[3].replace('{0}', itemName));
             }
             else if(itemName !== 'money' && !(await clans.hasPower(scoreRow.clanId, itemAmnt))){
-                const clanPow = await clans.getClanData(scoreRow.clandId);
+                const clanPow = await clans.getClanData(scoreRow.clanId);
                 return message.reply(lang.clans.deposit[2].replace('{0}', clanPow.usedPower).replace('{1}', clanPow.currPower));
             }
             

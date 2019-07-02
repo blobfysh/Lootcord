@@ -96,11 +96,12 @@ INSERT IGNORE INTO clans (
     status,
     iconURL,
     clanCreated,
-    clanViews)
+    clanViews,
+    raidTime)
     VALUES (
         ?, ?,
         0, '', '',
-        ?, 0
+        ?, 0, 0
     )
 `
 

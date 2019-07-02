@@ -32,7 +32,7 @@
   "lookup": ["craft"],
   "command": "Craft",
   "example": ["craft rail_cannon 2"],
-  "description": "Use components from `recycling` to craft items such as:\n`rail_cannon`\n`ray_gun`\n`ammo_box`\n`ultra_box`",
+  "description": "Use components from `recycling` to craft items such as:\n`rail_cannon`\n`ray_gun`\n`ultra_box`",
   "cooldown": "",
   "usage": ["craft <item> <amount>`"],
   "options": "`item` - Item to craft.\n`amount` - **OPTIONAL** Amount of items to craft.",

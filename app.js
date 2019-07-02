@@ -153,6 +153,24 @@ client.on('ready', () => {
         });
     });
 
+    // refresh clan raid cooldowns
+    query(`SELECT clanId, raidTime FROM clans`).then(rows => {
+        rows.forEach((clanInfo) => {
+            if(clanInfo.clanId !== undefined && clanInfo.clanId !== null){
+                if(clanInfo.raidTime > 0){
+                    let timeLeft = (3600*1000) - ((new Date()).getTime() - clanInfo.raidTime);
+                    if(timeLeft > 0){
+                        client.sets.raidCooldown.add(clanInfo.clanId.toString());
+                        setTimeout(() => {
+                            client.sets.raidCooldown.delete(clanInfo.clanId.toString());
+                            query(`UPDATE clans SET = ${0} WHERE clanId = ${clanInfo.userId}`);
+                        }, timeLeft);
+                    }
+                }
+            }
+        });
+    });
+
     // refreshes cooldowns for all users
     query(`SELECT * FROM cooldowns`).then(rows => {
         let cdsAdded = 0;

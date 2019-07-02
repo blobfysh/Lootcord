@@ -86,6 +86,10 @@ class Methods {
     async removeMoney(clanId, amount){
         query(`UPDATE clans SET money = money - ${parseInt(amount)} WHERE clanId = ${clanId}`);
     }
+
+    async addMoney(clanId, amount){
+        query(`UPDATE clans SET money = money + ${parseInt(amount)} WHERE clanId = ${clanId}`);
+    }
 }
 
 module.exports = new Methods();

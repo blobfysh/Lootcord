@@ -53,6 +53,10 @@ var activeShield = new Set(); //users with shield
 
 var weapCooldown = new Set(); //attack cooldown
 
+// Clan cooldowns
+var raided = new Set();
+var raidCooldown = new Set();
+
 const adminUsers = new Set(['168958344361541633', '221087115893669889', '246828746789617665']);
 
 module.exports = {
@@ -78,5 +82,7 @@ module.exports = {
     spamCooldown,
     activeShield,
     weapCooldown,
+    raided,
+    raidCooldown,
     adminUsers
 }

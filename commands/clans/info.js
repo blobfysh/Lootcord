@@ -62,7 +62,12 @@ async function getClanInfo(message, lang, clanId){
             membersRanksList.push(['** ->' + lang.clans.clan_ranks[clanUserRank].title + ' ' + clanUser.tag + '**', clanUserRank]);
         }
         else{
-            membersRanksList.push([' - ' + lang.clans.clan_ranks[clanUserRank].title + ' ' + clanUser.tag, clanUserRank]);
+            if(lang.clans.clan_ranks[clanUserRank].title == 'Leader'){
+                membersRanksList.push([' - <:owner:585789630800986114> ' + lang.clans.clan_ranks[clanUserRank].title + ' ' + clanUser.tag, clanUserRank]);
+            }
+            else{
+                membersRanksList.push([' - ' + lang.clans.clan_ranks[clanUserRank].title + ' ' + clanUser.tag, clanUserRank]);
+            }
         }
     }
 
@@ -77,10 +82,13 @@ async function getClanInfo(message, lang, clanId){
     .setThumbnail(clanRow.iconURL)
     .addField(lang.clans.info[3], clanPower.usedPower + '/' + clanPower.currPower + '/' + clanPower.maxPower, true)
     .addField(lang.clans.info[4], getShortDate(clanRow.clanCreated), true)
-    .addBlankField()    
-    .addField(lang.clans.info[5], methods.formatMoney(clanRow.money))
-    .addField(lang.clans.info[6].replace('{0}', clanMembers.count), membersList.join('\n'), true)
-    .addField('Member Stats', `${clanPower.kills + ' kills | ' + clanPower.deaths + ' deaths'}\n${convertToTime(clanPower.playtime)} of total playtime`, true)
+    if(message.client.sets.raidCooldown.has(clanRow.clanId.toString())){
+        clanEmbed.addField(lang.clans.info[7], '`' + convertToTime((3600 * 1000 - ((new Date()).getTime() - clanRow.raidTime))) + '`')
+    }
+    clanEmbed.addBlankField()    
+    clanEmbed.addField(lang.clans.info[5], methods.formatMoney(clanRow.money))
+    clanEmbed.addField(lang.clans.info[6].replace('{0}', clanMembers.count), membersList.join('\n'), true)
+    clanEmbed.addField('Member Stats', `${clanPower.kills + ' kills | ' + clanPower.deaths + ' deaths'}\n${convertToTime(clanPower.playtime)} of total playtime`, true)
     
     message.channel.send(clanEmbed);
 }
