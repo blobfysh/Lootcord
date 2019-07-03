@@ -35,7 +35,9 @@
 		"📋 Info",
 		"⚙ Utility",
 		"📈 Other",
-		"To see more about a command, use {0}help <command> | Need more help? Message me!"
+		"To see more about a command, use {0}help <command> | Need more help? Message me!",
+		"Clans",
+		"Use `clan help` to see clan commands. Check this [link](https://github.com/blobfysh/Lootcord/wiki/Clans) out for more details on how clans work."
 	],
 	"inventory": [
 		"`{0} xp until level {1}`",
@@ -313,6 +315,9 @@
 			"Members ({0})",
 			"Raid Timer"
 		],
+		"vault": [
+			"The vault is empty!"
+		],
 		"leave": [
 			"You are not a member of any clan.",
 			"Leave clan: `{0}`?",
@@ -366,7 +371,7 @@
 			"You have 2 minutes to pick the items. | You can type stop to end the raid early.",
 			"❌ Raid failed!\n\n`{0}` has too much power to be raided.\n\nCurrent: **{1}** | Using: **{2}**",
 			"Too many items! You can only steal {0} more items.",
-			"'Successfully stole {0}x `{1}`.\n\nYou can steal **{2}** more items.",
+			"Successfully stole {0}x `{1}`.\n\nYou can steal **{2}** more items.",
 			"Items Stolen:",
 			"These items can be found in your clan vault.",
 			"-> Max items stolen. Ending raid.",

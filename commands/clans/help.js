@@ -22,7 +22,7 @@ module.exports = {
 
         const helpEmbed = new Discord.RichEmbed()
         .setTitle('Clan help')
-        .setColor(14202368)
+        .setColor(13215302)
         .setDescription('Check out this page for specific help: [Clans Wiki](https://github.com/blobfysh/Lootcord/wiki/Clans)')
         .addField('Information', commands.join('\n'))
         .setFooter('Syntax: ' + prefix + 'clan <command>')

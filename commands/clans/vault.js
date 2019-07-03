@@ -61,7 +61,7 @@ async function getVaultInfo(message, lang, clanId){
     var limitedItemList  = clanItems.limited;
 
     const embedInfo = new Discord.RichEmbed()
-    .setColor(14202368)
+    .setColor(13215302)
     .setTitle(clanRow.name + ' Vault')
     .setDescription(clanRow.status !== '' ? clanRow.status : lang.clans.info[2])
     .setThumbnail(clanRow.iconURL)
@@ -101,7 +101,7 @@ async function getVaultInfo(message, lang, clanId){
     }
     
     if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){
-        embedInfo.addField(lang.inventory[3], "\u200b");
+        embedInfo.addField(lang.clans.vault[0], "\u200b");
     }
 
     embedInfo.addField("\u200b", `Power(slots) used: ${clanItems.itemCount} | Vault value: ${methods.formatMoney(clanItems.invValue)}`)

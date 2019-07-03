@@ -76,7 +76,7 @@ async function getClanInfo(message, lang, clanId){
     membersRanksList.forEach(member => {membersList.push(member[0])});
 
     const clanEmbed = new Discord.RichEmbed()
-    .setColor(14202368)
+    .setColor(13215302)
     .setTitle(clanRow.name)
     .setDescription(clanRow.status !== '' ? clanRow.status : lang.clans.info[2])
     .setThumbnail(clanRow.iconURL)

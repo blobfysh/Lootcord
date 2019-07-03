@@ -167,6 +167,14 @@ CREATE TABLE IF NOT EXISTS clans (
     ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `
 
+const createClansLogs = `
+CREATE TABLE IF NOT EXISTS clan_logs (
+    clanId BIGINT,
+    details VARCHAR(255),
+    logTime BIGINT)
+    ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
+`
+
 function connectSQL(){
     db = mysql.createConnection({
         host     : config.sqlhostname,
@@ -212,6 +220,10 @@ function connectSQL(){
 
         // clans table
         db.query(createClansSQL, (err, result) => {
+            if(err) return console.log(err);
+        });
+        // clans logs table
+        db.query(createClansLogs, (err, result) => {
             if(err) return console.log(err);
         });
 

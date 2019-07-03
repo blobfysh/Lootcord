@@ -56,7 +56,7 @@ module.exports = {
                         query(`UPDATE scores SET clanRank = ${invitedScoreRow2.clanRank - 1} WHERE userId = ${invitedUser.id}`);
                     }
 
-                    message.reply(lang.clans.demote[2].replace('{0}', lang.clans.clan_ranks[invitedScoreRow2.clanRank].title));
+                    message.reply(lang.clans.demote[2].replace('{0}', lang.clans.clan_ranks[invitedScoreRow2.clanRank - 1].title));
                 }
                 else{
                     botMessage.delete();

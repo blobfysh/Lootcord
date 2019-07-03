@@ -43,6 +43,7 @@ module.exports = {
         .addField(lang.help[4], infoCmds.join(', '),true)
         .addField(lang.help[5], utilCmds.join(', '),true)
         .addField(lang.help[6], otherCmds.join(', '),true)
+        .addField(lang.help[8], lang.help[9])
         .setColor(13215302)
         .setFooter(lang.help[7].replace('{0}', prefix))
         

@@ -106,6 +106,7 @@ module.exports = {
                     }
 
                     if(await methods.hasitems(clanRow[0].clanId, item, itemAmnt)){
+                        itemAmnt = parseInt(itemAmnt);
                         await methods.removeitem(clanRow[0].clanId, item, itemAmnt);
                         await methods.additem(scoreRow.clanId, item, itemAmnt);
 

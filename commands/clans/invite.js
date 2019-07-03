@@ -43,6 +43,7 @@ module.exports = {
                     botMessage.delete();
 
                     const invitedScoreRow2 = (await query(`SELECT * FROM scores WHERE userId = ${invitedUser.id}`))[0];
+                    const memberCount = (await clans.getMembers(scoreRow.clanId)).count;
 
                     if(!invitedScoreRow2){
                         return message.channel.send(lang.general[0].replace('{0}', prefix));
@@ -50,12 +51,12 @@ module.exports = {
                     else if(invitedScoreRow2.clanId !== 0){
                         return message.channel.send(lang.clans.invite[3].replace('{0}', invitedUser));
                     }
-                    else if((await clans.getMembers(scoreRow.clanId)).count >= 20){
+                    else if(memberCount >= 20){
                         return message.reply(lang.clans.invite[1]);
                     }
 
                     joinClan(invitedUser.id, clanRow.clanId);
-                    message.channel.send(lang.clans.invite[0].replace('{0}', invitedUser).replace('{1}', clanRow.name).replace('{2}', prefix).replace('{3}', prefix));
+                    message.channel.send(lang.clans.invite[4].replace('{0}', invitedUser).replace('{1}', clanRow.name).replace('{2}', prefix).replace('{3}', prefix));
                 }
                 else{
                     botMessage.delete();

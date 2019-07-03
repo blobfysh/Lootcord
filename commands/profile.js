@@ -54,19 +54,22 @@ module.exports = {
             .setColor(13215302)
             .setAuthor(message.guild.members.get(userId).displayName + "'s Profile", message.guild.members.get(userId).avatarURL)
             .setThumbnail(message.guild.members.get(userId).user.avatarURL)
-            .setDescription(row.kills+ " Kills | "+row.deaths+" Deaths ("+(row.kills/ row.deaths).toFixed(2)+" K/D)")
+            .setDescription(row.kills+ " Kills | "+row.deaths+" Deaths ("+(row.kills/ row.deaths).toFixed(2)+" K/D)\n" + row.power + " Current Power (" + row.max_power + " Max Power)")
             .addField('Status', '```' + userStatus + '```')
             .addBlankField()
             .addField("💗 Vitality", row.health + "/" + row.maxHealth + " HP", true)
             .addField('🔰 Banners', bannersList, true)
             .addField("💥 Strength", parseFloat(row.scaledDamage).toFixed(2) + "x damage", true)
-            .addField("=== Backpack ===", backpackIcon + "`" + row.backpack + "`", true)
+            .addField("Backpack", backpackIcon + "`" + row.backpack + "`", true)
             .addField("🍀 Luck", row.luck)
             .addBlankField()
             .setFooter("🌟 " + row.stats + " Available skill points")
             
             if(row.deaths == 0){
-                profileEmbed.setDescription(row.kills+ " Kills | "+row.deaths+" Deaths ("+row.kills+" K/D)")
+                profileEmbed.setDescription(row.kills+ " Kills | "+row.deaths+" Deaths ("+row.kills+" K/D)\n" + row.power + " Current Power (" + row.max_power + " Max Power)")
+            }
+            if(row.clanId !== 0){
+                profileEmbed.setTitle('Member of `' + (await query(`SELECT name FROM clans WHERE clanId = ${row.clanId}`))[0].name + '`')
             }
             message.channel.send(profileEmbed);
         }

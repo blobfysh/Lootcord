@@ -248,13 +248,19 @@ module.exports = {
                                                     query(`UPDATE scores SET points = ${userRow.points + xpToGive} WHERE userId = ${message.author.id}`);
                                                     query(`UPDATE scores SET kills = ${userRow.kills + 1} WHERE userId = ${message.author.id}`); //add 1 to kills
                 
+                                                    if(victimRow.power >= -3){
+                                                        query(`UPDATE scores SET power = power - 2 WHERE userId = ${userNameID}`);
+                                                    }
+                                                    else{
+                                                        query(`UPDATE scores SET power = -5 WHERE userId = ${userNameID}`);
+                                                    }
                                                     query(`UPDATE scores SET health = ${100} WHERE userId = ${userNameID}`);
                                                     query(`UPDATE scores SET money = ${0} WHERE userId = ${userNameID}`);
                                                     query(`UPDATE scores SET deaths = ${victimRow.deaths + 1} WHERE userId = ${userNameID}`); //add 1 to deaths for killed user
                 
                                                     const killedReward = new Discord.RichEmbed()  
                                                     .setTitle(`LOOT RECEIVED`)
-                                                    .setDescription("Money : " + methods.formatMoney(victimRow.money) + "\nExperience : `" + xpToGive + "xp`")
+                                                    .setDescription("Money: " + methods.formatMoney(victimRow.money) + "\nExperience: `" + xpToGive + "xp`")
                                                     .setColor(7274496)
                                                     .addField("**ITEMS**", amountToGive !== 0 ? result[0] : result)
                                                     message.channel.send(finalString, {embed: killedReward});

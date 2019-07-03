@@ -1,6 +1,6 @@
 const Discord               = require('discord.js');
 const config                = require('./json/_config.json');
-const { connectSQL, query } = require('./mysql.js');
+const { connectSQL, query, db } = require('./mysql.js');
 const testAPI               = require('./utils/testAPI.js');
 const manager               = new Discord.ShardingManager('./app.js', {
     token: config.botToken
@@ -25,6 +25,8 @@ manager.on('launch', shard => {
                 })
             `);
             patreonHandler.refreshPatrons(manager);
+
+            setInterval(addPower, 7200 * 2) // 2 hours
         }, 25000);
     }
 });
@@ -33,15 +35,24 @@ manager.on('message', (shard, message) => {
     if(message._eval !== undefined) console.log(shard.id + " says " + message._eval);
 });
 
-process.on('exit', () => {
-    console.log('Ending process...');
-    manager.broadcastEval('process.exit()');
-});
-/*
 process.on('SIGINT', () => {
+    console.log('EXITING...');
+    db.end(() => {
+        process.exit(0);
+    });
+});
+
+process.on('exit', () => {
+    console.log('Ending processes...');
     manager.broadcastEval('process.exit()');
 });
+
+/*
 process.on('SIGTERM', () => {
     manager.broadcastEval('process.exit()');
 });
 */
+
+function addPower(){
+    query(`UPDATE scores SET power = power + 1 WHERE power < max_power`);
+}
