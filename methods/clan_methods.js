@@ -90,6 +90,10 @@ class Methods {
     async addMoney(clanId, amount){
         query(`UPDATE clans SET money = money + ${parseInt(amount)} WHERE clanId = ${clanId}`);
     }
+
+    async addLog(clanId, details){
+        query(`INSERT IGNORE INTO clan_logs (clanId, details, logTime, logDate) VALUES (?, ?, ?, NOW())`, [clanId, details, new Date().getTime()]);
+    }
 }
 
 module.exports = new Methods();

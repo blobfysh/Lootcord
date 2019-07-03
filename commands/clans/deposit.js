@@ -51,6 +51,8 @@ module.exports = {
                 await methods.removemoney(message.author.id, itemAmnt);
                 await depositItem(itemName, itemAmnt, scoreRow.clanId);
 
+                clans.addLog(scoreRow.clanId, `${message.author.tag} deposited $${itemAmnt}`);
+
                 message.reply(lang.clans.deposit[5].replace('{0}', methods.formatMoney(itemAmnt)).replace('{1}',
                     methods.formatMoney((await query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0][itemName])
                 ));
@@ -61,6 +63,8 @@ module.exports = {
 
                 await methods.removeitem(message.author.id, itemName, itemAmnt);
                 await depositItem(itemName, itemAmnt, scoreRow.clanId);
+
+                clans.addLog(scoreRow.clanId, `${message.author.tag} deposited ${itemAmnt}x ${itemName} into the vault.`);
 
                 message.reply(lang.clans.deposit[4].replace('{0}', itemAmnt).replace('{1}', itemName).replace('{2}', 
                     (await query(`SELECT * FROM items WHERE userId = ${scoreRow.clanId}`))[0][itemName]

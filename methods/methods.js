@@ -541,23 +541,27 @@ class Methods {
     }
     randomUser(message, weapon = ''){//returns a random userId from the attackers guild
         return query(`SELECT * FROM userGuilds WHERE guildId ="${message.guild.id}" ORDER BY LOWER(userId)`).then(rows => {
-            var guildUsers = [];
-            rows.forEach(function (row) {
-                try{
-                    if(message.guild.members.get(row.userId).displayName){
-                        if(row.userId != message.author.id){//make sure message author isn't attacked by self
-                            if(!message.client.sets.activeShield.has(row.userId)){
-                                guildUsers.push(row.userId);
+            return query(`SELECT clanId FROM scores WHERE userId ="${message.author.id}"`).then(scoreRow => {
+                var guildUsers = [];
+                rows.forEach(async function (row) {
+                    try{
+                        if(message.guild.members.get(row.userId).displayName){
+                            if(row.userId != message.author.id){//make sure message author isn't attacked by self
+                                if(!message.client.sets.activeShield.has(row.userId)){
+                                    if(scoreRow.clanId !== (await query(`SELECT clanId FROM scores WHERE userId ="${row.userId}"`))[0].clanId){
+                                        guildUsers.push(row.userId);
+                                    }
+                                }
                             }
                         }
                     }
-                }
-                catch(err){
-                    console.log("error in server");
-                }
+                    catch(err){
+                        console.log("error in server");
+                    }
+                });
+                var rand = guildUsers[Math.floor(Math.random() * guildUsers.length)];
+                return rand;
             });
-            var rand = guildUsers[Math.floor(Math.random() * guildUsers.length)];
-            return rand;
         });
     }
     addxp(message, amount, userId, lang){

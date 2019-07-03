@@ -69,6 +69,8 @@ module.exports = {
                 return
             }
 
+            clans.addLog(scoreRow.clanId, `${message.author.tag} raided ${clanRow[0].name}(id: ${clanRow[0].clanId}).`);
+            
             var moneyStolen = Math.floor(clanRow[0].money / 3);
             var itemsStolen = 0;
             var itemsArray = [];

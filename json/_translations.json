@@ -119,7 +119,8 @@
 			"This user has not activated their account in this server!",
 			"You don't have any ammo for that weapon!",
 			"You need to wait  {0}  before attacking again.",
-			"❌ There aren't any players you can attack in this server!"
+			"❌ There aren't any players you can attack in this server!",
+			"❌ You can't attack members of your own clan!"
 		],
 		"items": [
 			"You have healed for `{0}` HP!",

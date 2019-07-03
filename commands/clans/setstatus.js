@@ -1,4 +1,5 @@
 const { query } = require('../../mysql.js');
+const clans = require('../../methods/clan_methods.js');
 const Filter = require('bad-words');
 const filter = new Filter();
 
@@ -27,6 +28,7 @@ module.exports = {
             message.reply(lang.setstatus[2]);
         });
 
+        clans.addLog(scoreRow.clanId, `${message.author.tag} set the clan status to: ${statusToSet}`);
         message.reply(lang.setstatus[1].replace('{0}', statusToSet));
     },
 }

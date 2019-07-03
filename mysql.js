@@ -171,7 +171,8 @@ const createClansLogs = `
 CREATE TABLE IF NOT EXISTS clan_logs (
     clanId BIGINT,
     details VARCHAR(255),
-    logTime BIGINT)
+    logTime BIGINT,
+    logDate DATETIME)
     ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `
 
