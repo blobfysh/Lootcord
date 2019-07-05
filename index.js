@@ -26,7 +26,7 @@ manager.on('launch', shard => {
             `);
             patreonHandler.refreshPatrons(manager);
 
-            setInterval(addPower, 7200 * 2) // 2 hours
+            setInterval(addPower, 7200 * 1000) // 2 hours
         }, 25000);
     }
 });
