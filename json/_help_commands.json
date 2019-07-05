@@ -478,5 +478,25 @@
   "options": "`item` - Item to search.",
   "category": "info",
   "ignoreHelp": false
+}, {
+  "lookup": ["power"],
+  "command": "Power",
+  "example": ["power"],
+  "description": "View your current power.",
+  "cooldown": "",
+  "usage": ["power`"],
+  "options": "",
+  "category": "info",
+  "ignoreHelp": false
+}, {
+  "lookup": ["clan", "clans"],
+  "command": "Clan",
+  "example": ["clan"],
+  "description": "The base command for all clan commands. For a detailed look at all the clan commands and how clans work check out: https://github.com/blobfysh/Lootcord/wiki/Clans",
+  "cooldown": "",
+  "usage": ["clan <command>` - Not specifying a command will default to the `info` command."],
+  "options": "",
+  "category": "info",
+  "ignoreHelp": true
 }
 ]

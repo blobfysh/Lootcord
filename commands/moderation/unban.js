@@ -33,11 +33,12 @@ module.exports = {
                 try{
                     const bannedUser = await message.client.fetchUser(userNameID);
                     
-                    bannedUser.send(banMsg);
                     query(`DELETE FROM banned WHERE userId ="${bannedUser.id}"`);
 
                     message.client.shard.broadcastEval(`this.sets.bannedUsers.delete('${bannedUser.id}')`);
                     message.reply("User ("+ bannedUser.tag +") successfully unbanned.");
+
+                    await bannedUser.send(banMsg);
                 }
                 catch(err){
                     message.reply("```" + err + "```");

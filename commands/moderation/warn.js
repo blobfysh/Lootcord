@@ -37,7 +37,7 @@ module.exports = {
                 try{
                     const warnUser = await message.client.fetchUser(userNameID);
 
-                    warnUser.send(banMsg);
+                    await warnUser.send(banMsg);
                     message.reply("User ("+ warnUser.tag +") successfully warned");
                 }
                 catch(err){

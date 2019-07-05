@@ -45,15 +45,15 @@ module.exports = {
                     const messageUser = await message.client.fetchUser(userNameID);
                     
                     if(Array.isArray(imageAttached) && imageAttached.length && imageAttached[0].url.endsWith(".mp4") || Array.isArray(imageAttached) && imageAttached.length && imageAttached[0].url.endsWith(".mp3")){
-                        messageUser.send("**Included attachment:**", {embed : userMsg, files: [{attachment: imageAttached[0].url}]});
+                        await messageUser.send("**Included attachment:**", {embed : userMsg, files: [{attachment: imageAttached[0].url}]});
                     }
                     else{
-                        messageUser.send(userMsg);
+                        await messageUser.send(userMsg);
                     }
                     message.reply("📨Message sent to `"+messageUser.tag+"`!");
                 }
                 catch(err){
-                    message.reply("**Error sending message:**```"+err+"```")
+                    message.reply("Error sending message:```"+err+"```")
                 }
             }
         }

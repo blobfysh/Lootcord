@@ -35,7 +35,7 @@ module.exports = {
         else if(clanRow.length){
             return message.reply(lang.clans.create[5]);
         }
-        else if(scoreRow.money < 50000){
+        else if(scoreRow.money < 75000){
             return message.reply(lang.clans.create[6].replace('{0}', methods.formatMoney(scoreRow.money)));
         }
         else{
@@ -56,14 +56,14 @@ module.exports = {
                         if(scoreRow2.clanId !== 0){
                             return message.reply(lang.clans.errors[0]);
                         }
-                        else if(scoreRow2.money < 50000){
+                        else if(scoreRow2.money < 75000){
                             return message.reply(lang.clans.create[6].replace('{0}', methods.formatMoney(scoreRow2.money)));
                         }
                         else if(clanRow2.length){
                             return message.reply(lang.clans.create[5]);
                         }
                         
-                        methods.removemoney(message.author.id, 50000);
+                        methods.removemoney(message.author.id, 75000);
                         createClan(clanName, message.author.id);
                         message.reply(lang.clans.create[7].replace('{0}', clanName).replace('{1}', prefix).replace('{2}', prefix));
                     }

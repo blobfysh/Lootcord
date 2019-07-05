@@ -34,12 +34,10 @@
     ]
   ],
   "desc": [
-    "🔹 **Source code: **https://github.com/blobfysh/Lootcord",
-    "🔹 Added more crafting materials!",
-    "🔹 Gun are now craftable as well as ammunition.",
-    "🔹 Removed ammo boxes since ammo can now be crafted.",
-    "🔹 Added `craftitems` command to help check what an item can be used to craft.",
-    "🔹 v4 update notes can be viewed with the `update-info` command.",
+    "🔹 **Source: **https://github.com/blobfysh/Lootcord",
+    "🔹 **Clans Update!** Join clans and store items/money in the clan vault. Keep your power high and raid other clans to steal their items.",
+    "🔹 Added `clan` command, `power` command.",
+    "🔹 Changed look of profile and help command.",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
 }

@@ -40,7 +40,7 @@ module.exports = {
                 Object.keys(row).forEach(item => {
 
                     //ignore userId and createdAt columns (these are unique and will never change)
-                    if(item !== 'userId' && item !== 'createdAt'){
+                    if(item !== 'userId' && item !== 'createdAt' && item !== 'clanId' && item !== 'clanRank'){
 
                         //switch to set columns that have default values other than 0
                         switch(item){
@@ -56,6 +56,8 @@ module.exports = {
                             case 'banner': resetVal = 'recruit'; break;
                             case 'language': resetVal = 'en-us'; break;
                             case 'status': resetVal = ''; break;
+                            case 'power': resetVal = 5; break;
+                            case 'max_power': resetVal = 5; break;
                             default: resetVal = 0;
                         }
 
@@ -93,9 +95,9 @@ module.exports = {
                 .setDescription("`" + banReason + "`")
                 .setColor(13064193)
                 .setFooter("https://lootcord.com | Only moderators can send you messages.")
-                user.send(invWipeMsg);
 
                 message.reply(`Inventory cleared for \`${user.tag}\`. A log of their old inventory has been created in <#${config.logChannel}>.`);
+                await user.send(invWipeMsg);
             }
             catch(err){
                 message.reply('Unable to send message to user, their inventory was still wiped however. ```' + err + '```');

@@ -41,11 +41,12 @@ module.exports = {
                 try{
                     const bannedUser = await message.client.fetchUser(userNameID);
                     
-                    bannedUser.send(banMsg);
                     query("INSERT INTO banned (userId, reason, date) VALUES (?, ?, ?)", [userNameID, banReason, (new Date()).getTime()]);
 
                     message.client.shard.broadcastEval(`this.sets.bannedUsers.add('${bannedUser.id}')`);
                     message.reply("User ("+ bannedUser.tag +") successfully banned.");
+
+                    await bannedUser.send(banMsg);
                 }
                 catch(err){
                     message.reply("```" + err + "```");
