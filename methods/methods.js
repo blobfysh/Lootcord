@@ -541,24 +541,26 @@ class Methods {
     }
     randomUser(message, weapon = ''){//returns a random userId from the attackers guild
         return query(`SELECT * FROM userGuilds WHERE guildId ="${message.guild.id}" ORDER BY LOWER(userId)`).then(rows => {
-            return query(`SELECT clanId FROM scores WHERE userId ="${message.author.id}"`).then(scoreRow => {
+            return query(`SELECT clanId FROM scores WHERE userId ="${message.author.id}"`).then(async scoreRow => {
                 var guildUsers = [];
-                rows.forEach(async function (row) {
+
+                for(var i = 0; i< rows.length; i++){
                     try{
-                        if(message.guild.members.get(row.userId).displayName){
-                            if(row.userId != message.author.id){//make sure message author isn't attacked by self
-                                if(!message.client.sets.activeShield.has(row.userId)){
-                                    if(scoreRow.clanId !== (await query(`SELECT clanId FROM scores WHERE userId ="${row.userId}"`))[0].clanId){
-                                        guildUsers.push(row.userId);
+                        if(message.guild.members.get(rows[i].userId).displayName){
+                            if(rows[i].userId !== message.author.id){//make sure message author isn't attacked by self
+                                if(!message.client.sets.activeShield.has(rows[i].userId)){
+                                    if(scoreRow[0].clanId == 0 || scoreRow[0].clanId !== (await query(`SELECT clanId FROM scores WHERE userId ="${rows[i].userId}"`))[0].clanId){
+                                        guildUsers.push(rows[i].userId);
                                     }
                                 }
                             }
                         }
                     }
                     catch(err){
+                        console.log(err);
                         console.log("error in server");
                     }
-                });
+                }
                 var rand = guildUsers[Math.floor(Math.random() * guildUsers.length)];
                 return rand;
             });

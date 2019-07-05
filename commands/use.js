@@ -345,7 +345,7 @@ module.exports = {
                             else if(!oldVictimRow.length){                                 //MAKE SURE TARGET HAS AN ACCOUNT BY CHECKING FOR THEIR ID IN SCORES TABLE
                                 return message.reply(lang.use.errors[5]);
                             }
-                            else if(victimRow.clanId == row.clanId){
+                            else if(row.clanId !== 0 && victimRow.clanId == row.clanId){
                                 return message.reply(lang.use.errors[11]);
                             }
                             else if(message.client.sets.activeShield.has(message.author.id)){        //CHECK IF PLAYER HAS SHIELD ACTIVE
