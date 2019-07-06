@@ -184,7 +184,7 @@ function refreshEmbed(jackpotObj, prefix){
     var usersChances = [];
 
     Object.keys(jackpotObj).forEach(user => {
-        usersArr.push((jackpotObj[user].name).slice(0, 18).padEnd(20) + methods.formatMoney(jackpotObj[user].amount).padEnd(15) + ((jackpotObj[user].amount / getJackpotTotal(jackpotObj)) * 100).toFixed(1) + '%');
+        usersArr.push((jackpotObj[user].name).slice(0, 18).padEnd(20) + methods.formatMoney(jackpotObj[user].amount, true).padEnd(15) + ((jackpotObj[user].amount / getJackpotTotal(jackpotObj)) * 100).toFixed(1) + '%');
 
         usersChances.push(((jackpotObj[user].amount / getJackpotTotal(jackpotObj)) * 100).toFixed(1));
         i++;
@@ -205,7 +205,7 @@ function refreshEmbed(jackpotObj, prefix){
     .setColor(14202368)
     .setTitle('JACKPOT - Win it all!')
     .addField('🎟 Current entrants', '```cs\n' + usersArr.join('\n') + '```')
-    .addField('💰 Prize pool', '```fix\n' + methods.formatMoney(getJackpotTotal(jackpotObj)) + '```')
+    .addField('💰 Prize pool', '```fix\n' + methods.formatMoney(getJackpotTotal(jackpotObj), true) + '```')
     .setFooter('Use ' + prefix + 'join <amount> to enter!')
     return jackpotEmbed;
 }

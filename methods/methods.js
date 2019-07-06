@@ -503,8 +503,13 @@ class Methods {
             }
         });
     }
-    formatMoney(money){
-       return "<:Lootbuck:594373906325045301> $" + (parseInt(money)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+    formatMoney(money, noEmoji = false){
+        if(noEmoji){
+            return "$" + (parseInt(money)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+        }
+        else{
+            return "<:Lootbuck:594373906325045301> $" + (parseInt(money)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+        }
     }
 
     //USE COMMAND

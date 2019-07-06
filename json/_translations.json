@@ -279,7 +279,7 @@
 		"❌ Server no longer in random-only mode."
 	],
 	"jackpot": [
-		"You are about to start a server jackpot with an entry of: `{0}`\nAre you sure?",
+		"You are about to start a server jackpot with an entry of: {0}\nAre you sure?",
 		"Please enter an amount of atleast $100",
 		"Amount cannot be higher than $50,000",
 		"There is already an active jackpot in this server.",
