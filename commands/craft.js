@@ -36,8 +36,11 @@ module.exports = {
             .setImage("https://cdn.discordapp.com/attachments/454163538886524928/527740857525207060/redLine.png")
             .setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/527739509740142592/UnboxUltra.png")
 
-            message.channel.send(message.author, {embed : embedInfo}).then(botMessage => {
-                botMessage.react('✅').then(() => botMessage.react('❌'));
+            message.channel.send(message.author, {embed : embedInfo}).then(async reactMsg => {
+                await reactMsg.react('✅');
+                await reactMsg.react('❌');
+                return reactMsg;
+            }).then(botMessage => {
                 const filter = (reaction, user) => {
                     return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
                 };

@@ -4,6 +4,8 @@ const methods = require('../methods/methods.js');
 const config = require('../json/_config.json');
 const itemdata = require('../json/completeItemList.json');
 
+//TODO Rewrite with async/await
+
 module.exports = {
     name: 'trade',
     aliases: [''],
@@ -41,8 +43,11 @@ module.exports = {
                             return message.reply(lang.trade.errors[0]);
                         }
                         //BEGIN TRADE
-                        message.channel.send(lang.trade.trading[0].replace('{0}', tradeUser).replace('{1}', message.member.displayName)).then(botMessage => {
-                            botMessage.react('✅').then(() => botMessage.react('❌'));
+                        message.channel.send(lang.trade.trading[0].replace('{0}', tradeUser).replace('{1}', message.member.displayName)).then(async reactMsg => {
+                            await reactMsg.react('✅');
+                            await reactMsg.react('❌');
+                            return reactMsg;
+                        }).then(botMessage => {
                             const filter = (reaction, user) => {
                                 return ['✅', '❌'].includes(reaction.emoji.name) && user.id === tradeUser.id;
                             };

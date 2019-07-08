@@ -143,14 +143,18 @@ module.exports = {
             //.addField(lang.item[2], lang.item[3].replace('{0}', weaponEmotePrint).replace('{1}', itemsEmotePrint).replace('{2}', ammoEmotePrint).replace('{3}', bannerEmote).replace('{4}', matsEmote).replace('{5}', backpackEmote), true)
             .setDescription(lang.item[2].replace('{0}', weaponEmotePrint).replace('{1}', itemsEmotePrint).replace('{2}', ammoEmotePrint).replace('{3}', bannerEmote).replace('{4}', matsEmote).replace('{5}', backpackEmote))
 
-            message.channel.send(embedInfo).then(botMessage => {
-                botMessage.react(weaponEmote).then(() => 
-                botMessage.react(itemsEmote)).then(() => 
-                botMessage.react(ammoEmote)).then(() => 
-                botMessage.react(bannerEmote)).then(() =>
-                botMessage.react(matsEmote)).then(() =>
-                botMessage.react(backpackEmote));
-                return botMessage;
+            message.channel.send(embedInfo).then(async botMessage => {
+                try{
+                    await botMessage.react(weaponEmote);
+                    await botMessage.react(itemsEmote);
+                    await botMessage.react(ammoEmote);
+                    await botMessage.react(bannerEmote);
+                    await botMessage.react(matsEmote);
+                    await botMessage.react(backpackEmote);
+                    return botMessage;
+                }
+                catch(err){
+                }
             }).then((collectorMsg) => {
                 const collector = collectorMsg.createReactionCollector((reaction, user) => 
                     user.id === message.author.id && reaction.emoji.id === weaponEmote || 

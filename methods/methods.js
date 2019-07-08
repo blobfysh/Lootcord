@@ -759,8 +759,11 @@ class Methods {
     buyitem(message, buyItem, buyAmount, itemPrice, currency, isGame = false, lang){
         let displayPrice = currency == 'money' ? this.formatMoney(itemPrice * buyAmount) : itemPrice * buyAmount + "x `" + currency + "`";
 
-        message.reply(lang.buy[2].replace('{0}', buyAmount).replace('{1}', buyItem).replace('{2}', displayPrice)).then(botMessage => {
-            botMessage.react('✅').then(() => botMessage.react('❌'));
+        message.reply(lang.buy[2].replace('{0}', buyAmount).replace('{1}', buyItem).replace('{2}', displayPrice)).then(async reactMsg => {
+            await reactMsg.react('✅');
+            await reactMsg.react('❌');
+            return reactMsg;
+        }).then(botMessage => {
             const filter = (reaction, user) => {
                 return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
             };

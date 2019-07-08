@@ -2,8 +2,6 @@ const Discord = require('discord.js');
 const { query } = require('../../mysql.js');
 const clans = require('../../methods/clan_methods.js');
 
-// TODO check if clan member count is equal to 20 before allowing invite to clan
-
 module.exports = {
     name: 'invite',
     aliases: [''],

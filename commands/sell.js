@@ -28,7 +28,11 @@ module.exports = {
                     sellAmount = 30;
                 }
                 message.delete();
-                message.reply(lang.sell[0].replace('{0}', sellAmount).replace('{1}', sellItem).replace('{2}', methods.formatMoney(itemPrice * sellAmount))).then(botMessage => {
+                message.reply(lang.sell[0].replace('{0}', sellAmount).replace('{1}', sellItem).replace('{2}', methods.formatMoney(itemPrice * sellAmount))).then(async reactMsg => {
+                    await reactMsg.react('✅');
+                    await reactMsg.react('❌');
+                    return reactMsg;
+                }).then(botMessage => {
                     botMessage.react('✅').then(() => botMessage.react('❌'));
                     const filter = (reaction, user) => {
                         return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;

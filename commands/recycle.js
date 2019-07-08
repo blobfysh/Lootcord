@@ -37,8 +37,11 @@ module.exports = {
             .setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/527391190975381505/LC_Recycle.png")
             .setFooter("You will need " + methods.getTotalItmCountFromList(itemMats) + " open slots in your inventory to recycle this.")
             
-            message.channel.send(message.author, {embed : embedInfo}).then(botMessage => {
-                botMessage.react('✅').then(() => botMessage.react('❌'));
+            message.channel.send(message.author, {embed : embedInfo}).then(async reactMsg => {
+                await reactMsg.react('✅');
+                await reactMsg.react('❌');
+                return reactMsg;
+            }).then(botMessage => {
                 const filter = (reaction, user) => {
                     return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
                 };
