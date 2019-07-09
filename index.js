@@ -7,13 +7,14 @@ const manager               = new Discord.ShardingManager('./app.js', {
 });
 const voteHandler           = require('./utils/votes.js').votingManager(manager); // Handles DBL webhooks
 const patreonHandler        = require('./utils/patreonHandler.js');
+const clans                 = require('./methods/clan_methods.js');
 
 manager.spawn(undefined, 25000, false).catch(console.log);
 
 manager.on('launch', shard => {
-
+    startInterestInterval();
     if(shard.id == manager.totalShards - 1){
-        console.log('Shards successfully loaded...');
+        console.log('[INDEX] Shards successfully loaded...');
 
         //set bot status
         setTimeout(() => {
@@ -36,14 +37,14 @@ manager.on('message', (shard, message) => {
 });
 
 process.on('SIGINT', () => {
-    console.log('EXITING...');
+    console.log('[INDEX] EXITING...');
     db.end(() => {
         process.exit(0);
     });
 });
 
 process.on('exit', () => {
-    console.log('Ending processes...');
+    console.log('[INDEX] Ending processes...');
     manager.broadcastEval('process.exit()');
 });
 
@@ -55,4 +56,31 @@ process.on('SIGTERM', () => {
 
 function addPower(){
     query(`UPDATE scores SET power = power + 1 WHERE power < max_power`);
+}
+
+async function startInterestInterval(){
+    const curTime = new Date();
+    var timeTill12 = new Date(curTime.getUTCFullYear(), 
+        curTime.getUTCMonth(), 
+        curTime.getUTCDate(),
+        0) - curTime;
+
+    if(timeTill12 < 0){
+        timeTill12 += 86400000;
+    }
+
+    console.log('[INDEX] '+ (timeTill12 / (1000 * 60 * 60)).toFixed(1) + ' Hrs until clan interest.');
+    setTimeout(addInterest, timeTill12);
+}
+
+async function addInterest(){
+    const rows = await query(`SELECT * FROM clans`);
+
+    for(var i = 0; i< rows.length; i++){
+        const members = await clans.getMembers(rows[i].clanId);
+
+        query(`UPDATE clans SET money = money + FLOOR(money * ${members.count * config.clan_interest_rate}) WHERE clanId = ${rows[i].clanId}`);
+    }
+
+    startInterestInterval();
 }

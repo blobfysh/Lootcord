@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { query } = require('../../mysql.js');
 const clans = require('../../methods/clan_methods.js');
 const methods = require('../../methods/methods.js');
+const config = require('../../json/_config.json');
 //const itemdata = require('../json/completeItemList.json');
 
 module.exports = {
@@ -86,7 +87,7 @@ async function getClanInfo(message, lang, clanId){
         clanEmbed.addField(lang.clans.info[7], '`' + convertToTime((3600 * 1000 - ((new Date()).getTime() - clanRow.raidTime))) + '`')
     }
     clanEmbed.addBlankField()    
-    clanEmbed.addField(lang.clans.info[5], methods.formatMoney(clanRow.money))
+    clanEmbed.addField(lang.clans.info[5].replace('{0}', (clanMembers.count * config.clan_interest_rate) * 100), methods.formatMoney(clanRow.money))
     clanEmbed.addField(lang.clans.info[6].replace('{0}', clanMembers.count), membersList.join('\n'), true)
     clanEmbed.addField('Member Stats', `${clanPower.kills + ' kills | ' + clanPower.deaths + ' deaths'}\n${convertToTime(clanPower.playtime)} of total playtime`, true)
     

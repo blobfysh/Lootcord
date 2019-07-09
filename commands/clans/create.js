@@ -39,8 +39,11 @@ module.exports = {
             return message.reply(lang.clans.create[6].replace('{0}', methods.formatMoney(scoreRow.money)));
         }
         else{
-            message.reply(lang.clans.create[0].replace('{0}', clanName)).then(botMessage => {
-                botMessage.react('✅').then(() => botMessage.react('❌'));
+            message.reply(lang.clans.create[0].replace('{0}', clanName)).then(async reactMsg => {
+                await reactMsg.react('✅');
+                await reactMsg.react('❌');
+                return reactMsg;
+            }).then(botMessage => {
                 const filter = (reaction, user) => {
                     return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
                 };
@@ -56,14 +59,14 @@ module.exports = {
                         if(scoreRow2.clanId !== 0){
                             return message.reply(lang.clans.errors[0]);
                         }
-                        else if(scoreRow2.money < 75000){
+                        else if(scoreRow2.money < 25000){
                             return message.reply(lang.clans.create[6].replace('{0}', methods.formatMoney(scoreRow2.money)));
                         }
                         else if(clanRow2.length){
                             return message.reply(lang.clans.create[5]);
                         }
                         
-                        methods.removemoney(message.author.id, 75000);
+                        methods.removemoney(message.author.id, 25000);
                         createClan(clanName, message.author.id);
                         message.reply(lang.clans.create[7].replace('{0}', clanName).replace('{1}', prefix).replace('{2}', prefix));
                     }
