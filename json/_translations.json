@@ -370,7 +370,7 @@
 			"<a:loadgif:594877067837833237>",
 			"Raid successful!\n\nChoose up to **{0}** items to steal from their vault.\n\nExample: `item_box 2` to steal 2 boxes from the vault. Not sure what items they have? Check with `{1}clan vault {2}`.",
 			"You have 2 minutes to pick the items. | You can type stop to end the raid early.",
-			"❌ Raid failed!\n\n`{0}` has too much power to be raided.\n\nCurrent: **{1}** | Using: **{2}**",
+			"❌ Raid failed!\n\n`{0}` has  **{1}** current power and is only using **{2}** power in their vault.\n\nYou can only raid clans whose **used** power is greater than their **current** power.",
 			"Too many items! You can only steal {0} more items.",
 			"Successfully stole {0}x `{1}`.\n\nYou can steal **{2}** more items.",
 			"Items Stolen:",
