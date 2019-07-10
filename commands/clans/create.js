@@ -35,7 +35,7 @@ module.exports = {
         else if(clanRow.length){
             return message.reply(lang.clans.create[5]);
         }
-        else if(scoreRow.money < 75000){
+        else if(scoreRow.money < 25000){
             return message.reply(lang.clans.create[6].replace('{0}', methods.formatMoney(scoreRow.money)));
         }
         else{
