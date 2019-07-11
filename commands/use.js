@@ -7,6 +7,7 @@ const open = require('../methods/open_care_package.js');
 const config = require('../json/_config.json');
 const itemdata = require('../json/completeItemList.json');
 const airdrop = require('../utils/airdrop.js');
+const general = require('../methods/general');
 
 module.exports = {
     name: 'use',
@@ -62,14 +63,6 @@ module.exports = {
                     else if(itemUsed == "ultra_box" && row.ultra_box >= userOldID){
                         boxes.open_box(message, lang, 'ultra_box', userOldID);
                     }
-                    /* Ammo boxes removed in update 4.7
-                    else if(itemUsed == "ammo_box" && row.ammo_box >= userOldID){
-                        methods.openbox(message, lang, "ammo_box", userOldID);
-                    }
-                    else if(itemUsed == "ultra_ammo" && row.ultra_ammo >= userOldID){
-                        methods.openbox(message, lang, "ultra_ammo", userOldID);
-                    }
-                    */
                     else if(itemUsed == "care_package" && row.care_package >= 1){
                         open.open_package(message, lang);
                     }
@@ -242,7 +235,7 @@ module.exports = {
                                             query(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(oldUserRow => {
                                                 const userRow = oldUserRow[0];
 
-                                                methods.randomItems(message.author.id, userNameID, amountToGive).then(result => {
+                                                methods.randomItems(message.author.id, userNameID, amountToGive).then(async result => {
                                                 
                                                     query(`UPDATE scores SET money = ${parseInt(userRow.money) + victimRow.money} WHERE userId = ${message.author.id}`);
                                                     query(`UPDATE scores SET points = ${userRow.points + xpToGive} WHERE userId = ${message.author.id}`);
@@ -282,7 +275,7 @@ module.exports = {
                                                                         },
                                                                         {
                                                                             name: "VICTIM",
-                                                                            value: "\`${message.client.users.get(userNameID).tag} : ${userNameID}\`"
+                                                                            value: "\`${(await general.getUserInfo(message, userNameID)).tag} : ${userNameID}\`"
                                                                         },
                                                                         {
                                                                             name: "Items stolen",
@@ -443,11 +436,16 @@ module.exports = {
     },
 }
 
-function weaponBreakAlert(message, itemUsed){
+async function weaponBreakAlert(message, itemUsed){
     const brokeEmbed = new Discord.RichEmbed()
     .setTitle('💥 Unfortunately, your `' + itemUsed + '` broke from your last attack!')
     .setDescription('After rummaging through the pieces you were able to find: ```fix\n' + itemdata[itemUsed].recyclesTo.display + '```')
     .setColor(14831897)
 
-    message.author.send(brokeEmbed);
+    try{
+        await message.author.send(brokeEmbed);
+    }
+    catch(err){
+
+    }
 }

@@ -2,6 +2,7 @@ const Discord   = require('discord.js');
 const { query } = require('../mysql.js');
 const methods   = require('../methods/methods.js');
 const globalLB  = require('../methods/global_leaderboard.js');
+const general = require('../methods/general');
 
 module.exports = {
     name: 'leaderboard',
@@ -60,23 +61,23 @@ module.exports = {
 
             guildUsers.sort(compareValues('MONEY'));
 
-            guildUsers.forEach(row => {
+            for(var i = 0; i < guildUsers.length; i++){
                 try{
-                    leaders.push(`💵**${message.client.users.get(row.USERID).tag}**` + ' - ' + methods.formatMoney(row.MONEY));
+                    leaders.push(`💵**${(await general.getUserInfo(message, guildUsers[i].USERID, true)).user.tag}**` + ' - ' + methods.formatMoney(guildUsers[i].MONEY, true));
                 }
                 catch(err){
                 }
-            });
+            }
 
             guildUsers.sort(compareValues('LEVEL'));
 
-            guildUsers.forEach(row => {
+            for(var i = 0; i < guildUsers.length; i++){
                 try{
-                    levelLeaders.push(`🔹**${message.client.users.get(row.USERID).tag}**` + ' - Level : ' + row.LEVEL);
+                    levelLeaders.push(`🔹**${(await general.getUserInfo(message, guildUsers[i].USERID, true)).user.tag}**` + ' - Level ' + guildUsers[i].LEVEL);
                 }
                 catch(err){
                 }
-            });
+            }
 
             var newMoney = leaders.slice(0,10);
             var newLevel = levelLeaders.slice(0,10);

@@ -3,7 +3,7 @@ const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
 const config = require('../json/_config.json');
 const itemdata = require('../json/completeItemList.json');
-
+const general = require('../methods/general');
 //TODO Rewrite with async/await
 
 module.exports = {
@@ -19,12 +19,12 @@ module.exports = {
     execute(message, args, lang, prefix){
         query(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(itemRow => {
             var userOldID = args[0];
-            var userNameID = userOldID.replace(/[<@!>]/g, '');
+            var userNameID = general.getUserId(userOldID);
 
-            if(!userOldID.startsWith("<@")){
+            if(!general.isUser(userOldID)){
                 return message.reply(lang.errors[1]);
             }
-            message.client.fetchUser(userNameID).then(tradeUser => {
+            general.getUserInfo(message, userNameID, true).then(tradeUser => {
                 query(`SELECT * FROM scores WHERE userId ="${tradeUser.id}"`).then(victimRow => {
                     query(`SELECT * FROM userGuilds WHERE userId ="${tradeUser.id}" AND guildId = "${message.guild.id}"`).then(playRow => {
                         if(tradeUser.id === message.client.user.id){
@@ -62,9 +62,9 @@ module.exports = {
                                     .setColor(2713128)
                                     .setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/568469679081914435/tradeIcon.png")
                                     .addField("🔵"+message.member.displayName + "'s money", "$0",true)
-                                    .addField("🔴"+message.guild.members.get(tradeUser.id).displayName + "'s money", "$0",true)
+                                    .addField("🔴"+tradeUser.displayName + "'s money", "$0",true)
                                     .addField("🔵"+message.member.displayName + "'s items", "no items", true)
-                                    .addField("🔴"+message.guild.members.get(tradeUser.id).displayName + "'s items", "no items",true)
+                                    .addField("🔴"+tradeUser.displayName + "'s items", "no items",true)
                                     .setFooter("Commands : "+prefix+"add <item> <amount> | "+prefix+"addmoney <amount> | "+prefix+"accept | "+prefix+"cancel")
                                     message.channel.send(tradeWindow);
 
@@ -85,11 +85,11 @@ module.exports = {
                                         if(option == 1){
                                             const activeWindow = new Discord.RichEmbed()
                                             .setTitle(tradeCode == '1000' ? "**🔃Trade log**" : "**❌Trade incompleted** `" + tradeCode + "`")
-                                            .setDescription(message.guild.members.get(userNameID).user.username + " ID : " + userNameID + " TRADED WITH\n" + message.author.username + " ID : " + message.author.id)
+                                            .setDescription(tradeUser.user.username + " ID : " + userNameID + " TRADED WITH\n" + message.author.username + " ID : " + message.author.id)
                                             .setColor(tradeCode == '1000' ? 2713128 : 1)
                                             .setThumbnail(tradeCode == '1000' ? "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/white-heavy-check-mark_2705.png" : "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/cross-mark_274c.png")
                                             .addField(message.author.username + "'s MONEY", "$" + player1money,true)
-                                            .addField(message.guild.members.get(userNameID).user.username + "'s MONEY", "$" + player2money,true)
+                                            .addField(tradeUser.user.username + "'s MONEY", "$" + player2money,true)
                                             .setFooter("Keep an eye on users that trade high-value for low-value")
                                             if(player1items.length > 0){
                                                 activeWindow.addField(message.author.username + "'s items",player1display.join(", "), true);
@@ -98,18 +98,18 @@ module.exports = {
                                                 activeWindow.addField(message.author.username + "'s items","no items", true);
                                             }
                                             if(player2items.length > 0){
-                                                activeWindow.addField(message.guild.members.get(userNameID).user.username + "'s items", player2display.join(", "), true);
+                                                activeWindow.addField(tradeUser.user.username + "'s items", player2display.join(", "), true);
                                             }
                                             else{
-                                                activeWindow.addField(message.guild.members.get(userNameID).user.username + "'s items", "no items", true);
+                                                activeWindow.addField(tradeUser.user.username + "'s items", "no items", true);
                                             }
                                             //VVV TRADE CODE HANDLING VVV
                                             var errorCodes = {
                                                 _0001: message.author.username + " didn't have enough space in their inventory.",
-                                                _0002: message.guild.members.get(userNameID).user.username +" didn't have enough space in their inventory.",
-                                                _0003: message.guild.members.get(userNameID).user.username +" didn't have enough money.",
+                                                _0002: tradeUser.user.username +" didn't have enough space in their inventory.",
+                                                _0003: tradeUser.user.username +" didn't have enough money.",
                                                 _0004: message.author.username +" didn't have enough money.",
-                                                _0005: message.guild.members.get(userNameID).user.username +" didn't have the items they originally wanted to trade.",
+                                                _0005: tradeUser.user.username +" didn't have the items they originally wanted to trade.",
                                                 _0006: message.author.username +" didn't have the items they originally wanted to trade.",
                                             }
                                             if(tradeCode !== '1000'){
@@ -123,7 +123,7 @@ module.exports = {
                                                     channel.send({embed: {
                                                             color: ${tradeCode == '1000' ? 2713128 : 1},
                                                             title: "${tradeCode == '1000' ? "**🔃Trade log**" : "**❌Trade incompleted** `" + tradeCode + "`"}",
-                                                            description: "${message.guild.members.get(userNameID).user.username + " ID : " + userNameID + " TRADED WITH " + message.author.username + " ID : " + message.author.id}",
+                                                            description: "${tradeUser.user.username + " ID : " + userNameID + " TRADED WITH " + message.author.username + " ID : " + message.author.id}",
                                                             thumbnail: {
                                                                 url: "${tradeCode == '1000' ? "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/white-heavy-check-mark_2705.png" : "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/cross-mark_274c.png"}"
                                                             },
@@ -134,7 +134,7 @@ module.exports = {
                                                                     inline: true
                                                                 },
                                                                 {
-                                                                    name: "${message.guild.members.get(userNameID).user.username + "'s MONEY"}",
+                                                                    name: "${tradeUser.user.username + "'s MONEY"}",
                                                                     value: "${"$" + player2money}",
                                                                     inline: true
                                                                 },
@@ -144,7 +144,7 @@ module.exports = {
                                                                     inline: true
                                                                 },
                                                                 {
-                                                                    name: "${message.guild.members.get(userNameID).user.username + "'s items"}",
+                                                                    name: "${tradeUser.user.username + "'s items"}",
                                                                     value: "${player2items.length > 0 ? player2display.join(", ") : "no items"}",
                                                                     inline: true
                                                                 }
@@ -167,7 +167,7 @@ module.exports = {
                                             .setColor(2713128)
                                             .setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/568469679081914435/tradeIcon.png")
                                             .addField("🔵"+message.member.displayName + "'s money", methods.formatMoney(player1money),true)
-                                            .addField("🔴"+message.guild.members.get(userNameID).displayName + "'s money", methods.formatMoney(player2money),true)
+                                            .addField("🔴"+tradeUser.displayName + "'s money", methods.formatMoney(player2money),true)
                                             .setFooter("Commands : "+prefix+"add <item> <amount> | "+prefix+"remove <item> | "+prefix+"addmoney <amount> | "+prefix+"accept | "+prefix+"cancel")
                                             if(player1items.length > 0){
                                                 activeWindow.addField("🔵"+message.member.displayName + "'s items",player1display.join("\n"), true);
@@ -176,10 +176,10 @@ module.exports = {
                                                 activeWindow.addField("🔵"+message.member.displayName + "'s items","no items", true)
                                             }
                                             if(player2items.length > 0){
-                                                activeWindow.addField("🔴"+message.guild.members.get(userNameID).displayName + "'s items", player2display.join("\n"), true);
+                                                activeWindow.addField("🔴"+tradeUser.displayName + "'s items", player2display.join("\n"), true);
                                             }
                                             else{
-                                                activeWindow.addField("🔴"+message.guild.members.get(userNameID).displayName + "'s items", "no items", true)
+                                                activeWindow.addField("🔴"+tradeUser.displayName + "'s items", "no items", true)
                                             }
                                             message.channel.send(activeWindow);
                                         }
@@ -375,7 +375,7 @@ module.exports = {
                                                                 return '0003';
                                                             });
                                                         }
-                                                        else message.channel.send(lang.trade.errors[8].replace('{0}', message.guild.members.get(userNameID).displayName));
+                                                        else message.channel.send(lang.trade.errors[8].replace('{0}', tradeUser.displayName));
                                                         return '0002';
                                                     });
                                                 }
@@ -412,7 +412,7 @@ module.exports = {
                                             });
                                         }
                                         else if(isPlayer1 === 2){
-                                            message.channel.send(lang.trade.trading[5].replace('{0}', message.author).replace('{1}', message.guild.members.get(userNameID).displayName)).then(botMessage => {
+                                            message.channel.send(lang.trade.trading[5].replace('{0}', message.author).replace('{1}', tradeUser.displayName)).then(botMessage => {
                                                 botMessage.react('✅').then(() => botMessage.react('❌'));
                                                 const filter = (reaction, user) => {
                                                     return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;

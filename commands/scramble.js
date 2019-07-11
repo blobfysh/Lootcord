@@ -179,14 +179,6 @@ module.exports = {
             });
             collector.on("end", collected => {
                 if(correct){
-                    /*
-                    const embedLog = new Discord.RichEmbed()
-                    embedLog.setTitle("📝SCRAMBLE LOG CORRECT\n"+message.author.username+ " ID : " + message.author.id)
-                    embedLog.setDescription("**Had a hint : `" + !isHardMode + "`**\nWord : ```" + scrambleWord+"```\nGuess attempts : `" + attempts + "`");
-                    embedLog.setColor(9043800);
-                    client.guilds.get("454163538055790604").channels.get("500467081226223646").send(embedLog);
-                    return;
-                    */
                 }
                 else{
                     const embedScramble = new Discord.RichEmbed()
@@ -194,14 +186,6 @@ module.exports = {
                     .setDescription("The word was : ```" + scrambleWord+"```")
                     .setColor(16734296);
                     message.channel.send(message.author, embedScramble);
-
-                    /*
-                    const embedLog = new Discord.RichEmbed()
-                    embedLog.setTitle("📝SCRAMBLE LOG INCORRECT\n"+message.author.username+ " ID : " + message.author.id)
-                    embedLog.setDescription("**Had a hint : `" + !isHardMode + "`**\nWord : ```" + scrambleWord+"```\nGuess attempts : `" + attempts + "`");
-                    embedLog.setColor(16734296);
-                    client.guilds.get("454163538055790604").channels.get("500467081226223646").send(embedLog);
-                    */
                 }
                 message.client.sets.activeScramblers.delete(message.author.id);
             });

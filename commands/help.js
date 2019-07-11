@@ -24,8 +24,7 @@ module.exports = {
         var infoCmds = [];
         var utilCmds = [];
         var otherCmds = [];
-
-        console.log(helpJSON.length);
+        
         for(var i = 0; i < helpJSON.length; i++){
             if(!helpJSON[i].ignoreHelp){
                 if(helpJSON[i].category == 'items') itemCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')

@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
 const itemdata = require('../json/completeItemList.json');
+const general = require('../methods/general');
 
 module.exports = {
     name: 'inventory',
@@ -16,12 +17,11 @@ module.exports = {
     execute(message, args, lang){
         let userOldID = args[0];
 
-        if(userOldID !== undefined){
-            if(!userOldID.startsWith("<@")){
+        if(args.length){
+            if(!general.isUser(userOldID)){
                 return message.reply(lang.errors[1]);
             }
-            let userNameID = args[0].replace(/[<@!>]/g, '');
-            makeInventory(userNameID);
+            makeInventory(general.getUserId(userOldID));
         }
         else{
             makeInventory(message.author.id);
@@ -29,20 +29,20 @@ module.exports = {
 
         async function makeInventory(userId){
             try{
-                const oldRow = await query(`SELECT * FROM items i
+                const userRow = (await query(`SELECT * FROM items i
                 INNER JOIN scores s
                 ON i.userId = s.userId
-                WHERE s.userId= ?`, [userId]);
+                WHERE s.userId= ?`, [userId]))[0];
     
-                if(!oldRow.length){
+                if(!userRow){
                     return message.reply(lang.errors[0]);
                 }
                 
-                const userRow        = oldRow[0];
                 const activeRow      = await query(`SELECT * FROM userGuilds WHERE userId = ? AND guildId = ?`, [userId, message.guild.id]);
                 const usersItems     = await methods.getuseritems(userId, {amounts: true});
                 const itemCt         = await methods.getitemcount(userId);
                 const shieldLeft     = await methods.getShieldTime(userId);
+                const userInfo       = await general.getUserInfo(message, userId, true);
 
                 var ultraItemList    = usersItems.ultra;
                 var legendItemList   = usersItems.legendary;
@@ -64,7 +64,7 @@ module.exports = {
 
 
                 const embedInfo = new Discord.RichEmbed()
-                .setAuthor(`${message.guild.members.get(userId).displayName}'s Inventory`, message.client.users.get(userId).avatarURL)
+                .setAuthor(`${userInfo.displayName}'s Inventory`, userInfo.user.avatarURL)
 
                 if(userRow.banner !== 'none'){
                     embedInfo.setImage(itemdata[userRow.banner].image);

@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const { query } = require('../../mysql.js');
 const clans = require('../../methods/clan_methods.js');
+const general = require('../../methods/general');
 
 module.exports = {
     name: 'demote',
@@ -11,10 +12,16 @@ module.exports = {
     
     async execute(message, args, lang, prefix){
         const scoreRow = (await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`))[0];
-        const invitedUser = message.mentions.users.first();
+        var invitedUser = args[0];
         var demoteMessage = '';
 
         if(!args.length || invitedUser == undefined){
+            return message.reply(lang.errors[1]);
+        }
+        
+        invitedUser = await general.getUserInfo(message, invitedUser, true);
+
+        if(invitedUser == undefined){
             return message.reply(lang.errors[1]);
         }
 

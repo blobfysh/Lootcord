@@ -2,6 +2,7 @@ const Discord   = require('discord.js');
 const { query } = require('../../mysql.js');
 const method    = require('../../methods/acc_code_handler.js');
 const methods   = require('../../methods/methods.js');
+const general = require('../../methods/general');
 
 module.exports = {
     name: 'getinfo',
@@ -20,7 +21,7 @@ module.exports = {
         try{
             const row        = await query(`SELECT * FROM scores WHERE userId = '${userID}'`);
             const activeRows = await query(`SELECT * FROM userGuilds WHERE userId = '${userID}'`);
-            const userInfo   = await message.client.fetchUser(userID);
+            const userInfo   = await general.getUserInfo(message, userID);
             const accCode    = await method.getinvcode(message, userID);
             const usersItems = await methods.getuseritems(userID, {amounts: true});
 

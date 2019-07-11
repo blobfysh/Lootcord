@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const general = require('../../methods/general');
 
 module.exports = {
     name: 'getbans',
@@ -12,28 +13,24 @@ module.exports = {
     adminOnly: false,
     
     async execute(message, args, lang, prefix){
-        var bannedList = [];
-
-        message.client.sets.bannedUsers.forEach(value => {
-            try{
-                bannedList.push(message.client.users.get(value).tag + " ID: " + value);
-            }
-            catch(err){
-                bannedList.push("Tag unknown - ID: " + value);
-            }
-        });
-
-        const banMsg = new Discord.RichEmbed()
-        .setAuthor('Banned users')
-        .setDescription(bannedList)
-        .setColor(13632027)
-        .setFooter('')
-
         try{
+            var bannedList = [];
+            var bannedIDs = Array.from(message.client.sets.bannedUsers);
+    
+            for(var i = 0; i < bannedIDs.length; i++){
+                bannedList.push((await general.getUserInfo(message, bannedIDs[i])).tag + " ID: " + bannedIDs[i]);
+            }
+    
+            const banMsg = new Discord.RichEmbed()
+            .setAuthor('Banned users')
+            .setDescription(bannedList)
+            .setColor(13632027)
+            .setFooter('')
+
             message.channel.send(banMsg);
         }
         catch(err){
-            message.reply("Something went wrong. Make sure you input the correct info.")
+            message.reply("Error: ```" + err + "```")
         }
     },
 }

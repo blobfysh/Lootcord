@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const general = require('../../methods/general');
 //const { query } = require('../../mysql.js');
 
 module.exports = {
@@ -15,18 +16,12 @@ module.exports = {
     async execute(message, args, lang, prefix){
         try{
             let moddedList = [];
-            /* This code was used to refresh the list of moderators. It is no longer needed now that the bot does it at launch
-            query(`SELECT userId FROM mods`).then(row => {
-                row.forEach((moderatorId) => {
-                    if(moderatorId.userId !== undefined && moderatorId.userId !== null){
-                        moddedUsers.add(moderatorId.userId);
-                    }
-                });
-            });
-            */
-            message.client.sets.moddedUsers.forEach(value => {
-                moddedList.push(message.client.users.get(value).tag + " ID: " + value);
-            });
+            var moddedIDS = Array.from(message.client.sets.moddedUsers);
+            
+            for(var i = 0; i < moddedIDS.length; i++){
+                moddedList.push((await general.getUserInfo(message, moddedIDS[i])).tag + " ID: " + moddedIDS[i]);
+            }
+
             const modMsg = new Discord.RichEmbed()
             .setAuthor('Moderator list')
             .setDescription(moddedList)
@@ -35,7 +30,7 @@ module.exports = {
             message.channel.send(modMsg);
         }
         catch(err){
-            message.reply("Something went wrong. Make sure you input the correct info.")
+            message.reply("Error: ```" + err + "```")
         }
     },
 }

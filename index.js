@@ -25,7 +25,7 @@ manager.on('launch', shard => {
                     result;
                 })
             `);
-            patreonHandler.refreshPatrons(manager);
+            if(!config.debug) patreonHandler.refreshPatrons(manager);
 
             setInterval(addPower, 7200 * 1000) // 2 hours
         }, 25000);
@@ -33,7 +33,7 @@ manager.on('launch', shard => {
 });
 
 manager.on('message', (shard, message) => {
-    if(message._eval !== undefined) console.log(shard.id + " says " + message._eval);
+    if(message._eval !== undefined) console.log('[INDEX] Shard ' + shard.id + " executed: " + message._eval);
 });
 
 process.on('SIGINT', () => {

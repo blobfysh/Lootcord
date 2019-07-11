@@ -4,6 +4,7 @@ const helpCmd = require('../json/_help_commands.json');
 const config = require('../json/_config.json');
 const itemdata = require("../json/completeItemList");
 const fs = require("fs");
+const general = require('../methods/general');
 
 class Methods {
     //GENERAL FUNCTIONS, CAN BE USED BY MULTIPLE COMMANDS
@@ -551,7 +552,7 @@ class Methods {
 
                 for(var i = 0; i< rows.length; i++){
                     try{
-                        if(message.guild.members.get(rows[i].userId).displayName){
+                        if((await general.getUserInfo(message, rows[i].userId, true)).displayName){
                             if(rows[i].userId !== message.author.id){//make sure message author isn't attacked by self
                                 if(!message.client.sets.activeShield.has(rows[i].userId)){
                                     if(scoreRow[0].clanId == 0 || scoreRow[0].clanId !== (await query(`SELECT clanId FROM scores WHERE userId ="${rows[i].userId}"`))[0].clanId){
@@ -717,27 +718,23 @@ class Methods {
             }
         });
     }
-    sendtokillfeed(message, killerId, victimId, itemName, itemDmg, itemsStolen, moneyStolen){
-        query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`).then(oldRow => {
-            const guildRow = oldRow[0];
+    async sendtokillfeed(message, killerId, victimId, itemName, itemDmg, itemsStolen, moneyStolen){
+        const guildRow = (await query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`))[0];
 
-            if(guildRow.killChan !== undefined && guildRow.killChan !== ""){
-                const killEmbed = new Discord.RichEmbed()
-                .setTitle(message.guild.members.get(killerId).displayName + " 🗡 " + message.guild.members.get(victimId).displayName + " 💀")
-                .setDescription("**Weapon**: `" + itemName + "` - **" + itemDmg + " damage**")
-                .setColor(16721703)
-                .setTimestamp()
+        if(guildRow.killChan !== undefined && guildRow.killChan !== ""){
+            const killEmbed = new Discord.RichEmbed()
+            .setTitle((await general.getUserInfo(message, killerId, true)).displayName + " 🗡 " + (await general.getUserInfo(message, victimId, true)).displayName + " 💀")
+            .setDescription("**Weapon**: `" + itemName + "` - **" + itemDmg + " damage**")
+            .setColor(16721703)
+            .setTimestamp()
 
-                message.guild.channels.get(guildRow.killChan).send(killEmbed).catch(err => {
-                    return;
-                });
-            }
-            else{
-                return; //no killfeed on server...
-            }
-        }).catch(err => {
-            //didn't work
-        });
+            message.guild.channels.get(guildRow.killChan).send(killEmbed).catch(err => {
+                return;
+            });
+        }
+        else{
+            return; //no killfeed on server...
+        }
     }
 
     //TRADE COMMAND METHODS

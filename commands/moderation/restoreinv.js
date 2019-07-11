@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { query } = require('../../mysql.js');
 const method = require('../../methods/acc_code_handler.js');
 const config = require('../../json/_config.json');
+const general = require('../../methods/general');
 
 module.exports = {
     name: 'restoreinv',
@@ -23,15 +24,13 @@ module.exports = {
 
         try{
             const userObj = method.decodeCode(accCode);
-            const oldRow = await query(`SELECT * FROM items 
+            const row = (await query(`SELECT * FROM items 
             INNER JOIN scores
             ON items.userId = scores.userId
-            WHERE items.userId = '${userObj.userId}'`);
-            const user = await message.client.fetchUser(userObj.userId);
+            WHERE items.userId = '${userObj.userId}'`))[0];
+            const user = await general.getUserInfo(message, userObj.userId);
             
-            if(!oldRow.length) return message.reply("Invalid code.");
-
-            const row = oldRow[0];
+            if(!row) return message.reply("Invalid code.");
 
             Object.keys(row).forEach(item => {
                 if(item !== 'userId'){

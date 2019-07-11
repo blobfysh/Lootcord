@@ -3,6 +3,7 @@ const { query } = require('../../mysql.js');
 const clans = require('../../methods/clan_methods.js');
 const methods = require('../../methods/methods.js');
 const config = require('../../json/_config.json');
+const general = require('../../methods/general');
 //const itemdata = require('../json/completeItemList.json');
 
 module.exports = {
@@ -14,7 +15,7 @@ module.exports = {
     
     async execute(message, args, lang, prefix){
         const scoreRow = (await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`))[0];
-        const mentionedUser = message.mentions.users.first();
+        var mentionedUser = await general.getUserInfo(message, args[0], true);
 
         if(!args.length && scoreRow.clanId == 0){
             return message.reply(lang.clans.info[0]);

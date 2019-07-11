@@ -30,11 +30,11 @@ module.exports = {
 
                     message.client.shard.broadcastEval(`this.sets.moddedUsers.delete('${modderId}')`);
                     query(`DELETE FROM mods WHERE userId ="${modderId}"`);
-                    userInfo.send(demodMsg);
                     message.reply("User has been removed from the moderator list!");
+                    await userInfo.send(demodMsg);
                 }
                 catch(err){
-                    message.reply("Something went wrong. Make sure you input the correct info.")
+                    message.reply("Error messaging: ```" + err + "```")
                 }
             }
         }

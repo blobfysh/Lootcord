@@ -70,12 +70,12 @@ client.on('ready', () => {
     */
 
     app.listen(5001, () => {
-        console.log(`API running on port 5001`);
+        console.log(`[API] API running on port 5001`);
     });
 });
 
 client.on('error', (err) => {
-    console.log('Error with Discord connection in the API: ' + err);
+    console.log('[API] Error with Discord connection: ' + err);
 });
 
 client.on('disconnect', (err) => {

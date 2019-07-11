@@ -53,9 +53,9 @@ var prefix = config.prefix;
 
 client.on('message', message => {
     if(message.author.bot) return; // && message.author.id !== message.client.user.id || message.author.bot && message.channel.type == 'dm'
-    if(client.fullLockdown) return; // Ignore everything when bot first launches.
+    if(client.fullLockdown) return console.log('[APP] Ignored message.');
     if(client.sets.bannedUsers.has(message.author.id)) return;
-
+    
     const lang = languages['en_us']; // selects language to use.
 
     query(`SELECT * FROM guildPrefix WHERE guildId = ${message.guild !== null ? message.guild.id : 0}`).then(prefixRow => {
@@ -78,7 +78,7 @@ client.on('message', message => {
         
         else handleCmd(message, prefix, lang);
     }).catch(err => {
-        console.log('[LOG] query F A I L E D:')
+        console.log('[APP] Query failed, MySQL not working?:')
         console.log(err);
     });
 });
@@ -114,16 +114,17 @@ client.on('disconnect', (err) => {
     client.destroy().then(client.login(config.botToken));
 });
 
+/*
 client.on('debug', (message) => {
 	console.debug(message);
 });
+*/
 
 client.on('reconnecting', () => {
-	console.log(client.shard.id + ' is reconnecting...');
+	console.log('[APP] ' + client.shard.id + ' is reconnecting...');
 });
 
 client.on('ready', async () => {
-    console.log(`Launched shard ${client.shard.id}`);
     if(config.debug == false){
         setInterval(() => {
             //methods.sendlbtoweb(sql);
@@ -445,7 +446,7 @@ client.on('ready', async () => {
             }
         }
     });
-    console.log(cdsAdded + " cooldowns added to users.");
+    console.log('[APP] ' + cdsAdded + " cooldowns added to users.");
 
     // The following code calls in airdrops for all guilds who have a dropChannel set
     const airdropRows = await query(`SELECT * FROM guildInfo`);
@@ -455,7 +456,7 @@ client.on('ready', async () => {
         }
     });
 
-    console.log('Bot started');
+    console.log(`[APP] Shard ${client.shard.id} is ready`);
     client.fullLockdown = false;
 });
 

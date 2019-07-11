@@ -22,10 +22,10 @@ exports.create_lb = async function(client){
     for(var key in moneyRows){
         try{
             var userInfo = await client.fetchUser(moneyRows[key].userId);
-            leaders.push(`💵 **${userInfo.tag}**` + ' - ' + methods.formatMoney(moneyRows[key].money));
+            leaders.push(`💵 **${userInfo.tag}**` + ' - ' + methods.formatMoney(moneyRows[key].money, true));
 
             leaderJSON.money[userInfo.username] = {
-                data: methods.formatMoney(moneyRows[key].money), 
+                data: methods.formatMoney(moneyRows[key].money, true), 
                 avatar: userInfo.avatarURL
             };
         }
@@ -36,7 +36,7 @@ exports.create_lb = async function(client){
     for(var key in levelRows){
         try{
             var userInfo = await client.fetchUser(levelRows[key].userId);
-            levelLeaders.push(`🔹 **${userInfo.tag}**` + ' - Level :  ' + levelRows[key].level);
+            levelLeaders.push(`🔹 **${userInfo.tag}**` + ' - Level  ' + levelRows[key].level);
 
             leaderJSON.level[userInfo.username] = {
                 data: levelRows[key].level, 

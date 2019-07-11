@@ -188,9 +188,9 @@ function connectSQL(){
     });
 
     db.connect((err) => {
-        if(err) return console.log('Could not connect to SQL database.');
+        if(err) return console.log('[MYSQL] Could not connect to SQL database.');
         
-        console.log('MySQL Connected.');
+        console.log('[MYSQL] MySQL Connected.');
 
         /* remove drop statements before production
         db.query(`DROP TABLE scores`);
@@ -261,7 +261,7 @@ function connectSQL(){
 
     db.on('error', (err) => {
         if(err.fatal){
-            console.log('Fatal SQL error, attempting to reconnect.');
+            console.log('[MYSQL] Fatal SQL error, attempting to reconnect.');
             db.end();
             connectSQL();
             return;

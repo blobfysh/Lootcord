@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { query } = require('../../mysql.js');
+const general = require('../../methods/general');
 
 module.exports = {
     name: 'addmod',
@@ -28,15 +29,16 @@ module.exports = {
             }
             else{
                 try{
-                    const userInfo = await message.client.fetchUser(modderId);
+                    const userInfo = await general.getUserInfo(message, modderId);
 
                     message.client.shard.broadcastEval(`this.sets.moddedUsers.add('${modderId}')`);
                     query("INSERT INTO mods (userId) VALUES (?)", [modderId]);
-                    userInfo.send(modMsg);
+                    
                     message.reply("User has been added to the moderator list!");
+                    await userInfo.send(modMsg);
                 }
                 catch(err){
-                    message.reply("Error adding user:```" + err + "```")
+                    message.reply("Error messaging user:```" + err + "```")
                 }
             }
         }

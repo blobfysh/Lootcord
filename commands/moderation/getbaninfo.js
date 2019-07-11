@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { query } = require('../../mysql.js');
+const general = require('../../methods/general');
 
 module.exports = {
     name: 'getbaninfo',
@@ -12,7 +13,7 @@ module.exports = {
     modOnly: true,
     adminOnly: false,
     
-    execute(message, args, lang, prefix){
+    async execute(message, args, lang, prefix){
         var bannedID = args[0];
 
         if(!message.client.sets.bannedUsers.has(bannedID)){
@@ -20,29 +21,20 @@ module.exports = {
             return;
         }
 
-        query(`SELECT * FROM banned WHERE userId =${bannedID}`).then(row => {
-            
-            message.client.fetchUser(bannedID).then(bannedUser => {
+        try{
+            const bannedRow = await query(`SELECT * FROM banned WHERE userId =${bannedID}`);
+            const bannedUser = await general.getUserInfo(message, bannedID);
+    
+            const banMsg = new Discord.RichEmbed()
+            .setTitle(bannedUser.tag + " Ban Info")
+            .addField("Reason", "```" + bannedRow[0].reason + "```")
+            .addField("Date", new Date(bannedRow[0].date).toString())
+            .setColor(13632027)
 
-                const banMsg = new Discord.RichEmbed()
-                .setTitle(bannedUser.tag + " Ban Info")
-                .addField("Reason", "```" + row[0].reason + "```")
-                .addField("Date", new Date(row[0].date).toString())
-                .setColor(13632027)
-
-                message.channel.send(banMsg);
-            }).catch(err => {
-
-                const banMsg = new Discord.RichEmbed()
-                .setTitle("Unknown user's Ban Info")
-                .addField("Reason", "```" + row[0].reason + "```")
-                .addField("Date", new Date(row[0].date).toString())
-                .setColor(13632027)
-
-                message.channel.send(banMsg);
-            });
-        }).catch(err => {
-            message.channel.send("ERROR GETTING BAN INFO:\n```" + err + "```")
-        });
+            message.channel.send(banMsg);
+        }
+        catch(err){
+            message.reply('Error: ```' + err + '```')
+        }
     },
 }
