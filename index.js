@@ -19,9 +19,9 @@ manager.on('launch', shard => {
         //set bot status
         setTimeout(() => {
             manager.broadcastEval(`
-                this.shard.fetchClientValues('users.size').then(results => {
-                    var result = results.reduce((prev, userCount) => prev + userCount, 0);
-                    this.user.setActivity('t-help | ' + result + ' looters!', {type: 'LISTENING'});
+                this.shard.fetchClientValues('guilds.size').then(results => {
+                    var result = results.reduce((prev, guildCount) => prev + guildCount, 0);
+                    this.user.setActivity('t-help | ' + result + ' Loot Dungeons', {type: 'LISTENING'});
                     result;
                 })
             `);

@@ -379,7 +379,7 @@ module.exports = {
                                                         return '0002';
                                                     });
                                                 }
-                                                else message.channel.send(lang.trade.errors[8].replace('{0}', message.member.displayName)); //"❌" + message.member.displayName + " doesn't have enough space in their inventory to complete this trade!" message.guild.members.get(userNameID).displayName
+                                                else message.channel.send(lang.trade.errors[8].replace('{0}', message.member.displayName));
                                                 return '0001';
                                             });
                                         }

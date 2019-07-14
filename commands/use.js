@@ -37,7 +37,7 @@ module.exports = {
                     
                     var userNameID = randUser;
                 }
-                else var userNameID = args[1].replace(/[<@!>]/g, '');  //RETURNS BASE ID WITHOUT <@ OR <@! BUT ONLY IF PLAYER MENTIONED SOMEONE
+                else var userNameID = general.getUserId(userOldID);  //RETURNS BASE ID WITHOUT <@ OR <@! BUT ONLY IF PLAYER MENTIONED SOMEONE
             }
             query(`SELECT * FROM items i
             INNER JOIN scores s

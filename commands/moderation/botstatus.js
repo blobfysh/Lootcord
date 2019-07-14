@@ -23,12 +23,12 @@ module.exports = {
             try{
                 if(statusInfo == 'reset'){
                     message.client.shard.broadcastEval(`
-                    this.shard.fetchClientValues('users.size').then(results => {
-                        var result = results.reduce((prev, userCount) => prev + userCount, 0);
-                        this.user.setActivity('t-help | ' + result + ' looters!', {type: 'LISTENING'});
-                        result;
-                    })
-                `);
+                        this.shard.fetchClientValues('guilds.size').then(results => {
+                            var result = results.reduce((prev, guildCount) => prev + guildCount, 0);
+                            this.user.setActivity('t-help | ' + result + ' Loot Dungeons', {type: 'LISTENING'});
+                            result;
+                        })
+                    `);
                 }
                 else if(statusInfo == ''){
                     message.client.shard.broadcastEval(`this.user.setActivity('t-help', {type: '${activityType}'});`);

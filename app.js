@@ -16,8 +16,7 @@ const client = new Discord.Client({
     messageCacheMaxSize: 50,
     messageCacheLifetime: 300,
     messageSweepInterval: 500,
-    disableEveryone: true,
-    fetchAllMembers: true
+    disableEveryone: true
 });
 
 client.sets            = require('./utils/sets.js');
@@ -52,7 +51,7 @@ for(const file of clanCommandFiles){
 var prefix = config.prefix;
 
 client.on('message', message => {
-    if(message.author.bot) return; // && message.author.id !== message.client.user.id || message.author.bot && message.channel.type == 'dm'
+    if(message.author.bot) return;
     if(client.fullLockdown) return console.log('[APP] Ignored message.');
     if(client.sets.bannedUsers.has(message.author.id)) return;
     
@@ -128,11 +127,11 @@ client.on('ready', async () => {
     if(config.debug == false){
         setInterval(() => {
             //methods.sendlbtoweb(sql);
-            if(client.user.presence.game.name.endsWith('looters!')){
+            if(client.user.presence.game.name.endsWith('Dungeons')){
                 client.shard.broadcastEval(`
-                    this.shard.fetchClientValues('users.size').then(results => {
-                        var result = results.reduce((prev, userCount) => prev + userCount, 0);
-                        this.user.setActivity('t-help | ' + result + ' looters!', {type: 'LISTENING'});
+                    this.shard.fetchClientValues('guilds.size').then(results => {
+                        var result = results.reduce((prev, guildCount) => prev + guildCount, 0);
+                        this.user.setActivity('t-help | ' + result + ' Loot Dungeons', {type: 'LISTENING'});
                         result;
                     })
                 `);
@@ -458,6 +457,10 @@ client.on('ready', async () => {
 
     console.log(`[APP] Shard ${client.shard.id} is ready`);
     client.fullLockdown = false;
+});
+
+process.on('unhandledRejection', (reason, p) => {
+	console.error('[APP][' + new Date().toLocaleString(undefined, {timeZone: 'America/New_York'}) + '] Unhandled Rejection: ', reason);
 });
 
 client.login(config.botToken);

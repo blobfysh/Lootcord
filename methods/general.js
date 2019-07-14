@@ -162,11 +162,17 @@ class Methods {
         return itemSearched.toLowerCase();
     }
 
-    parseArgsWithSpaces(arg1, arg2 = '', arg3 = '', getNum = false, getUser = false){
+    parseArgsWithSpaces(arg1, arg2 = '', arg3 = '', getNum = false, getUser = false, getUseArgs = false){
         var itemName = this.getCorrectedItemInfo(arg1 + '_' + arg2);
 
         if(this.isItem(itemName)){
-            if(getNum){
+            if(getUseArgs){
+                if(arg3.startsWith('rand')) return arg3;
+                else if(this.isNum(arg3)) return arg3;
+                else if(this.isUser(arg3)) return arg3;
+                else return undefined;
+            }
+            else if(getNum){
                 if(this.isNum(arg3)) return arg3;
                 else return undefined;
             }
@@ -180,7 +186,16 @@ class Methods {
             itemName = this.getCorrectedItemInfo(arg1);
 
             if(this.isItem(itemName)){
-                if(getNum){
+                if(getUseArgs){
+                    if(arg2.startsWith('rand')) return arg2;
+                    else if(this.isNum(arg2)) return arg2;
+                    else if(this.isUser(arg2)) return arg2;
+                    else if(arg3.startsWith('rand')) return arg3;
+                    else if(this.isNum(arg3)) return arg3;
+                    else if(this.isUser(arg3)) return arg3;
+                    else return undefined;
+                }
+                else if(getNum){
                     if(this.isNum(arg2)) return arg2;
                     else if(this.isNum(arg3)) return arg3;
                     else return undefined;
@@ -192,11 +207,10 @@ class Methods {
                 }
                 return itemName;
             }
+            else if(getNum || getUser || getEither) return undefined;
             else return arg1;
         }
     }
 }
-
-console.log(new Methods().parseArgsWithSpaces('rifle', 'body', '<@!494220264129953792>', false, true));
 
 module.exports = new Methods();

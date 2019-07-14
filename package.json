@@ -1,6 +1,6 @@
 {
   "name": "lootcord",
-  "version": "4.10.1",
+  "version": "4.10.3",
   "description": "A fun item bot to battle your friends!",
   "main": "index.js",
   "scripts": {

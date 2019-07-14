@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
 const itemdata = require('../json/completeItemList.json');
+const general = require('../methods/general');
 
 module.exports = {
     name: 'sell',
@@ -14,8 +15,11 @@ module.exports = {
     adminOnly: false,
     
     execute(message, args, lang, prefix){
-        let sellItem = methods.getCorrectedItemInfo(args[0]);
-        let sellAmount = args[1];
+        let sellItem = general.parseArgsWithSpaces(args[0], args[1], args[2]);
+        let sellAmount = general.parseArgsWithSpaces(args[0], args[1], args[2], true, false, false);
+
+        //let sellItem = methods.getCorrectedItemInfo(args[0]);
+        //let sellAmount = args[1];
 
         if(itemdata[sellItem] !== undefined){
             let itemPrice = itemdata[sellItem].sell;
@@ -33,7 +37,6 @@ module.exports = {
                     await reactMsg.react('❌');
                     return reactMsg;
                 }).then(botMessage => {
-                    botMessage.react('✅').then(() => botMessage.react('❌'));
                     const filter = (reaction, user) => {
                         return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
                     };

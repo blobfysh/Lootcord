@@ -17,6 +17,7 @@ exports.handleCmd = async function(message, prefix, lang){
     const row       = await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`);
     const CDrow     = await query(`SELECT * FROM cooldowns WHERE userId = ${message.author.id}`);
     const activeRow = await query(`SELECT * FROM userGuilds WHERE userId = ${message.author.id} AND guildId = ${message.guild !== null ? message.guild.id : 0}`);
+    if(!message.channel.type == 'dm') await cacheMember(message);
 
     if(message.channel.type == 'text' && !message.guild.me.hasPermission(['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY', 'ATTACH_FILES', 'EMBED_LINKS', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS', 'ADD_REACTIONS', 'MANAGE_MESSAGES'])){
         return message.author.send(`I don't have sufficient permissions in the following server: ${message.guild.name}. I require the following permissions:\`\`\`
@@ -81,5 +82,17 @@ exports.handleCmd = async function(message, prefix, lang){
     catch(err){
         console.error(err);
         message.reply('Command failed to execute!');
+    }
+}
+
+async function cacheMember(message){
+    try{
+        if(!message.member){
+            console.log('[CMD] Fetching member...');
+            await message.guild.fetchMember(message.author);
+        }
+    }
+    catch(err){
+        console.log('[CMD] Failed to fetch a member: ' + err);
     }
 }
