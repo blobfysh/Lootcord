@@ -27,7 +27,7 @@ class Methods {
         if(!userId) return undefined;
 
         try{
-            return member ? await message.guild.fetchMember(userId[1], false) : await message.client.fetchUser(userId[1], false);
+            return member ? await message.guild.fetchMember(userId[1], true) : await message.client.fetchUser(userId[1], false);
         }
         catch(err){
             return undefined;
@@ -207,7 +207,7 @@ class Methods {
                 }
                 return itemName;
             }
-            else if(getNum || getUser || getEither) return undefined;
+            else if(getNum || getUser || getUseArgs) return undefined;
             else return arg1;
         }
     }
