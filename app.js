@@ -223,6 +223,9 @@ client.on('ready', async () => {
 
                     cdsAdded++;
                 }
+                else{
+                    query(`UPDATE cooldowns SET voteTime = ${0} WHERE userId = ${userInfo.userId}`);
+                }
             }
             if(userInfo.peckTime > 0){
                 let timeLeft = (7200*1000) - ((new Date()).getTime() - userInfo.peckTime);
@@ -448,12 +451,12 @@ client.on('ready', async () => {
     console.log('[APP] ' + cdsAdded + " cooldowns added to users.");
 
     // The following code calls in airdrops for all guilds who have a dropChannel set
-    const airdropRows = await query(`SELECT * FROM guildInfo`);
-    airdropRows.forEach((guild) => {
-        if(guild.guildId !== undefined && guild.guildId !== null && guild.dropChan !== 0){
-            airdropper.initAirdrop(client, guild.guildId);
+    const airdropRows = await query(`SELECT * FROM guildInfo WHERE dropChan != 0`);
+    for(var i = 0; i < airdropRows.length; i++){
+        if(airdropRows[i].guildId !== undefined && airdropRows[i].guildId !== null && airdropRows[i].dropChan !== 0){
+            await airdropper.initAirdrop(client, airdropRows[i].guildId);
         }
-    });
+    }
 
     console.log(`[APP] Shard ${client.shard.id} is ready`);
     client.fullLockdown = false;

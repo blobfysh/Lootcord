@@ -167,7 +167,7 @@ class Methods {
 
         if(this.isItem(itemName)){
             if(getUseArgs){
-                if(arg3.startsWith('rand')) return arg3;
+                if(arg3 == 'rand' || arg3 == 'random') return arg3;
                 else if(this.isNum(arg3)) return arg3;
                 else if(this.isUser(arg3)) return arg3;
                 else return undefined;
@@ -187,10 +187,10 @@ class Methods {
 
             if(this.isItem(itemName)){
                 if(getUseArgs){
-                    if(arg2.startsWith('rand')) return arg2;
+                    if(arg2 == 'rand' || arg2 == 'random') return arg2;
                     else if(this.isNum(arg2)) return arg2;
                     else if(this.isUser(arg2)) return arg2;
-                    else if(arg3.startsWith('rand')) return arg3;
+                    else if(arg3 == 'rand' || arg3 == 'random') return arg3;
                     else if(this.isNum(arg3)) return arg3;
                     else if(this.isUser(arg3)) return arg3;
                     else return undefined;
