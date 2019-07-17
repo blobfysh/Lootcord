@@ -30,18 +30,16 @@ module.exports = {
         }
 
         async function userProfile(userId, isSelf){
-            const oldRow = await query(`SELECT * FROM scores 
+            const row = (await query(`SELECT * FROM scores 
             INNER JOIN items
             ON scores.userId = items.userId
-            WHERE scores.userId ="${userId}"`);
+            WHERE scores.userId ="${userId}"`))[0];
             const banners = await methods.getuseritems(userId, {sep: '`', icon: true, onlyBanners: true});
             const userINFO = await general.getUserInfo(message, userId);
 
-            if(!oldRow.length){
+            if(!row){
                 return message.reply(lang.errors[0]);
             }
-
-            const row = oldRow[0];
 
             var bannerIcon = itemdata[row.banner] !== undefined ? itemdata[row.banner].icon + ' ' : ''
             var bannersList = 'Equipped: ' + bannerIcon + '`' + row.banner + '`\n' + banners.ultra.concat(banners.legendary, banners.epic, banners.rare, banners.uncommon, banners.common, banners.limited).join('\n');
@@ -52,24 +50,32 @@ module.exports = {
                 userStatus = row.status;
             }
 
+            var currLvlXP        = 0;
+
+            for(var i = 1; i <= row.level;i++){
+                var xpNeeded = Math.floor(50*(i**1.7));
+                if(i == row.level){
+                    break;
+                }
+                currLvlXP += xpNeeded;
+            }
+
             const profileEmbed = new Discord.RichEmbed()
             .setColor(13215302)
             .setAuthor((await general.getUserInfo(message, userId, true)).displayName + "'s Profile", userINFO.avatarURL)
             .setThumbnail(userINFO.avatarURL)
             .setDescription(userStatus)
-            if(row.deaths == 0){
-                profileEmbed.addField('Stats', (row.clanId !== 0 ? 'Member of `' + (await query(`SELECT name FROM clans WHERE clanId = ${row.clanId}`))[0].name + '`\n' : '') + row.kills+ " Kills | "+row.deaths+" Deaths ("+row.kills+" K/D)\n" + row.power + "/" + row.max_power + " Power")
-            }
-            else{
-                profileEmbed.addField('Stats', (row.clanId !== 0 ? 'Member of `' + (await query(`SELECT name FROM clans WHERE clanId = ${row.clanId}`))[0].name + '`\n' : '') + row.kills+ " Kills | "+row.deaths+" Deaths ("+(row.kills/ row.deaths).toFixed(2)+" K/D)\n" + row.power + "/" + row.max_power + " Power")
-            }
-            profileEmbed.addBlankField()
-            profileEmbed.addField('Banners', bannersList, true)
-            profileEmbed.addField("Backpack", 'Equipped: ' + backpackIcon + "`" + row.backpack + "`", true)
-            profileEmbed.addField("Skills", '💗 Vitality: ' + row.health + "/" + row.maxHealth + " HP"
+            .addField('Stats', (row.clanId !== 0 ? 'Member of `' + (await query(`SELECT name FROM clans WHERE clanId = ${row.clanId}`))[0].name + '`\n' : '')
+            + 'Level ' + row.level + ` (${row.points - currLvlXP}/${Math.floor(50*(row.level**1.7))})\n`
+            + (row.deaths == 0 ? row.kills+ " Kills | "+row.deaths+" Deaths ("+row.kills+" K/D)\n" : row.kills+ " Kills | "+row.deaths+" Deaths ("+(row.kills/ row.deaths).toFixed(2)+" K/D)\n")
+            + row.power + "/" + row.max_power + " Power")
+            .addBlankField()
+            .addField('Banners', bannersList, true)
+            .addField("Backpack", 'Equipped: ' + backpackIcon + "`" + row.backpack + "`", true)
+            .addField("Skills", '💗 Vitality: ' + row.health + "/" + row.maxHealth + " HP"
             + '\n💥 Strength: ' + parseFloat(row.scaledDamage).toFixed(2) + "x damage"
             + '\n🍀 Luck: ' + row.luck, true)
-            profileEmbed.setFooter("🌟 " + row.stats + " Available skill points")
+            .setFooter("🌟 " + row.stats + " Available skill points")
             message.channel.send(profileEmbed);
         }
     },

@@ -24,20 +24,20 @@ module.exports = {
 
             if(itemdata[shopItem[i]].isBanner){
                 if(itemdata[shopItem[i]].buy !== ""){
-                    banners.push([itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "📥 " + methods.formatMoney(itemdata[shopItem[i]].buy.amount) + " ", "📤 " + methods.formatMoney(itemdata[shopItem[i]].sell), rarityCode]);
+                    banners.push([itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "📥 " + methods.formatMoney(itemdata[shopItem[i]].buy.amount, true) + " ", "📤 " + methods.formatMoney(itemdata[shopItem[i]].sell, true), rarityCode]);
                 }
                 else if(itemdata[shopItem[i]].sell !== ""){
-                    banners.push([itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "","📤 "+methods.formatMoney(itemdata[shopItem[i]].sell), rarityCode]);
+                    banners.push([itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "","📤 "+methods.formatMoney(itemdata[shopItem[i]].sell, true), rarityCode]);
                 }
             }
 
             else if(itemdata[shopItem[i]].buy !== ""){
-                allItems.push([itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "📥 " + methods.formatMoney(itemdata[shopItem[i]].buy.amount) + " ", "📤 " + methods.formatMoney(itemdata[shopItem[i]].sell), rarityCode]);
+                allItems.push([itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "📥 " + methods.formatMoney(itemdata[shopItem[i]].buy.amount, true) + " ", "📤 " + methods.formatMoney(itemdata[shopItem[i]].sell, true), rarityCode]);
                 //console.log(shopItem[i])
             }
 
             else if(itemdata[shopItem[i]].sell !== ""){
-                allItems.push([itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "","📤 "+methods.formatMoney(itemdata[shopItem[i]].sell), rarityCode]);
+                allItems.push([itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "","📤 "+methods.formatMoney(itemdata[shopItem[i]].sell, true), rarityCode]);
             }
         }
 

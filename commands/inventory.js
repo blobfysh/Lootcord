@@ -39,7 +39,7 @@ module.exports = {
                 }
                 
                 const activeRow      = await query(`SELECT * FROM userGuilds WHERE userId = ? AND guildId = ?`, [userId, message.guild.id]);
-                const usersItems     = await methods.getuseritems(userId, {amounts: true});
+                const usersItems     = await methods.getuseritems(userId, {amounts: true, sep: '`'});
                 const itemCt         = await methods.getitemcount(userId);
                 const shieldLeft     = await methods.getShieldTime(userId);
                 const userInfo       = await general.getUserInfo(message, userId, true);
@@ -53,6 +53,7 @@ module.exports = {
                 var limitedItemList  = usersItems.limited;
 
                 var totalXpNeeded    = 0;
+                var currLvlXP        = 0;
 
                 for(var i = 1; i <= userRow.level;i++){
                     var xpNeeded = Math.floor(50*(i**1.7));
@@ -60,6 +61,7 @@ module.exports = {
                     if(i == userRow.level){
                         break;
                     }
+                    currLvlXP += xpNeeded;
                 }
 
 
@@ -72,10 +74,10 @@ module.exports = {
                 }
                 
                 if(totalXpNeeded - userRow.points <= 0){
-                    embedInfo.addField("Level: " + userRow.level, lang.inventory[0].replace('{0}', '0').replace('{1}', userRow.level), true)
+                    embedInfo.addField("Level: " + userRow.level + ` (${userRow.points - currLvlXP}/${Math.floor(50*(userRow.level**1.7))})`, lang.inventory[0].replace('{0}', '0').replace('{1}', userRow.level), true)
                 }
                 else{
-                    embedInfo.addField("Level: " + userRow.level, lang.inventory[0].replace('{0}', totalXpNeeded - userRow.points).replace('{1}', userRow.level + 1), true)
+                    embedInfo.addField("Level: " + userRow.level + ` (${userRow.points - currLvlXP}/${Math.floor(50*(userRow.level**1.7))})`, lang.inventory[0].replace('{0}', totalXpNeeded - userRow.points).replace('{1}', userRow.level + 1), true)
                 }
 
                 embedInfo.addField(lang.inventory[1], activeRow.length ? '**Yes**' : '**No**', true)
@@ -89,37 +91,37 @@ module.exports = {
                 
                 if(ultraItemList != ""){
                     let newList = ultraItemList.join('\n');
-                    embedInfo.addField("<:UnboxUltra:526248982691840003>Ultra", "```" + newList + "```", true);
+                    embedInfo.addField("Ultra", newList, true);
                 }
                 
                 if(legendItemList != ""){
                     let newList = legendItemList.join('\n');
-                    embedInfo.addField("<:UnboxLegendary:526248970914234368>Legendary", "```" + newList + "```", true);
+                    embedInfo.addField("Legendary", newList, true);
                 }
                 
                 if(epicItemList != ""){
                     let newList = epicItemList.join('\n');
-                    embedInfo.addField("<:UnboxEpic:526248961892155402>Epic", "```" + newList + "```", true);
+                    embedInfo.addField("Epic", newList, true);
                 }
                 
                 if(rareItemList != ""){
                     let newList = rareItemList.join('\n');
-                    embedInfo.addField("<:UnboxRare:526248948579434496>Rare", "```" + newList + "```", true);
+                    embedInfo.addField("Rare", newList, true);
                 }
                 
                 if(uncommonItemList != ""){
                     let newList = uncommonItemList.join('\n');
-                    embedInfo.addField("<:UnboxUncommon:526248928891371520>Uncommon", "```" + newList + "```", true);
+                    embedInfo.addField("Uncommon", newList, true);
                 }
                 
                 if(commonItemList != ""){
                     let newList = commonItemList.join('\n');
-                    embedInfo.addField("<:UnboxCommon:526248905676029968>Common", "```" + newList + "```", true);
+                    embedInfo.addField("Common", newList, true);
                 }
                 
                 if(limitedItemList != ""){
                     let newList = limitedItemList.join('\n');
-                    embedInfo.addField("🎁Limited", "```" + newList + "```", true);
+                    embedInfo.addField("🎁Limited", newList, true);
                 }
                 
                 if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){
@@ -130,7 +132,7 @@ module.exports = {
                     embedInfo.addField("\u200b", "Inventory space: " + itemCt.capacity + " max | This user is a Lootcord moderator! 💪");
                 }
                 else{
-                    embedInfo.addField("\u200b", "Inventory space: " + itemCt.capacity + " max | Worth: " + methods.formatMoney(usersItems.invValue));
+                    embedInfo.addField("\u200b", "Inventory space: " + itemCt.capacity + " max | Worth: " + methods.formatMoney(usersItems.invValue, true));
                 }
                 
                 message.channel.send(embedInfo);
