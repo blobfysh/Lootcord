@@ -35,10 +35,8 @@
   ],
   "desc": [
     "🔹 **Source: **https://github.com/blobfysh/Lootcord",
-    "🔹 **Clans Update!** Join clans and store items/money in the clan vault. Keep your power high and raid other clans to steal their items.",
-    "🔹 Added `clan` command, `power` command.",
-    "🔹 Lowered cost of creating clans and added an interest rate to money in the clan bank.",
-    "🔹 Fixed bug where vote counter would reset even if you voted within 24 hours, now your votes are counted toward the supply signal no matter the time in between your votes.",
+    "🔹 Mostly decorative update, introduces new icons for items and many commands!",
+    "🔹 More commands support spaced item names, that means rifle body is the same as typing rifle_body",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
 }

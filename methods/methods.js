@@ -1,3 +1,4 @@
+//TODO Clean this file up, lots of useless functions...
 const Discord = require("discord.js");
 const { query } = require('../mysql.js');
 const helpCmd = require('../json/_help_commands.json');
