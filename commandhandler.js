@@ -53,7 +53,7 @@ exports.handleCmd = async function(message, prefix, lang){
     else if(command.requiresAcc && !row.length) return message.reply(lang.general[0].replace('{0}', prefix));
 
     
-    else if(command.requiresAcc && !activeRow.length) return message.reply(lang.general[1].replace('{0}', prefix));
+    else if(command.requiresAcc && !command.worksWhenInactive && !activeRow.length) return message.reply(lang.general[1].replace('{0}', prefix));
 
 
     else if(command.guildModsOnly && !message.member.hasPermission("MANAGE_GUILD")) return message.reply(lang.errors[6]);

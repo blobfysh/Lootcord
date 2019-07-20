@@ -1118,7 +1118,7 @@ class Methods {
             const firstEmbed = new Discord.RichEmbed()
             firstEmbed.setTitle(`**ITEM SHOP**`);
             firstEmbed.setDescription(lang.shop[0]);
-            firstEmbed.setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/497356681139847168/thanbotShopIcon.png");
+            firstEmbed.setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/602129484900204545/shopping-cart.png");
             firstEmbed.setFooter(`Home page`);
             firstEmbed.setColor(0);
 

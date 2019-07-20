@@ -4,6 +4,7 @@ const clans = require('../../methods/clan_methods.js');
 const methods = require('../../methods/methods.js');
 const config = require('../../json/_config.json');
 const general = require('../../methods/general');
+const icons = require('../../json/icons');
 //const itemdata = require('../json/completeItemList.json');
 
 module.exports = {
@@ -79,7 +80,7 @@ async function getClanInfo(message, lang, clanId){
 
     const clanEmbed = new Discord.RichEmbed()
     .setColor(13215302)
-    .setTitle(clanRow.name)
+    .setTitle(icons.clan_icon + clanRow.name)
     .setDescription(clanRow.status !== '' ? clanRow.status : lang.clans.info[2])
     .setThumbnail(clanRow.iconURL)
     .addField(lang.clans.info[3], clanPower.usedPower + '/' + clanPower.currPower + '/' + clanPower.maxPower, true)

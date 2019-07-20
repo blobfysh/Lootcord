@@ -61,10 +61,8 @@ module.exports = {
                                     .setTitle("**Trade window**")
                                     .setColor(2713128)
                                     .setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/568469679081914435/tradeIcon.png")
-                                    .addField("🔵"+message.member.displayName + "'s money", "$0",true)
-                                    .addField("🔴"+tradeUser.displayName + "'s money", "$0",true)
-                                    .addField("🔵"+message.member.displayName + "'s items", "no items", true)
-                                    .addField("🔴"+tradeUser.displayName + "'s items", "no items",true)
+                                    .addField("🔵"+message.member.displayName + "'s Offer", '$0' + '\n\nItems:\nNone',true)
+                                    .addField("🔴"+tradeUser.displayName + "'s Offer", '$0' + '\n\nItems:\nNone',true)
                                     .setFooter("Commands : "+prefix+"add <item> <amount> | "+prefix+"addmoney <amount> | "+prefix+"accept | "+prefix+"cancel")
                                     message.channel.send(tradeWindow);
 
@@ -166,20 +164,18 @@ module.exports = {
                                             .setTitle("**Trade window**")
                                             .setColor(2713128)
                                             .setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/568469679081914435/tradeIcon.png")
-                                            .addField("🔵"+message.member.displayName + "'s money", methods.formatMoney(player1money),true)
-                                            .addField("🔴"+tradeUser.displayName + "'s money", methods.formatMoney(player2money),true)
                                             .setFooter("Commands : "+prefix+"add <item> <amount> | "+prefix+"remove <item> | "+prefix+"addmoney <amount> | "+prefix+"accept | "+prefix+"cancel")
                                             if(player1items.length > 0){
-                                                activeWindow.addField("🔵"+message.member.displayName + "'s items",player1display.join("\n"), true);
+                                                activeWindow.addField("🔵"+message.member.displayName + "'s Offer", methods.formatMoney(player1money) + '\n\nItems:\n' + player1display.join("\n"),true)
                                             }
                                             else{
-                                                activeWindow.addField("🔵"+message.member.displayName + "'s items","no items", true)
+                                                activeWindow.addField("🔵"+message.member.displayName + "'s Offer", methods.formatMoney(player1money) + '\n\nItems:\nNone',true)
                                             }
                                             if(player2items.length > 0){
-                                                activeWindow.addField("🔴"+tradeUser.displayName + "'s items", player2display.join("\n"), true);
+                                                activeWindow.addField("🔴"+tradeUser.displayName + "'s Offer", methods.formatMoney(player2money) + '\n\nItems:\n' + player2display.join("\n"),true)
                                             }
                                             else{
-                                                activeWindow.addField("🔴"+tradeUser.displayName + "'s items", "no items", true)
+                                                activeWindow.addField("🔴"+tradeUser.displayName + "'s Offer", methods.formatMoney(player2money) + '\n\nItems:\nNone',true)
                                             }
                                             message.channel.send(activeWindow);
                                         }
@@ -210,7 +206,6 @@ module.exports = {
                                                 if(response.member.id == message.author.id){
                                                     player1money += parseInt(tradeAmount);
                                                     methods.hasmoney(response.member.id, player1money).then(result => {
-                                                        console.log(result);
                                                         if(!result){
                                                             response.reply(lang.trade.errors[4]);
                                                             player1money -= parseInt(tradeAmount);
@@ -284,10 +279,10 @@ module.exports = {
                                             }
                                         }
                                         else if(response.content.startsWith(prefix+"add")){
-                                            let args = response.content.split(" ").slice(1);
-                                            let itemName = args[0];
-                                            let itemAmount = args[1];
-                                            itemName = methods.getCorrectedItemInfo(itemName);
+                                            let args = response.content.split(/ +/).slice(1);
+                                            let itemName = general.parseArgsWithSpaces(args[0], args[1], args[2]);
+                                            let itemAmount = general.parseArgsWithSpaces(args[0], args[1], args[2], true);
+
                                             if(itemdata[itemName] == undefined){
                                                 response.reply(lang.errors[4]);
                                             }
