@@ -32,7 +32,7 @@ module.exports = {
                     sellAmount = 30;
                 }
                 message.delete();
-                message.reply(lang.sell[0].replace('{0}', sellAmount).replace('{1}', sellItem).replace('{2}', methods.formatMoney(itemPrice * sellAmount))).then(async reactMsg => {
+                message.reply(lang.sell[0].replace('{0}', sellAmount).replace('{1}', itemdata[sellItem].icon).replace('{2}', sellItem).replace('{3}', methods.formatMoney(itemPrice * sellAmount))).then(async reactMsg => {
                     await reactMsg.react('✅');
                     await reactMsg.react('❌');
                     return reactMsg;
@@ -50,7 +50,7 @@ module.exports = {
                                 if(hasitem){
                                     methods.addmoney(message.author.id, parseInt(itemPrice * sellAmount));
                                     methods.removeitem(message.author.id, sellItem, sellAmount);
-                                    message.reply(lang.sell[1].replace('{0}', sellAmount).replace('{1}', sellItem).replace('{2}', methods.formatMoney(itemPrice * sellAmount)));
+                                    message.reply(lang.sell[1].replace('{0}', sellAmount).replace('{1}', itemdata[sellItem].icon).replace('{2}', sellItem).replace('{3}', methods.formatMoney(itemPrice * sellAmount)));
                                 }
                                 else{
                                     message.reply(lang.sell[2]);

@@ -3,6 +3,7 @@ const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
 const itemdata = require('../json/completeItemList.json');
 const general = require('../methods/general');
+const icons = require('../json/icons');
 
 module.exports = {
     name: 'inventory',
@@ -39,7 +40,7 @@ module.exports = {
                 }
                 
                 const activeRow      = await query(`SELECT * FROM userGuilds WHERE userId = ? AND guildId = ?`, [userId, message.guild.id]);
-                const usersItems     = await methods.getuseritems(userId, {amounts: true, sep: '`'});
+                const usersItems     = await methods.getuseritems(userId, {amounts: true, sep: '`', icon: true});
                 const itemCt         = await methods.getitemcount(userId);
                 const shieldLeft     = await methods.getShieldTime(userId);
                 const userInfo       = await general.getUserInfo(message, userId, true);
@@ -53,7 +54,6 @@ module.exports = {
                 var limitedItemList  = usersItems.limited;
 
                 var totalXpNeeded    = 0;
-                var currLvlXP        = 0;
 
                 for(var i = 1; i <= userRow.level;i++){
                     var xpNeeded = Math.floor(50*(i**1.7));
@@ -61,12 +61,11 @@ module.exports = {
                     if(i == userRow.level){
                         break;
                     }
-                    currLvlXP += xpNeeded;
                 }
 
 
                 const embedInfo = new Discord.RichEmbed()
-                .setAuthor(`${userInfo.displayName}'s Inventory`, userInfo.user.avatarURL)
+                .setTitle(`${activeRow.length ? icons.accounts.active : icons.accounts.inactive} ${userInfo.displayName}'s Inventory`)
 
                 if(userRow.banner !== 'none'){
                     embedInfo.setImage(itemdata[userRow.banner].image);
@@ -74,18 +73,16 @@ module.exports = {
                 }
                 
                 if(totalXpNeeded - userRow.points <= 0){
-                    embedInfo.addField("Level: " + userRow.level + ` (${userRow.points - currLvlXP}/${Math.floor(50*(userRow.level**1.7))})`, lang.inventory[0].replace('{0}', '0').replace('{1}', userRow.level), true)
+                    embedInfo.addField("Level: " + userRow.level, lang.inventory[0].replace('{0}', '0').replace('{1}', userRow.level), true)
                 }
                 else{
-                    embedInfo.addField("Level: " + userRow.level + ` (${userRow.points - currLvlXP}/${Math.floor(50*(userRow.level**1.7))})`, lang.inventory[0].replace('{0}', totalXpNeeded - userRow.points).replace('{1}', userRow.level + 1), true)
+                    embedInfo.addField("Level: " + userRow.level, lang.inventory[0].replace('{0}', totalXpNeeded - userRow.points).replace('{1}', userRow.level + 1), true)
                 }
-
-                embedInfo.addField(lang.inventory[1], activeRow.length ? '**Yes**' : '**No**', true)
-                embedInfo.addField("Health",`❤ ${userRow.health}/${userRow.maxHealth}`, true)
 
                 if(message.client.sets.activeShield.has(userId)){
                     embedInfo.addField("Shield Active", '🛡 ' + shieldLeft, true);
                 }
+                embedInfo.addField("Health",`${methods.getHealthIcon(userRow.health, userRow.maxHealth)} ${userRow.health}/${userRow.maxHealth}`)
                 
                 embedInfo.addField("Money", methods.formatMoney(userRow.money))
                 

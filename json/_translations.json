@@ -48,14 +48,14 @@
 	"buy": [
 		"That item is not for sale!",
 		"You need to enter a valid item to buy! `{0}buy <item> <amount>`",
-		"Purchase {0}x `{1}` for {2}?",
-		"You bought {0}x {1}!",
+		"Purchase {0}x {1}`{2}` for {3}?",
+		"You bought {0}x {1}{2}!",
 		"You don't have enough money!",
 		"You are missing the following items needed to purchase this: {0}"
 	],
 	"sell": [
-		"Sell {0}x `{1}` for {2}?",
-		"Successfully sold {0}x {1} for {2}.",
+		"Sell {0}x {1}`{2}` for {3}?",
+		"Successfully sold {0}x {1}{2} for {3}.",
 		"You don't have enough of that item!",
 		"You can't sell that item!",
 		"You need to enter a valid item to sell! `{0}sell <item> <amount>`",
@@ -72,12 +72,12 @@
 	],
 	"recycle": [
 		"That item cannot be recycled.",
-		"Recycle {0}x `{1}` for",
+		"Recycle {0}x {1}`{2}` for",
 		"You don't have enough of that item!",
 		"{0}x `{1}` recycled for ```{2}```"
 	],
 	"craft": [
-		"Craft {0}x `{1}` for",
+		"Craft {0}x {1}`{2}` for",
 		"That cannot be crafted!",
 		"You are missing the required materials for this item!",
 		"Use `{0}help craft` to see how to use this command!",
@@ -92,19 +92,19 @@
 		"📥 Buy 📤 Sell\nUse `buy <item>` to purchase and `sell <item>` to sell items."
 	],
 	"equip": [
-		"Successfully equipped `{0}` and gained **{1}** item slots. ({2} max)",
-		"Successfully equipped `{0}`.",
+		"Successfully equipped {-1}`{0}` and gained **{1}** item slots. ({2} max)",
+		"Successfully equipped {-1}`{0}`.",
 		"You already have something equipped! Unequip it with `unequip <item/backpack/armor>`",
 		"You don't have that item.",
 		"That item cannot be equipped. Specify a backpack or armor to equip, `equip <item>`"
 	],
 	"unequip": [
-		"Successfully unequipped `{0}`.\nYour carry capacity is now **{1}** items.",
+		"Successfully unequipped {-1}`{0}`.\nYour carry capacity is now **{1}** items.",
 		"You don't have a backpack equipped! Equip with `equip <item>`",
-		"Successfully unequipped `{0}`.",
+		"Successfully unequipped {-1}`{0}`.",
 		"You don't have any armor equipped! Equip with `equip <item>`",
 		"You don't have that item equipped. Specify your backpack or armor to unequip, `unequip <item>`",
-		"Successfully unequipped your {0}, you have also been given a 60 minute cooldown from attacking other players.",
+		"Successfully unequipped your {-1}{0}, you have also been given a 60 minute cooldown from attacking other players.",
 		"❌ You cannot unequip your shield while you have an attack cooldown! {0}"
 	],
 	"use": {
@@ -225,6 +225,9 @@
 	],
 	"points": [
 		"You currently have {0} points!"
+	],
+	"health": [
+		"You current have: {0} HP"
 	],
 	"server": [
 		"**Active users in {0}**"

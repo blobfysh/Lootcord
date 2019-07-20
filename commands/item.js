@@ -2,16 +2,16 @@ const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
 const itemdata = require('../json/completeItemList.json');
+const icons = require('../json/icons');
+const general = require('../methods/general');
 
-const weaponEmote = '551394726624886796';
-const weaponEmotePrint = '<:glock:551394726624886796>';
-const itemsEmote = '588677752358436867';
-const itemsEmotePrint = '<:xp_potion:588677752358436867>';
-const bannerEmote = '🔰';
-const ammoEmote = '588677607805943828';
-const ammoEmotePrint = '<:new_ammo_box:588677607805943828>';
-const matsEmote = '🔩';
-const backpackEmote = '💼';
+// Regex matches the emote ID from icons.json file
+const weaponEmote = icons.items.weapon.match(/^<:([a-zA-Z0-9]+):(\d+)>$/)[2];
+const itemsEmote = icons.items.usable.match(/^<:([a-zA-Z0-9]+):(\d+)>$/)[2];
+const bannerEmote = icons.items.banner.match(/^<:([a-zA-Z0-9]+):(\d+)>$/)[2];
+const ammoEmote = icons.items.ammo.match(/^<:([a-zA-Z0-9]+):(\d+)>$/)[2];
+const matsEmote = icons.items.material.match(/^<:([a-zA-Z0-9]+):(\d+)>$/)[2];
+const backpackEmote = icons.items.backpack.match(/^<:([a-zA-Z0-9]+):(\d+)>$/)[2];
 
 module.exports = {
     name: 'item',
@@ -24,7 +24,7 @@ module.exports = {
     adminOnly: false,
     
     execute(message, args, lang, prefix){
-        let itemSearched = methods.getCorrectedItemInfo(args[0]);
+        let itemSearched = general.parseArgsWithSpaces(args[0], args[1], args[3]);
 
         if(itemdata[itemSearched] !== undefined){
             let itemDamage = itemdata[itemSearched].damage;
@@ -94,33 +94,33 @@ module.exports = {
             }
 
             if(itemAmmo !== "" && itemAmmo !== "N/A"){
-                embedItem.addField("Ammo Required", itemAmmo, true)
+                embedItem.addField("Ammo Required:", itemAmmo.map(ammo => itemdata[ammo].icon + '`' + ammo + '`'), true)
             }
 
             if(itemAmmoFor.length >= 1){
-                embedItem.addField("Ammo for", itemAmmoFor, true)
+                embedItem.addField("Ammo for:", itemAmmoFor.map(weapon => itemdata[weapon].icon + '`' + weapon + '`'), true)
             }
 
             if(itemBuyCurr !== undefined && itemBuyCurr == "money"){
-                embedItem.addField("Cost", "📥 Buy : " + methods.formatMoney(itemBuyPrice) + " | 📤 Sell : " + methods.formatMoney(itemSellPrice))
+                embedItem.addField("Buy", methods.formatMoney(itemBuyPrice), true)
             }
             else if(itemBuyCurr !== undefined){
-                embedItem.addField("Cost", "📥 Buy : " + itemBuyPrice + "`" + itemBuyCurr +"` | 📤 Sell : " + methods.formatMoney(itemSellPrice))
+                embedItem.addField("Buy", itemBuyPrice + "`" + itemBuyCurr + "`", true)
             }
-            else if(itemSellPrice !== ""){
-                embedItem.addField("Cost", "📤 Sell : " + methods.formatMoney(itemSellPrice))
+            if(itemSellPrice !== "" && itemBuyCurr !== undefined){
+                embedItem.addField("Sell", methods.formatMoney(itemSellPrice), itemBuyCurr !== undefined ? true : false)
             }
 
             if(itemCraftedWith !== ""){
                 embedItem.addBlankField();
-                embedItem.addField("🔩 Craft Ingredients", "```"+ itemCraftedWith.display +"```", true)
+                embedItem.addField("🔩 Craft Ingredients:", itemCraftedWith.display.split('\n').map(component =>  itemdata[component.split(' ')[1]].icon + component.split(' ')[0] + ' `' + component.split(' ')[1] + '`'), true)
             }
             if(itemRecyclesTo.materials !== undefined){
-                embedItem.addField("♻ Recycles into", "```"+ itemRecyclesTo.display +"```", true)
+                embedItem.addField("♻ Recycles into:", itemRecyclesTo.display.split('\n').map(item =>  itemdata[item.split(' ')[1]].icon + item.split(' ')[0] + ' `' + item.split(' ')[1] + '`'), true)
             }
             message.channel.send(embedItem);
         }
-        else if(itemSearched == ""){
+        else if(!itemSearched){
             let commonList = methods.getitems("common", {});
             let uncommonList = methods.getitems("uncommon", {});
             let rareList = methods.getitems("rare", {});
@@ -140,8 +140,7 @@ module.exports = {
             .addField("<:UnboxLegendary:526248970914234368> Legendary","`" + legendList.sort().join("`\n`") + "`", true)
             .addField("<:UnboxUltra:526248982691840003> Ultra","`" + ultraList.sort().join("`\n`") + "`", true)
             .setFooter(lang.item[1].replace('{0}', prefix))
-            //.addField(lang.item[2], lang.item[3].replace('{0}', weaponEmotePrint).replace('{1}', itemsEmotePrint).replace('{2}', ammoEmotePrint).replace('{3}', bannerEmote).replace('{4}', matsEmote).replace('{5}', backpackEmote), true)
-            .setDescription(lang.item[2].replace('{0}', weaponEmotePrint).replace('{1}', itemsEmotePrint).replace('{2}', ammoEmotePrint).replace('{3}', bannerEmote).replace('{4}', matsEmote).replace('{5}', backpackEmote))
+            .setDescription(lang.item[2].replace('{0}', icons.items.weapon).replace('{1}', icons.items.usable).replace('{2}', icons.items.ammo).replace('{3}', icons.items.banner).replace('{4}', icons.items.material).replace('{5}', icons.items.backpack))
 
             message.channel.send(embedInfo).then(async botMessage => {
                 try{
@@ -160,9 +159,9 @@ module.exports = {
                     user.id === message.author.id && reaction.emoji.id === weaponEmote || 
                     user.id === message.author.id && reaction.emoji.id === itemsEmote || 
                     user.id === message.author.id && reaction.emoji.id === ammoEmote || 
-                    user.id === message.author.id && reaction.emoji.name === matsEmote || 
-                    user.id === message.author.id && reaction.emoji.name === backpackEmote || 
-                    user.id === message.author.id && reaction.emoji.name === bannerEmote, {time: 60000});
+                    user.id === message.author.id && reaction.emoji.id === matsEmote || 
+                    user.id === message.author.id && reaction.emoji.id === backpackEmote || 
+                    user.id === message.author.id && reaction.emoji.id === bannerEmote, {time: 60000});
                 collector.on("collect", reaction => {
                     if(reaction.emoji.id === weaponEmote){
                         collectorMsg.edit(editEmbed('weapon', lang, prefix));
@@ -176,15 +175,15 @@ module.exports = {
                         collectorMsg.edit(editEmbed('ammo', lang, prefix));
                         reaction.remove(message.author.id);
                     }
-                    else if(reaction.emoji.name == bannerEmote){
+                    else if(reaction.emoji.id == bannerEmote){
                         collectorMsg.edit(editEmbed('banner', lang, prefix));
                         reaction.remove(message.author.id);
                     }
-                    else if(reaction.emoji.name == matsEmote){
+                    else if(reaction.emoji.id == matsEmote){
                         collectorMsg.edit(editEmbed('material', lang, prefix));
                         reaction.remove(message.author.id);
                     }
-                    else if(reaction.emoji.name == backpackEmote){
+                    else if(reaction.emoji.id == backpackEmote){
                         collectorMsg.edit(editEmbed('backpack', lang, prefix));
                         reaction.remove(message.author.id);
                     }
@@ -212,22 +211,22 @@ function editEmbed(type, lang, prefix){
     .setColor(0)
     .setTitle(type == 'weapon' ? 'Weapons' : type == 'item' ? 'Consumables' : type == 'ammo' ? 'Ammunition' : type == 'banner' ? 'Banners' : type == 'backpack' ? 'Backpacks' : 'Materials')
     if(commonList.length > 0){
-        embedInfo.addField("<:UnboxCommon:526248905676029968>Common","`" + commonList.sort().join("`\n`") + "`", true)
+        embedInfo.addField("<:UnboxCommon:526248905676029968> Common","`" + commonList.sort().join("`\n`") + "`", true)
     }
     if(uncommonList.length > 0){
-        embedInfo.addField("<:UnboxUncommon:526248928891371520>Uncommon","`" + uncommonList.sort().join("`\n`") + "`", true)
+        embedInfo.addField("<:UnboxUncommon:526248928891371520> Uncommon","`" + uncommonList.sort().join("`\n`") + "`", true)
     }
     if(rareList.length > 0){
-        embedInfo.addField("<:UnboxRare:526248948579434496>Rare","`" + rareList.sort().join("`\n`") + "`", true)
+        embedInfo.addField("<:UnboxRare:526248948579434496> Rare","`" + rareList.sort().join("`\n`") + "`", true)
     }
     if(epicList.length > 0){
-        embedInfo.addField("<:UnboxEpic:526248961892155402>Epic","`" + epicList.sort().join("`\n`") + "`", true)
+        embedInfo.addField("<:UnboxEpic:526248961892155402> Epic","`" + epicList.sort().join("`\n`") + "`", true)
     }
     if(legendList.length > 0){
-        embedInfo.addField("<:UnboxLegendary:526248970914234368>Legendary","`" + legendList.sort().join("`\n`") + "`", true)
+        embedInfo.addField("<:UnboxLegendary:526248970914234368> Legendary","`" + legendList.sort().join("`\n`") + "`", true)
     }
     if(ultraList.length > 0){
-        embedInfo.addField("<:UnboxUltra:526248982691840003>Ultra","`" + ultraList.sort().join("`\n`") + "`", true)
+        embedInfo.addField("<:UnboxUltra:526248982691840003> Ultra","`" + ultraList.sort().join("`\n`") + "`", true)
     }
     else{
         embedInfo.addBlankField(true)
@@ -247,7 +246,7 @@ function editEmbed(type, lang, prefix){
     if(legendList.length <= 0){
         embedInfo.addBlankField(true)
     }
-    embedInfo.setDescription(lang.item[2].replace('{0}', weaponEmotePrint).replace('{1}', itemsEmotePrint).replace('{2}', ammoEmotePrint).replace('{3}', bannerEmote).replace('{4}', matsEmote).replace('{5}', backpackEmote))
+    embedInfo.setDescription(lang.item[2].replace('{0}', icons.items.weapon).replace('{1}', icons.items.usable).replace('{2}', icons.items.ammo).replace('{3}', icons.items.banner).replace('{4}', icons.items.material).replace('{5}', icons.items.backpack))
     embedInfo.setFooter(lang.item[1].replace('{0}', prefix))
 
     return embedInfo

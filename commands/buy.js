@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
 const itemdata = require('../json/completeItemList.json');
+const general = require('../methods/general');
 
 module.exports = {
     name: 'buy',
@@ -15,8 +16,8 @@ module.exports = {
     
     execute(message, args, lang, prefix){
         methods.getGamesData().then(gamesRow => {
-            let buyItem = methods.getCorrectedItemInfo(args[0]);
-            let buyAmount = args[1];
+            let buyItem = general.parseArgsWithSpaces(args[0], args[1], args[2]);
+            let buyAmount = general.parseArgsWithSpaces(args[0], args[1], args[2], true, false, false);
 
             if(itemdata[buyItem] !== undefined){//ITEM EXISTS
                 let currency = itemdata[buyItem].buy.currency;

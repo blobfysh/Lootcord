@@ -1,0 +1,26 @@
+{
+  "confirm": "✅",
+  "cancel": "❌",
+  "money": "💰",
+  "health": {
+    "full": "<:heart_full:601346230781607936>",
+    "empty": "<:heart_empty:601346230601252865>",
+    "percent_25": "<:heart_25:601346230723018752>",
+    "percent_50": "<:heart_50:601346230752247838>",
+    "percent_75": "<:heart_75:601346230630613003>"
+  },
+  "accounts": {
+    "active": "<:active_in_this_server:601375984347774977>",
+    "inactive": "<:not_active_in_this_server:601375984804954142>"
+  },
+  "items": {
+    "weapon": "<:weapon:601323077422284811>",
+    "usable": "<:usable:601323078038847488>",
+    "shield": "<:Cshield:601323077548113921>",
+    "melee": "<:melee:601323077745246219>",
+    "material": "<:material:601323077359370251>",
+    "banner": "<:banner:601323077581799434>",
+    "backpack": "<:backpack:601323077594382346>",
+    "ammo": "<:ammo:601323077569347584>"
+  }
+}

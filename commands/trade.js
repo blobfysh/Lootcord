@@ -307,7 +307,7 @@ module.exports = {
                                                             if(result){
                                                                 player1items.push(itemName);
                                                                 player1itemsAmounts.push(itemName+"|"+itemAmount);
-                                                                player1display.push(itemName+"("+itemAmount+"x)");
+                                                                player1display.push(itemdata[itemName].icon + itemName + "("+itemAmount+"x)");
                                                             }
                                                             else response.reply(lang.use.errors[2]);
                                                             activeWindow();
@@ -323,7 +323,7 @@ module.exports = {
                                                             if(result){
                                                                 player2items.push(itemName);
                                                                 player2itemsAmounts.push(itemName+"|"+itemAmount);
-                                                                player2display.push(itemName+"("+itemAmount+"x)");
+                                                                player2display.push(itemdata[itemName].icon + itemName + "("+itemAmount+"x)");
                                                             }
                                                             else response.reply(lang.use.errors[2]);
                                                             activeWindow();

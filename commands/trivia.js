@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
 const triviaQ = require('../json/_trivia_questions.json');
+const itemdata = require('../json/completeItemList');
 
 module.exports = {
     name: 'trivia',
@@ -58,11 +59,11 @@ module.exports = {
                                 let rewardItem = "";
                                 methods.hasenoughspace(message.author.id, 2).then(hasenough => {
                                     if (chanceR <= 0 && hasenough){
-                                        rewardItem = "`ultra_box`";
+                                        rewardItem = itemdata['ultra_box'].icon + "`ultra_box`";
                                         query(`UPDATE items SET ultra_box = ${rewardRow[0].ultra_box + 1} WHERE userId = ${message.author.id}`);
                                     }
                                     else if (chanceR >= 5 && hasenough){
-                                        rewardItem = "2x `item_box`";
+                                        rewardItem = "2x " + itemdata['item_box'].icon + "`item_box`";
                                         query(`UPDATE items SET item_box = ${rewardRow[0].item_box + 2} WHERE userId = ${message.author.id}`);
                                     }
                                     else{//40% chance

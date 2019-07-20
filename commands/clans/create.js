@@ -190,7 +190,8 @@ INSERT IGNORE INTO items (
     pump_body,
     assault_body,
     rifle_body,
-    gunpowder)
+    gunpowder,
+    patron)
     VALUES (
         ?,
         ?,
@@ -201,6 +202,6 @@ INSERT IGNORE INTO items (
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     )
 `

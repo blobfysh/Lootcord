@@ -5,6 +5,7 @@ const config = require('../json/_config.json');
 const itemdata = require("../json/completeItemList");
 const fs = require("fs");
 const general = require('../methods/general');
+const icons = require('../json/icons');
 
 class Methods {
     //GENERAL FUNCTIONS, CAN BE USED BY MULTIPLE COMMANDS
@@ -756,7 +757,7 @@ class Methods {
     buyitem(message, buyItem, buyAmount, itemPrice, currency, isGame = false, lang){
         let displayPrice = currency == 'money' ? this.formatMoney(itemPrice * buyAmount) : itemPrice * buyAmount + "x `" + currency + "`";
 
-        message.reply(lang.buy[2].replace('{0}', buyAmount).replace('{1}', buyItem).replace('{2}', displayPrice)).then(async reactMsg => {
+        message.reply(lang.buy[2].replace('{0}', buyAmount).replace('{1}', isGame == false ? itemdata[buyItem].icon : '').replace('{2}', buyItem).replace('{3}', displayPrice)).then(async reactMsg => {
             await reactMsg.react('✅');
             await reactMsg.react('❌');
             return reactMsg;
@@ -884,7 +885,7 @@ class Methods {
                                 if(hasmoney && result){
                                     this.additem(message.author.id, buyItem, buyAmount);
                                     this.removemoney(message.author.id, itemPrice * buyAmount);
-                                    message.reply(lang.buy[3].replace('{0}', buyAmount).replace('{1}', buyItem));
+                                    message.reply(lang.buy[3].replace('{0}', buyAmount).replace('{1}', isGame == false ? itemdata[buyItem].icon : '').replace('{2}', buyItem));
                                 }
                                 else if(!hasmoney){
                                     message.reply(lang.buy[4]);
@@ -905,7 +906,7 @@ class Methods {
                                     //they have enough of the currency and space, can buy item
                                     this.removeitem(message.author.id, currency, itemPrice * buyAmount);
                                     this.additem(message.author.id, buyItem, buyAmount);
-                                    message.reply(lang.buy[3].replace('{0}', buyAmount).replace('{1}', buyItem));
+                                    message.reply(lang.buy[3].replace('{0}', buyAmount).replace('{1}', isGame == false ? itemdata[buyItem].icon : '').replace('{2}', buyItem));
                                 }
                                 else if(!hasItems){
                                     //they dont have enough of the items(currency)
@@ -1110,13 +1111,13 @@ class Methods {
     }
 
     //SHOP COMMAND
-    getHomePage(){
+    getHomePage(lang){
         return query(`SELECT * FROM gamesData`).then(gameRows => {
             let gameCount = 0;
 
             const firstEmbed = new Discord.RichEmbed()
             firstEmbed.setTitle(`**ITEM SHOP**`);
-            firstEmbed.setDescription("📥 Buy 📤 Sell\nUse `buy (ITEM)` to purchase and `sell (ITEM)` to sell items.\n\nLimit 1 per person");
+            firstEmbed.setDescription(lang.shop[0]);
             firstEmbed.setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/497356681139847168/thanbotShopIcon.png");
             firstEmbed.setFooter(`Home page`);
             firstEmbed.setColor(0);
@@ -1158,6 +1159,25 @@ class Methods {
                 return gameData;
             }
         });
+    }
+    getHealthIcon(curHP, maxHP){
+        let hpPerc = curHP / maxHP;
+
+        if(hpPerc >= .75){
+            return icons.health.full;
+        }
+        else if(hpPerc >= .5){
+            return icons.health.percent_75;
+        }
+        else if(hpPerc >= .25){
+            return icons.health.percent_50;
+        }
+        else if(hpPerc >= .1){
+            return icons.health.percent_25;
+        }
+        else{
+            return icons.health.empty;
+        }
     }
 
 

@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 //const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
 const itemdata = require('../json/completeItemList.json');
+const general = require('../methods/general');
 
 module.exports = {
     name: 'craftitems',
@@ -14,7 +15,7 @@ module.exports = {
     adminOnly: false,
     
     execute(message, args, lang, prefix){
-        let itemSearched = methods.getCorrectedItemInfo(args[0]);
+        let itemSearched = general.parseArgsWithSpaces(args[0], args[1], args[2]);
 
         if(itemdata[itemSearched] !== undefined){
             var craftItems = [];

@@ -30,11 +30,10 @@ module.exports = {
             var itemMats = getItemMats(itemdata[craftItem].craftedWith.materials, craftAmount);
 
             const embedInfo = new Discord.RichEmbed()
-            .setTitle(lang.craft[0].replace('{0}', craftAmount).replace('{1}', craftItem))
+            .setTitle(lang.craft[0].replace('{0}', craftAmount).replace('{1}', itemdata[craftItem].icon).replace('{2}', craftItem))
             .setDescription("```" + getMatsDisplay(itemMats) + "```")
-            .setColor(0)
-            .setImage("https://cdn.discordapp.com/attachments/454163538886524928/527740857525207060/redLine.png")
-            .setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/527739509740142592/UnboxUltra.png")
+            .setColor('#818181')
+            .setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/601372871301791755/craft.png")
 
             message.channel.send(message.author, {embed : embedInfo}).then(async reactMsg => {
                 await reactMsg.react('✅');

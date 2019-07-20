@@ -88,7 +88,7 @@ async function getClanInfo(message, lang, clanId){
         clanEmbed.addField(lang.clans.info[7], '`' + convertToTime((3600 * 1000 - ((new Date()).getTime() - clanRow.raidTime))) + '`')
     }
     clanEmbed.addBlankField()    
-    clanEmbed.addField(lang.clans.info[5].replace('{0}', Math.floor(clanMembers.count * config.clan_interest_rate) * 100), methods.formatMoney(clanRow.money))
+    clanEmbed.addField(lang.clans.info[5].replace('{0}', ((clanMembers.count * config.clan_interest_rate) * 100).toFixed(1)), methods.formatMoney(clanRow.money))
     clanEmbed.addField(lang.clans.info[6].replace('{0}', clanMembers.count), membersList.join('\n'), true)
     clanEmbed.addField('Member Stats', `${clanPower.kills + ' kills | ' + clanPower.deaths + ' deaths'}\n${convertToTime(clanPower.playtime)} of total playtime`, true)
     

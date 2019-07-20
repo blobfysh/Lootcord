@@ -64,7 +64,7 @@ module.exports = {
         let maxPage = Math.ceil(allItems.length/12);
 
         // get home page method for shop
-        methods.getHomePage().then(homePage => {
+        methods.getHomePage(lang).then(homePage => {
             message.channel.send(homePage).then(botMessage => {
                 botMessage.react('◀').then(() => botMessage.react('▶')).then(() => botMessage.react('❌'));
                 return botMessage;

@@ -85,7 +85,8 @@ CREATE TABLE IF NOT EXISTS items (
     pump_body INT,
     assault_body INT,
     rifle_body INT,
-    gunpowder INT)
+    gunpowder INT,
+    patron INT)
     ENGINE = InnoDB
 `
 

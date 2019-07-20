@@ -30,11 +30,10 @@ module.exports = {
             var itemMats = getItemMats(itemdata[sellItem].recyclesTo.materials, sellAmount);
 
             const embedInfo = new Discord.RichEmbed()
-            .setTitle(lang.recycle[1].replace('{0}', sellAmount).replace('{1}', sellItem))
+            .setTitle(lang.recycle[1].replace('{0}', sellAmount).replace('{1}', itemdata[sellItem].icon).replace('{2}', sellItem))
             .setDescription("```" + getMatsDisplay(itemMats) +"```")
-            .setColor(0)
-            .setImage("https://cdn.discordapp.com/attachments/454163538886524928/527630489851265025/goldLine.png")
-            .setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/527391190975381505/LC_Recycle.png")
+            .setColor('#4CAD4C')
+            .setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/601373249753841665/recycle.png")
             .setFooter("You will need " + methods.getTotalItmCountFromList(itemMats) + " open slots in your inventory to recycle this.")
             
             message.channel.send(message.author, {embed : embedInfo}).then(async reactMsg => {
