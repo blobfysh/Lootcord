@@ -15,7 +15,7 @@ module.exports = {
         query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`).then(guildRow => {
             if(!guildRow.length) query("INSERT INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItem) VALUES (?, ?, ?, ?, ?)", [message.guild.id, "", "", "", ""]);
 
-            query(`UPDATE guildInfo SET levelChan = "" WHERE guildId = "${message.guild.id}"`);
+            query(`UPDATE guildInfo SET levelChan = 0 WHERE guildId = "${message.guild.id}"`);
             message.reply(lang.disablelevelchannel[0]);
         });
     },
