@@ -723,7 +723,7 @@ class Methods {
     async sendtokillfeed(message, killerId, victimId, itemName, itemDmg, itemsStolen, moneyStolen){
         const guildRow = (await query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`))[0];
 
-        if(guildRow.killChan !== undefined && guildRow.killChan !== ""){
+        if(guildRow.killChan !== undefined && guildRow.killChan !== 0 && guildRow.killChan !== ''){
             const killEmbed = new Discord.RichEmbed()
             .setTitle((await general.getUserInfo(message, killerId, true)).displayName + " 🗡 " + (await general.getUserInfo(message, victimId, true)).displayName + " 💀")
             .setDescription("**Weapon**: `" + itemName + "` - **" + itemDmg + " damage**")

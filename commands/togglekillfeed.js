@@ -21,7 +21,7 @@ module.exports = {
                 message.reply(lang.setkillfeed[0]);
             }
             else{
-                query(`UPDATE guildInfo SET killChan = "" WHERE guildId = "${message.guild.id}"`);
+                query(`UPDATE guildInfo SET killChan = 0 WHERE guildId = "${message.guild.id}"`);
 
                 message.reply(lang.disablekillfeed[0]);
             }

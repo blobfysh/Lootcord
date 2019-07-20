@@ -20,7 +20,7 @@ module.exports = {
                 message.reply(lang.setlevelchannel[0]);
             }
             else{
-                query(`UPDATE guildInfo SET levelChan = "" WHERE guildId = "${message.guild.id}"`);
+                query(`UPDATE guildInfo SET levelChan = 0 WHERE guildId = "${message.guild.id}"`);
                 message.reply(lang.disablelevelchannel[0]);
             }
         });
