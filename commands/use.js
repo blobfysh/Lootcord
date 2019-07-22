@@ -232,8 +232,7 @@ module.exports = {
 
                             let randDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage);
                             
-                            hitOrMiss(message, userNameID, itemUsed, victimRow, row, randDmg, itemdata[itemUsed].breaksOnUse);
-                            //hitOrMiss(randDmg, itemdata[itemUsed].breaksOnUse);
+                            hitOrMiss(message, userNameID, itemUsed, victimRow, row, randDmg, itemdata[itemUsed].breaksOnUse, lang);
                             
                             methods.addToWeapCooldown(message, message.author.id, itemUsed);
                         }
@@ -274,7 +273,7 @@ async function weaponBreakAlert(message, itemUsed){
     }
 }
 
-async function hitOrMiss(message, userNameID, itemUsed, victimRow, userRow, damage, isBroken){//FUNCTION THAT ACTUALLY HANDLES DAMAGE DEALT
+async function hitOrMiss(message, userNameID, itemUsed, victimRow, userRow, damage, isBroken, lang){//FUNCTION THAT ACTUALLY HANDLES DAMAGE DEALT
     let chance = Math.floor(Math.random() * 100) + 1; //return 1-100
     let luck = victimRow.luck >= 10 ? 10 : victimRow.luck;
 
