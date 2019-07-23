@@ -149,7 +149,8 @@ CREATE TABLE IF NOT EXISTS cooldowns (
     _120mCD BIGINT,
     _10mHEALCD BIGINT,
     _20mHEALCD BIGINT,
-    _40mHEALCD BIGINT)
+    _40mHEALCD BIGINT,
+    airdropTime BIGINT)
     ENGINE = InnoDB
 `
 

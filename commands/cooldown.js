@@ -73,6 +73,9 @@ module.exports = {
                         if(message.client.sets.activeShield.has(message.author.id)){
                             embedLeader.addField("🛡 Active Shield", shieldTime, true)
                         }
+                        if(message.client.sets.airdropCooldown.has(message.author.id)){
+                            embedLeader.addField("Claim another drop (claimdrop)", '`' + (((43200 * 1000 - ((new Date()).getTime() - row.airdropTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours`", true)
+                        }
                         message.channel.send(embedLeader);
                     });
                 });

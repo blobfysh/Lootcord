@@ -269,7 +269,8 @@
 	],
 	"claimdrop": [
 		"There is no `care_package` in this channel.",
-		"There is no lootable `care_package`."
+		"There is no lootable `care_package`.",
+		"Woah there, save some for the rest of us! You can claim another airdrop in `{0} hours`!"
 	],
 	"setstatus": [
 		"Your status can only be up to 120 characters long! You tried to set one that was {0} characters long.",

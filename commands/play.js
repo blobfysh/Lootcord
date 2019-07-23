@@ -172,12 +172,13 @@ INSERT IGNORE INTO cooldowns (
     _120mCD,
     _10mHEALCD,
     _20mHEALCD,
-    _40mHEALCD)
+    _40mHEALCD,
+    airdropTime)
     VALUES (
         ?,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0
+        0, 0, 0, 0, 0, 0, 0, 0, 0
     )
 `
 

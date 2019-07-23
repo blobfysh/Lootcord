@@ -36,7 +36,7 @@ module.exports = {
                     
                     query(`UPDATE cooldowns SET voteTime = ${0}, scrambleTime = ${0}, triviaTime = ${0}, hourlyTime = ${0}, gambleTime = ${0}, 
                     healTime = ${0}, deactivateTime = ${0}, activateTime = ${0}, attackTime = ${0}, _15mCD = ${0}, _30mCD = ${0}, _45mCD = ${0},
-                    _60mCD = ${0}, _80mCD = ${0}, _100mCD = ${0}, _120mCD = ${0} WHERE userId = ${userId}`);
+                    _60mCD = ${0}, _80mCD = ${0}, _100mCD = ${0}, _120mCD = ${0}, airdropTime = ${0} WHERE userId = ${userId}`);
                     message.reply("Cooldowns cleared for user.");
                 }
                 catch(err){

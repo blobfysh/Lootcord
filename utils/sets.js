@@ -36,6 +36,9 @@ var gambleCooldown = new Set();
 //xp_potion use command cooldown
 var xpPotCooldown = new Set();
 
+// claimdrop command cooldown
+var airdropCooldown = new Set();
+
 //event cooldown for special event commands
 var eventCooldown = new Set();
 
@@ -74,6 +77,7 @@ module.exports = {
     jackpotCooldown,
     gambleCooldown,
     xpPotCooldown,
+    airdropCooldown,
     eventCooldown,
     healCooldown,
     peckCooldown,
