@@ -37,6 +37,8 @@
     "🔹 **Source: **https://github.com/blobfysh/Lootcord",
     "🔹 Mostly decorative update, introduces new icons for items and many commands!",
     "🔹 More commands support spaced item names, that means rifle body is the same as typing rifle_body",
+    "🔹 Added a cooldown on claiming airdrops, so that more players have a chance.",
+    "🔹 Added richest clans to the leaderboard.",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
 }

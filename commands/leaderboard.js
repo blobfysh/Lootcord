@@ -20,7 +20,7 @@ module.exports = {
         var killLeaders  = [];
         var tokenLeaders = [];
 
-        if(message.content.startsWith(prefix+"leaderboard s") || message.content.startsWith(prefix+"lb s")){
+        if(args[0] == 's' || args[0] == 'server'){
             var guildUsers = [];
 
             function compareValues(key, order='desc') {
@@ -101,6 +101,7 @@ module.exports = {
             .setColor(0)
             .addField("Money", leaders.moneyLB, true)
             .addField("Level", leaders.levelLB, true)
+            .addField("Richest Clans", leaders.clanLB, true)
             .addField("Kills", leaders.killLB, true)
             .setFooter("Top 5")
 
