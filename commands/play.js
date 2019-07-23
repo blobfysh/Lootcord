@@ -243,7 +243,7 @@ module.exports = {
                 query(`UPDATE cooldowns SET activateTime = ${0} WHERE userId = ${message.author.id}`);
             }, 3600 * 1000);
         }
-        if(message.guild.id == config.supportGuildID){
+        if(Object.keys(config.activeRoleGuilds).includes(message.guild.id)){
             refresher.refreshactives(message);
         }
     },

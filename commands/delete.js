@@ -90,7 +90,7 @@ module.exports = {
                     else{
                         message.reply(lang.delete[1]);
                     }
-                    if(message.guild.id == config.supportGuildID){
+                    if(Object.keys(config.activeRoleGuilds).includes(message.guild.id)){
                         refresher.refreshactives(message);
                     }
                 }

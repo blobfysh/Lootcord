@@ -44,7 +44,7 @@ module.exports = {
                         }, 86400 * 1000);
                         message.reply(lang.deactivate[4]);
 
-                        if(message.guild.id == config.supportGuildID){
+                        if(Object.keys(config.activeRoleGuilds).includes(message.guild.id)){
                             refresher.refreshactives(message);
                         }
                     }
