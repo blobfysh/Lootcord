@@ -70,7 +70,7 @@ module.exports = {
                 message.reply(lang.sell[3]);
             }
         }
-        else if(sellItem.startsWith("common") || sellItem.startsWith("uncommon") || sellItem.startsWith("rare") || sellItem.startsWith("epic") || sellItem.startsWith("legendary")){
+        else if(sellItem !== undefined && (sellItem.startsWith("common") || sellItem.startsWith("uncommon") || sellItem.startsWith("rare") || sellItem.startsWith("epic") || sellItem.startsWith("legendary"))){
             message.reply(lang.sell[5].replace('{0}', prefix));
             return;
         }

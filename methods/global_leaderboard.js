@@ -66,7 +66,7 @@ exports.create_lb = async function(client){
     }
     for(var i = 0; i < clanRows.length; i++){
         try{
-            clanLeaders.push(`🗡 **${clanRows[i].name}**` + ' - ' + methods.formatMoney(clanRows[i].money, true));
+            clanLeaders.push(`🗡 \`${clanRows[i].name}\`` + ' - ' + methods.formatMoney(clanRows[i].money, true));
 
             leaderJSON.clans[clanRows[i].name] = {
                 data: methods.formatMoney(clanRows[i].money, true), 
