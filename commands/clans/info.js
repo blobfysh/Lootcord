@@ -16,7 +16,7 @@ module.exports = {
     
     async execute(message, args, lang, prefix){
         const scoreRow = (await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`))[0];
-        var mentionedUser = await general.getUserInfo(message, args[0], true);
+        var mentionedUser = await general.getUserInfo(message, general.getUserId(args[0], true, message), true);
 
         if(!args.length && scoreRow.clanId == 0){
             return message.reply(lang.clans.info[0]);

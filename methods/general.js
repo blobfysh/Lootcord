@@ -4,9 +4,19 @@
 const itemdata = require("../json/completeItemList");
 
 class Methods {
-    isUser(mention){
-        return /^<@!?(\d+)>$/.test(mention)
-        // ^<?@?!?(\d+)>?$ - Allow user id only to return true
+    isUser(mention, allowTag = false, message = undefined){
+        if(/^<@!?(\d+)>$/.test(mention)){
+            return true;
+        }
+        else if(/^.*#[0-9]{4}$/.test(mention) && allowTag){
+            if(this.getUserId(mention, true, message)){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        return false
     }
 
     isItem(itemName){
@@ -34,12 +44,21 @@ class Methods {
         }
     }
 
-    getUserId(user){
+    getUserId(user, allowTag = false, message = undefined){
         if(!user) return undefined;
         
         var userId = user.match(/^<?@?!?(\d+)>?$/);
 
-        if(!userId) return undefined
+        if(!userId) {
+            try{
+                userId = message.guild.members.find(guildUser => guildUser.user.username.toLowerCase() === user.split('#')[0].toLowerCase() && guildUser.user.discriminator === user.split('#')[1]).id
+                return userId;
+            }
+            catch(err){
+                return undefined;
+            }
+        }
+        
         else return userId[1];
     }
 

@@ -9,6 +9,6 @@ module.exports = {
     adminOnly: false,
     
     execute(message, args, lang, prefix){
-        message.channel.send("https://discordapp.com/oauth2/authorize?client_id=493316754689359874&permissions=519232&scope=bot");
+        message.channel.send("https://discordapp.com/oauth2/authorize?client_id=493316754689359874&permissions=388160&scope=bot");
     },
 }

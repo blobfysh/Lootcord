@@ -33,7 +33,7 @@ module.exports = {
             return message.reply(lang.claimdrop[1]);
         }
         else if(message.client.sets.airdropCooldown.has(message.author.id)){
-            return message.reply(lang.claimdrop[2].replace('{0}', (((43200 * 1000 - ((new Date()).getTime() - userRow.airdropTime)) / 60000).toFixed(1)/60).toFixed(1)));
+            return message.reply(lang.claimdrop[2].replace('{0}', (((21600 * 1000 - ((new Date()).getTime() - userRow.airdropTime)) / 60000).toFixed(1)/60).toFixed(1)));
         }
         else if(!hasEnough) return message.reply(lang.errors[2]);
         
@@ -47,7 +47,7 @@ module.exports = {
             setTimeout(() => {
                 message.client.shard.broadcastEval(`this.sets.airdropCooldown.delete('${message.author.id}')`);
                 query(`UPDATE cooldowns SET airdropTime = ${0} WHERE userId = ${message.author.id}`);
-            }, 43200 * 1000);
+            }, 21600 * 1000);
 
             message.reply(`You got the \`${guildInfo[0].dropItem}\`!`);
         }

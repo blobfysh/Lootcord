@@ -20,16 +20,7 @@ exports.handleCmd = async function(message, prefix, lang){
     if(message.channel.type !== 'dm') await cacheMember(message);
 
     if(message.channel.type == 'text' && !message.guild.me.hasPermission(['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY', 'ATTACH_FILES', 'EMBED_LINKS', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS', 'ADD_REACTIONS', 'MANAGE_MESSAGES'])){
-        return message.author.send(`I don't have sufficient permissions in the following server: ${message.guild.name}. I require the following permissions:\`\`\`
-        READ_MESSAGES
-        READ_MESSAGE_HISTORY
-        ATTACH_FILES
-        EMBED_LINKS
-        SEND_MESSAGES
-        USE_EXTERNAL_EMOJIS
-        ADD_REACTIONS
-        MANAGE_MESSAGES\`\`\`If you are confused on how to give me these permissions, you should remove me from the server and invite me using the following link:
-        https://discordapp.com/oauth2/authorize?client_id=493316754689359874&permissions=388160&scope=bot`)
+        return;
     }
 
     else if(message.client.sets.spamCooldown.has(message.author.id)){

@@ -14,8 +14,8 @@
   "example": [""],
   "description": "Shows your current inventory including items, health, level, xp, and money.",
   "cooldown": "",
-  "usage": ["inv` - Shows your inventory","inv <@user>` - Shows inventory of specified user."],
-  "options": "`@user` - User to check inventory of.",
+  "usage": ["inv` - Shows your inventory","inv <@user/discord#tag>` - Shows inventory of specified user."],
+  "options": "`@user/discord#tag` - User to check inventory of.",
   "category": "info",
   "ignoreHelp": false
 }, {
@@ -284,8 +284,8 @@
   "example": [""],
   "description": "Displays a users profile. Shows their stats, currently equipped items and their status.",
   "cooldown": "",
-  "usage": ["profile`","profile <@user>`"],
-  "options": "`@user` - User's profile to check.",
+  "usage": ["profile`","profile <@user/discord#tag>`"],
+  "options": "`@user/discord#tag` - User's profile to check.",
   "category": "info",
   "ignoreHelp": false
 }, {

@@ -20,10 +20,10 @@ module.exports = {
         let userOldID = args[0];
 
         if(args.length){
-            if(!general.isUser(userOldID)){
+            if(!general.isUser(userOldID, true, message)){
                 return message.reply(lang.errors[1]);
             }
-            makeInventory(general.getUserId(userOldID));
+            makeInventory(general.getUserId(userOldID, true, message));
         }
         else{
             makeInventory(message.author.id);
@@ -44,7 +44,7 @@ module.exports = {
                 const usersItems     = await methods.getuseritems(userId, {amounts: true, sep: '`', icon: true});
                 const itemCt         = await methods.getitemcount(userId);
                 const shieldLeft     = await methods.getShieldTime(userId);
-                const userInfo       = await general.getUserInfo(message, userId, true);
+                const userInfo       = await general.getUserInfo(message, userId);
 
                 var ultraItemList    = usersItems.ultra;
                 var legendItemList   = usersItems.legendary;
@@ -66,7 +66,7 @@ module.exports = {
 
 
                 const embedInfo = new Discord.RichEmbed()
-                .setTitle(`${activeRow.length ? icons.accounts.active : icons.accounts.inactive} ${userInfo.displayName}'s Inventory`)
+                .setTitle(`${activeRow.length ? icons.accounts.active : icons.accounts.inactive} ${userInfo.tag}'s Inventory`)
 
                 if(userRow.banner !== 'none'){
                     embedInfo.setImage(itemdata[userRow.banner].image);

@@ -19,11 +19,11 @@ module.exports = {
         let userOldID = args[0];//RETURNS ID WITH <@ OR <@!
 
         if(userOldID !== undefined){
-            if(!userOldID.startsWith("<@")){
+            if(!general.isUser(userOldID, true, message)){
                 message.reply(lang.errors[1]);
                 return;
             }
-            let userNameID = args[0].replace(/[<@!>]/g, '');
+            let userNameID = general.getUserId(userOldID, true, message);
             userProfile(userNameID, false);
         }
         else{
@@ -35,12 +35,13 @@ module.exports = {
             INNER JOIN items
             ON scores.userId = items.userId
             WHERE scores.userId ="${userId}"`))[0];
-            const banners = await methods.getuseritems(userId, {sep: '`', icon: true, onlyBanners: true});
-            const userINFO = await general.getUserInfo(message, userId);
 
             if(!row){
                 return message.reply(lang.errors[0]);
             }
+
+            const banners = await methods.getuseritems(userId, {sep: '`', icon: true, onlyBanners: true});
+            const userINFO = await general.getUserInfo(message, userId);
 
             var bannerIcon = itemdata[row.banner] !== undefined ? itemdata[row.banner].icon : ''
             var bannersList = 'Equipped: ' + bannerIcon + '`' + row.banner + '`\n' + banners.ultra.concat(banners.legendary, banners.epic, banners.rare, banners.uncommon, banners.common, banners.limited).join('\n');
@@ -62,7 +63,7 @@ module.exports = {
 
             const profileEmbed = new Discord.RichEmbed()
             .setColor(13215302)
-            .setAuthor((await general.getUserInfo(message, userId, true)).displayName + "'s Profile", userINFO.avatarURL)
+            .setAuthor(userINFO.tag + "'s Profile", userINFO.avatarURL)
             .setThumbnail(userINFO.avatarURL)
             .setDescription(userStatus)
             .addField('Stats', (row.clanId !== 0 ? 'Member of `' + (await query(`SELECT name FROM clans WHERE clanId = ${row.clanId}`))[0].name + '`\n' : '')

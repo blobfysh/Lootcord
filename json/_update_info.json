@@ -37,8 +37,9 @@
     "🔹 **Source: **https://github.com/blobfysh/Lootcord",
     "🔹 Mostly decorative update, introduces new icons for items and many commands!",
     "🔹 More commands support spaced item names, that means rifle body is the same as typing rifle_body",
-    "🔹 Added a cooldown on claiming airdrops, so that more players have a chance.",
+    "🔹 Lowered cooldown on claimdrop from 12hr to 6hr.",
     "🔹 Added richest clans to the leaderboard.",
+    "🔹 `inventory` and `profile` now support discord tags (ex. blobfysh#4679), but only if the user is in your server.",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
 }

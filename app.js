@@ -434,7 +434,7 @@ client.on('ready', async () => {
                 }
             }
             if(userInfo.airdropTime > 0){
-                let timeLeft = (43200*1000) - ((new Date()).getTime() - userInfo.airdropTime);
+                let timeLeft = (21600*1000) - ((new Date()).getTime() - userInfo.airdropTime);
                 if(timeLeft > 0){
                     client.sets.airdropCooldown.add(userInfo.userId);
                     setTimeout(() => {
