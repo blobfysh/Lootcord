@@ -16,7 +16,10 @@ const client = new Discord.Client({
     messageCacheMaxSize: 50,
     messageCacheLifetime: 300,
     messageSweepInterval: 500,
-    disableEveryone: true
+    disableEveryone: true,
+    disabledEvents: [
+        'TYPING_START'
+    ]
 });
 
 client.sets            = require('./utils/sets.js');
@@ -472,6 +475,24 @@ client.on('ready', async () => {
 
     console.log(`[APP] Shard ${client.shard.id} is ready`);
     client.fullLockdown = false;
+});
+
+process.on('message', async message => {
+    if(client.shard.id === 0){
+        try{
+            const user = await client.fetchUser(message.userId);
+            
+            if(message.msgToSend.embed){
+                await user.send(message.msgToSend.text, {embed: message.msgToSend.embed});
+            }
+            else{
+                await user.send(message.msgToSend.text);
+            }
+        }
+        catch(err){
+
+        }
+    }
 });
 
 process.on('unhandledRejection', (reason, p) => {

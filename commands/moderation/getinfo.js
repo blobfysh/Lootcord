@@ -20,6 +20,11 @@ module.exports = {
 
         try{
             const row        = await query(`SELECT * FROM scores WHERE userId = '${userID}'`);
+
+            if(!row.length){
+                return message.reply('User has no account.');
+            }
+
             const activeRows = await query(`SELECT * FROM userGuilds WHERE userId = '${userID}'`);
             const userInfo   = await general.getUserInfo(message, userID);
             const accCode    = await method.getinvcode(message, userID);
@@ -38,12 +43,24 @@ module.exports = {
                 activeGuilds.push(guild.guildId);
             });
 
+            var currLvlXP        = 0;
+
+            for(var i = 1; i <= row[0].level;i++){
+                if(i == row[0].level){
+                    break;
+                }
+                currLvlXP += Math.floor(50*(i**1.7));
+            }
+
             const embedInfo = new Discord.RichEmbed()
             .setTitle("`" + userInfo.tag + "`'s data")
             .setDescription('User account code:\n```' + accCode.invCode + "```")
             .setThumbnail(userInfo.avatarURL)
             .addField('Account Created', new Date(row[0].createdAt).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric', timeZone: 'America/New_York'}) + ' at ' + new Date(row[0].createdAt).toLocaleTimeString('en-US', {timeZone: 'America/New_York'}) + ' (EST)', true)
             .addField('Activated in ' + activeGuilds.length + ' servers', activeGuilds.length > 0 ? activeGuilds : 'none', true)
+            .addField('Money', methods.formatMoney(row[0].money), true)
+            .addField('Level: ' + row[0].level, `(XP: ${row[0].points - currLvlXP}/${Math.floor(50*(row[0].level**1.7))})`, true)
+            .addField('Clan', (row.clanId !== 0 ? '`' + (await query(`SELECT name FROM clans WHERE clanId = ${row[0].clanId}`))[0].name + '`' : 'None'))
             .setColor(11346517)
 
             if(ultraItemList != ""){

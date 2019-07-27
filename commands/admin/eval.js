@@ -4,6 +4,7 @@ const methods   = require('../../methods/methods.js');
 const itemdata  = require('../../json/completeItemList.json');
 const airdrop   = require('../../utils/airdrop.js');
 const os        = require('os');
+const { decodeCode } = require('../../methods/acc_code_handler');
 
 module.exports = {
     name: 'eval',

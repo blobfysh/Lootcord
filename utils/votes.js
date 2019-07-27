@@ -5,7 +5,8 @@
 const config  = require('../json/_config.json');
 const { query } = require('../mysql.js');
 const Discord = require('discord.js');
-const client  = new Discord.Client();
+const messager = require('./messager');
+//const client  = new Discord.Client();
 const DBL     = require('dblapi.js');
 const dbl     = new DBL(config.dblToken, {webhookPath: config.dblWebhookPath, webhookPort: config.dblWebhookPort, webhookAuth: config.dblAuth});
 
@@ -19,7 +20,6 @@ exports.votingManager = (manager) => {
         var itemReward = "";
 
         try{
-            const voter = await client.fetchUser(vote.user);
             const row = (await query(`SELECT * FROM items i
                 INNER JOIN scores s
                 ON i.userId = s.userId
@@ -61,7 +61,8 @@ exports.votingManager = (manager) => {
                 query(`UPDATE cooldowns SET voteTime = ${0} WHERE userId = ${vote.user}`);
             }, 43200 * 1000); // 12 hours
 
-            await voter.send('**Thanks for voting!**\n' + itemReward, {embed: getCounterEmbed(row.voteCounter + 1)});
+            messager.messageUser(manager, vote.user, {text: '**Thanks for voting!**\n' + itemReward, embed: getCounterEmbed(row.voteCounter + 1)});
+            //await voter.send('**Thanks for voting!**\n' + itemReward, {embed: getCounterEmbed(row.voteCounter + 1)});
         }
         catch(err){
             console.log('[VOTE] Error sending voter message: ' + err);
@@ -98,14 +99,3 @@ function getCounterEmbed(counterVal){
 
     return embed;
 }
-
-client.on('disconnect', (err) => {
-    console.log(err);
-    client.destroy().then(client.login(config.botToken));
-});
-
-client.on('error', (err) => {
-    console.log('[VOTE] Error with connection in votes.js: ' + err);
-});
-
-client.login(config.botToken);

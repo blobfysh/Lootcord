@@ -30,7 +30,7 @@ module.exports = {
             WHERE items.userId = '${userObj.userId}'`))[0];
             const user = await general.getUserInfo(message, userObj.userId);
             
-            if(!row) return message.reply("Invalid code.");
+            if(!row) return message.reply("Invalid code or the user has no account to overwrite with restored data.");
 
             Object.keys(row).forEach(item => {
                 if(item !== 'userId'){
