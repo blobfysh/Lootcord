@@ -18,6 +18,7 @@ const client = new Discord.Client({
     messageSweepInterval: 500,
     disableEveryone: true,
     disabledEvents: [
+        'PRESENCE_UPDATE',
         'TYPING_START'
     ]
 });

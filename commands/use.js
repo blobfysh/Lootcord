@@ -10,7 +10,7 @@ const general = require('../methods/general');
 
 module.exports = {
     name: 'use',
-    aliases: [''],
+    aliases: ['attack', 'heal'],
     description: 'Use items on yourself or use weapons to attack others!',
     hasArgs: true,
     worksInDM: false,
