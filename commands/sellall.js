@@ -26,7 +26,7 @@ module.exports = {
                 //THESE WILL BE USED FOR SPECIFIC FIXES (SUCH AS CHANGING NAME TO FIT ITEM ARRAYS)
                 let itemsToCheck = methods.getitems(sellItem.charAt(0).toUpperCase() + sellItem.slice(1), {});
 
-                if(itemsToCheck.length < 1){
+                if(itemsToCheck.length < 1 || sellItem.toLowerCase() == 'all'){
                     return message.reply(lang.sellall[3].replace('{0}', prefix));
                 }
                 else{
