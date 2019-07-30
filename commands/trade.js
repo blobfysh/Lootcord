@@ -19,9 +19,9 @@ module.exports = {
     execute(message, args, lang, prefix){
         query(`SELECT * FROM items WHERE userId ="${message.author.id}"`).then(itemRow => {
             var userOldID = args[0];
-            var userNameID = general.getUserId(userOldID);
+            var userNameID = general.getUserId(args);
 
-            if(!general.isUser(userOldID)){
+            if(!general.isUser(args)){
                 return message.reply(lang.errors[1]);
             }
             general.getUserInfo(message, userNameID, true).then(tradeUser => {

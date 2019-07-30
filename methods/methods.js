@@ -229,7 +229,9 @@ class Methods {
     commandhelp(message, command, prefix){
         try{
             for(var i = 0; i < Object.keys(helpCmd).length; i++){
-                if(helpCmd[i].lookup.includes(command.toLowerCase())){
+                const commandInf = message.client.commands.get(helpCmd[i].command.toLowerCase());
+                //const command = message.client.commands.get(command.toLowerCase()) || message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(command.toLowerCase()));
+                if(commandInf && (commandInf.name == command.toLowerCase() || commandInf.aliases.includes(command.toLowerCase()))){
                     const commandInf = message.client.commands.get(helpCmd[i].command.toLowerCase());
                     let cmdUsage = [];
                     let cmdExamples = [];

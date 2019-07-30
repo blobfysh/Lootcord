@@ -6,7 +6,7 @@ const general = require('../methods/general');
 
 module.exports = {
     name: 'profile',
-    aliases: [''],
+    aliases: ['p'],
     description: 'Check your stats.',
     hasArgs: false,
     worksInDM: false,
@@ -19,11 +19,11 @@ module.exports = {
         let userOldID = args[0];//RETURNS ID WITH <@ OR <@!
 
         if(userOldID !== undefined){
-            if(!general.isUser(userOldID, true, message)){
+            if(!general.isUser(args, true, message)){
                 message.reply(lang.errors[1]);
                 return;
             }
-            let userNameID = general.getUserId(userOldID, true, message);
+            let userNameID = general.getUserId(args, true, message);
             userProfile(userNameID, false);
         }
         else{

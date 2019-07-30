@@ -20,10 +20,10 @@ module.exports = {
         let userOldID = args[0];
 
         if(args.length){
-            if(!general.isUser(userOldID, true, message)){
+            if(!general.isUser(args, true, message)){
                 return message.reply(lang.errors[1]);
             }
-            makeInventory(general.getUserId(userOldID, true, message));
+            makeInventory(general.getUserId(args, true, message));
         }
         else{
             makeInventory(message.author.id);

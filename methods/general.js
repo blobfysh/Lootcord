@@ -5,10 +5,10 @@ const itemdata = require("../json/completeItemList");
 
 class Methods {
     isUser(mention, allowTag = false, message = undefined){
-        if(/^<@!?(\d+)>$/.test(mention)){
+        if(/^<@!?(\d+)>$/.test(mention[0])){
             return true;
         }
-        else if(/^.*#[0-9]{4}$/.test(mention) && allowTag){
+        else if(/^(.*)#([0-9]{4})$/.test(mention.join(' ')) && allowTag){
             if(this.getUserId(mention, true, message)){
                 return true;
             }
@@ -45,13 +45,15 @@ class Methods {
     }
 
     getUserId(user, allowTag = false, message = undefined){
-        if(!user) return undefined;
+        if(!user || !user.length) return undefined;
+        console.log(user);
         
-        var userId = user.match(/^<?@?!?(\d+)>?$/);
+        var userId = user[0].match(/^<?@?!?(\d+)>?$/);
 
         if(!userId) {
             try{
-                userId = message.guild.members.find(guildUser => guildUser.user.username.toLowerCase() === user.split('#')[0].toLowerCase() && guildUser.user.discriminator === user.split('#')[1]).id
+                const userTag = user.join(' ').match(/^(.*)#([0-9]{4})$/);
+                userId = message.guild.members.find(guildUser => guildUser.user.username.toLowerCase() === userTag[1].toLowerCase() && guildUser.user.discriminator === userTag[2]).id
                 return userId;
             }
             catch(err){

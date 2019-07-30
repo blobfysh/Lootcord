@@ -60,7 +60,7 @@ module.exports = {
             .addField('Activated in ' + activeGuilds.length + ' servers', activeGuilds.length > 0 ? activeGuilds : 'none', true)
             .addField('Money', methods.formatMoney(row[0].money), true)
             .addField('Level: ' + row[0].level, `(XP: ${row[0].points - currLvlXP}/${Math.floor(50*(row[0].level**1.7))})`, true)
-            .addField('Clan', (row.clanId !== 0 ? '`' + (await query(`SELECT name FROM clans WHERE clanId = ${row[0].clanId}`))[0].name + '`' : 'None'))
+            .addField('Clan', (row[0].clanId !== 0 ? '`' + (await query(`SELECT name FROM clans WHERE clanId = ${row[0].clanId}`))[0].name + '`' : 'None'))
             .setColor(11346517)
 
             if(ultraItemList != ""){

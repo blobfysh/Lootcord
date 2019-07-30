@@ -15,7 +15,7 @@ module.exports = {
         const clanRow = (await query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0];
         var invitedUser = args[0];
 
-        if(!args.length || !general.isUser(invitedUser)){
+        if(!args.length || !general.isUser([invitedUser])){
             return message.reply(lang.errors[1]);
         }
 
