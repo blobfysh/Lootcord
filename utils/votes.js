@@ -5,7 +5,7 @@
 const config  = require('../json/_config.json');
 const { query } = require('../mysql.js');
 const Discord = require('discord.js');
-const messager = require('./messager');
+const methods = require('../methods/methods');
 //const client  = new Discord.Client();
 const DBL     = require('dblapi.js');
 const dbl     = new DBL(config.dblToken, {webhookPath: config.dblWebhookPath, webhookPort: config.dblWebhookPort, webhookAuth: config.dblAuth});
@@ -20,12 +20,10 @@ exports.votingManager = (manager) => {
         var itemReward = "";
 
         try{
-            const row = (await query(`SELECT * FROM items i
-                INNER JOIN scores s
-                ON i.userId = s.userId
+            const row = (await query(`SELECT * FROM scores
                 INNER JOIN cooldowns
-                ON s.userId = cooldowns.userId
-                WHERE s.userId="${vote.user}"`))[0];
+                ON scores.userId = cooldowns.userId
+                WHERE scores.userId="${vote.user}"`))[0];
 
             if(!row){
                 console.log('[VOTE] Received a vote but ignored it due to user having no account.');
@@ -40,15 +38,15 @@ exports.votingManager = (manager) => {
             
             if((row.voteCounter + 1) % 6 == 0){
                 itemReward = "✨ You received a **supply_signal** for voting 6 days in a row! 😃";
-                query(`UPDATE items SET supply_signal = ${row.supply_signal + 1} WHERE userId = ${vote.user}`);
+                methods.additem(vote.user, 'supply_signal', 1);
             }
             else if(chance <= 100){
                 itemReward = "📦 You received an **ultra_box**!";
-                query(`UPDATE items SET ultra_box = ${row.ultra_box + 1} WHERE userId = ${vote.user}`);
+                methods.additem(vote.user, 'ultra_box', 1);
             }
             else{
                 itemReward = "🍀 Your luck pays off!\nYou received __**2x**__ **ultra_box**!";
-                query(`UPDATE items SET ultra_box = ${row.ultra_box + 2} WHERE userId = ${vote.user}`);
+                methods.additem(vote.user, 'ultra_box', 2);
             }
 
             query(`UPDATE scores SET voteCounter = ${row.voteCounter + 1} WHERE userId = ${vote.user}`);
@@ -61,8 +59,7 @@ exports.votingManager = (manager) => {
                 query(`UPDATE cooldowns SET voteTime = ${0} WHERE userId = ${vote.user}`);
             }, 43200 * 1000); // 12 hours
 
-            messager.messageUser(manager, vote.user, {text: '**Thanks for voting!**\n' + itemReward, embed: getCounterEmbed(row.voteCounter + 1)});
-            //await voter.send('**Thanks for voting!**\n' + itemReward, {embed: getCounterEmbed(row.voteCounter + 1)});
+            messageUser(manager, vote.user, {text: '**Thanks for voting!**\n' + itemReward, embed: getCounterEmbed(row.voteCounter + 1)});
         }
         catch(err){
             console.log('[VOTE] Error sending voter message: ' + err);
@@ -98,4 +95,11 @@ function getCounterEmbed(counterVal){
     .setFooter('Vote 6 days in a row to receive a supply_signal!')
 
     return embed;
+}
+
+function messageUser(manager, userId, message){
+    manager.broadcast({
+        userId: userId,
+        msgToSend: message
+    });
 }

@@ -15,8 +15,6 @@ module.exports = {
     
     async execute(message, args, lang, prefix){
         const row = (await query(`SELECT * FROM scores 
-        INNER JOIN items 
-        ON scores.userId = items.userId
         INNER JOIN cooldowns
         ON scores.userId = cooldowns.userId
         WHERE scores.userId = ${message.author.id}`))[0];
@@ -30,13 +28,14 @@ module.exports = {
 
         let luck = row.luck >= 40 ? 10 : Math.floor(row.luck/4);
         let chance = Math.floor(Math.random() * 100) + luck;
+        
         if(chance >= 100){
             message.reply("🍀Here's a free " + itemdata['ultra_box'].icon + "`ultra_box`!");
-            query(`UPDATE items SET ultra_box = ${row.ultra_box + 1} WHERE userId = ${message.author.id}`);
+            methods.additem(message.author.id, 'ultra_box', 1);
         }
         else{
             message.reply("Here's a free " + itemdata['item_box'].icon + "`item_box`!");
-            query(`UPDATE items SET item_box = ${row.item_box + 1} WHERE userId = ${message.author.id}`);
+            methods.additem(message.author.id, 'item_box', 1);
         }
         
         query(`UPDATE cooldowns SET hourlyTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);

@@ -19,7 +19,7 @@ module.exports = {
         let userID = args[0];
 
         try{
-            const row        = await query(`SELECT * FROM scores WHERE userId = '${userID}'`);
+            const row = await query(`SELECT * FROM scores WHERE userId = '${userID}'`);
 
             if(!row.length){
                 return message.reply('User has no account.');

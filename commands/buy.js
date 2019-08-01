@@ -19,7 +19,7 @@ module.exports = {
             let buyItem = general.parseArgsWithSpaces(args[0], args[1], args[2]);
             let buyAmount = general.parseArgsWithSpaces(args[0], args[1], args[2], true, false, false);
 
-            if(itemdata[buyItem] !== undefined){//ITEM EXISTS
+            if(itemdata[buyItem] !== undefined){ // ITEM EXISTS
                 let currency = itemdata[buyItem].buy.currency;
                 let itemPrice = itemdata[buyItem].buy.amount;
                 if(itemPrice == undefined){
@@ -36,7 +36,7 @@ module.exports = {
                 }
             }
             else if(gamesRow[buyItem] !== undefined){
-                //code for buying game here
+                // code for buying game here
                 let gameAmount = gamesRow[buyItem].gameAmount;
                 let currency = gamesRow[buyItem].gameCurrency;
                 let itemPrice = gamesRow[buyItem].gamePrice;

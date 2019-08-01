@@ -5,12 +5,6 @@ const { query } = require('../mysql.js');
 const itemdata  = require('../json/completeItemList.json');
 
 exports.open_package = async function(message, lang){
-    const oldRow = await query(`SELECT * FROM items i
-        INNER JOIN scores s
-        ON i.userId = s.userId
-        WHERE s.userId="${message.author.id}"`);
-    const row = oldRow[0];
-
     const hasEnough = await methods.hasenoughspace(message.author.id, 3);
     
     if(!hasEnough){
@@ -90,8 +84,8 @@ exports.open_package = async function(message, lang){
         }
     }
 
-    query(`UPDATE scores SET points = ${row.points + xpToAdd} WHERE userId = ${message.author.id}`);
-    query(`UPDATE items SET care_package = ${row.care_package - 1} WHERE userId = ${message.author.id}`)
+    query(`UPDATE scores SET points = points + ${xpToAdd} WHERE userId = ${message.author.id}`);
+    methods.removeitem(message.author.id, 'care_package', 1);
     methods.additem(message.author.id, finalItemsAmounts);
     
     const embedDrop = new Discord.RichEmbed()

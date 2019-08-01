@@ -30,11 +30,8 @@ module.exports = {
             }
             else{
                 try{
-                    query(`SELECT * FROM items WHERE userId ="${userNameID}"`).then(oldRow => {
-                        const row = oldRow[0];
-                        query(`UPDATE items SET ${itemName} = ${row[itemName] + parseInt(itemAmount)} WHERE userId = ${userNameID}`);
-                        message.reply(itemAmount + "x " + itemName + " added to user!");
-                    });
+                    methods.additem(userNameID, itemName, itemAmount);
+                    message.reply(itemAmount + "x " + itemName + " added to user!");
                 }
                 catch(err){
                     message.reply("Something went wrong. Items must be spelled exactly as they are in data table.")

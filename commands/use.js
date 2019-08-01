@@ -40,10 +40,8 @@ module.exports = {
         }
 
         try{
-            const row = (await query(`SELECT * FROM items i
-            INNER JOIN scores s
-            ON i.userId = s.userId
-            WHERE s.userId="${message.author.id}"`))[0];
+            const userRow = (await query(`SELECT * FROM scores WHERE userId = "${message.author.id}"`))[0];
+            const itemRow = await general.getItemObject(message.author.id);
 
             if(itemdata[itemUsed] == undefined){
                 return message.reply(lang.use.errors[0].replace('{0}', prefix));
@@ -51,16 +49,16 @@ module.exports = {
             else if(itemdata[itemUsed].isItem){ // ITEMS TIME!!!!!!!!!!!!!!!!!!!
                 let useAmount = general.getNum(userOldID) > 10 ? 10 : general.getNum(userOldID); // Allows max 10 items used, otherwise set to 1-10
 
-                if(itemUsed == "item_box" && row.item_box >= useAmount){
+                if(itemUsed == "item_box" && itemRow.item_box >= useAmount){
                     boxes.open_box(message, lang, 'item_box', useAmount);
                 }
-                else if(itemUsed == "ultra_box" && row.ultra_box >= useAmount){
+                else if(itemUsed == "ultra_box" && itemRow.ultra_box >= useAmount){
                     boxes.open_box(message, lang, 'ultra_box', useAmount);
                 }
-                else if(itemUsed == "care_package" && row.care_package >= 1){
+                else if(itemUsed == "care_package" && itemRow.care_package >= 1){
                     open.open_package(message, lang);
                 }
-                else if(itemUsed == "supply_signal" && row.supply_signal >= 1){
+                else if(itemUsed == "supply_signal" && itemRow.supply_signal >= 1){
                     // Add a 30 second timeout before sending airdrop
                     message.reply('📻 Requesting immediate airdrop...').then(msg => {
                         setTimeout(() => {
@@ -82,16 +80,14 @@ module.exports = {
                             airdrop.callAirdrop(message.client, message.guild.id, 'care_package', false, message.channel.id);
                         }, 30000);
                     });
-                    query(`UPDATE items SET ${itemUsed} = ${row[itemUsed] - 1} WHERE userId = ${message.author.id}`);
+                    methods.removeitem(message.author.id, itemUsed, 1);
                 }
-                else if(itemdata[itemUsed].isShield && row[itemUsed] >= 1){
+                else if(itemdata[itemUsed].isShield && itemRow[itemUsed] >= 1){
                     if(message.client.sets.activeShield.has(message.author.id)){
                         return message.reply(lang.use.items[3].replace('{0}', (await methods.getShieldTime(message.author.id)) ));
                     }
                     query(`UPDATE cooldowns SET ${itemdata[itemUsed].shieldInfo.shieldRow} = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-                    query(`UPDATE items SET ${itemUsed} = ${row[itemUsed] - 1} WHERE userId = ${message.author.id}`);
-
-                    message.reply(lang.use.items[4].replace('{0}', itemUsed));
+                    methods.removeitem(message.author.id, itemUsed, 1);
 
                     message.client.shard.broadcastEval(`this.sets.activeShield.add('${message.author.id}')`);
 
@@ -116,8 +112,10 @@ module.exports = {
                     }, itemdata[itemUsed].shieldInfo.seconds * 1000)};
 
                     message.client.shieldTimes.push(timeObj);
+
+                    message.reply(lang.use.items[4].replace('{0}', itemUsed));
                 }
-                else if(itemdata[itemUsed].isHeal && row[itemUsed] >= 1){
+                else if(itemdata[itemUsed].isHeal && itemRow[itemUsed] >= 1){
                     if(message.client.sets.healCooldown.has(message.author.id)){
                         return message.reply(lang.use.items[6].replace('{0}', (await methods.getHealCooldown(message.author.id))));
                     }
@@ -125,38 +123,75 @@ module.exports = {
                     let maxHeal = itemdata[itemUsed].healMax;
                     
                     let randHeal = (Math.floor(Math.random() * (maxHeal - minHeal + 1)) + minHeal);
-                    let userMaxHeal = row.maxHealth - row.health;
+                    let userMaxHeal = userRow.maxHealth - userRow.health;
 
                     if(userMaxHeal == 0){
                         return message.reply(lang.use.items[5]);
                     }
                     else if(userMaxHeal > randHeal){
-                        query(`UPDATE scores SET health = ${row.health + randHeal} WHERE userId = ${message.author.id}`);
+                        query(`UPDATE scores SET health = ${userRow.health + randHeal} WHERE userId = ${message.author.id}`);
+                        methods.removeitem(message.author.id, itemUsed, 1);
                         message.reply(lang.use.items[0].replace('{0}', randHeal));
-                        query(`UPDATE items SET ${itemUsed} = ${row[itemUsed] - 1} WHERE userId = ${message.author.id}`);
                     }
                     else if(userMaxHeal <= randHeal){
-                        query(`UPDATE scores SET health = ${row.health + userMaxHeal} WHERE userId = ${message.author.id}`);
+                        query(`UPDATE scores SET health = ${userRow.health + userMaxHeal} WHERE userId = ${message.author.id}`);
+                        methods.removeitem(message.author.id, itemUsed, 1);
                         message.reply(lang.use.items[1].replace('{0}', userMaxHeal));
-                        query(`UPDATE items SET ${itemUsed} = ${row[itemUsed] - 1} WHERE userId = ${message.author.id}`);
                     }
                     methods.addToHealCooldown(message, message.author.id, itemUsed);
                 }
-                else if(itemdata[itemUsed].givesMoneyOnUse && row[itemUsed] >= 1){
+                else if(itemdata[itemUsed].givesMoneyOnUse && itemRow[itemUsed] >= 1){
                     let minAmt = itemdata[itemUsed].itemMin;
                     let maxAmt = itemdata[itemUsed].itemMax;
                     
                     let randAmt = Math.floor((Math.random() * (maxAmt - minAmt + 1)) + minAmt);
-
-                    message.reply(lang.use.items[2].replace('{0}', itemUsed).replace('{1}', methods.formatMoney(randAmt))); //itemUsed    methods.formatMoney(randAmt)
-                    query(`UPDATE scores SET money = ${parseInt(row.money) + randAmt} WHERE userId = ${message.author.id}`);
-                    query(`UPDATE items SET ${itemUsed} = ${row[itemUsed] - 1} WHERE userId = ${message.author.id}`);
+                    methods.addmoney(message.author.id, randAmt);
+                    methods.removeitem(message.author.id, itemUsed, 1);
+                    message.reply(lang.use.items[2].replace('{0}', itemUsed).replace('{1}', methods.formatMoney(randAmt)));
                 }
-                else if(itemUsed == "reroll_scroll" && row.reroll_scroll >= 1){
-                    methods.resetSkills(message, message.author.id);
+                else if(itemUsed == "reroll_scroll" && itemRow.reroll_scroll >= 1){
+                    let usedStatPts = userRow.used_stats;
+                    methods.removeitem(message.author.id, 'reroll_scroll', 1);
+                    query(`UPDATE scores SET stats = stats + ${usedStatPts} WHERE userId = ${message.author.id}`);
+                    query(`UPDATE scores SET maxHealth = ${100} WHERE userId = ${message.author.id}`);
+                    query(`UPDATE scores SET luck = ${0} WHERE userId = ${message.author.id}`);
+                    query(`UPDATE scores SET scaledDamage = ${1.00} WHERE userId = ${message.author.id}`);
+                    query(`UPDATE scores SET used_stats = ${0} WHERE userId = ${message.author.id}`);
+                    if(userRow.health > 100){
+                        query(`UPDATE scores SET health = ${100} WHERE userId = ${message.author.id}`);
+                    }
+                    let msgEmbed = new Discord.RichEmbed()
+                    .setAuthor(message.member.displayName, message.author.avatarURL)
+                    .setTitle("Successfully used 📜`reroll_scroll`")
+                    .setDescription("Restored **"+usedStatPts+"** skill points.")
+                    .setFooter("Attributes reset.")
+                    .setColor(14202368)
+                    message.channel.send(msgEmbed);
                 }
-                else if(itemUsed == "xp_potion" && row.xp_potion >= 1){
-                    methods.addxp(message, 75, message.author.id, lang);
+                else if(itemUsed == "xp_potion" && itemRow.xp_potion >= 1){
+                    const cdRow = (await query(`SELECT * FROM cooldowns WHERE userId="${message.author.id}"`))[0];
+            
+                    if(message.client.sets.xpPotCooldown.has(message.author.id)){
+                        message.reply(lang.use.items[7].replace('{0}', ((180 * 1000 - ((new Date()).getTime() - cdRow.xpTime)) / 1000).toFixed(0)));
+                        return;
+                    }
+            
+                    query(`UPDATE cooldowns SET xpTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
+            
+                    message.client.shard.broadcastEval(`this.sets.xpPotCooldown.add('${message.author.id}')`);
+                    setTimeout(() => {
+                        message.client.shard.broadcastEval(`this.sets.xpPotCooldown.delete('${message.author.id}')`);
+                        query(`UPDATE cooldowns SET xpTime = ${0} WHERE userId = ${message.author.id}`);
+                    }, 180 * 1000);
+            
+                    methods.removeitem(message.author.id, 'xp_potion', 1);
+                    query(`UPDATE scores SET points = points + ${75} WHERE userId = ${message.author.id}`);
+                    let msgEmbed = new Discord.RichEmbed()
+                    .setAuthor(message.member.displayName, message.author.avatarURL)
+                    .setTitle("Successfully used `xp_potion`")
+                    .setDescription("Gained **"+amount+" XP**!")
+                    .setColor(14202368)
+                    message.channel.send(msgEmbed);
                 }
                 else{
                     return message.reply(lang.use.errors[2]);
@@ -177,7 +212,7 @@ module.exports = {
                     else if(!victimRow){
                         return message.reply(lang.use.errors[5]);
                     }
-                    else if(row.clanId !== 0 && victimRow.clanId == row.clanId){
+                    else if(userRow.clanId !== 0 && victimRow.clanId == userRow.clanId){
                         return message.reply(lang.use.errors[11]);
                     }
                     else if(message.client.sets.activeShield.has(message.author.id)){ // CHECK IF PLAYER HAS SHIELD ACTIVE
@@ -186,7 +221,7 @@ module.exports = {
                     else if(!playRow.length){
                         return message.reply(lang.use.errors[7]);
                     }
-                    else if(message.client.sets.activeShield.has(userNameID) && !(itemUsed == "awp" && row.awp >= 1 && row['50_cal'] >= 1)){
+                    else if(message.client.sets.activeShield.has(userNameID) && !(itemUsed == "awp" && itemRow.awp >= 1 && itemRow['50_cal'] >= 1)){
                         return message.reply(lang.use.errors[3].replace('{0}', (await methods.getShieldTime(userNameID)) ));
                     }
                     else if(message.client.sets.weapCooldown.has(message.author.id)){
@@ -199,11 +234,11 @@ module.exports = {
                         let damageMin = itemdata[itemUsed].minDmg;
                         let damageMax = itemdata[itemUsed].maxDmg;
 
-                        if(row[itemUsed] >= 1){
+                        if(itemRow[itemUsed] >= 1){
                             if(itemdata[itemUsed].ammo.length >= 1){ //remove ammo
 
                                 for(var i = 0; i < itemdata[itemUsed].ammo.length; i++){
-                                    if(row[itemdata[itemUsed].ammo[i]] >= 1){
+                                    if(itemRow[itemdata[itemUsed].ammo[i]] >= 1){
                                         ammoToUse = itemdata[itemUsed].ammo[i];
                                         if(ammoToUse == "50_cal"){
                                             bonusDamage = 20;
@@ -211,7 +246,7 @@ module.exports = {
                                         else if(ammoToUse == "baseball"){
                                             bonusDamage = 12;
                                         }
-                                        query(`UPDATE items SET ${ammoToUse} = ${row[ammoToUse] - 1} WHERE userId = ${message.author.id}`);
+                                        methods.removeitem(message.author.id, ammoToUse, 1);
                                         break;
                                     }
                                 }
@@ -222,17 +257,17 @@ module.exports = {
                             }
 
                             if(itemdata[itemUsed].breaksOnUse == true){
-                                query(`UPDATE items SET ${itemUsed} = ${row[itemUsed] - 1} WHERE userId = ${message.author.id}`);
+                                methods.removeitem(message.author.id, itemUsed, 1);
                             }
                             else if(Math.random() <= parseFloat(itemdata[itemUsed].chanceToBreak)){
-                                query(`UPDATE items SET ${itemUsed} = ${row[itemUsed] - 1} WHERE userId = ${message.author.id}`);
+                                methods.removeitem(message.author.id, itemUsed, 1);
                                 methods.additem(message.author.id, itemdata[itemUsed].recyclesTo.materials);
                                 weaponBreakAlert(message, itemUsed);
                             }
 
-                            let randDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage);
+                            let randDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * userRow.scaledDamage);
                             
-                            hitOrMiss(message, userNameID, itemUsed, victimRow, row, randDmg, itemdata[itemUsed].breaksOnUse, lang);
+                            hitOrMiss(message, userNameID, itemUsed, victimRow, userRow, randDmg, itemdata[itemUsed].breaksOnUse, lang);
                             
                             methods.addToWeapCooldown(message, message.author.id, itemUsed);
                         }
@@ -299,7 +334,7 @@ async function hitOrMiss(message, userNameID, itemUsed, victimRow, userRow, dama
             //message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>`);
         }
 
-        const victimItems = (await query(`SELECT * FROM items WHERE userId ="${userNameID}"`))[0];
+        const victimItems = await general.getItemObject(userNameID);
         let victimItemCount = [];
         let amountToGive = 1;
 

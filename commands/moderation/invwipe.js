@@ -29,22 +29,17 @@ module.exports = {
 
             try{
                 const userAccInfo = await method.getinvcode(message, userId);
-                const oldRow = await query(`SELECT * FROM items 
-                INNER JOIN scores
-                ON items.userId = scores.userId
-                WHERE items.userId = '${userId}'`);
-                const row = oldRow[0];
+                const userRow = (await query(`SELECT * FROM scores WHERE userId = '${userId}'`))[0];
                 var resetVal;
 
                 //iterate every column in row
-                Object.keys(row).forEach(item => {
+                Object.keys(userRow).forEach(item => {
 
                     //ignore userId and createdAt columns (these are unique and will never change)
                     if(item !== 'userId' && item !== 'createdAt' && item !== 'clanId' && item !== 'clanRank'){
 
                         //switch to set columns that have default values other than 0
                         switch(item){
-                            case 'item_box': resetVal = 1; break;
                             case 'health': resetVal = 100; break;
                             case 'maxHealth': resetVal = 100; break;
                             case 'level': resetVal = 1; break;
@@ -62,13 +57,11 @@ module.exports = {
                         }
 
                         //run this query every iteration to reset each column
-                        query(`UPDATE scores
-                        INNER JOIN items
-                        ON scores.userId = items.userId
-                        SET ${item} = '${resetVal}'
-                        WHERE scores.userId = '${userId}'`);
+                        query(`UPDATE scores SET ${item} = '${resetVal}' WHERE userId = '${userId}'`);
                     }
                 });
+                
+                query(`DELETE FROM user_items WHERE userId = '${userId}'`);
 
                 const user = await message.client.fetchUser(userId);
 

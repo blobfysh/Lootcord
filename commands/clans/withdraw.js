@@ -57,7 +57,7 @@ module.exports = {
             else{
                 const hasItems = await methods.hasitems(scoreRow.clanId, itemName, itemAmnt);
                 if(!hasItems) return message.reply(lang.clans.withdraw[1].replace('{0}',
-                    (await query(`SELECT * FROM items WHERE userId = ${scoreRow.clanId}`))[0][itemName]
+                    (await general.getItemObject(scoreRow.clanId))[itemName]
                 ).replace('{1}', itemName));
 
                 const hasSpace = await methods.hasenoughspace(message.author.id, itemAmnt);
@@ -69,7 +69,7 @@ module.exports = {
                 clans.addLog(scoreRow.clanId, `${message.author.tag} withdrew ${itemAmnt}x ${itemName} from the vault.`);
 
                 message.reply(lang.clans.withdraw[2].replace('{0}', itemAmnt).replace('{1}', itemName).replace('{2}', 
-                    (await query(`SELECT * FROM items WHERE userId = ${scoreRow.clanId}`))[0][itemName]
+                    (await general.getItemObject(scoreRow.clanId))[itemName]
                 ).replace('{3}', itemName).replace('{4}', 
                     (await clans.getClanData(scoreRow.clanId)).usedPower + '/' + (await clans.getClanData(scoreRow.clanId)).currPower
                 ));

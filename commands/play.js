@@ -2,7 +2,9 @@ const Discord   = require('discord.js');
 const { query } = require('../mysql.js');
 const config    = require('../json/_config.json');
 const refresher = require('../methods/refresh_active_role.js');
+const methods   = require('../methods/methods');
 
+/*
 const insertItemsSQL = `
 INSERT IGNORE INTO items (
     userId,
@@ -100,6 +102,7 @@ INSERT IGNORE INTO items (
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     )
 `
+*/
 
 const insertScoreSQL = `
 INSERT IGNORE INTO scores (
@@ -197,7 +200,7 @@ module.exports = {
 
         if(!row.length){
             const scoreRow = await query(insertScoreSQL, [message.author.id, (new Date()).getTime(), 100, 1, 100, 100, 1.00, 'none', 'none']);
-            const itemRow = await query(insertItemsSQL, [message.author.id, 1]);
+            methods.additem(message.author.id, 'item_box', 1);
             const userGuildsRow = await query(`INSERT INTO userGuilds (userId, guildId) VALUES (${message.author.id}, ${message.guild.id})`);
 
             const guildRow = await query(`SELECT * FROM guildInfo WHERE guildId = ${message.guild.id}`);

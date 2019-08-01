@@ -6,7 +6,7 @@ const itemdata = require('../../json/completeItemList.json');
 module.exports = {
     name: 'cdclear',
     aliases: [''],
-    description: 'Clears a user of all cooldowns using their ID.',
+    description: 'Clears a user of all cooldowns using their ID. WARNING: Clearing cooldowns this way is unreliable since it does not stop setTimeout()s',
     hasArgs: false,
     worksInDM: false,
     requiresAcc: false,

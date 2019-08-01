@@ -1,5 +1,5 @@
 //const Discord = require("discord.js");
-//const { query } = require('../mysql.js');
+const { query } = require('../mysql.js');
 //const config = require('../json/_config.json');
 const itemdata = require("../json/completeItemList");
 
@@ -231,6 +231,21 @@ class Methods {
             else if(getNum || getUser || getUseArgs) return undefined;
             else return arg1;
         }
+    }
+
+    /**
+     * 
+     * @param {*} userId User to retrieve items for (in an object format).
+     */
+    async getItemObject(userId){
+        const itemRows = (await query(`SELECT item, COUNT(item) AS amount FROM user_items WHERE userId = "${userId}" GROUP BY item`));
+        var itemObj = {}
+    
+        for(var i = 0; i < itemRows.length; i++){
+            itemObj[itemRows[i].item] = itemRows[i].amount;
+        }
+    
+        return itemObj;
     }
 }
 

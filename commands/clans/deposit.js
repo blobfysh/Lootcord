@@ -3,6 +3,7 @@ const { query } = require('../../mysql.js');
 const clans = require('../../methods/clan_methods.js');
 const methods = require('../../methods/methods.js');
 const itemdata = require('../../json/completeItemList.json');
+const general = require('../../methods/general');
 
 module.exports = {
     name: 'deposit',
@@ -64,10 +65,8 @@ module.exports = {
                 await methods.removeitem(message.author.id, itemName, itemAmnt);
                 await depositItem(itemName, itemAmnt, scoreRow.clanId);
 
-                clans.addLog(scoreRow.clanId, `${message.author.tag} deposited ${itemAmnt}x ${itemName} into the vault.`);
-
                 message.reply(lang.clans.deposit[4].replace('{0}', itemAmnt).replace('{1}', itemName).replace('{2}', 
-                    (await query(`SELECT * FROM items WHERE userId = ${scoreRow.clanId}`))[0][itemName]
+                    (await general.getItemObject(scoreRow.clanId))[itemName]
                 ).replace('{3}', itemName).replace('{4}', 
                     (await clans.getClanData(scoreRow.clanId)).usedPower + '/' + (await clans.getClanData(scoreRow.clanId)).currPower
                 ));
@@ -81,6 +80,6 @@ async function depositItem(item, amount, clanId){
         query(`UPDATE clans SET money = money + ${parseInt(amount)} WHERE clanId = ${clanId}`);
     }
     else{
-        query(`UPDATE items SET ${item} = ${item} + ${parseInt(amount)} WHERE userId = ${clanId}`);
+        methods.additem(clanId, item, parseInt(amount));
     }
 }

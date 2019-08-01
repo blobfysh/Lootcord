@@ -82,10 +82,7 @@ module.exports = {
                     };
                     botMessage.awaitReactions(filter, {max: 1, time: 30000, errors: ['time'] }).then(collected => {
                         function getStats(type){
-                            query(`SELECT * FROM items i
-                            INNER JOIN scores s
-                            ON i.userId = s.userId
-                            WHERE s.userId="${message.author.id}"`).then(oldRow => {
+                            query(`SELECT * FROM scores WHERE userId="${message.author.id}"`).then(oldRow => {
                                 const row = oldRow[0];
 
                                 if(row.stats <= 0){

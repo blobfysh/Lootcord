@@ -1,8 +1,10 @@
 const Discord = require('discord.js');
 const { query } = require('../../mysql.js');
 const method = require('../../methods/acc_code_handler.js');
+const methods = require('../../methods/methods');
 const config = require('../../json/_config.json');
 const general = require('../../methods/general');
+const itemdata = require('../../json/completeItemList');
 
 module.exports = {
     name: 'restoreinv',
@@ -24,16 +26,13 @@ module.exports = {
 
         try{
             const userObj = method.decodeCode(accCode);
-            const row = (await query(`SELECT * FROM items 
-            INNER JOIN scores
-            ON items.userId = scores.userId
-            WHERE items.userId = '${userObj.userId}'`))[0];
+            const row = (await query(`SELECT * FROM scores WHERE userId = '${userObj.userId}'`))[0];
             const user = await general.getUserInfo(message, userObj.userId);
             
             if(!row) return message.reply("Invalid code or the user has no account to overwrite with restored data.");
 
-            Object.keys(row).forEach(item => {
-                if(item !== 'userId'){
+            Object.keys(userObj).forEach(item => {
+                if(item !== 'userId' && item !== 'clanId' && item !== 'clanRank'){
                     var amount;
                     if(userObj[item] !== undefined){
                         amount = userObj[item];
@@ -41,12 +40,13 @@ module.exports = {
                     else{
                         amount = 0;
                     }
-
-                    query(`UPDATE scores
-                    INNER JOIN items
-                    ON scores.userId = items.userId
-                    SET ${item} = '${amount}'
-                    WHERE scores.userId = '${userObj.userId}'`);
+                    
+                    if(itemdata[item] !== undefined){
+                        methods.additem(userObj.userId, item, amount);
+                    }
+                    else{
+                        query(`UPDATE scores SET ${item} = '${amount}' WHERE userId = '${userObj.userId}'`);
+                    }
                 }
             });
             
