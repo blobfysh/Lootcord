@@ -9,7 +9,12 @@ const general = require('../methods/general');
 const icons = require('../json/icons');
 
 class Methods {
-    //GENERAL FUNCTIONS, CAN BE USED BY MULTIPLE COMMANDS
+    /**
+     * 
+     * @param {*} userId ID of user to add item to.
+     * @param {*} item   Item to add, can be array ex.(["item_box|2","awp|1"])
+     * @param {*} amount Amount of item to add, must be number.
+     */
     async additem(userId, item, amount){
         if(Array.isArray(item)){
             if(item.length == 0){
@@ -31,9 +36,20 @@ class Methods {
         }
     }
 
+    /**
+     * 
+     * @param {*} userId ID of user to add money to.
+     * @param {*} amount Amount of money to add.
+     */
     addmoney(userId, amount){
         query(`UPDATE scores SET money = money + ${parseInt(amount)} WHERE userId = ${userId}`);
     }
+
+    /**
+     * 
+     * @param {*} userId ID of user to remove money from.
+     * @param {*} amount Amount of money to remove.
+     */
     removemoney(userId, amount){
         query(`UPDATE scores SET money = money - ${parseInt(amount)} WHERE userId = ${userId}`);
     }
@@ -51,8 +67,14 @@ class Methods {
             });
         });
     }
+
+    /**
+     * 
+     * @param {*} userId ID of user to remove item from.
+     * @param {*} item   Item to remove, can be an array ex.(["rock|2","item_box|3"])
+     * @param {*} amount Amount of item to remove.
+     */
     async removeitem(userId, item, amount){
-        //const userItems = await general.getItemObject(userId);
         if(Array.isArray(item)){
             if(item.length == 0){
                 return;
@@ -69,6 +91,12 @@ class Methods {
             query(`DELETE FROM user_items WHERE userId = ${userId} AND item = '${item}' LIMIT ${parseInt(amount)}`);
         }
     }
+
+    /**
+     * 
+     * @param {*} userId ID of user to check.
+     * @param {*} amount Amount to check user has.
+     */
     hasmoney(userId, amount){ // PROMISE FUNCTION
         return query(`SELECT * FROM scores WHERE userId ="${userId}"`).then(oldRow => {
             const row = oldRow[0];
@@ -81,6 +109,13 @@ class Methods {
             }
         });
     }
+
+    /**
+     * 
+     * @param {*} userId ID of user to check.
+     * @param {*} item   Item to check user has, can be an array ex.(["awp|1","glock|2"])
+     * @param {*} amount Amount of item check for.
+     */
     async hasitems(userId, item, amount){
         const userItems = await general.getItemObject(userId);
 
@@ -675,183 +710,6 @@ class Methods {
             totalItemCt += parseInt(itemToCheck[1]);
         }
         return totalItemCt;
-    }
-
-    //BUY COMMAND
-    buyitem(message, buyItem, buyAmount, itemPrice, currency, isGame = false, lang){
-        let displayPrice = currency == 'money' ? this.formatMoney(itemPrice * buyAmount) : itemPrice * buyAmount + "x `" + currency + "`";
-
-        message.reply(lang.buy[2].replace('{0}', buyAmount).replace('{1}', isGame == false ? itemdata[buyItem].icon : '').replace('{2}', buyItem).replace('{3}', displayPrice)).then(async reactMsg => {
-            await reactMsg.react('✅');
-            await reactMsg.react('❌');
-            return reactMsg;
-        }).then(botMessage => {
-            const filter = (reaction, user) => {
-                return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
-            };
-            botMessage.awaitReactions(filter, {max: 1, time: 15000, errors: ['time'] })
-            .then(collected => {
-                const reaction = collected.first();
-
-                if(reaction.emoji.name === '✅'){
-                    botMessage.delete();
-
-                    if(isGame){
-                        //item is a game and needs to message admins when its sold... Doesn't need to check for inventory space since they only lose items
-                        if(currency == 'money'){
-                            this.hasmoney(message.author.id, itemPrice).then(hasMoney => {
-                                if(hasMoney){
-                                    query(`SELECT * FROM gamesData WHERE gameName = '${buyItem}'`).then(gameRow => {
-
-                                        query(`UPDATE gamesData SET gameAmount = ${gameRow[0].gameAmount - 1} WHERE gameName = '${buyItem}'`);
-
-                                        this.removemoney(message.author.id, itemPrice);
-                                        
-                                        message.reply("Successfully bought `" + buyItem + "`!");
-
-                                        const buyerEmbed = new Discord.RichEmbed()
-                                        .setTitle("✅ Game Purchased!")
-                                        .setDescription("The moderators have received confirmation that you purchased a game and will respond with your key soon.")
-                                        .setFooter('Please do not message asking "Where is my code?" unless atleast 12 hours have passed. We have the right to cancel this purchase if we suspect you of cheating.')
-                                        .setTimestamp()
-                                        message.author.send(buyerEmbed);
-
-                                        return message.client.shard.broadcastEval(`
-                                            const channel = this.channels.get('${config.modChannel}');
-                                    
-                                            if(channel){
-                                                channel.send({embed: {
-                                                        title: "✅ Game Purchased!",
-                                                        fields: [
-                                                            {
-                                                                name: "Game Sold",
-                                                                value: "**${gameRow[0].gameDisplay}**",
-                                                            },
-                                                            {
-                                                                name: "Buyer",
-                                                                value: "${message.author.tag} ID: \`\`\`${message.author.id}\`\`\`",
-                                                            },
-                                                        ],
-                                                    }
-                                                });
-                                                true;
-                                            }
-                                            else{
-                                                false;
-                                            }
-                                        `).then(console.log);
-                                    });
-                                }
-                                else{
-                                    message.reply(lang.buy[5].replace('{0}', displayPrice));
-                                }
-                            });
-                        }
-                        else{
-                            this.hasitems(message.author.id, currency, itemPrice).then(hasItems => {
-                                if(hasItems){
-                                    query(`SELECT * FROM gamesData WHERE gameName = '${buyItem}'`).then(gameRow => {
-
-                                        query(`UPDATE gamesData SET gameAmount = ${gameRow[0].gameAmount - 1} WHERE gameName = '${buyItem}'`);
-
-                                        this.removeitem(message.author.id, currency, itemPrice);
-                                        
-                                        message.reply("Successfully bought `" + buyItem + "`!");
-
-                                        const buyerEmbed = new Discord.RichEmbed()
-                                        .setTitle("✅ Game Purchased!")
-                                        .setDescription("The moderators have received confirmation that you purchased a game and will respond with your key soon.")
-                                        .setFooter('Please do not message asking "Where is my code?" unless atleast 12 hours have passed. We have the right to cancel this purchase if we suspect you of cheating.')
-                                        .setTimestamp()
-                                        message.author.send(buyerEmbed);
-
-                                        const gameEmbed = new Discord.RichEmbed()
-                                        .setTitle("✅ Game Purchased!")
-                                        .addField("Game Sold", "**" + gameRow[0].gameDisplay + "**")
-                                        .addField("Buyer", message.author.tag + "\nID: ```" + message.author.id + "```")
-                                        .setTimestamp()
-                                        //<@&495162711102062592>
-                                        return message.client.shard.broadcastEval(`
-                                            const channel = this.channels.get('${config.modChannel}');
-                                    
-                                            if(channel){
-                                                channel.send({embed: {
-                                                        title: "✅ Game Purchased!",
-                                                        fields: [
-                                                            {
-                                                                name: "Game Sold",
-                                                                value: "**${gameRow[0].gameDisplay}**",
-                                                            },
-                                                            {
-                                                                name: "Buyer",
-                                                                value: "${message.author.tag} ID: \`\`\`${message.author.id}\`\`\`",
-                                                            },
-                                                        ],
-                                                    }
-                                                });
-                                                true;
-                                            }
-                                            else{
-                                                false;
-                                            }
-                                        `).then(console.log);
-                                    });
-                                }
-                                else{
-                                    message.reply(lang.buy[5].replace('{0}', displayPrice));
-                                }
-                            });
-                        }
-                    }
-                    else if(currency == "money"){
-                        this.hasenoughspace(message.author.id, parseInt(buyAmount)).then(result => {
-                            this.hasmoney(message.author.id, itemPrice * buyAmount).then(hasmoney => {
-                                if(hasmoney && result){
-                                    this.additem(message.author.id, buyItem, buyAmount);
-                                    this.removemoney(message.author.id, itemPrice * buyAmount);
-                                    message.reply(lang.buy[3].replace('{0}', buyAmount).replace('{1}', isGame == false ? itemdata[buyItem].icon : '').replace('{2}', buyItem));
-                                }
-                                else if(!hasmoney){
-                                    message.reply(lang.buy[4]);
-                                }
-                                else{
-                                    message.reply(lang.errors[2]);
-                                }
-                            });
-                        });
-                    }
-                    else{
-                        //currency must be an item
-                        this.hasenoughspace(message.author.id, buyAmount - (buyAmount * itemPrice)).then(hasSpace => {
-                            this.hasitems(message.author.id, currency, (buyAmount * itemPrice)).then(hasItems => {
-                            //if user bought 3 rpgs at 5 tokens each, they would need 3 - 15 = -12 space in their inventory
-                            //if they had 20/10 slots at time of purchasing, this would return true because 20 - 12 = 8/10 slots
-                                if(hasItems && hasSpace){
-                                    //they have enough of the currency and space, can buy item
-                                    this.removeitem(message.author.id, currency, itemPrice * buyAmount);
-                                    this.additem(message.author.id, buyItem, buyAmount);
-                                    message.reply(lang.buy[3].replace('{0}', buyAmount).replace('{1}', isGame == false ? itemdata[buyItem].icon : '').replace('{2}', buyItem));
-                                }
-                                else if(!hasItems){
-                                    //they dont have enough of the items(currency)
-                                    message.reply(lang.buy[5].replace('{0}', displayPrice));
-                                }
-                                else{
-                                    //no space
-                                    message.reply(lang.errors[2]);
-                                }
-                            });
-                        });
-                    }
-                }
-                else{
-                    botMessage.delete();
-                }
-            }).catch(collected => {
-                botMessage.delete();
-                message.reply("You didn't react in time!");
-            });
-        });
     }
 
     //GAMBLE SUBCOMMANDS
