@@ -3,6 +3,7 @@ const { query } = require('../../mysql.js');
 const clans = require('../../methods/clan_methods.js');
 const methods = require('../../methods/methods.js');
 const itemdata = require('../../json/completeItemList.json');
+const general = require('../../methods/general');
 
 module.exports = {
     name: 'withdraw',
@@ -13,8 +14,8 @@ module.exports = {
     
     async execute(message, args, lang, prefix){
         const scoreRow = (await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`))[0];
-        let itemName = methods.getCorrectedItemInfo(args[0]);
-        let itemAmnt = args[1];
+        let itemName = general.parseArgsWithSpaces(args[0], args[1], args[2]);
+        let itemAmnt = general.parseArgsWithSpaces(args[0], args[1], args[2], true, false, false, {clanDeposit: true});
 
         if(itemName !== 'money' && itemdata[itemName] == undefined && Number.isInteger(parseInt(itemName))){
             itemAmnt = itemName;
@@ -22,7 +23,7 @@ module.exports = {
         }
 
         if(!args.length){
-            return message.reply(lang.clans.leave[0]);
+            return message.reply(lang.clans.withdraw[5]);
         }
         else if(itemName !== 'money' && itemdata[itemName] == undefined){
             return message.reply(lang.clans.deposit[0]);
@@ -56,8 +57,10 @@ module.exports = {
             }
             else{
                 const hasItems = await methods.hasitems(scoreRow.clanId, itemName, itemAmnt);
+                const clanItems = await general.getItemObject(scoreRow.clanId);
+
                 if(!hasItems) return message.reply(lang.clans.withdraw[1].replace('{0}',
-                    (await general.getItemObject(scoreRow.clanId))[itemName]
+                    clanItems[itemName] !== undefined ? clanItems[itemName] : 0
                 ).replace('{1}', itemName));
 
                 const hasSpace = await methods.hasenoughspace(message.author.id, itemAmnt);
@@ -66,10 +69,10 @@ module.exports = {
                 await methods.removeitem(scoreRow.clanId, itemName, itemAmnt);
                 await methods.additem(message.author.id, itemName, itemAmnt);
 
-                clans.addLog(scoreRow.clanId, `${message.author.tag} withdrew ${itemAmnt}x ${itemName} from the vault.`);
+                
 
                 message.reply(lang.clans.withdraw[2].replace('{0}', itemAmnt).replace('{1}', itemName).replace('{2}', 
-                    (await general.getItemObject(scoreRow.clanId))[itemName]
+                    clanItems[itemName] - itemAmnt
                 ).replace('{3}', itemName).replace('{4}', 
                     (await clans.getClanData(scoreRow.clanId)).usedPower + '/' + (await clans.getClanData(scoreRow.clanId)).currPower
                 ));

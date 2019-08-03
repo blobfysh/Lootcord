@@ -227,9 +227,8 @@ module.exports = {
                             }
                         }
                         else if(response.content.startsWith(prefix+ "remove")){
-                            let args = response.content.split(" ").slice(1);
-                            let removeThis = args[0];
-                            removeThis = methods.getCorrectedItemInfo(removeThis);
+                            let args = response.content.split(/ +/).slice(1);
+                            let removeThis = general.parseArgsWithSpaces(args[0], args[1], args[2]);
                             if(itemdata[removeThis] == undefined){
                                 if(removeThis == "money"){
                                     if(response.member.id == message.author.id){

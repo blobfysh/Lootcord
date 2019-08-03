@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
 const itemdata = require('../json/completeItemList.json');
+const general = require('../methods/general');
 
 module.exports = {
     name: 'recycle',
@@ -14,8 +15,8 @@ module.exports = {
     adminOnly: false,
     
     execute(message, args, lang, prefix){
-        let sellItem = methods.getCorrectedItemInfo(args[0]);
-        let sellAmount = args[1];
+        let sellItem = general.parseArgsWithSpaces(args[0], args[1], args[2]);
+        let sellAmount = general.parseArgsWithSpaces(args[0], args[1], args[2], true, false, false);
 
         if(itemdata[sellItem] !== undefined){
             if(itemdata[sellItem].recyclesTo == ""){
