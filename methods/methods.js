@@ -9,40 +9,49 @@ const general = require('../methods/general');
 const icons = require('../json/icons');
 
 class Methods {
-    //GENERAL FUNCTIONS, CAN BE USED BY MULTIPLE COMMANDS
+    /**
+     * 
+     * @param {*} userId ID of user to add item to.
+     * @param {*} item   Item to add, can be array ex.(["item_box|2","awp|1"])
+     * @param {*} amount Amount of item to add, must be number.
+     */
     async additem(userId, item, amount){
-        const oldRow = await query(`SELECT * FROM items WHERE userId ="${userId}"`);
-        const row = oldRow[0];
-            
         if(Array.isArray(item)){
             if(item.length == 0){
                 return;
             }
             for(var i=0; i < item.length; i++){
-                const oldRow2 = await query(`SELECT * FROM items WHERE userId ="${userId}"`);
-                const row2 = oldRow2[0];
-                //do stuff for each item
-                //store amounts in array as ["rock|5","ak47|2"] then use split("|")
+                // store amounts in array as ["rock|5","ak47|2"] then use split("|")
                 let itemToCheck = item[i].split("|");
-                query(`UPDATE items SET ${itemToCheck[0]} = ${row2[itemToCheck[0]] + parseInt(itemToCheck[1])} WHERE userId = ${userId}`);
+
+
+                let insertValues = Array(parseInt(itemToCheck[1])).fill([userId, itemToCheck[0]]); // Store userId and item in array to bulk insert x times # of items.
+
+                await query(`INSERT INTO user_items (userId, item) VALUES ?`, [insertValues]);
             }
         }
         else{
-            query(`UPDATE items SET ${item} = ${row[item] + parseInt(amount)} WHERE userId = ${userId}`);
+            let insertValues = Array(amount).fill([userId, item]);
+            await query(`INSERT INTO user_items (userId, item) VALUES ?`, [insertValues]);
         }
     }
 
+    /**
+     * 
+     * @param {*} userId ID of user to add money to.
+     * @param {*} amount Amount of money to add.
+     */
     addmoney(userId, amount){
-        query(`SELECT * FROM scores WHERE userId ="${userId}"`).then(oldRow => {
-            const row = oldRow[0];
-            query(`UPDATE scores SET money = ${row.money + parseInt(amount)} WHERE userId = ${userId}`);
-        });
+        query(`UPDATE scores SET money = money + ${parseInt(amount)} WHERE userId = ${userId}`);
     }
+
+    /**
+     * 
+     * @param {*} userId ID of user to remove money from.
+     * @param {*} amount Amount of money to remove.
+     */
     removemoney(userId, amount){
-        query(`SELECT * FROM scores WHERE userId ="${userId}"`).then(oldRow => {
-            const row = oldRow[0];
-            query(`UPDATE scores SET money = ${parseInt(row.money) - parseInt(amount)} WHERE userId = ${userId}`);
-        });
+        query(`UPDATE scores SET money = money - ${parseInt(amount)} WHERE userId = ${userId}`);
     }
     trademoney(user1Id, user1Amount, user2Id, user2Amount){
         query(`SELECT * FROM scores WHERE userId ="${user1Id}"`).then(row1 => {
@@ -58,27 +67,37 @@ class Methods {
             });
         });
     }
-    removeitem(userId, item, amount){
-        query(`SELECT * FROM items WHERE userId ="${userId}"`).then(oldRow => {
-            const row = oldRow[0];
 
-            if(Array.isArray(item)){
-                if(item.length == 0){
-                    return;
-                }
-                for(var i=0; i < item.length; i++){
-                    //do stuff for each item
-                    //store amounts in array as ["rock|5","ak47|2"] then use split("|")
-                    let itemToCheck = item[i].split("|");
-                    query(`UPDATE items SET ${itemToCheck[0]} = ${row[itemToCheck[0]] - parseInt(itemToCheck[1])} WHERE userId = ${userId}`);
-                }
+    /**
+     * 
+     * @param {*} userId ID of user to remove item from.
+     * @param {*} item   Item to remove, can be an array ex.(["rock|2","item_box|3"])
+     * @param {*} amount Amount of item to remove.
+     */
+    async removeitem(userId, item, amount){
+        if(Array.isArray(item)){
+            if(item.length == 0){
+                return;
             }
-            else{
-                query(`UPDATE items SET ${item} = ${row[item] - amount} WHERE userId = ${userId}`);
+            for(var i=0; i < item.length; i++){
+                //do stuff for each item
+                //store amounts in array as ["rock|5","ak47|2"] then use split("|")
+                let itemToCheck = item[i].split("|");
+
+                query(`DELETE FROM user_items WHERE userId = ${userId} AND item = '${itemToCheck[0]}' LIMIT ${parseInt(itemToCheck[1])}`);
             }
-        });
+        }
+        else{
+            query(`DELETE FROM user_items WHERE userId = ${userId} AND item = '${item}' LIMIT ${parseInt(amount)}`);
+        }
     }
-    hasmoney(userId, amount){//PROMISE FUNCTION
+
+    /**
+     * 
+     * @param {*} userId ID of user to check.
+     * @param {*} amount Amount to check user has.
+     */
+    hasmoney(userId, amount){ // PROMISE FUNCTION
         return query(`SELECT * FROM scores WHERE userId ="${userId}"`).then(oldRow => {
             const row = oldRow[0];
 
@@ -90,36 +109,41 @@ class Methods {
             }
         });
     }
-    hasitems(userId, item, amount){//PROMISE FUNCTION
-        return query(`SELECT * FROM items WHERE userId ="${userId}"`).then(oldRow => {
-            const row = oldRow[0];
 
-            if(Array.isArray(item)){
-                if(item.length == 0){
-                    return true;
-                }
-                for (var i = 0; i < item.length; i++) {
-                    //do stuff for each item
-                    let itemToCheck = item[i].split("|");
-                    if(row[itemToCheck[0]] >= parseInt(itemToCheck[1])){
-                        if(i == item.length - 1){
-                            return true;
-                        }
-                    }
-                    else{
-                        return false;
-                    }
-                }
+    /**
+     * 
+     * @param {*} userId ID of user to check.
+     * @param {*} item   Item to check user has, can be an array ex.(["awp|1","glock|2"])
+     * @param {*} amount Amount of item check for.
+     */
+    async hasitems(userId, item, amount){
+        const userItems = await general.getItemObject(userId);
+
+        if(Array.isArray(item)){
+            if(item.length == 0){
+                return true;
             }
-            else{
-                if(row[item] >= amount){
-                    return true;
+            for (var i = 0; i < item.length; i++) {
+                //do stuff for each item
+                let itemToCheck = item[i].split("|");
+                if(userItems[itemToCheck[0]] >= parseInt(itemToCheck[1])){
+                    if(i == item.length - 1){
+                        return true;
+                    }
                 }
                 else{
                     return false;
                 }
             }
-        });
+        }
+        else{
+            if(userItems[item] >= parseInt(amount)){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
     }
     getCorrectedItemInfo(itemName = ""){
         let itemSearched = itemName.toLowerCase();
@@ -263,54 +287,50 @@ class Methods {
             console.log(err)
         }
     }
-    getitemcount(userId, cntTokens = false, cntBanners = false){//RETURNS PROMISE
-        return query(`SELECT * FROM items WHERE userId ="${userId}"`).then(oldRow => {
-            return query(`SELECT * FROM scores WHERE userId ="${userId}"`).then(oldRow2 => {
-                const row = oldRow[0];
-                const row2 = oldRow2[0];
+    async getitemcount(userId, cntTokens = false, cntBanners = false){
+        const userItems = await general.getItemObject(userId);
+        const scoreRow  = (await query(`SELECT * FROM scores WHERE userId ="${userId}"`))[0];
 
-                var totalItemCt = 0;
+        var totalItemCt = 0;
 
-                Object.keys(itemdata).forEach(key => {
-                    if(row[key] > 0){
-                        if(key == 'token' && cntTokens){
-                            totalItemCt += row[key];
-                        }
-                        else if(itemdata[key].isBanner && cntBanners){
-                            totalItemCt += row[key];
-                        }
-                        else if(key !== 'token' && !itemdata[key].isBanner){
-                            totalItemCt += row[key];
-                        }
-                    }
-                });
-                return {
-                    itemCt : totalItemCt,
-                    capacity : (totalItemCt + "/" + (config.base_inv_slots + row2.inv_slots))
+        Object.keys(itemdata).forEach(key => {
+            if(userItems[key] > 0){
+                if(key == 'token' && cntTokens){
+                    totalItemCt += userItems[key];
                 }
-            });
+                else if(itemdata[key].isBanner && cntBanners){
+                    totalItemCt += userItems[key];
+                }
+                else if(key !== 'token' && !itemdata[key].isBanner){
+                    totalItemCt += userItems[key];
+                }
+            }
         });
+        return {
+            itemCt : totalItemCt,
+            capacity : (totalItemCt + "/" + (config.base_inv_slots + scoreRow.inv_slots))
+        }
     }
-    hasenoughspace(userId, amount = 0){//RETURNS PROMISE
-        return this.getitemcount(userId).then(itemCt => {
-            return query(`SELECT * FROM scores WHERE userId ="${userId}"`).then(oldRow => {
-                const row = oldRow[0];
+    async hasenoughspace(userId, amount = 0){
+        const itemCt = await this.getitemcount(userId);
+        const userRow = (await query(`SELECT * FROM scores WHERE userId = "${userId}"`))[0];
+        
+        console.log((itemCt.itemCt + parseInt(amount)) + " <= " + (config.base_inv_slots + userRow.inv_slots));
 
-                console.log((itemCt.itemCt + parseInt(amount)) + " <= " + (config.base_inv_slots + row.inv_slots));
-
-                if((itemCt.itemCt + parseInt(amount)) <= (config.base_inv_slots + row.inv_slots)) return true;
-                else return false;
-            });
-        });
+        if((itemCt.itemCt + parseInt(amount)) <= (config.base_inv_slots + userRow.inv_slots)) return true;
+        else return false;
     }
-    getitems(rarity = "all", {type = "", type2 = "", exclude = [], excludeItem = []}){
+    getitems(rarity = "all", {type = "", type2 = "", exclude = [], excludeItem = [], excludeType = ''}){
         rarity = rarity.toLowerCase();
         let items = [];
 
         Object.keys(itemdata).forEach(key => {
             if(itemdata[key].rarity.toLowerCase() == rarity && !excludeItem.includes(key)){
                 if(type == ""){
-                    items.push(key);
+                    if(excludeType == 'banner' && !itemdata[key].isBanner){
+                        items.push(key);
+                    }
+                    else if (excludeType !== 'banner') items.push(key);
                 }
                 else if(type2 ==""){
                     if((type == "weapon" || type == "weap") && itemdata[key].isWeap == true){
@@ -431,7 +451,10 @@ class Methods {
             }
             else if(rarity == "all" && !exclude.includes(itemdata[key].rarity.toLowerCase()) && !excludeItem.includes(key)){
                 if(type == ""){
-                    items.push(key);
+                    if(excludeType == 'banner' && !itemdata[key].isBanner){
+                        items.push(key);
+                    }
+                    else if(excludeType !== 'banner') items.push(key);
                 }
                 else if(type == "ammo" && itemdata[key].isAmmo.length){
                     items.push(key);
@@ -440,73 +463,69 @@ class Methods {
         });
         return items;
     }
-    getuseritems(userId, {sep = "",amounts= false, icon = false, onlyBanners = false, countBanners = false}){
-        return query(`SELECT * FROM items WHERE userId ="${userId}"`).then(oldRow => {
-            const row = oldRow[0];
+    async getuseritems(userId, {sep = "",amounts= false, icon = false, onlyBanners = false, countBanners = false}){
+        const itemRow = await general.getItemObject(userId);
+        let commonItems   = [];
+        let uncommonItems = [];
+        let rareItems     = [];
+        let epicItems     = [];
+        let legendItems   = [];
+        let ultraItems    = [];
+        let limitedItems  = [];
+        let invValue      = 0;
+        let itemCount     = 0;
 
-            let commonItems   = [];
-            let uncommonItems = [];
-            let rareItems     = [];
-            let epicItems     = [];
-            let legendItems   = [];
-            let ultraItems    = [];
-            let limitedItems  = [];
-            let invValue      = 0;
-            let itemCount     = 0;
-
-            Object.keys(itemdata).forEach(key => {
-                if(countBanners){
-                    if(row[key] >= 1){
-                        addIt(key);
-                    }
+        Object.keys(itemdata).forEach(key => {
+            if(countBanners){
+                if(itemRow[key] >= 1){
+                    addIt(key);
                 }
-                else if(onlyBanners && itemdata[key].isBanner){
-                    if(row[key] >= 1){
-                        addIt(key);
-                    }
-                }
-                else if(!onlyBanners && itemdata[key].isBanner == undefined){
-                    if(row[key] >= 1){
-                        addIt(key);
-                    }
-                }
-            });
-
-            function addIt(key){
-                if(icon){
-                    if(itemdata[key].rarity == "Common") commonItems.push(itemdata[key].icon + sep + key + sep + "("+row[key]+")");
-                    else if(itemdata[key].rarity == "Uncommon") uncommonItems.push(itemdata[key].icon + sep + key + sep + "("+row[key]+")");
-                    else if(itemdata[key].rarity == "Rare") rareItems.push(itemdata[key].icon + sep + key + sep + "("+row[key]+")");
-                    else if(itemdata[key].rarity == "Epic") epicItems.push(itemdata[key].icon + sep + key + sep + "("+row[key]+")");
-                    else if(itemdata[key].rarity == "Legendary") legendItems.push(itemdata[key].icon + sep + key + sep + "("+row[key]+")");
-                    else if(itemdata[key].rarity == "Ultra") ultraItems.push(itemdata[key].icon + sep + key + sep + "("+row[key]+")");
-                    else if(itemdata[key].rarity == "Limited") limitedItems.push(itemdata[key].icon + sep + key + sep + "("+row[key]+")");
-                }
-                else{
-                    if(itemdata[key].rarity == "Common") commonItems.push(sep + key + sep + "("+row[key]+")");
-                    else if(itemdata[key].rarity == "Uncommon") uncommonItems.push(sep + key + sep + "("+row[key]+")");
-                    else if(itemdata[key].rarity == "Rare") rareItems.push(sep + key + sep + "("+row[key]+")");
-                    else if(itemdata[key].rarity == "Epic") epicItems.push(sep + key + sep + "("+row[key]+")");
-                    else if(itemdata[key].rarity == "Legendary") legendItems.push(sep + key + sep + "("+row[key]+")");
-                    else if(itemdata[key].rarity == "Ultra") ultraItems.push(sep + key + sep + "("+row[key]+")");
-                    else if(itemdata[key].rarity == "Limited") limitedItems.push(sep + key + sep + "("+row[key]+")");
-                }
-                invValue += itemdata[key].sell * row[key];
-                itemCount+= row[key];
             }
-
-            return {
-                common: commonItems,
-                uncommon: uncommonItems,
-                rare: rareItems,
-                epic: epicItems,
-                legendary: legendItems,
-                ultra: ultraItems,
-                limited: limitedItems,
-                invValue: invValue,
-                itemCount: itemCount
+            else if(onlyBanners && itemdata[key].isBanner){
+                if(itemRow[key] >= 1){
+                    addIt(key);
+                }
+            }
+            else if(!onlyBanners && itemdata[key].isBanner == undefined){
+                if(itemRow[key] >= 1){
+                    addIt(key);
+                }
             }
         });
+
+        function addIt(key){
+            if(icon){
+                if(itemdata[key].rarity == "Common") commonItems.push(itemdata[key].icon + sep + key + sep + "("+itemRow[key]+")");
+                else if(itemdata[key].rarity == "Uncommon") uncommonItems.push(itemdata[key].icon + sep + key + sep + "("+itemRow[key]+")");
+                else if(itemdata[key].rarity == "Rare") rareItems.push(itemdata[key].icon + sep + key + sep + "("+itemRow[key]+")");
+                else if(itemdata[key].rarity == "Epic") epicItems.push(itemdata[key].icon + sep + key + sep + "("+itemRow[key]+")");
+                else if(itemdata[key].rarity == "Legendary") legendItems.push(itemdata[key].icon + sep + key + sep + "("+itemRow[key]+")");
+                else if(itemdata[key].rarity == "Ultra") ultraItems.push(itemdata[key].icon + sep + key + sep + "("+itemRow[key]+")");
+                else if(itemdata[key].rarity == "Limited") limitedItems.push(itemdata[key].icon + sep + key + sep + "("+itemRow[key]+")");
+            }
+            else{
+                if(itemdata[key].rarity == "Common") commonItems.push(sep + key + sep + "("+itemRow[key]+")");
+                else if(itemdata[key].rarity == "Uncommon") uncommonItems.push(sep + key + sep + "("+itemRow[key]+")");
+                else if(itemdata[key].rarity == "Rare") rareItems.push(sep + key + sep + "("+itemRow[key]+")");
+                else if(itemdata[key].rarity == "Epic") epicItems.push(sep + key + sep + "("+itemRow[key]+")");
+                else if(itemdata[key].rarity == "Legendary") legendItems.push(sep + key + sep + "("+itemRow[key]+")");
+                else if(itemdata[key].rarity == "Ultra") ultraItems.push(sep + key + sep + "("+itemRow[key]+")");
+                else if(itemdata[key].rarity == "Limited") limitedItems.push(sep + key + sep + "("+itemRow[key]+")");
+            }
+            invValue += itemdata[key].sell * itemRow[key];
+            itemCount+= itemRow[key];
+        }
+        return {
+            common: commonItems,
+            uncommon: uncommonItems,
+            rare: rareItems,
+            epic: epicItems,
+            legendary: legendItems,
+            ultra: ultraItems,
+            limited: limitedItems,
+            invValue: invValue,
+            itemCount: itemCount
+        }
     }
     formatMoney(money, noEmoji = false){
         if(noEmoji){
@@ -518,36 +537,32 @@ class Methods {
     }
 
     //USE COMMAND
-    randomItems(killerId, victimId, amount){
-        return query(`SELECT * FROM items WHERE userId ="${victimId}"`).then(oldVicItems => {
-            const victimItems = oldVicItems[0];
-            return query(`SELECT * FROM items WHERE userId ="${killerId}"`).then(oldKillerItems => {
-                const killerItems = oldKillerItems[0];
+    async randomItems(killerId, victimId, amount){
+        const victimItems = await general.getItemObject(victimId);
+        const killerItems = await general.getItemObject(killerId);
 
-                if(amount <= 0){
-                    return selected = "They had no items you could steal!";
+        if(amount <= 0){
+            return selected = "They had no items you could steal!";
+        }
+        let victimItemsList = [];
+
+        Object.keys(itemdata).forEach(key => {
+            if(victimItems[key] >= 1){
+                if(itemdata[key].canBeStolen){
+                    victimItemsList.push(key);
                 }
-                let victimItemsList = [];
-
-                Object.keys(itemdata).forEach(key => {
-                    if(victimItems[key] >= 1){
-                        if(itemdata[key].canBeStolen){
-                            victimItemsList.push(key);
-                        }
-                    }
-                });
-
-                const shuffled = victimItemsList.sort(() => 0.5 - Math.random()); //shuffles array of items
-                var selected = shuffled.slice(0, amount); //picks random items
-                
-                for (var i = 0; i < selected.length; i++) {
-                    //add items to killers inventory, take away from victims
-                    query(`UPDATE items SET ${selected[i]} = ${eval(`killerItems.` + selected[i]) + 1} WHERE userId = ${killerId}`);
-                    query(`UPDATE items SET ${selected[i]} = ${eval(`victimItems.` + selected[i]) - 1} WHERE userId = ${victimId}`);
-                }
-                return [selected.join('\n'), selected.join(', ')];
-            });
+            }
         });
+
+        const shuffled = victimItemsList.sort(() => 0.5 - Math.random()); //shuffles array of items
+        var selected = shuffled.slice(0, amount); //picks random items
+        
+        for (var i = 0; i < selected.length; i++) {
+            //add items to killers inventory, take away from victims
+            this.additem(killerId, selected[i], 1);
+            this.removeitem(victimId, selected[i], 1);
+        }
+        return [selected.join('\n'), selected.join(', ')];
     }
     randomUser(message, weapon = ''){//returns a random userId from the attackers guild
         return query(`SELECT * FROM userGuilds WHERE guildId ="${message.guild.id}" ORDER BY LOWER(userId)`).then(rows => {
@@ -574,63 +589,6 @@ class Methods {
                 var rand = guildUsers[Math.floor(Math.random() * guildUsers.length)];
                 return rand;
             });
-        });
-    }
-    addxp(message, amount, userId, lang){
-        query(`SELECT * FROM items i
-                INNER JOIN scores s
-                ON i.userId = s.userId
-                INNER JOIN cooldowns
-                ON i.userId = cooldowns.userId
-                WHERE s.userId="${userId}"`).then(oldRow => {  
-            const row = oldRow[0];
-
-            if(message.client.sets.xpPotCooldown.has(userId)){
-                message.reply(lang.use.items[7].replace('{0}', ((180 * 1000 - ((new Date()).getTime() - row.xpTime)) / 1000).toFixed(0)));
-                return;
-            }
-            query(`UPDATE cooldowns SET xpTime = ${(new Date()).getTime()} WHERE userId = ${userId}`);
-
-            message.client.shard.broadcastEval(`this.sets.xpPotCooldown.add('${userId}')`);
-            setTimeout(() => {
-                message.client.shard.broadcastEval(`this.sets.xpPotCooldown.delete('${userId}')`);
-                query(`UPDATE cooldowns SET xpTime = ${0} WHERE userId = ${userId}`);
-            }, 180 * 1000);
-
-            query(`UPDATE items SET xp_potion = ${row.xp_potion - 1} WHERE userId = ${userId}`);
-            query(`UPDATE scores SET points = ${row.points + amount} WHERE userId = ${userId}`);
-            let msgEmbed = new Discord.RichEmbed()
-            .setAuthor(message.member.displayName, message.author.avatarURL)
-            .setTitle("Successfully used `xp_potion`")
-            .setDescription("Gained **"+amount+" XP**!")
-            .setColor(14202368)
-            message.channel.send(msgEmbed);
-        });
-    }
-    resetSkills(message, userId){
-        query(`SELECT * FROM items i
-                JOIN scores s
-                ON i.userId = s.userId
-                WHERE s.userId="${userId}"`).then(oldRow => {
-            const row = oldRow[0];
-
-            let usedStatPts = row.used_stats;
-            query(`UPDATE items SET reroll_scroll = ${row.reroll_scroll - 1} WHERE userId = ${userId}`);
-            query(`UPDATE scores SET stats = ${row.stats + usedStatPts} WHERE userId = ${userId}`);
-            query(`UPDATE scores SET maxHealth = ${100} WHERE userId = ${userId}`);
-            query(`UPDATE scores SET luck = ${0} WHERE userId = ${userId}`);
-            query(`UPDATE scores SET scaledDamage = ${1.00} WHERE userId = ${userId}`);
-            query(`UPDATE scores SET used_stats = ${0} WHERE userId = ${userId}`);
-            if(row.health > 100){
-                query(`UPDATE scores SET health = ${100} WHERE userId = ${userId}`);
-            }
-            let msgEmbed = new Discord.RichEmbed()
-            .setAuthor(message.member.displayName, message.author.avatarURL)
-            .setTitle("Successfully used 📜`reroll_scroll`")
-            .setDescription("Restored **"+usedStatPts+"** skill points.")
-            .setFooter("Attributes reset.")
-            .setColor(14202368)
-            message.channel.send(msgEmbed);
         });
     }
     addToHealCooldown(message, userId, itemUsed){
@@ -704,23 +662,21 @@ class Methods {
             }
         });
     }
-    getShieldTime(userId){
-        return query(`SELECT * FROM cooldowns WHERE userId ="${userId}"`).then(oldRow => {
-            const row = oldRow[0];
-
-            if(row.mittenShieldTime > 0){
-                return "`" + ((1800 * 1000 - ((new Date()).getTime() - row.mittenShieldTime)) / 60000).toFixed(1) + " minutes`"
-            }
-            else if(row.ironShieldTime > 0){
-                return "`" + ((7200 * 1000 - ((new Date()).getTime() - row.ironShieldTime)) / 60000).toFixed(1) + " minutes`"
-            }
-            else if(row.goldShieldTime > 0){
-                return "`" + ((28800 * 1000 - ((new Date()).getTime() - row.goldShieldTime)) / 60000).toFixed(1) + " minutes`"
-            }
-            else{
-                return "`[REDACTED]`";
-            }
-        });
+    async getShieldTime(userId){
+        const row = (await query(`SELECT * FROM cooldowns WHERE userId ="${userId}"`))[0];
+        
+        if(row.mittenShieldTime > 0){
+            return "`" + ((1800 * 1000 - ((new Date()).getTime() - row.mittenShieldTime)) / 60000).toFixed(1) + " minutes`"
+        }
+        else if(row.ironShieldTime > 0){
+            return "`" + ((7200 * 1000 - ((new Date()).getTime() - row.ironShieldTime)) / 60000).toFixed(1) + " minutes`"
+        }
+        else if(row.goldShieldTime > 0){
+            return "`" + ((28800 * 1000 - ((new Date()).getTime() - row.goldShieldTime)) / 60000).toFixed(1) + " minutes`"
+        }
+        else{
+            return "`[REDACTED]`";
+        }
     }
     async sendtokillfeed(message, killerId, victimId, itemName, itemDmg, itemsStolen, moneyStolen){
         const guildRow = (await query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`))[0];
@@ -754,183 +710,6 @@ class Methods {
             totalItemCt += parseInt(itemToCheck[1]);
         }
         return totalItemCt;
-    }
-
-    //BUY COMMAND
-    buyitem(message, buyItem, buyAmount, itemPrice, currency, isGame = false, lang){
-        let displayPrice = currency == 'money' ? this.formatMoney(itemPrice * buyAmount) : itemPrice * buyAmount + "x `" + currency + "`";
-
-        message.reply(lang.buy[2].replace('{0}', buyAmount).replace('{1}', isGame == false ? itemdata[buyItem].icon : '').replace('{2}', buyItem).replace('{3}', displayPrice)).then(async reactMsg => {
-            await reactMsg.react('✅');
-            await reactMsg.react('❌');
-            return reactMsg;
-        }).then(botMessage => {
-            const filter = (reaction, user) => {
-                return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
-            };
-            botMessage.awaitReactions(filter, {max: 1, time: 15000, errors: ['time'] })
-            .then(collected => {
-                const reaction = collected.first();
-
-                if(reaction.emoji.name === '✅'){
-                    botMessage.delete();
-
-                    if(isGame){
-                        //item is a game and needs to message admins when its sold... Doesn't need to check for inventory space since they only lose items
-                        if(currency == 'money'){
-                            this.hasmoney(message.author.id, itemPrice).then(hasMoney => {
-                                if(hasMoney){
-                                    query(`SELECT * FROM gamesData WHERE gameName = '${buyItem}'`).then(gameRow => {
-
-                                        query(`UPDATE gamesData SET gameAmount = ${gameRow[0].gameAmount - 1} WHERE gameName = '${buyItem}'`);
-
-                                        this.removemoney(message.author.id, itemPrice);
-                                        
-                                        message.reply("Successfully bought `" + buyItem + "`!");
-
-                                        const buyerEmbed = new Discord.RichEmbed()
-                                        .setTitle("✅ Game Purchased!")
-                                        .setDescription("The moderators have received confirmation that you purchased a game and will respond with your key soon.")
-                                        .setFooter('Please do not message asking "Where is my code?" unless atleast 12 hours have passed. We have the right to cancel this purchase if we suspect you of cheating.')
-                                        .setTimestamp()
-                                        message.author.send(buyerEmbed);
-
-                                        return message.client.shard.broadcastEval(`
-                                            const channel = this.channels.get('${config.modChannel}');
-                                    
-                                            if(channel){
-                                                channel.send({embed: {
-                                                        title: "✅ Game Purchased!",
-                                                        fields: [
-                                                            {
-                                                                name: "Game Sold",
-                                                                value: "**${gameRow[0].gameDisplay}**",
-                                                            },
-                                                            {
-                                                                name: "Buyer",
-                                                                value: "${message.author.tag} ID: \`\`\`${message.author.id}\`\`\`",
-                                                            },
-                                                        ],
-                                                    }
-                                                });
-                                                true;
-                                            }
-                                            else{
-                                                false;
-                                            }
-                                        `).then(console.log);
-                                    });
-                                }
-                                else{
-                                    message.reply(lang.buy[5].replace('{0}', displayPrice));
-                                }
-                            });
-                        }
-                        else{
-                            this.hasitems(message.author.id, currency, itemPrice).then(hasItems => {
-                                if(hasItems){
-                                    query(`SELECT * FROM gamesData WHERE gameName = '${buyItem}'`).then(gameRow => {
-
-                                        query(`UPDATE gamesData SET gameAmount = ${gameRow[0].gameAmount - 1} WHERE gameName = '${buyItem}'`);
-
-                                        this.removeitem(message.author.id, currency, itemPrice);
-                                        
-                                        message.reply("Successfully bought `" + buyItem + "`!");
-
-                                        const buyerEmbed = new Discord.RichEmbed()
-                                        .setTitle("✅ Game Purchased!")
-                                        .setDescription("The moderators have received confirmation that you purchased a game and will respond with your key soon.")
-                                        .setFooter('Please do not message asking "Where is my code?" unless atleast 12 hours have passed. We have the right to cancel this purchase if we suspect you of cheating.')
-                                        .setTimestamp()
-                                        message.author.send(buyerEmbed);
-
-                                        const gameEmbed = new Discord.RichEmbed()
-                                        .setTitle("✅ Game Purchased!")
-                                        .addField("Game Sold", "**" + gameRow[0].gameDisplay + "**")
-                                        .addField("Buyer", message.author.tag + "\nID: ```" + message.author.id + "```")
-                                        .setTimestamp()
-                                        //<@&495162711102062592>
-                                        return message.client.shard.broadcastEval(`
-                                            const channel = this.channels.get('${config.modChannel}');
-                                    
-                                            if(channel){
-                                                channel.send({embed: {
-                                                        title: "✅ Game Purchased!",
-                                                        fields: [
-                                                            {
-                                                                name: "Game Sold",
-                                                                value: "**${gameRow[0].gameDisplay}**",
-                                                            },
-                                                            {
-                                                                name: "Buyer",
-                                                                value: "${message.author.tag} ID: \`\`\`${message.author.id}\`\`\`",
-                                                            },
-                                                        ],
-                                                    }
-                                                });
-                                                true;
-                                            }
-                                            else{
-                                                false;
-                                            }
-                                        `).then(console.log);
-                                    });
-                                }
-                                else{
-                                    message.reply(lang.buy[5].replace('{0}', displayPrice));
-                                }
-                            });
-                        }
-                    }
-                    else if(currency == "money"){
-                        this.hasenoughspace(message.author.id, parseInt(buyAmount)).then(result => {
-                            this.hasmoney(message.author.id, itemPrice * buyAmount).then(hasmoney => {
-                                if(hasmoney && result){
-                                    this.additem(message.author.id, buyItem, buyAmount);
-                                    this.removemoney(message.author.id, itemPrice * buyAmount);
-                                    message.reply(lang.buy[3].replace('{0}', buyAmount).replace('{1}', isGame == false ? itemdata[buyItem].icon : '').replace('{2}', buyItem));
-                                }
-                                else if(!hasmoney){
-                                    message.reply(lang.buy[4]);
-                                }
-                                else{
-                                    message.reply(lang.errors[2]);
-                                }
-                            });
-                        });
-                    }
-                    else{
-                        //currency must be an item
-                        this.hasenoughspace(message.author.id, buyAmount - (buyAmount * itemPrice)).then(hasSpace => {
-                            this.hasitems(message.author.id, currency, (buyAmount * itemPrice)).then(hasItems => {
-                            //if user bought 3 rpgs at 5 tokens each, they would need 3 - 15 = -12 space in their inventory
-                            //if they had 20/10 slots at time of purchasing, this would return true because 20 - 12 = 8/10 slots
-                                if(hasItems && hasSpace){
-                                    //they have enough of the currency and space, can buy item
-                                    this.removeitem(message.author.id, currency, itemPrice * buyAmount);
-                                    this.additem(message.author.id, buyItem, buyAmount);
-                                    message.reply(lang.buy[3].replace('{0}', buyAmount).replace('{1}', isGame == false ? itemdata[buyItem].icon : '').replace('{2}', buyItem));
-                                }
-                                else if(!hasItems){
-                                    //they dont have enough of the items(currency)
-                                    message.reply(lang.buy[5].replace('{0}', displayPrice));
-                                }
-                                else{
-                                    //no space
-                                    message.reply(lang.errors[2]);
-                                }
-                            });
-                        });
-                    }
-                }
-                else{
-                    botMessage.delete();
-                }
-            }).catch(collected => {
-                botMessage.delete();
-                message.reply("You didn't react in time!");
-            });
-        });
     }
 
     //GAMBLE SUBCOMMANDS
@@ -1102,15 +881,6 @@ class Methods {
                 query(`UPDATE scores SET money = ${row.money - parseInt(amount)} WHERE userId = ${message.author.id}`);
             }
         });
-    }
-
-    //SCRAMBLE COMMAND
-    scrambleWinMsg(message, itemReward){
-        const embedScramble = new Discord.RichEmbed()
-        .setTitle("**You got it correct!**")
-        .setDescription("Reward : ```" + itemReward+"```")
-        .setColor(9043800);
-        message.channel.send(message.author, embedScramble);
     }
 
     //SHOP COMMAND

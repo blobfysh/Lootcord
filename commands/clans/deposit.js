@@ -3,6 +3,7 @@ const { query } = require('../../mysql.js');
 const clans = require('../../methods/clan_methods.js');
 const methods = require('../../methods/methods.js');
 const itemdata = require('../../json/completeItemList.json');
+const general = require('../../methods/general');
 
 module.exports = {
     name: 'deposit',
@@ -13,8 +14,8 @@ module.exports = {
     
     async execute(message, args, lang, prefix){
         const scoreRow = (await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`))[0];
-        let itemName = methods.getCorrectedItemInfo(args[0]);
-        let itemAmnt = args[1];
+        let itemName = general.parseArgsWithSpaces(args[0], args[1], args[2]);
+        let itemAmnt = general.parseArgsWithSpaces(args[0], args[1], args[2], true, false, false, {clanDeposit: true});
 
         if(itemName !== 'money' && itemdata[itemName] == undefined && Number.isInteger(parseInt(itemName))){
             itemAmnt = itemName;
@@ -22,7 +23,7 @@ module.exports = {
         }
 
         if(!args.length){
-            return message.reply(lang.clans.leave[0]);
+            return message.reply(lang.clans.deposit[6]);
         }
         else if(itemName !== 'money' && itemdata[itemName] == undefined){
             return message.reply(lang.clans.deposit[0]);
@@ -51,23 +52,22 @@ module.exports = {
                 await methods.removemoney(message.author.id, itemAmnt);
                 await depositItem(itemName, itemAmnt, scoreRow.clanId);
 
-                clans.addLog(scoreRow.clanId, `${message.author.tag} deposited $${itemAmnt}`);
-
                 message.reply(lang.clans.deposit[5].replace('{0}', methods.formatMoney(itemAmnt)).replace('{1}',
                     methods.formatMoney((await query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0][itemName])
                 ));
             }
             else{
                 const hasItems = await methods.hasitems(message.author.id, itemName, itemAmnt);
+                
                 if(!hasItems) return message.reply(lang.sell[2]);
 
                 await methods.removeitem(message.author.id, itemName, itemAmnt);
                 await depositItem(itemName, itemAmnt, scoreRow.clanId);
 
-                clans.addLog(scoreRow.clanId, `${message.author.tag} deposited ${itemAmnt}x ${itemName} into the vault.`);
+                const clanItems = await general.getItemObject(scoreRow.clanId);
 
                 message.reply(lang.clans.deposit[4].replace('{0}', itemAmnt).replace('{1}', itemName).replace('{2}', 
-                    (await query(`SELECT * FROM items WHERE userId = ${scoreRow.clanId}`))[0][itemName]
+                    clanItems[itemName]
                 ).replace('{3}', itemName).replace('{4}', 
                     (await clans.getClanData(scoreRow.clanId)).usedPower + '/' + (await clans.getClanData(scoreRow.clanId)).currPower
                 ));
@@ -81,6 +81,6 @@ async function depositItem(item, amount, clanId){
         query(`UPDATE clans SET money = money + ${parseInt(amount)} WHERE clanId = ${clanId}`);
     }
     else{
-        query(`UPDATE items SET ${item} = ${item} + ${parseInt(amount)} WHERE userId = ${clanId}`);
+        methods.additem(clanId, item, parseInt(amount));
     }
 }

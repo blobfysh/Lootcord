@@ -16,8 +16,6 @@ module.exports = {
     async execute(message, args, lang, prefix){
         const guildInfo = await query(`SELECT * FROM guildInfo WHERE guildId = ${message.guild.id}`);
         const userRow = (await query(`SELECT * FROM scores 
-        INNER JOIN items 
-        ON scores.userId = items.userId
         INNER JOIN cooldowns
         ON scores.userId = cooldowns.userId
         WHERE scores.userId = ${message.author.id}`))[0];
@@ -38,7 +36,7 @@ module.exports = {
         else if(!hasEnough) return message.reply(lang.errors[2]);
         
         else{
-            query(`UPDATE items SET ${guildInfo[0].dropItem} = ${userRow[guildInfo[0].dropItem] + 1} WHERE userId = ${message.author.id}`);
+            methods.additem(message.author.id, guildInfo[0].dropItem, 1);
             query(`UPDATE guildInfo SET dropItem = '' WHERE guildId = ${message.guild.id}`);
             query(`UPDATE guildInfo SET dropItemChan = 0 WHERE guildId = ${message.guild.id}`);
 

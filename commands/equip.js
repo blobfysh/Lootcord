@@ -16,32 +16,31 @@ module.exports = {
     adminOnly: false,
     
     async execute(message, args, lang, prefix){
-        const row = (await query(`SELECT * FROM items i
-        INNER JOIN scores s
-        ON i.userId = s.userId
-        WHERE s.userId="${message.author.id}"`))[0];
+        const userRow = (await query(`SELECT * FROM scores WHERE userId="${message.author.id}"`))[0];
         let equipitem = general.parseArgsWithSpaces(args[0], args[1], args[2]);
 
         if(equipitem !== undefined && itemdata[equipitem] !== undefined && itemdata[equipitem].equippable == "true"){
             const haspack = await methods.hasitems(message.author.id, equipitem, 1);
 
             if(haspack){
-                if(row.backpack == "none" && itemdata[equipitem].type == "backpack"){
+                if(userRow.backpack == "none" && itemdata[equipitem].type == "backpack"){
                     query(`UPDATE scores SET backpack = '${equipitem}' WHERE userId = ${message.author.id}`);
                     query(`UPDATE scores SET inv_slots = ${itemdata[equipitem].inv_slots} WHERE userId = ${message.author.id}`);
-                    query(`UPDATE items SET ${equipitem} = ${row[equipitem] - 1} WHERE userId = ${message.author.id}`);
+                    methods.removeitem(message.author.id, equipitem, 1);
 
                     message.reply(lang.equip[0].replace('{-1}', itemdata[equipitem].icon).replace('{0}', equipitem).replace('{1}', itemdata[equipitem].inv_slots).replace('{2}', itemdata[equipitem].inv_slots + config.base_inv_slots));
                 }
-                else if(row.armor == "none" && itemdata[equipitem].type == "armor"){
+                else if(userRow.armor == "none" && itemdata[equipitem].type == "armor"){
                     query(`UPDATE scores SET armor = '${equipitem}' WHERE userId = ${message.author.id}`);
                     //add armor defense % to sql table somewhere?
-                    query(`UPDATE items SET ${equipitem} = ${row[equipitem] - 1} WHERE userId = ${message.author.id}`);
+                    methods.removeitem(message.author.id, equipitem, 1);
+
                     message.reply(lang.equip[1].replace('{-1}', itemdata[equipitem].icon).replace('{0}', equipitem));
                 }
-                else if(row.banner == 'none' && itemdata[equipitem].isBanner){
+                else if(userRow.banner == 'none' && itemdata[equipitem].isBanner){
                     query(`UPDATE scores SET banner = '${equipitem}' WHERE userId = ${message.author.id}`);
-                    query(`UPDATE items SET ${equipitem} = ${row[equipitem] - 1} WHERE userId = ${message.author.id}`);
+                    methods.removeitem(message.author.id, equipitem, 1);
+
                     message.reply(lang.equip[1].replace('{-1}', itemdata[equipitem].icon).replace('{0}', equipitem));
                 }
                 else{

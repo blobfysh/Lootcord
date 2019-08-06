@@ -31,10 +31,7 @@ module.exports = {
 
         async function makeInventory(userId){
             try{
-                const userRow = (await query(`SELECT * FROM items i
-                INNER JOIN scores s
-                ON i.userId = s.userId
-                WHERE s.userId= ?`, [userId]))[0];
+                const userRow = (await query(`SELECT * FROM scores WHERE userId = ?`, [userId]))[0];
     
                 if(!userRow){
                     return message.reply(lang.errors[0]);
@@ -136,6 +133,7 @@ module.exports = {
                 message.channel.send(embedInfo);
             }
             catch(err){
+                console.log(err);
                 message.reply(lang.inventory[2]);
             }
         }

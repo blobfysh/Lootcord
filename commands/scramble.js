@@ -13,11 +13,10 @@ module.exports = {
     modOnly: false,
     adminOnly: false,
     
-    execute(message, args, lang, prefix){
+    async execute(message, args, lang, prefix){
         if(message.client.sets.scrambleCooldown.has(message.author.id)){
-            return query(`SELECT * FROM cooldowns WHERE userId ="${message.author.id}"`).then(timeRow => {
-                message.reply(lang.general[9].replace('{0}', ((900 * 1000 - ((new Date()).getTime() - timeRow[0].scrambleTime)) / 60000).toFixed(1)));
-            });
+            const timeRow = (await query(`SELECT * FROM cooldowns WHERE userId ="${message.author.id}"`))[0];
+            return message.reply(lang.general[9].replace('{0}', ((900 * 1000 - ((new Date()).getTime() - timeRow.scrambleTime)) / 60000).toFixed(1)));
         }
         else{
             let option = args[0];
@@ -33,7 +32,6 @@ module.exports = {
             let isHardMode = false;
             
             const embedScramble = new Discord.RichEmbed()
-            //.setTitle("**Difficulty : " + scrambleDifficulty + "**")
             .setFooter(lang.scramble[0])
             if(!option){
                 message.reply(lang.scramble[1].replace('{0}', prefix));
@@ -77,104 +75,97 @@ module.exports = {
             collector.on("collect", response => {
                 attempts+=1;
                 if(response.content.toLowerCase() == finalWord){
-                    query(`SELECT * FROM items i
-                    INNER JOIN scores s
-                    ON i.userId = s.userId
-                    WHERE s.userId="${message.author.id}"`).then(oldRow => {
-                        const row = oldRow[0];
-                        
-                        correct = true;
-                        let rewardItem = "";
-                        if(isHardMode){
-                            if(scrambleDifficulty =="hard"){
-                                methods.hasenoughspace(message.author.id, 1).then(hasenough => {
-                                    if((chance < scrambleJSONlength/4) && hasenough){
-                                        rewardItem = "ultra_box";
-                                        methods.scrambleWinMsg(message, rewardItem);
-                                        query(`UPDATE items SET ultra_box = ${row.ultra_box + 1} WHERE userId = ${message.author.id}`);
-                                    }
-                                    else{
-                                        rewardItem = "$1700";
-                                        methods.scrambleWinMsg(message, rewardItem);
-                                        query(`UPDATE scores SET money = ${row.money + 1700} WHERE userId = ${message.author.id}`);
-                                    }
-                                });
-                            }
-                            else if(scrambleDifficulty == "medium"){
-                                methods.hasenoughspace(message.author.id, 1).then(hasenough => {
-                                    if((chance < scrambleJSONlength/3) && hasenough){
-                                        rewardItem = "2x item_box";
-                                        methods.scrambleWinMsg(message, rewardItem);
-                                        query(`UPDATE items SET item_box = ${row.item_box + 2} WHERE userId = ${message.author.id}`);
-                                    }
-                                    else{
-                                        rewardItem = "$1100";
-                                        methods.scrambleWinMsg(message, rewardItem);
-                                        query(`UPDATE scores SET money = ${row.money + 1100} WHERE userId = ${message.author.id}`);
-                                    }
-                                });
-                            }
-                            else{
-                                methods.hasenoughspace(message.author.id, 2).then(hasenough => {
-                                    if((chance < scrambleJSONlength/3) && hasenough){
-                                        rewardItem = "2x item_box";
-                                        methods.scrambleWinMsg(message, rewardItem);
-                                        query(`UPDATE items SET item_box = ${row.item_box + 2} WHERE userId = ${message.author.id}`);
-                                    }
-                                    else{
-                                        rewardItem = "$800";
-                                        methods.scrambleWinMsg(message, rewardItem);
-                                        query(`UPDATE scores SET money = ${row.money + 800} WHERE userId = ${message.author.id}`);
-                                    }
-                                });
-                            }
+                    correct = true;
+                    let rewardItem = "";
+                    if(isHardMode){
+                        if(scrambleDifficulty =="hard"){
+                            methods.hasenoughspace(message.author.id, 1).then(hasenough => {
+                                if((chance < scrambleJSONlength/4) && hasenough){
+                                    rewardItem = "ultra_box";
+                                    methods.additem(message.author.id, 'ultra_box', 1);
+                                    message.reply(scrambleWinMsg(rewardItem));
+                                }
+                                else{
+                                    rewardItem = "$1700";
+                                    message.reply(scrambleWinMsg(rewardItem));
+                                    methods.addmoney(message.author.id, 1700);
+                                }
+                            });
+                        }
+                        else if(scrambleDifficulty == "medium"){
+                            methods.hasenoughspace(message.author.id, 1).then(hasenough => {
+                                if((chance < scrambleJSONlength/3) && hasenough){
+                                    rewardItem = "2x item_box";
+                                    methods.additem(message.author.id, 'item_box', 2);
+                                    message.reply(scrambleWinMsg(rewardItem));
+                                }
+                                else{
+                                    rewardItem = "$1100";
+                                    message.reply(scrambleWinMsg(rewardItem));
+                                    methods.addmoney(message.author.id, 1100);
+                                }
+                            });
                         }
                         else{
-                            if(scrambleDifficulty =="hard"){
-                                methods.hasenoughspace(message.author.id, 2).then(hasenough => {
-                                    if((chance > scrambleJSONlength/2) && hasenough){
-                                        rewardItem = "2x item_box";
-                                        methods.scrambleWinMsg(message, rewardItem);
-                                        query(`UPDATE items SET item_box = ${row.item_box + 2} WHERE userId = ${message.author.id}`);
-                                    }
-                                    else{
-                                        rewardItem = "$650";
-                                        methods.scrambleWinMsg(message, rewardItem);
-                                        query(`UPDATE scores SET money = ${row.money + 650} WHERE userId = ${message.author.id}`);
-                                    }
-                                });
-                            }
-                            else if(scrambleDifficulty == "medium"){
-                                methods.hasenoughspace(message.author.id, 1).then(hasenough => {
-                                    if((chance > scrambleJSONlength/2) && hasenough){
-                                        rewardItem = "item_box";
-                                        methods.scrambleWinMsg(message, rewardItem);
-                                        query(`UPDATE items SET item_box = ${row.item_box + 1} WHERE userId = ${message.author.id}`);
-                                    }
-                                    else{
-                                        rewardItem = "$400";
-                                        methods.scrambleWinMsg(message, rewardItem);
-                                        query(`UPDATE scores SET money = ${row.money + 400} WHERE userId = ${message.author.id}`);
-                                    }
-                                });
-                            }
-                            else{
-                                methods.hasenoughspace(message.author.id, 1).then(hasenough => {
-                                    if(hasenough){
-                                        rewardItem = "item_box";
-                                        methods.scrambleWinMsg(message, rewardItem);
-                                        query(`UPDATE items SET item_box = ${row.item_box + 1} WHERE userId = ${message.author.id}`);
-                                    }
-                                    else{
-                                        rewardItem = "$250";
-                                        methods.scrambleWinMsg(message, rewardItem);
-                                        query(`UPDATE scores SET money = ${row.money + 250} WHERE userId = ${message.author.id}`);
-                                    }
-                                });
-                            }
+                            methods.hasenoughspace(message.author.id, 2).then(hasenough => {
+                                if((chance < scrambleJSONlength/3) && hasenough){
+                                    rewardItem = "2x item_box";
+                                    methods.additem(message.author.id, 'item_box', 2);
+                                    message.reply(scrambleWinMsg(rewardItem));
+                                }
+                                else{
+                                    rewardItem = "$800";
+                                    message.reply(scrambleWinMsg(rewardItem));
+                                    methods.addmoney(message.author.id, 800);
+                                }
+                            });
                         }
-                        collector.stop();
-                    });
+                    }
+                    else{
+                        if(scrambleDifficulty =="hard"){
+                            methods.hasenoughspace(message.author.id, 2).then(hasenough => {
+                                if((chance > scrambleJSONlength/2) && hasenough){
+                                    rewardItem = "2x item_box";
+                                    methods.additem(message.author.id, 'item_box', 2);
+                                    message.reply(scrambleWinMsg(rewardItem));
+                                }
+                                else{
+                                    rewardItem = "$650";
+                                    message.reply(scrambleWinMsg(rewardItem));
+                                    methods.addmoney(message.author.id, 650);
+                                }
+                            });
+                        }
+                        else if(scrambleDifficulty == "medium"){
+                            methods.hasenoughspace(message.author.id, 1).then(hasenough => {
+                                if((chance > scrambleJSONlength/2) && hasenough){
+                                    rewardItem = "item_box";
+                                    methods.additem(message.author.id, 'item_box', 1);
+                                    message.reply(scrambleWinMsg(rewardItem));
+                                }
+                                else{
+                                    rewardItem = "$400";
+                                    message.reply(scrambleWinMsg(rewardItem));
+                                    methods.addmoney(message.author.id, 400);
+                                }
+                            });
+                        }
+                        else{
+                            methods.hasenoughspace(message.author.id, 1).then(hasenough => {
+                                if(hasenough){
+                                    rewardItem = "item_box";
+                                    methods.additem(message.author.id, 'item_box', 1);
+                                    message.reply(scrambleWinMsg(rewardItem));
+                                }
+                                else{
+                                    rewardItem = "$250";
+                                    message.reply(scrambleWinMsg(rewardItem));
+                                    methods.addmoney(message.author.id, 250);
+                                }
+                            });
+                        }
+                    }
+                    collector.stop();
                 }
             });
             collector.on("end", collected => {
@@ -210,4 +201,12 @@ function shuffleWordNoDupe(word){
     }
 
     return shuffled
+}
+
+function scrambleWinMsg(itemReward){
+    const embedScramble = new Discord.RichEmbed()
+    .setTitle("**You got it correct!**")
+    .setDescription("Reward : ```" + itemReward+"```")
+    .setColor(9043800);
+    return {embed: embedScramble};
 }

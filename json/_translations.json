@@ -346,14 +346,16 @@
 			"Theres not enough power available in the clan! Your vault is currently using **{0}** power and only has **{1}** current power.",
 			"`{0}`'s are bound to the player, meaning you can't trade them or put them in the clan vault.",
 			"Deposited {0}x `{1}` to your clan vault.\n\nThe vault now has **{2}x** `{3}` and is using **{4}** power.",
-			"Deposited **{0}**\n\nThe clan bank now has **{1}**"
+			"Deposited **{0}**\n\nThe clan bank now has **{1}**",
+			"You need to specify an item or money to deposit into the clan! `clan deposit <item/money> <amount>`"
 		],
 		"withdraw": [
 			"Your clan bank only has {0}...",
 			"Your clan vault has **{0}** `{1}`'s...",
 			"Withdrew {0}x `{1}` from your clan vault.\n\nThe vault now has **{2}x** `{3}` and is using **{4}** power.",
 			"Withdrew **{0}**\n\nThe clan bank now has **{1}**",
-			"Your clan is being raided **RIGHT NOW**, you cannot withdraw items while being raided."
+			"Your clan is being raided **RIGHT NOW**, you cannot withdraw items while being raided.",
+			"You need to specify an item or money to withdraw from the clan! `clan withdraw <item/money> <amount>`"
 		],
 		"promote": [
 			"Promote member to `{0}`? This rank grants the following permissions:\n```{1}```",

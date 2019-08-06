@@ -5,12 +5,7 @@ const { query } = require('../mysql.js');
 const itemdata  = require('../json/completeItemList.json');
 
 exports.open_box = async function(message, lang, type, amount = 1){
-    const oldRow = await query(`SELECT * FROM items i
-        INNER JOIN scores s
-        ON i.userId = s.userId
-        WHERE s.userId="${message.author.id}"`);
-    const row = oldRow[0];
-
+    const userRow = (await query(`SELECT * FROM scores WHERE userId="${message.author.id}"`))[0];
     const hasEnough = await methods.hasenoughspace(message.author.id);
     
     if(!hasEnough){
@@ -20,7 +15,7 @@ exports.open_box = async function(message, lang, type, amount = 1){
     var finalMultiItems   = [];
     var finalItemsAmounts = [];
     var xpToAdd           = 0;
-    var weightedArr       = generateWeightedArray(type, row.luck);
+    var weightedArr       = generateWeightedArray(type, userRow.luck);
 
     for(var i = 0; i < amount; i++){
         var rand = pickRandomItem(type, weightedArr);
@@ -33,8 +28,8 @@ exports.open_box = async function(message, lang, type, amount = 1){
     
     methods.additem(message.author.id, finalItemsAmounts);
 
-    query(`UPDATE scores SET points = ${row.points + xpToAdd} WHERE userId = ${message.author.id}`);
-    query(`UPDATE items SET ${type} = ${row[type] - amount} WHERE userId = ${message.author.id}`);
+    query(`UPDATE scores SET points = points + ${xpToAdd} WHERE userId = ${message.author.id}`);
+    methods.removeitem(message.author.id, type, amount);
 
     const embedInfo = new Discord.RichEmbed()
     .setAuthor(message.member.displayName, message.author.avatarURL)

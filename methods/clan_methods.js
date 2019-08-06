@@ -25,7 +25,7 @@ class Methods {
         query(`UPDATE scores SET clanRank = 0 WHERE clanId = ${clanId}`);
         query(`UPDATE scores SET clanId = 0 WHERE clanId = ${clanId}`);
 
-        query(`DELETE FROM items WHERE userId = ${clanId}`);
+        query(`DELETE FROM user_items WHERE userId = ${clanId}`);
         query(`DELETE FROM clans WHERE clanId = ${clanId}`);
     }
 

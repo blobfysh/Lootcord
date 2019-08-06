@@ -17,40 +17,40 @@ module.exports = {
     adminOnly: false,
     
     async execute(message, args, lang, prefix){
-        const row = (await query(`SELECT * FROM items i
-        INNER JOIN scores s
-        ON i.userId = s.userId
-        WHERE s.userId="${message.author.id}"`))[0];
+        const userRow = (await query(`SELECT * FROM scores WHERE userId = "${message.author.id}"`))[0];
         let equipitem = general.parseArgsWithSpaces(args[0], args[1], args[2]);
 
-        if(row.backpack == equipitem || equipitem == "backpack"){
-            if(row.backpack !== "none"){
+        if(userRow.backpack == equipitem || equipitem == "backpack"){
+            if(userRow.backpack !== "none"){
                 query(`UPDATE scores SET backpack = 'none' WHERE userId = ${message.author.id}`);
                 query(`UPDATE scores SET inv_slots = ${0} WHERE userId = ${message.author.id}`);
-                query(`UPDATE items SET ${row.backpack} = ${row[row.backpack] + 1} WHERE userId = ${message.author.id}`);
-                message.reply(lang.unequip[0].replace('{-1}', itemdata[row.backpack].icon).replace('{0}', row.backpack).replace('{1}', config.base_inv_slots));
+                methods.additem(message.author.id, userRow.backpack, 1);
+
+                message.reply(lang.unequip[0].replace('{-1}', itemdata[userRow.backpack].icon).replace('{0}', userRow.backpack).replace('{1}', config.base_inv_slots));
             }
             else{
                 message.reply(lang.unequip[1]);
             }
         }
 
-        else if(row.armor == equipitem || equipitem == "armor"){
-            if(row.armor !== "none"){
+        else if(userRow.armor == equipitem || equipitem == "armor"){
+            if(userRow.armor !== "none"){
                 query(`UPDATE scores SET armor = 'none' WHERE userId = ${message.author.id}`);
-                query(`UPDATE items SET ${row.armor} = ${row[row.armor] + 1} WHERE userId = ${message.author.id}`);
-                message.reply(lang.unequip[2].replace('{-1}', itemdata[row.armor].icon).replace('{0}', row.armor));
+                methods.additem(message.author.id, userRow.armor, 1);
+
+                message.reply(lang.unequip[2].replace('{-1}', itemdata[userRow.armor].icon).replace('{0}', userRow.armor));
             }
             else{
                 message.reply(lang.unequip[3]);
             }
         }
 
-        else if(row.banner == equipitem || equipitem == "banner"){
-            if(row.banner !== "none"){
+        else if(userRow.banner == equipitem || equipitem == "banner"){
+            if(userRow.banner !== "none"){
                 query(`UPDATE scores SET banner = 'none' WHERE userId = ${message.author.id}`);
-                query(`UPDATE items SET ${row.banner} = ${row[row.banner] + 1} WHERE userId = ${message.author.id}`);
-                message.reply(lang.unequip[2].replace('{-1}', itemdata[row.banner].icon).replace('{0}', row.banner));
+                methods.additem(message.author.id, userRow.banner, 1);
+
+                message.reply(lang.unequip[2].replace('{-1}', itemdata[userRow.banner].icon).replace('{0}', userRow.banner));
             }
             else{
                 message.reply(lang.unequip[3]);

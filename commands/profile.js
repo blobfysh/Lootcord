@@ -31,31 +31,28 @@ module.exports = {
         }
 
         async function userProfile(userId, isSelf){
-            const row = (await query(`SELECT * FROM scores 
-            INNER JOIN items
-            ON scores.userId = items.userId
-            WHERE scores.userId ="${userId}"`))[0];
+            const userRow = (await query(`SELECT * FROM scores WHERE userId ="${userId}"`))[0];
 
-            if(!row){
+            if(!userRow){
                 return message.reply(lang.errors[0]);
             }
 
             const banners = await methods.getuseritems(userId, {sep: '`', icon: true, onlyBanners: true});
             const userINFO = await general.getUserInfo(message, userId);
 
-            var bannerIcon = itemdata[row.banner] !== undefined ? itemdata[row.banner].icon : ''
-            var bannersList = 'Equipped: ' + bannerIcon + '`' + row.banner + '`\n' + banners.ultra.concat(banners.legendary, banners.epic, banners.rare, banners.uncommon, banners.common, banners.limited).join('\n');
+            var bannerIcon = itemdata[userRow.banner] !== undefined ? itemdata[userRow.banner].icon : ''
+            var bannersList = 'Equipped: ' + bannerIcon + '`' + userRow.banner + '`\n' + banners.ultra.concat(banners.legendary, banners.epic, banners.rare, banners.uncommon, banners.common, banners.limited).join('\n');
             var userStatus = 'Change your status with setstatus!';
 
-            var backpackIcon = itemdata[row.backpack] !== undefined ? itemdata[row.backpack].icon : ''
-            if(row.status !== ''){
-                userStatus = row.status;
+            var backpackIcon = itemdata[userRow.backpack] !== undefined ? itemdata[userRow.backpack].icon : ''
+            if(userRow.status !== ''){
+                userStatus = userRow.status;
             }
 
             var currLvlXP        = 0;
 
-            for(var i = 1; i <= row.level;i++){
-                if(i == row.level){
+            for(var i = 1; i <= userRow.level;i++){
+                if(i == userRow.level){
                     break;
                 }
                 currLvlXP += Math.floor(50*(i**1.7));
@@ -66,17 +63,17 @@ module.exports = {
             .setAuthor(userINFO.tag + "'s Profile", userINFO.avatarURL)
             .setThumbnail(userINFO.avatarURL)
             .setDescription(userStatus)
-            .addField('Stats', (row.clanId !== 0 ? 'Member of `' + (await query(`SELECT name FROM clans WHERE clanId = ${row.clanId}`))[0].name + '`\n' : '')
-            + 'Level ' + row.level + ` (XP: ${row.points - currLvlXP}/${Math.floor(50*(row.level**1.7))})\n`
-            + (row.deaths == 0 ? row.kills+ " Kills | "+row.deaths+" Deaths ("+row.kills+" K/D)\n" : row.kills+ " Kills | "+row.deaths+" Deaths ("+(row.kills/ row.deaths).toFixed(2)+" K/D)\n")
-            + row.power + "/" + row.max_power + " Power")
+            .addField('Stats', (userRow.clanId !== 0 ? 'Member of `' + (await query(`SELECT name FROM clans WHERE clanId = ${userRow.clanId}`))[0].name + '`\n' : '')
+            + 'Level ' + userRow.level + ` (XP: ${userRow.points - currLvlXP}/${Math.floor(50*(userRow.level**1.7))})\n`
+            + (userRow.deaths == 0 ? userRow.kills+ " Kills | "+userRow.deaths+" Deaths ("+userRow.kills+" K/D)\n" : userRow.kills+ " Kills | "+userRow.deaths+" Deaths ("+(userRow.kills/ userRow.deaths).toFixed(2)+" K/D)\n")
+            + userRow.power + "/" + userRow.max_power + " Power")
             .addBlankField()
             .addField('Banners', bannersList, true)
-            .addField("Backpack", 'Equipped: ' + backpackIcon + "`" + row.backpack + "`", true)
-            .addField("Skills", '💗 Vitality: ' + row.health + "/" + row.maxHealth + " HP"
-            + '\n💥 Strength: ' + parseFloat(row.scaledDamage).toFixed(2) + "x damage"
-            + '\n🍀 Luck: ' + row.luck, true)
-            .setFooter("🌟 " + row.stats + " Available skill points")
+            .addField("Backpack", 'Equipped: ' + backpackIcon + "`" + userRow.backpack + "`", true)
+            .addField("Skills", '💗 Vitality: ' + userRow.health + "/" + userRow.maxHealth + " HP"
+            + '\n💥 Strength: ' + parseFloat(userRow.scaledDamage).toFixed(2) + "x damage"
+            + '\n🍀 Luck: ' + userRow.luck, true)
+            .setFooter("🌟 " + userRow.stats + " Available skill points")
             message.channel.send(profileEmbed);
         }
     },

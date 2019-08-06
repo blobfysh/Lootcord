@@ -1,5 +1,5 @@
 //const Discord = require("discord.js");
-//const { query } = require('../mysql.js');
+const { query } = require('../mysql.js');
 //const config = require('../json/_config.json');
 const itemdata = require("../json/completeItemList");
 
@@ -183,7 +183,7 @@ class Methods {
         return itemSearched.toLowerCase();
     }
 
-    parseArgsWithSpaces(arg1, arg2 = '', arg3 = '', getNum = false, getUser = false, getUseArgs = false){
+    parseArgsWithSpaces(arg1, arg2 = '', arg3 = '', getNum = false, getUser = false, getUseArgs = false, options = {clanDeposit: false}){
         var itemName = this.getCorrectedItemInfo(arg1 + '_' + arg2);
 
         if(this.isItem(itemName)){
@@ -228,9 +228,25 @@ class Methods {
                 }
                 return itemName;
             }
+            else if(options.clanDeposit) return arg2;
             else if(getNum || getUser || getUseArgs) return undefined;
             else return arg1;
         }
+    }
+
+    /**
+     * 
+     * @param {*} userId User to retrieve items for (in an object format).
+     */
+    async getItemObject(userId){
+        const itemRows = (await query(`SELECT item, COUNT(item) AS amount FROM user_items WHERE userId = "${userId}" GROUP BY item`));
+        var itemObj = {}
+    
+        for(var i = 0; i < itemRows.length; i++){
+            itemObj[itemRows[i].item] = itemRows[i].amount;
+        }
+    
+        return itemObj;
     }
 }
 
