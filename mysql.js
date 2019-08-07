@@ -35,7 +35,8 @@ CREATE TABLE IF NOT EXISTS scores (
     power INT,
     max_power INT,
     clanId BIGINT,
-    clanRank TINYINT)
+    clanRank TINYINT,
+    lastActive DATETIME)
     ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `
 

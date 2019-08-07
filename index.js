@@ -12,7 +12,7 @@ const clans                 = require('./methods/clan_methods.js');
 manager.spawn(undefined, 25000, false).catch(console.log);
 
 manager.on('launch', shard => {
-    startInterestInterval();
+    startInterval();
     if(shard.id == manager.totalShards - 1){
         console.log('[INDEX] Shards successfully loaded...');
 
@@ -27,7 +27,9 @@ manager.on('launch', shard => {
             `);
             if(!config.debug) patreonHandler.refreshPatrons(manager);
 
-            setInterval(addPower, 7200 * 1000) // 2 hours
+            setInterval(() => {
+                query(`UPDATE scores SET power = power + 1 WHERE power < max_power`);
+            }, 7200 * 1000) // 2 hours
         }, 25000);
     }
 });
@@ -54,26 +56,30 @@ process.on('SIGTERM', () => {
 });
 */
 
-function addPower(){
-    query(`UPDATE scores SET power = power + 1 WHERE power < max_power`);
-}
-
-async function startInterestInterval(){
+async function startInterval(){
     const curTime = new Date();
+        
     var timeTill12 = new Date(curTime.getUTCFullYear(), 
         curTime.getUTCMonth(), 
         curTime.getUTCDate(),
         0) - curTime;
+      
+    /*
+    var timeTillSat = new Date(curTime.getUTCFullYear(),
+        curTime.getUTCMonth(),
+        curTime.getUTCDate() + ((7 - curTime.getUTCDay()) % 7 + 6) % 7,
+        0) - curTime;
+    */
 
     if(timeTill12 < 0){
         timeTill12 += 86400000;
     }
 
-    console.log('[INDEX] '+ (timeTill12 / (1000 * 60 * 60)).toFixed(1) + ' Hrs until clan interest.');
-    setTimeout(addInterest, timeTill12);
+    console.log('[INDEX] '+ (timeTill12 / (1000 * 60 * 60)).toFixed(1) + ' Hrs until 12AM interval loops.');
+    setTimeout(loopTasks, timeTill12);
 }
 
-async function addInterest(){
+async function loopTasks(){
     const rows = await query(`SELECT * FROM clans`);
 
     for(var i = 0; i< rows.length; i++){
@@ -82,5 +88,7 @@ async function addInterest(){
         query(`UPDATE clans SET money = money + FLOOR(money * ${members.count * config.clan_interest_rate}) WHERE clanId = ${rows[i].clanId}`);
     }
 
-    startInterestInterval();
+    query(`DELETE FROM userguilds USING userguilds INNER JOIN scores ON userguilds.userId=scores.userId WHERE scores.lastActive < NOW() - INTERVAL 7 DAY`);
+
+    startInterval();
 }

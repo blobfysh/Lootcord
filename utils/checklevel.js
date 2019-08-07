@@ -4,7 +4,7 @@ const methods = require('../methods/methods');
 
 exports.checkLevelXp = async function(message){
     try{
-        const userRow = await query(`SELECT * FROM scores WHERE userId = '${message.author.id}'`);
+        const userRow = (await query(`SELECT * FROM scores WHERE userId = '${message.author.id}'`))[0];
 
         if(userRow){
             var totalXpNeeded = 0;

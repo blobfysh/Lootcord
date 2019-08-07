@@ -129,7 +129,8 @@ INSERT IGNORE INTO scores (
     power,
     max_power,
     clanId,
-    clanRank)
+    clanRank,
+    lastActive)
     VALUES (
         ?,
         ?,
@@ -141,7 +142,7 @@ INSERT IGNORE INTO scores (
         ?,
         ?,
         0, 0, 0, 0, 0, 0, 0, '', 'recruit', 'en-us', 
-        0, 5, 5, 0, 0
+        0, 5, 5, 0, 0, NOW()
     )
 `
 

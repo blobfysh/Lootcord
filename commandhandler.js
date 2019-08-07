@@ -59,8 +59,9 @@ exports.handleCmd = async function(message, prefix, lang){
     else if(command.hasArgs && !args.length) return message.reply(lang.general[4].replace('{0}', prefix).replace('{1}', command.name));
 
     try{
-        command.execute(message, args, lang, prefix);//CALL COMMAND HERE
+        command.execute(message, args, lang, prefix); // Call command here
         message.client.commandsUsed++;
+        query(`UPDATE scores SET lastActive = NOW() WHERE userId = ${message.author.id}`); // Prevents users account from being auto-deactivated
         
         if(config.debug == true || message.client.sets.adminUsers.has(message.author.id)) return;
 
