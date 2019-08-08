@@ -23,21 +23,6 @@ module.exports = {
         var userOldID = args[1];
 
         const serverInf = await query(`SELECT * FROM guildInfo WHERE guildId = ${message.guild.id}`);
-        const randUser  = await methods.randomUser(message);
-
-        if(userOldID !== undefined || serverInf[0].randomOnly == 1){
-            if(userOldID == "random" || userOldID == "rand" || serverInf[0].randomOnly == 1){
-                if(randUser == undefined && (itemdata[itemUsed] !== undefined && itemdata[itemUsed].isWeap)){
-                    return message.reply(lang.use.errors[10]);
-                }
-                else if(itemdata[itemUsed] !== undefined && itemdata[itemUsed].isWeap){
-                    userOldID = 'random';
-                }
-                
-                var userNameID = randUser;
-            }
-            else var userNameID = general.getUserId([userOldID]); //RETURNS BASE ID WITHOUT <@ OR <@! BUT ONLY IF PLAYER MENTIONED SOMEONE
-        }
 
         try{
             const userRow = (await query(`SELECT * FROM scores WHERE userId = "${message.author.id}"`))[0];
@@ -197,8 +182,31 @@ module.exports = {
                     return message.reply(lang.use.errors[2]);
                 }
             }
-            else if(itemdata[itemUsed].isWeap && userNameID){ // Weapon usage
+            else if(itemdata[itemUsed].isWeap){ // Weapon usage
                 try{
+                    if(userOldID == "random" || userOldID == "rand" || serverInf[0].randomOnly == 1){
+                        const randUsers = await randomUser(message);
+
+                        if(randUsers.users[0] == undefined){
+                            return message.reply(lang.use.errors[10]);
+                        }
+                        if(!itemRow[itemUsed]){
+                            return message.reply(lang.use.errors[2]);
+                        }
+                        else if(message.client.sets.weapCooldown.has(message.author.id)){
+                            return message.reply(lang.use.errors[9].replace('{0}', (await methods.getAttackCooldown(message.author.id)) ));
+                        }
+                        
+                        userOldID = 'random';
+                        var userNameID = await pickTarget(message, randUsers);
+                    }
+                    else if(!general.isUser([userOldID])){
+                        return message.reply(lang.errors[1]);
+                    }
+                    else{
+                        var userNameID = general.getUserId([userOldID]); //RETURNS BASE ID WITHOUT <@ OR <@! BUT ONLY IF PLAYER MENTIONED SOMEONE
+                    }
+
                     await message.client.fetchUser(userNameID, false); // Makes sure mention is a valid user.
                     const victimRow = (await query(`SELECT * FROM scores WHERE userId = '${userNameID}'`))[0];
                     const playRow = await query(`SELECT * FROM userGuilds WHERE userId ="${userNameID}" AND guildId = "${message.guild.id}"`);
@@ -277,12 +285,8 @@ module.exports = {
                     }
                 }
                 catch(err){
-                    console.log(err);
                     return message.reply(lang.errors[1]);
                 }
-            }
-            else if(!userNameID){
-                return message.reply(lang.use.errors[0].replace('{0}', prefix));
             }
             else{
                 return message.reply(lang.use.errors[1].replace('{0}', prefix));
@@ -439,4 +443,80 @@ async function hitOrMiss(message, userNameID, itemUsed, victimRow, userRow, dama
             message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE!\nThey now have **${victimRow.health - damage}** health!`);
         }
     }
+}
+
+async function randomUser(message, weapon = ''){ // returns a random userId from the attackers guild
+    const userRows = await query(`SELECT * FROM userGuilds WHERE guildId ="${message.guild.id}" ORDER BY LOWER(userId)`);
+    const userClan = (await query(`SELECT clanId FROM scores WHERE userId ="${message.author.id}"`))[0];
+    var guildUsers = [];
+    
+    for(var i = 0; i < userRows.length; i++){
+        try{
+            const userClanId = (await query(`SELECT clanId FROM scores WHERE userId ="${userRows[i].userId}"`))[0];
+            if((await general.getUserInfo(message, userRows[i].userId, true)).displayName){
+                if(userRows[i].userId !== message.author.id){ // make sure message author isn't attacked by self
+                    if(!message.client.sets.activeShield.has(userRows[i].userId)){
+                        if(userClan.clanId == 0 || userClan.clanId !== userClanId.clanId){
+                            guildUsers.push(userRows[i].userId);
+                        }
+                    }
+                }
+            }
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+
+    const shuffled = guildUsers.sort(() => 0.5 - Math.random()); // Shuffle
+    var rand = shuffled.slice(0, 3); // Pick 3 random id's
+    //var rand = guildUsers[Math.floor(Math.random() * guildUsers.length)];
+    return {
+        users: rand,
+        serverCount: userRows.length
+    }
+}
+
+async function pickTarget(message, selection){
+    if(selection.serverCount < 10 || selection.users.length < 3){
+        return selection.users[0];
+    }
+    else{
+        const atkEmbed = new Discord.RichEmbed()
+        .setTitle('Pick someone to attack!')
+        .setDescription(`1. **${(await general.getUserInfo(message, selection.users[0])).tag}**\n
+        2. **${(await general.getUserInfo(message, selection.users[1])).tag}**\n
+        3. **${(await general.getUserInfo(message, selection.users[2])).tag}**`)
+        .setColor(13215302)
+        .setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
+
+        const botMessage = await message.reply({embed: atkEmbed});
+        await botMessage.react('\u0031\u20E3');
+        await botMessage.react('\u0032\u20E3');
+        await botMessage.react('\u0033\u20E3');
+        const filter = (reaction, user) => {
+            return ['\u0031\u20E3', '\u0032\u20E3', '\u0033\u20E3'].includes(reaction.emoji.name) && user.id === message.author.id;
+        };
+
+        try{
+            const collected = await botMessage.awaitReactions(filter, {max: 1, time: 15000, errors: ['time'] });
+            const reaction = collected.first();
+
+            botMessage.delete();
+            if(reaction.emoji.name == '\u0031\u20E3'){
+                return selection.users[0];
+            }
+            else if(reaction.emoji.name == '\u0032\u20E3'){
+                return selection.users[1];
+            }
+            else{
+                return selection.users[2];
+            }
+        }
+        catch(err){
+            botMessage.delete();
+            return selection.users[Math.floor(Math.random() * selection.users.length)];
+        }
+    }
+    
 }
