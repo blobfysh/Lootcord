@@ -74,14 +74,14 @@
 		"That item cannot be recycled.",
 		"Recycle {0}x {1}`{2}` for",
 		"You don't have enough of that item!",
-		"{0}x `{1}` recycled for ```{2}```"
+		"{0}x `{1}` recycled for:\n{2}"
 	],
 	"craft": [
 		"Craft {0}x {1}`{2}` for",
 		"That cannot be crafted!",
 		"You are missing the required materials for this item!",
 		"Use `{0}help craft` to see how to use this command!",
-		"Successfully crafted {0}x `{1}`!"
+		"Successfully crafted {0}x {1}`{2}`!"
 	],
 	"item": [
 		"That item isn't in my database! Use `{0}items` to see a full list!",

@@ -32,7 +32,7 @@ module.exports = {
 
             const embedInfo = new Discord.RichEmbed()
             .setTitle(lang.craft[0].replace('{0}', craftAmount).replace('{1}', itemdata[craftItem].icon).replace('{2}', craftItem))
-            .setDescription("```" + getMatsDisplay(itemMats) + "```")
+            .setDescription(getMatsDisplay(itemMats))
             .setColor('#818181')
             .setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/601372871301791755/craft.png")
 
@@ -52,7 +52,7 @@ module.exports = {
                         botMessage.delete();
                         methods.hasitems(message.author.id, itemMats).then(result => {
                             if(result){
-                                message.reply(lang.craft[4].replace('{0}', craftAmount).replace('{1}', craftItem));
+                                message.reply(lang.craft[4].replace('{0}', craftAmount).replace('{1}', itemdata[craftItem].icon).replace('{2}', craftItem));
                                 methods.removeitem(message.author.id, itemMats);
                                 methods.additem(message.author.id, craftItem, parseInt(craftAmount));
                             }
@@ -94,7 +94,7 @@ function getMatsDisplay(itemMats){
     for(var i = 0; i < itemMats.length; i++){
         let matAmount = itemMats[i].split('|');
 
-        displayTxt += matAmount[1] + 'x ' + matAmount[0] + '\n';
+        displayTxt += matAmount[1] + 'x ' + itemdata[matAmount[0]].icon + matAmount[0] + '\n';
     }
 
     return displayTxt;

@@ -174,7 +174,7 @@ module.exports = {
                     let msgEmbed = new Discord.RichEmbed()
                     .setAuthor(message.member.displayName, message.author.avatarURL)
                     .setTitle("Successfully used `xp_potion`")
-                    .setDescription("Gained **"+amount+" XP**!")
+                    .setDescription("Gained **75 XP**!")
                     .setColor(14202368)
                     message.channel.send(msgEmbed);
                 }
@@ -293,6 +293,7 @@ module.exports = {
             }
         }
         catch(err){
+            console.log(err);
             return message.reply(lang.use.errors[0].replace('{0}', prefix));
         }
     },

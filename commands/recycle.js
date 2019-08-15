@@ -32,7 +32,7 @@ module.exports = {
 
             const embedInfo = new Discord.RichEmbed()
             .setTitle(lang.recycle[1].replace('{0}', sellAmount).replace('{1}', itemdata[sellItem].icon).replace('{2}', sellItem))
-            .setDescription("```" + getMatsDisplay(itemMats) +"```")
+            .setDescription(getMatsDisplay(itemMats))
             .setColor('#4CAD4C')
             .setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/601373249753841665/recycle.png")
             .setFooter("You will need " + methods.getTotalItmCountFromList(itemMats) + " open slots in your inventory to recycle this.")
@@ -91,13 +91,13 @@ function getItemMats(itemMats, recycleAmount){
 }
 
 function getMatsDisplay(itemMats){
-    var displayTxt = '';
+    var displayTxt = [];
 
     for(var i = 0; i < itemMats.length; i++){
         let matAmount = itemMats[i].split('|');
 
-        displayTxt += matAmount[1] + 'x ' + matAmount[0] + '\n';
+        displayTxt.push(matAmount[1] + 'x ' + itemdata[matAmount[0]].icon + matAmount[0]);
     }
 
-    return displayTxt;
+    return displayTxt.join('\n');
 }

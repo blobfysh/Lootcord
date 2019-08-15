@@ -5,6 +5,7 @@ const methods = require('../../methods/methods.js');
 const config = require('../../json/_config.json');
 const general = require('../../methods/general');
 const icons = require('../../json/icons');
+const clan_ranks = require('../../json/clan_ranks');
 //const itemdata = require('../json/completeItemList.json');
 
 module.exports = {
@@ -65,7 +66,7 @@ async function getClanInfo(message, lang, clanId){
             membersRanksList.push(['** ->' + lang.clans.clan_ranks[clanUserRank].title + ' ' + clanUser.tag + '**', clanUserRank]);
         }
         else{
-            if(lang.clans.clan_ranks[clanUserRank].title == 'Leader'){
+            if(clan_ranks[clanUserRank].title == 'Leader'){
                 membersRanksList.push([' - <:owner:585789630800986114> ' + lang.clans.clan_ranks[clanUserRank].title + ' ' + clanUser.tag, clanUserRank]);
             }
             else{

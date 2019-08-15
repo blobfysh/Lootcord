@@ -1,11 +1,25 @@
 {
   "0": {
-    "title": "Recruit"
+    "title": "Recruit",
+    "perms": [
+      "Deposit items into the clan vault",
+      "Deposit money into the clan bank"
+    ]
+  },
+  "1": {
+    "title": "Officer",
+    "perms": [
+      "Invite new members to the clan.",
+      "Deposit and withdraw from the clan vault",
+      "Deposit and withdraw from the clan bank",
+      "Change the clan status"
+    ]
   },
   "2": {
-    "title": "Officer"
-  },
-  "10": {
-    "title": "Leader"
+    "title": "Leader",
+    "perms": [
+      "Disband the clan",
+      "Promote and demote other members"
+    ]
   }
 }

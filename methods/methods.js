@@ -31,7 +31,7 @@ class Methods {
             }
         }
         else{
-            let insertValues = Array(amount).fill([userId, item]);
+            let insertValues = Array(parseInt(amount)).fill([userId, item]);
             await query(`INSERT INTO user_items (userId, item) VALUES ?`, [insertValues]);
         }
     }
@@ -539,7 +539,6 @@ class Methods {
     //USE COMMAND
     async randomItems(killerId, victimId, amount){
         const victimItems = await general.getItemObject(victimId);
-        const killerItems = await general.getItemObject(killerId);
 
         if(amount <= 0){
             return selected = "They had no items you could steal!";
@@ -562,7 +561,7 @@ class Methods {
             this.additem(killerId, selected[i], 1);
             this.removeitem(victimId, selected[i], 1);
         }
-        return [selected.join('\n'), selected.join(', ')];
+        return [selected.map(item => itemdata[item].icon + item).join('\n'), selected.map(item => itemdata[item].icon + item).join(', ')];
     }
     addToHealCooldown(message, userId, itemUsed){
         query(`UPDATE cooldowns SET ${itemdata[itemUsed].cooldown.scoreRow} = ${(new Date()).getTime()} WHERE userId = ${userId}`);

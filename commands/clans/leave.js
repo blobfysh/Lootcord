@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const { query } = require('../../mysql.js');
 const clans = require('../../methods/clan_methods.js');
+const clan_ranks = require('../../json/clan_ranks');
 //const itemdata = require('../json/completeItemList.json');
 
 module.exports = {
@@ -17,7 +18,7 @@ module.exports = {
         var isLeader = false;
         var leaveMsg = lang.clans.leave[1].replace('{0}', clanRow.name);
 
-        if(lang.clans.clan_ranks[scoreRow.clanRank].title == 'Leader'){
+        if(clan_ranks[scoreRow.clanRank].title == 'Leader'){
             leaveMsg = lang.clans.leave[2].replace('{0}', clanRow.name);
         }
 
@@ -36,7 +37,7 @@ module.exports = {
                     if(scoreRow2.clanId == 0 || scoreRow2.clanId !== scoreRow.clanId){
                         return message.reply(lang.clans.leave[0]);
                     }
-                    if(lang.clans.clan_ranks[scoreRow.clanRank].title == 'Leader'){
+                    if(clan_ranks[scoreRow.clanRank].title == 'Leader'){
                         isLeader = true;
                     }
 

@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { query } = require('../../mysql.js');
 const clans = require('../../methods/clan_methods.js');
 const general = require('../../methods/general');
+const clan_ranks = require('../../json/clan_ranks');
 
 module.exports = {
     name: 'promote',
@@ -36,7 +37,7 @@ module.exports = {
         else if(message.author.id == invitedUser.id){
             return message.reply(lang.errors[1]);
         }
-        else if(lang.clans.clan_ranks[invitedScoreRow.clanRank + 1].title == 'Leader'){
+        else if(clan_ranks[invitedScoreRow.clanRank + 1].title == 'Leader'){
             promoteMessage = lang.clans.promote[1].replace('{0}', invitedUser.displayName);
         }
         else{
@@ -59,7 +60,7 @@ module.exports = {
                     if(invitedScoreRow2.clanId !== invitedScoreRow.clanId || invitedScoreRow2.clanRank !== invitedScoreRow.clanRank){
                         return message.channel.send('Error promoting user, try again?');
                     }
-                    else if(lang.clans.clan_ranks[invitedScoreRow2.clanRank + 1].title == 'Leader'){
+                    else if(clan_ranks[invitedScoreRow2.clanRank + 1].title == 'Leader'){
                         transferLeadership(message.author.id, invitedUser.id, scoreRow.clanId);
                     }
                     else{

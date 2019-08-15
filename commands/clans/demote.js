@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { query } = require('../../mysql.js');
 const clans = require('../../methods/clan_methods.js');
 const general = require('../../methods/general');
+const clan_ranks = require('../../json/clan_ranks');
 
 module.exports = {
     name: 'demote',
@@ -36,7 +37,7 @@ module.exports = {
         else if(message.author.id == invitedUser.id){
             return message.reply(lang.errors[1]);
         }
-        else if(lang.clans.clan_ranks[invitedScoreRow.clanRank].title == 'Recruit'){
+        else if(clan_ranks[invitedScoreRow.clanRank].title == 'Recruit'){
             return message.reply(lang.clans.demote[1]);
         }
         else{
@@ -56,7 +57,7 @@ module.exports = {
 
                     const invitedScoreRow2 = (await query(`SELECT * FROM scores WHERE userId = ${invitedUser.id}`))[0];
                     
-                    if(invitedScoreRow2.clanId !== invitedScoreRow.clanId || invitedScoreRow2.clanRank !== invitedScoreRow.clanRank || lang.clans.clan_ranks[invitedScoreRow2.clanRank].title == 'Recruit'){
+                    if(invitedScoreRow2.clanId !== invitedScoreRow.clanId || invitedScoreRow2.clanRank !== invitedScoreRow.clanRank || clan_ranks[invitedScoreRow2.clanRank].title == 'Recruit'){
                         return message.channel.send('Error demoting member, try again?');
                     }
                     else{

@@ -4,6 +4,7 @@ const config    = require('../json/_config.json');
 const accCodes  = require('../methods/acc_code_handler.js');
 const refresher = require('../methods/refresh_active_role.js');
 const clans     = require('../methods/clan_methods');
+const clan_ranks = require('../json/clan_ranks');
 
 module.exports = {
     name: 'delete',
@@ -57,7 +58,7 @@ module.exports = {
                     }
                 `).then(console.log);
 
-                if(lang.clans.clan_ranks[userRow.clanRank].title == 'Leader'){
+                if(clan_ranks[userRow.clanRank].title == 'Leader'){
                     clans.disbandClan(userRow.clanId);
                 }
                 query(`DELETE FROM scores WHERE userId ="${message.author.id}"`);

@@ -3,6 +3,8 @@
   "cancel": "❌",
   "money": "💰",
   "clan_icon": "<:clanicon:602143018514120704>",
+  "plus": "",
+  "minus": "",
   "health": {
     "full": "<:heart_full:601346230781607936>",
     "empty": "<:heart_empty:601346230601252865>",
