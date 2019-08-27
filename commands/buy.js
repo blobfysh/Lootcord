@@ -177,7 +177,7 @@ async function buyitem(message, buyItem, buyAmount, itemPrice, currency, isGame 
                     methods.removemoney(message.author.id, itemPrice * buyAmount);
                     message.reply(lang.buy[3].replace('{0}', buyAmount).replace('{1}', isGame == false ? itemdata[buyItem].icon : '').replace('{2}', buyItem));
                 }
-                else if(!hasmoney){
+                else if(!hasMoney){
                     message.reply(lang.buy[4]);
                 }
                 else{

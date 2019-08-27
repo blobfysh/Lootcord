@@ -18,7 +18,7 @@ module.exports = {
             return message.reply(lang.errors[1]);
         }
 
-        invitedUser = await general.getUserInfo(message, invitedUser, true);
+        invitedUser = await general.getUserInfo(message, invitedUser);
 
         if(invitedUser == undefined){
             return message.reply(lang.errors[1]);
