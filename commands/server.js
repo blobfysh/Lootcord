@@ -49,7 +49,7 @@ module.exports = {
                 },
                 color: 13215302
             });
-            embedLeader.addField(`**Active users in ${message.guild.name}**`, guildUsers.slice(0,10));
+            embedLeader.addField(`**Active users in ${message.guild.name}** (${guildUsers.length})`, guildUsers.slice(0,10));
 
             message.channel.send(embedLeader).then(botMessage => {
                 botMessage.react('◀').then(() => botMessage.react('▶')).then(() => botMessage.react('❌'));

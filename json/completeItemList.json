@@ -290,6 +290,73 @@
         "cooldown": "",
         "shopOrderCode": 2
     },
+    "wood_bundle": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "5x wood",
+            "materials": [
+                "wood|5"
+            ]
+        },
+        "recyclesTo": {
+            "display": "5x wood",
+            "materials": [
+                "wood|5"
+            ]
+        },
+        "buy": "",
+        "sell": 250,
+        "desc": "Bundle of 5 `wood`. Good for saving inventory space!",
+        "image": "",
+        "unboxable": false,
+        "icon": "<:material:601323077359370251>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 2
+    },
+    "sushi": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 5,
+        "healMax": 9,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "2x fish",
+            "materials": [
+                "fish|2"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 225,
+        "desc": "Hearty roll of rice and fish.\n\nUse this to restore `5-9` HP!",
+        "image": "",
+        "unboxable": false,
+        "icon": "<:usable:601323078038847488>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "10 minutes",
+            "scoreRow": "_10mHEALCD",
+            "seconds": 600
+        },
+        "shopOrderCode": 2
+    },
     "light_pack": {
         "rarity": "Uncommon",
         "isWeap": false,
@@ -534,6 +601,39 @@
         "cooldown": "",
         "shopOrderCode": 3
     },
+    "steel_bundle": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "5x steel",
+            "materials": [
+                "steel|5"
+            ]
+        },
+        "recyclesTo": {
+            "display": "5x steel",
+            "materials": [
+                "steel|5"
+            ]
+        },
+        "buy": "",
+        "sell": 375,
+        "desc": "Bundle of 5 `steel`. Good for saving inventory space!",
+        "image": "",
+        "unboxable": false,
+        "icon": "<:U_material:601366669452902400>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 3
+    },
     "cloth": {
         "rarity": "Uncommon",
         "isWeap": false,
@@ -549,6 +649,39 @@
         "buy": "",
         "sell": 100,
         "desc": "Fibrous material used for crafting items such as clothing.",
+        "image": "",
+        "unboxable": false,
+        "icon": "<:U_material:601366669452902400>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 3
+    },
+    "cloth_bundle": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "5x cloth",
+            "materials": [
+                "cloth|5"
+            ]
+        },
+        "recyclesTo": {
+            "display": "5x cloth",
+            "materials": [
+                "cloth|5"
+            ]
+        },
+        "buy": "",
+        "sell": 500,
+        "desc": "Bundle of 5 `cloth`. Good for saving inventory space!",
         "image": "",
         "unboxable": false,
         "icon": "<:U_material:601366669452902400>",
@@ -834,7 +967,13 @@
                 "screw|1"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "display": "1x wood\n1x screw",
+            "materials": [
+                "wood|1",
+                "screw|1"
+            ]
+        },
         "buy": "",
         "sell": 800,
         "desc": "Unreliable makeshift shotgun.",
@@ -922,7 +1061,40 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 100,
-        "desc": "Metal pin used to hold objects together.\nCrafting component used to create high-end items using the `craft` command.\nObtained from recycling Legendary+ items using the `recycle` command.",
+        "desc": "Metal pin used to hold objects together.\nCrafting component for creating items using the `craft` command.",
+        "image": "",
+        "unboxable": false,
+        "icon": "<:rare_material:601368020459454465>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 4
+    },
+    "screw_bundle": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "5x screw",
+            "materials": [
+                "screw|5"
+            ]
+        },
+        "recyclesTo": {
+            "display": "5x screw",
+            "materials": [
+                "screw|5"
+            ]
+        },
+        "buy": "",
+        "sell": 500,
+        "desc": "Bundle of 5 `screw`'s. Good for saving inventory space!",
         "image": "",
         "unboxable": false,
         "icon": "<:rare_material:601368020459454465>",

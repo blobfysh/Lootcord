@@ -57,19 +57,15 @@ process.on('SIGTERM', () => {
 */
 
 async function startInterval(){
-    const curTime = new Date();
+    const convertedTime = new Date().toLocaleString('en-US', {
+        timeZone: 'America/New_York'
+    }); // America/Los_Angeles
+    const curTime = new Date(convertedTime);
         
     var timeTill12 = new Date(curTime.getUTCFullYear(), 
         curTime.getUTCMonth(), 
         curTime.getUTCDate(),
         0) - curTime;
-      
-    /*
-    var timeTillSat = new Date(curTime.getUTCFullYear(),
-        curTime.getUTCMonth(),
-        curTime.getUTCDate() + ((7 - curTime.getUTCDay()) % 7 + 6) % 7,
-        0) - curTime;
-    */
 
     if(timeTill12 < 0){
         timeTill12 += 86400000;
@@ -88,7 +84,7 @@ async function loopTasks(){
         query(`UPDATE clans SET money = money + FLOOR(money * ${members.count * config.clan_interest_rate}) WHERE clanId = ${rows[i].clanId}`);
     }
 
-    query(`DELETE FROM userguilds USING userguilds INNER JOIN scores ON userguilds.userId=scores.userId WHERE scores.lastActive < NOW() - INTERVAL 7 DAY`);
+    query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId=scores.userId WHERE scores.lastActive < NOW() - INTERVAL 7 DAY`);
 
     startInterval();
 }

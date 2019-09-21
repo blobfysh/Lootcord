@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
 const itemdata = require('../json/completeItemList.json');
 const icons = require('../json/icons');
@@ -25,6 +24,7 @@ module.exports = {
     
     execute(message, args, lang, prefix){
         let itemSearched = general.parseArgsWithSpaces(args[0], args[1], args[3]);
+        let rawArg = !itemSearched ? undefined : itemSearched.toLowerCase();
 
         if(itemdata[itemSearched] !== undefined){
             let itemDamage = itemdata[itemSearched].damage;
@@ -120,6 +120,24 @@ module.exports = {
             }
             message.channel.send(embedItem);
         }
+        else if(rawArg.startsWith('weapon')){
+            message.channel.send(editEmbed('weapon', lang, prefix));
+        }
+        else if(rawArg == 'items' || rawArg.startsWith('consumable') || rawArg.startsWith('usable')){
+            message.channel.send(editEmbed('item', lang, prefix));
+        }
+        else if(rawArg == 'ammo' || rawArg == 'ammunition'){
+            message.channel.send(editEmbed('ammo', lang, prefix));
+        }
+        else if(rawArg.startsWith('banner')){
+            message.channel.send(editEmbed('banner', lang, prefix));
+        }
+        else if(rawArg.startsWith('backpack')){
+            message.channel.send(editEmbed('backpack', lang, prefix));
+        }
+        else if(rawArg.startsWith('material')){
+            message.channel.send(editEmbed('material', lang, prefix));
+        }
         else if(!itemSearched){
             let commonList = methods.getitems("common", {});
             let uncommonList = methods.getitems("uncommon", {});
@@ -209,7 +227,7 @@ function editEmbed(type, lang, prefix){
 
     const embedInfo = new Discord.RichEmbed()
     .setColor(0)
-    .setTitle(type == 'weapon' ? 'Weapons' : type == 'item' ? 'Consumables' : type == 'ammo' ? 'Ammunition' : type == 'banner' ? 'Banners' : type == 'backpack' ? 'Backpacks' : 'Materials')
+    .setTitle('Items List - ' + (type == 'weapon' ? 'Weapons' : type == 'item' ? 'Consumables' : type == 'ammo' ? 'Ammunition' : type == 'banner' ? 'Banners' : type == 'backpack' ? 'Backpacks' : 'Materials'))
     if(commonList.length > 0){
         embedInfo.addField("<:UnboxCommon:526248905676029968> Common","`" + commonList.sort().join("`\n`") + "`", true)
     }
