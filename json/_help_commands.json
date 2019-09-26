@@ -469,6 +469,16 @@
   "category": "games",
   "ignoreHelp": false
 }, {
+  "lookup": ["blackjack"],
+  "command": "Blackjack",
+  "example": ["blackjack 1000"],
+  "description": "Play a game of blackjack. Type hit to draw a random card from the deck or type stand to stop drawing cards and see if the dealer gets closer to 21 than you. Whoever gets closer to 21 without going over, wins!",
+  "cooldown": "1 minute",
+  "usage": ["blackjack <amount>`"],
+  "options": "`amount` - Amount of money to bet.",
+  "category": "games",
+  "ignoreHelp": false
+}, {
   "lookup": ["craftitems","craftitem","recycleitems","recycleitem"],
   "command": "Craftitems",
   "example": ["craftitems gunpowder"],

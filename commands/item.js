@@ -24,7 +24,7 @@ module.exports = {
     
     execute(message, args, lang, prefix){
         let itemSearched = general.parseArgsWithSpaces(args[0], args[1], args[3]);
-        let rawArg = !itemSearched ? undefined : itemSearched.toLowerCase();
+        let rawArg = !itemSearched ? '' : itemSearched.toLowerCase();
 
         if(itemdata[itemSearched] !== undefined){
             let itemDamage = itemdata[itemSearched].damage;
