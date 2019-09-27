@@ -442,7 +442,7 @@
   "lookup": ["togglerandonly","togglerandomonly", "togglerandattacks", "togglerandomattacks"],
   "command": "Togglerandomattacks",
   "example": ["togglerandomattacks"],
-  "description": "Toggle the server to only support random attacks with the use command.\nUser **MUST** have the Manage Server permission.",
+  "description": "Toggle the server to only support random attacks with the use command.\nUser **MUST** have the Manage Server permission.\nRandom attacks allow you to choose from 3 random users if the server has more than 10 active players.",
   "cooldown": "",
   "usage": ["togglerandomattacks`"],
   "options": "",

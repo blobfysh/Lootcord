@@ -35,8 +35,10 @@
   ],
   "desc": [
     "🔹 **Source: **https://github.com/blobfysh/Lootcord",
-    "🔹 Accounts now auto-deactivated after 7 days of inactivity.",
-    "🔹 Random attacks now allow you to choose from 3 users if the server has more than 10 active players.",
+    "🔹 Added blackjack command!",
+    "🔹 Added new material bundles: `wood_bundle`, `cloth_bundle`, `steel_bundle`, `screw_bundle`. Craft these using 5 of the same material to save inventory space.",
+    "🔹 Added `sushi`. Common healing item crafted with 2 `fish`.",
+    "🔹 Separated gamble sub-commands into standalone commands: `slots`, `coinflip`, and `roulette`. They also have separate cooldowns (1 minute).",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
 }

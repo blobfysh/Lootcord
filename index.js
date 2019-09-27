@@ -84,7 +84,7 @@ async function loopTasks(){
         query(`UPDATE clans SET money = money + FLOOR(money * ${members.count * config.clan_interest_rate}) WHERE clanId = ${rows[i].clanId}`);
     }
 
-    query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId=scores.userId WHERE scores.lastActive < NOW() - INTERVAL 7 DAY`);
+    query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId=scores.userId WHERE scores.lastActive < NOW() - INTERVAL 30 DAY`);
 
     startInterval();
 }
