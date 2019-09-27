@@ -8,7 +8,7 @@ module.exports = {
     name: 'blackjack',
     aliases: [''],
     description: 'Play a game of blackjack, get a higher total than the dealer without busting and you win!',
-    hasArgs: true,
+    hasArgs: false,
     worksInDM: false,
     requiresAcc: true,
     modOnly: false,
@@ -72,7 +72,7 @@ module.exports = {
                     let playerScore = getScore(playerCards);
                     if(playerScore.minScore > 21){
                         // busted
-                        collector.stop('work?');
+                        collector.stop();
                         
                         message.channel.send(loserEmbed(message, playerCards, dealerCards, 'You busted and lost ' + methods.formatMoney(gambleAmount), gambleAmount));
                     }
@@ -199,7 +199,6 @@ function genEmbed(message, playerCards, dealerCards, gambleAmount, dealerEmote =
         dealerString += dealerCards[i].display;
     }
 
-    console.log(gambleAmount);
     const embed = new Discord.RichEmbed()
     .setAuthor(methods.formatMoney(gambleAmount, true) + ' BLACKJACK GAME', message.author.avatarURL)
     .addField(message.author.username + ` - **${hasAce(playerCards) && playerVal.score <= 21 ? playerVal.score + '/' + playerVal.minScore : playerVal.minScore}**`, playerString, true)

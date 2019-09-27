@@ -30,8 +30,17 @@ var activeScramblers = new Set();
 var jackpotServers = new Set(); // (servers currently using the command)
 var jackpotCooldown = new Set();
 
-//gamble command cooldown
+//gamble(blackjack) command cooldown
 var gambleCooldown = new Set();
+
+//slots command cooldown
+var slotsCooldown = new Set();
+
+//roulette command cooldown
+var rouletteCooldown = new Set();
+
+//coinflip command cooldown
+var cfCooldown = new Set();
 
 //xp_potion use command cooldown
 var xpPotCooldown = new Set();
@@ -76,6 +85,9 @@ module.exports = {
     jackpotServers,
     jackpotCooldown,
     gambleCooldown,
+    slotsCooldown,
+    rouletteCooldown,
+    cfCooldown,
     xpPotCooldown,
     airdropCooldown,
     eventCooldown,

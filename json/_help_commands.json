@@ -142,12 +142,12 @@
   "lookup": ["gamble"],
   "command": "Gamble",
   "example": ["gamble slots 1000"],
-  "description": "Gamble an amount of money. Ways to gamble include slots, roulette, or coinflip.",
+  "description": "**REMOVED**. You can now use the `coinflip`, `roulette`, or `slots` commands.",
   "cooldown": "1 minute",
   "usage": ["gamble <type> <amount>`"],
   "options": "`type` - slots, roulette, or coinflip\n`amount` - Amount of money to gamble",
   "category": "games",
-  "ignoreHelp": false
+  "ignoreHelp": true
 }, {
   "lookup": ["vote"],
   "command": "Vote",
@@ -290,34 +290,34 @@
   "ignoreHelp": false
 }, {
   "lookup": ["slot", "slots"],
-  "command": "Gamble Slots",
-  "example": ["gamble slots 1000"],
+  "command": "Slots",
+  "example": ["slots 1000"],
   "description": "Play a game of slots. Minimum bet - **$100**\n\n<:UnboxCommon:526248905676029968><:UnboxCommon:526248905676029968> - **1x** multiplier\n<:UnboxRare:526248948579434496><:UnboxRare:526248948579434496> - **1.5x** multiplier\n<:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402> - **3x** multiplier\n<:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368> - **5x** multiplier\n<:UnboxCommon:526248905676029968><:UnboxCommon:526248905676029968><:UnboxCommon:526248905676029968> - **2x** multiplier\n<:UnboxRare:526248948579434496><:UnboxRare:526248948579434496><:UnboxRare:526248948579434496> - **3x** multiplier\n<:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402> - **6x** multiplier\n<:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368> - **10x** multiplier",
   "cooldown": "1 minute",
-  "usage": ["gamble slots <amount>`"],
+  "usage": ["slots <amount>`"],
   "options": "`amount` - Amount of money to gamble.",
   "category": "games",
-  "ignoreHelp": true
+  "ignoreHelp": false
 }, {
   "lookup": ["roulette"],
-  "command": "Gamble Roulette",
-  "example": ["gamble roulette 1000"],
+  "command": "Roulette",
+  "example": ["roulette 1000"],
   "description": "Play a game of Russian roulette.\nIf you survive, you win **1.2x** what you bet.\nIf you lose, you'll be shot for **50** damage and lose your bet amount.",
   "cooldown": "1 minute",
-  "usage": ["gamble roulette <amount>`"],
+  "usage": ["roulette <amount>`"],
   "options": "`amount` - Amount of money to gamble.",
   "category": "games",
-  "ignoreHelp": true
+  "ignoreHelp": false
 }, {
   "lookup": ["coinflip","cf"],
-  "command": "Gamble Coinflip",
-  "example": ["gamble coinflip 1000","gamble cf 1000"],
+  "command": "Coinflip",
+  "example": ["coinflip 1000","cf 1000"],
   "description": "Gamble your money for a 50% chance of winning 2x what you bet!",
   "cooldown": "1 minute",
-  "usage": ["gamble coinflip <amount>`"],
+  "usage": ["coinflip <amount>`"],
   "options": "`amount` - Amount of money to gamble.",
   "category": "games",
-  "ignoreHelp": true
+  "ignoreHelp": false
 }, {
   "lookup": ["rules","rule"],
   "command": "Rules",

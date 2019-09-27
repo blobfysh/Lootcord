@@ -25,7 +25,10 @@ module.exports = {
         let attackReady = "✅ ready"
         let healReady = "✅ ready"
         let voteReady = "✅ ready"
-        let gambleReady = "✅ ready"
+        let blackjackReady = "✅ ready"
+        let slotsReady = "✅ ready"
+        let rouletteReady = "✅ ready"
+        let coinflipReady = "✅ ready"
         let jackpotReady = "✅ ready"
 
         let giftReady = "✅ ready"
@@ -53,7 +56,16 @@ module.exports = {
             jackpotReady = ((300 * 1000 - ((new Date()).getTime() - row.jackpotTime)) / 1000).toFixed(0) + " seconds";
         }
         if(message.client.sets.gambleCooldown.has(message.author.id)){
-            gambleReady = ((60 * 1000 - ((new Date()).getTime() - row.gambleTime)) / 1000).toFixed(0) + " seconds";
+            blackjackReady = ((60 * 1000 - ((new Date()).getTime() - row.gambleTime)) / 1000).toFixed(0) + " seconds";
+        }
+        if(message.client.sets.slotsCooldown.has(message.author.id)){
+            slotsReady = ((60 * 1000 - ((new Date()).getTime() - row.slotsTime)) / 1000).toFixed(0) + " seconds";
+        }
+        if(message.client.sets.rouletteCooldown.has(message.author.id)){
+            rouletteReady = ((60 * 1000 - ((new Date()).getTime() - row.rouletteTime)) / 1000).toFixed(0) + " seconds";
+        }
+        if(message.client.sets.cfCooldown.has(message.author.id)){
+            coinflipReady = ((60 * 1000 - ((new Date()).getTime() - row.coinflipTime)) / 1000).toFixed(0) + " seconds";
         }
         if(message.client.sets.eventCooldown.has(message.author.id)){
             giftReady = (((43300 * 1000 - ((new Date()).getTime() - row.prizeTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours";
@@ -64,7 +76,10 @@ module.exports = {
         embedLeader.addField("hourly", "`" + hourlyReady + "`",true)
         embedLeader.addField("trivia", "`" + triviaReady + "`",true)
         embedLeader.addField("scramble", "`" + scrambleReady + "`",true)
-        embedLeader.addField("gamble", "`" + gambleReady + "`",true)
+        embedLeader.addField("blackjack", "`" + blackjackReady + "`",true)
+        embedLeader.addField("slots", "`" + slotsReady + "`",true)
+        embedLeader.addField("coinflip", "`" + coinflipReady + "`",true)
+        embedLeader.addField("roulette", "`" + rouletteReady + "`",true)
         embedLeader.addField("vote", "`" + voteReady + "`",true)
         embedLeader.addField("jackpot", "`" + jackpotReady + "`",true)
         embedLeader.addField("Attack (part of `"+prefix+"use`)", "`" + attackReady + "`",true)
