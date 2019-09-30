@@ -33,7 +33,7 @@ module.exports = {
         if(!hasMoney){
             return message.reply(lang.buy[4]);
         }
-        else if(gambleAmount > 50000){
+        else if(gambleAmount > 1000000){
             return message.reply(lang.jackpot[2]);
         }
         else if(message.client.sets.gambleCooldown.has(message.author.id)){
