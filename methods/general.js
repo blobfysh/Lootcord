@@ -64,12 +64,14 @@ class Methods {
         else return userId[1];
     }
 
-    getNum(num, parseNegatives = true){
+    getNum(num, parseNegatives = true, options = {ignoreNonNums: false}){
         if(parseInt(num) < 1){
             if(parseNegatives) return 1;
+            else if(options.ignoreNonNums) return undefined
             else return parseInt(num);
         }
         else if(num == undefined || !Number.isInteger(parseInt(num)) || num % 1 !== 0){
+            if(options.ignoreNonNums) return undefined;
             return 1;
         }
         else{
@@ -183,7 +185,7 @@ class Methods {
         return itemSearched.toLowerCase();
     }
 
-    parseArgsWithSpaces(arg1, arg2 = '', arg3 = '', getNum = false, getUser = false, getUseArgs = false, options = {clanDeposit: false}){
+    parseArgsWithSpaces(arg1, arg2 = '', arg3 = '', getNum = false, getUser = false, getUseArgs = false, options = {clanDeposit: false, getMarketPrice: false, BMarg4: ''}){
         var itemName = this.getCorrectedItemInfo(arg1 + '_' + arg2);
 
         if(this.isItem(itemName)){
@@ -200,6 +202,9 @@ class Methods {
             else if(getUser){
                 if(this.isUser(arg3)) return arg3;
                 else return undefined;
+            }
+            else if(options.getMarketPrice){
+                return options.BMarg4;
             }
             return itemName;
         }
@@ -225,6 +230,9 @@ class Methods {
                     if(this.isUser(arg2)) return arg2;
                     else if(this.isUser(arg3)) return arg3;
                     else return undefined;
+                }
+                else if(options.getMarketPrice){
+                    return arg3;
                 }
                 return itemName;
             }

@@ -13,7 +13,7 @@ module.exports = {
     
     execute(message, args, lang, prefix){
         query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`).then(guildRow => {
-            if(!guildRow.length) query("INSERT INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItem) VALUES (?, ?, ?, ?, ?)", [message.guild.id, "", "", "", ""]);
+            if(!guildRow.length) query("INSERT INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItem, randomOnly) VALUES (?, ?, ?, ?, ?, ?)", [message.guild.id, "", "", "", "", 0]);
 
             if(guildRow[0].killChan == 0){
                 query(`UPDATE guildInfo SET killChan = ${message.channel.id} WHERE guildId = ${message.guild.id}`);

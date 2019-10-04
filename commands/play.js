@@ -4,106 +4,6 @@ const config    = require('../json/_config.json');
 const refresher = require('../methods/refresh_active_role.js');
 const methods   = require('../methods/methods');
 
-/*
-const insertItemsSQL = `
-INSERT IGNORE INTO items (
-    userId,
-    item_box,
-    rpg,
-    rocket, 
-    ak47,
-    rifle_bullet, 
-    rock,
-    arrow, 
-    fork, 
-    club, 
-    sword, 
-    bow,
-    pistol_bullet, 
-    glock,
-    crossbow, 
-    spear,
-    thompson, 
-    health_pot, 
-    ammo_box, 
-    javelin, 
-    awp, 
-    m4a1, 
-    spas, 
-    medkit, 
-    revolver, 
-    buckshot,
-    blunderbuss, 
-    grenade,
-    pills, 
-    bat,
-    baseball, 
-    peck_seed, 
-    iron_shield, 
-    gold_shield, 
-    ultra_box, 
-    rail_cannon, 
-    plasma, 
-    fish, 
-    50_cal,
-    token,
-    candycane, 
-    gingerbread,
-    mittens, 
-    stocking,
-    snowball, 
-    nutcracker,
-    screw, 
-    steel,
-    adhesive,
-    fiber_optics,
-    module,
-    ray_gun,
-    golf_club, 
-    ultra_ammo, 
-    stick,
-    xp_potion,
-    reroll_scroll, 
-    light_pack, 
-    canvas_bag, 
-    hikers_pack,
-    golden_egg, 
-    easter_egg, 
-    bunny, 
-    carrot,
-    candy_egg, 
-    tnt_egg,
-    care_package,
-    recruit,
-    looter,
-    killer,
-    hitman,
-    cyber_pack,
-    supply_signal,
-    wood,
-    cloth,
-    pistol_body,
-    smg_body,
-    pump_body,
-    assault_body,
-    rifle_body,
-    gunpowder,
-    patron)
-    VALUES (
-        ?,
-        ?,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    )
-`
-*/
-
 const insertScoreSQL = `
 INSERT IGNORE INTO scores (
     userId,
@@ -130,7 +30,10 @@ INSERT IGNORE INTO scores (
     max_power,
     clanId,
     clanRank,
-    lastActive)
+    lastActive,
+    notify1,
+    notify2,
+    notify3)
     VALUES (
         ?,
         ?,
@@ -142,7 +45,7 @@ INSERT IGNORE INTO scores (
         ?,
         ?,
         0, 0, 0, 0, 0, 0, 0, '', 'recruit', 'en-us', 
-        0, 5, 5, 0, 0, NOW()
+        0, 5, 5, 0, 0, NOW(), 0, 0, 0
     )
 `
 

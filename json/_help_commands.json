@@ -377,7 +377,7 @@
   "usage": ["togglekillfeed`"],
   "options": "",
   "category": "utility",
-  "ignoreHelp": false
+  "ignoreHelp": true
 }, {
   "lookup": ["setlevelchannel","levelchannel", "togglelvlchan", "togglelevelchannel", "togglelevelchan"],
   "command": "Togglelevelchannel",
@@ -387,7 +387,7 @@
   "usage": ["togglelevelchannel`"],
   "options": "",
   "category": "utility",
-  "ignoreHelp": false
+  "ignoreHelp": true
 }, {
   "lookup": ["setdropchan","airdrop","setdropchannel"],
   "command": "Setdropchannel",
@@ -397,7 +397,7 @@
   "usage": ["setdropchannel`"],
   "options": "",
   "category": "utility",
-  "ignoreHelp": false
+  "ignoreHelp": true
 }, {
   "lookup": ["setstatus", "status"],
   "command": "Setstatus",
@@ -417,7 +417,7 @@
   "usage": ["disabledropchannel`"],
   "options": "",
   "category": "utility",
-  "ignoreHelp": false
+  "ignoreHelp": true
 }, {
   "lookup": ["disablelevelchannel"],
   "command": "Disablelevelchannel",
@@ -447,8 +447,98 @@
   "usage": ["togglerandomattacks`"],
   "options": "",
   "category": "utility",
-  "ignoreHelp": false
+  "ignoreHelp": true
 }, {
+  "lookup": ["togglebmnotify"],
+  "command": "Togglebmnotify",
+  "example": ["togglebmnotify"],
+  "description": "Toggle notifications whenever you sell an item on the Black Market.",
+  "cooldown": "",
+  "usage": ["togglebmnotify`"],
+  "options": "",
+  "category": "utility",
+  "ignoreHelp": true
+}, {
+  "lookup": ["toggleattacknotify"],
+  "command": "Toggleattacknotify",
+  "example": ["toggleattacknotify"],
+  "description": "Toggle notifications whenever you get attacked.",
+  "cooldown": "",
+  "usage": ["toggleattacknotify`"],
+  "options": "",
+  "category": "utility",
+  "ignoreHelp": true
+}, {
+  "lookup": ["toggleraidnotify"],
+  "command": "Toggleraidnotify",
+  "example": ["toggleraidnotify"],
+  "description": "Toggle notifications whenever your clan gets raided.",
+  "cooldown": "",
+  "usage": ["toggleraidnotify`"],
+  "options": "",
+  "category": "utility",
+  "ignoreHelp": true
+}, {
+  "lookup": ["serversettings"],
+  "command": "Serversettings",
+  "example": ["serversettings"],
+  "description": "View current settings for the server and see how to change them.",
+  "cooldown": "",
+  "usage": ["serversettings`"],
+  "options": "",
+  "category": "utility",
+  "ignoreHelp": false
+},  {
+  "lookup": ["mysettings"],
+  "command": "Mysettings",
+  "example": ["mysettings"],
+  "description": "View your current settings and how to change them.",
+  "cooldown": "",
+  "usage": ["mysettings`"],
+  "options": "",
+  "category": "utility",
+  "ignoreHelp": false
+},  {
+  "lookup": ["blackmarket"],
+  "command": "Blackmarket",
+  "example": ["blackmarket rpg"],
+  "description": "Search the Black Market for item listings.\n\nThe Black Market is a shop where players can list their own items for their own price and anyone can buy them using the `buy` command.",
+  "cooldown": "",
+  "usage": ["blackmarket <item>`"],
+  "options": "`item` - Item to search for",
+  "category": "blackmarket",
+  "ignoreHelp": false
+},  {
+  "lookup": ["blackmarketlist"],
+  "command": "Blackmarketlist",
+  "example": ["bmlist box 1 1000", "bmlist"],
+  "description": "Sell an item of your own on the Black Market for other players to buy!",
+  "cooldown": "",
+  "usage": ["blackmarketlist`"],
+  "options": "",
+  "category": "blackmarket",
+  "ignoreHelp": false
+},  {
+  "lookup": ["blackmarketremove"],
+  "command": "Blackmarketremove",
+  "example": ["bmremove Jq0cG_YY"],
+  "description": "Remove a listing from the Black Market",
+  "cooldown": "",
+  "usage": ["bmremove <listing ID>`"],
+  "options": "`Listing ID` - ID of listing you want to remove",
+  "category": "blackmarket",
+  "ignoreHelp": false
+},  {
+  "lookup": ["blackmarketlistings"],
+  "command": "Blackmarketlistings",
+  "example": ["bmlistings"],
+  "description": "Show all listings on the Black Market that you own.",
+  "cooldown": "",
+  "usage": ["blackmarketlistings`"],
+  "options": "",
+  "category": "blackmarket",
+  "ignoreHelp": false
+},  {
   "lookup": ["link"],
   "command": "Link",
   "example": ["link"],

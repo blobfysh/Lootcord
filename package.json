@@ -16,6 +16,7 @@
     "express": "^4.16.4",
     "jimp": "^0.6.1",
     "mysql": "^2.16.0",
-    "object-encode": "^1.0.2"
+    "object-encode": "^1.0.2",
+    "shortid": "^2.2.15"
   }
 }

@@ -23,6 +23,7 @@ module.exports = {
         var gameCmds = [];
         var infoCmds = [];
         var utilCmds = [];
+        var bmCmds = [];
         var otherCmds = [];
         
         for(var i = 0; i < helpJSON.length; i++){
@@ -32,6 +33,7 @@ module.exports = {
                 else if(helpJSON[i].category == 'info') infoCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')
                 else if(helpJSON[i].category == 'utility') utilCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')
                 else if(helpJSON[i].category == 'other') otherCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')
+                else if(helpJSON[i].category == 'blackmarket') bmCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')
             }
         }
 
@@ -40,6 +42,7 @@ module.exports = {
         .addField(lang.help[2], itemCmds.sort().join(', '), true)
         .addField(lang.help[3], gameCmds.sort().join(', '), true)
         .addField(lang.help[4], infoCmds.sort().join(', '),true)
+        .addField('💰 Black Market', bmCmds.join(', '))
         .addField(lang.help[5], utilCmds.sort().join(', '),true)
         .addField(lang.help[6], otherCmds.sort().join(', '),true)
         .addField(lang.help[8], lang.help[9])

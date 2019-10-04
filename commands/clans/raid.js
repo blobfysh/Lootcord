@@ -125,6 +125,7 @@ module.exports = {
                             .setFooter(lang.clans.raid[12])
                             
                             response.reply(lang.clans.raid[13], {embed: raidEmbed});
+                            notifyMembers(message, clanRow[0].clanId, (await query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0].name, moneyStolen, itemsArray);
                             collector.stop();
                         }
                     }
@@ -141,6 +142,7 @@ module.exports = {
                     .setFooter(lang.clans.raid[12])
                     
                     response.reply(lang.clans.raid[14], {embed: raidEmbed});
+                    notifyMembers(message, clanRow[0].clanId, (await query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0].name, moneyStolen, itemsArray);
                     collector.stop();
                 }
             });
@@ -150,6 +152,29 @@ module.exports = {
             
         }
     },
+}
+
+async function notifyMembers(message, victimClanId, raiderClanName, moneyStolen, itemsStolen){
+    const members = await clans.getMembers(victimClanId);
+
+    for(var i = 0; i < members.count; i++){
+        const clanUserRow = (await query(`SELECT * FROM scores WHERE userId = ${members.memberIds[i]}`))[0];
+
+        if(clanUserRow.notify3){
+            const clanUser = await message.client.fetchUser(members.memberIds[i]);
+            const raidedEmb = new Discord.RichEmbed()
+            .setTitle(`Your clan was raided by \`${raiderClanName}\`!`)
+            .addField('Money Stolen:', methods.formatMoney(moneyStolen), true)
+            .addField('Items Stolen:', '```' + getItemsDisplay(itemsStolen).join('\n') + '```')
+
+            try{
+                clanUser.send(raidedEmb);
+            }
+            catch(err){
+                // user disabled DMs
+            }
+        }
+    }
 }
 
 function getItemsDisplay(itemArr){

@@ -4,6 +4,8 @@ const methods = require('../methods/methods.js');
 const itemdata = require('../json/completeItemList.json');
 const general = require('../methods/general');
 const config = require('../json/_config');
+const shortid = require('shortid');
+const bm_methods = require('../methods/black_market');
 
 module.exports = {
     name: 'buy',
@@ -16,7 +18,7 @@ module.exports = {
     adminOnly: false,
     
     execute(message, args, lang, prefix){
-        methods.getGamesData().then(gamesRow => {
+        methods.getGamesData().then(async gamesRow => {
             let buyItem = general.parseArgsWithSpaces(args[0], args[1], args[2]);
             let buyAmount = general.parseArgsWithSpaces(args[0], args[1], args[2], true, false, false);
 
@@ -48,6 +50,11 @@ module.exports = {
                 }
                 buyitem(message, buyItem, parseInt(buyAmount), itemPrice, currency, true, lang);
             }
+            else if(shortid.isValid(buyItem) && await bm_methods.getListingInfo(buyItem)){
+                let listInfo = await bm_methods.getListingInfo(buyItem);
+                
+                buyitem(message, listInfo.item, listInfo.amount, listInfo.price, 'money', false, lang, listInfo);
+            }
             else{
                 message.reply(lang.buy[1].replace('{0}', prefix));
             }
@@ -55,10 +62,11 @@ module.exports = {
     },
 }
 
-async function buyitem(message, buyItem, buyAmount, itemPrice, currency, isGame = false, lang){
-    let displayPrice = currency == 'money' ? methods.formatMoney(itemPrice * buyAmount) : itemPrice * buyAmount + "x `" + currency + "`";
+async function buyitem(message, buyItem, buyAmount, itemPrice, currency, isGame = false, lang, bmListingInfo = ''){
+    let displayPrice = currency == 'money' ? methods.formatMoney(itemPrice * (bmListingInfo ? 1 : buyAmount)) : itemPrice * buyAmount + "x `" + currency + "`";
 
-    const botMessage = await message.reply(lang.buy[2].replace('{0}', buyAmount).replace('{1}', isGame == false ? itemdata[buyItem].icon : '').replace('{2}', buyItem).replace('{3}', displayPrice));
+    const botMessage = bmListingInfo ? await message.reply(lang.buy[6].replace('{0}', buyAmount).replace('{1}', itemdata[buyItem].icon).replace('{2}', buyItem).replace('{3}', displayPrice).replace('{4}', bmListingInfo.sellerName))
+    : await message.reply(lang.buy[2].replace('{0}', buyAmount).replace('{1}', isGame == false ? itemdata[buyItem].icon : '').replace('{2}', buyItem).replace('{3}', displayPrice));
     await botMessage.react('✅');
     await botMessage.react('❌');
     const filter = (reaction, user) => {
@@ -170,11 +178,15 @@ async function buyitem(message, buyItem, buyAmount, itemPrice, currency, isGame 
             }
             else if(currency == 'money'){
                 const hasSpace = await methods.hasenoughspace(message.author.id, parseInt(buyAmount));
-                const hasMoney = await methods.hasmoney(message.author.id, itemPrice * buyAmount);
+                const hasMoney = await methods.hasmoney(message.author.id, itemPrice * (bmListingInfo ? 1 : buyAmount));
 
                 if(hasMoney && hasSpace){
+                    if(bmListingInfo && !await bm_methods.getListingInfo(bmListingInfo.listingId)){
+                        return message.reply('That listing already sold!');
+                    }
                     methods.additem(message.author.id, buyItem, buyAmount);
-                    methods.removemoney(message.author.id, itemPrice * buyAmount);
+                    await methods.removemoney(message.author.id, itemPrice * (bmListingInfo ? 1 : buyAmount));
+                    if(bmListingInfo) bm_methods.soldItem(bmListingInfo, message);
                     message.reply(lang.buy[3].replace('{0}', buyAmount).replace('{1}', isGame == false ? itemdata[buyItem].icon : '').replace('{2}', buyItem));
                 }
                 else if(!hasMoney){

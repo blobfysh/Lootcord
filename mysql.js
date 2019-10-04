@@ -36,7 +36,10 @@ CREATE TABLE IF NOT EXISTS scores (
     max_power INT,
     clanId BIGINT,
     clanRank TINYINT,
-    lastActive DATETIME)
+    lastActive DATETIME,
+    notify1 BOOLEAN,
+    notify2 BOOLEAN,
+    notify3 BOOLEAN)
     ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `
 
@@ -102,6 +105,19 @@ CREATE TABLE IF NOT EXISTS clan_logs (
     ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `
 
+const createBlackMarket = `
+CREATE TABLE IF NOT EXISTS blackmarket (
+    listingId VARCHAR(20),
+    sellerId BIGINT,
+    itemName VARCHAR(255),
+    price INT,
+    quantity INT,
+    pricePer INT,
+    sellerName VARCHAR(255),
+    listTime BIGINT)
+    ENGINE = InnoDB
+`
+
 function connectSQL(){
     db = mysql.createConnection({
         host     : config.sqlhostname,
@@ -151,6 +167,11 @@ function connectSQL(){
         });
         // clans logs table
         db.query(createClansLogs, (err, result) => {
+            if(err) return console.log(err);
+        });
+
+        // blackmarket listings table
+        db.query(createBlackMarket, (err, result) => {
             if(err) return console.log(err);
         });
 

@@ -168,7 +168,7 @@ client.on('ready', async () => {
                     client.sets.raidCooldown.add(clanInfo.clanId.toString());
                     setTimeout(() => {
                         client.sets.raidCooldown.delete(clanInfo.clanId.toString());
-                        query(`UPDATE clans SET = ${0} WHERE clanId = ${clanInfo.userId}`);
+                        query(`UPDATE clans SET raidTime = ${0} WHERE clanId = ${clanInfo.userId}`);
                     }, timeLeft);
                 }
             }

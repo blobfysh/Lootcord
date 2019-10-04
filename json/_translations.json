@@ -51,7 +51,8 @@
 		"Purchase {0}x {1}`{2}` for {3}?",
 		"You bought {0}x {1}{2}!",
 		"You don't have enough money!",
-		"You are missing the following items needed to purchase this: {0}"
+		"You are missing the following items needed to purchase this: {0}",
+		"Purchase {0}x {1}`{2}` for {3} from seller: `{4}`?"
 	],
 	"sell": [
 		"Sell {0}x {1}`{2}` for {3}?",

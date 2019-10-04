@@ -386,6 +386,7 @@ async function hitOrMiss(message, userNameID, itemUsed, victimRow, userRow, dama
         message.channel.send(finalString, {embed: killedReward});
 
         methods.sendtokillfeed(message, message.author.id, userNameID, itemUsed, damage, randomItems[0], methods.formatMoney(victimRow.money));
+        if(victimRow.notify2) notifyDeathVictim(message, userNameID, itemUsed, damage, amountToGive !== 0 ? randomItems[0] : 'You had nothing!')
 
         return message.client.shard.broadcastEval(`
             const channel = this.channels.get('${config.logChannel}');
@@ -434,6 +435,8 @@ async function hitOrMiss(message, userNameID, itemUsed, victimRow, userRow, dama
         }, 7200 * 1000);
         query(`UPDATE scores SET health = ${parseInt(victimRow.health) - damage} WHERE userId = ${userNameID}`);
         message.channel.send(lang.use.weapons[2].replace('{0}', '<@' + message.author.id + '>').replace('{1}', '<@' + userNameID + '>').replace('{2}', damage).replace('{3}', itemUsed).replace('{4}', victimRow.health - damage));
+        
+        if(victimRow.notify2) notifyAttackVictim(message, userNameID, itemUsed, damage, victimRow);
     }
     else{
         query(`UPDATE scores SET health = ${parseInt(victimRow.health) - damage} WHERE userId = ${userNameID}`);
@@ -443,6 +446,8 @@ async function hitOrMiss(message, userNameID, itemUsed, victimRow, userRow, dama
         else{
             message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE!\nThey now have **${victimRow.health - damage}** health!`);
         }
+
+        if(victimRow.notify2) notifyAttackVictim(message, userNameID, itemUsed, damage, victimRow);
     }
 }
 
@@ -520,4 +525,36 @@ async function pickTarget(message, selection){
         }
     }
     
+}
+
+async function notifyAttackVictim(message, victimId, itemUsed, damage, victimRow){
+    const notifyEmbed = new Discord.RichEmbed()
+    .setTitle('You were attacked!')
+    .setDescription(`${message.author.tag} hit you for **${damage}** damage using a: \`${itemUsed}\`.
+    
+    Health: ${methods.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)}\`${victimRow.health - damage}/${victimRow.maxHealth}\``)
+    .setColor(16610383)
+
+    try{
+        const victim = await general.getUserInfo(message, victimId);
+        await victim.send(notifyEmbed);
+    }
+    catch(err){
+        // user disabled DMs
+    }
+}
+async function notifyDeathVictim(message, victimId, itemUsed, damage, itemsLost){
+    const notifyEmbed = new Discord.RichEmbed()
+    .setTitle('You were killed!')
+    .setDescription(`${message.author.tag} hit you for **${damage}** damage using a: \`${itemUsed}\`.`)
+    .addField('Items Lost:', itemsLost)
+    .setColor(16600911)
+
+    try{
+        const victim = await general.getUserInfo(message, victimId);
+        await victim.send(notifyEmbed);
+    }
+    catch(err){
+        // user disabled DMs
+    }
 }

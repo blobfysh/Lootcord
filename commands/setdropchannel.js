@@ -16,7 +16,7 @@ module.exports = {
         const guildRow  = await query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`)
         const activeRow = await query(`SELECT * FROM userGuilds WHERE guildId = ${message.guild.id}`);
         
-        if(!guildRow.length) query("INSERT INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItem) VALUES (?, ?, ?, ?, ?)", [message.guild.id, "", "", "", ""]);
+        if(!guildRow.length) query("INSERT INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItem, randomOnly) VALUES (?, ?, ?, ?, ?, ?)", [message.guild.id, "", "", "", "", 0]);
 
         if(Object.keys(activeRow).length < 5){
             return message.reply(lang.setdropchannel[1]);
