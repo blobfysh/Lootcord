@@ -63,7 +63,7 @@ module.exports = {
 }
 
 async function buyitem(message, buyItem, buyAmount, itemPrice, currency, isGame = false, lang, bmListingInfo = ''){
-    let displayPrice = currency == 'money' ? methods.formatMoney(itemPrice * (bmListingInfo ? 1 : buyAmount)) : itemPrice * buyAmount + "x `" + currency + "`";
+    let displayPrice = currency == 'money' ? methods.formatMoney(itemPrice * (bmListingInfo ? 1 : buyAmount)) : itemPrice * buyAmount + "x " + itemdata[currency].icon + "`" + currency + "`";
 
     const botMessage = bmListingInfo ? await message.reply(lang.buy[6].replace('{0}', buyAmount).replace('{1}', itemdata[buyItem].icon).replace('{2}', buyItem).replace('{3}', displayPrice).replace('{4}', bmListingInfo.sellerName))
     : await message.reply(lang.buy[2].replace('{0}', buyAmount).replace('{1}', isGame == false ? itemdata[buyItem].icon : '').replace('{2}', buyItem).replace('{3}', displayPrice));

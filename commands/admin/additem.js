@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { query } = require('../../mysql.js');
 const methods = require('../../methods/methods.js');
 const itemdata = require('../../json/completeItemList.json');
+const general = require('../../methods/general');
 
 module.exports = {
     name: 'additem',
@@ -15,7 +16,7 @@ module.exports = {
     
     execute(message, args, lang, prefix){
         let userNameID = args[0];
-        let itemName = methods.getCorrectedItemInfo(args[1]);
+        let itemName = general.getCorrectedItemInfo(args[1]);
         let itemAmount = args[2];
                           
         if(userNameID !== undefined){

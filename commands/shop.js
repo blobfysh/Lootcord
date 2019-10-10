@@ -24,7 +24,12 @@ module.exports = {
 
             if(itemdata[shopItem[i]].isBanner){
                 if(itemdata[shopItem[i]].buy !== ""){
-                    banners.push([itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "📥 " + methods.formatMoney(itemdata[shopItem[i]].buy.amount, true) + " ", "📤 " + methods.formatMoney(itemdata[shopItem[i]].sell, true), rarityCode]);
+                    if(itemdata[shopItem[i]].buy.currency == 'money'){
+                        banners.push([itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "📥 " + methods.formatMoney(itemdata[shopItem[i]].buy.amount, true) + " ", "📤 " + methods.formatMoney(itemdata[shopItem[i]].sell, true), rarityCode]);
+                    }
+                    else{
+                        banners.push([itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "📥 " + itemdata[shopItem[i]].buy.amount + "x `" + itemdata[shopItem[i]].buy.currency + '` ', "📤 " + methods.formatMoney(itemdata[shopItem[i]].sell, true), rarityCode]);
+                    }
                 }
                 else if(itemdata[shopItem[i]].sell !== ""){
                     banners.push([itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "","📤 "+methods.formatMoney(itemdata[shopItem[i]].sell, true), rarityCode]);
@@ -32,7 +37,13 @@ module.exports = {
             }
 
             else if(itemdata[shopItem[i]].buy !== ""){
-                allItems.push([itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "📥 " + methods.formatMoney(itemdata[shopItem[i]].buy.amount, true) + " ", "📤 " + methods.formatMoney(itemdata[shopItem[i]].sell, true), rarityCode]);
+                if(itemdata[shopItem[i]].buy.currency == 'money'){
+                    allItems.push([itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "📥 " + methods.formatMoney(itemdata[shopItem[i]].buy.amount, true) + " ", "📤 " + methods.formatMoney(itemdata[shopItem[i]].sell, true), rarityCode]);
+                }
+                else{
+                    allItems.push([itemdata[shopItem[i]].icon + "`" + shopItem[i] + "`", "📥 " + itemdata[shopItem[i]].buy.amount + "x `" + itemdata[shopItem[i]].buy.currency + '` ', "📤 " + methods.formatMoney(itemdata[shopItem[i]].sell, true), rarityCode]);
+                }
+                
                 //console.log(shopItem[i])
             }
 

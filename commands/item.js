@@ -105,7 +105,7 @@ module.exports = {
                 embedItem.addField("Buy", methods.formatMoney(itemBuyPrice), true);
             }
             else if(itemBuyCurr !== undefined){
-                embedItem.addField("Buy", itemBuyPrice + "x `" + itemBuyCurr + "`", true);
+                embedItem.addField("Buy", itemBuyPrice + "x " + itemdata[itemBuyCurr].icon + "`" + itemBuyCurr + "`", true);
             }
             if(itemSellPrice !== ""){
                 embedItem.addField("Sell", methods.formatMoney(itemSellPrice), itemBuyCurr !== undefined ? true : false);

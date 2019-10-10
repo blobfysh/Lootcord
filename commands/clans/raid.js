@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { query } = require('../../mysql.js');
 const clans = require('../../methods/clan_methods.js');
 const methods = require('../../methods/methods.js');
+const general = require('../../methods/general');
 const itemdata = require('../../json/completeItemList.json');
 
 module.exports = {
@@ -93,7 +94,7 @@ module.exports = {
 
             collector.on("collect", async response => {
                 const userArgs = response.content.split(/ +/);
-                const item = methods.getCorrectedItemInfo(userArgs[0]);
+                const item = general.getCorrectedItemInfo(userArgs[0]);
                 var itemAmnt = userArgs[1];
 
                 if(itemdata[item] !== undefined){
