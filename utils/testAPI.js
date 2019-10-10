@@ -23,6 +23,7 @@ const bodyParser = require('body-parser');
 const config     = require('../json/_config.json');
 const globalLB   = require('../methods/global_leaderboard.js');
 const patrons    = require('../methods/patron_list.js');
+const { query }  = require('../mysql.js');
 const app        = express();
 
 app.use(bodyParser.json());
@@ -52,6 +53,19 @@ client.on('ready', () => {
         else{
             const patronList = await patrons.list_patrons(client);
             res.status(200).send(patronList.patronJSON);
+        }
+    });
+    
+    app.post('/api/searchbm', async (req, res) => {
+        if(!req.body.apiAuth){
+            return res.status(400).send('Missing authorization!');
+        }
+        else if(req.body.apiAuth !== config.lootcordAPIAuth){
+            return res.status(400).send('Invalid authorization!');
+        }
+        else{
+            const listings = await query(`SELECT * FROM blackmarket WHERE itemName LIKE ? ORDER BY pricePer ASC LIMIT 50`, ['%' + req.body.input + '%']);
+            res.status(200).send(listings);
         }
     });
 

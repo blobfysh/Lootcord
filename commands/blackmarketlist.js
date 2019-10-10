@@ -138,6 +138,9 @@ module.exports = {
                     if(general.getNum(response.content) >= 2147483647){
                         return response.reply('Please enter a lower value.');
                     }
+                    else if(general.getNum(response.content) < 100){
+                        return response.reply('Please enter a higher price! Minimum $100');
+                    }
                     price = general.getNum(response.content);
                     listingFee = Math.floor(price * listing_fee);
                     bmEmbed.addField('Price:', methods.formatMoney(price), true);
