@@ -35,10 +35,9 @@
   ],
   "desc": [
     "🔹 **Source: **https://github.com/blobfysh/Lootcord",
-    "🔹 Added blackjack command!",
-    "🔹 Added new material bundles: `wood_bundle`, `cloth_bundle`, `steel_bundle`, `screw_bundle`. Craft these using 5 of the same material to save inventory space.",
-    "🔹 Added `sushi`. Common healing item crafted with 2 `fish`.",
-    "🔹 Separated gamble sub-commands into standalone commands: `slots`, `coinflip`, and `roulette`. They also have separate cooldowns (1 minute).",
+    "🔹 **Halloween event Oct.16th - Nov.1st!**",
+    "🔹 Black Market added!",
+    "🔹 New `spooky` banner added.",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
 }

@@ -8,7 +8,7 @@ class Methods {
         if(/^<@!?(\d+)>$/.test(mention[0])){
             return true;
         }
-        else if(/^(.*)#([0-9]{4})$/.test(mention.join(' ')) && allowTag){
+        else if(allowTag && /^(.*)#([0-9]{4})$/.test(mention.join(' '))){
             if(this.getUserId(mention, true, message)){
                 return true;
             }
@@ -154,8 +154,11 @@ class Methods {
         else if(itemSearched.startsWith("tnt")){
             itemSearched = "TNT_EGG";
         }
-        else if(itemSearched.startsWith("candy")){
-            itemSearched = "CANDY_EGG";
+        else if(itemSearched == "candy"){
+            itemSearched = "CANDY_BAR";
+        }
+        else if(itemSearched == "magic"){
+            itemSearched = "MAGIC_STAFF";
         }
         else if(itemSearched.startsWith("care") || itemSearched == "package"){
             itemSearched = "CARE_PACKAGE";
@@ -172,7 +175,7 @@ class Methods {
         else if(itemSearched.startsWith("smg")){
             itemSearched = "SMG_BODY";
         }
-        else if(itemSearched.startsWith("pump")){
+        else if(itemSearched.startsWith("pump_")){
             itemSearched = "PUMP_BODY";
         }
         else if(itemSearched.startsWith("assault")){
@@ -192,7 +195,7 @@ class Methods {
             if(getUseArgs){
                 if(arg3 == 'rand' || arg3 == 'random') return arg3;
                 else if(this.isNum(arg3)) return arg3;
-                else if(this.isUser(arg3)) return arg3;
+                else if(this.isUser([arg3])) return arg3;
                 else return undefined;
             }
             else if(getNum){
@@ -215,10 +218,10 @@ class Methods {
                 if(getUseArgs){
                     if(arg2 == 'rand' || arg2 == 'random') return arg2;
                     else if(this.isNum(arg2)) return arg2;
-                    else if(this.isUser(arg2)) return arg2;
+                    else if(this.isUser([arg2])) return arg2;
                     else if(arg3 == 'rand' || arg3 == 'random') return arg3;
                     else if(this.isNum(arg3)) return arg3;
-                    else if(this.isUser(arg3)) return arg3;
+                    else if(this.isUser([arg3])) return arg3;
                     else return undefined;
                 }
                 else if(getNum){

@@ -19,15 +19,24 @@ module.exports = {
         let item = general.parseArgsWithSpaces(args[0], args[1], args[2], false, false, false);
 
         if(!item){
-            return message.reply('Search for an item! `bm <item>`');
+            const listings = await query(`SELECT * FROM blackmarket ORDER BY RAND() LIMIT 10`);
+
+            const embed = new Discord.RichEmbed()
+            .setTitle('🛒 Random Black Market Listings')
+            .setDescription('These listings were made by other players!\n\nPurchase one with `buy <Listing ID>` command (ex. `t-buy Jq0cG_YY`)\n\n**Search for items with `bm <item to search>`**' + bm_methods.createDisplay(listings))
+            .setColor(13215302)
+
+            message.reply(embed);
         }
-        const listings = await query(`SELECT * FROM blackmarket WHERE itemName LIKE ? ORDER BY pricePer ASC LIMIT 25`, ['%' + item + '%']);
+        else{
+            const listings = await query(`SELECT * FROM blackmarket WHERE itemName LIKE ? ORDER BY pricePer ASC LIMIT 25`, ['%' + item + '%']);
 
-        const embed = new Discord.RichEmbed()
-        .setTitle('🛒 Black Market Listings for: ' + item)
-        .setDescription('These listings were made by other players!\n\nPurchase one with `buy <Listing ID>` command (ex. `t-buy Jq0cG_YY`)\n\n**Sorted lowest price to highest:**' + bm_methods.createDisplay(listings))
-        .setColor(13215302)
+            const embed = new Discord.RichEmbed()
+            .setTitle('🛒 Black Market Listings for: ' + item)
+            .setDescription('These listings were made by other players!\n\nPurchase one with `buy <Listing ID>` command (ex. `t-buy Jq0cG_YY`)\n\n**Sorted lowest price to highest:**' + bm_methods.createDisplay(listings))
+            .setColor(13215302)
 
-        message.reply(embed);
+            message.reply(embed);
+        }
     },
 }

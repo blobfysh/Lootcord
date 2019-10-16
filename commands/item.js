@@ -74,8 +74,22 @@ module.exports = {
                 embedItem.setThumbnail(itemImg)
             }
 
+            // if item is a box =>
+            if(itemdata[itemSearched].rates !== undefined){
+                let possibleItems = [];
+                Object.keys(itemdata[itemSearched].rates).forEach(rate => {
+                    for(var i = 0; i < itemdata[itemSearched].rates[rate].items.length; i++){
+                        possibleItems.push(itemdata[itemSearched].rates[rate].items[i].split('|')[0]);
+                    }
+                });
+                possibleItems.sort(sortItems);
+                
+                
+                itemInfo += '\n\n**Possible items:** ' + possibleItems.map(item => itemdata[item].icon + '`' + item + '`').join(', ')
+            }
+
             if(!isBound){
-                embedItem.setDescription(itemInfo + "```css\nThis item binds to the user when received, and cannot be traded or stolen.```");
+                embedItem.setDescription(itemInfo + "\n```css\nThis item binds to the user when received, and cannot be traded or stolen.```");
             }
             else{
                 embedItem.setDescription(itemInfo);
@@ -268,4 +282,20 @@ function editEmbed(type, lang, prefix){
     embedInfo.setFooter(lang.item[1].replace('{0}', prefix))
 
     return embedInfo
+}
+
+function sortItems(a,b) {
+    if(itemdata[a].shopOrderCode < itemdata[b].shopOrderCode) return -1;// 3rd index is rarity
+
+    else if(itemdata[a].shopOrderCode > itemdata[b].shopOrderCode) return 1;
+
+    else if(itemdata[a].shopOrderCode == itemdata[b].shopOrderCode){// if rarityCode is the same, we compare names
+
+        if(a < b) return -1; // 0 index is item name
+
+        else if(a > b) return 1;
+        
+        return 0;
+    }
+    return 0;
 }

@@ -451,7 +451,7 @@ client.on('ready', async () => {
             }
             //EASTER ONLY
             if(userInfo.prizeTime > 0){
-                let timeLeft = (43300*1000) - ((new Date()).getTime() - userInfo.prizeTime);
+                let timeLeft = (43200*1000) - ((new Date()).getTime() - userInfo.prizeTime);
                 if(timeLeft > 0){
                     client.sets.eventCooldown.add(userInfo.userId);
                     setTimeout(() => {

@@ -5,7 +5,7 @@ const general   = require('../methods/general');
 const itemdata  = require('../json/completeItemList.json');
 const config    = require('../json/_config.json');
 const shortid   = require('shortid');
-const listing_fee = 0.15;
+const listing_fee = 0.10;
 
 module.exports = {
     name: 'blackmarketlist',
@@ -100,7 +100,9 @@ module.exports = {
             const collector = new Discord.MessageCollector(message.channel, m => m.author.id == message.author.id, { time: 60000 });
         
             collector.on('collect', async response => {
-                let itemName = general.getCorrectedItemInfo(response.content);
+                let newArgs = response.content.split(/ +/);
+                let itemName = general.parseArgsWithSpaces(newArgs[0], newArgs[1], newArgs[2], false, false);
+
                 if(response.content.toLowerCase() == 'cancel' || response.content.toLowerCase() == 'stop'){
                     collector.stop('stopped');
                 }

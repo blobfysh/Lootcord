@@ -19,8 +19,12 @@ module.exports = {
     adminOnly: false,
     
     async execute(message, args, lang, prefix){
-        var itemUsed = methods.getCorrectedItemInfo(args[0]);
-        var userOldID = args[1];
+        //var itemUsed = general.getCorrectedItemInfo(args[0]);
+        //var userOldID = args[1];
+        var itemUsed = general.parseArgsWithSpaces(args[0], args[1], args[2], false, false, false);
+        var userOldID = general.parseArgsWithSpaces(args[0], args[1], args[2], false, false, true);
+        console.log(itemUsed);
+        console.log(userOldID);
 
         const serverInf = await query(`SELECT * FROM guildInfo WHERE guildId = ${message.guild.id}`);
 
@@ -39,6 +43,9 @@ module.exports = {
                 }
                 else if(itemUsed == "ultra_box" && itemRow.ultra_box >= useAmount){
                     boxes.open_box(message, lang, 'ultra_box', useAmount);
+                }
+                else if(itemUsed == "candy_pail" && itemRow.candy_pail >= useAmount){
+                    boxes.open_box(message, lang, 'candy_pail', useAmount);
                 }
                 else if(itemUsed == "care_package" && itemRow.care_package >= 1){
                     open.open_package(message, lang);

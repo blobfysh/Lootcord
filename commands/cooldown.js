@@ -68,11 +68,12 @@ module.exports = {
             coinflipReady = ((60 * 1000 - ((new Date()).getTime() - row.coinflipTime)) / 1000).toFixed(0) + " seconds";
         }
         if(message.client.sets.eventCooldown.has(message.author.id)){
-            giftReady = (((43300 * 1000 - ((new Date()).getTime() - row.prizeTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours";
+            giftReady = (((43200 * 1000 - ((new Date()).getTime() - row.prizeTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours";
         }
         embedLeader.setThumbnail(message.author.avatarURL)
         embedLeader.setTitle(`**${message.author.username} Cooldowns**`)
         embedLeader.setColor(13215302)
+        embedLeader.addField("🎃 trickortreat", "`" + giftReady + "`",true)
         embedLeader.addField("hourly", "`" + hourlyReady + "`",true)
         embedLeader.addField("trivia", "`" + triviaReady + "`",true)
         embedLeader.addField("scramble", "`" + scrambleReady + "`",true)

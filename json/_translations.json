@@ -28,7 +28,7 @@
 		"Account activated in this server!"
 	],
 	"help": [
-		"{0} - Creates an account!",
+		"{0} - Creates an account!\n\n🎃**Halloween event!** Use the `trickortreat` command to claim daily tokens and themed limited items!\nCheck the `shop` for games that can be purchased using tokens.",
 		"{0} - Attack users with weapons or use items on self.",
 		"⚔ Item Usage",
 		"🎲 Games and Rewards",
@@ -286,7 +286,7 @@
 	"jackpot": [
 		"You are about to start a server jackpot with an entry of: {0}\nAre you sure?",
 		"Please enter an amount of atleast $100",
-		"Amount cannot be higher than $50,000",
+		"Amount cannot be higher than $1,000,000",
 		"There is already an active jackpot in this server.",
 		"**A jackpot has started! A winner will be chosen in `2 minutes`**",
 		"⏱ **`{0}` remaining to enter the jackpot! Use `{1}join <amount>` to enter!**",

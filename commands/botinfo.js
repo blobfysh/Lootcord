@@ -26,7 +26,7 @@ module.exports = {
         const embedInfo = new Discord.RichEmbed()
         embedInfo.setTitle(`<:update:264184209617321984>**Lootcord Update Info**`)
         embedInfo.setColor(13215302)
-        embedInfo.setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/529555281391386629/lc_icon.png")
+        embedInfo.setThumbnail(message.client.user.avatarURL)
         embedInfo.setDescription(botInfo.desc)
         embedInfo.addField("Shard ID", message.client.shard.id, true)
         embedInfo.addField("Active Servers",guildsCount, true)
@@ -34,6 +34,7 @@ module.exports = {
         embedInfo.addField("Memory Usage",Math.round(used) + "/" + Math.round(os.totalmem() / 1024 / 1024) + " MB",true)
         embedInfo.addField("Website", "https://lootcord.com",true)
         embedInfo.addField("Creators","blobfysh#4679\nOGSteve#0007",true)
+        embedInfo.addField("Discord","https://discord.gg/7XNbdzP",true)
         embedInfo.setFooter("Need help? Message the bot! | PM's to Lootcord are sent directly to moderators.")
         message.channel.send(embedInfo);
     },

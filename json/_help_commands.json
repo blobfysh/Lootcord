@@ -512,7 +512,7 @@
   "lookup": ["blackmarketlist"],
   "command": "Blackmarketlist",
   "example": ["bmlist box 1 1000", "bmlist"],
-  "description": "Sell an item of your own on the Black Market for other players to buy!",
+  "description": "Sell an item of your own on the Black Market for other players to buy! Listing an item has a fee of 10% of the price.",
   "cooldown": "",
   "usage": ["blackmarketlist`"],
   "options": "",

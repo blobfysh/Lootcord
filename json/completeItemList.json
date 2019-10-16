@@ -1502,8 +1502,7 @@
                 "xp": 40,
                 "items": [
                     "crossbow|1",
-                    "grenade|1",
-                    "pistol_body|1"
+                    "grenade|1"
                 ]
             },
             "10": {
@@ -2098,10 +2097,10 @@
             ]
         },
         "recyclesTo": {
-            "display": "1x module\n4x fiber_optics",
+            "display": "5x module\n2x fiber_optics",
             "materials": [
-                "module|1",
-                "fiber_optics|4"
+                "module|5",
+                "fiber_optics|2"
             ]
         },
         "buy": "",
@@ -2142,7 +2141,7 @@
             ]
         },
         "recyclesTo": {
-            "display": "1x module\n4x fiber_optics",
+            "display": "1x module\n3x fiber_optics",
             "materials": [
                 "module|1",
                 "fiber_optics|3"
@@ -2337,10 +2336,10 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 350,
-        "desc": "Limited event currency that can be used to craft event-only items!\nCheck the `store` to see what can be purchased",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562549761635385344/token.png",
+        "desc": "Limited event currency that can be used to buy event-only items!\nCheck the `store` to see what can be purchased",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/632223509933850624/lootcoin.png",
         "unboxable": false,
-        "icon": "<:token:562549677577207808>",
+        "icon": "<:token:631945324121948190>",
         "breaksOnUse": "",
         "canBeStolen": false,
         "cooldown": "",
@@ -2358,12 +2357,7 @@
         "maxDmg": "",
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": {
-            "display": "2x token",
-            "materials": [
-                "token|2"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
         "sell": 150,
@@ -2385,12 +2379,7 @@
         "maxDmg": 25,
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": {
-            "display": "3x token",
-            "materials": [
-                "token|3"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
         "sell": 200,
@@ -2419,12 +2408,7 @@
         "maxDmg": "",
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": {
-            "display": "2x token",
-            "materials": [
-                "token|2"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
         "sell": 200,
@@ -2453,12 +2437,7 @@
         "maxDmg": "",
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": {
-            "display": "9x token",
-            "materials": [
-                "token|9"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
         "sell": 3000,
@@ -2483,12 +2462,7 @@
         "maxDmg": "",
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": {
-            "display": "3x token",
-            "materials": [
-                "token|3"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
         "sell": 200,
@@ -2514,12 +2488,7 @@
         "maxDmg": 75,
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": {
-            "display": "8x token",
-            "materials": [
-                "token|8"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
         "sell": 3500,
@@ -2535,6 +2504,239 @@
             "seconds": 1800
         },
         "shopOrderCode": 8
+    },
+    "apple": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 9,
+        "healMax": 13,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 2,
+            "currency": "token"
+        },
+        "sell": 200,
+        "desc": "Someone seriously gave you an apple... You can eat it to gain `9-13` HP.\n**Halloween 2019 item**",
+        "image": "",
+        "unboxable": false,
+        "icon": "🎃",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "10 minutes",
+            "scoreRow": "_10mHEALCD",
+            "seconds": 600
+        },
+        "shopOrderCode": 0
+    },
+    "pumpkin": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 15,
+        "healMax": 30,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 3,
+            "currency": "token"
+        },
+        "sell": 700,
+        "desc": "A pumpkin! You could make a jack-o'-lantern... Or you could just eat it to gain `15-30` HP.\n**Halloween 2019 item**",
+        "image": "",
+        "unboxable": false,
+        "icon": "🎃",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "20 minutes",
+            "scoreRow": "_20mHEALCD",
+            "seconds": 1200
+        },
+        "shopOrderCode": 0
+    },
+    "candy_bar": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 13,
+        "healMax": 28,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 3,
+            "currency": "token"
+        },
+        "sell": 600,
+        "desc": "A king-sized candy bar! Heals `13-28` HP.\n**Halloween 2019 item**",
+        "image": "",
+        "unboxable": false,
+        "icon": "🎃",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "20 minutes",
+            "scoreRow": "_20mHEALCD",
+            "seconds": 1200
+        },
+        "shopOrderCode": 0
+    },
+    "spider": {
+        "rarity": "Limited",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "20-30",
+        "minDmg": 20,
+        "maxDmg": 30,
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 4,
+            "currency": "token"
+        },
+        "sell": 1000,
+        "desc": "A real spider. Toss it at a foe to make them scream!\n**Halloween 2019 item**",
+        "image": "",
+        "unboxable": false,
+        "icon": "🎃",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "15 minutes",
+            "scoreRow": "_15mCD",
+            "seconds": 900
+        },
+        "shopOrderCode": 0
+    },
+    "scythe": {
+        "rarity": "Limited",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "35-40",
+        "minDmg": 35,
+        "maxDmg": 40,
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 9,
+            "currency": "token"
+        },
+        "sell": 3000,
+        "desc": "It's meant for reaping crops, but I think we all know what you'll be using it for.\n**Halloween 2019 item**",
+        "image": "",
+        "unboxable": false,
+        "icon": "🎃",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "30 minutes",
+            "scoreRow": "_30mCD",
+            "seconds": 1800
+        },
+        "shopOrderCode": 0
+    },
+    "magic_staff": {
+        "rarity": "Limited",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "70-90",
+        "minDmg": 70,
+        "maxDmg": 90,
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 17,
+            "currency": "token"
+        },
+        "sell": 10000,
+        "desc": "Wait this is real magic?\n**Halloween 2019 item**",
+        "image": "",
+        "unboxable": false,
+        "icon": "🎃",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "60 minutes",
+            "scoreRow": "_60mCD",
+            "seconds": 3600
+        },
+        "shopOrderCode": 0
+    },
+    "candy_pail": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 500,
+        "desc": "A trick-or-treat pail. It could contain some cool Halloween items!",
+        "image": "",
+        "unboxable": true,
+        "icon": "🎃",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "shopOrderCode": 0,
+        "rates": {
+            "40": {
+                "xp": 20,
+                "items": [
+                    "candy_bar|1",
+                    "pumpkin|1"
+                ]
+            },
+            "35": {
+                "xp": 25,
+                "items": [
+                    "apple|1",
+                    "spider|1"
+                ]
+            },
+            "20": {
+                "xp": 40,
+                "items": [
+                    "scythe|1"
+                ]
+            },
+            "5": {
+                "xp": 75,
+                "items": [
+                    "magic_staff|1"
+                ]
+            }
+        }
     },
 
     "recruit": {
@@ -2665,6 +2867,34 @@
         "canBeStolen": false,
         "cooldown": "",
         "shopOrderCode": 6
+    },
+    "spooky": {
+        "rarity": "Limited",
+        "isBanner": true,
+        "bannerColor": 15626817,
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 3,
+            "currency": "token"
+        },
+        "sell": 1000,
+        "desc": "Very spooky banner O_O\nEquip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/631885680175480852/batbanner.png",
+        "equippable": "true",
+        "unboxable": false,
+        "icon": "<:limit_banner:601371062214852619>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "shopOrderCode": 0
     },
     "patron": {
         "rarity": "Limited",
