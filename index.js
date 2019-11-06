@@ -12,8 +12,8 @@ const clans                 = require('./methods/clan_methods.js');
 manager.spawn(undefined, 25000, false).catch(console.log);
 
 manager.on('launch', shard => {
-    startInterval();
     if(shard.id == manager.totalShards - 1){
+        startInterval();
         console.log('[INDEX] Shards successfully loaded...');
 
         //set bot status
@@ -80,11 +80,16 @@ async function loopTasks(){
 
     for(var i = 0; i< rows.length; i++){
         const members = await clans.getMembers(rows[i].clanId);
-
-        query(`UPDATE clans SET money = money + FLOOR(money * ${members.count * config.clan_interest_rate}) WHERE clanId = ${rows[i].clanId}`);
+        
+        if(Math.floor(rows[i].money * (members.count * config.clan_interest_rate)) >= 100000){
+            query(`UPDATE clans SET money = money + 100000 WHERE clanId = ${rows[i].clanId}`);
+        }
+        else{
+            query(`UPDATE clans SET money = money + FLOOR(money * ${members.count * config.clan_interest_rate}) WHERE clanId = ${rows[i].clanId}`);
+        }
     }
 
     query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId=scores.userId WHERE scores.lastActive < NOW() - INTERVAL 30 DAY`);
 
-    startInterval();
+    setTimeout(startInterval, 1000);
 }

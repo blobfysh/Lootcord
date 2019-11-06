@@ -30,7 +30,7 @@ module.exports = {
 
         try{
             const userRow = (await query(`SELECT * FROM scores WHERE userId = "${message.author.id}"`))[0];
-            const itemRow = await general.getItemObject(message.author.id);
+            var itemRow = await general.getItemObject(message.author.id);
 
             if(itemdata[itemUsed] == undefined){
                 return message.reply(lang.use.errors[0].replace('{0}', prefix));
@@ -248,6 +248,7 @@ module.exports = {
                         let bonusDamage = 0;
                         let damageMin = itemdata[itemUsed].minDmg;
                         let damageMax = itemdata[itemUsed].maxDmg;
+                        itemRow = await general.getItemObject(message.author.id);
 
                         if(itemRow[itemUsed] >= 1){
                             if(itemdata[itemUsed].ammo.length >= 1){ //remove ammo

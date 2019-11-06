@@ -63,14 +63,14 @@ async function getClanInfo(message, lang, clanId){
         const clanUserRank = (await query(`SELECT * FROM scores WHERE userId = ${clanMembers.memberIds[i]}`))[0].clanRank;
 
         if(clanUser.id == message.author.id){
-            membersRanksList.push(['** ->' + lang.clans.clan_ranks[clanUserRank].title + ' ' + clanUser.tag + '**', clanUserRank]);
+            membersRanksList.push(['** ->' + clan_ranks[clanUserRank].title + ' ' + clanUser.tag + '**', clanUserRank]);
         }
         else{
             if(clan_ranks[clanUserRank].title == 'Leader'){
-                membersRanksList.push([' - <:owner:585789630800986114> ' + lang.clans.clan_ranks[clanUserRank].title + ' ' + clanUser.tag, clanUserRank]);
+                membersRanksList.push([' - <:owner:585789630800986114> ' + clan_ranks[clanUserRank].title + ' ' + clanUser.tag, clanUserRank]);
             }
             else{
-                membersRanksList.push([' - ' + lang.clans.clan_ranks[clanUserRank].title + ' ' + clanUser.tag, clanUserRank]);
+                membersRanksList.push([' - ' + clan_ranks[clanUserRank].title + ' ' + clanUser.tag, clanUserRank]);
             }
         }
     }

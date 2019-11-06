@@ -8,7 +8,7 @@ module.exports = {
     name: 'promote',
     aliases: [''],
     description: 'Promote a user in your clan.',
-    minimumRank: 2,
+    minimumRank: 3,
     requiresClan: true,
     
     async execute(message, args, lang, prefix){
@@ -41,7 +41,7 @@ module.exports = {
             promoteMessage = lang.clans.promote[1].replace('{0}', invitedUser.displayName);
         }
         else{
-            promoteMessage = lang.clans.promote[0].replace('{0}', lang.clans.clan_ranks[invitedScoreRow.clanRank + 1].title).replace('{1}', lang.clans.clan_ranks[invitedScoreRow.clanRank + 1].perms.join('\n'));
+            promoteMessage = lang.clans.promote[0].replace('{0}', clan_ranks[invitedScoreRow.clanRank + 1].title).replace('{1}', clan_ranks[invitedScoreRow.clanRank + 1].perms.join('\n'));
         }
 
         message.channel.send(promoteMessage).then(botMessage => {
@@ -67,7 +67,7 @@ module.exports = {
                         query(`UPDATE scores SET clanRank = ${invitedScoreRow2.clanRank + 1} WHERE userId = ${invitedUser.id}`);
                     }
 
-                    message.reply(lang.clans.promote[2].replace('{0}', lang.clans.clan_ranks[invitedScoreRow2.clanRank + 1].title));
+                    message.reply(lang.clans.promote[2].replace('{0}', clan_ranks[invitedScoreRow2.clanRank + 1].title));
                 }
                 else{
                     botMessage.delete();

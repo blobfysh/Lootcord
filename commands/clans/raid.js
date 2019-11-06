@@ -9,7 +9,7 @@ module.exports = {
     name: 'raid',
     aliases: [''],
     description: 'Raid another clan.',
-    minimumRank: 0,
+    minimumRank: 1,
     requiresClan: true,
     
     async execute(message, args, lang, prefix){
@@ -35,7 +35,7 @@ module.exports = {
                 return message.reply(lang.clans.raid[1]);
             }
             else if(message.client.sets.raided.has(clanRow[0].clanId.toString())){
-                return message.reply(lang.clas.raid[3]);
+                return message.reply(lang.clans.raid[3]);
             }
 
             const clanPower = await clans.getClanData(clanRow[0].clanId);
@@ -81,6 +81,7 @@ module.exports = {
             message.client.shard.broadcastEval(`this.sets.raidCooldown.add('${scoreRow.clanId}')`);
             query(`UPDATE clans SET raidTime = ${new Date().getTime()} WHERE clanId = ${scoreRow.clanId}`);
             setTimeout(() => {
+                message.client.shard.broadcastEval(`this.sets.raided.delete('${clanRow[0].clanId}')`);
                 message.client.shard.broadcastEval(`this.sets.raidCooldown.delete('${scoreRow.clanId}')`);
                 query(`UPDATE clans SET raidTime = ${0} WHERE clanId = ${scoreRow.clanId}`);
             }, 3600 * 1000);
@@ -148,7 +149,7 @@ module.exports = {
                 }
             });
             collector.on("end", response => {
-                message.client.shard.broadcastEval(`this.sets.raided.delete('${clanRow[0].clanId}')`);
+                
             });
             
         }

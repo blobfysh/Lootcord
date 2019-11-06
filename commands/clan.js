@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { query } = require('../mysql.js');
+const clan_ranks = require('../json/clan_ranks');
 //const methods = require('../methods/methods.js');
 //const itemdata = require('../json/completeItemList.json');
 
@@ -28,7 +29,7 @@ module.exports = {
             return message.reply('You are not a member of any clan.');
         }
         else if(scoreRow.clanRank < command.minimumRank){
-            return message.reply('Your clan rank is not high enough to use this command! Your rank: `' + lang.clans.clan_ranks[scoreRow.clanRank].title + '` Required: `' + lang.clans.clan_ranks[command.minimumRank].title + '`+');
+            return message.reply('Your clan rank is not high enough to use this command! Your rank: `' + clan_ranks[scoreRow.clanRank].title + '` Required: `' + clan_ranks[command.minimumRank].title + '`+');
         }
         try{
             command.execute(message, args.slice(1), lang, prefix);

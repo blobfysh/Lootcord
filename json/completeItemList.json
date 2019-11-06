@@ -476,7 +476,7 @@
         "image": "",
         "unboxable": true,
         "icon": "<:U_melee:601366669251575857>",
-        "breaksOnUse": false,
+        "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
             "display": "30 minutes",
@@ -2519,10 +2519,7 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
-        "buy": {
-            "amount": 2,
-            "currency": "token"
-        },
+        "buy": "",
         "sell": 200,
         "desc": "Someone seriously gave you an apple... You can eat it to gain `9-13` HP.\n**Halloween 2019 item**",
         "image": "",
@@ -2535,7 +2532,7 @@
             "scoreRow": "_10mHEALCD",
             "seconds": 600
         },
-        "shopOrderCode": 0
+        "shopOrderCode": 8
     },
     "pumpkin": {
         "rarity": "Limited",
@@ -2551,10 +2548,7 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
-        "buy": {
-            "amount": 3,
-            "currency": "token"
-        },
+        "buy": "",
         "sell": 700,
         "desc": "A pumpkin! You could make a jack-o'-lantern... Or you could just eat it to gain `15-30` HP.\n**Halloween 2019 item**",
         "image": "",
@@ -2567,7 +2561,7 @@
             "scoreRow": "_20mHEALCD",
             "seconds": 1200
         },
-        "shopOrderCode": 0
+        "shopOrderCode": 8
     },
     "candy_bar": {
         "rarity": "Limited",
@@ -2583,10 +2577,7 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
-        "buy": {
-            "amount": 3,
-            "currency": "token"
-        },
+        "buy": "",
         "sell": 600,
         "desc": "A king-sized candy bar! Heals `13-28` HP.\n**Halloween 2019 item**",
         "image": "",
@@ -2599,7 +2590,7 @@
             "scoreRow": "_20mHEALCD",
             "seconds": 1200
         },
-        "shopOrderCode": 0
+        "shopOrderCode": 8
     },
     "spider": {
         "rarity": "Limited",
@@ -2612,10 +2603,7 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
-        "buy": {
-            "amount": 4,
-            "currency": "token"
-        },
+        "buy": "",
         "sell": 1000,
         "desc": "A real spider. Toss it at a foe to make them scream!\n**Halloween 2019 item**",
         "image": "",
@@ -2628,7 +2616,7 @@
             "scoreRow": "_15mCD",
             "seconds": 900
         },
-        "shopOrderCode": 0
+        "shopOrderCode": 8
     },
     "scythe": {
         "rarity": "Limited",
@@ -2641,10 +2629,7 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
-        "buy": {
-            "amount": 9,
-            "currency": "token"
-        },
+        "buy": "",
         "sell": 3000,
         "desc": "It's meant for reaping crops, but I think we all know what you'll be using it for.\n**Halloween 2019 item**",
         "image": "",
@@ -2657,7 +2642,7 @@
             "scoreRow": "_30mCD",
             "seconds": 1800
         },
-        "shopOrderCode": 0
+        "shopOrderCode": 8
     },
     "magic_staff": {
         "rarity": "Limited",
@@ -2670,10 +2655,7 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
-        "buy": {
-            "amount": 17,
-            "currency": "token"
-        },
+        "buy": "",
         "sell": 10000,
         "desc": "Wait this is real magic?\n**Halloween 2019 item**",
         "image": "",
@@ -2686,7 +2668,7 @@
             "scoreRow": "_60mCD",
             "seconds": 3600
         },
-        "shopOrderCode": 0
+        "shopOrderCode": 8
     },
     "candy_pail": {
         "rarity": "Limited",
@@ -2706,9 +2688,9 @@
         "unboxable": true,
         "icon": "🎃",
         "breaksOnUse": "",
-        "canBeStolen": false,
+        "canBeStolen": true,
         "cooldown": "",
-        "shopOrderCode": 0,
+        "shopOrderCode": 8,
         "rates": {
             "40": {
                 "xp": 20,
@@ -2894,7 +2876,7 @@
         "breaksOnUse": "",
         "canBeStolen": false,
         "cooldown": "",
-        "shopOrderCode": 0
+        "shopOrderCode": 8
     },
     "patron": {
         "rarity": "Limited",

@@ -28,7 +28,7 @@
 		"Account activated in this server!"
 	],
 	"help": [
-		"{0} - Creates an account!\n\n🎃**Halloween event!** Use the `trickortreat` command to claim daily tokens and themed limited items!\nCheck the `shop` for games that can be purchased using tokens.",
+		"{0} - Creates an account!",
 		"{0} - Attack users with weapons or use items on self.",
 		"⚔ Item Usage",
 		"🎲 Games and Rewards",
@@ -372,7 +372,7 @@
 			"You need to specify the name of the clan you want to raid.",
 			"Raiding yourself???? What.",
 			"Your clan just raided! Wait `{0}` before raiding another clan.",
-			"That clan is being raided **RIGHT NOW**. Only 1 clan can raid it at a time. Step in line!",
+			"That clan just got raided! Let the clan recuperate before raiding them again.",
 			"Raiding: `{0}`",
 			"<a:loadgif:594877067837833237>",
 			"Raid successful!\n\nChoose up to **{0}** items to steal from their vault.\n\nExample: `item_box 2` to steal 2 boxes from the vault. Not sure what items they have? Check with `{1}clan vault {2}`.",

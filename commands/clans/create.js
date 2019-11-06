@@ -88,7 +88,7 @@ async function createClan(clanTag, clanOwner){
     //const itemRow = await query(insertItemsSQL, [clanID, 0]);
 
     query(`UPDATE scores SET clanId = ${clanID} WHERE userId = ${clanOwner}`);
-    query(`UPDATE scores SET clanRank = 2 WHERE userId = ${clanOwner}`);
+    query(`UPDATE scores SET clanRank = 3 WHERE userId = ${clanOwner}`);
 }
 
 const insertClanSQL = `

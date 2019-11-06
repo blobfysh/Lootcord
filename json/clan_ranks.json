@@ -2,11 +2,17 @@
   "0": {
     "title": "Recruit",
     "perms": [
+      "Pledge your undying loyalty to the clan"
+    ]
+  },
+  "1": {
+    "title": "Trusted",
+    "perms": [
       "Deposit items into the clan vault",
       "Deposit money into the clan bank"
     ]
   },
-  "1": {
+  "2": {
     "title": "Officer",
     "perms": [
       "Invite new members to the clan.",
@@ -15,7 +21,7 @@
       "Change the clan status"
     ]
   },
-  "2": {
+  "3": {
     "title": "Leader",
     "perms": [
       "Disband the clan",

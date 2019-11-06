@@ -7,7 +7,7 @@ module.exports = {
     name: 'kick',
     aliases: [''],
     description: 'Kick a user from your clan.',
-    minimumRank: 2,
+    minimumRank: 3,
     requiresClan: true,
     
     async execute(message, args, lang, prefix){

@@ -7,7 +7,7 @@ module.exports = {
     name: 'setstatus',
     aliases: ['status'],
     description: 'Changes the clan status.',
-    minimumRank: 1,
+    minimumRank: 2,
     requiresClan: true,
     
     async execute(message, args, lang, prefix){

@@ -9,7 +9,7 @@ module.exports = {
     name: 'withdraw',
     aliases: ['take'],
     description: 'Withdraw items from your clans vault.',
-    minimumRank: 1,
+    minimumRank: 2,
     requiresClan: true,
     
     async execute(message, args, lang, prefix){

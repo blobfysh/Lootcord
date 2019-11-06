@@ -41,8 +41,6 @@ module.exports = {
                         isLeader = true;
                     }
 
-                    clans.addLog(scoreRow.clanId, `${message.author.tag} left the clan.`);
-
                     leaveClan(message.author.id, scoreRow.clanId, isLeader);
                     message.reply(lang.clans.leave[3].replace('{0}', clanRow.name));
                 }

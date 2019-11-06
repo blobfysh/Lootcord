@@ -9,7 +9,7 @@ module.exports = {
     name: 'deposit',
     aliases: ['put'],
     description: 'Deposit items into your clans vault.',
-    minimumRank: 0,
+    minimumRank: 1,
     requiresClan: true,
     
     async execute(message, args, lang, prefix){

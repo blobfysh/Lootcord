@@ -8,7 +8,7 @@ module.exports = {
     name: 'demote',
     aliases: [''],
     description: 'Demote a user in your clan.',
-    minimumRank: 2,
+    minimumRank: 3,
     requiresClan: true,
     
     async execute(message, args, lang, prefix){
@@ -41,7 +41,7 @@ module.exports = {
             return message.reply(lang.clans.demote[1]);
         }
         else{
-            demoteMessage = lang.clans.demote[0].replace('{0}', lang.clans.clan_ranks[invitedScoreRow.clanRank - 1].title).replace('{1}', lang.clans.clan_ranks[invitedScoreRow.clanRank].perms.join('\n'));
+            demoteMessage = lang.clans.demote[0].replace('{0}', clan_ranks[invitedScoreRow.clanRank - 1].title).replace('{1}', clan_ranks[invitedScoreRow.clanRank].perms.join('\n'));
         }
 
         message.channel.send(demoteMessage).then(botMessage => {
@@ -64,7 +64,7 @@ module.exports = {
                         query(`UPDATE scores SET clanRank = ${invitedScoreRow2.clanRank - 1} WHERE userId = ${invitedUser.id}`);
                     }
 
-                    message.reply(lang.clans.demote[2].replace('{0}', lang.clans.clan_ranks[invitedScoreRow2.clanRank - 1].title));
+                    message.reply(lang.clans.demote[2].replace('{0}', clan_ranks[invitedScoreRow2.clanRank - 1].title));
                 }
                 else{
                     botMessage.delete();

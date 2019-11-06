@@ -7,7 +7,7 @@ module.exports = {
     name: 'invite',
     aliases: [''],
     description: 'Invite a user to join your clan.',
-    minimumRank: 1,
+    minimumRank: 2,
     requiresClan: true,
     
     async execute(message, args, lang, prefix){
