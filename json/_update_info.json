@@ -37,6 +37,12 @@
     "🔹 **Source: **https://github.com/blobfysh/Lootcord",
     "🔹 Removed trickortreat command.",
     "🔹 Black Market added!",
+    "🔹 Fixed bug where bat did not break after using it.",
+    "🔹 Fixed bug where players could deposit ammo into their clan vault to avoid losing it when attacking.",
+    "🔹 Added trusted rank to clans",
+    "🔹 Clan recruits can no longer deposit into vault.",
+    "🔹 Capped clan interest at $100k per day.",
+    "🔹 `candy_pail` no longer bound to players.",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
 }
