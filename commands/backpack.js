@@ -6,7 +6,7 @@ const config    = require('../json/_config.json');
 
 module.exports = {
     name: 'backpack',
-    aliases: [''],
+    aliases: ['bp'],
     description: 'View your currently equipped backpack and stats.',
     hasArgs: false,
     worksInDM: false,

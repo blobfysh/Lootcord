@@ -24,8 +24,8 @@ exports.handleCmd = async function(message, prefix, lang){
     }
 
     else if(message.client.sets.spamCooldown.has(message.author.id)){
-        message.reply(lang.general[6].replace('{0}', '2 seconds`')).then(spamMsg => {
-            spamMsg.delete(3000);
+        message.reply(lang.general[6].replace('{0}', '1 second`')).then(spamMsg => {
+            spamMsg.delete(2000);
         }).catch();
         return;
     }
@@ -68,7 +68,7 @@ exports.handleCmd = async function(message, prefix, lang){
         message.client.sets.spamCooldown.add(message.author.id);
         setTimeout(() => {
             message.client.sets.spamCooldown.delete(message.author.id);
-        }, 2000);//2 second spam cooldown
+        }, 1000);//1 second spam cooldown
         
     }
     catch(err){
