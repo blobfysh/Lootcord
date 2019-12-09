@@ -184,6 +184,9 @@ class Methods {
         else if(itemSearched.startsWith("body")){
             itemSearched = "RIFLE_BODY";
         }
+        else if(itemSearched.startsWith("desert") || itemSearched == "deagle"){
+            itemSearched = "DESERT_EAGLE";
+        }
         
         return itemSearched.toLowerCase();
     }

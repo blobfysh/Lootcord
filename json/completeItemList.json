@@ -1541,6 +1541,7 @@
                     "m4a1|1",
                     "awp|1",
                     "rpg|1",
+                    "desert_eagle|1",
                     "ray_gun|1",
                     "rail_cannon|1"
                 ]
@@ -1706,6 +1707,48 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
+        "shopOrderCode": 6
+    },
+    "desert_eagle": {
+        "rarity": "Legendary",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "35-60",
+        "minDmg": 35,
+        "maxDmg": 60,
+        "isAmmo": [],
+        "ammo": [
+            "50_cal",
+            "pistol_bullet"
+        ],
+        "craftedWith": {
+            "display": "1x pistol_body\n8x steel\n5x screw",
+            "materials": [
+                "pistol_body|1",
+                "steel|8",
+                "screw|5"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x pistol_body",
+            "materials": [
+                "pistol_body|1"
+            ]
+        },
+        "buy": "",
+        "sell": 3000,
+        "desc": "A powerful handgun capable of firing 50_cal ammo. This weapon breaks easily due to the insane kickback.\nWill use `50_cal` if you have it in your inventory.",
+        "image": "",
+        "unboxable": true,
+        "icon": "<:L_weapon:601369664492404746>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.25,
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "1 hour 20 minutes",
+            "scoreRow": "_80mCD",
+            "seconds": 4800
+        },
         "shopOrderCode": 6
     },
     "awp": {
@@ -1911,7 +1954,8 @@
         "minDmg": "",
         "maxDmg": "",
         "isAmmo": [
-            "awp"
+            "awp",
+            "desert_eagle"
         ],
         "ammo": "",
         "craftedWith": {
@@ -1929,7 +1973,7 @@
         },
         "buy": "",
         "sell": 3500,
-        "desc": "Sniper ammo that increases damage by `20`.\nThis ammunition is strong enough to penetrate shields.",
+        "desc": "High caliber ammo that increases weapon damage by `20`.\n**This ammunition is strong enough to penetrate shields.**",
         "image": "",
         "unboxable": true,
         "icon": "<:L_ammo:601369664173637634>",
