@@ -26,17 +26,9 @@ module.exports = {
         const hasenough = await methods.hasenoughspace(message.author.id, 1);
         if(!hasenough) return message.reply(lang.errors[2]);
 
-        if(Math.random() <= -1){
-            let randAmt = Math.floor((Math.random() * (4000 - 500 + 1)) + 500);
-            methods.addmoney(message.author.id, randAmt);
-            message.reply('**Trick or treat!** You received the following items:\n1x ' + itemdata['token'].icon + '`token` **and** ' + methods.formatMoney(randAmt) + '\n\nMake sure to use this command each day and collect more tokens to buy games from the `shop`!');
-        }
-        else{
-            methods.additem(message.author.id, 'token', 1);
-            methods.additem(message.author.id, 'present', 1);
-            message.reply('**MERRY CHRISTMAS** You received the following items:\n<:plus_icon:610502532003004435>1x ' + itemdata['token'].icon + '`token`\n<:plus_icon:610502532003004435>1x ' + itemdata['present'].icon + '`present`!\nUnwrap the `present` to see what Christmas item you get\n\nMake sure to use this command each day and collect more tokens to buy games from the `shop`!');
-        }
-
+        methods.additem(message.author.id, 'token', 1);
+        methods.additem(message.author.id, 'present', 1);
+        message.reply('**MERRY CHRISTMAS** You received the following items:\n<:plus_icon:610502532003004435>1x ' + itemdata['token'].icon + '`token`\n<:plus_icon:610502532003004435>1x ' + itemdata['present'].icon + '`present`!\nUnwrap the `present` to see what Christmas item you get\n\nMake sure to use this command each day and collect more tokens to buy games from the `shop`!');
 
         query(`UPDATE cooldowns SET prizeTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
         message.client.shard.broadcastEval(`this.sets.eventCooldown.add('${message.author.id}')`);

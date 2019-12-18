@@ -202,7 +202,8 @@ class Methods {
                 else return undefined;
             }
             else if(getNum){
-                if(this.isNum(arg3)) return arg3;
+                if(this.isNum(arg2)) return arg2;
+                else if(this.isNum(arg3)) return arg3;
                 else return undefined;
             }
             else if(getUser){
