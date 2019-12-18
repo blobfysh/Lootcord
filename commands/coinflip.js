@@ -34,11 +34,11 @@ module.exports = {
             let chance = Math.floor(Math.random() * 100) + luck; //return 1-100
             if(chance > 50){
                 methods.addmoney(message.author.id, gambleAmount);
-                message.reply(lang.gamble.coinflip[0].replace('{0}', gambleAmount * 2));
+                message.reply(lang.gamble.coinflip[0].replace('{0}', methods.formatMoney(gambleAmount * 2)));
             }
             else{
                 methods.removemoney(message.author.id, gambleAmount);
-                message.reply(lang.gamble.coinflip[1].replace('{0}', gambleAmount));
+                message.reply(lang.gamble.coinflip[1].replace('{0}', methods.formatMoney(gambleAmount)));
             }
 
             setTimeout(() => {

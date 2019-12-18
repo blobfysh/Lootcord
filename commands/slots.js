@@ -122,7 +122,7 @@ module.exports = {
                 let slots3 = "";
                 if(rewardMltp !== 0.00){
                     slots3 = "⬛"+col1[0]+col2[0]+col3[0]+"⬛\n"+
-                                "▶"+col1[1]+col2[1]+col3[1]+`◀ ${lang.gamble.slots[0].replace('{0}', winnings).replace('{1}', rewardMltp.toFixed(2))}\n`+
+                                "▶"+col1[1]+col2[1]+col3[1]+`◀ ${lang.gamble.slots[0].replace('{0}', methods.formatMoney(winnings)).replace('{1}', rewardMltp.toFixed(2))}\n`+
                                 "⬛"+col1[2]+col2[2]+col3[2]+"⬛";
                 }
                 else{

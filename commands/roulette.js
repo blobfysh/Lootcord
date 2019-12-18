@@ -50,7 +50,7 @@ module.exports = {
                 }
                 message.reply("***Click***").then(msg => {
                     setTimeout(() => {
-                        msg.edit(lang.gamble.roulette[0].replace('{0}', message.author).replace('{1}', healthDeduct).replace('{2}', (row.health - healthDeduct)).replace('{3}', gambleAmount));
+                        msg.edit(lang.gamble.roulette[0].replace('{0}', message.author).replace('{1}', healthDeduct).replace('{2}', (row.health - healthDeduct)).replace('{3}', methods.formatMoney(gambleAmount)));
                     }, 1500);
                 });
             }
@@ -58,7 +58,7 @@ module.exports = {
                 methods.addmoney(message.author.id, winnings);
                 message.reply("***Click***").then(msg => {
                     setTimeout(() => {
-                        msg.edit(lang.gamble.roulette[1].replace('{0}', message.author).replace('{1}', winnings));
+                        msg.edit(lang.gamble.roulette[1].replace('{0}', message.author).replace('{1}', methods.formatMoney(winnings)));
                     }, 1500);
                 });
             }

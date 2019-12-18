@@ -181,17 +181,17 @@
 			"⚠ You need atleast **25 HP** to use the `roulette` command, you currently have **{0}/{1}**."
 		],
 		"slots": [
-			"You won **${0}**! ({1}x)",
+			"You won **{0}**! ({1}x)",
 			"You lost!",
 			"Better luck next time."
 		],
 		"roulette": [
-			"{0}, 💥 The gun fires! You took *{1}* damage and now have **{2} health**. Oh, and you also lost ${3}",
-			"{0}, You survived! Your winnings are: ${1} 💵"
+			"{0}, 💥 The gun fires! You took *{1}* damage and now have **{2} health**. Oh, and you also lost {3}",
+			"{0}, You survived! Your winnings are: {1}"
 		],
 		"coinflip": [
-			"You just won ${0}!",
-			"You just lost ${0}!"
+			"You just won {0}!",
+			"You just lost {0}!"
 		]
 	},
 	"vote": [

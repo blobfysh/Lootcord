@@ -70,7 +70,7 @@ module.exports = {
                         methods.additem(message.author.id, 'item_box', 2);
                     }
                     else{//40% chance
-                        rewardItem = "`$1000`";
+                        rewardItem = "`$1,000`";
                         methods.addmoney(message.author.id, 1000);
                     }
                     const embedReward = new Discord.RichEmbed()

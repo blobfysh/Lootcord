@@ -86,7 +86,7 @@ module.exports = {
                                     message.reply(scrambleWinMsg(rewardItem));
                                 }
                                 else{
-                                    rewardItem = "$1700";
+                                    rewardItem = "$1,700";
                                     message.reply(scrambleWinMsg(rewardItem));
                                     methods.addmoney(message.author.id, 1700);
                                 }
@@ -100,7 +100,7 @@ module.exports = {
                                     message.reply(scrambleWinMsg(rewardItem));
                                 }
                                 else{
-                                    rewardItem = "$1100";
+                                    rewardItem = "$1,100";
                                     message.reply(scrambleWinMsg(rewardItem));
                                     methods.addmoney(message.author.id, 1100);
                                 }
