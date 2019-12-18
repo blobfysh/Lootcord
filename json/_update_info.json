@@ -35,10 +35,8 @@
   ],
   "desc": [
     "🔹 **Source: **https://github.com/blobfysh/Lootcord",
+    "🔹 Christmas update! Use the `claimgift` command to receive a present to open!",
     "🔹 Added new item: `desert_eagle`, a handgun that can use `pistol_ammo` as well as `50_cal`.",
-    "🔹 Reduced spam cooldown from 2 seconds to 1 second.",
-    "🔹 Black Market added!",
-    "🔹 Added trusted rank to clans",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
 }

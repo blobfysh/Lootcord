@@ -25,11 +25,24 @@ const globalLB   = require('../methods/global_leaderboard.js');
 const patrons    = require('../methods/patron_list.js');
 const { query }  = require('../mysql.js');
 const app        = express();
+const itemdata   = require('../json/completeItemList.json');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 client.on('ready', () => {
+    app.post('/api/items', async (req, res) => {
+        if(!req.body.apiAuth){
+            return res.status(400).send('Missing authorization!');
+        }
+        else if(req.body.apiAuth !== config.lootcordAPIAuth){
+            return res.status(400).send('Invalid authorization!');
+        }
+        else{
+            res.status(200).send(itemdata);
+        }
+    });
+
     app.post('/api/leaderboard', async (req, res) => {
         if(!req.body.apiAuth){
             return res.status(400).send('Missing authorization!');

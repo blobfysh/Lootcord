@@ -2223,7 +2223,7 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 700,
-        "desc": "Has a chance to contain `$500-$2000`\n**Christmas 2018 item**",
+        "desc": "Has a chance to contain `$500-$2000`\n**Christmas event item**",
         "image": "",
         "unboxable": false,
         "icon": "🎁",
@@ -2248,7 +2248,7 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 200,
-        "desc": "Eat this to heal `20-25` HP!\n**Christmas 2018 item**",
+        "desc": "Eat this to heal `20-25` HP!\n**Christmas event item**",
         "image": "",
         "unboxable": false,
         "icon": "🎁",
@@ -2274,7 +2274,7 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 300,
-        "desc": "Sharpened for maximum efficiency\n**Christmas 2018 item**",
+        "desc": "Sharpened for maximum efficiency\n**Christmas event item**",
         "image": "",
         "unboxable": false,
         "icon": "🎁",
@@ -2300,7 +2300,7 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 3500,
-        "desc": "Tightly packed snowball\n**Christmas 2018 item**",
+        "desc": "Tightly packed snowball\n**Christmas event item**",
         "image": "",
         "unboxable": false,
         "icon": "🎁",
@@ -2326,7 +2326,7 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 7000,
-        "desc": "Send the nutcracker to bite your enemies\n**Christmas 2018 item**",
+        "desc": "Send the nutcracker to bite your enemies\n**Christmas event item**",
         "image": "",
         "unboxable": false,
         "icon": "🎁",
@@ -2358,7 +2358,7 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 400,
-        "desc": "Wear these cozy gloves to shield yourself for 30 minutes!\n**Christmas 2018 item**",
+        "desc": "Wear these cozy gloves to shield yourself for 30 minutes!\n**Christmas event item**",
         "image": "",
         "unboxable": false,
         "icon": "🎁",
@@ -2366,6 +2366,80 @@
         "canBeStolen": true,
         "cooldown": "",
         "shopOrderCode": 8
+    },
+    "coal": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 100,
+        "desc": "You were on the naughty list!\n**Christmas event item**",
+        "image": "",
+        "unboxable": false,
+        "icon": "🎁",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 8
+    },
+    "present": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "4x coal",
+            "materials": [
+                "coal|4"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 300,
+        "desc": "Unwrap it to see what's inside!\n**Christmas event item**",
+        "image": "",
+        "unboxable": true,
+        "icon": "🎁",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 8,
+        "rates": {
+            "70": {
+                "xp": 20,
+                "items": [
+                    "stocking|1",
+                    "gingerbread|1",
+                    "candycane|1"
+                ]
+            },
+            "25": {
+                "xp": 25,
+                "items": [
+                    "mittens|1",
+                    "snowball|1",
+                    "coal|1"
+                ]
+            },
+            "5": {
+                "xp": 75,
+                "items": [
+                    "nutcracker|1"
+                ]
+            }
+        }
     },
     "token": {
         "rarity": "Limited",

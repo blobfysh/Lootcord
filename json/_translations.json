@@ -28,7 +28,7 @@
 		"Account activated in this server!"
 	],
 	"help": [
-		"{0} - Creates an account!",
+		"{0} - Creates an account!\n\n❄ Christmas event! Use the `claimgift` command to receive free items!\nCheck the `shop` for games that can be purchased using tokens.",
 		"{0} - Attack users with weapons or use items on self.",
 		"⚔ Item Usage",
 		"🎲 Games and Rewards",
@@ -126,7 +126,7 @@
 		"items": [
 			"You have healed for `{0}` HP!",
 			"You have healed for `{0}` HP and hit your max health limit!",
-			"You open the {0} to find...\n```{1}```",
+			"You open the {0} to find...\n{1}",
 			"Your current shield is still active for  {0}!",
 			"You have activated `{0}`!",
 			"You are already max health!",

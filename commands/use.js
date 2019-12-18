@@ -47,6 +47,9 @@ module.exports = {
                 else if(itemUsed == "candy_pail" && itemRow.candy_pail >= useAmount){
                     boxes.open_box(message, lang, 'candy_pail', useAmount);
                 }
+                else if(itemUsed == "present" && itemRow.present >= useAmount){
+                    boxes.open_box(message, lang, 'present', useAmount);
+                }
                 else if(itemUsed == "care_package" && itemRow.care_package >= 1){
                     open.open_package(message, lang);
                 }
