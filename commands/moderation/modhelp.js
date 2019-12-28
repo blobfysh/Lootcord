@@ -21,6 +21,7 @@ module.exports = {
             "`" + prefix + "getbans` - Displays list of all banned users.",
             "`" + prefix + "getbaninfo <id>` - Shows reason and date for banned user.",
             "`" + prefix + "invwipe <id> <reason>` - Wipes a users data and sends them message with reason. Will also log the users inventory and unique code prior to wipe in <#500467081226223646>.",
+            "`" + prefix + "delacc <id>` - Deletes a users account.",
             "`" + prefix + "getinv <id>` - Displays a users inventory along with their unique inventory code.",
             "`" + prefix + "restoreinv <unique inventory code>` - Restores a users inventory using a code from either the getinv or invwipe commands.",
             "`" + prefix + "shardsinfo` - Show information about all running shards."

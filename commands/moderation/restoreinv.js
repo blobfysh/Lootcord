@@ -32,7 +32,7 @@ module.exports = {
             if(!row) return message.reply("Invalid code or the user has no account to overwrite with restored data.");
 
             Object.keys(userObj).forEach(item => {
-                if(item !== 'userId' && item !== 'clanId' && item !== 'clanRank'){
+                if(item !== 'userId' && item !== 'clanId' && item !== 'clanRank' && item !== 'lastActive'){
                     var amount;
                     if(userObj[item] !== undefined){
                         amount = userObj[item];
