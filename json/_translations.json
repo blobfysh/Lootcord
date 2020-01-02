@@ -28,7 +28,7 @@
 		"Account activated in this server!"
 	],
 	"help": [
-		"{0} - Creates an account!\n\n❄ Christmas event! Use the `claimgift` command to receive free items!\nCheck the `shop` for games that can be purchased using tokens.",
+		"{0} - Creates an account!",
 		"{0} - Attack users with weapons or use items on self.",
 		"⚔ Item Usage",
 		"🎲 Games and Rewards",

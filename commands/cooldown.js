@@ -67,10 +67,12 @@ module.exports = {
         if(message.client.sets.cfCooldown.has(message.author.id)){
             coinflipReady = ((60 * 1000 - ((new Date()).getTime() - row.coinflipTime)) / 1000).toFixed(0) + " seconds";
         }
+        /*
         if(message.client.sets.eventCooldown.has(message.author.id)){
             giftReady = (((43200 * 1000 - ((new Date()).getTime() - row.prizeTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours";
         }
         embedLeader.addField("🎁 claimgift", "`" + giftReady + "`",true)
+        */
         embedLeader.setThumbnail(message.author.avatarURL)
         embedLeader.setTitle(`**${message.author.username} Cooldowns**`)
         embedLeader.setColor(13215302)
