@@ -7,6 +7,7 @@ const manager               = new Discord.ShardingManager('./app.js', {
 });
 const voteHandler           = require('./utils/votes.js').votingManager(manager); // Handles DBL webhooks
 const patreonHandler        = require('./utils/patreonHandler.js');
+const discoinHandler        = require('./utils/discoinHandler').initDiscoin(manager);
 const clans                 = require('./methods/clan_methods.js');
 
 manager.spawn(undefined, 25000, false).catch(console.log);
