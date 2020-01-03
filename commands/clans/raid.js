@@ -70,6 +70,7 @@ module.exports = {
                 return
             }
 
+            console.log('[CLANS] Someone is raiding right now... probably wait to restart.');
             clans.addLog(scoreRow.clanId, `${message.author.tag} raided ${clanRow[0].name}(id: ${clanRow[0].clanId}).`);
             
             var moneyStolen = Math.floor(clanRow[0].money / 3);
@@ -77,7 +78,7 @@ module.exports = {
             var itemsArray = [];
 
             message.client.shard.broadcastEval(`this.sets.raided.add('${clanRow[0].clanId}')`);
-
+            message.client.shard.broadcastEval(`this.sets.gettingRaided.add('${clanRow[0].clanId}')`);
             message.client.shard.broadcastEval(`this.sets.raidCooldown.add('${scoreRow.clanId}')`);
             query(`UPDATE clans SET raidTime = ${new Date().getTime()} WHERE clanId = ${scoreRow.clanId}`);
             setTimeout(() => {
@@ -149,7 +150,7 @@ module.exports = {
                 }
             });
             collector.on("end", response => {
-                
+                message.client.shard.broadcastEval(`this.sets.gettingRaided.delete('${clanRow[0].clanId}')`);
             });
             
         }

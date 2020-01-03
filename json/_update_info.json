@@ -36,6 +36,9 @@
   "desc": [
     "🔹 **Source: **https://github.com/blobfysh/Lootcord",
     "🔹 Christmas event ended.",
+    "🔹 Discoin integration added.",
+    "🔹 Fixed bug where withdraw command would say that your clan was still being raided for ~60 minutes.",
+    "🔹 Fixed bug where jackpot command would tell you the limit was 1,000,000 when really it was 50,000.",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
 }

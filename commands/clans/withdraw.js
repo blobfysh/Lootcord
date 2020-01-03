@@ -28,7 +28,7 @@ module.exports = {
         else if(itemName !== 'money' && itemdata[itemName] == undefined){
             return message.reply(lang.clans.deposit[0]);
         }
-        else if(message.client.sets.raided.has(scoreRow.clanId.toString())){
+        else if(message.client.sets.gettingRaided.has(scoreRow.clanId.toString())){
             return message.reply(lang.clans.withdraw[4]);
         }
         else{
