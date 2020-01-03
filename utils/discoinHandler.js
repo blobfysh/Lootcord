@@ -6,7 +6,9 @@ const Discoin = require('./discoin');
 const discoin = new Discoin(config.discoinToken);
 
 exports.initDiscoin = (manager) => {
+    if(config.debug) return;
     console.log('[DISCOIN] Discoin ready');
+
     setInterval(() => { 
         discoinHandler(manager); 
     }, 300000);

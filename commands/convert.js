@@ -22,12 +22,12 @@ module.exports = {
         currency = currency.toUpperCase();
 
         if(!args[0]){
-            methods.commandhelp(message, 'convert', prefix);
+            return methods.commandhelp(message, 'convert', prefix);
         }
         else if(convertAmnt < 100){
             return message.reply('Please enter an amount of atleast $100');
         }
-        else if(!methods.hasmoney(message.author.id, convertAmnt)){
+        else if(!(await methods.hasmoney(message.author.id, convertAmnt))){
             return message.reply("You don't have enough money for that conversion!");
         }
 

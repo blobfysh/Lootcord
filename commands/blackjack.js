@@ -34,7 +34,7 @@ module.exports = {
             return message.reply(lang.buy[4]);
         }
         else if(gambleAmount > 1000000){
-            return message.reply(lang.jackpot[2]);
+            return message.reply("Amount cannot be higher than $1,000,000");
         }
         else if(message.client.sets.gambleCooldown.has(message.author.id)){
             const timeRow = await query(`SELECT * FROM cooldowns WHERE userId ="${message.author.id}"`);

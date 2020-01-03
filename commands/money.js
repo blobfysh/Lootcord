@@ -4,7 +4,7 @@ const methods = require('../methods/methods.js');
 
 module.exports = {
     name: 'money',
-    aliases: ['cash', 'balance'],
+    aliases: ['cash', 'balance', 'bal'],
     description: 'Displays your current balance.',
     hasArgs: false,
     worksInDM: false,
