@@ -271,11 +271,11 @@
 }, {
   "lookup": ["upgrade"],
   "command": "Upgrade",
-  "example": [""],
+  "example": ["upgrade", "upgrade strength 2"],
   "description": "Allows user to spend skill points for upgrading attributes. Attributes include Vitality, Strength, and Luck.",
   "cooldown": "",
-  "usage": ["upgrade <skill>`"],
-  "options": "`skill` - **OPTIONAL** Will upgrade selected skill when command is called, without menu.",
+  "usage": ["upgrade <skill> <amount>`"],
+  "options": "`skill` - **OPTIONAL** Will upgrade selected skill when command is called, without menu.\n`amount` - **OPTIONAL** Will upgrade selected skill x amount of times.",
   "category": "games",
   "ignoreHelp": false
 }, {

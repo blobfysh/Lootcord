@@ -26,11 +26,11 @@ exports.votingManager = (manager) => {
                 WHERE scores.userId="${vote.user}"`))[0];
 
             if(!row){
-                console.log('[VOTE] Received a vote but ignored it due to user having no account.');
+                console.log('[VOTE] Received a vote but ignored it due to user having no account: ' + vote.user);
                 return; // User doesn't have an account to give reward to...
             }
             else if(row.voteTime > 0){
-                console.log('[VOTE] Received a vote but ignored it due to user having already voted in past 12 hours.')
+                console.log('[VOTE] Received a vote but ignored it due to user having already voted in past 12 hours: ' + vote.user)
                 return;
             }
 
