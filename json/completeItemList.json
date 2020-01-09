@@ -429,7 +429,8 @@
         "isAmmo": [
             "glock",
             "revolver",
-            "thompson"
+            "thompson",
+            "desert_eagle"
         ],
         "ammo": "",
         "craftedWith": {

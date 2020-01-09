@@ -7,7 +7,7 @@ module.exports = {
     name: 'kick',
     aliases: [''],
     description: 'Kick a user from your clan.',
-    minimumRank: 3,
+    minimumRank: 4,
     requiresClan: true,
     
     async execute(message, args, lang, prefix){
@@ -34,6 +34,9 @@ module.exports = {
         }
         else if(message.author.id == invitedUser.id){
             return message.reply(lang.errors[1]);
+        }
+        else if(invitedScoreRow.clanRank >= scoreRow.clanRank){
+            return message.reply('You cannot kick members of equal or higher rank!');
         }
 
         query(`UPDATE scores SET clanId = 0 WHERE userId = ${invitedUser.id}`);

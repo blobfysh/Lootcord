@@ -40,6 +40,9 @@ module.exports = {
         else if(clan_ranks[invitedScoreRow.clanRank].title == 'Recruit'){
             return message.reply(lang.clans.demote[1]);
         }
+        else if(invitedScoreRow.clanRank >= scoreRow.clanRank){
+            return message.reply('You cannot demote members of equal or higher rank!');
+        }
         else{
             demoteMessage = lang.clans.demote[0].replace('{0}', clan_ranks[invitedScoreRow.clanRank - 1].title).replace('{1}', clan_ranks[invitedScoreRow.clanRank].perms.join('\n'));
         }
