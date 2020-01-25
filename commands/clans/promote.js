@@ -37,7 +37,7 @@ module.exports = {
         else if(message.author.id == invitedUser.id){
             return message.reply(lang.errors[1]);
         }
-        else if((invitedScoreRow.clanRank + 1) >= scoreRow.clanRank){
+        else if(clan_ranks[invitedScoreRow.clanRank + 1].title !== 'Leader' && (invitedScoreRow.clanRank + 1) >= scoreRow.clanRank){
             return message.reply('You cannot promote members to an equal or higher rank!');
         }
         else if(clan_ranks[invitedScoreRow.clanRank + 1].title == 'Leader'){
