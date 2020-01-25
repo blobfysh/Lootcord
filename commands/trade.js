@@ -36,11 +36,17 @@ module.exports = {
             else if(!victimRow){
                 return message.reply(lang.errors[0]);
             }
+            else if(message.client.sets.tradeBanned.has(tradeUser.id)){
+                return message.reply("User is trade banned.");
+            }
             else if(!playRow.length){
                 return message.reply(lang.use.errors[7]);
             }
             else if(message.client.sets.peckCooldown.has(tradeUser.id)){
                 return message.reply(lang.trade.errors[0]);
+            }
+            else if(message.client.sets.activeCmdCooldown.has(tradeUser.id)){
+                return message.reply("This user has an active command running! Wait for them to finish the command before trading with them.");
             }
 
             const botMessage = await message.channel.send(lang.trade.trading[0].replace('{0}', tradeUser).replace('{1}', message.member.displayName));

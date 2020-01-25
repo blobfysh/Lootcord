@@ -19,8 +19,6 @@ module.exports = {
     adminOnly: false,
     
     async execute(message, args, lang, prefix){
-        //var itemUsed = general.getCorrectedItemInfo(args[0]);
-        //var userOldID = args[1];
         var itemUsed = general.parseArgsWithSpaces(args[0], args[1], args[2], false, false, false);
         var userOldID = general.parseArgsWithSpaces(args[0], args[1], args[2], false, false, true);
         console.log(itemUsed);
@@ -499,6 +497,8 @@ async function pickTarget(message, selection){
         return selection.users[0];
     }
     else{
+        message.client.shard.broadcastEval(`this.sets.activeCmdCooldown.add('${message.author.id}')`);
+
         const atkEmbed = new Discord.RichEmbed()
         .setTitle('Pick someone to attack!')
         .setDescription(`1. **${(await general.getUserInfo(message, selection.users[0])).tag}**\n
@@ -533,6 +533,9 @@ async function pickTarget(message, selection){
         catch(err){
             botMessage.delete();
             return selection.users[Math.floor(Math.random() * selection.users.length)];
+        }
+        finally{
+            message.client.shard.broadcastEval(`this.sets.activeCmdCooldown.delete('${message.author.id}')`);
         }
     }
     

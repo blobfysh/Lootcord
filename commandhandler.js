@@ -40,6 +40,10 @@ exports.handleCmd = async function(message, prefix, lang){
         message.channel.send(embedChicken);
         return;
     }
+
+    else if(message.client.sets.activeCmdCooldown.has(message.author.id)){
+        return message.reply("You already have a command active! Finish using the other command before starting a new one.");
+    }
     
     else if(command.requiresAcc && !row.length) return message.reply(lang.general[0].replace('{0}', prefix));
 
