@@ -35,10 +35,7 @@
   ],
   "desc": [
     "🔹 **Source: **https://github.com/blobfysh/Lootcord",
-    "🔹 Added `Co-Leader` rank to clans, can promote and demote other members.",
-    "🔹 `upgrade` command now supports amounts.",
-    "🔹 Discoin integration added.",
-    "🔹 Fixed bug `pistol_bullet` was not showing `desert_eagle` in `item` command.",
+    "🔹 Can no longer use other commands while selecting a user to attack in the `use` command.",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
 }

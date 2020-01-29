@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const { query } = require('../../mysql.js');
 const config = require('../../json/_config.json');
 
 module.exports = {
@@ -28,20 +29,44 @@ module.exports = {
                 message.reply("Hey stop trying to warn a moderator!!! >:(");
             }
             else{
-                const banMsg = new Discord.RichEmbed()
-                .setAuthor('❗You have been warned❗')
-                .addField('**' + message.author.tag + '** issued a warning!', 'Any more could result in a ban or inventory wipe!')
-                .addField('Reason', messageIn)
-                .setColor(13064193)
+                const botMessage = await message.reply('This user currently has ' + (await query(`SELECT * FROM warnings WHERE userId = '${userNameID}'`)).length + ' warnings on record. Continue warning?');
+                await botMessage.react('✅');
+                await botMessage.react('❌');
+                const filter = (reaction, user) => {
+                    return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
+                };
 
                 try{
-                    const warnUser = await message.client.fetchUser(userNameID);
+                    const collected = await botMessage.awaitReactions(filter, {max: 1, time: 15000, errors: ['time'] });
+                    const reaction = collected.first();
 
-                    await warnUser.send(banMsg);
-                    message.reply("User ("+ warnUser.tag +") successfully warned");
+                    if(reaction.emoji.name === '✅'){
+                        botMessage.delete();
+
+                        const banMsg = new Discord.RichEmbed()
+                        .setAuthor('❗You have been warned❗')
+                        .addField('**' + message.author.tag + '** issued a warning!', 'Any more could result in a ban or inventory wipe!')
+                        .addField('Reason', messageIn)
+                        .setColor(13064193)
+
+                        try{
+                            const warnUser = await message.client.fetchUser(userNameID);
+
+                            query("INSERT INTO warnings (userId, modId, reason, date) VALUES (?, ?, ?, ?)", [userNameID, message.author.id, messageIn, (new Date()).getTime()]);
+
+                            await warnUser.send(banMsg);
+                            message.reply("User ("+ warnUser.tag +") successfully warned");
+                        }
+                        catch(err){
+                            message.reply("Something went wrong:```" + err + "```");
+                        }
+                    }
+                    else{
+                        botMessage.delete();
+                    }
                 }
                 catch(err){
-                    message.reply("Something went wrong:```" + err + "```")
+                    botMessage.edit("You didn't react in time!");
                 }
             }
         }

@@ -36,7 +36,7 @@ module.exports = {
                 Object.keys(userRow).forEach(item => {
 
                     //ignore userId and createdAt columns (these are unique and will never change)
-                    if(item !== 'userId' && item !== 'createdAt' && item !== 'clanId' && item !== 'clanRank'){
+                    if(item !== 'userId' && item !== 'createdAt' && item !== 'clanId' && item !== 'clanRank' && item !== 'lastActive'){
 
                         //switch to set columns that have default values other than 0
                         switch(item){

@@ -20,6 +20,7 @@ module.exports = {
             "`" + prefix + "botstatus <activity> <status>` - Sets bot status.",
             "`" + prefix + "getbans` - Displays list of all banned users.",
             "`" + prefix + "getbaninfo <id>` - Shows reason and date for banned user.",
+            "`" + prefix + "getwarnings <id>` - Get all warnings for a user.",
             "`" + prefix + "invwipe <id> <reason>` - Wipes a users data and sends them message with reason. Will also log the users inventory and unique code prior to wipe in <#500467081226223646>.",
             "`" + prefix + "delacc <id>` - Deletes a users account.",
             "`" + prefix + "getinv <id>` - Displays a users inventory along with their unique inventory code.",

@@ -197,6 +197,10 @@ function connectSQL(){
             if(err) return console.log(err);
         });
 
+        db.query('CREATE TABLE IF NOT EXISTS warnings (userId bigint, modId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB', (err, result) => {
+            if(err) return console.log(err);
+        });
+
         db.query('CREATE TABLE IF NOT EXISTS gamesData (gameName VARCHAR(255), gameAmount INT, gamePrice INT, gameCurrency VARCHAR(255), gameDisplay VARCHAR(255)) ENGINE = InnoDB', (err, result) => {
             if(err) return console.log(err);
         });

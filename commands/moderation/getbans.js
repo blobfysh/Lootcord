@@ -18,14 +18,14 @@ module.exports = {
             var bannedIDs = Array.from(message.client.sets.bannedUsers);
     
             for(var i = 0; i < bannedIDs.length; i++){
-                bannedList.push((await general.getUserInfo(message, bannedIDs[i])).tag + " ID: " + bannedIDs[i]);
+                bannedList.push((i + 1) + '. ' + (await general.getUserInfo(message, bannedIDs[i])).tag + " ID: " + bannedIDs[i]);
             }
     
             const banMsg = new Discord.RichEmbed()
             .setAuthor('Banned users')
             .setDescription(bannedList)
             .setColor(13632027)
-            .setFooter('')
+            .setFooter('Total: ' + bannedList.length)
 
             message.channel.send(banMsg);
         }
