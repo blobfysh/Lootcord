@@ -559,6 +559,16 @@
   "category": "other",
   "ignoreHelp": false
 }, {
+  "lookup": ["report"],
+  "command": "Report",
+  "example": ["report blobfysh#4679 Looked at me funny"],
+  "description": "Report another player to the mods. Supports image attachments.",
+  "cooldown": "",
+  "usage": ["report <discord#tag> <reason>`"],
+  "options": "`discord#tag` - The tag of the user you're reporting or their user ID.\n`reason` - The reason for reporting them.",
+  "category": "other",
+  "ignoreHelp": false
+}, {
   "lookup": ["jackpot"],
   "command": "Jackpot",
   "example": ["jackpot 1000"],
