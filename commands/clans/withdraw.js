@@ -49,7 +49,7 @@ module.exports = {
                 await clans.removeMoney(scoreRow.clanId, itemAmnt);
                 await methods.addmoney(message.author.id, itemAmnt);
                 
-                clans.addLog(scoreRow.clanId, `${message.author.tag} withdrew $${itemAmnt}`);
+                clans.addLog(scoreRow.clanId, `${message.author.tag} withdrew ${methods.formatMoney(itemAmnt, true)}`);
 
                 message.reply(lang.clans.withdraw[3].replace('{0}', methods.formatMoney(itemAmnt)).replace('{1}',
                     methods.formatMoney((await query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0][itemName])
@@ -69,7 +69,7 @@ module.exports = {
                 await methods.removeitem(scoreRow.clanId, itemName, itemAmnt);
                 await methods.additem(message.author.id, itemName, itemAmnt);
 
-                
+                clans.addLog(scoreRow.clanId, `${message.author.tag} withdrew ${itemAmnt}x ${itemName}`);
 
                 message.reply(lang.clans.withdraw[2].replace('{0}', itemAmnt).replace('{1}', itemName).replace('{2}', 
                     clanItems[itemName] - itemAmnt

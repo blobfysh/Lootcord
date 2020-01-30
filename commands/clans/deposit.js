@@ -52,6 +52,8 @@ module.exports = {
                 await methods.removemoney(message.author.id, itemAmnt);
                 await depositItem(itemName, itemAmnt, scoreRow.clanId);
 
+                clans.addLog(scoreRow.clanId, `${message.author.tag} deposited ${methods.formatMoney(itemAmnt, true)}`);
+
                 message.reply(lang.clans.deposit[5].replace('{0}', methods.formatMoney(itemAmnt)).replace('{1}',
                     methods.formatMoney((await query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0][itemName])
                 ));
@@ -63,6 +65,8 @@ module.exports = {
 
                 await methods.removeitem(message.author.id, itemName, itemAmnt);
                 await depositItem(itemName, itemAmnt, scoreRow.clanId);
+
+                clans.addLog(scoreRow.clanId, `${message.author.tag} deposited ${itemAmnt}x ${itemName}`);
 
                 const clanItems = await general.getItemObject(scoreRow.clanId);
 

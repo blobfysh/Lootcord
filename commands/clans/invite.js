@@ -61,6 +61,7 @@ module.exports = {
                     }
 
                     joinClan(invitedUser.id, clanRow.clanId);
+                    clans.addLog(clanRow.clanId, `${invitedUser.user.tag} joined (inv. by ${message.author.tag})`);
                     message.channel.send(lang.clans.invite[4].replace('{0}', invitedUser).replace('{1}', clanRow.name).replace('{2}', prefix).replace('{3}', prefix));
                 }
                 else{

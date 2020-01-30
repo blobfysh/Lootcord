@@ -71,7 +71,8 @@ module.exports = {
             }
 
             console.log('[CLANS] Someone is raiding right now... probably wait to restart.');
-            clans.addLog(scoreRow.clanId, `${message.author.tag} raided ${clanRow[0].name}(id: ${clanRow[0].clanId}).`);
+            clans.addLog(scoreRow.clanId, `${message.author.tag} raided ${clanRow[0].name}`);
+            clans.addLog(clanRow[0].clanId, `Raided by ${(await query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0].name} (${message.author.tag})`);
             
             var moneyStolen = Math.floor(clanRow[0].money / 3);
             var itemsStolen = 0;
