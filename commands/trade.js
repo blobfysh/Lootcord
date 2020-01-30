@@ -143,6 +143,11 @@ module.exports = {
                                                     inline: true
                                                 },
                                                 {
+                                                    name: "\u200b",
+                                                    value: "\u200b",
+                                                    inline: false
+                                                },
+                                                {
                                                     name: "${message.author.username + "'s items"}",
                                                     value: "${player1items.length > 0 ? player1display.join(", ") : "no items"}",
                                                     inline: true
