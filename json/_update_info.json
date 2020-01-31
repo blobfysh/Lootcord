@@ -36,6 +36,9 @@
   "desc": [
     "🔹 **Source: **https://github.com/blobfysh/Lootcord",
     "🔹 Can no longer use other commands while selecting a user to attack in the `use` command.",
+    "🔹 Added `report` command.",
+    "🔹 Individual power now starts to decay after 30 days of inactivity (down to 0 minimum).",
+    "🔹 Added clan logs and `clan logs` command.",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
 }

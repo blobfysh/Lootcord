@@ -11,7 +11,7 @@ exports.initDiscoin = (manager) => {
 
     setInterval(() => { 
         discoinHandler(manager); 
-    }, 300000);
+    }, 180000);
 }
 
 async function discoinHandler(manager){

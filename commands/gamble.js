@@ -13,6 +13,6 @@ module.exports = {
     adminOnly: false,
     
     execute(message, args, lang, prefix){
-        message.reply('Gamble commands were turned into standalone commands this update! Now you can just do `t-coinflip 100` etc.');
+        message.reply('Gamble commands were turned into standalone commands. Now you can just do `t-coinflip 100` etc.');
     },
 }

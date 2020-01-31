@@ -13,6 +13,11 @@ module.exports = {
     requiresClan: true,
     
     async execute(message, args, lang, prefix){
+
+        if(message.client.restartLockdown){
+            return message.reply('The jackpot command has been disabled to prevent issues causes by a bot update! Should be back soon')
+        }
+        
         const scoreRow = (await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`))[0];
 
         if(scoreRow.clanId == 0){

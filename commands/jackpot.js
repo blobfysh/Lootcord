@@ -20,7 +20,7 @@ module.exports = {
         var jackpotObj = {};
 
         if(message.client.restartLockdown){
-            return message.reply('The jackpot command has been disabled to prevent issues causes by a bot update! Should be back soon')
+            return message.reply('This command has been disabled to prevent issues causes by a bot update! Should be back soon')
         }
 
         if(gambleAmount !== undefined && gambleAmount >= 100){

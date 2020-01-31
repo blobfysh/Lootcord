@@ -51,7 +51,7 @@ async function getClanLogs(message, clanId){
     const logs = await query(`SELECT * FROM clan_logs WHERE clanId = ${clanId} ORDER BY logDate DESC LIMIT 10`);
 
     let display = '';
-    let header = 'Description                           Time   ';
+    let header = 'Description                            Date  ';
 
     for(var i = 0; i < logs.length; i++){
         display += `${logs[i].details.slice(0, 38)}`.padEnd(39, ' ') + `${getShortDate(logs[i].logTime)}\n`;
