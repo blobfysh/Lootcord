@@ -33,7 +33,6 @@ module.exports = {
                         buyAmount = 1;
                     }
                     else if(buyAmount > 20) buyAmount = 20;
-                    message.delete();
 
                     buyitem(message, buyItem, parseInt(buyAmount), itemPrice, currency, false, lang);
                 }

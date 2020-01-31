@@ -31,7 +31,6 @@ module.exports = {
                 else if(sellAmount > 30){
                     sellAmount = 30;
                 }
-                message.delete();
                 message.reply(lang.sell[0].replace('{0}', sellAmount).replace('{1}', itemdata[sellItem].icon).replace('{2}', sellItem).replace('{3}', methods.formatMoney(itemPrice * sellAmount))).then(async reactMsg => {
                     await reactMsg.react('✅');
                     await reactMsg.react('❌');
