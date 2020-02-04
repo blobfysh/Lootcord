@@ -30,7 +30,6 @@ manager.on('launch', shard => {
 
             setInterval(() => {
                 query(`UPDATE scores SET power = power + 1 WHERE power < max_power AND lastActive > NOW() - INTERVAL 30 DAY;`);
-                query(`UPDATE scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 30 DAY;`);
             }, 7200 * 1000) // 2 hours
         }, 25000);
     }
@@ -91,6 +90,7 @@ async function loopTasks(){
         }
     }
 
+    query(`UPDATE scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 30 DAY;`);
     query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId=scores.userId WHERE scores.lastActive < NOW() - INTERVAL 30 DAY`);
 
     setTimeout(startInterval, 1000);

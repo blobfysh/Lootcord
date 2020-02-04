@@ -501,29 +501,27 @@ async function pickTarget(message, selection){
 
         const atkEmbed = new Discord.RichEmbed()
         .setTitle('Pick someone to attack!')
-        .setDescription(`1. **${(await general.getUserInfo(message, selection.users[0])).tag}**\n
+        .setDescription(`Type 1, 2, or 3 to select.\n
+        1. **${(await general.getUserInfo(message, selection.users[0])).tag}**\n
         2. **${(await general.getUserInfo(message, selection.users[1])).tag}**\n
         3. **${(await general.getUserInfo(message, selection.users[2])).tag}**`)
         .setColor(13215302)
         .setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
 
         const botMessage = await message.reply({embed: atkEmbed});
-        await botMessage.react('\u0031\u20E3');
-        await botMessage.react('\u0032\u20E3');
-        await botMessage.react('\u0033\u20E3');
-        const filter = (reaction, user) => {
-            return ['\u0031\u20E3', '\u0032\u20E3', '\u0033\u20E3'].includes(reaction.emoji.name) && user.id === message.author.id;
+        const filter = (m) => {
+            return ['1', '2', '3'].includes(m.content) && m.author.id === message.author.id;
         };
 
         try{
-            const collected = await botMessage.awaitReactions(filter, {max: 1, time: 15000, errors: ['time'] });
-            const reaction = collected.first();
-
+            const collected = await message.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] });
+            const userChoice = collected.first();
+            
             botMessage.delete();
-            if(reaction.emoji.name == '\u0031\u20E3'){
+            if(userChoice.content == '1'){
                 return selection.users[0];
             }
-            else if(reaction.emoji.name == '\u0032\u20E3'){
+            else if(userChoice.content == '2'){
                 return selection.users[1];
             }
             else{
