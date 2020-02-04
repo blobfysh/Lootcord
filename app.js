@@ -511,7 +511,6 @@ async function getPrefix(guildId){
         }
     }
     else{
-        console.log('Successfully pulled prefix from cache!');
         return cachePrefix;
     }
 }

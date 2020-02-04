@@ -1,4 +1,5 @@
 const { query } = require('../mysql.js');
+const cache     = require('../utils/cache');
 
 module.exports = {
     name: 'setprefix',
@@ -26,7 +27,8 @@ module.exports = {
                 prefixString = prefixString.toLowerCase();
                 
                 query("INSERT IGNORE INTO guildPrefix (guildId, prefix) VALUES (?, ?)", [message.guild.id, prefixString]);
-
+                cache.set(message.guild.id, prefixString);
+                
                 message.reply(lang.setprefix[1].replace('{0}', prefixString));
             });
         }
