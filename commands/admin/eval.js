@@ -5,6 +5,7 @@ const itemdata  = require('../../json/completeItemList.json');
 const airdrop   = require('../../utils/airdrop.js');
 const os        = require('os');
 const { decodeCode } = require('../../methods/acc_code_handler');
+const cache     = require('../../utils/cache');
 
 module.exports = {
     name: 'eval',

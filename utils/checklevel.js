@@ -21,13 +21,13 @@ exports.checkLevelXp = async function(message){
                 let levelItem = "";
                 if((userRow.level + 1) > 4){ levelItem = "ultra_box" } else {levelItem = "2x item_box"}
 
-                query(`UPDATE scores SET points = ${userRow.points + 1}, level = ${userRow.level + 1}, stats = ${userRow.stats + 1} WHERE userId = ${message.author.id}`);
+                await query(`UPDATE scores SET points = ${userRow.points + 1}, level = ${userRow.level + 1}, stats = ${userRow.stats + 1} WHERE userId = ${message.author.id}`);
 
                 if((userRow.level + 1) > 4){
-                    methods.additem(message.author.id, 'ultra_box', 1);
+                    await methods.additem(message.author.id, 'ultra_box', 1);
                 }
                 else{
-                    methods.additem(message.author.id, 'item_box', 2);
+                    await methods.additem(message.author.id, 'item_box', 2);
                 }
 
                 const guildRow = (await query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`))[0];

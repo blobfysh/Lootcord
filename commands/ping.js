@@ -9,6 +9,6 @@ module.exports = {
     requiresAcc: false,
     
     execute(message, args){
-        message.reply(`${Math.round(message.client.ping)} ms`);
+        message.reply(`Websocket: ${Math.round(message.client.ping)} ms\nResponse time: ${(new Date().getTime()) - message.sentTime} ms`);
     },
 }

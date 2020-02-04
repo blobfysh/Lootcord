@@ -11,6 +11,7 @@ const { handleCmd }         = require('./commandhandler.js');
 const { checkLevelXp }      = require('./utils/checklevel.js');
 const airdropper            = require('./utils/airdrop.js');
 const patreonHandler        = require('./utils/patreonHandler.js');
+const cache                 = require('./utils/cache');
 
 const client = new Discord.Client({
     messageCacheMaxSize: 50,
@@ -54,36 +55,24 @@ for(const file of clanCommandFiles){
 
 var prefix = config.prefix;
 
-client.on('message', message => {
+client.on('message', async message => {
     if(message.author.bot) return;
     if(client.fullLockdown) return console.log('[APP] Ignored message.');
     if(client.sets.bannedUsers.has(message.author.id)) return;
     
     const lang = languages['en_us']; // selects language to use.
 
-    query(`SELECT * FROM guildPrefix WHERE guildId = ${message.guild !== null ? message.guild.id : 0}`).then(prefixRow => {
-        
-        if(prefixRow !== undefined && prefixRow.length > 0) {
-            prefix = prefixRow[0].prefix;
-        }
-        else{
-            prefix = config.prefix;
-        }
+    prefix = message.guild ? await getPrefix(message.guild.id) : config.prefix;
 
-        if(!message.content.toLowerCase().startsWith(prefix) && message.channel.type !== "dm"){
-            if(!client.sets.activeScramblers.has(message.author.id)){
-                return checkLevelXp(message);
-            }
-            else return;
-        }
+    if(!message.content.toLowerCase().startsWith(prefix) && message.channel.type !== "dm"){
+        return
+    }
 
-        if(message.channel.type === "dm") handleCmd(message, 't-', lang);
-        
-        else handleCmd(message, prefix, lang);
-    }).catch(err => {
-        console.log('[APP] Query failed, MySQL not working?:')
-        console.log(err);
-    });
+    message.sentTime = new Date().getTime();
+
+    if(message.channel.type !== "dm") await checkLevelXp(message);
+
+    handleCmd(message, prefix, lang);
 });
 
 client.on("guildMemberRemove", (member) => {
@@ -499,5 +488,32 @@ process.on('message', async message => {
 process.on('unhandledRejection', (reason, p) => {
 	console.error('[APP][' + new Date().toLocaleString(undefined, {timeZone: 'America/New_York'}) + '] Unhandled Rejection: ', reason);
 });
+
+async function getPrefix(guildId){
+    cachePrefix = cache.get(guildId);
+
+    if(!cachePrefix){
+        try{
+            const prefixRow = (await query(`SELECT * FROM guildPrefix WHERE guildId = ${guildId}`))[0];
+        
+            if(prefixRow){
+                cache.set(guildId, prefixRow.prefix);
+                return prefixRow.prefix
+            }
+            else{
+                cache.set(guildId, config.prefix);
+                return config.prefix
+            }
+        }
+        catch(err){
+            console.log('[APP] Prefix query failed, MySQL not working?:')
+            console.log(err);
+        }
+    }
+    else{
+        console.log('Successfully pulled prefix from cache!');
+        return cachePrefix;
+    }
+}
 
 client.login(config.botToken);
