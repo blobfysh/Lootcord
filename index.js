@@ -9,12 +9,12 @@ const voteHandler           = require('./utils/votes.js').votingManager(manager)
 const patreonHandler        = require('./utils/patreonHandler.js');
 const discoinHandler        = require('./utils/discoinHandler').initDiscoin(manager);
 const clans                 = require('./methods/clan_methods.js');
+const CronJob               = require('cron').CronJob;
 
 manager.spawn(undefined, 25000, false).catch(console.log);
 
 manager.on('launch', shard => {
     if(shard.id == manager.totalShards - 1){
-        startInterval();
         console.log('[INDEX] Shards successfully loaded...');
 
         //set bot status
@@ -57,25 +57,6 @@ process.on('SIGTERM', () => {
 });
 */
 
-async function startInterval(){
-    const convertedTime = new Date().toLocaleString('en-US', {
-        timeZone: 'America/New_York'
-    }); // America/Los_Angeles
-    const curTime = new Date(convertedTime);
-        
-    var timeTill12 = new Date(curTime.getUTCFullYear(), 
-        curTime.getUTCMonth(), 
-        curTime.getUTCDate(),
-        0) - curTime;
-
-    if(timeTill12 < 0){
-        timeTill12 += 86400000;
-    }
-
-    console.log('[INDEX] '+ (timeTill12 / (1000 * 60 * 60)).toFixed(1) + ' Hrs until 12AM interval loops.');
-    setTimeout(loopTasks, timeTill12);
-}
-
 async function loopTasks(){
     const rows = await query(`SELECT * FROM clans`);
 
@@ -92,6 +73,8 @@ async function loopTasks(){
 
     query(`UPDATE scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 30 DAY;`);
     query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId=scores.userId WHERE scores.lastActive < NOW() - INTERVAL 30 DAY`);
-
-    setTimeout(startInterval, 1000);
 }
+
+var dailyJob = new CronJob('0 0 0 * * *', loopTasks, timeZone = 'America/New-York');
+
+dailyJob.start();

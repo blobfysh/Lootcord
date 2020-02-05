@@ -6,7 +6,7 @@ const general = require('../../methods/general');
 module.exports = {
     name: 'kick',
     aliases: [''],
-    description: 'Kick a user from your clan.',
+    description: 'Kick a user from your clan (using mention or user id).',
     minimumRank: 4,
     requiresClan: true,
     
