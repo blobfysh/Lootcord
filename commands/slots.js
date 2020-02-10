@@ -49,9 +49,8 @@ module.exports = {
             .setAuthor(message.member.displayName, message.author.avatarURL)
             .setTitle(" --**SLOT MACHINE**--")
             .setDescription(template)
-            let luck = row.luck >= 30 ? 30 : Math.floor(row.luck);
             for(var i = 1; i <= 3; i++){
-                let chance = Math.floor(Math.random() * 200) + luck;
+                let chance = Math.floor(Math.random() * 200);
                 if(chance <= 100){
                     //unbox common
                     eval("col"+i+".push(slotEmotes[3],slotEmotes[0],slotEmotes[1]);");

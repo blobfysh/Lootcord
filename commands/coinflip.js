@@ -30,9 +30,7 @@ module.exports = {
                 return message.reply(lang.buy[4]);
             }
             
-            let luck = row.luck >= 20 ? 5 : Math.floor(row.luck/4);
-            let chance = Math.floor(Math.random() * 100) + luck; //return 1-100
-            if(chance > 50){
+            if(Math.random() < 0.5){
                 methods.addmoney(message.author.id, gambleAmount);
                 message.reply(lang.gamble.coinflip[0].replace('{0}', methods.formatMoney(gambleAmount * 2)));
             }

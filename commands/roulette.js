@@ -36,8 +36,7 @@ module.exports = {
             methods.removemoney(message.author.id, gambleAmount);
             let multiplier = 1.2;
             let winnings = Math.floor(gambleAmount * multiplier);
-            let luck = row.luck >= 20 ? 10 : Math.floor(row.luck/2);
-            let chance = Math.floor(Math.random() * 100) + luck; //return 1-100
+            let chance = Math.floor(Math.random() * 100); //return 1-100
 
             if(chance <= 20){
                 let healthDeduct = 50;
