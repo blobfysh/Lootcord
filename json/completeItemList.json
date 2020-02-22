@@ -1999,7 +1999,7 @@
             "currency": "money"
         },
         "sell": 3000,
-        "desc": "Use this to reset your attributes and gain back all used skill points!",
+        "desc": "Use this to reset your skills! Resetting your skills will also reset the cost to purchase skills with the `upgrade` command.",
         "image": "",
         "unboxable": true,
         "icon": "<:L_usable:601370184200093696>",

@@ -14,6 +14,7 @@ module.exports = {
     requiresAcc: true,
     modOnly: false,
     adminOnly: false,
+    levelReq: 3,
     
     async execute(message, args, lang, prefix){
         var userNameID = general.getUserId(args);
@@ -42,6 +43,9 @@ module.exports = {
             else if(!playRow.length){
                 return message.reply(lang.use.errors[7]);
             }
+            else if(victimRow.level < 3){
+                return message.reply('❌ Target player must be atleast level 3.');
+            }
             else if(message.client.sets.peckCooldown.has(tradeUser.id)){
                 return message.reply(lang.trade.errors[0]);
             }
@@ -67,14 +71,16 @@ module.exports = {
                     .setTitle("**Trade window**")
                     .setColor(2713128)
                     .setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/568469679081914435/tradeIcon.png")
-                    .addField(message.member.displayName + "'s Offer", methods.formatMoney(0) + '\n\nItems:\nNone',true)
-                    .addField(tradeUser.displayName + "'s Offer", methods.formatMoney(0) + '\n\nItems:\nNone',true)
+                    .addField(message.member.displayName + "'s Offer\nValue: $0", methods.formatMoney(0) + '\n\nItems:\nNone',true)
+                    .addField(tradeUser.displayName + "'s Offer\nValue: $0", methods.formatMoney(0) + '\n\nItems:\nNone',true)
                     .setFooter("Commands : "+prefix+"add <item> <amount> | "+prefix+"addmoney <amount> | "+prefix+"accept | "+prefix+"cancel")
                     message.channel.send(tradeWindow);
 
                     const collector = new Discord.MessageCollector(message.channel, m => m.author.id == message.author.id || m.author.id == tradeUser.id, { time: 300000 });
                     let player1money = 0; //this is person who started trade
                     let player2money = 0; //this is person asked to trade with
+                    let player1value = 0;
+                    let player2value = 0;
                     
                     let player1items = [];
                     let player1itemsAmounts = [];
@@ -177,16 +183,16 @@ module.exports = {
                             .setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/568469679081914435/tradeIcon.png")
                             .setFooter("Commands : "+prefix+"add <item> <amount> | "+prefix+"remove <item> | "+prefix+"addmoney <amount> | "+prefix+"accept | "+prefix+"cancel")
                             if(player1items.length > 0){
-                                activeWindow.addField(message.member.displayName + "'s Offer", methods.formatMoney(player1money) + '\n\nItems:\n' + player1display.join("\n"),true)
+                                activeWindow.addField(message.member.displayName + "'s Offer\nValue: " + methods.formatMoney(getValue(player1money, player1itemsAmounts), true), methods.formatMoney(player1money) + '\n\nItems:\n' + player1display.join("\n"),true)
                             }
                             else{
-                                activeWindow.addField(message.member.displayName + "'s Offer", methods.formatMoney(player1money) + '\n\nItems:\nNone',true)
+                                activeWindow.addField(message.member.displayName + "'s Offer\nValue: " + methods.formatMoney(getValue(player1money, player1itemsAmounts), true), methods.formatMoney(player1money) + '\n\nItems:\nNone',true)
                             }
                             if(player2items.length > 0){
-                                activeWindow.addField(tradeUser.displayName + "'s Offer", methods.formatMoney(player2money) + '\n\nItems:\n' + player2display.join("\n"),true)
+                                activeWindow.addField(tradeUser.displayName + "'s Offer\nValue: " + methods.formatMoney(getValue(player2money, player2itemsAmounts), true), methods.formatMoney(player2money) + '\n\nItems:\n' + player2display.join("\n"),true)
                             }
                             else{
-                                activeWindow.addField(tradeUser.displayName + "'s Offer", methods.formatMoney(player2money) + '\n\nItems:\nNone',true)
+                                activeWindow.addField(tradeUser.displayName + "'s Offer\nValue: " + methods.formatMoney(getValue(player2money, player2itemsAmounts), true), methods.formatMoney(player2money) + '\n\nItems:\nNone',true)
                             }
                             message.channel.send(activeWindow);
                         }
@@ -394,9 +400,17 @@ module.exports = {
                             try{
                                 const collected = await botMessage.awaitReactions(filter, {max: 1, time: 25000, errors: ['time'] });
                                 const reaction = collected.first();
+                                let player1val = getValue(player1money, player1itemsAmounts);
+                                let player2val = getValue(player2money, player2itemsAmounts);
 
                                 if(reaction.emoji.name === '✅'){
                                     botMessage.delete();
+                                    if(player1val > player2val * 2){
+                                        return message.channel.send(`❌ Cannot complete trade. ${message.member.displayName}'s offer (${methods.formatMoney(player1val, true)}) was 2x greater than ${tradeUser.displayName}'s offer (${methods.formatMoney(player2val, true)}).`)
+                                    }
+                                    else if(player2val > player1val * 2){
+                                        return message.channel.send(`❌ Cannot complete trade. ${tradeUser.displayName}'s offer (${methods.formatMoney(player2val, true)}) was 2x greater than ${message.member.displayName}'s offer (${methods.formatMoney(player1val, true)}).`)
+                                    }
                                     const tradeCode = await swapItems();
                                     activeWindow(1, tradeCode);
                                 }
@@ -421,9 +435,17 @@ module.exports = {
                             try{
                                 const collected = await botMessage.awaitReactions(filter, {max: 1, time: 25000, errors: ['time'] });
                                 const reaction = collected.first();
+                                let player1val = getValue(player1money, player1itemsAmounts);
+                                let player2val = getValue(player2money, player2itemsAmounts);
 
                                 if(reaction.emoji.name === '✅'){
                                     botMessage.delete();
+                                    if(player1val > player2val * 2){
+                                        return message.channel.send(`❌ Cannot complete trade. ${message.member.displayName}'s offer (${methods.formatMoney(player1val, true)}) was 2x greater than ${tradeUser.displayName}'s offer (${methods.formatMoney(player2val, true)}).`)
+                                    }
+                                    else if(player2val > player1val * 2){
+                                        return message.channel.send(`❌ Cannot complete trade. ${tradeUser.displayName}'s offer (${methods.formatMoney(player2val, true)}) was 2x greater than ${message.member.displayName}'s offer (${methods.formatMoney(player1val, true)}).`)
+                                    }
                                     const tradeCode = await swapItems();
                                     activeWindow(1, tradeCode); //sends log to mods
                                 }
@@ -452,4 +474,14 @@ module.exports = {
             message.reply(lang.errors[1]);
         }
     },
+}
+
+function getValue(playerMoney, playerItems){
+    let value = playerMoney;
+
+    for(var i = 0; i < playerItems.length; i++){
+        value += itemdata[playerItems[i].split('|')[0]].sell * playerItems[i].split('|')[1];
+    }
+
+    return value;
 }

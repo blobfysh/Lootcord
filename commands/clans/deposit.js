@@ -11,6 +11,7 @@ module.exports = {
     description: 'Deposit items into your clans vault.',
     minimumRank: 1,
     requiresClan: true,
+    levelReq: 3,
     
     async execute(message, args, lang, prefix){
         const scoreRow = (await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`))[0];

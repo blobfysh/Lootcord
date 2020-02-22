@@ -31,6 +31,9 @@ module.exports = {
         else if(scoreRow.clanRank < command.minimumRank){
             return message.reply('Your clan rank is not high enough to use this command! Your rank: `' + clan_ranks[scoreRow.clanRank].title + '` Required: `' + clan_ranks[command.minimumRank].title + '`+');
         }
+        else if(command.levelReq && scoreRow.level < command.levelReq){
+            return message.reply('❌ You must be atleast level `' + command.levelReq + '` to use this command!');
+        }
         try{
             command.execute(message, args.slice(1), lang, prefix);
         }

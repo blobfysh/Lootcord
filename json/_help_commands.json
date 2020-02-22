@@ -102,7 +102,7 @@
   "lookup": ["trade"],
   "command": "Trade",
   "example": ["trade @blobfysh"],
-  "description": "Start a trade with another user. Trade commands include:\n\n`add <item> <amount>` - Item to add to trade\n`remove <item>` - Remove item from trade\n`addmoney <amount>` - Amount of money to add\n`accept`\n`cancel`",
+  "description": "Lvl Required: 3+\nStart a trade with another user. Trade commands include:\n\n`add <item> <amount>` - Item to add to trade\n`remove <item>` - Remove item from trade\n`addmoney <amount>` - Amount of money to add\n`accept`\n`cancel`",
   "cooldown": "",
   "usage": ["trade <@user>`"],
   "options": "`@user` - Mention user to trade with.",
@@ -138,16 +138,6 @@
   "options": "",
   "category": "games",
   "ignoreHelp": false
-}, {
-  "lookup": ["gamble"],
-  "command": "Gamble",
-  "example": ["gamble slots 1000"],
-  "description": "**REMOVED**. You can now use the `coinflip`, `roulette`, or `slots` commands.",
-  "cooldown": "1 minute",
-  "usage": ["gamble <type> <amount>`"],
-  "options": "`type` - slots, roulette, or coinflip\n`amount` - Amount of money to gamble",
-  "category": "games",
-  "ignoreHelp": true
 }, {
   "lookup": ["vote"],
   "command": "Vote",
@@ -272,7 +262,7 @@
   "lookup": ["upgrade"],
   "command": "Upgrade",
   "example": ["upgrade", "upgrade strength 2"],
-  "description": "Allows user to spend skill points for upgrading attributes. Attributes include Vitality, Strength, and Luck.",
+  "description": "Allows user to upgrade skills. Skills include Health, Strength, and Luck.\nHealth - Increases max health.\nStrength - Increases damage multiplier.\nLuck - Better loot drops and chance to dodge attacks.",
   "cooldown": "",
   "usage": ["upgrade <skill> <amount>`"],
   "options": "`skill` - **OPTIONAL** Will upgrade selected skill when command is called, without menu.\n`amount` - **OPTIONAL** Will upgrade selected skill x amount of times.",

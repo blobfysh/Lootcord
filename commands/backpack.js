@@ -11,6 +11,7 @@ module.exports = {
     hasArgs: false,
     worksInDM: false,
     requiresAcc: true,
+    worksWhenInactive: true,
     modOnly: false,
     adminOnly: false,
     

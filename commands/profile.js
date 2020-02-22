@@ -70,10 +70,10 @@ module.exports = {
             .addBlankField()
             .addField('Banners', bannersList, true)
             .addField("Backpack", 'Equipped: ' + backpackIcon + "`" + userRow.backpack + "`", true)
-            .addField("Skills", '💗 Vitality: ' + userRow.health + "/" + userRow.maxHealth + " HP"
+            .addField("Skills", '💗 Health: ' + userRow.health + "/" + userRow.maxHealth + " HP"
             + '\n💥 Strength: ' + parseFloat(userRow.scaledDamage).toFixed(2) + "x damage"
             + '\n🍀 Luck: ' + userRow.luck, true)
-            .setFooter("🌟 " + userRow.stats + " Available skill points")
+            .setFooter("🌟 Skills upgraded " + userRow.used_stats + " times")
             message.channel.send(profileEmbed);
         }
     },

@@ -19,14 +19,23 @@ exports.checkLevelXp = async function(message){
 
             if(userRow.points >= totalXpNeeded && message.guild.id !== "264445053596991498") {     //Sends lvlup message | IGNORES BOT LIST DISCORD
                 let levelItem = "";
-                if((userRow.level + 1) > 4){ levelItem = "ultra_box" } else {levelItem = "2x item_box"}
 
                 await query(`UPDATE scores SET points = ${userRow.points + 1}, level = ${userRow.level + 1}, stats = ${userRow.stats + 1} WHERE userId = ${message.author.id}`);
 
-                if((userRow.level + 1) > 4){
+                if((userRow.level + 1) > 15){
+                    levelItem = "supply_signal";
+                    await methods.additem(message.author.id, 'supply_signal', 1);
+                }
+                else if((userRow.level + 1) > 10){
+                    levelItem = "2x ultra_box";
+                    await methods.additem(message.author.id, 'ultra_box', 2);
+                }
+                else if((userRow.level + 1) > 4){
+                    levelItem = "ultra_box";
                     await methods.additem(message.author.id, 'ultra_box', 1);
                 }
                 else{
+                    levelItem = "2x item_box";
                     await methods.additem(message.author.id, 'item_box', 2);
                 }
 
@@ -34,7 +43,7 @@ exports.checkLevelXp = async function(message){
 
                 //Create level image
                 var baseImage = await Jimp.read("./userImages/LvlUp.png");
-                var avatar = await Jimp.read(message.author.avatarURL);
+                var avatar = await Jimp.read(message.author.avatarURL || 'https://cdn.discordapp.com/attachments/497302646521069570/676268626747064350/322c936a8c8be1b803cd94861bdfa868.png');
 
                 avatar.resize(64, 64);
                 baseImage.quality(70);
@@ -58,16 +67,16 @@ exports.checkLevelXp = async function(message){
                 baseImage.getBuffer(Jimp.AUTO, (err, buffer) => {
                     if(err) return;
                     if(guildRow.levelChan !== undefined && guildRow.levelChan !== "" && guildRow.levelChan !== 0){
-                        message.guild.channels.get(guildRow.levelChan).send(message.author + `\nLEVEL **${userRow.level + 1}!**\n` + "**YOU EARNED A 🌟 SKILL POINT!** Use it with the `upgrade` command." + `\n**Item received!**  ` + "`" + levelItem + "`", {
+                        message.guild.channels.get(guildRow.levelChan).send(message.author + `\nLEVEL **${userRow.level + 1}!**\n` + `\n**Item received!**  ` + "`" + levelItem + "`", {
                             file: buffer
                         }).catch(err => {
-                            message.reply(`LEVEL **${userRow.level + 1}!**\n` + "**YOU EARNED A 🌟 SKILL POINT!** Use it with the `upgrade` command." + `\n**Item received!**  ` + "`" + levelItem + "`", {
+                            message.reply(`LEVEL **${userRow.level + 1}!**\n` + `**Item received!**  ` + "`" + levelItem + "`", {
                                 file: buffer
                             });
                         });
                     }
                     else{
-                        message.reply(`LEVEL **${userRow.level + 1}!**\n` + "**YOU EARNED A 🌟 SKILL POINT!** Use it with the `upgrade` command." + `\n**Item received!**  ` + "`" + levelItem + "`", {
+                        message.reply(`LEVEL **${userRow.level + 1}!**\n` + `**Item received!**  ` + "`" + levelItem + "`", {
                             file: buffer
                         });
                     }

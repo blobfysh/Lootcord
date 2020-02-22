@@ -62,6 +62,8 @@ exports.handleCmd = async function(message, prefix, lang){
     
     else if(command.hasArgs && !args.length) return message.reply(lang.general[4].replace('{0}', prefix).replace('{1}', command.name));
 
+    else if(command.levelReq && (row[0].level < command.levelReq)) return message.reply('❌ You must be atleast level `' + command.levelReq + '` to use that command!');
+
     try{
         command.execute(message, args, lang, prefix); // Call command here
         message.client.commandsUsed++;

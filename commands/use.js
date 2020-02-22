@@ -143,9 +143,7 @@ module.exports = {
                     message.reply(lang.use.items[2].replace('{0}', itemUsed).replace('{1}', methods.formatMoney(randAmt)));
                 }
                 else if(itemUsed == "reroll_scroll" && itemRow.reroll_scroll >= 1){
-                    let usedStatPts = userRow.used_stats;
                     methods.removeitem(message.author.id, 'reroll_scroll', 1);
-                    query(`UPDATE scores SET stats = stats + ${usedStatPts} WHERE userId = ${message.author.id}`);
                     query(`UPDATE scores SET maxHealth = ${100} WHERE userId = ${message.author.id}`);
                     query(`UPDATE scores SET luck = ${0} WHERE userId = ${message.author.id}`);
                     query(`UPDATE scores SET scaledDamage = ${1.00} WHERE userId = ${message.author.id}`);
@@ -156,8 +154,7 @@ module.exports = {
                     let msgEmbed = new Discord.RichEmbed()
                     .setAuthor(message.member.displayName, message.author.avatarURL)
                     .setTitle("Successfully used 📜`reroll_scroll`")
-                    .setDescription("Restored **"+usedStatPts+"** skill points.")
-                    .setFooter("Attributes reset.")
+                    .setDescription("Your skills have been reset.")
                     .setColor(14202368)
                     message.channel.send(msgEmbed);
                 }

@@ -145,111 +145,6 @@ class Methods {
             }
         }
     }
-    getCorrectedItemInfo(itemName = ""){
-        let itemSearched = itemName.toLowerCase();
-
-        if(itemSearched == "item_box" || itemSearched == "box" || itemSearched == "item"){
-            itemSearched = "ITEM_BOX";
-        }
-        else if(itemSearched == "ammo_box" || itemSearched == "ammo"){
-            itemSearched = "AMMO_BOX";
-        }
-        else if(itemSearched == "ultra" || itemSearched == "ultrabox" || itemSearched =="ultra_box"){
-            itemSearched = "ULTRA_BOX";
-        }
-        else if(itemSearched == "rail" || itemSearched == "cannon" || itemSearched == "railcannon" || itemSearched == "rail_cannon"){
-            itemSearched = "RAIL_CANNON";
-        }
-        else if(itemSearched == "rifle_bullet" || itemSearched == "rifle"){
-            itemSearched = "RIFLE_BULLET";
-        }
-        else if(itemSearched == "50cal" || itemSearched =="50_cal"){
-            itemSearched = "50_CAL";
-        }
-        else if(itemSearched == "ray" || itemSearched == "raygun" || itemSearched =="ray_gun"){
-            itemSearched = "RAY_GUN";
-        }
-        else if(itemSearched.startsWith("stick")){
-            itemSearched = "STICK";
-        }
-        else if(itemSearched.startsWith("golf")){
-            itemSearched = "GOLF_CLUB";
-        }
-        else if(itemSearched.startsWith("ultra_a") || itemSearched.startsWith("ultraa")){
-            itemSearched = "ULTRA_AMMO";
-        }
-        else if(itemSearched == "fiber" || itemSearched == "optics" || itemSearched =="fiberoptics" || itemSearched =="fiber_optics"){
-            itemSearched = "FIBER_OPTICS";
-        }
-        else if(itemSearched == "gold" || itemSearched == "goldshield" || itemSearched == "gold_shield"){
-            itemSearched = "GOLD_SHIELD";
-        }
-        else if(itemSearched == "iron" || itemSearched == "shield"){
-            itemSearched = "IRON_SHIELD";
-        }
-        else if(itemSearched == "peck" || itemSearched == "peckseed" || itemSearched == "peck_seed"){
-            itemSearched = "PECK_SEED";
-        }
-        else if(itemSearched == "pistol_bullet" || itemSearched == "pistol"){
-            itemSearched = "PISTOL_BULLET";
-        }
-        else if(itemSearched == "health_pot" || itemSearched == "health"){
-            itemSearched = "HEALTH_POT";
-        }
-        else if(itemSearched.startsWith("xp")){
-            itemSearched = "XP_POTION";
-        }
-        else if(itemSearched.startsWith("reroll")){
-            itemSearched = "REROLL_SCROLL";
-        }
-        else if(itemSearched.startsWith("canvas")){
-            itemSearched = "CANVAS_BAG";
-        }
-        else if(itemSearched.startsWith("light")){
-            itemSearched = "LIGHT_PACK";
-        }
-        else if(itemSearched.startsWith("hiker")){
-            itemSearched = "HIKERS_PACK";
-        }
-        else if(itemSearched.startsWith("easter") || itemSearched == "egg"){
-            itemSearched = "EASTER_EGG";
-        }
-        else if(itemSearched.startsWith("golden")){
-            itemSearched = "GOLDEN_EGG";
-        }
-        else if(itemSearched.startsWith("tnt")){
-            itemSearched = "TNT_EGG";
-        }
-        else if(itemSearched.startsWith("candy")){
-            itemSearched = "CANDY_EGG";
-        }
-        else if(itemSearched.startsWith("care") || itemSearched == "package"){
-            itemSearched = "CARE_PACKAGE";
-        }
-        else if(itemSearched.startsWith("cyber")){
-            itemSearched = "CYBER_PACK";
-        }
-        else if(itemSearched.startsWith("supply")){
-            itemSearched = "SUPPLY_SIGNAL";
-        }
-        else if(itemSearched.startsWith("powder")){
-            itemSearched = "GUNPOWDER";
-        }
-        else if(itemSearched.startsWith("smg")){
-            itemSearched = "SMG_BODY";
-        }
-        else if(itemSearched.startsWith("pump")){
-            itemSearched = "PUMP_BODY";
-        }
-        else if(itemSearched.startsWith("assault")){
-            itemSearched = "ASSAULT_BODY";
-        }
-        else if(itemSearched.startsWith("body")){
-            itemSearched = "RIFLE_BODY";
-        }
-        
-        return itemSearched.toLowerCase();
-    }
     commandhelp(message, command, prefix){
         try{
             for(var i = 0; i < Object.keys(helpCmd).length; i++){
@@ -759,44 +654,39 @@ class Methods {
     // These are not updated to work with sharding, and might not function as intended
     addtoJSON(jsonFile){
         Object.keys(jsonFile).forEach(key => {
-            if(jsonFile[key].rarity == "Common"){
-                jsonFile[key].shopOrderCode = 2;
+            if(jsonFile[key].isMaterial){
+                jsonFile[key].type = 'material';
             }
-            else if(jsonFile[key].rarity == "Uncommon"){
-                jsonFile[key].shopOrderCode = 3;
+            else if(jsonFile[key].isItem){
+                jsonFile[key].type = 'usable';
             }
-            else if(jsonFile[key].rarity == "Rare"){
-                jsonFile[key].shopOrderCode = 4;
+            else if(jsonFile[key].isAmmo.length){
+                jsonFile[key].type = 'ammo';
             }
-            else if(jsonFile[key].rarity == "Epic"){
-                jsonFile[key].shopOrderCode = 5;
+            else if(jsonFile[key].isWeap && jsonFile[key].ammo.length){
+                jsonFile[key].type = 'weapon';
             }
-            else if(jsonFile[key].rarity == "Legendary"){
-                jsonFile[key].shopOrderCode = 6;
+            else if(jsonFile[key].isWeap){
+                jsonFile[key].type = 'melee';
             }
-            else if(jsonFile[key].rarity == "Ultra"){
-                jsonFile[key].shopOrderCode = 7;
-            }
-            else if(jsonFile[key].rarity == "Limited"){
-                jsonFile[key].shopOrderCode = 8;
+            else if(!jsonFile[key].type){
+                jsonFile[key].type = 'NONE SET ME PLEASE';
             }
         });
         fs.writeFile('testJSONfile2.json',JSON.stringify(jsonFile, null, 4), function(err) {
             console.log("complete");
         });
     }
-    getActiveAccount(userId){
-        return query(`SELECT * FROM userGuilds WHERE userId ="${userId}"`).then(rows => {
-            var userGuilds = [];
-            var servers = 0;
-            rows.forEach(row => {
-                userGuilds.push(client.guilds.get(row.guildId).name);
-                servers++;
-            });
-            return {
-                guildsArr: userGuilds,
-                count: servers
-            }
+    addtoHELP(message){
+        let jsonFile = helpCmd;
+
+        for(var i = 0; i < jsonFile.length; i++){
+            let commandInf = message.client.commands.get(helpCmd[i].command.toLowerCase());
+
+            jsonFile[i].shortDesc = commandInf.description;
+        }
+        fs.writeFile('testJSONfile2.json',JSON.stringify(jsonFile, null, 4), function(err) {
+            console.log("complete");
         });
     }
 }

@@ -16,7 +16,7 @@ module.exports = {
         var count = 0;
         
         message.client.clanCommands.forEach(cmd => {
-            commands.push('▫`' + cmd.name + '` - ' + cmd.description);
+            commands.push('▫`' + cmd.name + '` - ' + cmd.description + (cmd.levelReq ? ` (Lvl Required: ${cmd.levelReq}+)` : ''));
         });
         commands.sort();
 

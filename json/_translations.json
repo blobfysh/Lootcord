@@ -200,19 +200,21 @@
 		"☑VOTE AVAILABLE `{0} hours left to vote before vote counter expires.`\n🎟Vote for the bot to collect a reward!\nhttps://discordbots.org/bot/493316754689359874/vote\nYou should receive a DM after you vote!"
 	],
 	"upgrade": [
-		"You have {0} skill points available!",
-		"Choose a skill to upgrade:",
-		"Increases max health by 5 (`{0} HP`)",
-		"Increases damage by 3% (`{0}x`)",
-		"Increases luck by 2 (`{0}`)",
-		"Successfully allocated {0} points to 💗 Vitality!",
+		"Cost to upgrade: {0}",
+		"Choose a skill to upgrade",
+		"Increases max health by 5 (`{0} HP` →`{1} HP`)",
+		"Increases damage by 3% (`{0}x` → `{1}x`)",
+		"Increases luck by 2 (`{0}` → `{1}`)",
+		"Successfully allocated {0} points to 💗 Health!",
 		"Successfully allocated {0} points to 💥 Strength!",
 		"Successfully allocated {0} points to 🍀 Luck!",
 		"You now have {0} max health.",
 		"You now deal {0}x damage.",
 		"**Luck increased by 2**\nYour chance to get rare items has been increased.",
 		"{0} skill points remaining.",
-		"You don't have any skill points to upgrade with right now! Level up and come back."
+		"You don't have any skill points to upgrade with right now! Level up and come back.",
+		"Purchase {0}x points of {1} ({2} → {3}) for {4}?",
+		"Successfully allocated {0} points to {1}"
 	],
 	"deactivate": [
 		"You can only deactivate a server once every 24 hours!",
