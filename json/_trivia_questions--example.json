@@ -1,0 +1,24 @@
+[
+    {
+        "category": "Entertainment: Video Games",
+        "type": "multiple",
+        "difficulty": "medium",
+        "question": "In the first Left 4 Dead, you can play as either of these four characters.",
+        "correct_answer": "a",
+        "a": "Francis, Bill, Zoey, and Louis",
+        "b": "Harry, Ron, Hermione and Dumbledore",
+        "c": "Coach, Ellis, Nick, and Rochelle",
+        "d": "Bender, Andrew, Allison, and Brian"
+    },
+    {
+        "category": "Entertainment: Video Games",
+        "type": "multiple",
+        "difficulty": "medium",
+        "question": "Which of these games was NOT a Nintendo Switch launch title in the United States? ",
+        "correct_answer": "b",
+        "a": "Fast RMX",
+        "b": "Voez",
+        "c": "Snipperclips",
+        "d": "Just Dance 2017"
+    }
+]

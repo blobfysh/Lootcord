@@ -37,7 +37,7 @@
     "🔹 **Source: **https://github.com/blobfysh/Lootcord",
     "🔹 Trading, clan deposit/withdraw requires lvl 3+",
     "🔹 Trades will not be completed if one players value is 2x greater than the person they are trading with.",
-    "🔹 Skills are no longer based on level, instead they can be upgraded using money with the upgrade command. Cost of upgrade starts at 1,000 and doubles with each skill upgrade.",
+    "🔹 Skills are no longer based on level, instead they can be upgraded using money with the upgrade command. Cost of upgrade starts at 1,000 and triples with each skill upgrade.",
     "🔹 Level-up reward changed. Level 11-15: 2x `ultra_box`'s. Level 16+: 1x `supply_signal`",
     "🔸 If you like the bot, be sure to tell all your friends about it! :)"
   ]
