@@ -496,40 +496,46 @@ async function pickTarget(message, selection){
     else{
         message.client.shard.broadcastEval(`this.sets.activeCmdCooldown.add('${message.author.id}')`);
 
-        const atkEmbed = new Discord.RichEmbed()
-        .setTitle('Pick someone to attack!')
-        .setDescription(`Type 1, 2, or 3 to select.\n
-        1. **${(await general.getUserInfo(message, selection.users[0])).tag}**\n
-        2. **${(await general.getUserInfo(message, selection.users[1])).tag}**\n
-        3. **${(await general.getUserInfo(message, selection.users[2])).tag}**`)
-        .setColor(13215302)
-        .setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
-
-        const botMessage = await message.reply({embed: atkEmbed});
-        const filter = (m) => {
-            return ['1', '2', '3'].includes(m.content) && m.author.id === message.author.id;
-        };
-
         try{
-            const collected = await message.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] });
-            const userChoice = collected.first();
-            
-            botMessage.delete();
-            if(userChoice.content == '1'){
-                return selection.users[0];
+            const atkEmbed = new Discord.RichEmbed()
+            .setTitle('Pick someone to attack!')
+            .setDescription(`Type 1, 2, or 3 to select.\n
+            1. **${(await general.getUserInfo(message, selection.users[0])).tag}**\n
+            2. **${(await general.getUserInfo(message, selection.users[1])).tag}**\n
+            3. **${(await general.getUserInfo(message, selection.users[2])).tag}**`)
+            .setColor(13215302)
+            .setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
+
+            const botMessage = await message.reply({embed: atkEmbed});
+            const filter = (m) => {
+                return ['1', '2', '3'].includes(m.content) && m.author.id === message.author.id;
+            };
+
+            try{
+                const collected = await message.channel.awaitMessages(filter, { max: 1, time: 15000, errors: ['time'] });
+                const userChoice = collected.first();
+                
+                botMessage.delete();
+                if(userChoice.content == '1'){
+                    return selection.users[0];
+                }
+                else if(userChoice.content == '2'){
+                    return selection.users[1];
+                }
+                else{
+                    return selection.users[2];
+                }
             }
-            else if(userChoice.content == '2'){
-                return selection.users[1];
+            catch(err){
+                botMessage.delete();
+                return selection.users[Math.floor(Math.random() * selection.users.length)];
             }
-            else{
-                return selection.users[2];
+            finally{
+                message.client.shard.broadcastEval(`this.sets.activeCmdCooldown.delete('${message.author.id}')`);
             }
         }
         catch(err){
-            botMessage.delete();
-            return selection.users[Math.floor(Math.random() * selection.users.length)];
-        }
-        finally{
+            //if bot is lagging and attack message does not send...
             message.client.shard.broadcastEval(`this.sets.activeCmdCooldown.delete('${message.author.id}')`);
         }
     }

@@ -74,7 +74,7 @@ exports.handleCmd = async function(message, prefix, lang){
         message.client.sets.spamCooldown.add(message.author.id);
         setTimeout(() => {
             message.client.sets.spamCooldown.delete(message.author.id);
-        }, 1000);//1 second spam cooldown
+        }, 2000);//2 second spam cooldown
         
     }
     catch(err){
