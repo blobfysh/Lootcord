@@ -3,6 +3,17 @@ const { query } = require('../mysql.js');
 //const config = require('../json/_config.json');
 const itemdata = require("../json/completeItemList");
 
+/*
+const MicroSpellingCorrecter = require('micro-spelling-correcter');
+
+itemdata['7.62x39_fmj'] = {};
+let items = Object.keys(itemdata);
+console.log(items);
+let spell = new MicroSpellingCorrecter(items);
+
+console.log(spell.correct('7.62 fmj'));
+*/
+
 class Methods {
     isUser(mention, allowTag = false, message = undefined){
         if(/^<@!?(\d+)>$/.test(mention[0])){

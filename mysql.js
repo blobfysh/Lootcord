@@ -197,6 +197,10 @@ function connectSQL(){
             if(err) return console.log(err);
         });
 
+        db.query('CREATE TABLE IF NOT EXISTS tradebanned (userId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB', (err, result) => {
+            if(err) return console.log(err);
+        });
+
         db.query('CREATE TABLE IF NOT EXISTS warnings (userId bigint, modId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB', (err, result) => {
             if(err) return console.log(err);
         });

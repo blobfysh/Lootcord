@@ -147,6 +147,13 @@ client.on('ready', async () => {
         }
     });
 
+    const tradeBannedRows = await query(`SELECT * FROM tradebanned`); //refreshes the list of tradebanned users on startup
+    tradeBannedRows.forEach((bannedId) => {
+        if(bannedId.userId !== undefined && bannedId.userId !== null){
+            client.sets.tradeBannedUsers.add(bannedId.userId);
+        }
+    });
+
     // refresh clan raid cooldowns
     const raidRows = await query(`SELECT clanId, raidTime FROM clans`);
     raidRows.forEach((clanInfo) => {

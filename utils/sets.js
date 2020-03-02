@@ -1,6 +1,9 @@
 //contains all banned user ids
 var bannedUsers = new Set(); 
 
+//contains all tradebanned user ids
+var tradeBannedUsers = new Set(); 
+
 //add mods with t-admin modadd command
 var moddedUsers = new Set();
 
@@ -77,6 +80,7 @@ const adminUsers = new Set(['168958344361541633', '221087115893669889', '2468287
 
 module.exports = {
     bannedUsers,
+    tradeBannedUsers,
     moddedUsers,
     hourlyCooldown,
     voteCooldown,

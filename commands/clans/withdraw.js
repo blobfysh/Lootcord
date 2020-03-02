@@ -26,6 +26,9 @@ module.exports = {
         if(!args.length){
             return message.reply(lang.clans.withdraw[5]);
         }
+        else if(message.client.sets.tradeBannedUsers.has(message.author.id)){
+            return message.reply("❌ You are trade banned.");
+        }
         else if(itemName !== 'money' && itemdata[itemName] == undefined){
             return message.reply(lang.clans.deposit[0]);
         }

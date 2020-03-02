@@ -38,8 +38,11 @@ module.exports = {
             else if(!victimRow){
                 return message.reply(lang.errors[0]);
             }
-            else if(message.client.sets.tradeBanned.has(tradeUser.id)){
-                return message.reply("User is trade banned.");
+            else if(message.client.sets.tradeBannedUsers.has(message.author.id)){
+                return message.reply("❌ You are trade banned.");
+            }
+            else if(message.client.sets.tradeBannedUsers.has(tradeUser.id)){
+                return message.reply("❌ User is trade banned.");
             }
             else if(!playRow.length){
                 return message.reply(lang.use.errors[7]);
