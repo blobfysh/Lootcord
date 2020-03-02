@@ -29,6 +29,9 @@ module.exports = {
             if(gambleAmount > row.money){
                 return message.reply(lang.buy[4]);
             }
+            else if(gambleAmount > 1000000){
+                return message.reply(`You cannot bet more than ${methods.formatMoney(1000000)}`);
+            }
             
             if(Math.random() < 0.5){
                 methods.addmoney(message.author.id, gambleAmount);

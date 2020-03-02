@@ -102,7 +102,7 @@
   "lookup": ["trade"],
   "command": "Trade",
   "example": ["trade @blobfysh"],
-  "description": "Lvl Required: 3+\nStart a trade with another user. Trade commands include:\n\n`add <item> <amount>` - Item to add to trade\n`remove <item>` - Remove item from trade\n`addmoney <amount>` - Amount of money to add\n`accept`\n`cancel`",
+  "description": "**A players value cannot be 2x greater than the other players value.**\nLvl Required: 3+\nStart a trade with another user. Trade commands include:\n\n`add <item> <amount>` - Item to add to trade\n`remove <item>` - Remove item from trade\n`addmoney <amount>` - Amount of money to add\n`accept`\n`cancel`",
   "cooldown": "",
   "usage": ["trade <@user>`"],
   "options": "`@user` - Mention user to trade with.",

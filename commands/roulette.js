@@ -32,6 +32,9 @@ module.exports = {
             if(gambleAmount > row.money){
                 return message.reply(lang.buy[4]);
             }
+            else if(gambleAmount > 1000000){
+                return message.reply(`You cannot bet more than ${methods.formatMoney(1000000)}`);
+            }
             
             methods.removemoney(message.author.id, gambleAmount);
             let multiplier = 1.2;

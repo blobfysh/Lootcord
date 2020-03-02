@@ -4,6 +4,7 @@ const methods = require('../methods/methods.js');
 const config = require('../json/_config.json');
 const itemdata = require('../json/completeItemList.json');
 const general = require('../methods/general');
+const max_disparity = 2; // number of times greater one persons value can be over the others
 
 module.exports = {
     name: 'trade',
@@ -405,11 +406,11 @@ module.exports = {
 
                                 if(reaction.emoji.name === '✅'){
                                     botMessage.delete();
-                                    if(player1val > player2val * 2){
-                                        return message.channel.send(`❌ Cannot complete trade. ${message.member.displayName}'s offer (${methods.formatMoney(player1val, true)}) was 2x greater than ${tradeUser.displayName}'s offer (${methods.formatMoney(player2val, true)}).`)
+                                    if(player1val > player2val * max_disparity){
+                                        return message.channel.send(`❌ Cannot complete trade. ${message.member.displayName}'s offer (${methods.formatMoney(player1val, true)}) was ${max_disparity}x greater than ${tradeUser.displayName}'s offer (${methods.formatMoney(player2val, true)}).`)
                                     }
-                                    else if(player2val > player1val * 2){
-                                        return message.channel.send(`❌ Cannot complete trade. ${tradeUser.displayName}'s offer (${methods.formatMoney(player2val, true)}) was 2x greater than ${message.member.displayName}'s offer (${methods.formatMoney(player1val, true)}).`)
+                                    else if(player2val > player1val * max_disparity){
+                                        return message.channel.send(`❌ Cannot complete trade. ${tradeUser.displayName}'s offer (${methods.formatMoney(player2val, true)}) was ${max_disparity}x greater than ${message.member.displayName}'s offer (${methods.formatMoney(player1val, true)}).`)
                                     }
                                     const tradeCode = await swapItems();
                                     activeWindow(1, tradeCode);
@@ -440,11 +441,11 @@ module.exports = {
 
                                 if(reaction.emoji.name === '✅'){
                                     botMessage.delete();
-                                    if(player1val > player2val * 2){
-                                        return message.channel.send(`❌ Cannot complete trade. ${message.member.displayName}'s offer (${methods.formatMoney(player1val, true)}) was 2x greater than ${tradeUser.displayName}'s offer (${methods.formatMoney(player2val, true)}).`)
+                                    if(player1val > player2val * max_disparity){
+                                        return message.channel.send(`❌ Cannot complete trade. ${message.member.displayName}'s offer (${methods.formatMoney(player1val, true)}) was ${max_disparity}x greater than ${tradeUser.displayName}'s offer (${methods.formatMoney(player2val, true)}).`)
                                     }
-                                    else if(player2val > player1val * 2){
-                                        return message.channel.send(`❌ Cannot complete trade. ${tradeUser.displayName}'s offer (${methods.formatMoney(player2val, true)}) was 2x greater than ${message.member.displayName}'s offer (${methods.formatMoney(player1val, true)}).`)
+                                    else if(player2val > player1val * max_disparity){
+                                        return message.channel.send(`❌ Cannot complete trade. ${tradeUser.displayName}'s offer (${methods.formatMoney(player2val, true)}) was ${max_disparity}x greater than ${message.member.displayName}'s offer (${methods.formatMoney(player1val, true)}).`)
                                     }
                                     const tradeCode = await swapItems();
                                     activeWindow(1, tradeCode); //sends log to mods

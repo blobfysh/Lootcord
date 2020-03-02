@@ -19,8 +19,8 @@ module.exports = {
         let upgrOpt = args[0] !== undefined ? args[0].toLowerCase() : "";
         let upgrAmnt = general.getNum(args[1]);
 
-        if(row.used_stats + upgrAmnt > 50){
-            return message.reply("❌ Upgrading that much would put you over the max (50 skills upgraded, you've upgraded `" + row.used_stats + "` times). You can use a `reroll_scroll` to reset your skills.");
+        if(row.used_stats + upgrAmnt > 30){
+            return message.reply("❌ Upgrading that much would put you over the max (30 skills upgraded, you've upgraded `" + row.used_stats + "` times). You can use a `reroll_scroll` to reset your skills.");
         }
 
         let type = getType(upgrOpt);
@@ -45,8 +45,8 @@ module.exports = {
                     else if(row.used_stats !== (await query(`SELECT * FROM scores WHERE userId ="${message.author.id}"`))[0].used_stats){
                         botMessage.edit('❌ Error: did your stats change while upgrading?');
                     }
-                    else if(row.used_stats + upgrAmnt > 50){
-                        botMessage.edit("❌ Upgrading that much would put you over the max (50 skills upgraded). You can use a `reroll_scroll` to reset your skills.");
+                    else if(row.used_stats + upgrAmnt > 30){
+                        botMessage.edit("❌ Upgrading that much would put you over the max (30 skills upgraded). You can use a `reroll_scroll` to reset your skills.");
                     }
                     else{
                         await query(`UPDATE scores SET used_stats = used_stats + ${upgrAmnt} WHERE userId = "${message.author.id}"`);
@@ -73,7 +73,7 @@ module.exports = {
             .addField("💗 Health", lang.upgrade[2].replace('{0}', row.maxHealth).replace('{1}', (row.maxHealth + 5)))
             .addField("💥 Strength", lang.upgrade[3].replace('{0}', (row.scaledDamage).toFixed(2)).replace('{1}', (row.scaledDamage + 0.03).toFixed(2)))
             .addField("🍀 Luck", lang.upgrade[4].replace('{0}', row.luck).replace('{1}', (row.luck + 2)))
-            .setFooter('The cost to upgrade skills doubles after each upgrade. You can reset skills with a reroll_scroll')
+            .setFooter('The cost to upgrade skills triples after each upgrade. You can reset skills with a reroll_scroll')
 
             const botMessage = await message.reply(skillEmbed);
             await botMessage.react('💗');

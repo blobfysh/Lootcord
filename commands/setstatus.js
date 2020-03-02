@@ -16,8 +16,8 @@ module.exports = {
     async execute(message, args, lang, prefix){
         const oldRow = await query(`SELECT * FROM scores WHERE userId ="${message.author.id}"`)
         const row = oldRow[0];
-
-        var statusToSet = args.join(" ");
+        
+        var statusToSet = message.cleanContent.slice(prefix.length).split(/ +/).slice(1).join(" ");
 
         if(statusToSet.length > 120){
             return message.reply(lang.setstatus[0].replace('{0}', statusToSet.length));
