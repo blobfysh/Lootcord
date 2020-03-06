@@ -97,14 +97,14 @@
 		"Successfully equipped {-1}`{0}`.",
 		"You already have something equipped! Unequip it with `unequip <item/backpack/armor>`",
 		"You don't have that item.",
-		"That item cannot be equipped. Specify a backpack or armor to equip, `equip <item>`"
+		"That item cannot be equipped. Specify a backpack, banner, or ammo to equip. `equip <item>`"
 	],
 	"unequip": [
 		"Successfully unequipped {-1}`{0}`.\nYour carry capacity is now **{1}** items.",
 		"You don't have a backpack equipped! Equip with `equip <item>`",
 		"Successfully unequipped {-1}`{0}`.",
 		"You don't have any armor equipped! Equip with `equip <item>`",
-		"You don't have that item equipped. Specify your backpack or armor to unequip, `unequip <item>`",
+		"You don't have that item equipped. Specify a backpack, banner, or ammo to equip. `unequip <item>`",
 		"Successfully unequipped your {-1}{0}, you have also been given a 60 minute cooldown from attacking other players.",
 		"❌ You cannot unequip your shield while you have an attack cooldown! {0}"
 	],

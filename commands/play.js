@@ -15,6 +15,7 @@ INSERT IGNORE INTO scores (
     scaledDamage,
     backpack,
     armor,
+    ammo,
     inv_slots,
     points,
     kills,
@@ -35,6 +36,7 @@ INSERT IGNORE INTO scores (
     notify2,
     notify3)
     VALUES (
+        ?,
         ?,
         ?,
         ?,
@@ -107,7 +109,7 @@ module.exports = {
         const row = await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`);
 
         if(!row.length){
-            const scoreRow = await query(insertScoreSQL, [message.author.id, (new Date()).getTime(), 100, 1, 100, 100, 1.00, 'none', 'none']);
+            const scoreRow = await query(insertScoreSQL, [message.author.id, (new Date()).getTime(), 100, 1, 100, 100, 1.00, 'none', 'none', 'none']);
             methods.additem(message.author.id, 'item_box', 1);
             const userGuildsRow = await query(`INSERT INTO userGuilds (userId, guildId) VALUES (${message.author.id}, ${message.guild.id})`);
 

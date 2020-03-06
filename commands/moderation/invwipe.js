@@ -46,6 +46,7 @@ module.exports = {
                             case 'money': resetVal = 100; break;
                             case 'backpack': resetVal = 'none'; break;
                             case 'armor': resetVal = 'none'; break;
+                            case 'ammo': resetVal = 'none'; break;
                             case 'inv_slots': resetVal = 0; break;
                             case 'scaledDamage': resetVal = 1.00; break;
                             case 'banner': resetVal = 'recruit'; break;

@@ -2,17 +2,9 @@
 const { query } = require('../mysql.js');
 //const config = require('../json/_config.json');
 const itemdata = require("../json/completeItemList");
-
-/*
 const MicroSpellingCorrecter = require('micro-spelling-correcter');
+const spell = new MicroSpellingCorrecter(Object.keys(itemdata));
 
-itemdata['7.62x39_fmj'] = {};
-let items = Object.keys(itemdata);
-console.log(items);
-let spell = new MicroSpellingCorrecter(items);
-
-console.log(spell.correct('7.62 fmj'));
-*/
 
 class Methods {
     isUser(mention, allowTag = false, message = undefined){
@@ -92,113 +84,71 @@ class Methods {
 
     getCorrectedItemInfo(itemName = ''){
         let itemSearched = itemName.toLowerCase();
+        let itemCorrected = spell.correct(itemSearched.slice(0, 13));
 
-        if(itemSearched == "item_box" || itemSearched == "box" || itemSearched == "item"){
-            itemSearched = "ITEM_BOX";
+        if(itemSearched.endsWith('_')) itemSearched = itemSearched.replace('_', '');
+
+        switch(itemSearched){
+            case "item_box":
+            case "box":
+            case "item": itemSearched = "item_box"; break;
+            case "ultra": itemSearched = "ultra_box"; break;
+            case "rail":
+            case "cannon": itemSearched = "rail_cannon"; break;
+            case "ray": itemSearched = "ray_gun"; break;
+            case "golf": itemSearched = "golf_club"; break;
+            case "fiber":
+            case "optics": itemSearched = "fiber_optics"; break;
+            case "gold": itemSearched = "gold_shield"; break;
+            case "iron": 
+            case "shield": itemSearched = "iron_shield"; break;
+            case "peck":
+            case "seed": itemSearched = "peck_seed"; break;
+            case "health": itemSearched = "health_pot"; break;
+            case "xp": itemSearched = "xp_potion"; break;
+            case "reroll": itemSearched = "reroll_scroll"; break;
+            case "canvas": itemSearched = "canvas_bag"; break;
+            case "light": itemSearched = "light_pack"; break;
+            case "hiker": itemSearched = "hikers_pack"; break;
+            case "easter":
+            case "egg": itemSearched = "easter_egg"; break;
+            case "golden": itemSearched = "golden_egg"; break;
+            case "tnt": itemSearched = "tnt_egg"; break;
+            case "candy": itemSearched = "candy_bar"; break;
+            case "magic": itemSearched = "magic_staff"; break;
+            case "care":
+            case "package": itemSearched = "care_package"; break;
+            case "cyber": itemSearched = "cyber_pack"; break;
+            case "supply": itemSearched = "suppy_signal"; break;
+            case "powder": itemSearched = "gunpowder"; break;
+            case "smg": itemSearched = "smg_body"; break;
+            case "pump": itemSearched = "pump_body"; break;
+            case "assault": itemSearched = "assault_body"; break;
+            case "rifle":
+            case "body": itemSearched = "rifle_body"; break;
+            case "desert":
+            case "deagle": itemSearched = "desert_eagle"; break;
+            case "762": itemSearched = "7.62x39_fmj"; break;
+            case "556": itemSearched = "5.56x45_fmj"; break;
+            case "50ae":
+            case ".50": itemSearched = ".50ae_hp"; break;
+            case "buckshot":
+            case "12g": itemSearched = "12g_buckshot"; break;
+            case ".45":
+            case "acp": itemSearched = ".45_fmj"; break;
+            case "9mm":
+            case "bullet":
+            case "9x19": itemSearched = "9x19_fmj"; break;
+            case "7n23": itemSearched = "7.62x39_7n23"; break;
+            case "m61": itemSearched = "7.62x51_m61"; break;
+            case "m80": itemSearched = "7.62x51_m80"; break;
+            case "m855": itemSearched = "5.56x45_m855"; break;
+
+            default:
+                if(this.isItem(itemCorrected)){
+                    itemSearched = itemCorrected;
+                }
         }
-        else if(itemSearched == "ammo_box" || itemSearched == "ammo"){
-            itemSearched = "AMMO_BOX";
-        }
-        else if(itemSearched == "ultra" || itemSearched == "ultrabox" || itemSearched =="ultra_box"){
-            itemSearched = "ULTRA_BOX";
-        }
-        else if(itemSearched == "rail" || itemSearched == "cannon" || itemSearched == "railcannon" || itemSearched == "rail_cannon"){
-            itemSearched = "RAIL_CANNON";
-        }
-        else if(itemSearched == "rifle_bullet" || itemSearched == "rifle"){
-            itemSearched = "RIFLE_BULLET";
-        }
-        else if(itemSearched == "50cal" || itemSearched =="50_cal"){
-            itemSearched = "50_CAL";
-        }
-        else if(itemSearched == "ray" || itemSearched == "raygun" || itemSearched =="ray_gun"){
-            itemSearched = "RAY_GUN";
-        }
-        else if(itemSearched.startsWith("stick")){
-            itemSearched = "STICK";
-        }
-        else if(itemSearched.startsWith("golf")){
-            itemSearched = "GOLF_CLUB";
-        }
-        else if(itemSearched.startsWith("ultra_a") || itemSearched.startsWith("ultraa")){
-            itemSearched = "ULTRA_AMMO";
-        }
-        else if(itemSearched == "fiber" || itemSearched == "optics" || itemSearched =="fiberoptics" || itemSearched =="fiber_optics"){
-            itemSearched = "FIBER_OPTICS";
-        }
-        else if(itemSearched == "gold" || itemSearched == "goldshield" || itemSearched == "gold_shield"){
-            itemSearched = "GOLD_SHIELD";
-        }
-        else if(itemSearched == "iron" || itemSearched == "shield"){
-            itemSearched = "IRON_SHIELD";
-        }
-        else if(itemSearched == "peck" || itemSearched == "peckseed" || itemSearched == "peck_seed"){
-            itemSearched = "PECK_SEED";
-        }
-        else if(itemSearched == "pistol_bullet" || itemSearched == "pistol"){
-            itemSearched = "PISTOL_BULLET";
-        }
-        else if(itemSearched == "health_pot" || itemSearched == "health"){
-            itemSearched = "HEALTH_POT";
-        }
-        else if(itemSearched.startsWith("xp")){
-            itemSearched = "XP_POTION";
-        }
-        else if(itemSearched.startsWith("reroll")){
-            itemSearched = "REROLL_SCROLL";
-        }
-        else if(itemSearched.startsWith("canvas")){
-            itemSearched = "CANVAS_BAG";
-        }
-        else if(itemSearched.startsWith("light")){
-            itemSearched = "LIGHT_PACK";
-        }
-        else if(itemSearched.startsWith("hiker")){
-            itemSearched = "HIKERS_PACK";
-        }
-        else if(itemSearched.startsWith("easter") || itemSearched == "egg"){
-            itemSearched = "EASTER_EGG";
-        }
-        else if(itemSearched.startsWith("golden")){
-            itemSearched = "GOLDEN_EGG";
-        }
-        else if(itemSearched.startsWith("tnt")){
-            itemSearched = "TNT_EGG";
-        }
-        else if(itemSearched == "candy"){
-            itemSearched = "CANDY_BAR";
-        }
-        else if(itemSearched == "magic"){
-            itemSearched = "MAGIC_STAFF";
-        }
-        else if(itemSearched.startsWith("care") || itemSearched == "package"){
-            itemSearched = "CARE_PACKAGE";
-        }
-        else if(itemSearched.startsWith("cyber")){
-            itemSearched = "CYBER_PACK";
-        }
-        else if(itemSearched.startsWith("supply")){
-            itemSearched = "SUPPLY_SIGNAL";
-        }
-        else if(itemSearched.startsWith("powder")){
-            itemSearched = "GUNPOWDER";
-        }
-        else if(itemSearched.startsWith("smg")){
-            itemSearched = "SMG_BODY";
-        }
-        else if(itemSearched.startsWith("pump_")){
-            itemSearched = "PUMP_BODY";
-        }
-        else if(itemSearched.startsWith("assault")){
-            itemSearched = "ASSAULT_BODY";
-        }
-        else if(itemSearched.startsWith("body")){
-            itemSearched = "RIFLE_BODY";
-        }
-        else if(itemSearched.startsWith("desert") || itemSearched == "deagle"){
-            itemSearched = "DESERT_EAGLE";
-        }
-        
         return itemSearched.toLowerCase();
     }
 

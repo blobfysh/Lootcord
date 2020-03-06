@@ -27,7 +27,7 @@ module.exports = {
         const serverInf = await query(`SELECT * FROM guildInfo WHERE guildId = ${message.guild.id}`);
 
         try{
-            const userRow = (await query(`SELECT * FROM scores WHERE userId = "${message.author.id}"`))[0];
+            var userRow = (await query(`SELECT * FROM scores WHERE userId = "${message.author.id}"`))[0];
             var itemRow = await general.getItemObject(message.author.id);
 
             if(itemdata[itemUsed] == undefined){
@@ -215,6 +215,8 @@ module.exports = {
                     await message.client.fetchUser(userNameID, false); // Makes sure mention is a valid user.
                     const victimRow = (await query(`SELECT * FROM scores WHERE userId = '${userNameID}'`))[0];
                     const playRow = await query(`SELECT * FROM userGuilds WHERE userId ="${userNameID}" AND guildId = "${message.guild.id}"`);
+                    userRow = (await query(`SELECT * FROM scores WHERE userId = "${message.author.id}"`))[0];
+                    itemRow = await general.getItemObject(message.author.id);
 
                     if(userNameID === message.client.user.id){
                         return message.channel.send(lang.use.weapons[3]);
@@ -234,7 +236,7 @@ module.exports = {
                     else if(!playRow.length){
                         return message.reply(lang.use.errors[7]);
                     }
-                    else if(message.client.sets.activeShield.has(userNameID) && !(itemUsed == "awp" && itemRow.awp >= 1 && itemRow['50_cal'] >= 1) && !(itemUsed == "desert_eagle" && itemRow.desert_eagle >= 1 && itemRow['50_cal'] >= 1)){
+                    else if(message.client.sets.activeShield.has(userNameID)){
                         return message.reply(lang.use.errors[3].replace('{0}', (await methods.getShieldTime(userNameID)) ));
                     }
                     else if(message.client.sets.weapCooldown.has(message.author.id)){
@@ -246,24 +248,30 @@ module.exports = {
                         let bonusDamage = 0;
                         let damageMin = itemdata[itemUsed].minDmg;
                         let damageMax = itemdata[itemUsed].maxDmg;
-                        itemRow = await general.getItemObject(message.author.id);
 
                         if(itemRow[itemUsed] >= 1){
                             if(itemdata[itemUsed].ammo.length >= 1){ //remove ammo
+                                if(itemdata[itemUsed].ammo.includes(userRow.ammo) && itemRow[userRow.ammo] >= 1){
+                                    // use players preferred ammo
+                                    ammoToUse = userRow.ammo;
+                                        
+                                    bonusDamage = itemdata[ammoToUse].damage;
 
-                                for(var i = 0; i < itemdata[itemUsed].ammo.length; i++){
-                                    if(itemRow[itemdata[itemUsed].ammo[i]] >= 1){
-                                        ammoToUse = itemdata[itemUsed].ammo[i];
-                                        if(ammoToUse == "50_cal"){
-                                            bonusDamage = 20;
+                                    methods.removeitem(message.author.id, ammoToUse, 1);
+                                }
+                                else{
+                                    for(var i = 0; i < itemdata[itemUsed].ammo.length; i++){
+                                        if(itemRow[itemdata[itemUsed].ammo[i]] >= 1){
+                                            ammoToUse = itemdata[itemUsed].ammo[i];
+                                            
+                                            bonusDamage = itemdata[ammoToUse].damage;
+
+                                            methods.removeitem(message.author.id, ammoToUse, 1);
+                                            break;
                                         }
-                                        else if(ammoToUse == "baseball"){
-                                            bonusDamage = 12;
-                                        }
-                                        methods.removeitem(message.author.id, ammoToUse, 1);
-                                        break;
                                     }
                                 }
+                                
 
                                 if(ammoToUse == "" && itemdata[itemUsed].ammoOptional !== true){
                                     return message.reply(lang.use.errors[8]);

@@ -43,6 +43,11 @@ module.exports = {
 
                     message.reply(lang.equip[1].replace('{-1}', itemdata[equipitem].icon).replace('{0}', equipitem));
                 }
+                else if(itemdata[equipitem].isAmmo.length){
+                    query(`UPDATE scores SET ammo = '${equipitem}' WHERE userId = ${message.author.id}`);
+
+                    message.reply("Successfully set {-1}`{0}` as your preferred ammo type. (Will prioritize over other ammo types.)".replace('{-1}', itemdata[equipitem].icon).replace('{0}', equipitem));
+                }
                 else{
                     message.reply(lang.equip[2])
                 }

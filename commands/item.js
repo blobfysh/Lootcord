@@ -96,19 +96,20 @@ module.exports = {
             }
 
             embedItem.addField("***Rarity***", itemRarity)
+            
             if(itemCooldown !== ""){
-                embedItem.addField("Cooldown", "`" + itemCooldown.display + "`")
+                embedItem.addField("Cooldown", "`" + itemCooldown.display + "`", true)
             }
             if(itemdata[itemSearched].chanceToBreak){
-                embedItem.addField("Chance to break", "`" + (itemdata[itemSearched].chanceToBreak * 100) + "%`")
+                embedItem.addField("Chance to break", "`" + (itemdata[itemSearched].chanceToBreak * 100) + "%`", true)
             }
 
             if(itemDamage !== ""){
-                embedItem.addField("💥 Damage", itemDamage, true)
+                embedItem.addField(itemdata[itemSearched].isWeap ? "Base Damage" : "Damage", itemDamage, true)
             }
 
             if(itemAmmo !== "" && itemAmmo !== "N/A"){
-                embedItem.addField("Ammo Required:", itemAmmo.map(ammo => itemdata[ammo].icon + '`' + ammo + '`'), true)
+                embedItem.addField("Ammunition Used", itemAmmo.map(ammo => itemdata[ammo].icon + '`' + ammo + '`'), true)
             }
 
             if(itemAmmoFor.length >= 1){
@@ -121,17 +122,20 @@ module.exports = {
             else if(itemBuyCurr !== undefined){
                 embedItem.addField("Buy", itemBuyPrice + "x " + itemdata[itemBuyCurr].icon + "`" + itemBuyCurr + "`", true);
             }
+
             if(itemSellPrice !== ""){
-                embedItem.addField("Sell", methods.formatMoney(itemSellPrice), itemBuyCurr !== undefined ? true : false);
+                embedItem.addField("Sell", methods.formatMoney(itemSellPrice), true);
             }
 
+            if(itemCraftedWith !== "" || itemRecyclesTo.materials !== undefined) embedItem.addBlankField();
+
             if(itemCraftedWith !== ""){
-                embedItem.addBlankField();
                 embedItem.addField("🔩 Craft Ingredients:", itemCraftedWith.display.split('\n').map(component =>  itemdata[component.split(' ')[1]].icon + component.split(' ')[0] + ' `' + component.split(' ')[1] + '`'), true)
             }
             if(itemRecyclesTo.materials !== undefined){
                 embedItem.addField("♻ Recycles into:", itemRecyclesTo.display.split('\n').map(item =>  itemdata[item.split(' ')[1]].icon + item.split(' ')[0] + ' `' + item.split(' ')[1] + '`'), true)
             }
+
             message.channel.send(embedItem);
         }
         else if(rawArg.startsWith('weapon')){

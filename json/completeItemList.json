@@ -29,7 +29,7 @@
         "rarity": "Common",
         "isWeap": false,
         "isItem": false,
-        "damage": "",
+        "damage": 12,
         "minDmg": "",
         "maxDmg": "",
         "isAmmo": [
@@ -38,6 +38,7 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
+        "equippable": "true",
         "buy": "",
         "sell": 500,
         "desc": "Use with weapon.",
@@ -239,7 +240,7 @@
         "rarity": "Common",
         "isWeap": false,
         "isItem": false,
-        "damage": "",
+        "damage": 9,
         "minDmg": "",
         "maxDmg": "",
         "isAmmo": [
@@ -256,6 +257,7 @@
             ]
         },
         "recyclesTo": [],
+        "equippable": "true",
         "buy": "",
         "sell": 250,
         "desc": "Use with weapon",
@@ -419,18 +421,15 @@
         },
         "shopOrderCode": 3
     },
-    "pistol_bullet": {
+    "9x19_fmj": {
         "rarity": "Uncommon",
         "isWeap": false,
         "isItem": false,
-        "damage": "",
+        "damage": 21,
         "minDmg": "",
         "maxDmg": "",
         "isAmmo": [
-            "glock",
-            "revolver",
-            "thompson",
-            "desert_eagle"
+            "glock"
         ],
         "ammo": "",
         "craftedWith": {
@@ -441,9 +440,41 @@
             ]
         },
         "recyclesTo": [],
+        "equippable": "true",
         "buy": "",
         "sell": 400,
-        "desc": "Use with weapon.",
+        "desc": "9x19mm cartridge. Common round used in pistols. Use with weapon.",
+        "image": "",
+        "unboxable": true,
+        "icon": "<:U_ammo:601366669318815745>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 3
+    },
+    ".45_fmj": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 20,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "thompson"
+        ],
+        "ammo": "",
+        "craftedWith": {
+            "display": "1x gunpowder\n1x steel",
+            "materials": [
+                "gunpowder|1",
+                "steel|1"
+            ]
+        },
+        "recyclesTo": [],
+        "equippable": "true",
+        "buy": "",
+        "sell": 850,
+        "desc": ".45 ACP cartridge. Use with weapon.",
         "image": "",
         "unboxable": true,
         "icon": "<:U_ammo:601366669318815745>",
@@ -516,9 +547,9 @@
         "rarity": "Uncommon",
         "isWeap": true,
         "isItem": false,
-        "damage": "8-17",
-        "minDmg": 8,
-        "maxDmg": 17,
+        "damage": "0-9",
+        "minDmg": 0,
+        "maxDmg": 9,
         "isAmmo": [],
         "ammo": [
             "arrow"
@@ -746,12 +777,13 @@
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
-        "damage": "21-30",
-        "minDmg": 21,
-        "maxDmg": 30,
+        "damage": "0-9",
+        "minDmg": 0,
+        "maxDmg": 9,
         "isAmmo": [],
         "ammo": [
-            "pistol_bullet"
+            "9x19_ps",
+            "9x19_fmj"
         ],
         "craftedWith": {
             "display": "1x pistol_body\n1x screw\n2x steel",
@@ -769,7 +801,7 @@
         },
         "buy": "",
         "sell": 750,
-        "desc": "Simple and effective pistol.",
+        "desc": "Simple and effective pistol. Fires 9mm ammunition.",
         "image": "https://cdn.discordapp.com/attachments/501120454136692737/551395788018941970/ThanGlock.png",
         "unboxable": true,
         "icon": "<:rare_weapon:601368020295876608>",
@@ -787,17 +819,17 @@
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
-        "damage": "25-35",
-        "minDmg": 25,
-        "maxDmg": 35,
+        "damage": "0-10",
+        "minDmg": 0,
+        "maxDmg": 10,
         "isAmmo": [],
         "ammo": [
-            "pistol_bullet"
+            ".44_fmj"
         ],
         "craftedWith": {
-            "display": "1x pistol_body\n2x screw\n2x steel",
+            "display": "2x pistol_body\n2x screw\n2x steel",
             "materials": [
-                "pistol_body|1",
+                "pistol_body|2",
                 "screw|2",
                 "steel|2"
             ]
@@ -824,17 +856,40 @@
         },
         "shopOrderCode": 4
     },
-    "rifle_bullet": {
+    "9x19_ps": {
         "rarity": "Rare",
         "isWeap": false,
         "isItem": false,
-        "damage": "",
+        "damage": 29,
         "minDmg": "",
         "maxDmg": "",
         "isAmmo": [
-            "ak47",
-            "m4a1",
-            "awp"
+            "glock"
+        ],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "equippable": "true",
+        "buy": "",
+        "sell": 1050,
+        "desc": "9x19mm PS cartridge. Use with weapon.",
+        "image": "",
+        "unboxable": true,
+        "icon": "<:rare_ammo:601368020270448659>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 4
+    },
+    "7.62x39_fmj": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 26,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "ak47"
         ],
         "ammo": "",
         "craftedWith": {
@@ -845,9 +900,41 @@
             ]
         },
         "recyclesTo": [],
+        "equippable": "true",
         "buy": "",
-        "sell": 2250,
-        "desc": "Use with weapon.",
+        "sell": 2100,
+        "desc": "Full metal jacket ammo for 7.62 caliber rifles.",
+        "image": "",
+        "unboxable": true,
+        "icon": "<:rare_ammo:601368020270448659>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 4
+    },
+    "5.56x45_fmj": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 39,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "m4a1"
+        ],
+        "ammo": "",
+        "craftedWith": {
+            "display": "2x gunpowder\n1x steel",
+            "materials": [
+                "gunpowder|2",
+                "steel|1"
+            ]
+        },
+        "recyclesTo": [],
+        "equippable": "true",
+        "buy": "",
+        "sell": 2100,
+        "desc": "Full metal jacket 5.56x45mm NATO cartridge.",
         "image": "",
         "unboxable": true,
         "icon": "<:rare_ammo:601368020270448659>",
@@ -860,9 +947,9 @@
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
-        "damage": "15-33",
-        "minDmg": 15,
-        "maxDmg": 33,
+        "damage": "6-24",
+        "minDmg": 6,
+        "maxDmg": 24,
         "isAmmo": [],
         "ammo": [
             "arrow"
@@ -953,12 +1040,12 @@
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
-        "damage": "15-40",
-        "minDmg": 15,
-        "maxDmg": 40,
+        "damage": "0-25",
+        "minDmg": 0,
+        "maxDmg": 25,
         "isAmmo": [],
         "ammo": [
-            "buckshot"
+            "12g_buckshot"
         ],
         "craftedWith": {
             "display": "3x wood\n3x steel\n1x screw",
@@ -991,11 +1078,11 @@
         },
         "shopOrderCode": 4
     },
-    "buckshot": {
+    "12g_buckshot": {
         "rarity": "Rare",
         "isWeap": false,
         "isItem": false,
-        "damage": "",
+        "damage": 15,
         "minDmg": "",
         "maxDmg": "",
         "isAmmo": [
@@ -1011,9 +1098,10 @@
             ]
         },
         "recyclesTo": [],
+        "equippable": "true",
         "buy": "",
-        "sell": 2000,
-        "desc": "Very unreliable makeshift shotgun.",
+        "sell": 1300,
+        "desc": "12 Gauge buckshot shell. Used for shotguns.",
         "image": "",
         "unboxable": true,
         "icon": "<:rare_ammo:601368020270448659>",
@@ -1200,17 +1288,18 @@
         "rarity": "Epic",
         "isWeap": true,
         "isItem": false,
-        "damage": "25-45",
-        "minDmg": 25,
-        "maxDmg": 45,
+        "damage": "0-20",
+        "minDmg": 0,
+        "maxDmg": 20,
         "isAmmo": [],
         "ammo": [
-            "pistol_bullet"
+            ".45_ap",
+            ".45_fmj"
         ],
         "craftedWith": {
-            "display": "1x smg_body\n2x steel\n2x wood",
+            "display": "2x smg_body\n2x steel\n2x wood",
             "materials": [
-                "smg_body|1",
+                "smg_body|2",
                 "steel|2",
                 "wood|2"
             ]
@@ -1241,17 +1330,19 @@
         "rarity": "Epic",
         "isWeap": true,
         "isItem": false,
-        "damage": "35-65",
-        "minDmg": 35,
-        "maxDmg": 65,
+        "damage": "0-30",
+        "minDmg": 0,
+        "maxDmg": 30,
         "isAmmo": [],
         "ammo": [
-            "rifle_bullet"
+            "7.62x39_7n23",
+            "7.62x39_hp",
+            "7.62x39_fmj"
         ],
         "craftedWith": {
-            "display": "1x assault_body\n3x steel\n2x wood",
+            "display": "3x assault_body\n3x steel\n2x wood",
             "materials": [
-                "assault_body|1",
+                "assault_body|3",
                 "steel|3",
                 "wood|2"
             ]
@@ -1313,7 +1404,7 @@
         "rarity": "Epic",
         "isWeap": false,
         "isItem": false,
-        "damage": "",
+        "damage": 75,
         "minDmg": "",
         "maxDmg": "",
         "isAmmo": [
@@ -1336,7 +1427,159 @@
         },
         "buy": "",
         "sell": 5000,
+        "equippable": "true",
         "desc": "Explosive ammunition, use with weapon.",
+        "image": "",
+        "unboxable": true,
+        "icon": "<:E_ammo:601368952299323421>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 5
+    },
+    "7.62x39_hp": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 37,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "ak47"
+        ],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "equippable": "true",
+        "buy": "",
+        "sell": 2250,
+        "desc": "7.62x39mm hollow-point bullet. Hollow-point rounds expand on impact, causing more damage.",
+        "image": "",
+        "unboxable": true,
+        
+        "icon": "<:E_ammo:601368952299323421>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 5
+    },
+    ".45_ap": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 33,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "thompson"
+        ],
+        "ammo": "",
+        "craftedWith": "",
+        "equippable": "true",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 1000,
+        "desc": ".45 ACP AP cartridge. Use with weapon.",
+        "image": "",
+        "unboxable": true,
+        "icon": "<:E_ammo:601368952299323421>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 5
+    },
+    "5.56x45_m855": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 48,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "m4a1"
+        ],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "equippable": "true",
+        "buy": "",
+        "sell": 3050,
+        "desc": "62-grain 5.56x45mm NATO cartridge.",
+        "image": "",
+        "unboxable": true,
+        "icon": "<:E_ammo:601368952299323421>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 5
+    },
+    ".44_fmj": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 25,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "revolver"
+        ],
+        "ammo": "",
+        "equippable": "true",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 950,
+        "desc": ".44 Magnum bullet.",
+        "image": "",
+        "unboxable": true,
+        "icon": "<:E_ammo:601368952299323421>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 5
+    },
+    "7.62x51_m80": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 62,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "awp"
+        ],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "equippable": "true",
+        "buy": "",
+        "sell": 4400,
+        "desc": "7.62x51mm NATO rifle cartridge.",
+        "image": "",
+        "unboxable": true,
+        "icon": "<:E_ammo:601368952299323421>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 5
+    },
+    "12g_slug": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 43,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "spas"
+        ],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "equippable": "true",
+        "buy": "",
+        "sell": 2300,
+        "desc": "12 Gauge slug shell. Used for shotguns.",
         "image": "",
         "unboxable": true,
         "icon": "<:E_ammo:601368952299323421>",
@@ -1349,17 +1592,18 @@
         "rarity": "Epic",
         "isWeap": true,
         "isItem": false,
-        "damage": "40-70",
-        "minDmg": 40,
-        "maxDmg": 70,
+        "damage": "10-30",
+        "minDmg": 10,
+        "maxDmg": 30,
         "isAmmo": [],
         "ammo": [
-            "buckshot"
+            "12g_slug",
+            "12g_buckshot"
         ],
         "craftedWith": {
-            "display": "1x pump_body\n2x steel\n2x screw",
+            "display": "2x pump_body\n2x steel\n2x screw",
             "materials": [
-                "pump_body|1",
+                "pump_body|2",
                 "steel|2",
                 "screw|2"
             ]
@@ -1422,17 +1666,18 @@
         "rarity": "Epic",
         "isWeap": true,
         "isItem": false,
-        "damage": "45-55",
-        "minDmg": 45,
-        "maxDmg": 55,
+        "damage": "0-10",
+        "minDmg": 0,
+        "maxDmg": 10,
         "isAmmo": [],
         "ammo": [
-            "rifle_bullet"
+            "5.56x45_m855",
+            "5.56x45_fmj"
         ],
         "craftedWith": {
-            "display": "1x assault_body\n3x steel\n2x screw",
+            "display": "2x assault_body\n3x steel\n2x screw",
             "materials": [
-                "assault_body|1",
+                "assault_body|2",
                 "steel|3",
                 "screw|2"
             ]
@@ -1714,18 +1959,17 @@
         "rarity": "Legendary",
         "isWeap": true,
         "isItem": false,
-        "damage": "35-60",
-        "minDmg": 35,
-        "maxDmg": 60,
+        "damage": "0-30",
+        "minDmg": 0,
+        "maxDmg": 30,
         "isAmmo": [],
         "ammo": [
-            "50_cal",
-            "pistol_bullet"
+            ".50ae_hp"
         ],
         "craftedWith": {
-            "display": "1x pistol_body\n8x steel\n5x screw",
+            "display": "3x pistol_body\n8x steel\n5x screw",
             "materials": [
-                "pistol_body|1",
+                "pistol_body|3",
                 "steel|8",
                 "screw|5"
             ]
@@ -1738,7 +1982,7 @@
         },
         "buy": "",
         "sell": 3000,
-        "desc": "A powerful handgun capable of firing 50_cal ammo. This weapon breaks easily due to the insane kickback.\nWill use `50_cal` if you have it in your inventory.",
+        "desc": "A powerful handgun. This weapon breaks easily due to the insane kickback.",
         "image": "",
         "unboxable": true,
         "icon": "<:L_weapon:601369664492404746>",
@@ -1756,18 +2000,18 @@
         "rarity": "Legendary",
         "isWeap": true,
         "isItem": false,
-        "damage": "60-70",
-        "minDmg": 60,
-        "maxDmg": 70,
+        "damage": "0-10",
+        "minDmg": 0,
+        "maxDmg": 10,
         "isAmmo": [],
         "ammo": [
-            "50_cal",
-            "rifle_bullet"
+            "7.62x51_m61",
+            "7.62x51_m80"
         ],
         "craftedWith": {
-            "display": "1x rifle_body\n2x steel\n2x screw",
+            "display": "2x rifle_body\n2x steel\n2x screw",
             "materials": [
-                "rifle_body|1",
+                "rifle_body|2",
                 "steel|2",
                 "screw|2"
             ]
@@ -1780,7 +2024,7 @@
         },
         "buy": "",
         "sell": 2700,
-        "desc": "A bolt-action sniper rifle that deals extremely high damage with good accuracy.\nWill use `50_cal` if you have it in your inventory.",
+        "desc": "A bolt-action sniper rifle that deals extremely high damage with good accuracy.",
         "image": "https://cdn.discordapp.com/attachments/454163538886524928/555084994532343818/lootcordAwp.png",
         "unboxable": true,
         "icon": "<:L_weapon:601369664492404746>",
@@ -1829,9 +2073,9 @@
         "rarity": "Legendary",
         "isWeap": true,
         "isItem": false,
-        "damage": "70-130",
-        "minDmg": 70,
-        "maxDmg": 130,
+        "damage": "0-60",
+        "minDmg": 0,
+        "maxDmg": 60,
         "isAmmo": [],
         "ammo": [
             "rocket"
@@ -1864,9 +2108,9 @@
         "rarity": "Legendary",
         "isWeap": true,
         "isItem": false,
-        "damage": "100-100",
-        "minDmg": 100,
-        "maxDmg": 100,
+        "damage": "25-25",
+        "minDmg": 25,
+        "maxDmg": 25,
         "isAmmo": [],
         "ammo": [
             "rocket"
@@ -1900,7 +2144,7 @@
         "rarity": "Legendary",
         "isWeap": false,
         "isItem": false,
-        "damage": "",
+        "damage": 80,
         "minDmg": "",
         "maxDmg": "",
         "isAmmo": [
@@ -1910,10 +2154,86 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
+        "equippable": "true",
         "buy": "",
         "sell": 6000,
         "desc": "Dangerous cartridge full of plasma.\nMight wanna wear some protection when handling this...",
         "image": "https://cdn.discordapp.com/attachments/501120454136692737/501272967909605376/Plasma_mags.png",
+        "unboxable": true,
+        "icon": "<:L_ammo:601369664173637634>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 6
+    },
+    "7.62x39_7n23": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 56,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "ak47"
+        ],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "equippable": "true",
+        "buy": "",
+        "sell": 5100,
+        "desc": "7.62x39mm black-tip bullet designed to penetrate steel.",
+        "image": "",
+        "unboxable": true,
+        "icon": "<:L_ammo:601369664173637634>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 6
+    },
+    "7.62x51_m61": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 87,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "awp"
+        ],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 5600,
+        "equippable": "true",
+        "desc": "7.62x51mm NATO rifle cartridge.",
+        "image": "",
+        "unboxable": true,
+        "icon": "<:L_ammo:601369664173637634>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "shopOrderCode": 6
+    },
+    ".50ae_hp": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 50,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "desert_eagle"
+        ],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "equippable": "true",
+        "buy": "",
+        "sell": 4600,
+        "desc": ".50 Action Express hollow-point ammunition for handguns.",
+        "image": "",
         "unboxable": true,
         "icon": "<:L_ammo:601369664173637634>",
         "breaksOnUse": "",
@@ -1945,42 +2265,6 @@
             "scoreRow": "_80mCD",
             "seconds": 4800
         },
-        "shopOrderCode": 6
-    },
-    "50_cal": {
-        "rarity": "Legendary",
-        "isWeap": false,
-        "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [
-            "awp",
-            "desert_eagle"
-        ],
-        "ammo": "",
-        "craftedWith": {
-            "display": "4x gunpowder\n1x steel",
-            "materials": [
-                "gunpowder|4",
-                "steel|1"
-            ]
-        },
-        "recyclesTo": {
-            "display": "2x gunpowder",
-            "materials": [
-                "gunpowder|2"
-            ]
-        },
-        "buy": "",
-        "sell": 3500,
-        "desc": "High caliber ammo that increases weapon damage by `20`.\n**This ammunition is strong enough to penetrate shields.**",
-        "image": "",
-        "unboxable": true,
-        "icon": "<:L_ammo:601369664173637634>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
         "shopOrderCode": 6
     },
     "reroll_scroll": {
@@ -2125,17 +2409,17 @@
         "rarity": "Ultra",
         "isWeap": true,
         "isItem": false,
-        "damage": "10-200",
-        "minDmg": 10,
-        "maxDmg": 200,
+        "damage": "20-60",
+        "minDmg": 20,
+        "maxDmg": 60,
         "isAmmo": [],
         "ammo": [
             "plasma"
         ],
         "craftedWith": {
-            "display": "20x module\n3x steel\n2x fiber_optics\n1x screw",
+            "display": "23x module\n3x steel\n2x fiber_optics\n1x screw",
             "materials": [
-                "module|20",
+                "module|23",
                 "steel|3",
                 "fiber_optics|2",
                 "screw|1"
@@ -2149,7 +2433,7 @@
             ]
         },
         "buy": "",
-        "sell": 20000,
+        "sell": 22500,
         "desc": "Uses electromagnetic force to blast a ball of plasma that vaporizes anything it touches.",
         "image": "https://cdn.discordapp.com/attachments/501120454136692737/501195476775993355/Rail_Cannon.png",
         "unboxable": true,
@@ -2168,17 +2452,17 @@
         "rarity": "Ultra",
         "isWeap": true,
         "isItem": false,
-        "damage": "60-150",
-        "minDmg": 60,
-        "maxDmg": 150,
+        "damage": "0-10",
+        "minDmg": 0,
+        "maxDmg": 10,
         "isAmmo": [],
         "ammo": [
             "plasma"
         ],
         "craftedWith": {
-            "display": "23x module\n3x fiber_optics\n2x steel\n2x adhesive\n1x screw",
+            "display": "20x module\n3x fiber_optics\n2x steel\n2x adhesive\n1x screw",
             "materials": [
-                "module|23",
+                "module|20",
                 "fiber_optics|3",
                 "steel|2",
                 "adhesive|2",
@@ -2193,7 +2477,7 @@
             ]
         },
         "buy": "",
-        "sell": 22500,
+        "sell": 20000,
         "desc": "A lightweight particle-beam weapon that disintegrates targets on contact.",
         "image": "",
         "unboxable": true,

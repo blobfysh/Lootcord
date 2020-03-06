@@ -57,6 +57,17 @@ module.exports = {
             }
         }
 
+        else if(userRow.ammo == equipitem || equipitem == "ammo"){
+            if(userRow.ammo !== "none"){
+                query(`UPDATE scores SET ammo = 'none' WHERE userId = ${message.author.id}`);
+
+                message.reply(lang.unequip[2].replace('{-1}', itemdata[userRow.ammo].icon).replace('{0}', userRow.ammo));
+            }
+            else{
+                message.reply("You haven't set a preferred ammo type! Equip a preferred ammo with `equip <item>`");
+            }
+        }
+
         else if(message.client.sets.activeShield.has(message.author.id) && itemdata[equipitem].isShield){
             if(message.client.sets.weapCooldown.has(message.author.id)){
                 return message.reply(lang.unequip[6].replace('{0}', await methods.getAttackCooldown(message.author.id) ));

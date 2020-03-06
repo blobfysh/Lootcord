@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS scores (
     inv_slots INT,
     backpack VARCHAR(255),
     armor VARCHAR(255),
+    ammo VARCHAR(255),
     money BIGINT, 
     points BIGINT,
     kills INT,
