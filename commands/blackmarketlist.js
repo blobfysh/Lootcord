@@ -25,7 +25,10 @@ module.exports = {
             BMarg4: args[3]
         }), false, {ignoreNonNums: true});
 
-        if(validArgs(itemName, itemAmnt, itemCost)){
+        if(message.client.sets.tradeBannedUsers.has(message.author.id)){
+            return message.reply("❌ You are trade banned.");
+        }
+        else if(validArgs(itemName, itemAmnt, itemCost)){
             // skip listing process...
             if(!await methods.hasitems(message.author.id, itemName, 1)){
                 return message.reply('You don\'t have that item.');

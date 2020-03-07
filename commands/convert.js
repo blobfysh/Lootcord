@@ -24,6 +24,9 @@ module.exports = {
         if(!args[0]){
             return methods.commandhelp(message, 'convert', prefix);
         }
+        else if(message.client.sets.tradeBannedUsers.has(message.author.id)){
+            return message.reply("❌ Trade banned users are not allowed to convert.");
+        }
         else if(convertAmnt < 100){
             return message.reply('Please enter an amount of atleast $100');
         }

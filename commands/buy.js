@@ -52,6 +52,9 @@ module.exports = {
             else if(shortid.isValid(buyItem) && await bm_methods.getListingInfo(buyItem)){
                 let listInfo = await bm_methods.getListingInfo(buyItem);
                 
+                if(message.client.sets.tradeBannedUsers.has(message.author.id)){
+                    return message.reply("❌ You are trade banned and cannot use the black market.");
+                }
                 buyitem(message, listInfo.item, listInfo.amount, listInfo.price, 'money', false, lang, listInfo);
             }
             else{

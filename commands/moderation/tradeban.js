@@ -34,7 +34,7 @@ module.exports = {
                 .setAuthor(`You have been trade banned`)
                 .setTitle("**" + message.author.tag + "** banned for reason:")
                 .setDescription(banReason)
-                .setColor(13632027)
+                .setColor(16312092)
                 .addBlankField()
                 .setFooter("Appeal: https://lootcord.com")
 
