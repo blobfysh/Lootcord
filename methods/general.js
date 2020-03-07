@@ -95,6 +95,8 @@ class Methods {
             case "ultra": itemSearched = "ultra_box"; break;
             case "rail":
             case "cannon": itemSearched = "rail_cannon"; break;
+            case "ak": itemSearched = "ak47"; break;
+            case "m4": itemSearched = "m4a1"; break;
             case "ray": itemSearched = "ray_gun"; break;
             case "golf": itemSearched = "golf_club"; break;
             case "fiber":
@@ -109,6 +111,7 @@ class Methods {
             case "reroll": itemSearched = "reroll_scroll"; break;
             case "canvas": itemSearched = "canvas_bag"; break;
             case "light": itemSearched = "light_pack"; break;
+            case "hikers":
             case "hiker": itemSearched = "hikers_pack"; break;
             case "easter":
             case "egg": itemSearched = "easter_egg"; break;
@@ -136,6 +139,7 @@ class Methods {
             case "12g": itemSearched = "12g_buckshot"; break;
             case ".45":
             case "acp": itemSearched = ".45_fmj"; break;
+            case ".44": itemSearched = ".44_fmj"; break;
             case "9mm":
             case "bullet":
             case "9x19": itemSearched = "9x19_fmj"; break;

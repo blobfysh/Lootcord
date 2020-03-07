@@ -2,7 +2,6 @@ const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
 const boxes = require('../methods/open_box.js');
-const open = require('../methods/open_care_package.js');
 const config = require('../json/_config.json');
 const itemdata = require('../json/completeItemList.json');
 const airdrop = require('../utils/airdrop.js');
@@ -48,8 +47,8 @@ module.exports = {
                 else if(itemUsed == "present" && itemRow.present >= useAmount){
                     boxes.open_box(message, lang, 'present', useAmount);
                 }
-                else if(itemUsed == "care_package" && itemRow.care_package >= 1){
-                    open.open_package(message, lang);
+                else if(itemUsed == "care_package" && itemRow.care_package >= useAmount){
+                    boxes.open_box(message, lang, 'care_package', useAmount);
                 }
                 else if(itemUsed == "supply_signal" && itemRow.supply_signal >= 1){
                     // Add a 30 second timeout before sending airdrop
