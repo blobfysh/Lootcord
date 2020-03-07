@@ -234,8 +234,8 @@
   "example": [""],
   "description": "Displays a leaderboard of all players with the highest level and amount of money.",
   "cooldown": "",
-  "usage": ["leaderboard <s>`","lb <s>`"],
-  "options": "`s` - **OPTIONAL** Will show leaderboard for server",
+  "usage": ["leaderboard <g>`","lb <g>`"],
+  "options": "`g` - **OPTIONAL** Will show global leaderboard",
   "category": "info",
   "ignoreHelp": false
 }, {
