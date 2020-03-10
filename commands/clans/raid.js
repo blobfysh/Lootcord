@@ -4,6 +4,7 @@ const clans = require('../../methods/clan_methods.js');
 const methods = require('../../methods/methods.js');
 const general = require('../../methods/general');
 const itemdata = require('../../json/completeItemList.json');
+const icons = require('../../json/icons');
 
 module.exports = {
     name: 'raid',
@@ -50,7 +51,7 @@ module.exports = {
             var raidEmbed = new Discord.RichEmbed()
             .setAuthor(message.author.username + ' | ' + (await query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0].name, message.author.avatarURL)
             .setDescription(lang.clans.raid[4].replace('{0}', clanRow[0].name))
-            .setTitle(lang.clans.raid[5])
+            .setTitle(icons.loading)
 
             const botmsg = await message.channel.send(raidEmbed);
 

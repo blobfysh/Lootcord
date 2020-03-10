@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
+const icons = require('../json/icons');
 
 module.exports = {
     name: 'slots',
@@ -32,10 +33,10 @@ module.exports = {
             }
             
             methods.removemoney(message.author.id, gambleAmount);
-            let mainRowGif = "<a:_slots:547282654920179722>";
-            let topRowGif = "<a:_slotsBOT:547787994258472980>";
-            let botRowGif = "<a:_slotsTOP:547787986696142848>";
-            let slotEmotes = ["<:UnboxCommon:526248905676029968>","<:UnboxRare:526248948579434496>","<:UnboxEpic:526248961892155402>","<:UnboxLegendary:526248970914234368>"];
+            let mainRowGif = icons.slots_midrow_gif;
+            let topRowGif = icons.slots_botrow_gif;
+            let botRowGif = icons.slots_toprow_gif;
+            let slotEmotes = [icons.slots_common_icon, icons.slots_rare_icon, icons.slots_epic_icon, icons.slots_legendary_icon];
             let col1 = [];
             let col2 = [];
             let col3 = [];
@@ -47,7 +48,7 @@ module.exports = {
             let template = "⬛"+topRowGif+topRowGif+topRowGif+"⬛\n▶"+mainRowGif+mainRowGif+mainRowGif+"◀\n⬛"+botRowGif+botRowGif+botRowGif+"⬛";
             let slotEmbed = new Discord.RichEmbed()
             .setAuthor(message.member.displayName, message.author.avatarURL)
-            .setTitle(" --**SLOT MACHINE**--")
+            .setTitle("Slot Machine")
             .setDescription(template)
             for(var i = 1; i <= 3; i++){
                 let chance = Math.floor(Math.random() * 200);

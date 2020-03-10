@@ -6,6 +6,7 @@ const airdrop   = require('../../utils/airdrop.js');
 const os        = require('os');
 const { decodeCode } = require('../../methods/acc_code_handler');
 const cache     = require('../../utils/cache');
+const general = require('../../methods/general');
 
 module.exports = {
     name: 'eval',
@@ -17,16 +18,37 @@ module.exports = {
     modOnly: false,
     adminOnly: true,
     
-    execute(message, args, lang, prefix){
+    async execute(message, args, lang, prefix){
         let commandInput = message.content.substring(6);
         
         try{
-            let evaled = eval(commandInput);
+            let start = new Date().getTime();
+            let evaled = await eval(commandInput);
+            let end = new Date().getTime();
+
             if(typeof evaled !== "string") evaled = require("util").inspect(evaled);
-            message.channel.send(evaled, {code:"x1"});
+
+            let segments = evaled.match(/[\s\S]{1,1000}/g);
+
+            if(segments.length == 1){
+                const evalEmbed = new Discord.RichEmbed()
+                .setDescription('```js\n' + segments[0] + '```')
+                .setColor(12118406)
+                .setFooter((end - start) + 'ms');
+                message.channel.send(evalEmbed);
+            }
+            else{
+                for(var i = 0; i < segments.length; i++){
+                    await message.channel.send(segments[i], {code:'js'});
+                }
+            }
         }
         catch(err){
-            message.reply("Something went wrong. Command only works with `t-` prefix. ```"+err+"```");
+            const evalEmbed = new Discord.RichEmbed()
+            .setTitle('Something went wrong.')
+            .setDescription('```js\n' + err + '```')
+            .setColor(13914967)
+            message.channel.send(evalEmbed);
         }
     },
 }

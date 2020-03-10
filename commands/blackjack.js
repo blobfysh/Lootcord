@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
+const icons = require('../json/icons');
 const suits = ['♥', '♠', '♦', '♣'];
 const faces = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q'];
 
@@ -186,7 +187,7 @@ function hasAce(playersHand){
     return false;
 }
 
-function genEmbed(message, playerCards, dealerCards, gambleAmount, dealerEmote = '<:ez:625030742296100902>'){
+function genEmbed(message, playerCards, dealerCards, gambleAmount, dealerEmote = icons.blackjack_dealer_neutral){
     playerVal = getScore(playerCards);
     dealerVal = getScore(dealerCards);
     playerString = '';
@@ -213,7 +214,7 @@ function genEmbed(message, playerCards, dealerCards, gambleAmount, dealerEmote =
 }
 
 function winnerEmbed(message, playerCards, dealerCards, quote, gambleAmount){
-    const embed = genEmbed(message, playerCards, dealerCards, gambleAmount, '<:iamlose:625031548961292349>');
+    const embed = genEmbed(message, playerCards, dealerCards, gambleAmount, icons.blackjack_dealer_lost);
 
     embed.setDescription(quote);
     embed.setColor(720640);
@@ -223,7 +224,7 @@ function winnerEmbed(message, playerCards, dealerCards, quote, gambleAmount){
 }
 
 function loserEmbed(message, playerCards, dealerCards, quote, gambleAmount){
-    const embed = genEmbed(message, playerCards, dealerCards, gambleAmount, '<:OHNONO:625030797375832133>');
+    const embed = genEmbed(message, playerCards, dealerCards, gambleAmount, icons.blackjack_dealer_won);
 
     embed.setDescription(quote);
     embed.setColor(13632027);

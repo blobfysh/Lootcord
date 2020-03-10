@@ -388,32 +388,7 @@
 			"-> Ending raid.",
 			"Their vault doesn't have enough of that item.",
 			"Money Stolen: {0}"
-		],
-		"clan_ranks": {
-			"0": {
-				"title": "Recruit",
-				"perms": [
-					"Deposit items into the clan vault",
-					"Deposit money into the clan bank"
-				]
-			},
-			"1": {
-				"title": "Officer",
-				"perms": [
-					"Invite new members to the clan.",
-					"Deposit and withdraw from the clan vault",
-					"Deposit and withdraw from the clan bank",
-					"Change the clan status"
-				]
-			},
-			"2": {
-				"title": "Leader",
-				"perms": [
-					"Disband the clan",
-					"Promote and demote other members"
-				]
-			}
-		}
+		]
 	}
 },
 "pt_br": {

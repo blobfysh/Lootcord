@@ -48,6 +48,9 @@ module.exports = {
             else if(general.getNum(itemCost) < 100){
                 return message.reply('Please enter a higher price! Minimum $100');
             }
+            else if(general.getNum(itemCost) <= (itemdata[itemName].sell * general.getNum(itemAmnt))){
+                return message.reply('You can sell that to the bot for more money! You should list for more money, or sell them to the bot instead.');
+            }
             const bmEmbed = new Discord.RichEmbed()
             .setTitle('List an item on the Black Market')
             .addField('Item:', itemName)
@@ -145,6 +148,9 @@ module.exports = {
                     }
                     else if(general.getNum(response.content) < 100){
                         return response.reply('Please enter a higher price! Minimum $100');
+                    }
+                    else if(general.getNum(response.content) <= (itemdata[item].sell * amount)){
+                        return response.reply('You can sell that to the bot for more money! You should list for more money, or sell them to the bot instead.');
                     }
                     price = general.getNum(response.content);
                     listingFee = Math.floor(price * listing_fee);
