@@ -26,7 +26,7 @@ exports.create_lb = async function(client){
     for(var key in moneyRows){
         try{
             var userInfo = await client.fetchUser(moneyRows[key].userId);
-            leaders.push(`💵 **${userInfo.tag}**` + ' - ' + methods.formatMoney(moneyRows[key].money, true));
+            leaders.push(`💵 **${userInfo.tag}**` + ' - ' + methods.formatMoney(moneyRows[key].money));
 
             leaderJSON.money[userInfo.username] = {
                 data: methods.formatMoney(moneyRows[key].money, true), 
@@ -66,7 +66,7 @@ exports.create_lb = async function(client){
     }
     for(var i = 0; i < clanRows.length; i++){
         try{
-            clanLeaders.push(`🗡 \`${clanRows[i].name}\`` + ' - ' + methods.formatMoney(clanRows[i].money, true));
+            clanLeaders.push(`🗡 \`${clanRows[i].name}\`` + ' - ' + methods.formatMoney(clanRows[i].money));
 
             leaderJSON.clans[clanRows[i].name] = {
                 data: methods.formatMoney(clanRows[i].money, true), 
@@ -80,7 +80,7 @@ exports.create_lb = async function(client){
     leaders[0] = leaders[0].replace("💵", "💰");
     levelLeaders[0] = levelLeaders[0].replace("🔹","💠");
     killLeaders[0] = killLeaders[0].replace("🏅","🏆");
-    clanLeaders[0] = clanLeaders[0].replace('🗡', '⚔');
+    clanLeaders[0] = clanLeaders.length ? clanLeaders[0].replace('🗡', '⚔') : 'No clans';
     
 
     return {

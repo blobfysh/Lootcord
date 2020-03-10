@@ -200,9 +200,12 @@ function genEmbed(message, playerCards, dealerCards, gambleAmount, dealerEmote =
     }
 
     const embed = new Discord.RichEmbed()
-    .setAuthor(methods.formatMoney(gambleAmount, true) + ' BLACKJACK GAME', message.author.avatarURL)
-    .addField(message.author.username + ` - **${hasAce(playerCards) && playerVal.score <= 21 ? playerVal.score + '/' + playerVal.minScore : playerVal.minScore}**`, playerString, true)
-    .addField(`${dealerEmote} Dealer - **${dealerVal.score > 21 ? dealerVal.minScore : dealerVal.score}**`, dealerString, true)
+    .setTitle('Blackjack')
+    .setThumbnail(message.author.avatarURL)
+    .addField('Bet: ', methods.formatMoney(gambleAmount))
+    .addBlankField()
+    .addField(message.author.username + ` - **${hasAce(playerCards) && playerVal.score <= 21 ? playerVal.score + '/' + playerVal.minScore : playerVal.minScore}**`, playerString)
+    .addField(`${dealerEmote} Dealer - **${dealerVal.score > 21 ? dealerVal.minScore : dealerVal.score}**`, dealerString)
     .setFooter('Options: hit, stand')
     .setColor(13215302)
 

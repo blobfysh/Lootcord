@@ -36,7 +36,7 @@
 		"⚙ Utility",
 		"📈 Other",
 		"To see more about a command, use {0}help <command> | Need more help? Message me!",
-		"Clans",
+		"⚔️ Clans",
 		"Use `clan help` to see clan commands. Check this [link](https://github.com/blobfysh/Lootcord/wiki/Clans) out for more details on how clans work."
 	],
 	"inventory": [
@@ -230,7 +230,7 @@
 		"You currently have {0} points!"
 	],
 	"health": [
-		"You current have: {0} HP"
+		"You currently have: {0} HP (Gain more with the `upgrade` command)"
 	],
 	"server": [
 		"**Active users in {0}**"

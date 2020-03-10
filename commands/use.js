@@ -6,6 +6,7 @@ const config = require('../json/_config.json');
 const itemdata = require('../json/completeItemList.json');
 const airdrop = require('../utils/airdrop.js');
 const general = require('../methods/general');
+const icons = require('../json/icons');
 
 module.exports = {
     name: 'use',
@@ -242,59 +243,62 @@ module.exports = {
                         message.delete();
                         return message.reply(lang.use.errors[9].replace('{0}', (await methods.getAttackCooldown(message.author.id)) ));
                     }
+                    else if(!itemRow[itemUsed] >= 1){
+                        return message.reply(lang.use.errors[2]);
+                    }
+                    else if(itemUsed == 'peck_seed' && message.client.sets.peckCooldown.has(userNameID)){
+                        return message.reply('That player is already under the effects of a `peck_seed`!');
+                    }
                     else{ // All conditions met, start applying damage
                         let ammoToUse = "";
                         let bonusDamage = 0;
                         let damageMin = itemdata[itemUsed].minDmg;
                         let damageMax = itemdata[itemUsed].maxDmg;
+                        let weaponBroke = itemdata[itemUsed].breaksOnUse;
 
-                        if(itemRow[itemUsed] >= 1){
-                            if(itemdata[itemUsed].ammo.length >= 1){ //remove ammo
-                                if(itemdata[itemUsed].ammo.includes(userRow.ammo) && itemRow[userRow.ammo] >= 1){
-                                    // use players preferred ammo
-                                    ammoToUse = userRow.ammo;
+                        if(itemdata[itemUsed].ammo.length >= 1){ //remove ammo
+                            if(itemdata[itemUsed].ammo.includes(userRow.ammo) && itemRow[userRow.ammo] >= 1){
+                                // use players preferred ammo
+                                ammoToUse = userRow.ammo;
+                                    
+                                bonusDamage = itemdata[ammoToUse].damage;
+
+                                methods.removeitem(message.author.id, ammoToUse, 1);
+                            }
+                            else{
+                                for(var i = 0; i < itemdata[itemUsed].ammo.length; i++){
+                                    if(itemRow[itemdata[itemUsed].ammo[i]] >= 1){
+                                        ammoToUse = itemdata[itemUsed].ammo[i];
                                         
-                                    bonusDamage = itemdata[ammoToUse].damage;
+                                        bonusDamage = itemdata[ammoToUse].damage;
 
-                                    methods.removeitem(message.author.id, ammoToUse, 1);
-                                }
-                                else{
-                                    for(var i = 0; i < itemdata[itemUsed].ammo.length; i++){
-                                        if(itemRow[itemdata[itemUsed].ammo[i]] >= 1){
-                                            ammoToUse = itemdata[itemUsed].ammo[i];
-                                            
-                                            bonusDamage = itemdata[ammoToUse].damage;
-
-                                            methods.removeitem(message.author.id, ammoToUse, 1);
-                                            break;
-                                        }
+                                        methods.removeitem(message.author.id, ammoToUse, 1);
+                                        break;
                                     }
                                 }
-                                
-
-                                if(ammoToUse == "" && itemdata[itemUsed].ammoOptional !== true){
-                                    return message.reply(lang.use.errors[8]);
-                                }
                             }
-
-                            if(itemdata[itemUsed].breaksOnUse == true){
-                                methods.removeitem(message.author.id, itemUsed, 1);
-                            }
-                            else if(Math.random() <= parseFloat(itemdata[itemUsed].chanceToBreak)){
-                                methods.removeitem(message.author.id, itemUsed, 1);
-                                methods.additem(message.author.id, itemdata[itemUsed].recyclesTo.materials);
-                                weaponBreakAlert(message, itemUsed);
-                            }
-
-                            let randDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * userRow.scaledDamage);
                             
-                            hitOrMiss(message, userNameID, itemUsed, victimRow, userRow, randDmg, itemdata[itemUsed].breaksOnUse, lang);
-                            
-                            methods.addToWeapCooldown(message, message.author.id, itemUsed);
+
+                            if(ammoToUse == "" && itemdata[itemUsed].ammoOptional !== true){
+                                return message.reply(lang.use.errors[8]);
+                            }
                         }
-                        else{
-                            return message.reply(lang.use.errors[2]);
+
+                        if(itemdata[itemUsed].breaksOnUse == true){
+                            methods.removeitem(message.author.id, itemUsed, 1);
                         }
+                        else if(Math.random() <= parseFloat(itemdata[itemUsed].chanceToBreak)){
+                            weaponBroke = true;
+                            methods.removeitem(message.author.id, itemUsed, 1);
+                            methods.additem(message.author.id, itemdata[itemUsed].recyclesTo.materials);
+                            weaponBreakAlert(message, itemUsed);
+                        }
+
+                        let randDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * userRow.scaledDamage);
+                        
+                        hitOrMiss(message, userNameID, itemUsed, ammoToUse, victimRow, userRow, randDmg, weaponBroke, lang);
+                        
+                        methods.addToWeapCooldown(message, message.author.id, itemUsed);
                     }
                 }
                 catch(err){
@@ -326,32 +330,19 @@ async function weaponBreakAlert(message, itemUsed){
     }
 }
 
-async function hitOrMiss(message, userNameID, itemUsed, victimRow, userRow, damage, isBroken, lang){//FUNCTION THAT ACTUALLY HANDLES DAMAGE DEALT
+async function hitOrMiss(message, userNameID, itemUsed, ammoUsed, victimRow, userRow, damage, isBroken, lang){//FUNCTION THAT ACTUALLY HANDLES DAMAGE DEALT
     let chance = Math.floor(Math.random() * 100) + 1; //return 1-100
     let luck = victimRow.luck >= 10 ? 10 : victimRow.luck;
 
-    var finalString = '';
-
     if(chance <= luck){
         if(isBroken){
-            //finalString += `🍀<@${userNameID}> EVADED <@`+ message.author.id + `>'s attack! How lucky!\nThe ${itemUsed} slipped from your hands!`;
-            return message.channel.send(`🍀<@${userNameID}> EVADED <@`+ message.author.id + `>'s attack! How lucky!\nThe ${itemUsed} slipped from your hands!`);
+            return message.channel.send(`🍀<@${userNameID}> EVADED <@`+ message.author.id + `>'s attack! How lucky!\n**${message.author.username}**'s ${itemUsed} broke.`);
         }
         else{
-            //finalString += `🍀<@${userNameID}> EVADED <@`+ message.author.id + `>'s attack! How lucky!`;
             return message.channel.send(`🍀<@${userNameID}> EVADED <@`+ message.author.id + `>'s attack! How lucky!`);
         }
     }
     else if(victimRow.health - damage <= 0){
-        if(isBroken){
-            finalString += `<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>\nThe ${itemUsed} broke!`;
-            //message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>\nThe ${itemUsed} broke!`);
-        }
-        else{
-            finalString += `<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>`;
-            //message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE AND KILLED THEM! <:POGGERS:461045666987114498>`);
-        }
-
         const victimItems = await general.getItemObject(userNameID);
         let victimItemCount = [];
         let amountToGive = 1;
@@ -396,7 +387,7 @@ async function hitOrMiss(message, userNameID, itemUsed, victimRow, userRow, dama
         .setDescription("Money: " + methods.formatMoney(victimRow.money) + "\nExperience: `" + xpToGive + "xp`")
         .setColor(7274496)
         .addField("**ITEMS**", amountToGive !== 0 ? randomItems[0] : randomItems)
-        message.channel.send(finalString, {embed: killedReward});
+        message.channel.send(await generateAttackString(message, userNameID, victimRow, damage, itemUsed, ammoUsed, isBroken, true), {embed: killedReward});
 
         methods.sendtokillfeed(message, message.author.id, userNameID, itemUsed, damage, randomItems[0], methods.formatMoney(victimRow.money));
         if(victimRow.notify2) notifyDeathVictim(message, userNameID, itemUsed, damage, amountToGive !== 0 ? randomItems[0] : 'You had nothing!')
@@ -453,15 +444,45 @@ async function hitOrMiss(message, userNameID, itemUsed, victimRow, userRow, dama
     }
     else{
         query(`UPDATE scores SET health = ${parseInt(victimRow.health) - damage} WHERE userId = ${userNameID}`);
-        if(isBroken){
-            message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE!\nThey now have **${victimRow.health - damage}** health!\nThe ${itemUsed} broke.`);
-        }
-        else{
-            message.channel.send(`<@${message.author.id}>` + ` hit <@${userNameID}> with a ` + itemUsed + ` for **${damage}** DAMAGE!\nThey now have **${victimRow.health - damage}** health!`);
-        }
+
+        message.channel.send(await generateAttackString(message, userNameID, victimRow, damage, itemUsed, ammoUsed, isBroken, false));
 
         if(victimRow.notify2) notifyAttackVictim(message, userNameID, itemUsed, damage, victimRow);
     }
+}
+
+async function generateAttackString(message, victimId, victimRow, damage, itemUsed, ammoUsed, itemBroke, killed){
+    let weaponRarity = itemdata[itemUsed].rarity;
+    let finalStr = "";
+    let victim = await general.getUserInfo(message, victimId);
+
+    if(ammoUsed !== ""){
+        // weapon uses ammo
+        finalStr = `<@${message.author.id}> fires a ${itemdata[ammoUsed].icon}\`${ammoUsed}\` straight through <@${victimId}>'s chest using a ${itemdata[itemUsed].icon}\`${itemUsed}\`! **${damage}** damage dealt!`;
+    }
+    else{
+        // melee weapon
+        switch(weaponRarity){
+            case "Common": finalStr = `<@${message.author.id}> slapped <@${victimId}> with a ${itemdata[itemUsed].icon}\`${itemUsed}\` dealing **${damage}** damage!`; break;
+            case "Uncommon": finalStr = `<@${message.author.id}> smacks <@${victimId}> with a ${itemdata[itemUsed].icon}\`${itemUsed}\` dealing **${damage}** damage!`; break;
+            case "Rare": finalStr = `<@${message.author.id}> uses a ${itemdata[itemUsed].icon}\`${itemUsed}\` on <@${victimId}> dealing **${damage}** damage!`; break;
+            default: finalStr = `<@${message.author.id}> attacks <@${victimId}> with a ${itemdata[itemUsed].icon}\`${itemUsed}\` dealing **${damage}** damage!`; break;
+        }
+    }
+
+    if(killed){
+        finalStr += ` ${icons.death_skull} **${victim.username} DIED!**`
+    }
+    else{
+        if(Math.random() <= .5) finalStr += ` **${victim.username}** is spared with ${methods.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage}** health.`;
+        else finalStr += ` **${victim.username}** is left with ${methods.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage}** health.`;
+    }
+
+    if(itemBroke){
+        finalStr += `\n${icons.minus}**${message.author.username}**'s \`${itemUsed}\` broke.`;
+    }
+
+    return finalStr;
 }
 
 async function randomUser(message, weapon = ''){ // returns a random userId from the attackers guild
@@ -504,12 +525,17 @@ async function pickTarget(message, selection){
         message.client.shard.broadcastEval(`this.sets.activeCmdCooldown.add('${message.author.id}')`);
 
         try{
+            const userdata = {
+                user1: (await query(`SELECT money, health, maxHealth FROM scores WHERE userId = '${selection.users[0]}'`))[0],
+                user2: (await query(`SELECT money, health, maxHealth FROM scores WHERE userId = '${selection.users[1]}'`))[0],
+                user3: (await query(`SELECT money, health, maxHealth FROM scores WHERE userId = '${selection.users[2]}'`))[0]
+            };
             const atkEmbed = new Discord.RichEmbed()
             .setTitle('Pick someone to attack!')
             .setDescription(`Type 1, 2, or 3 to select.\n
-            1. **${(await general.getUserInfo(message, selection.users[0])).tag}**\n
-            2. **${(await general.getUserInfo(message, selection.users[1])).tag}**\n
-            3. **${(await general.getUserInfo(message, selection.users[2])).tag}**`)
+            1. **${(await general.getUserInfo(message, selection.users[0])).tag}** ${methods.getHealthIcon(userdata.user1.health, userdata.user1.maxHealth)}${userdata.user1.health} - ${methods.formatMoney(userdata.user1.money)} - ${(await methods.getitemcount(selection.users[0])).itemCt} items\n
+            2. **${(await general.getUserInfo(message, selection.users[1])).tag}** ${methods.getHealthIcon(userdata.user2.health, userdata.user2.maxHealth)}${userdata.user2.health} - ${methods.formatMoney(userdata.user2.money)} - ${(await methods.getitemcount(selection.users[1])).itemCt} items\n
+            3. **${(await general.getUserInfo(message, selection.users[2])).tag}** ${methods.getHealthIcon(userdata.user3.health, userdata.user3.maxHealth)}${userdata.user3.health} - ${methods.formatMoney(userdata.user3.money)} - ${(await methods.getitemcount(selection.users[2])).itemCt} items`)
             .setColor(13215302)
             .setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
 

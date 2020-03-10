@@ -179,7 +179,8 @@ class Methods {
                 else return undefined;
             }
             else if(options.getMarketPrice){
-                return options.BMarg4;
+                if(this.isNum(options.BMarg4)) return options.BMarg4
+                return arg3;
             }
             return itemName;
         }

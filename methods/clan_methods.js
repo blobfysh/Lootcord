@@ -30,8 +30,6 @@ class Methods {
     }
 
     async getClanData(clanId){
-        var members = await this.getMembers(clanId);
-        var usedPower = 0;
         var currPower = 0;
         var maxPower = 0;
         var kills = 0;
@@ -40,15 +38,14 @@ class Methods {
         const dateTime = new Date().getTime();
 
         const clanItems = await methods.getuseritems(clanId, {amounts: true, countBanners: true});
+        const memberRows = (await query(`SELECT * FROM scores WHERE clanId = ${clanId}`));
 
-        for(var i = 0; i < members.count; i++){
-            const scoreRow = (await query(`SELECT * FROM scores WHERE userId = ${members.memberIds[i]}`))[0];
-
-            kills += scoreRow.kills;
-            deaths += scoreRow.deaths;
-            currPower += scoreRow.power;
-            maxPower += scoreRow.max_power;
-            timePlayed += (dateTime - scoreRow.createdAt);
+        for(var i = 0; i < memberRows.length; i++){
+            kills += memberRows[i].kills;
+            deaths += memberRows[i].deaths;
+            currPower += memberRows[i].power;
+            maxPower += memberRows[i].max_power;
+            timePlayed += (dateTime - memberRows[i].createdAt);
         }
         
         return {

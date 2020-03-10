@@ -16,10 +16,10 @@ module.exports = {
     async execute(message, args, lang, prefix){
         const scoreRow = (await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`))[0];
         let itemName = general.parseArgsWithSpaces(args[0], args[1], args[2]);
-        let itemAmnt = general.parseArgsWithSpaces(args[0], args[1], args[2], true, false, false, {clanDeposit: true});
+        let itemAmnt = general.getNum(general.parseArgsWithSpaces(args[0], args[1], args[2], true, false, false, {clanDeposit: true}));
 
         if(itemName !== 'money' && itemdata[itemName] == undefined && Number.isInteger(parseInt(itemName))){
-            itemAmnt = itemName;
+            itemAmnt = parseInt(itemName);
             itemName = 'money';
         }
 
@@ -49,9 +49,14 @@ module.exports = {
             }
             
             if(itemName == 'money'){
-                const hasMoney = await methods.hasmoney(message.author.id, itemAmnt);
+                const clanRow = (await query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0];
 
-                if(!hasMoney) return message.reply(lang.buy[4]);
+                if(!await methods.hasmoney(message.author.id, itemAmnt)) return message.reply(lang.buy[4]);
+
+                else if(clanRow.money + itemAmnt > 10000000){
+                    console.log(clanRow.money + itemAmnt);
+                    return message.reply(` Your clan bank is packed! Cannot store more than ${methods.formatMoney(10000000)} in bank.`)
+                }
 
                 await methods.removemoney(message.author.id, itemAmnt);
                 await depositItem(itemName, itemAmnt, scoreRow.clanId);
@@ -59,7 +64,7 @@ module.exports = {
                 clans.addLog(scoreRow.clanId, `${message.author.tag} deposited ${methods.formatMoney(itemAmnt, true)}`);
 
                 message.reply(lang.clans.deposit[5].replace('{0}', methods.formatMoney(itemAmnt)).replace('{1}',
-                    methods.formatMoney((await query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0][itemName])
+                    methods.formatMoney(clanRow[itemName] + itemAmnt)
                 ));
             }
             else{

@@ -1,6 +1,6 @@
 module.exports = {
     name: 'discord',
-    aliases: ['disc', 'support'],
+    aliases: ['disc', 'support', 'server'],
     description: 'Sends a link to the Lootcord server.',
     hasArgs: false,
     worksInDM: true,

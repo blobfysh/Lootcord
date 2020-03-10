@@ -44,6 +44,9 @@ module.exports = {
             else if(message.client.sets.tradeBannedUsers.has(tradeUser.id)){
                 return message.reply("❌ User is trade banned.");
             }
+            else if(client.sets.bannedUsers.has(message.author.id)){
+                return message.reply("❌ User is banned.")
+            }
             else if(!playRow.length){
                 return message.reply(lang.use.errors[7]);
             }

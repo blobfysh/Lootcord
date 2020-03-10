@@ -64,10 +64,10 @@ async function loopTasks(){
         const members = await clans.getMembers(rows[i].clanId);
         
         if(Math.floor(rows[i].money * (members.count * config.clan_interest_rate)) >= 100000){
-            query(`UPDATE clans SET money = money + 100000 WHERE clanId = ${rows[i].clanId}`);
+            query(`UPDATE clans SET money = money + 100000 WHERE clanId = ${rows[i].clanId} AND money < 10000000`);
         }
         else{
-            query(`UPDATE clans SET money = money + FLOOR(money * ${members.count * config.clan_interest_rate}) WHERE clanId = ${rows[i].clanId}`);
+            query(`UPDATE clans SET money = money + FLOOR(money * ${members.count * config.clan_interest_rate}) WHERE clanId = ${rows[i].clanId} AND money < 10000000`);
         }
     }
 

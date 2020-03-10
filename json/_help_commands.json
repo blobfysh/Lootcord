@@ -199,12 +199,12 @@
   "category": "info",
   "ignoreHelp": false
 }, {
-  "lookup": ["server"],
-  "command": "Server",
+  "lookup": ["active"],
+  "command": "Active",
   "example": [""],
-  "description": "Displays a list of all active users on the server.",
+  "description": "Displays a list of all active users and clans on the server.",
   "cooldown": "",
-  "usage": ["server`"],
+  "usage": ["active`", "players`"],
   "options": "",
   "category": "info",
   "ignoreHelp": false
@@ -237,16 +237,6 @@
   "usage": ["leaderboard <g>`","lb <g>`"],
   "options": "`g` - **OPTIONAL** Will show global leaderboard",
   "category": "info",
-  "ignoreHelp": false
-}, {
-  "lookup": ["delete","suicide"],
-  "command": "Delete",
-  "example": [""],
-  "description": "Deletes your account. This action can **NOT** be undone. You can only delete once every few hours.",
-  "cooldown": "",
-  "usage": ["delete`","suicide`"],
-  "options": "",
-  "category": "other",
   "ignoreHelp": false
 }, {
   "lookup": ["discord","invite"],

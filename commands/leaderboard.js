@@ -22,10 +22,10 @@ module.exports = {
             const embedLeader = new Discord.RichEmbed() 
             .setTitle(`**Global Leaderboard**`)
             .setColor(0)
-            .addField("Money", leaders.moneyLB, true)
-            .addField("Level", leaders.levelLB, true)
-            .addField("Richest Clans", leaders.clanLB, true)
-            .addField("Kills", leaders.killLB, true)
+            .addField("Money", leaders.moneyLB)
+            .addField("Level", leaders.levelLB)
+            .addField("Kills", leaders.killLB)
+            .addField("Richest Clans", leaders.clanLB)
             .setFooter("Top 5")
 
             return message.channel.send(embedLeader);
@@ -57,7 +57,7 @@ module.exports = {
             for(var key in moneyRows){
                 try{
                     let userInfo = await general.getUserInfo(message, moneyRows[key].userId, true);
-                    leaders.push(`💵 **${userInfo.user.tag}**` + ' - ' + methods.formatMoney(moneyRows[key].money, true));
+                    leaders.push(`💵 **${userInfo.user.tag}**` + ' - ' + methods.formatMoney(moneyRows[key].money));
                 }
                 catch(err){
                     console.log(err);

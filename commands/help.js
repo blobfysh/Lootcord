@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const methods = require('../methods/methods.js');
 const helpJSON = require('../json/_help_commands.json');
+const tips = require('../json/tips');
 
 module.exports = {
     name: 'help',
@@ -46,6 +47,7 @@ module.exports = {
         .addField(lang.help[5], utilCmds.sort().join(', '))
         .addField(lang.help[6], otherCmds.sort().join(', '))
         .addField(lang.help[8], lang.help[9])
+        .addField('💡 Random Tip', tips[Math.floor(Math.random() * tips.length)])
         .setColor(13215302)
         .setFooter(lang.help[7].replace('{0}', prefix))
         

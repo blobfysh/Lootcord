@@ -66,7 +66,7 @@ module.exports = {
             .addField('Level', userRow.level + ` (XP: ${userRow.points - currLvlXP}/${Math.floor(50*(userRow.level**1.7))})`, true)
             .addField('K/D Ratio', (userRow.deaths == 0 ? userRow.kills+ " Kills | "+userRow.deaths+" Deaths ("+userRow.kills+" K/D)\n" : userRow.kills+ " Kills | "+userRow.deaths+" Deaths ("+(userRow.kills/ userRow.deaths).toFixed(2)+" K/D)"), true)
             .addField('Power', userRow.power + "/" + userRow.max_power + " Power", true)
-            .addField('Preferred Ammo', itemdata[userRow.ammo] ? itemdata[userRow.ammo].icon + '`' + userRow.ammo + '`' : 'Not set\n(Set with `equip <ammo>`)', true)
+            .addBlankField(true)
             .addBlankField(true)
             .addField('💗 Health', userRow.health + "/" + userRow.maxHealth + " HP", true)
             .addField('💥 Strength', parseFloat(userRow.scaledDamage).toFixed(2) + "x damage", true)
@@ -74,6 +74,7 @@ module.exports = {
             .addBlankField()
             .addField('Banners', bannersList, true)
             .addField("Backpack", 'Equipped: ' + backpackIcon + "`" + userRow.backpack + "`", true)
+            .addField('Preferred Ammo', itemdata[userRow.ammo] ? itemdata[userRow.ammo].icon + '`' + userRow.ammo + '`' : 'Not set\n(Set with `equip <ammo>`)', true)
             .setFooter("🌟 Skills upgraded " + userRow.used_stats + " times")
 
             message.channel.send(profileEmbed);

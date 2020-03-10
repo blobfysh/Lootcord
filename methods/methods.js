@@ -427,7 +427,7 @@ class Methods {
             return "$" + (parseInt(money)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
         }
         else{
-            return "<:Lootbuck:594373906325045301> $" + (parseInt(money)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+            return icons.money + " " + (parseInt(money)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
         }
     }
 

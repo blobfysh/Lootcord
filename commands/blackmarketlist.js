@@ -56,7 +56,7 @@ module.exports = {
             .setColor(13215302)
 
             let listingFee = Math.floor(itemCost * listing_fee);
-            let botMessage = await message.channel.send(message.author + ', This will cost `' + methods.formatMoney(listingFee, true) + '`('+ listing_fee * 100 + '%) to list. Are you sure?', {embed: bmEmbed});
+            let botMessage = await message.channel.send(message.author + ', This will cost ' + methods.formatMoney(listingFee) + ' ('+ listing_fee * 100 + '%) to list. Are you sure?', {embed: bmEmbed});
 
             await botMessage.react('✅');
             await botMessage.react('❌');
@@ -70,7 +70,7 @@ module.exports = {
 
                 if(reaction.emoji.name === '✅'){
                     if(!await methods.hasmoney(message.author.id, listingFee)){
-                        return botMessage.edit(`Listing failed! You can't afford the \`${methods.formatMoney(listingFee, true)}\` fee.`, {embed: null});
+                        return botMessage.edit(`Listing failed! You can't afford the ${methods.formatMoney(listingFee)} fee.`, {embed: null});
                     }
                     else if(!await methods.hasitems(message.author.id, itemName, itemAmnt)){
                         return botMessage.edit(`Listing failed! You don't have **${itemAmnt}** \`${itemName}\`'s.`, {embed: null});
@@ -148,9 +148,9 @@ module.exports = {
                     }
                     price = general.getNum(response.content);
                     listingFee = Math.floor(price * listing_fee);
-                    bmEmbed.addField('Price:', methods.formatMoney(price), true);
-                    bmEmbed.setDescription(`List **${amount}x** \`${item}\` for ${methods.formatMoney(price, true)}?`);
-                    botMessage = await message.channel.send(message.author + ', This will cost `' + methods.formatMoney(listingFee, true) + '` to list. Are you sure?', {embed: bmEmbed});
+                    bmEmbed.addField('Price:', methods.formatMoney(price));
+                    bmEmbed.setDescription(`List **${amount}x** \`${item}\` for ${methods.formatMoney(price)}?`);
+                    botMessage = await message.channel.send(message.author + ', This will cost ' + methods.formatMoney(listingFee) + ' to list. Are you sure?', {embed: bmEmbed});
                     collector.stop('finished');
 
                     await botMessage.react('✅');
@@ -165,7 +165,7 @@ module.exports = {
 
                         if(reaction.emoji.name === '✅'){
                             if(!await methods.hasmoney(message.author.id, listingFee)){
-                                return botMessage.edit(`Listing failed! You can't afford the \`${methods.formatMoney(listingFee, true)}\` fee.`, {embed: null});
+                                return botMessage.edit(`Listing failed! You can't afford the ${methods.formatMoney(listingFee)} fee.`, {embed: null});
                             }
                             else if(!await methods.hasitems(message.author.id, item, amount)){
                                 return botMessage.edit(`Listing failed! You don't have **${amount}** \`${item}\`'s.`, {embed: null});
@@ -201,12 +201,15 @@ module.exports = {
 
 function validArgs(item, amount, listPrice){
     if(itemdata[item] == undefined){
+        console.log('204');
         return false;
     }
     else if(!general.isNum(amount)){
+        console.log('208');
         return false;
     }
     else if(!general.isNum(listPrice)){
+        console.log('212');
         return false;
     }
     else{

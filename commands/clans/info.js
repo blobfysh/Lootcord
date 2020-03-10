@@ -67,7 +67,7 @@ async function getClanInfo(message, lang, clanId){
         }
         else{
             if(clan_ranks[clanUserRank].title == 'Leader'){
-                membersRanksList.push([' - <:owner:585789630800986114> ' + clan_ranks[clanUserRank].title + ' ' + clanUser.tag, clanUserRank]);
+                membersRanksList.push([` - ${icons.clan_leader_crown} ` + clan_ranks[clanUserRank].title + ' ' + clanUser.tag, clanUserRank]);
             }
             else{
                 membersRanksList.push([' - ' + clan_ranks[clanUserRank].title + ' ' + clanUser.tag, clanUserRank]);

@@ -127,7 +127,7 @@ module.exports = {
                     embedInfo.addField("\u200b", "Inventory space: " + itemCt.capacity + " max | This user is a Lootcord moderator! 💪");
                 }
                 else{
-                    embedInfo.addField("\u200b", "Inventory space: " + itemCt.capacity + " max | Worth: " + methods.formatMoney(usersItems.invValue, true));
+                    embedInfo.addField("\u200b", "Inventory space: " + itemCt.capacity + " max | Value: " + methods.formatMoney(usersItems.invValue));
                 }
                 
                 message.channel.send(embedInfo);

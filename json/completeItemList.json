@@ -2185,7 +2185,7 @@
         "rarity": "Legendary",
         "isWeap": true,
         "isItem": false,
-        "damage": "25-25",
+        "damage": "25",
         "minDmg": 25,
         "maxDmg": 25,
         "isAmmo": [],
