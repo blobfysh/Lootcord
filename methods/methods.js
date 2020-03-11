@@ -593,56 +593,6 @@ class Methods {
         return totalItemCt;
     }
 
-    //SHOP COMMAND
-    getHomePage(lang){
-        return query(`SELECT * FROM gamesData`).then(gameRows => {
-            let gameCount = 0;
-
-            const firstEmbed = new Discord.RichEmbed()
-            firstEmbed.setTitle(`**ITEM SHOP**`);
-            firstEmbed.setDescription(lang.shop[0]);
-            firstEmbed.setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/602129484900204545/shopping-cart.png");
-            firstEmbed.setFooter(`Home page`);
-            firstEmbed.setColor(0);
-
-            gameRows.forEach(function (gameRow) {
-                if(gameRow !== null){
-                    if(gameRow.gameCurrency == "money"){
-                        firstEmbed.addField(gameRow.gameDisplay,"Price: $" + gameRow.gamePrice + " | **" + gameRow.gameAmount + "** left! Use `buy " + gameRow.gameName + "` to purchase!");
-                    }
-                    else{
-                        firstEmbed.addField(gameRow.gameDisplay,"Price: " + gameRow.gamePrice + " `" + gameRow.gameCurrency + "` | **" + gameRow.gameAmount + "** left! Use `buy " + gameRow.gameName + "` to purchase!");
-                    }
-                    gameCount += 1;
-                }
-            });
-            if(gameCount == 0){
-                firstEmbed.addField("Unfortunately, there are no steam keys for sale at this time.","Check back at a later time.");
-                return firstEmbed;
-            }
-            else{
-                return firstEmbed;
-            }
-        });
-    }
-    getGamesData(){
-        return query(`SELECT * FROM gamesData`).then(gameRows => {
-            let gameCount = 0;
-            let gameData = {};
-            gameRows.forEach(function (gameRow) {
-                if(gameRow !== null){
-                    gameData[gameRow.gameName] = gameRow;
-                    gameCount += 1;
-                }
-            });
-            if(gameCount == 0){
-                return false;
-            }
-            else{
-                return gameData;
-            }
-        });
-    }
     getHealthIcon(curHP, maxHP){
         let hpPerc = curHP / maxHP;
 

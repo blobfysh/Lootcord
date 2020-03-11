@@ -17,50 +17,49 @@ module.exports = {
     modOnly: false,
     adminOnly: false,
     
-    execute(message, args, lang, prefix){
-        methods.getGamesData().then(async gamesRow => {
-            let buyItem = general.parseArgsWithSpaces(args[0], args[1], args[2]);
-            let buyAmount = general.parseArgsWithSpaces(args[0], args[1], args[2], true, false, false);
+    async execute(message, args, lang, prefix){
+        const gamesRow = await getGamesData();
+        let buyItem = general.parseArgsWithSpaces(args[0], args[1], args[2]);
+        let buyAmount = general.parseArgsWithSpaces(args[0], args[1], args[2], true, false, false);
 
-            if(itemdata[buyItem] !== undefined){ // ITEM EXISTS
-                let currency = itemdata[buyItem].buy.currency;
-                let itemPrice = itemdata[buyItem].buy.amount;
-                if(itemPrice == undefined){
-                    message.reply(lang.buy[0]);
-                }
-                else{
-                    if(buyAmount == undefined || !Number.isInteger(parseInt(buyAmount)) || buyAmount % 1 !== 0 || buyAmount < 1){
-                        buyAmount = 1;
-                    }
-                    else if(buyAmount > 20) buyAmount = 20;
-
-                    buyitem(message, buyItem, parseInt(buyAmount), itemPrice, currency, false, lang);
-                }
-            }
-            else if(gamesRow[buyItem] !== undefined){
-                // code for buying game here
-                let gameAmount = gamesRow[buyItem].gameAmount;
-                let currency = gamesRow[buyItem].gameCurrency;
-                let itemPrice = gamesRow[buyItem].gamePrice;
-                buyAmount = 1;
-
-                if(gameAmount <= 0){
-                    return message.reply("That game is sold out! 😞");
-                }
-                buyitem(message, buyItem, parseInt(buyAmount), itemPrice, currency, true, lang);
-            }
-            else if(shortid.isValid(buyItem) && await bm_methods.getListingInfo(buyItem)){
-                let listInfo = await bm_methods.getListingInfo(buyItem);
-                
-                if(message.client.sets.tradeBannedUsers.has(message.author.id)){
-                    return message.reply("❌ You are trade banned and cannot use the black market.");
-                }
-                buyitem(message, listInfo.item, listInfo.amount, listInfo.price, 'money', false, lang, listInfo);
+        if(itemdata[buyItem] !== undefined){ // ITEM EXISTS
+            let currency = itemdata[buyItem].buy.currency;
+            let itemPrice = itemdata[buyItem].buy.amount;
+            if(itemPrice == undefined){
+                message.reply(lang.buy[0]);
             }
             else{
-                message.reply(lang.buy[1].replace('{0}', prefix));
+                if(buyAmount == undefined || !Number.isInteger(parseInt(buyAmount)) || buyAmount % 1 !== 0 || buyAmount < 1){
+                    buyAmount = 1;
+                }
+                else if(buyAmount > 20) buyAmount = 20;
+
+                buyitem(message, buyItem, parseInt(buyAmount), itemPrice, currency, false, lang);
             }
-        });
+        }
+        else if(gamesRow[buyItem] !== undefined){
+            // code for buying game here
+            let gameAmount = gamesRow[buyItem].gameAmount;
+            let currency = gamesRow[buyItem].gameCurrency;
+            let itemPrice = gamesRow[buyItem].gamePrice;
+            buyAmount = 1;
+
+            if(gameAmount <= 0){
+                return message.reply("That game is sold out! 😞");
+            }
+            buyitem(message, buyItem, parseInt(buyAmount), itemPrice, currency, true, lang);
+        }
+        else if(shortid.isValid(buyItem) && await bm_methods.getListingInfo(buyItem)){
+            let listInfo = await bm_methods.getListingInfo(buyItem);
+            
+            if(message.client.sets.tradeBannedUsers.has(message.author.id)){
+                return message.reply("❌ You are trade banned and cannot use the black market.");
+            }
+            buyitem(message, listInfo.item, listInfo.amount, listInfo.price, 'money', false, lang, listInfo);
+        }
+        else{
+            message.reply(lang.buy[1].replace('{0}', prefix));
+        }
     },
 }
 
@@ -227,5 +226,23 @@ async function buyitem(message, buyItem, buyAmount, itemPrice, currency, isGame 
     catch(err){
         botMessage.delete();
         message.reply("You didn't react in time!");
+    }
+}
+
+async function getGamesData(){
+    const gameRows = await query(`SELECT * FROM gamesData`);
+    let gameCount = 0;
+    let gameData = {};
+    for(var gameRow of gameRows){
+        if(gameRow !== null){
+            gameData[gameRow.gameName] = gameRow;
+            gameCount += 1;
+        }
+    }
+    if(gameCount == 0){
+        return false;
+    }
+    else{
+        return gameData;
     }
 }

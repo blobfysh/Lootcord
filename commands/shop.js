@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
 const itemdata = require('../json/completeItemList.json');
+const max_items_per_page = 18;
 
 module.exports = {
     name: 'shop',
@@ -13,7 +14,7 @@ module.exports = {
     modOnly: false,
     adminOnly: false,
     
-    execute(message, args, lang, prefix){
+    async execute(message, args, lang, prefix){
         var shopItem = methods.getitems("all",{});
         var allItems = [];
         var banners  = [['🔰 Banners', 'Used to change look of inventory.']];
@@ -72,77 +73,106 @@ module.exports = {
 
         let pageNum = 0;
         let itemFilteredItems = [];
-        let maxPage = Math.ceil(allItems.length/12);
+        let maxPage = Math.ceil(allItems.length/max_items_per_page);
 
         // get home page method for shop
-        methods.getHomePage(lang).then(homePage => {
-            message.channel.send(homePage).then(botMessage => {
-                botMessage.react('◀').then(() => botMessage.react('▶')).then(() => botMessage.react('❌'));
-                return botMessage;
-            }).then((collectorMsg) => {
-                const collector = collectorMsg.createReactionCollector((reaction, user) => 
-                    user.id === message.author.id && reaction.emoji.name === "◀" || 
-                    user.id === message.author.id && reaction.emoji.name === "▶" || 
-                    user.id === message.author.id && reaction.emoji.name === "❌", {time: 60000});
-                collector.on("collect", reaction => {
-                    const chosen = reaction.emoji.name;
-                    if(chosen === "◀"){
-                        if(pageNum > 1){
-                            pageNum -= 1;
-                            editEmbed();
-                        }
-                        else if(pageNum == 1){
-                            pageNum = 0;
-                            collectorMsg.edit(homePage);
-                        }
-                        reaction.remove(message.author.id);
-                        //previous page
-                    }else if(chosen === "▶"){
-                        if(pageNum < maxPage){
-                            pageNum += 1;
-                            editEmbed();
-                        }
-                        reaction.remove(message.author.id);
-                        // Next page
-                    }else if(chosen === "❌"){
-                        // Stop navigating pages
-                        collectorMsg.delete();
-                    }
-                    function editEmbed(){
-                        itemFilteredItems = [];
-                        let indexFirst = (12 * pageNum) - 12;
-                        let indexLast = (12 * pageNum) - 1;
-                        const newEmbed = new Discord.RichEmbed({
-                            footer: {
-                                text: `Page ${pageNum}/${maxPage}`
-                            },
-                            color: 0
-                        });
-                        newEmbed.setTitle(`**ITEM SHOP**`)
-                        newEmbed.setDescription(lang.shop[0])
-                        //newEmbed.setThumbnail("https://cdn.discordapp.com/attachments/454163538886524928/497356681139847168/thanbotShopIcon.png")
-                        allItems.forEach(function (itemVar) {
-                            try{
-                                if(allItems.indexOf(itemVar) >= indexFirst && allItems.indexOf(itemVar) <= indexLast){
-                                    if(itemVar[0] == '🔰 Banners'){
-                                        itemFilteredItems.push(itemVar);
-                                        newEmbed.addField(itemVar[0], itemVar[1], false);
-                                    }
-                                    else{
-                                        itemFilteredItems.push(itemVar);
-                                        newEmbed.addField(itemVar[0], itemVar[1] + itemVar[2], true);
-                                    }
-                                }
-                            }
-                            catch(err){
-                            }
-                        });
-                        collectorMsg.edit(newEmbed);
-                    }
+        const homePage = await getHomePage(lang);
+        const botMessage = await message.channel.send(homePage);
+        await botMessage.react('◀');
+        await botMessage.react('▶');
+        await botMessage.react('❌');
+        
+        const collector = botMessage.createReactionCollector((reaction, user) => 
+            user.id === message.author.id && reaction.emoji.name === "◀" || 
+            user.id === message.author.id && reaction.emoji.name === "▶" || 
+            user.id === message.author.id && reaction.emoji.name === "❌", {time: 60000});
+
+        collector.on("collect", reaction => {
+            const chosen = reaction.emoji.name;
+            if(chosen === "◀"){
+                if(pageNum > 1){
+                    pageNum -= 1;
+                    editEmbed();
+                }
+                else if(pageNum == 1){
+                    pageNum = 0;
+                    botMessage.edit(homePage);
+                }
+                reaction.remove(message.author.id);
+                //previous page
+            }else if(chosen === "▶"){
+                if(pageNum < maxPage){
+                    pageNum += 1;
+                    editEmbed();
+                }
+                reaction.remove(message.author.id);
+                // Next page
+            }else if(chosen === "❌"){
+                // Stop navigating pages
+                botMessage.delete();
+            }
+
+            function editEmbed(){
+                itemFilteredItems = [];
+                let indexFirst = (max_items_per_page * pageNum) - max_items_per_page;
+                let indexLast = (max_items_per_page * pageNum) - 1;
+                const newEmbed = new Discord.RichEmbed({
+                    footer: {
+                        text: `Page ${pageNum}/${maxPage}`
+                    },
+                    color: 0
                 });
-                collector.on("end", reaction => {
-                });
-            });
+                newEmbed.setTitle(`**ITEM SHOP**`)
+                newEmbed.setDescription(lang.shop[0])
+
+                for(var itemVar of allItems){
+                    try{
+                        if(allItems.indexOf(itemVar) >= indexFirst && allItems.indexOf(itemVar) <= indexLast){
+                            if(itemVar[0] == '🔰 Banners'){
+                                itemFilteredItems.push(itemVar);
+                                newEmbed.addField(itemVar[0], itemVar[1], false);
+                            }
+                            else{
+                                itemFilteredItems.push(itemVar);
+                                newEmbed.addField(itemVar[0], itemVar[1] + itemVar[2], true);
+                            }
+                        }
+                    }
+                    catch(err){
+                    }
+                }
+
+                botMessage.edit(newEmbed);
+            }
+        });
+        collector.on("end", reaction => {
         });
     },
+}
+
+async function getHomePage(lang){
+    const gameRows = await query(`SELECT * FROM gamesData`);
+    const firstEmbed = new Discord.RichEmbed()
+    firstEmbed.setTitle(`**ITEM SHOP**`);
+    firstEmbed.setDescription(lang.shop[0]);
+    firstEmbed.setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/602129484900204545/shopping-cart.png");
+    firstEmbed.setFooter(`Home page`);
+    firstEmbed.setColor(0);
+
+    for(var gameRow of gameRows){
+        if(gameRow !== null){
+            if(gameRow.gameCurrency == "money"){
+                firstEmbed.addField(gameRow.gameDisplay,"Price: " + methods.formatMoney(gameRow.gamePrice) + " | **" + gameRow.gameAmount + "** left! Use `buy " + gameRow.gameName + "` to purchase!");
+            }
+            else{
+                firstEmbed.addField(gameRow.gameDisplay,"Price: " + gameRow.gamePrice + " `" + gameRow.gameCurrency + "` | **" + gameRow.gameAmount + "** left! Use `buy " + gameRow.gameName + "` to purchase!");
+            }
+        }
+    }
+
+    if(!gameRows.length){
+        firstEmbed.addField("Unfortunately, there are no steam keys for sale at this time.","Check back at a later time.");
+    }
+    
+    return firstEmbed;
 }
