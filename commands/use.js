@@ -526,16 +526,16 @@ async function pickTarget(message, selection){
 
         try{
             const userdata = {
-                user1: (await query(`SELECT money, health, maxHealth FROM scores WHERE userId = '${selection.users[0]}'`))[0],
-                user2: (await query(`SELECT money, health, maxHealth FROM scores WHERE userId = '${selection.users[1]}'`))[0],
-                user3: (await query(`SELECT money, health, maxHealth FROM scores WHERE userId = '${selection.users[2]}'`))[0]
+                user1: (await query(`SELECT money, health, maxHealth, prestige FROM scores WHERE userId = '${selection.users[0]}'`))[0],
+                user2: (await query(`SELECT money, health, maxHealth, prestige FROM scores WHERE userId = '${selection.users[1]}'`))[0],
+                user3: (await query(`SELECT money, health, maxHealth, prestige FROM scores WHERE userId = '${selection.users[2]}'`))[0]
             };
             const atkEmbed = new Discord.RichEmbed()
             .setTitle('Pick someone to attack!')
             .setDescription(`Type 1, 2, or 3 to select.\n
-            1. **${(await general.getUserInfo(message, selection.users[0])).tag}** ${methods.getHealthIcon(userdata.user1.health, userdata.user1.maxHealth)}${userdata.user1.health} - ${methods.formatMoney(userdata.user1.money)} - ${(await methods.getitemcount(selection.users[0])).itemCt} items\n
-            2. **${(await general.getUserInfo(message, selection.users[1])).tag}** ${methods.getHealthIcon(userdata.user2.health, userdata.user2.maxHealth)}${userdata.user2.health} - ${methods.formatMoney(userdata.user2.money)} - ${(await methods.getitemcount(selection.users[1])).itemCt} items\n
-            3. **${(await general.getUserInfo(message, selection.users[2])).tag}** ${methods.getHealthIcon(userdata.user3.health, userdata.user3.maxHealth)}${userdata.user3.health} - ${methods.formatMoney(userdata.user3.money)} - ${(await methods.getitemcount(selection.users[2])).itemCt} items`)
+            1. ${methods.getPrestigeBadge(userdata.user1.prestige)} **${(await general.getUserInfo(message, selection.users[0])).tag}** ${methods.getHealthIcon(userdata.user1.health, userdata.user1.maxHealth)}${userdata.user1.health} - ${methods.formatMoney(userdata.user1.money)} - ${(await methods.getitemcount(selection.users[0])).itemCt} items\n
+            2. ${methods.getPrestigeBadge(userdata.user2.prestige)} **${(await general.getUserInfo(message, selection.users[1])).tag}** ${methods.getHealthIcon(userdata.user2.health, userdata.user2.maxHealth)}${userdata.user2.health} - ${methods.formatMoney(userdata.user2.money)} - ${(await methods.getitemcount(selection.users[1])).itemCt} items\n
+            3. ${methods.getPrestigeBadge(userdata.user3.prestige)} **${(await general.getUserInfo(message, selection.users[2])).tag}** ${methods.getHealthIcon(userdata.user3.health, userdata.user3.maxHealth)}${userdata.user3.health} - ${methods.formatMoney(userdata.user3.money)} - ${(await methods.getitemcount(selection.users[2])).itemCt} items`)
             .setColor(13215302)
             .setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
 
@@ -568,6 +568,7 @@ async function pickTarget(message, selection){
             }
         }
         catch(err){
+            console.log(err);
             //if bot is lagging and attack message does not send...
             message.client.shard.broadcastEval(`this.sets.activeCmdCooldown.delete('${message.author.id}')`);
         }

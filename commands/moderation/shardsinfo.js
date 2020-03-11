@@ -33,7 +33,7 @@ module.exports = {
             let userCt = shardsInfo[i][1];
             let guildCt = shardsInfo[i][2];
             let shrdUptime = shardsInfo[i][3];
-            let shrdCommands = shardsInfo[i][4];
+            let shrdCommands = Object.values(shardsInfo[i][4]).reduce((a, b) => a + b);
             let shardId = 'Shard ' + shardsInfo[i][0];
 
             if(shardsInfo[i][0] == message.client.shard.id){

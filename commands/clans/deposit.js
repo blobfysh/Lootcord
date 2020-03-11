@@ -4,6 +4,7 @@ const clans = require('../../methods/clan_methods.js');
 const methods = require('../../methods/methods.js');
 const itemdata = require('../../json/completeItemList.json');
 const general = require('../../methods/general');
+const max_bank_storage = 10000000;
 
 module.exports = {
     name: 'deposit',
@@ -53,9 +54,8 @@ module.exports = {
 
                 if(!await methods.hasmoney(message.author.id, itemAmnt)) return message.reply(lang.buy[4]);
 
-                else if(clanRow.money + itemAmnt > 10000000){
-                    console.log(clanRow.money + itemAmnt);
-                    return message.reply(` Your clan bank is packed! Cannot store more than ${methods.formatMoney(10000000)} in bank.`)
+                else if(clanRow.money + itemAmnt > max_bank_storage){
+                    return message.reply(` Your clan bank is packed! Cannot store more than ${methods.formatMoney(max_bank_storage)} in bank.`)
                 }
 
                 await methods.removemoney(message.author.id, itemAmnt);

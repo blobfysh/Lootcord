@@ -23,10 +23,10 @@ module.exports = {
         if(userRow.backpack == equipitem || equipitem == "backpack"){
             if(userRow.backpack !== "none"){
                 query(`UPDATE scores SET backpack = 'none' WHERE userId = ${message.author.id}`);
-                query(`UPDATE scores SET inv_slots = ${0} WHERE userId = ${message.author.id}`);
+                query(`UPDATE scores SET inv_slots = inv_slots - ${itemdata[userRow.backpack].inv_slots} WHERE userId = ${message.author.id}`);
                 methods.additem(message.author.id, userRow.backpack, 1);
 
-                message.reply(lang.unequip[0].replace('{-1}', itemdata[userRow.backpack].icon).replace('{0}', userRow.backpack).replace('{1}', config.base_inv_slots));
+                message.reply(lang.unequip[0].replace('{-1}', itemdata[userRow.backpack].icon).replace('{0}', userRow.backpack).replace('{1}', config.base_inv_slots + (userRow.inv_slots - itemdata[userRow.backpack].inv_slots)));
             }
             else{
                 message.reply(lang.unequip[1]);

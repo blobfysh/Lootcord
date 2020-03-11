@@ -25,10 +25,10 @@ module.exports = {
             if(haspack){
                 if(userRow.backpack == "none" && itemdata[equipitem].type == "backpack"){
                     query(`UPDATE scores SET backpack = '${equipitem}' WHERE userId = ${message.author.id}`);
-                    query(`UPDATE scores SET inv_slots = ${itemdata[equipitem].inv_slots} WHERE userId = ${message.author.id}`);
+                    query(`UPDATE scores SET inv_slots = inv_slots + ${itemdata[equipitem].inv_slots} WHERE userId = ${message.author.id}`);
                     methods.removeitem(message.author.id, equipitem, 1);
 
-                    message.reply(lang.equip[0].replace('{-1}', itemdata[equipitem].icon).replace('{0}', equipitem).replace('{1}', itemdata[equipitem].inv_slots).replace('{2}', itemdata[equipitem].inv_slots + config.base_inv_slots));
+                    message.reply(lang.equip[0].replace('{-1}', itemdata[equipitem].icon).replace('{0}', equipitem).replace('{1}', itemdata[equipitem].inv_slots).replace('{2}', itemdata[equipitem].inv_slots + config.base_inv_slots + userRow.inv_slots));
                 }
                 else if(userRow.armor == "none" && itemdata[equipitem].type == "armor"){
                     query(`UPDATE scores SET armor = '${equipitem}' WHERE userId = ${message.author.id}`);

@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const general = require('../methods/general');
+const methods = require('../methods/methods');
 
 const usersPerPage = 10;
 
@@ -17,7 +18,13 @@ module.exports = {
     async execute(message, args, lang, prefix){
         var guildUsers = [];
         var clans = [];
-        const rows = await query(`SELECT * FROM userGuilds WHERE guildId ="${message.guild.id}" ORDER BY LOWER(userId)`);
+        const rows = await query(`SELECT scores.userId, prestige 
+        FROM scores 
+        INNER JOIN userGuilds 
+        ON scores.userId = userGuilds.userId 
+        WHERE guildId = "${message.guild.id}" 
+        ORDER BY LOWER(scores.userId)`);
+
         const clanRows = await query(`SELECT DISTINCT clans.name FROM (
             SELECT scores.clanId
             FROM userguilds
@@ -31,7 +38,7 @@ module.exports = {
         for(var i = 0; i < rows.length; i++){
             try{
                 if((await general.getUserInfo(message, rows[i].userId, true)).displayName){
-                    guildUsers.push((await general.getUserInfo(message, rows[i].userId, true)).displayName);
+                    guildUsers.push(methods.getPrestigeBadge(rows[i].prestige) + ' ' + (await general.getUserInfo(message, rows[i].userId, true)).displayName);
                 }
             }
             catch(err){

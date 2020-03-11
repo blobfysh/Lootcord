@@ -28,6 +28,9 @@ module.exports = {
         if(message.client.sets.tradeBannedUsers.has(message.author.id)){
             return message.reply("❌ You are trade banned.");
         }
+        else if((await query(`SELECT * FROM blackmarket WHERE sellerId = ${message.author.id}`)).length >= 15){
+            return message.reply("❌ You have 15 listings on the market already! Remove some or wait for them to sell.");
+        }
         else if(validArgs(itemName, itemAmnt, itemCost)){
             // skip listing process...
             if(!await methods.hasitems(message.author.id, itemName, 1)){
@@ -49,7 +52,7 @@ module.exports = {
                 return message.reply('Please enter a higher price! Minimum $100');
             }
             else if(general.getNum(itemCost) <= (itemdata[itemName].sell * general.getNum(itemAmnt))){
-                return message.reply('You can sell that to the bot for more money! You should list for more money, or sell them to the bot instead.');
+                return message.reply('You can `sell` that for more money! You should list for more money, or sell them to the bot instead.');
             }
             const bmEmbed = new Discord.RichEmbed()
             .setTitle('List an item on the Black Market')
@@ -150,7 +153,7 @@ module.exports = {
                         return response.reply('Please enter a higher price! Minimum $100');
                     }
                     else if(general.getNum(response.content) <= (itemdata[item].sell * amount)){
-                        return response.reply('You can sell that to the bot for more money! You should list for more money, or sell them to the bot instead.');
+                        return response.reply('You can `sell` that for more money! You should list for more money, or sell them to the bot instead.');
                     }
                     price = general.getNum(response.content);
                     listingFee = Math.floor(price * listing_fee);
@@ -207,15 +210,12 @@ module.exports = {
 
 function validArgs(item, amount, listPrice){
     if(itemdata[item] == undefined){
-        console.log('204');
         return false;
     }
     else if(!general.isNum(amount)){
-        console.log('208');
         return false;
     }
     else if(!general.isNum(listPrice)){
-        console.log('212');
         return false;
     }
     else{

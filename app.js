@@ -29,7 +29,7 @@ client.commands        = new Discord.Collection();
 client.clanCommands    = new Discord.Collection();
 client.airdropTimes    = [];
 client.shieldTimes     = [];
-client.commandsUsed    = 0;
+client.commandsUsed    = {};
 client.restartLockdown = false;
 client.fullLockdown    = true;
 

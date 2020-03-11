@@ -4,6 +4,7 @@ const methods   = require('../methods/methods.js');
 const globalLB  = require('../methods/global_leaderboard.js');
 const general   = require('../methods/general');
 const cache     = require('../utils/cache');
+const icons     = require('../json/icons');
 
 module.exports = {
     name: 'leaderboard',
@@ -35,19 +36,19 @@ module.exports = {
             let levelLeaders = [];
             let killLeaders  = [];
 
-            const moneyRows = await query(`SELECT scores.userId, money 
+            const moneyRows = await query(`SELECT scores.userId, money, prestige 
             FROM userGuilds 
             INNER JOIN scores 
             ON userGuilds.userId = scores.userId 
             WHERE userGuilds.guildId ="${message.guild.id}" 
             ORDER BY money DESC LIMIT 3`);
-            const levelRows = await query(`SELECT scores.userId, level 
+            const levelRows = await query(`SELECT scores.userId, level, prestige
             FROM userGuilds 
             INNER JOIN scores 
             ON userGuilds.userId = scores.userId 
             WHERE userGuilds.guildId ="${message.guild.id}" 
             ORDER BY level DESC LIMIT 3`);
-            const killRows  = await query(`SELECT scores.userId, kills 
+            const killRows  = await query(`SELECT scores.userId, kills, prestige
             FROM userGuilds 
             INNER JOIN scores 
             ON userGuilds.userId = scores.userId 
@@ -57,7 +58,7 @@ module.exports = {
             for(var key in moneyRows){
                 try{
                     let userInfo = await general.getUserInfo(message, moneyRows[key].userId, true);
-                    leaders.push(`💵 **${userInfo.user.tag}**` + ' - ' + methods.formatMoney(moneyRows[key].money));
+                    leaders.push(`💵 ${methods.getPrestigeBadge(moneyRows[key].prestige)} ${globalLB.getPrestigeText(userInfo.user.tag, moneyRows[key].prestige)}` + ' - ' + methods.formatMoney(moneyRows[key].money));
                 }
                 catch(err){
                     console.log(err);
@@ -66,7 +67,7 @@ module.exports = {
             for(var key in levelRows){
                 try{
                     let userInfo = await general.getUserInfo(message, levelRows[key].userId, true);
-                    levelLeaders.push(`🔹 **${userInfo.user.tag}**` + ' - Level  ' + levelRows[key].level);
+                    levelLeaders.push(`🔹 ${methods.getPrestigeBadge(levelRows[key].prestige)} ${globalLB.getPrestigeText(userInfo.user.tag, levelRows[key].prestige)}` + ' - Level  ' + levelRows[key].level);
                 }
                 catch(err){
         
@@ -75,7 +76,7 @@ module.exports = {
             for(var key in killRows){
                 try{
                     let userInfo = await general.getUserInfo(message, killRows[key].userId, true);
-                    killLeaders.push(`🏅 **${userInfo.user.tag}**` + ' - ' + killRows[key].kills + " kills");
+                    killLeaders.push(`🏅 ${methods.getPrestigeBadge(killRows[key].prestige)} ${globalLB.getPrestigeText(userInfo.user.tag, killRows[key].prestige)}` + ' - ' + killRows[key].kills + " kills");
                 }
                 catch(err){
                     

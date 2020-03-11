@@ -21,7 +21,7 @@ module.exports = {
 
             methods.getitemcount(message.author.id).then(itemCt => {
                 if(row.backpack !== "none"){
-                    message.reply("\n**Backpack equipped:** " + itemdata[row.backpack].icon + "`" + row.backpack + "`\n**Inventory space:** `" + itemCt.capacity + "` (base " + config.base_inv_slots + " ***+"+itemdata[row.backpack].inv_slots+"***)\nIncrease space by equipping a better backpack!");
+                    message.reply("\n**Backpack equipped:** " + itemdata[row.backpack].icon + "`" + row.backpack + "`\n**Inventory space:** `" + itemCt.capacity + "` (base " + (config.base_inv_slots + (5 * row.prestige)) + " ***+"+itemdata[row.backpack].inv_slots+"***)\nIncrease space by equipping a better backpack!");
                 }
                 else{
                     message.reply("\n**Backpack equipped:** " + "`" + row.backpack + "`\n**Inventory space:** `" + itemCt.capacity + "`\nIncrease space by equipping a better backpack!");

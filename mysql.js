@@ -40,7 +40,8 @@ CREATE TABLE IF NOT EXISTS scores (
     lastActive DATETIME,
     notify1 BOOLEAN,
     notify2 BOOLEAN,
-    notify3 BOOLEAN)
+    notify3 BOOLEAN,
+    prestige INT)
     ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `
 

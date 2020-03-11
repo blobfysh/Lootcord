@@ -61,7 +61,7 @@ module.exports = {
             const profileEmbed = new Discord.RichEmbed()
             .setColor(13215302)
             .setAuthor(userINFO.tag + "'s Profile", userINFO.avatarURL)
-            .setDescription(userStatus)
+            .setDescription(methods.getPrestigeBadge(userRow.prestige) + '\n' + userStatus)
             .addField('Clan', (userRow.clanId !== 0 ? '`' + (await query(`SELECT name FROM clans WHERE clanId = ${userRow.clanId}`))[0].name + '`\n' : 'None'), true)
             .addField('Level', userRow.level + ` (XP: ${userRow.points - currLvlXP}/${Math.floor(50*(userRow.level**1.7))})`, true)
             .addField('K/D Ratio', (userRow.deaths == 0 ? userRow.kills+ " Kills | "+userRow.deaths+" Deaths ("+userRow.kills+" K/D)\n" : userRow.kills+ " Kills | "+userRow.deaths+" Deaths ("+(userRow.kills/ userRow.deaths).toFixed(2)+" K/D)"), true)

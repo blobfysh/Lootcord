@@ -358,7 +358,7 @@ class Methods {
         });
         return items;
     }
-    async getuseritems(userId, {sep = "",amounts= false, icon = false, onlyBanners = false, countBanners = false}){
+    async getuseritems(userId, {sep = "",amounts= false, icon = false, onlyBanners = false, countBanners = false, countLimited = true}){
         const itemRow = await general.getItemObject(userId);
         let commonItems   = [];
         let uncommonItems = [];
@@ -370,23 +370,30 @@ class Methods {
         let invValue      = 0;
         let itemCount     = 0;
 
-        Object.keys(itemdata).forEach(key => {
-            if(countBanners){
-                if(itemRow[key] >= 1){
-                    addIt(key);
-                }
+        let filteredItems = Object.keys(itemdata).filter(item => {
+            if(onlyBanners){
+                if(itemdata[item].isBanner) return true;
+                else return false;
             }
-            else if(onlyBanners && itemdata[key].isBanner){
-                if(itemRow[key] >= 1){
-                    addIt(key);
-                }
+            else if(countBanners && countLimited){
+                return true;
             }
-            else if(!onlyBanners && itemdata[key].isBanner == undefined){
-                if(itemRow[key] >= 1){
-                    addIt(key);
-                }
+            else if(!countBanners && countLimited){
+                if(!itemdata[item].isBanner) return true;
+                else return false;
+            }
+            else if(countBanners && !countLimited){
+                if(itemdata[item].isBanner && itemdata[item].rarity !== 'Limited') return true
+                else if(!itemdata[item].isBanner && itemdata[item].rarity !== 'Limited') return true
+                else return false;
             }
         });
+
+        for(var key of filteredItems){
+            if(itemRow[key] >= 1){
+                addIt(key);
+            }
+        }
 
         function addIt(key){
             if(icon){
@@ -428,6 +435,13 @@ class Methods {
         }
         else{
             return icons.money + " " + (parseInt(money)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+        }
+    }
+
+    getPrestigeBadge(prestigeLvl){
+        switch(prestigeLvl){
+            case 0: return '';
+            default: return icons[`prestige_${prestigeLvl}_badge`];
         }
     }
 
