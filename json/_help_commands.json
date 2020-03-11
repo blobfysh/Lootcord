@@ -259,6 +259,16 @@
   "category": "games",
   "ignoreHelp": false
 }, {
+  "lookup": ["prestige"],
+  "command": "Prestige",
+  "example": ["prestige"],
+  "description": "Trade all experience and items for permanent stats! Cost to prestige increases with each level.",
+  "cooldown": "",
+  "usage": ["prestige`"],
+  "options": "",
+  "category": "games",
+  "ignoreHelp": false
+}, {
   "lookup": ["profile"],
   "command": "Profile",
   "example": [""],

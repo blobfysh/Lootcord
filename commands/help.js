@@ -29,12 +29,16 @@ module.exports = {
         
         for(var i = 0; i < helpJSON.length; i++){
             if(!helpJSON[i].ignoreHelp){
-                if(helpJSON[i].category == 'items') itemCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')
-                else if(helpJSON[i].category == 'games') gameCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')
-                else if(helpJSON[i].category == 'info') infoCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')
-                else if(helpJSON[i].category == 'utility') utilCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')
-                else if(helpJSON[i].category == 'other') otherCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')
-                else if(helpJSON[i].category == 'blackmarket') bmCmds.push('`' + helpJSON[i].command.toLowerCase() + '`')
+                let isDisabled = '';
+                let disabledEnd = '';
+                if(message.client.sets.disabledCommands.has(helpJSON[i].command.toLowerCase())) isDisabled = '❌~~', disabledEnd = '~~';
+
+                if(helpJSON[i].category == 'items') itemCmds.push(isDisabled + '`' + helpJSON[i].command.toLowerCase() + '`' + disabledEnd)
+                else if(helpJSON[i].category == 'games') gameCmds.push(isDisabled + '`' + helpJSON[i].command.toLowerCase() + '`' + disabledEnd)
+                else if(helpJSON[i].category == 'info') infoCmds.push(isDisabled + '`' + helpJSON[i].command.toLowerCase() + '`' + disabledEnd)
+                else if(helpJSON[i].category == 'utility') utilCmds.push(isDisabled + '`' + helpJSON[i].command.toLowerCase() + '`' + disabledEnd)
+                else if(helpJSON[i].category == 'other') otherCmds.push(isDisabled + '`' + helpJSON[i].command.toLowerCase() + '`' + disabledEnd)
+                else if(helpJSON[i].category == 'blackmarket') bmCmds.push(isDisabled + '`' + helpJSON[i].command.toLowerCase() + '`' + disabledEnd)
             }
         }
 

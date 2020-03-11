@@ -76,6 +76,8 @@ var gettingRaided = new Set();
 var tradeBanned = new Set();
 var activeCmdCooldown = new Set(); //disables use of other commands while user is using another (like attacking)
 
+var disabledCommands = new Set(); //globally disabled commands
+
 const adminUsers = new Set(['168958344361541633', '221087115893669889', '246828746789617665']);
 
 module.exports = {
@@ -111,5 +113,6 @@ module.exports = {
     gettingRaided,
     tradeBanned,
     activeCmdCooldown,
+    disabledCommands,
     adminUsers
 }
