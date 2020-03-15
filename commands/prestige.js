@@ -28,7 +28,7 @@ module.exports = {
 
         const prestigeEmbed = new Discord.RichEmbed()
         .setTitle('Upgrade your prestige level!')
-        .addField('You will lose', `${icons.minus} Trade-in all items (except ***Limited***)\n${icons.minus} Hand over your Lootcoins (${methods.formatMoney(row.money)} → ${methods.formatMoney(100)})\n${icons.minus} Reset level EXP and skills (Lvl ${row.level} → 1)`)
+        .addField('You will lose', `${icons.minus} Trade-in all items (except ***Limited***)\n${icons.minus} Hand over your Lootcoins (${methods.formatMoney(row.money)} → ${methods.formatMoney(100)})\n${icons.minus} Reset level EXP and skills (Lvl ${row.level} → 1)\n${icons.minus} Stats such as kills and deaths reset`)
         .addField('Gain the following', `${icons.plus} A unique \`prestige_1\` banner\n${icons.plus} A badge next to your name displayed on your profile, leaderboards, and attack menus\n${icons.plus} \`5\` permanent inventory slots (${config.base_inv_slots + (5 * row.prestige)} → ${config.base_inv_slots + (5 * (row.prestige + 1))})`)
         .addField('Minimum Lootcoin Required', methods.formatMoney(price), true)
         .addField('Minimum Items Required', `${requiredItemCt} (With a total value of atleast ${methods.formatMoney(requiredItemVal)})`, true)

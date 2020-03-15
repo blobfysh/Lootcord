@@ -15,6 +15,7 @@ module.exports = {
     requiresAcc: true,
     modOnly: false,
     adminOnly: false,
+    levelReq: 3,
     
     async execute(message, args, lang, prefix){
         let convertAmnt = general.getNum(args[0]);
