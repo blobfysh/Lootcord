@@ -18,6 +18,10 @@ module.exports = {
     
     async execute(message, args, lang, prefix){
         const userRow = (await query(`SELECT * FROM scores WHERE userId = "${message.author.id}"`))[0];
+        const shieldCD = methods.getCD(message.client, {
+            userId: message.author.id,
+            type: 'shield'
+        });
         let equipitem = general.parseArgsWithSpaces(args[0], args[1], args[2]);
 
         if(userRow.backpack == equipitem || equipitem == "backpack"){
@@ -68,33 +72,23 @@ module.exports = {
             }
         }
 
-        else if(message.client.sets.activeShield.has(message.author.id) && itemdata[equipitem].isShield){
-            if(message.client.sets.weapCooldown.has(message.author.id)){
-                return message.reply(lang.unequip[6].replace('{0}', await methods.getAttackCooldown(message.author.id) ));
+        else if(shieldCD && (itemdata[equipitem].isShield) || equipitem == 'shield'){
+            const attackCD = methods.getCD(message.client, {
+                userId: message.author.id,
+                type: 'attack'
+            });
+            
+            if(attackCD){
+                return message.reply(lang.unequip[6].replace('{0}', '`' + attackCD + '`'));
             }
-            message.client.shard.broadcastEval(`this.sets.activeShield.delete('${message.author.id}')`);
 
-            query(`UPDATE cooldowns SET mittenShieldTime = 0 WHERE userId = '${message.author.id}'`);
-            query(`UPDATE cooldowns SET ironShieldTime = 0 WHERE userId = '${message.author.id}'`);
-            query(`UPDATE cooldowns SET goldShieldTime = 0 WHERE userId = '${message.author.id}'`);
+            methods.clearCD(message.client, message.author.id, 'shield');
 
-            message.client.shard.broadcastEval(`
-                this.shieldTimes.forEach(arrObj => {
-    
-                    if(arrObj.userId == ${message.author.id}){
-                        //stop the timer
-                        clearTimeout(arrObj.timer);
-            
-                        //remove from airdropTimes array
-                        this.shieldTimes.splice(this.shieldTimes.indexOf(arrObj), 1);
-            
-                        console.log('canceled a timeout');
-                    }
-            
-                });
-            `);
-
-            methods.addToWeapCooldown(message, message.author.id, 'ak47'); // Prevents user from attacking for 60 minutes.
+            await methods.addCD(message.client, {
+                userId: message.author.id,
+                type: 'attack',
+                time: 3600 * 1000
+            });
 
             message.reply(lang.unequip[5].replace('{-1}', icons.items.shield).replace('{0}', 'shield'));
         }

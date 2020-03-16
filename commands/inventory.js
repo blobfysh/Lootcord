@@ -40,7 +40,10 @@ module.exports = {
                 const activeRow      = await query(`SELECT * FROM userGuilds WHERE userId = ? AND guildId = ?`, [userId, message.guild.id]);
                 const usersItems     = await methods.getuseritems(userId, {amounts: true, sep: '`', icon: true});
                 const itemCt         = await methods.getitemcount(userId);
-                const shieldLeft     = await methods.getShieldTime(userId);
+                const shieldLeft     = methods.getCD(message.client, {
+                    userId: userId,
+                    type: 'shield'
+                });
                 const userInfo       = await general.getUserInfo(message, userId);
 
                 var ultraItemList    = usersItems.ultra;
@@ -77,8 +80,8 @@ module.exports = {
                     embedInfo.addField("Level: " + userRow.level, lang.inventory[0].replace('{0}', totalXpNeeded - userRow.points).replace('{1}', userRow.level + 1), true)
                 }
 
-                if(message.client.sets.activeShield.has(userId)){
-                    embedInfo.addField("Shield Active", '🛡 ' + shieldLeft, true);
+                if(shieldLeft){
+                    embedInfo.addField("Shield Active", '🛡 `' + shieldLeft + '`', true);
                 }
                 embedInfo.addField("Health",`${methods.getHealthIcon(userRow.health, userRow.maxHealth)} ${userRow.health}/${userRow.maxHealth}`)
                 

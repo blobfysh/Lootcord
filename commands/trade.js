@@ -27,6 +27,10 @@ module.exports = {
         try{
             const tradeUser = await general.getUserInfo(message, userNameID, true);
             const victimRow = (await query(`SELECT * FROM scores WHERE userId ="${tradeUser.id}"`))[0];
+            const victimPeckCD = methods.getCD(message.client, {
+                userId: tradeUser.id,
+                type: 'peck'
+            });
             const playRow   = (await query(`SELECT * FROM userGuilds WHERE userId ="${tradeUser.id}" AND guildId = "${message.guild.id}"`))
 
             if(tradeUser.id === message.client.user.id){
@@ -53,7 +57,7 @@ module.exports = {
             else if(victimRow.level < 3){
                 return message.reply('❌ Target player must be atleast level 3.');
             }
-            else if(message.client.sets.peckCooldown.has(tradeUser.id)){
+            else if(victimPeckCD){
                 return message.reply(lang.trade.errors[0]);
             }
             else if(message.client.sets.activeCmdCooldown.has(tradeUser.id)){

@@ -98,7 +98,7 @@ module.exports = {
             embedItem.addField("***Rarity***", itemRarity)
             
             if(itemCooldown !== ""){
-                embedItem.addField("Cooldown", "`" + itemCooldown.display + "`", true)
+                embedItem.addField("Cooldown", "`" + methods.convertTime(itemCooldown.seconds * 1000) + "`", true)
             }
             if(itemdata[itemSearched].chanceToBreak){
                 embedItem.addField("Chance to break", "`" + (itemdata[itemSearched].chanceToBreak * 100) + "%`", true)

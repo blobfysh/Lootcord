@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
+const config = require('../json/_config');
 
 module.exports = {
     name: 'roulette',
@@ -13,15 +14,15 @@ module.exports = {
     adminOnly: false,
     
     async execute(message, args, lang, prefix){
-        const row = (await query(`SELECT * FROM scores 
-        INNER JOIN cooldowns
-        ON scores.userId = cooldowns.userId
-        WHERE scores.userId ="${message.author.id}"`))[0];
+        const row = (await query(`SELECT * FROM scores WHERE scores.userId ="${message.author.id}"`))[0];
+        const rouletteCD = methods.getCD(message.client, {
+            userId: message.author.id,
+            type: 'roulette'
+        });
         var gambleAmount = args[0];
 
-        if(message.client.sets.rouletteCooldown.has(message.author.id)){
-            message.reply(lang.general[10].replace('{0}', ((60 * 1000 - ((new Date()).getTime() - row.rouletteTime)) / 1000).toFixed(0)));
-            return;
+        if(rouletteCD){
+            return message.reply(`You need to wait  \`${rouletteCD}\`  before using this command again`);
         }
         else if(row.health < 25){
             return message.reply(lang.gamble.general[1].replace('{0}', row.health).replace('{1}', row.maxHealth));
@@ -65,13 +66,11 @@ module.exports = {
                 });
             }
 
-            setTimeout(() => {
-                message.client.shard.broadcastEval(`this.sets.rouletteCooldown.delete('${message.author.id}')`);
-                query(`UPDATE cooldowns SET rouletteTime = ${0} WHERE userId = ${message.author.id}`);
-            }, 60 * 1000);
-            
-            message.client.shard.broadcastEval(`this.sets.rouletteCooldown.add('${message.author.id}')`);
-            query(`UPDATE cooldowns SET rouletteTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
+            await methods.addCD(message.client, {
+                userId: message.author.id,
+                type: 'roulette',
+                time: config.cooldowns.roulette * 1000
+            });
         }
         else{
             methods.commandhelp(message, "roulette", prefix);

@@ -76,42 +76,34 @@ module.exports = {
                     methods.removeitem(message.author.id, itemUsed, 1);
                 }
                 else if(itemdata[itemUsed].isShield && itemRow[itemUsed] >= 1){
-                    if(message.client.sets.activeShield.has(message.author.id)){
-                        return message.reply(lang.use.items[3].replace('{0}', (await methods.getShieldTime(message.author.id)) ));
+                    const shieldCD = methods.getCD(message.client, {
+                        userId: message.author.id,
+                        type: 'shield'
+                    });
+
+                    if(shieldCD){
+                        return message.reply(lang.use.items[3].replace('{0}', shieldCD));
                     }
-                    query(`UPDATE cooldowns SET ${itemdata[itemUsed].shieldInfo.shieldRow} = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-                    methods.removeitem(message.author.id, itemUsed, 1);
+                    
+                    await methods.removeitem(message.author.id, itemUsed, 1);
 
-                    message.client.shard.broadcastEval(`this.sets.activeShield.add('${message.author.id}')`);
-
-                    let timeObj = {userId: message.author.id, timer: setTimeout(() => {
-                        message.client.shard.broadcastEval(`this.sets.activeShield.delete('${message.author.id}')`);
-                        message.client.shard.broadcastEval(`
-                            this.shieldTimes.forEach(arrObj => {
-                
-                                if(arrObj.userId == ${message.author.id}){
-                                    //stop the timer
-                                    clearTimeout(arrObj.timer);
-                        
-                                    //remove from airdropTimes array
-                                    this.shieldTimes.splice(this.shieldTimes.indexOf(arrObj), 1);
-                        
-                                    console.log('canceled a timeout');
-                                }
-                        
-                            });
-                        `);
-                        query(`UPDATE cooldowns SET ${itemdata[itemUsed].shieldInfo.shieldRow} = ${0} WHERE userId = ${message.author.id}`);
-                    }, itemdata[itemUsed].shieldInfo.seconds * 1000)};
-
-                    message.client.shieldTimes.push(timeObj);
+                    await methods.addCD(message.client, {
+                        userId: message.author.id,
+                        type: 'shield',
+                        time: itemdata[itemUsed].shieldInfo.seconds * 1000
+                    });
 
                     message.reply(lang.use.items[4].replace('{0}', itemUsed));
                 }
                 else if(itemdata[itemUsed].isHeal && itemRow[itemUsed] >= 1){
-                    if(message.client.sets.healCooldown.has(message.author.id)){
-                        return message.reply(lang.use.items[6].replace('{0}', (await methods.getHealCooldown(message.author.id))));
+                    const healCD = methods.getCD(message.client, {
+                        userId: message.author.id,
+                        type: 'heal'
+                    });
+                    if(healCD){
+                        return message.reply(lang.use.items[6].replace('{0}', healCD));
                     }
+
                     let minHeal = itemdata[itemUsed].healMin;
                     let maxHeal = itemdata[itemUsed].healMax;
                     
@@ -131,7 +123,12 @@ module.exports = {
                         methods.removeitem(message.author.id, itemUsed, 1);
                         message.reply(lang.use.items[1].replace('{0}', userMaxHeal));
                     }
-                    methods.addToHealCooldown(message, message.author.id, itemUsed);
+
+                    await methods.addCD(message.client, {
+                        userId: message.author.id,
+                        type: 'heal',
+                        time: itemdata[itemUsed].cooldown.seconds * 1000
+                    })
                 }
                 else if(itemdata[itemUsed].givesMoneyOnUse && itemRow[itemUsed] >= 1){
                     let minAmt = itemdata[itemUsed].itemMin;
@@ -159,20 +156,20 @@ module.exports = {
                     message.channel.send(msgEmbed);
                 }
                 else if(itemUsed == "xp_potion" && itemRow.xp_potion >= 1){
-                    const cdRow = (await query(`SELECT * FROM cooldowns WHERE userId="${message.author.id}"`))[0];
+                    const xpCD = methods.getCD(message.client, {
+                        userId: message.author.id,
+                        type: 'xp_potion'
+                    });
             
-                    if(message.client.sets.xpPotCooldown.has(message.author.id)){
-                        message.reply(lang.use.items[7].replace('{0}', ((180 * 1000 - ((new Date()).getTime() - cdRow.xpTime)) / 1000).toFixed(0)));
-                        return;
+                    if(xpCD){
+                        return message.reply(lang.use.items[7].replace('{0}', xpCD));
                     }
-            
-                    query(`UPDATE cooldowns SET xpTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-            
-                    message.client.shard.broadcastEval(`this.sets.xpPotCooldown.add('${message.author.id}')`);
-                    setTimeout(() => {
-                        message.client.shard.broadcastEval(`this.sets.xpPotCooldown.delete('${message.author.id}')`);
-                        query(`UPDATE cooldowns SET xpTime = ${0} WHERE userId = ${message.author.id}`);
-                    }, 180 * 1000);
+
+                    await methods.addCD(message.client, {
+                        userId: message.author.id,
+                        type: 'xp_potion',
+                        time: config.cooldowns.xp_potion * 1000
+                    });
             
                     methods.removeitem(message.author.id, 'xp_potion', 1);
                     query(`UPDATE scores SET points = points + ${75} WHERE userId = ${message.author.id}`);
@@ -191,6 +188,10 @@ module.exports = {
                 try{
                     if(userOldID == "random" || userOldID == "rand" || serverInf[0].randomOnly == 1){
                         const randUsers = await randomUser(message);
+                        const attackCD = methods.getCD(message.client, {
+                            userId: message.author.id,
+                            type: 'attack'
+                        });
 
                         if(randUsers.users[0] == undefined){
                             return message.reply(lang.use.errors[10]);
@@ -198,8 +199,8 @@ module.exports = {
                         if(!itemRow[itemUsed]){
                             return message.reply(lang.use.errors[2]);
                         }
-                        else if(message.client.sets.weapCooldown.has(message.author.id)){
-                            return message.reply(lang.use.errors[9].replace('{0}', (await methods.getAttackCooldown(message.author.id)) ));
+                        else if(attackCD){
+                            return message.reply(lang.use.errors[9].replace('{0}', attackCD));
                         }
                         
                         userOldID = 'random';
@@ -215,6 +216,22 @@ module.exports = {
                     await message.client.fetchUser(userNameID, false); // Makes sure mention is a valid user.
                     const victimRow = (await query(`SELECT * FROM scores WHERE userId = '${userNameID}'`))[0];
                     const playRow = await query(`SELECT * FROM userGuilds WHERE userId ="${userNameID}" AND guildId = "${message.guild.id}"`);
+                    const attackCD = methods.getCD(message.client, {
+                        userId: message.author.id,
+                        type: 'attack'
+                    });
+                    const shieldCD = methods.getCD(message.client, {
+                        userId: message.author.id,
+                        type: 'shield'
+                    });
+                    const victimShieldCD = methods.getCD(message.client, {
+                        userId: userNameID,
+                        type: 'shield'
+                    });
+                    const victimPeckCD = methods.getCD(message.client, {
+                        userId: userNameID,
+                        type: 'peck'
+                    });
                     userRow = (await query(`SELECT * FROM scores WHERE userId = "${message.author.id}"`))[0];
                     itemRow = await general.getItemObject(message.author.id);
 
@@ -230,23 +247,23 @@ module.exports = {
                     else if(userRow.clanId !== 0 && victimRow.clanId == userRow.clanId){
                         return message.reply(lang.use.errors[11]);
                     }
-                    else if(message.client.sets.activeShield.has(message.author.id)){ // CHECK IF PLAYER HAS SHIELD ACTIVE
+                    else if(shieldCD){ // CHECK IF PLAYER HAS SHIELD ACTIVE
                         return message.reply(lang.use.errors[6]);
                     }
                     else if(!playRow.length){
                         return message.reply(lang.use.errors[7]);
                     }
-                    else if(message.client.sets.activeShield.has(userNameID)){
-                        return message.reply(lang.use.errors[3].replace('{0}', (await methods.getShieldTime(userNameID)) ));
+                    else if(victimShieldCD){
+                        return message.reply(lang.use.errors[3].replace('{0}', victimShieldCD));
                     }
-                    else if(message.client.sets.weapCooldown.has(message.author.id)){
+                    else if(attackCD){
                         message.delete();
-                        return message.reply(lang.use.errors[9].replace('{0}', (await methods.getAttackCooldown(message.author.id)) ));
+                        return message.reply(lang.use.errors[9].replace('{0}', attackCD));
                     }
                     else if(!itemRow[itemUsed] >= 1){
                         return message.reply(lang.use.errors[2]);
                     }
-                    else if(itemUsed == 'peck_seed' && message.client.sets.peckCooldown.has(userNameID)){
+                    else if(itemUsed == 'peck_seed' && victimPeckCD){
                         return message.reply('That player is already under the effects of a `peck_seed`!');
                     }
                     else{ // All conditions met, start applying damage
@@ -298,7 +315,11 @@ module.exports = {
                         
                         hitOrMiss(message, userNameID, itemUsed, ammoToUse, victimRow, userRow, randDmg, weaponBroke, lang);
                         
-                        methods.addToWeapCooldown(message, message.author.id, itemUsed);
+                        await methods.addCD(message.client, {
+                            userId: message.author.id,
+                            type: 'attack',
+                            time: itemdata[itemUsed].cooldown.seconds * 1000
+                        });
                     }
                 }
                 catch(err){
@@ -430,13 +451,12 @@ async function hitOrMiss(message, userNameID, itemUsed, ammoUsed, victimRow, use
         `).then(console.log);
     }
     else if(itemUsed.toLowerCase() == "peck_seed"){
-        query(`UPDATE cooldowns SET peckTime = ${(new Date()).getTime()} WHERE userId = ${userNameID}`);
+        await methods.addCD(message.client, {
+            userId: userNameID,
+            type: 'peck',
+            time: config.cooldowns.peck_seed * 1000
+        });
 
-        message.client.shard.broadcastEval(`this.sets.peckCooldown.add('${userNameID}')`);
-        setTimeout(() => {
-            message.client.shard.broadcastEval(`this.sets.peckCooldown.delete('${userNameID}')`);
-            query(`UPDATE cooldowns SET peckTime = ${0} WHERE userId = ${userNameID}`);
-        }, 7200 * 1000);
         query(`UPDATE scores SET health = ${parseInt(victimRow.health) - damage} WHERE userId = ${userNameID}`);
         message.channel.send(lang.use.weapons[2].replace('{0}', '<@' + message.author.id + '>').replace('{1}', '<@' + userNameID + '>').replace('{2}', damage).replace('{3}', itemUsed).replace('{4}', victimRow.health - damage));
         
@@ -492,10 +512,14 @@ async function randomUser(message, weapon = ''){ // returns a random userId from
     
     for(var i = 0; i < userRows.length; i++){
         try{
+            const hasShield = methods.getCD(message.client, {
+                userId: userRows[i].userId,
+                type: 'shield'
+            });
             const userClanId = (await query(`SELECT clanId FROM scores WHERE userId ="${userRows[i].userId}"`))[0];
             if((await general.getUserInfo(message, userRows[i].userId, true)).displayName){
                 if(userRows[i].userId !== message.author.id){ // make sure message author isn't attacked by self
-                    if(!message.client.sets.activeShield.has(userRows[i].userId)){
+                    if(!hasShield){
                         if(userClan.clanId == 0 || userClan.clanId !== userClanId.clanId){
                             guildUsers.push(userRows[i].userId);
                         }

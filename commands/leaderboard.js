@@ -3,7 +3,6 @@ const { query } = require('../mysql.js');
 const methods   = require('../methods/methods.js');
 const globalLB  = require('../methods/global_leaderboard.js');
 const general   = require('../methods/general');
-const cache     = require('../utils/cache');
 const icons     = require('../json/icons');
 
 module.exports = {
@@ -101,13 +100,13 @@ module.exports = {
 }
 
 async function getGlobalLB(client){
-    cacheLB = cache.get('leaderboard');
+    cacheLB = client.cache.lb.get('leaderboard');
 
     if(!cacheLB){
         try{
             const leaders = await globalLB.create_lb(client);
             
-            cache.set('leaderboard', leaders);
+            client.cache.lb.set('leaderboard', leaders);
             return leaders;
         }
         catch(err){

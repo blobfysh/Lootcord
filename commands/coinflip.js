@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
+const config = require('../json/_config');
 
 module.exports = {
     name: 'coinflip',
@@ -13,15 +14,15 @@ module.exports = {
     adminOnly: false,
     
     async execute(message, args, lang, prefix){
-        const row = (await query(`SELECT * FROM scores 
-        INNER JOIN cooldowns
-        ON scores.userId = cooldowns.userId
-        WHERE scores.userId ="${message.author.id}"`))[0];
+        const row = (await query(`SELECT * FROM scores WHERE scores.userId ="${message.author.id}"`))[0];
+        const coinflipCD = methods.getCD(message.client, {
+            userId: message.author.id,
+            type: 'coinflip'
+        });
         var gambleAmount = args[0];
 
-        if(message.client.sets.cfCooldown.has(message.author.id)){
-            message.reply(lang.general[10].replace('{0}', ((60 * 1000 - ((new Date()).getTime() - row.coinflipTime)) / 1000).toFixed(0)));
-            return;
+        if(coinflipCD){
+            return message.reply(`You need to wait  \`${coinflipCD}\`  before using this command again`);
         }
         else if(gambleAmount !== undefined && gambleAmount >= 100){
             gambleAmount = Math.floor(gambleAmount);
@@ -41,14 +42,12 @@ module.exports = {
                 methods.removemoney(message.author.id, gambleAmount);
                 message.reply(lang.gamble.coinflip[1].replace('{0}', methods.formatMoney(gambleAmount)));
             }
-
-            setTimeout(() => {
-                message.client.shard.broadcastEval(`this.sets.cfCooldown.delete('${message.author.id}')`);
-                query(`UPDATE cooldowns SET coinflipTime = ${0} WHERE userId = ${message.author.id}`);
-            }, 60 * 1000);
             
-            message.client.shard.broadcastEval(`this.sets.cfCooldown.add('${message.author.id}')`);
-            query(`UPDATE cooldowns SET coinflipTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
+            await methods.addCD(message.client, {
+                userId: message.author.id,
+                type: 'coinflip',
+                time: config.cooldowns.coinflip * 1000
+            })
         }
         else{
             methods.commandhelp(message, "coinflip", prefix);

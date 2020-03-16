@@ -2,6 +2,7 @@ const config = require('./json/_config.json');
 const Discord = require('discord.js');
 const { query } = require('./mysql.js');
 const DM = require('./utils/sendtomods.js');
+const methods = require('./methods/methods');
 
 exports.handleCmd = async function(message, prefix, lang){
     const args = message.content.slice(prefix.length).split(/ +/);
@@ -17,8 +18,12 @@ exports.handleCmd = async function(message, prefix, lang){
     else if(!command.worksInDM && message.channel.type !== 'text') return message.reply(lang.general[5]);
 
     const row       = await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`);
-    const CDrow     = await query(`SELECT * FROM cooldowns WHERE userId = ${message.author.id}`);
     const activeRow = await query(`SELECT * FROM userGuilds WHERE userId = ${message.author.id} AND guildId = ${message.guild !== null ? message.guild.id : 0}`);
+    const peckCD    = methods.getCD(message.client, {
+        userId: message.author.id,
+        type: 'peck'
+    });
+
     if(message.channel.type !== 'dm') await cacheMember(message);
 
     if(message.channel.type == 'text' && !message.guild.me.hasPermission(['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY', 'ATTACH_FILES', 'EMBED_LINKS', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS', 'ADD_REACTIONS', 'MANAGE_MESSAGES'])){
@@ -32,13 +37,13 @@ exports.handleCmd = async function(message, prefix, lang){
         return;
     }
 
-    else if(message.client.sets.peckCooldown.has(message.author.id) && !command.modOnly && !command.adminOnly){//SENDS MESSAGE IF USER IS CHICKEN AND PREVENTS THEM FROM USING COMMANDS
+    else if(peckCD && !command.modOnly && !command.adminOnly){//SENDS MESSAGE IF USER IS CHICKEN AND PREVENTS THEM FROM USING COMMANDS
         message.delete();
         const embedChicken = new Discord.RichEmbed()
         .setAuthor(message.author.tag, message.author.avatarURL)
         .setTitle(lang.general[7])
         .setColor(0)
-        .setFooter(lang.general[8].replace('{0}', ((7200 * 1000 - ((new Date()).getTime() - CDrow[0].peckTime)) / 60000).toFixed(1)))
+        .setFooter(lang.general[8].replace('{0}', peckCD))
         message.channel.send(embedChicken);
         return;
     }

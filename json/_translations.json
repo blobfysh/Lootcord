@@ -10,9 +10,9 @@
 		"That command doesn't work in DMs!",
 		"⏱ **You're talking too fast, I can't understand! Please slow down...** `{0}",
 		"`you try to type a command but your insatiable appetite for seeds keeps you preoccupied`",
-		"Your appetite will calm in {0} minutes.",
-		"You need to wait  `{0} minutes`  before using this command again.",
-		"You need to wait  `{0} seconds`  before using this command again."
+		"Your appetite will calm in {0}.",
+		"You need to wait  `{0}`  before using this command again.",
+		"You need to wait  `{0}`  before using this command again."
 	],
 	"errors": [
 		"❌ The person you're trying to search doesn't have an account!",
@@ -119,7 +119,7 @@
 			"❌ You can't attack while you have a shield active!",
 			"This user has not activated their account in this server!",
 			"You don't have any ammo for that weapon!",
-			"You need to wait  {0}  before attacking again.",
+			"You need to wait  `{0}`  before attacking again.",
 			"❌ There aren't any players you can attack in this server!",
 			"❌ You can't attack members of your own clan!"
 		],
@@ -127,11 +127,11 @@
 			"You have healed for `{0}` HP!",
 			"You have healed for `{0}` HP and hit your max health limit!",
 			"You open the {0} to find...\n{1}",
-			"Your current shield is still active for  {0}!",
+			"Your current shield is still active for  `{0}`!",
 			"You have activated `{0}`!",
 			"You are already max health!",
-			"You need to wait  {0}  before healing again.",
-			"You need to wait  `{0} seconds`  before using another `xp_potion`."
+			"You need to wait  `{0}`  before healing again.",
+			"You need to wait  `{0}`  before using another `xp_potion`."
 		],
 		"weapons": [
 			"LOOT RECEIVED",
@@ -195,7 +195,7 @@
 		]
 	},
 	"vote": [
-		"Vote available in `{0} hours`!\n🎟Vote for the bot to collect a reward!\nhttps://discordbots.org/bot/493316754689359874/vote\nYou should receive a DM after you vote!",
+		"Vote available in `{0}`!\n🎟Vote for the bot to collect a reward!\nhttps://discordbots.org/bot/493316754689359874/vote\nYou should receive a DM after you vote!",
 		"☑VOTE AVAILABLE\n🎟Vote for the bot to collect a reward!\nhttps://discordbots.org/bot/493316754689359874/vote\nYou should receive a DM after you vote!",
 		"☑VOTE AVAILABLE `{0} hours left to vote before vote counter expires.`\n🎟Vote for the bot to collect a reward!\nhttps://discordbots.org/bot/493316754689359874/vote\nYou should receive a DM after you vote!"
 	],
@@ -218,7 +218,7 @@
 	],
 	"deactivate": [
 		"You can only deactivate a server once every 24 hours!",
-		"You must wait `{0} minutes` after activating in order to deactivate!",
+		"You must wait `{0}` after activating in order to deactivate!",
 		"You can't deactivate when you still have an attack cooldown!",
 		"Deactivating your account will prevent you from using commands or being targeted in **this** server.\n`Note : You can only do this once every 24 hours.`\n**Are you sure?**",
 		"Your account has been disabled on this server."

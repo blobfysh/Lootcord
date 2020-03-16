@@ -20,16 +20,19 @@ exports.votingManager = (manager) => {
         var itemReward = "";
 
         try{
-            const row = (await query(`SELECT * FROM scores
-                INNER JOIN cooldowns
-                ON scores.userId = cooldowns.userId
-                WHERE scores.userId="${vote.user}"`))[0];
+            const row = (await query(`SELECT * FROM scores WHERE scores.userId="${vote.user}"`))[0];
 
             if(!row){
                 console.log('[VOTE] Received a vote but ignored it due to user having no account: ' + vote.user);
                 return; // User doesn't have an account to give reward to...
             }
-            else if(row.voteTime > 0){
+            else if((await manager.broadcastEval(`
+            if(this.cache['vote'].get('${vote.user}')){
+                true;
+            }
+            else{
+                false;
+            }`)).includes(true)){
                 console.log('[VOTE] Received a vote but ignored it due to user having already voted in past 12 hours: ' + vote.user)
                 return;
             }
@@ -50,14 +53,11 @@ exports.votingManager = (manager) => {
             }
 
             query(`UPDATE scores SET voteCounter = ${row.voteCounter + 1} WHERE userId = ${vote.user}`);
-            
-            query(`UPDATE cooldowns SET voteTime = ${(new Date()).getTime()} WHERE userId = ${vote.user}`);
-            manager.broadcastEval(`this.sets.voteCooldown.add('${vote.user}')`);
-            setTimeout(() => {
-                console.log('[VOTE] User can vote again.');
-                manager.broadcastEval(`this.sets.voteCooldown.delete('${vote.user}');`);
-                query(`UPDATE cooldowns SET voteTime = ${0} WHERE userId = ${vote.user}`);
-            }, 43200 * 1000); // 12 hours
+
+            manager.broadcastEval(`
+            if(this.shard.id == 0){
+                (${addCD}).call(this, '${vote.user}', 'vote', 43200 * 1000)
+            }`);
 
             messageUser(manager, vote.user, {text: '**Thanks for voting!**\n' + itemReward, embed: getCounterEmbed(row.voteCounter + 1)});
         }
@@ -102,4 +102,30 @@ function messageUser(manager, userId, message){
         userId: userId,
         msgToSend: message
     });
+}
+
+async function addCD(userId, type, time ){
+    try{
+        let seconds = Math.round(time / 1000);
+        
+        this.shard.broadcastEval(`this.cache['${type}'].set('${userId}', 'Set at ' + (new Date().toLocaleString('en-US', {timeZone: 'America/New_York'})), ${seconds});`)
+        
+        await this.query(`INSERT INTO cooldown (userId, type, start, length) VALUES (?, ?, ?, ?)`, [userId, type, new Date().getTime(), time]);
+
+        let timeObj = {
+            userId: userId, 
+            type: type, 
+            timer: setTimeout(() => {
+                console.log(`[VOTES] Deleted ${userId} from '${type}' cooldown`);
+                this.query(`DELETE FROM cooldown WHERE userId = ${userId} AND type = '${type}'`);
+            }, seconds * 1000)
+        };
+       
+        this.cdTimes.push(timeObj);
+
+        return 'Added Cooldown';
+    }
+    catch(err){
+        console.log(err);
+    }
 }

@@ -7,6 +7,9 @@ var tradeBannedUsers = new Set();
 //add mods with t-admin modadd command
 var moddedUsers = new Set();
 
+
+// start of needing to b changed
+
 //hourly command
 var hourlyCooldown = new Set();
 
@@ -73,7 +76,6 @@ var raided = new Set();
 var raidCooldown = new Set();
 var gettingRaided = new Set();
 
-var tradeBanned = new Set();
 var activeCmdCooldown = new Set(); //disables use of other commands while user is using another (like attacking)
 
 var disabledCommands = new Set(); //globally disabled commands
@@ -111,7 +113,6 @@ module.exports = {
     raided,
     raidCooldown,
     gettingRaided,
-    tradeBanned,
     activeCmdCooldown,
     disabledCommands,
     adminUsers

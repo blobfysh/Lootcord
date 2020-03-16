@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
 const icons = require('../json/icons');
+const config = require('../json/_config');
 
 module.exports = {
     name: 'slots',
@@ -14,15 +15,15 @@ module.exports = {
     adminOnly: false,
     
     async execute(message, args, lang, prefix){
-        const row = (await query(`SELECT * FROM scores 
-        INNER JOIN cooldowns
-        ON scores.userId = cooldowns.userId
-        WHERE scores.userId ="${message.author.id}"`))[0];
+        const row = (await query(`SELECT * FROM scores WHERE scores.userId ="${message.author.id}"`))[0];
+        const slotsCD = methods.getCD(message.client, {
+            userId: message.author.id,
+            type: 'slots'
+        });
         var gambleAmount = args[0];
-
-        if(message.client.sets.slotsCooldown.has(message.author.id)){
-            message.reply(lang.general[10].replace('{0}', ((60 * 1000 - ((new Date()).getTime() - row.slotsTime)) / 1000).toFixed(0)));
-            return;
+        
+        if(slotsCD){
+            return message.reply(`You need to wait  \`${slotsCD}\`  before using this command again`);
         }
 
         else if(gambleAmount !== undefined && gambleAmount >= 100){
@@ -144,13 +145,11 @@ module.exports = {
                 }, 1000);
             });
 
-            setTimeout(() => {
-                message.client.shard.broadcastEval(`this.sets.slotsCooldown.delete('${message.author.id}')`);
-                query(`UPDATE cooldowns SET slotsTime = ${0} WHERE userId = ${message.author.id}`);
-            }, 60 * 1000);
-            
-            message.client.shard.broadcastEval(`this.sets.slotsCooldown.add('${message.author.id}')`);
-            query(`UPDATE cooldowns SET slotsTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
+            await methods.addCD(message.client, {
+                userId: message.author.id,
+                type: 'slots',
+                time: config.cooldowns.slots * 1000
+            });
         }
         else{
             methods.commandhelp(message, "slots", prefix);

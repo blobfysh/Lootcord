@@ -1,8 +1,7 @@
 const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
-
-// Should the jackpot cooldown be per-user or per-server? Will start with per-user
+const config = require('../json/_config');
 
 module.exports = {
     name: 'jackpot',
@@ -32,6 +31,10 @@ module.exports = {
         }
         
         const hasMoney = await methods.hasmoney(message.author.id, gambleAmount);
+        const jackpotCD = methods.getCD(message.client, {
+            userId: message.author.id,
+            type: 'jackpot'
+        });
 
         if(!hasMoney){
             return message.reply(lang.buy[4]);
@@ -44,9 +47,8 @@ module.exports = {
             // jackpot active
             message.reply(lang.jackpot[3]);
         }
-        else if(message.client.sets.jackpotCooldown.has(message.author.id)){
-            const timeRow = await query(`SELECT * FROM cooldowns WHERE userId ="${message.author.id}"`);
-            return message.reply(lang.general[10].replace('{0}', ((300 * 1000 - ((new Date()).getTime() - timeRow[0].jackpotTime)) / 1000).toFixed(0)));
+        else if(jackpotCD){
+            return message.reply(`You need to wait  \`${jackpotCD}\`  before using this command again`);
         }
         else{
             message.reply(lang.jackpot[0].replace('{0}', methods.formatMoney(gambleAmount))).then(botMessage => {
@@ -73,12 +75,11 @@ module.exports = {
                             message.channel.send(refreshEmbed(jackpotObj, prefix));
                             methods.removemoney(message.author.id, gambleAmount);
 
-                            query(`UPDATE cooldowns SET jackpotTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-                            message.client.shard.broadcastEval(`this.sets.jackpotCooldown.add('${message.author.id}')`);
-                            setTimeout(() => {
-                                message.client.shard.broadcastEval(`this.sets.jackpotCooldown.delete('${message.author.id}')`);
-                                query(`UPDATE cooldowns SET jackpotTime = ${0} WHERE userId = ${message.author.id}`);
-                            }, 300 * 1000);
+                            await methods.addCD(message.client, {
+                                userId: message.author.id,
+                                type: 'jackpot',
+                                time: config.cooldowns.jackpot * 1000
+                            });
                             message.client.sets.jackpotServers.add(message.guild.id);
                             
 

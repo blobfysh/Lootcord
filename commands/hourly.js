@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { query } = require('../mysql.js');
 const methods = require('../methods/methods.js');
 const itemdata = require('../json/completeItemList');
+const config = require('../json/_config');
 
 module.exports = {
     name: 'hourly',
@@ -19,9 +20,19 @@ module.exports = {
         ON scores.userId = cooldowns.userId
         WHERE scores.userId = ${message.author.id}`))[0];
 
-        if(message.client.sets.hourlyCooldown.has(message.author.id)){
-            return message.reply(lang.general[9].replace('{0}', ((3600 * 1000 - ((new Date()).getTime() - row.hourlyTime)) / 60000).toFixed(1)));
+        const hourlyCD = methods.getCD(message.client, {
+            userId: message.author.id,
+            type: 'hourly'
+        });
+
+        if(hourlyCD){
+            return message.reply(`You need to wait \`${hourlyCD}\` before using this command again.`);
         }
+        await methods.addCD(message.client, {
+            userId: message.author.id,
+            type: 'hourly',
+            time: config.cooldowns.hourly * 1000
+        });
 
         const hasenough = await methods.hasenoughspace(message.author.id, 1);
         if(!hasenough) return message.reply(lang.errors[2]);
@@ -37,12 +48,5 @@ module.exports = {
             message.reply("Here's a free " + itemdata['item_box'].icon + "`item_box`!");
             methods.additem(message.author.id, 'item_box', 1);
         }
-        
-        query(`UPDATE cooldowns SET hourlyTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-        message.client.shard.broadcastEval(`this.sets.hourlyCooldown.add('${message.author.id}')`);
-        setTimeout(() => {
-            message.client.shard.broadcastEval(`this.sets.hourlyCooldown.delete('${message.author.id}')`);
-            query(`UPDATE cooldowns SET hourlyTime = ${0} WHERE userId = ${message.author.id}`);
-        }, 3600 * 1000);
     },
 }

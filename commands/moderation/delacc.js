@@ -5,6 +5,7 @@ const accCodes   = require('../../methods/acc_code_handler.js');
 const general    = require('../../methods/general');
 const clans      = require('../../methods/clan_methods');
 const clan_ranks = require('../../json/clan_ranks');
+const methods    = require('../../methods/methods');
 
 module.exports = {
     name: 'delacc',
@@ -63,24 +64,7 @@ module.exports = {
 
                 query(`UPDATE cooldowns SET mittenShieldTime = 0, ironShieldTime = 0, goldShieldTime = 0 WHERE userId ="${userId}"`);
 
-                message.client.shard.broadcastEval(`this.sets.activeShield.delete('${userId}');
-                `);
-
-                message.client.shard.broadcastEval(`
-                    this.shieldTimes.forEach(arrObj => {
-        
-                        if(arrObj.userId == ${userId}){
-                            //stop the timer
-                            clearTimeout(arrObj.timer);
-                
-                            //remove from shieldTimes array
-                            this.shieldTimes.splice(this.shieldTimes.indexOf(arrObj), 1);
-                
-                            console.log('canceled a timeout');
-                        }
-                
-                    });
-                `);
+                methods.clearCD(message.client, userId, 'shield');
 
                 message.reply(`Account deleted for \`${user.tag}\`. A log of their account code has been created in <#${config.logChannel}>.`);
             }

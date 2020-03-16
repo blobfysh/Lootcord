@@ -4,6 +4,7 @@ const methods = require('../methods/methods.js');
 const icons = require('../json/icons');
 const suits = ['♥', '♠', '♦', '♣'];
 const faces = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q'];
+const config = require('../json/_config');
 
 module.exports = {
     name: 'blackjack',
@@ -30,6 +31,10 @@ module.exports = {
         }
         
         const hasMoney = await methods.hasmoney(message.author.id, gambleAmount);
+        const blackjackCD = methods.getCD(message.client, {
+            userId: message.author.id,
+            type: 'blackjack'
+        });
 
         if(!hasMoney){
             return message.reply(lang.buy[4]);
@@ -37,9 +42,8 @@ module.exports = {
         else if(gambleAmount > 1000000){
             return message.reply("Amount cannot be higher than $1,000,000");
         }
-        else if(message.client.sets.gambleCooldown.has(message.author.id)){
-            const timeRow = await query(`SELECT * FROM cooldowns WHERE userId ="${message.author.id}"`);
-            return message.reply(lang.general[10].replace('{0}', ((60 * 1000 - ((new Date()).getTime() - timeRow[0].gambleTime)) / 1000).toFixed(0)));
+        else if(blackjackCD){
+            return message.reply(`You need to wait  \`${blackjackCD}\`  before using this command again`);
         }
         else{
             var deck = initDeck();
@@ -54,13 +58,12 @@ module.exports = {
             dealerCards.push(drawCard(deck));
 
             methods.removemoney(message.author.id, gambleAmount)
-            setTimeout(() => {
-                message.client.shard.broadcastEval(`this.sets.gambleCooldown.delete('${message.author.id}')`);
-                query(`UPDATE cooldowns SET gambleTime = ${0} WHERE userId = ${message.author.id}`);
-            }, 60 * 1000);
-            
-            message.client.shard.broadcastEval(`this.sets.gambleCooldown.add('${message.author.id}')`);
-            query(`UPDATE cooldowns SET gambleTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
+
+            await methods.addCD(message.client, {
+                userId: message.author.id,
+                type: 'blackjack',
+                time: config.cooldowns.blackjack * 1000
+            });
 
             message.channel.send(genEmbed(message, playerCards, dealerCards, gambleAmount));
 

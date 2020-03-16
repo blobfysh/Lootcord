@@ -83,6 +83,15 @@ CREATE TABLE IF NOT EXISTS cooldowns (
     ENGINE = InnoDB
 `
 
+const createNewCDSQL = `
+CREATE TABLE IF NOT EXISTS cooldown (
+    userId BIGINT,
+    type VARCHAR(255),
+    start BIGINT,
+    length BIGINT)
+    ENGINE = InnoDB
+`
+
 const createClansSQL = `
 CREATE TABLE IF NOT EXISTS clans (
     clanId BIGINT AUTO_INCREMENT,
@@ -160,6 +169,10 @@ function connectSQL(){
 
         // cooldowns table
         db.query(createCooldownsSQL, (err, result) => {
+            if(err) return console.log(err);
+        });
+
+        db.query(createNewCDSQL, (err, result) => {
             if(err) return console.log(err);
         });
 

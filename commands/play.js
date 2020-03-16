@@ -52,50 +52,6 @@ INSERT IGNORE INTO scores (
     )
 `
 
-const insertCooldownSQL = `
-INSERT IGNORE INTO cooldowns (
-    userId,
-    healTime,
-    attackTime,
-    hourlyTime,
-    triviaTime,
-    peckTime,
-    voteTime,
-    voteTimeLeft,
-    gambleTime,
-    ironShieldTime,
-    goldShieldTime,
-    prizeTime,
-    mittenShieldTime,
-    scrambleTime,
-    deactivateTime,
-    activateTime,
-    spamTime,
-    xpTime,
-    jackpotTime,
-    _15mCD,
-    _30mCD,
-    _45mCD,
-    _60mCD,
-    _80mCD,
-    _100mCD,
-    _120mCD,
-    _10mHEALCD,
-    _20mHEALCD,
-    _40mHEALCD,
-    airdropTime,
-    slotsTime,
-    rouletteTime,
-    coinflipTime)
-    VALUES (
-        ?,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0
-    )
-`
-
 module.exports = {
     name: 'play',
     aliases: ['create'],
@@ -117,12 +73,6 @@ module.exports = {
             const guildRow = await query(`SELECT * FROM guildInfo WHERE guildId = ${message.guild.id}`);
             if(!guildRow.length){
                 query(`INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItemChan, dropItem, randomOnly) VALUES (${message.guild.id}, '', '', '', '', 0, 0)`);
-            }
-
-            //cooldowns row is never deleted, will keep cooldowns persistent even after account deletion
-            const cooldownRow = await query(`SELECT * FROM cooldowns WHERE userId = ${message.author.id}`);
-            if(!cooldownRow.length){
-                query(insertCooldownSQL, [message.author.id]);
             }
 
             const embedInfo = new Discord.RichEmbed()
@@ -148,14 +98,13 @@ module.exports = {
 
             const activate = await query(`INSERT INTO userGuilds (userId, guildId) VALUES (${message.author.id}, ${message.guild.id})`);
             
+            await methods.addCD(message.client, {
+                userId: message.author.id,
+                type: 'activate',
+                time: 3600 * 1000
+            });
+            
             message.reply(lang.play[1]);
-
-            query(`UPDATE cooldowns SET activateTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
-            message.client.shard.broadcastEval(`this.sets.activateCooldown.add('${message.author.id}')`);
-            setTimeout(() => {
-                message.client.shard.broadcastEval(`this.sets.activateCooldown.delete('${message.author.id}')`);
-                query(`UPDATE cooldowns SET activateTime = ${0} WHERE userId = ${message.author.id}`);
-            }, 3600 * 1000);
         }
         if(Object.keys(config.activeRoleGuilds).includes(message.guild.id)){
             refresher.refreshactives(message);

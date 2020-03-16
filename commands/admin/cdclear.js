@@ -13,7 +13,7 @@ module.exports = {
     modOnly: false,
     adminOnly: true,
     
-    execute(message, args, lang, prefix){
+    async execute(message, args, lang, prefix){
         let userId = args[0];
 
         if(userId !== undefined){
@@ -22,22 +22,9 @@ module.exports = {
             }
             else{
                 try{
-                    message.client.shard.broadcastEval(`this.sets.voteCooldown.delete('${userId}');
-                    this.sets.scrambleCooldown.delete('${userId}');
-                    this.sets.triviaUserCooldown.delete('${userId}');
-                    this.sets.hourlyCooldown.delete('${userId}');
-                    this.sets.gambleCooldown.delete('${userId}');
-                    this.sets.healCooldown.delete('${userId}');
-                    this.sets.deactivateCooldown.delete('${userId}');
-                    this.sets.activateCooldown.delete('${userId}');
-                    this.sets.deleteCooldown.delete('${userId}');
-                    this.sets.weapCooldown.delete('${userId}');
-                    this.sets.eventCooldown.delete('${userId}');`);
-                    
-                    query(`UPDATE cooldowns SET voteTime = ${0}, scrambleTime = ${0}, triviaTime = ${0}, hourlyTime = ${0}, gambleTime = ${0}, 
-                    healTime = ${0}, deactivateTime = ${0}, activateTime = ${0}, attackTime = ${0}, _15mCD = ${0}, _30mCD = ${0}, _45mCD = ${0},
-                    _60mCD = ${0}, _80mCD = ${0}, _100mCD = ${0}, _120mCD = ${0}, airdropTime = ${0} WHERE userId = ${userId}`);
-                    message.reply("Cooldowns cleared for user.");
+                    await methods.clearAllCD(message.client, userId);
+
+                    await message.reply('Cleared all user cooldowns. To clear just one cooldown, use `eval methods.clearCD(client, userId, type)`');
                 }
                 catch(err){
                     message.reply("Error clearing cooldowns: ```"+err+"```")

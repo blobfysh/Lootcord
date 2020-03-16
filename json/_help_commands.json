@@ -162,7 +162,7 @@
   "lookup": ["level","lvl"],
   "command": "Level",
   "example": [""],
-  "description": "Displays your level along with your current scaled damage.\nBelow is a table of stats for each level.",
+  "description": "Displays your level along with your current scaled damage.",
   "cooldown": "",
   "usage": ["level`","lvl`"],
   "options": "",

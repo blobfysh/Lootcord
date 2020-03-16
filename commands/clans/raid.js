@@ -20,6 +20,10 @@ module.exports = {
         }
         
         const scoreRow = (await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`))[0];
+        const raidCD = methods.getCD(message.client, {
+            userId: scoreRow.clanId,
+            type: 'raid'
+        });
 
         if(scoreRow.clanId == 0){
             return message.reply(lang.clans.leave[0]);
@@ -27,12 +31,16 @@ module.exports = {
         else if(!args.length){
             return message.reply(lang.clans.raid[0]);
         }
-        else if(message.client.sets.raidCooldown.has(scoreRow.clanId.toString())){
-            return message.reply(lang.clans.raid[2].replace('{0}', convertToTime((3600 * 1000 - ((new Date()).getTime() - (await query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0].raidTime)))));
+        else if(raidCD){
+            return message.reply(lang.clans.raid[2].replace('{0}', raidCD));
         }
         else{
             var clanName = args.join(" ");
             const clanRow = (await query(`SELECT * FROM clans WHERE LOWER(name) = ?`, [clanName.toLowerCase()]));
+            const victimRaidedCD = methods.getCD(message.client, {
+                userId: clanRow[0].clanId,
+                type: 'raided'
+            });
 
             if(!clanRow.length){
                 return message.reply(lang.clans.info[1]);
@@ -40,7 +48,7 @@ module.exports = {
             else if(clanRow[0].clanId == scoreRow.clanId){
                 return message.reply(lang.clans.raid[1]);
             }
-            else if(message.client.sets.raided.has(clanRow[0].clanId.toString())){
+            else if(victimRaidedCD){
                 return message.reply(lang.clans.raid[3]);
             }
 
@@ -84,15 +92,18 @@ module.exports = {
             var itemsStolen = 0;
             var itemsArray = [];
 
-            message.client.shard.broadcastEval(`this.sets.raided.add('${clanRow[0].clanId}')`);
             message.client.shard.broadcastEval(`this.sets.gettingRaided.add('${clanRow[0].clanId}')`);
-            message.client.shard.broadcastEval(`this.sets.raidCooldown.add('${scoreRow.clanId}')`);
-            query(`UPDATE clans SET raidTime = ${new Date().getTime()} WHERE clanId = ${scoreRow.clanId}`);
-            setTimeout(() => {
-                message.client.shard.broadcastEval(`this.sets.raided.delete('${clanRow[0].clanId}')`);
-                message.client.shard.broadcastEval(`this.sets.raidCooldown.delete('${scoreRow.clanId}')`);
-                query(`UPDATE clans SET raidTime = ${0} WHERE clanId = ${scoreRow.clanId}`);
-            }, 3600 * 1000);
+            
+            await methods.addCD(message.client, {
+                userId: clanRow[0].clanId,
+                type: 'raided',
+                time: 3600 * 1000
+            });
+            await methods.addCD(message.client, {
+                userId: scoreRow.clanId,
+                type: 'raid',
+                time: 3600 * 1000
+            });
 
             await clans.removeMoney(clanRow[0].clanId, moneyStolen);
             await clans.addMoney(scoreRow.clanId, moneyStolen);

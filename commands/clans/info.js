@@ -54,6 +54,10 @@ async function getClanInfo(message, lang, clanId){
     const clanRow = (await query(`SELECT * FROM clans WHERE clanId = ${clanId}`))[0];
     const clanMembers = await clans.getMembers(clanId);
     const clanPower = await clans.getClanData(clanId);
+    const raidCD = methods.getCD(message.client, {
+        userId: clanId,
+        type: 'raid'
+    });
 
     var membersRanksList = [];
     var membersList = [];
@@ -86,13 +90,13 @@ async function getClanInfo(message, lang, clanId){
     .setThumbnail(clanRow.iconURL)
     .addField(lang.clans.info[3], clanPower.usedPower + '/' + clanPower.currPower + '/' + clanPower.maxPower, true)
     .addField(lang.clans.info[4], getShortDate(clanRow.clanCreated), true)
-    if(message.client.sets.raidCooldown.has(clanRow.clanId.toString())){
-        clanEmbed.addField(lang.clans.info[7], '`' + convertToTime((3600 * 1000 - ((new Date()).getTime() - clanRow.raidTime))) + '`')
+    if(raidCD){
+        clanEmbed.addField(lang.clans.info[7], '`' + raidCD + '`')
     }
     clanEmbed.addBlankField()    
     clanEmbed.addField(lang.clans.info[5].replace('{0}', ((clanMembers.count * config.clan_interest_rate) * 100).toFixed(1)), methods.formatMoney(clanRow.money))
     clanEmbed.addField(lang.clans.info[6].replace('{0}', clanMembers.count), membersList.join('\n'), true)
-    clanEmbed.addField('Member Stats', `${clanPower.kills + ' kills | ' + clanPower.deaths + ' deaths'}\n${convertToTime(clanPower.playtime)} of total playtime`, true)
+    clanEmbed.addField('Member Stats', `${clanPower.kills + ' kills | ' + clanPower.deaths + ' deaths'}\n${methods.convertTime(clanPower.playtime)} of total playtime`, true)
     
     message.channel.send(clanEmbed);
 }
@@ -110,27 +114,4 @@ function getShortDate(date){
     var time = d.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'}).replace(' ', '');
     
     return month + '/' + day + '/' + year.toString().slice(2) + ' ' + time + ' EST';
-}
-
-function convertToTime(ms){
-    var seconds = (ms / 1000).toFixed(1);
-
-    var minutes = (ms / (1000 * 60)).toFixed(1);
-
-    var hours = (ms / (1000 * 60 * 60)).toFixed(1);
-
-    var days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
-
-    if (seconds < 60) {
-        return seconds + " seconds";
-    } 
-    else if (minutes < 60) {
-        return minutes + " minutes";
-    } 
-    else if (hours < 24) {
-        return hours + " hours";
-    }
-    else {
-        return days + " days"
-    }
 }

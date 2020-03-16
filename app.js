@@ -11,7 +11,7 @@ const { handleCmd }         = require('./commandhandler.js');
 const { checkLevelXp }      = require('./utils/checklevel.js');
 const airdropper            = require('./utils/airdrop.js');
 const patreonHandler        = require('./utils/patreonHandler.js');
-const cache                 = require('./utils/cache');
+const methods               = require('./methods/methods');
 
 const client = new Discord.Client({
     messageCacheMaxSize: 50,
@@ -24,11 +24,14 @@ const client = new Discord.Client({
     ]
 });
 
+client.query           = query;
 client.sets            = require('./utils/sets.js');
+client.cache           = require('./utils/cache');
 client.commands        = new Discord.Collection();
 client.clanCommands    = new Discord.Collection();
 client.airdropTimes    = [];
 client.shieldTimes     = [];
+client.cdTimes         = [];
 client.commandsUsed    = {};
 client.restartLockdown = false;
 client.fullLockdown    = true;
@@ -154,312 +157,27 @@ client.on('ready', async () => {
         }
     });
 
-    // refresh clan raid cooldowns
-    const raidRows = await query(`SELECT clanId, raidTime FROM clans`);
-    raidRows.forEach((clanInfo) => {
-        if(clanInfo.clanId !== undefined && clanInfo.clanId !== null){
-            if(clanInfo.raidTime > 0){
-                let timeLeft = (3600*1000) - ((new Date()).getTime() - clanInfo.raidTime);
-                if(timeLeft > 0){
-                    client.sets.raidCooldown.add(clanInfo.clanId.toString());
-                    setTimeout(() => {
-                        client.sets.raidCooldown.delete(clanInfo.clanId.toString());
-                        query(`UPDATE clans SET raidTime = ${0} WHERE clanId = ${clanInfo.clanId}`);
-                    }, timeLeft);
-                }
-            }
-        }
-    });
-
     // refreshes cooldowns for all users
-    const rows = await query(`SELECT * FROM cooldowns`);
+    const rows = await query(`SELECT * FROM cooldown`);
     let cdsAdded = 0;
-    rows.forEach((userInfo) => {
-        if(userInfo.userId !== undefined && userInfo.userId !== null){
-            if(userInfo.hourlyTime > 0){
-                let timeLeft = (3600*1000) - ((new Date()).getTime() - userInfo.hourlyTime);
-                if(timeLeft > 0){
-                    client.sets.hourlyCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.hourlyCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET hourlyTime = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo.scrambleTime > 0){
-                let timeLeft = (900*1000) - ((new Date()).getTime() - userInfo.scrambleTime);
-                if(timeLeft > 0){
-                    client.sets.scrambleCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.scrambleCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET scrambleTime = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo.triviaTime > 0){
-                let timeLeft = (900*1000) - ((new Date()).getTime() - userInfo.triviaTime);
-                if(timeLeft > 0){
-                    client.sets.triviaUserCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.triviaUserCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET triviaTime = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo.voteTime > 0){
-                let timeLeft = (43200*1000) - ((new Date()).getTime() - userInfo.voteTime);
-                if(timeLeft > 0){
-                    client.sets.voteCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.voteCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET voteTime = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-                else{
-                    query(`UPDATE cooldowns SET voteTime = ${0} WHERE userId = ${userInfo.userId}`);
-                }
-            }
-            if(userInfo.peckTime > 0){
-                let timeLeft = (7200*1000) - ((new Date()).getTime() - userInfo.peckTime);
-                if(timeLeft > 0){
-                    client.sets.peckCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.peckCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET peckTime = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo.ironShieldTime > 0){
-                let timeLeft = (7200*1000) - ((new Date()).getTime() - userInfo.ironShieldTime);
-                if(timeLeft > 0){
-                    client.sets.activeShield.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.activeShield.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET ironShieldTime = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo.mittenShieldTime > 0){
-                let timeLeft = (1800*1000) - ((new Date()).getTime() - userInfo.mittenShieldTime);
-                if(timeLeft > 0){
-                    client.sets.activeShield.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.activeShield.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET mittenShieldTime = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo.goldShieldTime > 0){
-                let timeLeft = (28800*1000) - ((new Date()).getTime() - userInfo.goldShieldTime);
-                if(timeLeft > 0){
-                    client.sets.activeShield.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.activeShield.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET goldShieldTime = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo.deactivateTime > 0){
-                let timeLeft = (86400*1000) - ((new Date()).getTime() - userInfo.deactivateTime);
-                if(timeLeft > 0){
-                    client.sets.deactivateCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.deactivateCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET deactivateTime = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo.activateTime > 0){
-                let timeLeft = (3600*1000) - ((new Date()).getTime() - userInfo.activateTime);
-                if(timeLeft > 0){
-                    client.sets.activateCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.activateCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET activateTime = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            //ATTACK COOLDOWNS BELOW
-            if(userInfo._15mCD > 0){
-                let timeLeft = (900*1000) - ((new Date()).getTime() - userInfo._15mCD);
-                if(timeLeft > 0){
-                    client.sets.weapCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.weapCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET _15mCD = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo._30mCD > 0){
-                let timeLeft = (1800*1000) - ((new Date()).getTime() - userInfo._30mCD);
-                if(timeLeft > 0){
-                    client.sets.weapCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.weapCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET _30mCD = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo._45mCD > 0){
-                let timeLeft = (2700*1000) - ((new Date()).getTime() - userInfo._45mCD);
-                if(timeLeft > 0){
-                    client.sets.weapCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.weapCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET _45mCD = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo._60mCD > 0){
-                let timeLeft = (3600*1000) - ((new Date()).getTime() - userInfo._60mCD);
-                if(timeLeft > 0){
-                    client.sets.weapCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.weapCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET _60mCD = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo._80mCD > 0){
-                let timeLeft = (4800*1000) - ((new Date()).getTime() - userInfo._80mCD);
-                if(timeLeft > 0){
-                    client.sets.weapCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.weapCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET _80mCD = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo._100mCD > 0){
-                let timeLeft = (6000*1000) - ((new Date()).getTime() - userInfo._100mCD);
-                if(timeLeft > 0){
-                    client.sets.weapCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.weapCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET _100mCD = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo._120mCD > 0){
-                let timeLeft = (7200*1000) - ((new Date()).getTime() - userInfo._120mCD);
-                if(timeLeft > 0){
-                    client.sets.weapCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.weapCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET _120mCD = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            //HEAL COOLDOWNS
-            if(userInfo.healTime > 0){
-                let timeLeft = (1800*1000) - ((new Date()).getTime() - userInfo.healTime);
-                if(timeLeft > 0){
-                    client.sets.healCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.healCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET healTime = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo._10mHEALCD > 0){
-                let timeLeft = (600*1000) - ((new Date()).getTime() - userInfo._10mHEALCD);
-                if(timeLeft > 0){
-                    client.sets.healCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.healCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET _10mHEALCD = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo._20mHEALCD > 0){
-                let timeLeft = (1200*1000) - ((new Date()).getTime() - userInfo._20mHEALCD);
-                if(timeLeft > 0){
-                    client.sets.healCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.healCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET _20mHEALCD = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo._40mHEALCD > 0){
-                let timeLeft = (2400*1000) - ((new Date()).getTime() - userInfo._40mHEALCD);
-                if(timeLeft > 0){
-                    client.sets.healCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.healCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET _40mHEALCD = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            if(userInfo.airdropTime > 0){
-                let timeLeft = (21600*1000) - ((new Date()).getTime() - userInfo.airdropTime);
-                if(timeLeft > 0){
-                    client.sets.airdropCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.airdropCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET airdropTime = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
-            }
-            //EASTER ONLY
-            if(userInfo.prizeTime > 0){
-                let timeLeft = (43200*1000) - ((new Date()).getTime() - userInfo.prizeTime);
-                if(timeLeft > 0){
-                    client.sets.eventCooldown.add(userInfo.userId);
-                    setTimeout(() => {
-                        client.sets.eventCooldown.delete(userInfo.userId);
-                        query(`UPDATE cooldowns SET prizeTime = ${0} WHERE userId = ${userInfo.userId}`);
-                    }, timeLeft);
-
-                    cdsAdded++;
-                }
+    for(cdInfo of rows){
+        if(cdInfo.userId !== undefined){
+            let timeLeft = (cdInfo.length) - ((new Date()).getTime() - cdInfo.start);
+            if(timeLeft > 0){
+                // if startup starts lagging too bad, remove await
+                await methods.addCD(client, {
+                    userId: cdInfo.userId,
+                    type: cdInfo.type,
+                    time: timeLeft
+                }, {
+                    ignoreQuery: true, 
+                    shardOnly: true
+                });
+                
+                cdsAdded++;
             }
         }
-    });
+    }
     console.log('[APP] ' + cdsAdded + " cooldowns added to users.");
 
     // The following code calls in airdrops for all guilds who have a dropChannel set
@@ -497,18 +215,18 @@ process.on('unhandledRejection', (reason, p) => {
 });
 
 async function getPrefix(guildId){
-    cachePrefix = cache.get(guildId);
+    cachePrefix = client.cache.prefixes.get(guildId);
 
     if(!cachePrefix){
         try{
             const prefixRow = (await query(`SELECT * FROM guildPrefix WHERE guildId = ${guildId}`))[0];
         
             if(prefixRow){
-                cache.set(guildId, prefixRow.prefix);
+                client.cache.prefixes.set(guildId, prefixRow.prefix, 43200);
                 return prefixRow.prefix
             }
             else{
-                cache.set(guildId, config.prefix);
+                client.cache.prefixes.set(guildId, config.prefix, 43200);
                 return config.prefix
             }
         }

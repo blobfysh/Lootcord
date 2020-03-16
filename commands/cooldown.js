@@ -13,66 +13,43 @@ module.exports = {
     adminOnly: false,
     
     async execute(message, args, lang, prefix){
-        const row = (await query(`SELECT * FROM cooldowns WHERE userId ="${message.author.id}"`))[0];
-
-        const attackTimeLeft = await methods.getAttackCooldown(message.author.id);
-        const healTimeLeft = await methods.getHealCooldown(message.author.id);
-        const shieldTime = await methods.getShieldTime(message.author.id);
+        const attackCD = methods.getCD(message.client, { userId: message.author.id, type: 'attack' });
+        const healCD = methods.getCD(message.client, { userId: message.author.id, type: 'heal' });
+        const shieldCD = methods.getCD(message.client, { userId: message.author.id, type: 'shield' });
+        const hourlyCD = methods.getCD(message.client, { userId: message.author.id, type: 'hourly' });
+        const triviaCD = methods.getCD(message.client, { userId: message.author.id, type: 'trivia' });
+        const scrambleCD = methods.getCD(message.client, { userId: message.author.id, type: 'scramble' });
+        const voteCD = methods.getCD(message.client, { userId: message.author.id, type: 'vote' });
+        const blackjackCD = methods.getCD(message.client, { userId: message.author.id, type: 'blackjack' });
+        const slotsCD = methods.getCD(message.client, { userId: message.author.id, type: 'slots' });
+        const rouletteCD = methods.getCD(message.client, { userId: message.author.id, type: 'roulette' });
+        const coinflipCD = methods.getCD(message.client, { userId: message.author.id, type: 'coinflip' });
+        const jackpotCD = methods.getCD(message.client, { userId: message.author.id, type: 'jackpot' });
+        const airdropCD = methods.getCD(message.client, { userId: message.author.id, type: 'airdrop' });
+        const deactivateCD = methods.getCD(message.client, { userId: message.author.id, type: 'deactivate' });
                     
-        let hourlyReady = "✅ ready"
-        let triviaReady = "✅ ready"
-        let scrambleReady = "✅ ready"
-        let attackReady = "✅ ready"
-        let healReady = "✅ ready"
-        let voteReady = "✅ ready"
-        let blackjackReady = "✅ ready"
-        let slotsReady = "✅ ready"
-        let rouletteReady = "✅ ready"
-        let coinflipReady = "✅ ready"
-        let jackpotReady = "✅ ready"
+        let hourlyReady = hourlyCD ? hourlyCD : "✅ ready"
+        let triviaReady = triviaCD ? triviaCD : "✅ ready"
+        let scrambleReady = scrambleCD ? scrambleCD : "✅ ready"
+        let attackReady = attackCD ? attackCD : "✅ ready"
+        let healReady = healCD ? healCD : "✅ ready"
+        let voteReady = voteCD ? voteCD : "✅ ready"
+        let blackjackReady = blackjackCD ? blackjackCD : "✅ ready"
+        let slotsReady = slotsCD ? slotsCD : "✅ ready"
+        let rouletteReady = rouletteCD ? rouletteCD : "✅ ready"
+        let coinflipReady = coinflipCD ? coinflipCD : "✅ ready"
+        let jackpotReady = jackpotCD ? jackpotCD : "✅ ready"
 
         let giftReady = "✅ ready"
 
-        const embedLeader = new Discord.RichEmbed()
-        if(message.client.sets.hourlyCooldown.has(message.author.id)){
-            hourlyReady = ((3600 * 1000 - ((new Date()).getTime() - row.hourlyTime)) / 60000).toFixed(1) + " minutes";
-        }
-        if(message.client.sets.triviaUserCooldown.has(message.author.id)){
-            triviaReady = ((900 * 1000 - ((new Date()).getTime() - row.triviaTime)) / 60000).toFixed(1) + " minutes";
-        }
-        if(message.client.sets.scrambleCooldown.has(message.author.id)){
-            scrambleReady = ((900 * 1000 - ((new Date()).getTime() - row.scrambleTime)) / 60000).toFixed(1) + " minutes";
-        }
-        if(message.client.sets.weapCooldown.has(message.author.id)){
-            attackReady = attackTimeLeft;
-        }
-        if(message.client.sets.healCooldown.has(message.author.id)){
-            healReady = healTimeLeft;
-        }
-        if(message.client.sets.voteCooldown.has(message.author.id)){
-            voteReady = (((43300 * 1000 - ((new Date()).getTime() - row.voteTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours";
-        }
-        if(message.client.sets.jackpotCooldown.has(message.author.id)){
-            jackpotReady = ((300 * 1000 - ((new Date()).getTime() - row.jackpotTime)) / 1000).toFixed(0) + " seconds";
-        }
-        if(message.client.sets.gambleCooldown.has(message.author.id)){
-            blackjackReady = ((60 * 1000 - ((new Date()).getTime() - row.gambleTime)) / 1000).toFixed(0) + " seconds";
-        }
-        if(message.client.sets.slotsCooldown.has(message.author.id)){
-            slotsReady = ((60 * 1000 - ((new Date()).getTime() - row.slotsTime)) / 1000).toFixed(0) + " seconds";
-        }
-        if(message.client.sets.rouletteCooldown.has(message.author.id)){
-            rouletteReady = ((60 * 1000 - ((new Date()).getTime() - row.rouletteTime)) / 1000).toFixed(0) + " seconds";
-        }
-        if(message.client.sets.cfCooldown.has(message.author.id)){
-            coinflipReady = ((60 * 1000 - ((new Date()).getTime() - row.coinflipTime)) / 1000).toFixed(0) + " seconds";
-        }
+        
         /*
         if(message.client.sets.eventCooldown.has(message.author.id)){
             giftReady = (((43200 * 1000 - ((new Date()).getTime() - row.prizeTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours";
         }
         embedLeader.addField("🎁 claimgift", "`" + giftReady + "`",true)
         */
+        const embedLeader = new Discord.RichEmbed()
         embedLeader.setThumbnail(message.author.avatarURL)
         embedLeader.setTitle(`**${message.author.username} Cooldowns**`)
         embedLeader.setColor(13215302)
@@ -87,14 +64,14 @@ module.exports = {
         embedLeader.addField("jackpot", "`" + jackpotReady + "`",true)
         embedLeader.addField("Attack (part of `"+prefix+"use`)", "`" + attackReady + "`",true)
         embedLeader.addField("Heal (part of `"+prefix+"use`)", "`" + healReady + "`",true)
-        if(message.client.sets.activeShield.has(message.author.id)){
-            embedLeader.addField("🛡 Shield", shieldTime, true)
+        if(shieldCD){
+            embedLeader.addField("🛡 Shield", '`' + shieldCD + '`', true)
         }
-        if(message.client.sets.airdropCooldown.has(message.author.id)){
-            embedLeader.addField("claimdrop", '`' + (((21600 * 1000 - ((new Date()).getTime() - row.airdropTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours`", true)
+        if(airdropCD){
+            embedLeader.addField("claimdrop", '`' + airdropCD + '`', true)
         }
-        if(message.client.sets.deactivateCooldown.has(message.author.id)){
-            embedLeader.addField("deactivate", '`' + (((86400 * 1000 - ((new Date()).getTime() - row.deactivateTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours`", true)
+        if(deactivateCD){
+            embedLeader.addField("deactivate", '`' + deactivateCD + '`', true)
         }
         message.channel.send(embedLeader);
     },

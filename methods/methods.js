@@ -472,93 +472,6 @@ class Methods {
         }
         return [selected.map(item => itemdata[item].icon + item).join('\n'), selected.map(item => itemdata[item].icon + item).join(', ')];
     }
-    addToHealCooldown(message, userId, itemUsed){
-        query(`UPDATE cooldowns SET ${itemdata[itemUsed].cooldown.scoreRow} = ${(new Date()).getTime()} WHERE userId = ${userId}`);
-
-        message.client.shard.broadcastEval(`this.sets.healCooldown.add('${userId}')`);
-
-        setTimeout(() => {
-            message.client.shard.broadcastEval(`this.sets.healCooldown.delete('${userId}');`)
-            query(`UPDATE cooldowns SET ${itemdata[itemUsed].cooldown.scoreRow} = ${0} WHERE userId = ${userId}`);
-            
-        }, itemdata[itemUsed].cooldown.seconds * 1000);
-    }
-    getHealCooldown(userId){
-        return query(`SELECT * FROM cooldowns WHERE userId ="${userId}"`).then(oldRow => {
-            const row = oldRow[0];
-
-            if(row._10mHEALCD > 0){
-                return "`" + ((600 * 1000 - ((new Date()).getTime() - row._10mHEALCD)) / 60000).toFixed(1) + " minutes`"
-            }
-            else if(row._20mHEALCD > 0){
-                return "`" + ((1200 * 1000 - ((new Date()).getTime() - row._20mHEALCD)) / 60000).toFixed(1) + " minutes`"
-            }
-            else if(row._40mHEALCD > 0){
-                return "`" + ((2400 * 1000 - ((new Date()).getTime() - row._40mHEALCD)) / 60000).toFixed(1) + " minutes`"
-            }
-            else{
-                return "`[REDACTED]`";
-            }
-        });
-    }
-    addToWeapCooldown(message, userId, itemUsed){
-        query(`UPDATE cooldowns SET ${itemdata[itemUsed].cooldown.scoreRow} = ${(new Date()).getTime()} WHERE userId = ${userId}`);
-
-        message.client.shard.broadcastEval(`this.sets.weapCooldown.add('${message.author.id}')`);
-
-        setTimeout(() => {
-
-            message.client.shard.broadcastEval(`this.sets.weapCooldown.delete('${message.author.id}')`);
-            query(`UPDATE cooldowns SET ${itemdata[itemUsed].cooldown.scoreRow} = ${0} WHERE userId = ${userId}`);
-            
-        }, itemdata[itemUsed].cooldown.seconds * 1000);
-    }
-    getAttackCooldown(userId){
-        return query(`SELECT * FROM cooldowns WHERE userId ="${userId}"`).then(oldRow => {
-            const row = oldRow[0];
-
-            if(row._15mCD > 0){
-                return "`" + ((900 * 1000 - ((new Date()).getTime() - row._15mCD)) / 60000).toFixed(1) + " minutes`"
-            }
-            else if(row._30mCD > 0){
-                return "`" + ((1800 * 1000 - ((new Date()).getTime() - row._30mCD)) / 60000).toFixed(1) + " minutes`"
-            }
-            else if(row._45mCD > 0){
-                return "`" + ((2700 * 1000 - ((new Date()).getTime() - row._45mCD)) / 60000).toFixed(1) + " minutes`"
-            }
-            else if(row._60mCD > 0){
-                return "`" + ((3600 * 1000 - ((new Date()).getTime() - row._60mCD)) / 60000).toFixed(1) + " minutes`"
-            }
-            else if(row._80mCD > 0){
-                return "`" + ((4800 * 1000 - ((new Date()).getTime() - row._80mCD)) / 60000).toFixed(1) + " minutes`"
-            }
-            else if(row._100mCD > 0){
-                return "`" + ((6000 * 1000 - ((new Date()).getTime() - row._100mCD)) / 60000).toFixed(1) + " minutes`"
-            }
-            else if(row._120mCD > 0){
-                return "`" + ((7200 * 1000 - ((new Date()).getTime() - row._120mCD)) / 60000).toFixed(1) + " minutes`"
-            }
-            else{
-                return "`[REDACTED]`";
-            }
-        });
-    }
-    async getShieldTime(userId){
-        const row = (await query(`SELECT * FROM cooldowns WHERE userId ="${userId}"`))[0];
-        
-        if(row.mittenShieldTime > 0){
-            return "`" + ((1800 * 1000 - ((new Date()).getTime() - row.mittenShieldTime)) / 60000).toFixed(1) + " minutes`"
-        }
-        else if(row.ironShieldTime > 0){
-            return "`" + ((7200 * 1000 - ((new Date()).getTime() - row.ironShieldTime)) / 60000).toFixed(1) + " minutes`"
-        }
-        else if(row.goldShieldTime > 0){
-            return "`" + ((28800 * 1000 - ((new Date()).getTime() - row.goldShieldTime)) / 60000).toFixed(1) + " minutes`"
-        }
-        else{
-            return "`[REDACTED]`";
-        }
-    }
     async sendtokillfeed(message, killerId, victimId, itemName, itemDmg, itemsStolen, moneyStolen){
         const guildRow = (await query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`))[0];
 
@@ -613,6 +526,119 @@ class Methods {
         }
     }
 
+    async addCD(client, { userId, type, time }, options = {ignoreQuery: false, shardOnly: false}){
+        try{
+            if(client.cache[type].get(userId)) return false;
+
+            let seconds = Math.round(time / 1000);
+
+            if(!options.shardOnly) client.shard.broadcastEval(`this.cache['${type}'].set('${userId}', 'Set at ' + (new Date().toLocaleString('en-US', {timeZone: 'America/New_York'})), ${seconds});`)
+            else client.cache[type].set(userId, 'Set on startup at ' + (new Date().toLocaleString('en-US', {timeZone: 'America/New_York'})), seconds);
+            
+            if(!options.ignoreQuery) await query(`INSERT INTO cooldown (userId, type, start, length) VALUES (?, ?, ?, ?)`, [userId, type, new Date().getTime(), time]);
+
+            let timeObj = {
+                userId: userId, 
+                type: type, 
+                timer: setTimeout(() => {
+                    console.log(`[METHODS] Deleted ${userId} from '${type}' cooldown`);
+                    query(`DELETE FROM cooldown WHERE userId = ${userId} AND type = '${type}'`);
+                }, seconds * 1000)
+            };
+
+            /*
+            CAN USE THIS TO SAFELY CLEAR ALL COOLDOWNS
+            message.client.shard.broadcastEval(`
+                this.cdTimes.forEach(arrObj => {
+
+                    if(arrObj.userId == ${message.author.id} && arrObj.type == ${typehere}){
+                        //stop the timer
+                        clearTimeout(arrObj.timer);
+            
+                        this.cdTimes.splice(this.cdTimes.indexOf(arrObj), 1);
+            
+                        console.log('canceled a timeout');
+                    }
+                    
+                    //to clear all cds
+                    if(arrObj.userId == ${message.author.id}){
+                        //stop the timer
+                        clearTimeout(arrObj.timer);
+            
+                        this.cdTimes.splice(this.cdTimes.indexOf(arrObj), 1);
+            
+                        console.log('canceled a timeout');
+                    }
+                });
+            `);
+            */
+           
+            client.cdTimes.push(timeObj);
+
+            return 'Added Cooldown';
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+
+    getCD(client, { userId, type }){
+        let endTime = client.cache[type].getTTL(userId);
+
+        if(!endTime) return undefined;
+
+        return this.convertTime(endTime - new Date().getTime())
+    }
+    async clearCD(client, userId, type){
+        await query(`DELETE FROM cooldown WHERE userId = '${userId}' AND type = '${type}'`);
+        client.shard.broadcastEval(`
+            this.cache['${type}'].del('${userId}');
+            this.cdTimes.forEach(arrObj => {
+                
+                if(arrObj.userId == ${userId} && arrObj.type == '${type}'){
+                    //stop the timer
+                    clearTimeout(arrObj.timer);
+        
+                    this.cdTimes.splice(this.cdTimes.indexOf(arrObj), 1);
+                }
+
+            });
+        `);
+    }
+
+    convertTime(ms){
+        let remaining = ms;
+        let finalStr = '';
+
+        let rawDays = remaining / (1000 * 60 * 60 * 24);
+        let days = Math.floor(rawDays);
+        remaining %= 1000 * 60 * 60 * 24;
+
+        let rawHours = remaining / (1000 * 60 * 60);
+        let hours = Math.floor(rawHours);
+        remaining %= 1000 * 60 * 60;
+
+        let rawMinutes = remaining / (1000 * 60);
+        let minutes = Math.floor(rawMinutes);
+        remaining %= 1000 * 60;
+        
+        let seconds = Math.floor(remaining / 1000);
+        
+        if(days > 0){
+            finalStr += days == 1 ? days + ' day ' : days + ' days ';
+        }
+        if(hours > 0){
+            if(days > 0) return finalStr += rawHours.toFixed(1) + ' hours';
+            else finalStr += hours == 1 ? hours + ' hour ' : hours + ' hours ';
+        }
+        if(minutes > 0){
+            if(hours > 0) return finalStr += rawMinutes.toFixed(1) + ' minutes';
+            else finalStr += minutes == 1 ? minutes + ' minute ' : minutes + ' minutes ';
+        }
+
+        return finalStr += seconds == 1 ? seconds + ' second' : seconds + ' seconds';
+    }
+
 
     // NOT USED BY ANY COMMAND, can be called with eval
     // These are not updated to work with sharding, and might not function as intended
@@ -652,6 +678,26 @@ class Methods {
         fs.writeFile('testJSONfile2.json',JSON.stringify(jsonFile, null, 4), function(err) {
             console.log("complete");
         });
+    }
+    clearAllCD(client, userId){
+        query(`DELETE FROM cooldown WHERE userId = '${userId}'`);
+        client.shard.broadcastEval(`
+            this.cache.getTypes().forEach(type => {
+                this.cache[type].del('${userId}');
+            });
+            this.cdTimes.forEach(arrObj => {
+                
+                //to clear all cds
+                if(arrObj.userId == ${userId}){
+                    //stop the timer
+                    clearTimeout(arrObj.timer);
+        
+                    this.cdTimes.splice(this.cdTimes.indexOf(arrObj), 1);
+        
+                    console.log('canceled a timeout');
+                }
+            });
+        `);
     }
 }
 

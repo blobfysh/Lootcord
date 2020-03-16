@@ -128,7 +128,7 @@ async function resetData(message, prestigeLvl){
 }
 
 function getPrice(cur_prestige){
-    return Math.floor((10**cur_prestige) * 100000);
+    return Math.floor((10**cur_prestige) * 10000000);
 }
 
 function getCtRequired(cur_prestige){

@@ -5,7 +5,6 @@ const itemdata  = require('../../json/completeItemList.json');
 const airdrop   = require('../../utils/airdrop.js');
 const os        = require('os');
 const { decodeCode } = require('../../methods/acc_code_handler');
-const cache     = require('../../utils/cache');
 const general = require('../../methods/general');
 
 module.exports = {
@@ -20,6 +19,7 @@ module.exports = {
     
     async execute(message, args, lang, prefix){
         let commandInput = message.content.substring(6);
+        let cache = message.client.cache;
         
         try{
             let start = new Date().getTime();
