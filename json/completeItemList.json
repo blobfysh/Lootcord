@@ -19,9 +19,7 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "display": "15 minutes",
-            "scoreRow": "_15mCD",
-            "seconds": 900
+            "seconds": 445
         },
         "shopOrderCode": 2
     },
@@ -159,9 +157,7 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "display": "15 minutes",
-            "scoreRow": "_15mCD",
-            "seconds": 900
+            "seconds": 420
         },
         "shopOrderCode": 2
     },
@@ -187,7 +183,7 @@
         "cooldown": {
             "display": "15 minutes",
             "scoreRow": "_15mCD",
-            "seconds": 900
+            "seconds": 354
         },
         "shopOrderCode": 2
     },
@@ -211,9 +207,7 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "display": "15 minutes",
-            "scoreRow": "_15mCD",
-            "seconds": 900
+            "seconds": 458
         },
         "shopOrderCode": 2
     },
@@ -237,9 +231,7 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "display": "15 minutes",
-            "scoreRow": "_15mCD",
-            "seconds": 900
+            "seconds": 442
         },
         "shopOrderCode": 2
     },
@@ -360,9 +352,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
-            "display": "10 minutes",
-            "scoreRow": "_10mHEALCD",
-            "seconds": 600
+            "seconds": 366
         },
         "shopOrderCode": 2
     },
@@ -422,9 +412,7 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "display": "30 minutes",
-            "scoreRow": "_30mCD",
-            "seconds": 1800
+            "seconds": 1123
         },
         "shopOrderCode": 3
     },
@@ -518,9 +506,7 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "display": "30 minutes",
-            "scoreRow": "_30mCD",
-            "seconds": 1800
+            "seconds": 1244
         },
         "shopOrderCode": 3
     },
@@ -544,9 +530,7 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "display": "30 minutes",
-            "scoreRow": "_30mCD",
-            "seconds": 1800
+            "seconds": 1141
         },
         "shopOrderCode": 3
     },
@@ -579,9 +563,7 @@
         "chanceToBreak": 0.50,
         "canBeStolen": true,
         "cooldown": {
-            "display": "30 minutes",
-            "scoreRow": "_30mCD",
-            "seconds": 1800
+            "seconds": 1715
         },
         "shopOrderCode": 3
     },
@@ -590,8 +572,8 @@
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
-        "healMin": 5,
-        "healMax": 14,
+        "healMin": 10,
+        "healMax": 19,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -600,11 +582,11 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 1000,
+            "amount": 2200,
             "currency": "money"
         },
-        "sell": 200,
-        "desc": "Restores `5-14` HP!",
+        "sell": 620,
+        "desc": "Restores `10-19` HP!",
         "image": "https://cdn.discordapp.com/attachments/501120454136692737/549083366809665541/Pills.png",
         "unboxable": true,
         "icon": "<:U_usable:601366669259964418>",
@@ -613,7 +595,7 @@
         "cooldown": {
             "display": "10 minutes",
             "scoreRow": "_10mHEALCD",
-            "seconds": 600
+            "seconds": 967
         },
         "shopOrderCode": 3
     },
@@ -818,7 +800,7 @@
         "cooldown": {
             "display": "45 minutes",
             "scoreRow": "_45mCD",
-            "seconds": 2700
+            "seconds": 2467
         },
         "shopOrderCode": 4
     },
@@ -857,9 +839,7 @@
         "chanceToBreak": 0.35,
         "canBeStolen": true,
         "cooldown": {
-            "display": "45 minutes",
-            "scoreRow": "_45mCD",
-            "seconds": 2700
+            "seconds": 2721
         },
         "shopOrderCode": 4
     },
@@ -979,9 +959,7 @@
         "chanceToBreak": 0.35,
         "canBeStolen": true,
         "cooldown": {
-            "display": "45 minutes",
-            "scoreRow": "_45mCD",
-            "seconds": 2700
+            "seconds": 2232
         },
         "shopOrderCode": 4
     },
@@ -1005,9 +983,7 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "display": "45 minutes",
-            "scoreRow": "_45mCD",
-            "seconds": 2700
+            "seconds": 1568
         },
         "shopOrderCode": 4
     },
@@ -1016,8 +992,8 @@
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
-        "healMin": 10,
-        "healMax": 25,
+        "healMin": 20,
+        "healMax": 28,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -1026,20 +1002,18 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 2400,
+            "amount": 4700,
             "currency": "money"
         },
-        "sell": 480,
-        "desc": "Restores `10-25` HP!",
+        "sell": 1520,
+        "desc": "Restores `20-28` HP!",
         "image": "",
         "unboxable": true,
         "icon": "<:rare_usable:601368019972653067>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
-            "display": "20 minutes",
-            "scoreRow": "_20mHEALCD",
-            "seconds": 1200
+            "seconds": 1596
         },
         "shopOrderCode": 4
     },
@@ -1079,9 +1053,7 @@
         "chanceToBreak": 0.50,
         "canBeStolen": true,
         "cooldown": {
-            "display": "45 minutes",
-            "scoreRow": "_45mCD",
-            "seconds": 2700
+            "seconds": 2732
         },
         "shopOrderCode": 4
     },
@@ -1121,8 +1093,8 @@
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
-        "damage": "8-30",
-        "minDmg": 8,
+        "damage": "19-30",
+        "minDmg": 19,
         "maxDmg": 30,
         "isAmmo": [],
         "ammo": "",
@@ -1137,9 +1109,7 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "display": "45 minutes",
-            "scoreRow": "_45mCD",
-            "seconds": 2700
+            "seconds": 1862
         },
         "shopOrderCode": 4
     },
@@ -1327,9 +1297,7 @@
         "chanceToBreak": 0.25,
         "canBeStolen": true,
         "cooldown": {
-            "display": "60 minutes",
-            "scoreRow": "_60mCD",
-            "seconds": 3600
+            "seconds": 3064
         },
         "shopOrderCode": 5
     },
@@ -1370,9 +1338,7 @@
         "chanceToBreak": 0.25,
         "canBeStolen": true,
         "cooldown": {
-            "display": "60 minutes",
-            "scoreRow": "_60mCD",
-            "seconds": 3600
+            "seconds": 3929
         },
         "shopOrderCode": 5
     },
@@ -1382,8 +1348,6 @@
         "isItem": true,
         "isShield": true,
         "shieldInfo": {
-            "display": "120 minutes",
-            "shieldRow": "ironShieldTime",
             "seconds": 7200
         },
         "damage": "",
@@ -1631,9 +1595,7 @@
         "chanceToBreak": 0.20,
         "canBeStolen": true,
         "cooldown": {
-            "display": "60 minutes",
-            "scoreRow": "_60mCD",
-            "seconds": 3600
+            "seconds": 3683
         },
         "shopOrderCode": 5
     },
@@ -1663,9 +1625,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
-            "display": "40 minutes",
-            "scoreRow": "_40mHEALCD",
-            "seconds": 2400
+            "seconds": 2682
         },
         "shopOrderCode": 5
     },
@@ -1705,9 +1665,7 @@
         "chanceToBreak": 0.20,
         "canBeStolen": true,
         "cooldown": {
-            "display": "60 minutes",
-            "scoreRow": "_60mCD",
-            "seconds": 3600
+            "seconds": 3425
         },
         "shopOrderCode": 5
     },
@@ -2067,9 +2025,7 @@
         "chanceToBreak": 0.25,
         "canBeStolen": true,
         "cooldown": {
-            "display": "1 hour 20 minutes",
-            "scoreRow": "_80mCD",
-            "seconds": 4800
+            "seconds": 4156
         },
         "shopOrderCode": 6
     },
@@ -2109,9 +2065,7 @@
         "chanceToBreak": 0.15,
         "canBeStolen": true,
         "cooldown": {
-            "display": "1 hour 20 minutes",
-            "scoreRow": "_80mCD",
-            "seconds": 4800
+            "seconds": 4920
         },
         "shopOrderCode": 6
     },
@@ -2175,9 +2129,7 @@
         "chanceToBreak": 0.15,
         "canBeStolen": true,
         "cooldown": {
-            "display": "1 hour 20 minutes",
-            "scoreRow": "_80mCD",
-            "seconds": 4800
+            "seconds": 5383
         },
         "shopOrderCode": 6
     },
@@ -2213,7 +2165,7 @@
         "cooldown": {
             "display": "1 hour 20 minutes",
             "scoreRow": "_80mCD",
-            "seconds": 4800
+            "seconds": 5602
         },
         "shopOrderCode": 6
     },
@@ -2521,7 +2473,7 @@
         "cooldown": {
             "display": "1 hour 40 minutes",
             "scoreRow": "_100mCD",
-            "seconds": 6000
+            "seconds": 6720
         },
         "shopOrderCode": 7
     },
@@ -2529,9 +2481,9 @@
         "rarity": "Ultra",
         "isWeap": true,
         "isItem": false,
-        "damage": "0-10",
+        "damage": "0-30",
         "minDmg": 0,
-        "maxDmg": 10,
+        "maxDmg": 30,
         "isAmmo": [],
         "ammo": [
             "plasma"
@@ -2565,7 +2517,7 @@
         "cooldown": {
             "display": "1 hour 40 minutes",
             "scoreRow": "_100mCD",
-            "seconds": 6000
+            "seconds": 6034
         },
         "shopOrderCode": 7
     },

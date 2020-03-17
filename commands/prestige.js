@@ -5,6 +5,8 @@ const general = require('../methods/general');
 const config = require('../json/_config');
 const icons = require('../json/icons');
 const itemdata = require('../json/completeItemList');
+const starting_price = 100000000;
+const starting_value = 10000;
 
 module.exports = {
     name: 'prestige',
@@ -128,7 +130,7 @@ async function resetData(message, prestigeLvl){
 }
 
 function getPrice(cur_prestige){
-    return Math.floor((10**cur_prestige) * 10000000);
+    return Math.floor((10**cur_prestige) * starting_price);
 }
 
 function getCtRequired(cur_prestige){
@@ -136,5 +138,5 @@ function getCtRequired(cur_prestige){
 }
 
 function getValRequired(cur_prestige){
-    return Math.floor((2**cur_prestige) * 7500);
+    return Math.floor((2**cur_prestige) * starting_value);
 }

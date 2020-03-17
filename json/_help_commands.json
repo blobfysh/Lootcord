@@ -529,6 +529,16 @@
   "category": "blackmarket",
   "ignoreHelp": false
 },  {
+  "lookup": ["claimdrop"],
+  "command": "Claimdrop",
+  "example": ["claimdrop"],
+  "description": "Claim the airdrop in this channel (if there is any).",
+  "cooldown": "",
+  "usage": ["claimdrop`"],
+  "options": "",
+  "category": "other",
+  "ignoreHelp": true
+}, {
   "lookup": ["link"],
   "command": "Link",
   "example": ["link"],
