@@ -18,7 +18,7 @@ module.exports = {
     async execute(message, args, lang, prefix){
         var guildUsers = [];
         var clans = [];
-        const rows = await query(`SELECT scores.userId, prestige 
+        const rows = await query(`SELECT scores.userId, badge 
         FROM scores 
         INNER JOIN userGuilds 
         ON scores.userId = userGuilds.userId 
@@ -38,7 +38,7 @@ module.exports = {
         for(var i = 0; i < rows.length; i++){
             try{
                 if((await general.getUserInfo(message, rows[i].userId, true)).displayName){
-                    guildUsers.push(methods.getPrestigeBadge(rows[i].prestige) + ' ' + (await general.getUserInfo(message, rows[i].userId, true)).displayName);
+                    guildUsers.push(methods.getBadge(rows[i].badge) + ' ' + (await general.getUserInfo(message, rows[i].userId, true)).displayName);
                 }
             }
             catch(err){

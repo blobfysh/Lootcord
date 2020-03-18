@@ -65,7 +65,8 @@ module.exports = {
                 else{
                     await query(`UPDATE scores SET prestige = prestige + 1 WHERE userId = "${message.author.id}"`);
                     await resetData(message, row.prestige);
-
+                    await methods.addBadge(message.author.id, 'prestige_1');
+                    
                     const prestigeSuccess = new Discord.RichEmbed()
                     .setTitle('Success!')
                     .setDescription('✅ Prestige increased to ' + (row.prestige + 1))

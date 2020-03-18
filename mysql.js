@@ -10,6 +10,15 @@ CREATE TABLE IF NOT EXISTS user_items (
     ENGINE = InnoDB
 `
 
+const createBadgesSQL = `
+CREATE TABLE IF NOT EXISTS badges (
+    userId BIGINT,
+    badge VARCHAR(255),
+    earned BIGINT,
+    UNIQUE user_badge(userId, badge))
+    ENGINE = InnoDB
+`
+
 const createScoreSQL = `
 CREATE TABLE IF NOT EXISTS scores (
     userId BIGINT,
@@ -22,6 +31,7 @@ CREATE TABLE IF NOT EXISTS scores (
     backpack VARCHAR(255),
     armor VARCHAR(255),
     ammo VARCHAR(255),
+    badge VARCHAR(255),
     money BIGINT, 
     points BIGINT,
     kills INT,
@@ -46,44 +56,6 @@ CREATE TABLE IF NOT EXISTS scores (
 `
 
 const createCooldownsSQL = `
-CREATE TABLE IF NOT EXISTS cooldowns (
-    userId BIGINT,
-    healTime BIGINT,
-    attackTime BIGINT,
-    hourlyTime BIGINT,
-    triviaTime BIGINT,
-    peckTime BIGINT,
-    voteTime BIGINT,
-    voteTimeLeft BIGINT,
-    gambleTime BIGINT,
-    ironShieldTime BIGINT,
-    goldShieldTime BIGINT,
-    prizeTime BIGINT,
-    mittenShieldTime BIGINT,
-    scrambleTime BIGINT,
-    deactivateTime BIGINT,
-    activateTime BIGINT,
-    spamTime BIGINT,
-    xpTime BIGINT,
-    jackpotTime BIGINT,
-    _15mCD BIGINT,
-    _30mCD BIGINT,
-    _45mCD BIGINT,
-    _60mCD BIGINT,
-    _80mCD BIGINT,
-    _100mCD BIGINT,
-    _120mCD BIGINT,
-    _10mHEALCD BIGINT,
-    _20mHEALCD BIGINT,
-    _40mHEALCD BIGINT,
-    airdropTime BIGINT,
-    slotsTime BIGINT,
-    rouletteTime BIGINT,
-    coinflipTime BIGINT)
-    ENGINE = InnoDB
-`
-
-const createNewCDSQL = `
 CREATE TABLE IF NOT EXISTS cooldown (
     userId BIGINT,
     type VARCHAR(255),
@@ -166,13 +138,13 @@ function connectSQL(){
         db.query(createItemsSQL, (err, result) => {
             if(err) return console.log(err);
         });
-
-        // cooldowns table
-        db.query(createCooldownsSQL, (err, result) => {
+        //player badges table
+        db.query(createBadgesSQL, (err, result) => {
             if(err) return console.log(err);
         });
 
-        db.query(createNewCDSQL, (err, result) => {
+        // cooldowns table
+        db.query(createCooldownsSQL, (err, result) => {
             if(err) return console.log(err);
         });
 

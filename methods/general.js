@@ -4,6 +4,7 @@ const { query } = require('../mysql.js');
 const itemdata = require("../json/completeItemList");
 const MicroSpellingCorrecter = require('micro-spelling-correcter');
 const spell = new MicroSpellingCorrecter(Object.keys(itemdata));
+const badgedata = require('../json/badges');
 
 
 class Methods {
@@ -25,6 +26,11 @@ class Methods {
     isItem(itemName){
         if(itemdata[itemName] == undefined) return false;
         else return true;
+    }
+
+    isBadge(badgeName){
+        if(badgedata[badgeName]) return true;
+        else return false;
     }
 
     isNum(num){
@@ -135,6 +141,9 @@ class Methods {
             case "556": itemSearched = "5.56x45_fmj"; break;
             case "50ae":
             case ".50": itemSearched = ".50ae_hp"; break;
+            case "slug": itemSearched = "12g_slug"; break;
+            case "blunder": itemSearched = "blunderbuss"; break;
+            case "cross": itemSearched = "crossbow"; break;
             case "buckshot":
             case "12g": itemSearched = "12g_buckshot"; break;
             case ".45":
@@ -218,6 +227,16 @@ class Methods {
         }
     }
 
+    parseBadgeWithSpaces(arg1, arg2){
+        if(badgedata[arg1 + '_' + arg2]){
+            return arg1 + '_' + arg2;
+        }
+        else if(badgedata[arg1]){
+            return arg1;
+        }
+        else return arg1;
+    }
+
     /**
      * 
      * @param {*} userId User to retrieve items for (in an object format).
@@ -231,6 +250,21 @@ class Methods {
         }
     
         return itemObj;
+    }
+
+    /**
+     * 
+     * @param {*} userId User to retrieve badges for (in an array format).
+     */
+    async getBadges(userId){
+        const badges = (await query(`SELECT badge FROM badges WHERE userId = "${userId}"`));
+        var badgeArr = [];
+
+        for(var badge of badges){
+            if(badgedata[badge.badge]) badgeArr.push(badge.badge);
+        }
+
+        return badgeArr;
     }
 }
 

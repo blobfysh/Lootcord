@@ -2,11 +2,12 @@ const Discord   = require('discord.js');
 const methods   = require('./methods.js');
 const { query } = require('../mysql.js');
 const icons     = require('../json/icons');
+const badges    = require('../json/badges');
 
 exports.create_lb = async function(client){
-    const moneyRows = await query('SELECT userId, money, prestige FROM scores ORDER BY money DESC LIMIT 5');
-    const levelRows = await query('SELECT userId, level, prestige FROM scores ORDER BY level DESC LIMIT 5');
-    const killRows  = await query('SELECT userId, kills, prestige FROM scores ORDER BY kills DESC LIMIT 5');
+    const moneyRows = await query('SELECT userId, money, prestige, badge FROM scores ORDER BY money DESC LIMIT 5');
+    const levelRows = await query('SELECT userId, level, prestige, badge FROM scores ORDER BY level DESC LIMIT 5');
+    const killRows  = await query('SELECT userId, kills, prestige, badge FROM scores ORDER BY kills DESC LIMIT 5');
     const clanRows  = await query('SELECT name, money FROM clans ORDER BY money DESC LIMIT 5');
 
     var leaders      = [];
@@ -26,7 +27,7 @@ exports.create_lb = async function(client){
     for(var key in moneyRows){
         try{
             var userInfo = await client.fetchUser(moneyRows[key].userId);
-            leaders.push(`💵 ${methods.getPrestigeBadge(moneyRows[key].prestige)} ${exports.getPrestigeText(userInfo.tag, moneyRows[key].prestige)}` + ' - ' + methods.formatMoney(moneyRows[key].money));
+            leaders.push(`💵 ${methods.getBadge(moneyRows[key].badge)} ${exports.getPrestigeText(userInfo.tag, moneyRows[key].prestige)}` + ' - ' + methods.formatMoney(moneyRows[key].money));
 
             leaderJSON.money[userInfo.username] = {
                 data: methods.formatMoney(moneyRows[key].money, true), 
@@ -39,7 +40,7 @@ exports.create_lb = async function(client){
     for(var key in levelRows){
         try{
             var userInfo = await client.fetchUser(levelRows[key].userId);
-            levelLeaders.push(`🔹 ${methods.getPrestigeBadge(levelRows[key].prestige)} ${exports.getPrestigeText(userInfo.tag, levelRows[key].prestige)}` + ' - Level  ' + levelRows[key].level);
+            levelLeaders.push(`🔹 ${methods.getBadge(levelRows[key].badge)} ${exports.getPrestigeText(userInfo.tag, levelRows[key].prestige)}` + ' - Level  ' + levelRows[key].level);
 
             leaderJSON.level[userInfo.username] = {
                 data: levelRows[key].level, 
@@ -53,7 +54,7 @@ exports.create_lb = async function(client){
     for(var key in killRows){
         try{
             var userInfo = await client.fetchUser(killRows[key].userId);
-            killLeaders.push(`🏅 ${methods.getPrestigeBadge(killRows[key].prestige)} ${exports.getPrestigeText(userInfo.tag, killRows[key].prestige)}` + ' - ' + killRows[key].kills + " kills");
+            killLeaders.push(`🏅 ${methods.getBadge(killRows[key].badge)} ${exports.getPrestigeText(userInfo.tag, killRows[key].prestige)}` + ' - ' + killRows[key].kills + " kills");
 
             leaderJSON.kills[userInfo.username] = {
                 data: killRows[key].kills, 

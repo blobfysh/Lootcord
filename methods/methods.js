@@ -7,8 +7,27 @@ const itemdata = require("../json/completeItemList");
 const fs = require("fs");
 const general = require('./general');
 const icons = require('../json/icons');
+const badgedata = require('../json/badges');
 
 class Methods {
+    /**
+     * 
+     * @param {*} userId ID of user to add badge to.
+     * @param {*} badge Badge to add
+     */
+    async addBadge(userId, badge){
+        return await query(`INSERT IGNORE INTO badges (userId, badge, earned) VALUES (${userId}, '${badge}', ${new Date().getTime()})`);
+    }
+    /**
+     * 
+     * @param {*} userId ID of user to remove badge from.
+     * @param {*} badge Badge to remove
+     */
+    async removeBadge(userId, badge){
+        await query(`UPDATE scores SET badge = 'none' WHERE userId = ${userId} AND badge = '${badge}'`);
+        return await query(`DELETE FROM badges WHERE userId = ${userId} AND badge = '${badge}'`);
+    }
+
     /**
      * 
      * @param {*} userId ID of user to add item to.
@@ -443,6 +462,14 @@ class Methods {
             case 0: return '';
             default: return icons[`prestige_${prestigeLvl}_badge`];
         }
+    }
+    getBadge(badge){
+        let badgeInfo = badgedata[badge];
+
+        if(badgeInfo){
+            return badgeInfo.icon
+        }
+        else return '';
     }
 
     //USE COMMAND

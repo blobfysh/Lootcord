@@ -479,6 +479,26 @@
   "category": "utility",
   "ignoreHelp": false
 },  {
+  "lookup": ["setammo"],
+  "command": "Setammo",
+  "example": ["setammo 7.62x39_fmj"],
+  "description": "Sets your preferred ammunition. This ammo will be prioritized when using weapons even if you have a better ammo type in your inventory.",
+  "cooldown": "",
+  "usage": ["setammo <item>`"],
+  "options": "`item` - Ammo to set as preferred.",
+  "category": "utility",
+  "ignoreHelp": false
+}, {
+  "lookup": ["setbadge"],
+  "command": "Setbadge",
+  "example": ["setbadge prestige_1"],
+  "description": "Sets your display badge. This badge will be displayed next to your name on the leaderboard, active player list, clan member list, random attack selection list, and more!",
+  "cooldown": "",
+  "usage": ["setbadge <badge>`"],
+  "options": "`badge` - Badge to set.",
+  "category": "utility",
+  "ignoreHelp": false
+}, {
   "lookup": ["mysettings"],
   "command": "Mysettings",
   "example": ["mysettings"],

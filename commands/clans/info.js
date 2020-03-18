@@ -64,17 +64,17 @@ async function getClanInfo(message, lang, clanId){
 
     for(var i = 0; i < clanMembers.count; i++){
         const clanUser = await message.client.fetchUser(clanMembers.memberIds[i]);
-        const clanUserRow = (await query(`SELECT clanRank, prestige FROM scores WHERE userId = ${clanMembers.memberIds[i]}`))[0];
+        const clanUserRow = (await query(`SELECT clanRank, badge FROM scores WHERE userId = ${clanMembers.memberIds[i]}`))[0];
 
         if(clanUser.id == message.author.id){
-            membersRanksList.push(['** ->' + clan_ranks[clanUserRow.clanRank].title + ' ' + methods.getPrestigeBadge(clanUserRow.prestige) + ' ' + clanUser.tag + '**', clanUserRow.clanRank]);
+            membersRanksList.push(['** ->' + clan_ranks[clanUserRow.clanRank].title + ' ' + methods.getBadge(clanUserRow.badge) + ' ' + clanUser.tag + '**', clanUserRow.clanRank]);
         }
         else{
             if(clan_ranks[clanUserRow.clanRank].title == 'Leader'){
-                membersRanksList.push([` - ${icons.clan_leader_crown} ` + clan_ranks[clanUserRow.clanRank].title + ' ' + methods.getPrestigeBadge(clanUserRow.prestige) + ' ' + clanUser.tag, clanUserRow.clanRank]);
+                membersRanksList.push([` - ${icons.clan_leader_crown} ` + clan_ranks[clanUserRow.clanRank].title + ' ' + methods.getBadge(clanUserRow.badge) + ' ' + clanUser.tag, clanUserRow.clanRank]);
             }
             else{
-                membersRanksList.push([' - ' + clan_ranks[clanUserRow.clanRank].title + ' ' + methods.getPrestigeBadge(clanUserRow.prestige) + ' ' + clanUser.tag, clanUserRow.clanRank]);
+                membersRanksList.push([' - ' + clan_ranks[clanUserRow.clanRank].title + ' ' + methods.getBadge(clanUserRow.badge) + ' ' + clanUser.tag, clanUserRow.clanRank]);
             }
         }
     }

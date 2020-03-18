@@ -19,7 +19,7 @@ module.exports = {
         const userRow = (await query(`SELECT * FROM scores WHERE userId="${message.author.id}"`))[0];
         let equipitem = general.parseArgsWithSpaces(args[0], args[1], args[2]);
 
-        if(equipitem !== undefined && itemdata[equipitem] !== undefined && itemdata[equipitem].equippable == "true"){
+        if(equipitem !== undefined && itemdata[equipitem] !== undefined && itemdata[equipitem].equippable){
             const haspack = await methods.hasitems(message.author.id, equipitem, 1);
 
             if(haspack){
@@ -42,11 +42,6 @@ module.exports = {
                     methods.removeitem(message.author.id, equipitem, 1);
 
                     message.reply(lang.equip[1].replace('{-1}', itemdata[equipitem].icon).replace('{0}', equipitem));
-                }
-                else if(itemdata[equipitem].isAmmo.length){
-                    query(`UPDATE scores SET ammo = '${equipitem}' WHERE userId = ${message.author.id}`);
-
-                    message.reply("Successfully set {-1}`{0}` as your preferred ammo type. (Will prioritize over other ammo types.)".replace('{-1}', itemdata[equipitem].icon).replace('{0}', equipitem));
                 }
                 else{
                     message.reply(lang.equip[2])

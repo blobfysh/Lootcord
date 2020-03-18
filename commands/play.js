@@ -3,6 +3,7 @@ const { query } = require('../mysql.js');
 const config    = require('../json/_config.json');
 const refresher = require('../methods/refresh_active_role.js');
 const methods   = require('../methods/methods');
+const itemdata  = require('../json/completeItemList');
 
 const insertScoreSQL = `
 INSERT IGNORE INTO scores (
@@ -16,6 +17,7 @@ INSERT IGNORE INTO scores (
     backpack,
     armor,
     ammo,
+    badge,
     inv_slots,
     points,
     kills,
@@ -47,6 +49,7 @@ INSERT IGNORE INTO scores (
         ?,
         ?,
         ?,
+        ?,
         0, 0, 0, 0, 0, 0, 0, '', 'recruit', 'en-us', 
         0, 5, 5, 0, 0, NOW(), 0, 0, 0, 0
     )
@@ -66,7 +69,7 @@ module.exports = {
         const row = await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`);
 
         if(!row.length){
-            const scoreRow = await query(insertScoreSQL, [message.author.id, (new Date()).getTime(), 100, 1, 100, 100, 1.00, 'none', 'none', 'none']);
+            const scoreRow = await query(insertScoreSQL, [message.author.id, (new Date()).getTime(), 100, 1, 100, 100, 1.00, 'none', 'none', 'none', 'none']);
             methods.additem(message.author.id, 'item_box', 1);
             const userGuildsRow = await query(`INSERT INTO userGuilds (userId, guildId) VALUES (${message.author.id}, ${message.guild.id})`);
 
@@ -78,7 +81,7 @@ module.exports = {
             const embedInfo = new Discord.RichEmbed()
             .setTitle(`Thanks for joining LOOTCORD ${message.member.displayName}!`)
             .setColor(14202368)
-            .addField("Items Received","```1x item_box```")
+            .addField("Items Received","**1x** " + itemdata['item_box'].icon + "`item_box`")
             .setFooter("Open it with t-use item_box")
             .setImage("https://cdn.discordapp.com/attachments/454163538886524928/525315435382571028/lc_welcome.png")
 
