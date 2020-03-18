@@ -10,6 +10,7 @@ exports.getinvcode = async function(message, userID){
     try{
         const userRow = (await query(`SELECT * FROM scores WHERE userId = '${userID}'`))[0];
         const itemRow = await general.getItemObject(userID);
+        const badgeRow = await general.getBadges(userID);
         const combinedRow = {...userRow, ...itemRow};
         
         var userInvCode = {};
@@ -22,6 +23,8 @@ exports.getinvcode = async function(message, userID){
             }
         });
 
+        userInvCode['badges'] = badgeRow;
+        
         var encoded = cryptor.encode_object(userInvCode, 'base64', encryptKey);
 
         return {

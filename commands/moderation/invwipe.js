@@ -63,6 +63,7 @@ module.exports = {
                 });
                 
                 query(`DELETE FROM user_items WHERE userId = '${userId}'`);
+                query(`DELETE FROM badges WHERE userId = '${userId}'`);
 
                 const user = await message.client.fetchUser(userId);
 

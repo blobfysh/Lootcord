@@ -5,6 +5,7 @@ const methods = require('../../methods/methods');
 const config = require('../../json/_config.json');
 const general = require('../../methods/general');
 const itemdata = require('../../json/completeItemList');
+const badgedata = require('../../json/badges');
 
 module.exports = {
     name: 'restoreinv',
@@ -43,6 +44,11 @@ module.exports = {
                     
                     if(itemdata[item] !== undefined){
                         methods.additem(userObj.userId, item, amount);
+                    }
+                    else if(item = 'badges'){
+                        for(var badge of userObj[item]){
+                            methods.addBadge(userObj.userId, badge);
+                        }
                     }
                     else{
                         query(`UPDATE scores SET ${item} = '${amount}' WHERE userId = '${userObj.userId}'`);
