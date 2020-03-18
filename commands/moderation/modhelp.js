@@ -35,7 +35,7 @@ module.exports = {
             filteredList.push((i + 1) + ". " + modCommands[i] + "\n");
         }
         const helpInfo = new Discord.RichEmbed()
-        .setTitle(`🔻__**Moderator Commands**__🔻`)
+        .setTitle(`**Moderator Commands**`)
         .setDescription(filteredList)
         .setFooter("Most mod commands can ONLY be used in the Lootcord Workshop server moderator channel. "+prefix+"botstatus and getbans are the only commands that can be used in DMs")
         .setColor(13632027)

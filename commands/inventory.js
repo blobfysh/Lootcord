@@ -119,7 +119,7 @@ module.exports = {
                 
                 if(limitedItemList != ""){
                     let newList = limitedItemList.join('\n');
-                    embedInfo.addField("🎁Limited", newList, true);
+                    embedInfo.addField("Limited", newList, true);
                 }
                 
                 if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){

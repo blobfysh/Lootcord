@@ -416,13 +416,13 @@ class Methods {
 
         function addIt(key){
             if(icon){
-                if(itemdata[key].rarity == "Common") commonItems.push(itemdata[key].icon + sep + key + sep + "("+itemRow[key]+")");
-                else if(itemdata[key].rarity == "Uncommon") uncommonItems.push(itemdata[key].icon + sep + key + sep + "("+itemRow[key]+")");
-                else if(itemdata[key].rarity == "Rare") rareItems.push(itemdata[key].icon + sep + key + sep + "("+itemRow[key]+")");
-                else if(itemdata[key].rarity == "Epic") epicItems.push(itemdata[key].icon + sep + key + sep + "("+itemRow[key]+")");
-                else if(itemdata[key].rarity == "Legendary") legendItems.push(itemdata[key].icon + sep + key + sep + "("+itemRow[key]+")");
-                else if(itemdata[key].rarity == "Ultra") ultraItems.push(itemdata[key].icon + sep + key + sep + "("+itemRow[key]+")");
-                else if(itemdata[key].rarity == "Limited") limitedItems.push(itemdata[key].icon + sep + key + sep + "("+itemRow[key]+")");
+                if(itemdata[key].rarity == "Common") commonItems.push(key);
+                else if(itemdata[key].rarity == "Uncommon") uncommonItems.push(key);
+                else if(itemdata[key].rarity == "Rare") rareItems.push(key);
+                else if(itemdata[key].rarity == "Epic") epicItems.push(key);
+                else if(itemdata[key].rarity == "Legendary") legendItems.push(key);
+                else if(itemdata[key].rarity == "Ultra") ultraItems.push(key);
+                else if(itemdata[key].rarity == "Limited") limitedItems.push(key);
             }
             else{
                 if(itemdata[key].rarity == "Common") commonItems.push(sep + key + sep + "("+itemRow[key]+")");
@@ -436,6 +436,25 @@ class Methods {
             invValue += itemdata[key].sell * itemRow[key];
             itemCount+= itemRow[key];
         }
+        
+        commonItems.sort();
+        uncommonItems.sort();
+        rareItems.sort();
+        epicItems.sort();
+        legendItems.sort();
+        ultraItems.sort();
+        limitedItems.sort();
+
+        if(icon){
+            commonItems = commonItems.map(item => itemdata[item].icon + sep + item + sep + "(" + itemRow[item] + ")");
+            uncommonItems = uncommonItems.map(item => itemdata[item].icon + sep + item + sep + "(" + itemRow[item] + ")");
+            rareItems = rareItems.map(item => itemdata[item].icon + sep + item + sep + "(" + itemRow[item] + ")");
+            epicItems = epicItems.map(item => itemdata[item].icon + sep + item + sep + "(" + itemRow[item] + ")");
+            legendItems = legendItems.map(item => itemdata[item].icon + sep + item + sep + "(" + itemRow[item] + ")");
+            ultraItems = ultraItems.map(item => itemdata[item].icon + sep + item + sep + "(" + itemRow[item] + ")");
+            limitedItems =limitedItems.map(item => itemdata[item].icon + sep + item + sep + "(" + itemRow[item] + ")");    
+        }
+
         return {
             common: commonItems,
             uncommon: uncommonItems,

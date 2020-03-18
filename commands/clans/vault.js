@@ -67,37 +67,37 @@ async function getVaultInfo(message, lang, clanId){
     .setThumbnail(clanRow.iconURL)
     if(ultraItemList != ""){
         let newList = ultraItemList.join('\n');
-        embedInfo.addField("<:UnboxUltra:526248982691840003> Ultra", newList, true);
+        embedInfo.addField("Ultra", newList, true);
     }
     
     if(legendItemList != ""){
         let newList = legendItemList.join('\n');
-        embedInfo.addField("<:UnboxLegendary:526248970914234368> Legendary", newList, true);
+        embedInfo.addField("Legendary", newList, true);
     }
     
     if(epicItemList != ""){
         let newList = epicItemList.join('\n');
-        embedInfo.addField("<:UnboxEpic:526248961892155402> Epic", newList, true);
+        embedInfo.addField("Epic", newList, true);
     }
     
     if(rareItemList != ""){
         let newList = rareItemList.join('\n');
-        embedInfo.addField("<:UnboxRare:526248948579434496> Rare", newList, true);
+        embedInfo.addField("Rare", newList, true);
     }
     
     if(uncommonItemList != ""){
         let newList = uncommonItemList.join('\n');
-        embedInfo.addField("<:UnboxUncommon:526248928891371520> Uncommon", newList, true);
+        embedInfo.addField("Uncommon", newList, true);
     }
     
     if(commonItemList != ""){
         let newList = commonItemList.join('\n');
-        embedInfo.addField("<:UnboxCommon:526248905676029968> Common", newList, true);
+        embedInfo.addField("Common", newList, true);
     }
     
     if(limitedItemList != ""){
         let newList = limitedItemList.join('\n');
-        embedInfo.addField("🎁 Limited", newList, true);
+        embedInfo.addField("Limited", newList, true);
     }
     
     if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){
