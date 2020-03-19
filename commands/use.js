@@ -458,7 +458,8 @@ async function hitOrMiss(message, userNameID, itemUsed, ammoUsed, victimRow, use
         });
 
         query(`UPDATE scores SET health = ${parseInt(victimRow.health) - damage} WHERE userId = ${userNameID}`);
-        message.channel.send(lang.use.weapons[2].replace('{0}', '<@' + message.author.id + '>').replace('{1}', '<@' + userNameID + '>').replace('{2}', damage).replace('{3}', itemUsed).replace('{4}', victimRow.health - damage));
+
+        message.channel.send(await generateAttackString(message, userNameID, victimRow, damage, itemUsed, ammoUsed, isBroken, false));
         
         if(victimRow.notify2) notifyAttackVictim(message, userNameID, itemUsed, damage, victimRow);
     }
@@ -491,11 +492,15 @@ async function generateAttackString(message, victimId, victimRow, damage, itemUs
     }
 
     if(killed){
-        finalStr += ` ${icons.death_skull} **${victim.username} DIED!**`
+        finalStr += `\n${icons.death_skull} **${victim.username} DIED!**`
     }
     else{
-        if(Math.random() <= .5) finalStr += ` **${victim.username}** is spared with ${methods.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage}** health.`;
-        else finalStr += ` **${victim.username}** is left with ${methods.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage}** health.`;
+        if(Math.random() <= .5) finalStr += `\n**${victim.username}** is spared with ${methods.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage}** health.`;
+        else finalStr += `\n**${victim.username}** is left with ${methods.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage}** health.`;
+    }
+
+    if(itemUsed == 'peck_seed'){
+        finalStr += `\n**${victim.username}** was turned into a chicken and cannot use any commands for **2** hours!`;
     }
 
     if(itemBroke){

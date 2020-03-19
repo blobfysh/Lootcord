@@ -30,7 +30,6 @@ client.cache           = require('./utils/cache');
 client.commands        = new Discord.Collection();
 client.clanCommands    = new Discord.Collection();
 client.airdropTimes    = [];
-client.shieldTimes     = [];
 client.cdTimes         = [];
 client.commandsUsed    = {};
 client.restartLockdown = false;

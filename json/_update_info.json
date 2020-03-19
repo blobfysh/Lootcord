@@ -1,38 +1,4 @@
 {
-  "info": [
-    [
-      "🔹 **The ability to unequip shields with the `unequip` command.**",
-      "Unequipping shields will give you a 60 minute attack cooldown to prevent users from unequipping their shield bopping someone"
-    ],
-    [
-      "🔹 **Better trivia questions**",
-      "These new questions aren't insanely obscure and difficult like the previous."
-    ],
-    [
-      "🔹 **Airdrops!**",
-      "Random airdrops carrying a new item `care_package` will occasionally drop in a servers channel! Open the `care_package` to receive 3-15 items with a high chance for legendary items. Currently only available to players in the official Lootcord server, but expect this to be released to all servers after we're finished testing it."
-    ],
-    [
-      "🔹 **Cooldowns are now persistent after account deletion.**",
-      "No more \"`[REDACTED]`\" and \"`-12315431` minutes\""
-    ],
-    [
-      "🔹 *New* inventory **banners** that can be equipped and unequipped.",
-      "Everyone will start with the recruit banner but you can buy more with the buy command. Check information for a banner using the `item` command, they are treated the same as items except: **They don't take inventory space** and **they don't show in your inventory, instead they are displayed in the `profile` command.** Right now the only banners available are: `recruit`, `looter`, `killer`, and `hitman` but there's room for more in the future."
-    ],
-    [
-      "🔹 *New* **profile status.**",
-      "I felt like the profile command didn't have much purpose so what better than to allow everyone to express themselves on their profile! Change your status with the `setstatus` command, it even supports unicode emoji 😃"
-    ],
-    [
-      "🔹 **XP no longer rewarded per message sent.**",
-      "Instead, XP will be given for every box opened and kills. The XP you get from the box depends on: **what item you get from the box**, and **the type of box opened**. Keep in mind `xp_potion`'s are still a thing. Why change this??? To add more incentive to opening lower-tier boxes and discourage spamming."
-    ],
-    [
-      "🔹 **Translation preparation!**",
-      "The bot now supports language files. If you'd like to help translate the bot, join our official discord and grab a copy of the translation file!"
-    ]
-  ],
   "desc": [
     "🔹 **Source: **https://github.com/blobfysh/Lootcord",
     "🔹 Trading, clan deposit/withdraw requires lvl 3+",

@@ -27,6 +27,7 @@ module.exports = {
         const jackpotCD = methods.getCD(message.client, { userId: message.author.id, type: 'jackpot' });
         const airdropCD = methods.getCD(message.client, { userId: message.author.id, type: 'airdrop' });
         const deactivateCD = methods.getCD(message.client, { userId: message.author.id, type: 'deactivate' });
+        const xp_potionCD = methods.getCD(message.client, { userId: message.author.id, type: 'xp_potion' });
                     
         let hourlyReady = hourlyCD ? hourlyCD : "✅ ready"
         let triviaReady = triviaCD ? triviaCD : "✅ ready"
@@ -72,6 +73,9 @@ module.exports = {
         }
         if(deactivateCD){
             embedLeader.addField("deactivate", '`' + deactivateCD + '`', true)
+        }
+        if(xp_potionCD){
+            embedLeader.addField("xp_potion", '`' + xp_potionCD + '`', true)
         }
         message.channel.send(embedLeader);
     },
