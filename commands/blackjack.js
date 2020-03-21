@@ -117,7 +117,7 @@ module.exports = {
                         message.channel.send(loserEmbed(message, playerCards, dealerCards, 'you lost ' + methods.formatMoney(gambleAmount), gambleAmount));
                     }
                     else{ // player and dealer tied...
-                        message.channel.send(tieEmbed(message, playerCards, dealerCards, 'tied with dealer (You lose $0)', gambleAmount));
+                        message.channel.send(tieEmbed(message, playerCards, dealerCards, `tied with dealer (You lose ${methods.formatMoney(0)})`, gambleAmount));
                     }
                 }
             });
@@ -204,13 +204,12 @@ function genEmbed(message, playerCards, dealerCards, gambleAmount, dealerEmote =
     }
 
     const embed = new Discord.RichEmbed()
-    .setTitle('Blackjack')
-    .setThumbnail(message.author.avatarURL)
+    .setAuthor('Blackjack', message.author.avatarURL)
+    .setDescription('Type `hit` to draw another card or `stand` to pass.')
     .addField('Bet: ', methods.formatMoney(gambleAmount))
     .addBlankField()
     .addField(message.author.username + ` - **${hasAce(playerCards) && playerVal.score <= 21 ? playerVal.score + '/' + playerVal.minScore : playerVal.minScore}**`, playerString)
     .addField(`${dealerEmote} Dealer - **${dealerVal.score > 21 ? dealerVal.minScore : dealerVal.score}**`, dealerString)
-    .setFooter('Options: hit, stand')
     .setColor(13215302)
 
     return embed;
