@@ -8,18 +8,4 @@
   <h3 align="center"><strong>Collect items and battle your friends!</strong></h3>
 </div>
 
-## About
-Website: https://lootcord.com<br>
-Invite: https://lootcord.com/invite<br>
-Discord Server: https://discord.gg/7XNbdzP<br>
-
-## Commands
-Commands can be found [here](https://lootcord.com/commands).
-
-## Items
-A list of items and their descriptions can be found [here](https://lootcord.com/items).
-
-## Self-hosting when?
-Although I'm sure it can be done, self-hosting is not one of my priorites at the moment. Maybe for a future update.
-
-(Alternatively, if you know how to host it but just need the config json, contact me on Discord and I will send you trivia, scramble, and the example config files. **blobfysh#4679**)
+# THIS BRANCH IS HIGHLY UNSTABLE, AND IS ONLY USED FOR TESTING
