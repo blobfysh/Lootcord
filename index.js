@@ -4,6 +4,7 @@ const Sharder = require('eris-sharder').Master;
 const sharder = new Sharder('Bot ' + config.botToken, '/src/app.js', {
     name: 'Lootcord ' + require('./package').version,
     stats: true,
+    statsInterval: 120 * 1000,
     debug: config.debug,
     clusters: 2,
     shards: 2,

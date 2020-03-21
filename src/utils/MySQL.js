@@ -114,8 +114,10 @@ class MySQL {
     connect(){
         return new Promise((resolve, reject) => {
             this.db.connect(err => {
-                if(err) return reject('[MYSQL] Could not connect to SQL database. Did you create the database?');
-                
+                if(err) {
+                    console.error('[MYSQL] Could not connect to SQL database. Did you create the database?');
+                    return reject(err);
+                }
                 console.log('[MYSQL] MySQL connected!');
                 resolve('[MYSQL] MySQL connected!');
             });
@@ -180,7 +182,7 @@ class MySQL {
         }
         catch(err){
             console.error('[MYSQL] Error creating tables:');
-            console.log(err);
+            return err;
         }
     }
 

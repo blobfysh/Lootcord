@@ -8,7 +8,7 @@ class Cooldown {
     /**
      * Gives player a cooldown of specified type
      * 
-     * @param {string} userId User to give cooldown
+     * @param {string} userId User to give cooldown, does not have to be a user ID.
      * @param {string} type Type of cooldown
      * @param {number} time Time in milliseconds cooldown lasts
      * @param {{ignoreQuery: boolean}} options ignoreQuery is only used when bot starting up to prevent multiple table entries

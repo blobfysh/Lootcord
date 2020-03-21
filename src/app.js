@@ -2,6 +2,7 @@ const Base           = require('eris-sharder').Base;
 const Eris           = require('eris');
                        require('eris-additions')(Eris, {disabled: ['Eris.Embed']});
 
+const cluster        = require('cluster');
 const fs             = require('fs');
 const Embed          = require('embedcord');
 
@@ -9,6 +10,8 @@ const config         = require('./resources/config/config');
 const CommandHandler = require('./utils/CommandHandler');
 const MySQL          = require('./utils/MySQL');
 const Cooldowns      = require('./utils/Cooldowns');
+const Items          = require('./utils/Items');
+const Player         = require('./utils/Player');
 
 const events         = fs.readdirSync(__dirname + '/events');
 const categories     = fs.readdirSync(__dirname + '/commands');
@@ -25,6 +28,8 @@ class Lootcord extends Base {
         this.cache = require('./utils/cache');
         this.mysql = new MySQL(config);
         this.cd = new Cooldowns(this);
+        this.itm = new Items(this);
+        this.player = new Player(this);
         this.Embed = Embed.DiscordEmbed;
         this.commandHandler = new CommandHandler(this);
     }
@@ -34,7 +39,19 @@ class Lootcord extends Base {
         await this.mysql.createDB(); // create database structure
         this.initIPC();
 
-        console.log('Bot connected, db ready!');
+        if(cluster.worker.id === 1) {
+            // only run these on main cluster, cooldowns only need to be refreshed once for all other clusters
+            await this.refreshCooldowns();
+
+            //TODO airdrops start here
+        }
+
+        this.bot.editStatus(null, {
+            name: 't-help',
+            type: 0
+        });
+
+        console.log('[APP] Listening for events');
         for(var event of events){
             this.bot.on(event.replace('.js', ''), require(`./events/${event}`).run.bind(this));
         }
@@ -78,6 +95,24 @@ class Lootcord extends Base {
 
     query(sql, args){
         return this.mysql.query(sql, args);
+    }
+
+    async refreshCooldowns(){
+        const rows = await this.query(`SELECT * FROM cooldown`);
+        let cdsAdded = 0;
+
+        for(var cdInfo of rows){
+            if(cdInfo.userId !== undefined){
+                let timeLeft = (cdInfo.length) - ((new Date()).getTime() - cdInfo.start);
+                if(timeLeft > 0){
+                    await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true });
+                    
+                    cdsAdded++;
+                }
+            }
+        }
+
+        console.log('[APP] ' + cdsAdded + " cooldowns refreshed.");
     }
 }
 

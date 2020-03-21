@@ -3,13 +3,44 @@ const tips = require('../../resources/json/tips');
 module.exports = {
     name: 'help',
     aliases: [''],
-    description: '',
+    description: 'helpception',
+    long: 'helpception',
+    args: {
+        "command": "Command to lookup info for."
+    },
+    examples: ["help inv"],
+    ignoreHelp: false,
     requiresAcc: false,
+    requiresActive: false,
+    guildModsOnly: false,
     
     execute(app, message){
+        if(message.args[0]){
+            let cmd = app.commands.get(message.args[0]) || app.commands.find(cmd => cmd.aliases && cmd.aliases.includes(message.args[0]));
+
+            if(!cmd) return message.reply("❌ That command doesn't exist!");
+
+            // disable command lookup of admin/moderator commands
+            if(cmd.category == 'admin' || cmd.category == 'moderation') return message.reply("❌ That command doesn't exist!");
+
+            const embed = new app.Embed()
+            .setTitle(`🔎 ${cmd.name}`)
+            .setDescription(cmd.long)
+
+            if(cmd.examples.length && cmd.examples[0].length) embed.addField("Examples", cmd.examples.map(ex => '`' + message.prefix + ex + '`').join(', '))
+            if(cmd.aliases.length && cmd.aliases[0].length) embed.addField("Aliases", cmd.aliases.map(alias => '`' + alias + '`').join(', '))
+            embed.addField("Usage", '`' + getUsage(message.prefix, cmd) + '`')
+            if(cmd.args.length) embed.addField("Options", getOptions(cmd))
+            embed.setColor(13215302)
+
+            return message.channel.createMessage(embed);
+        }
+
         let categories = {};
         
         app.commands.forEach(cmd => {
+            if(cmd.ignoreHelp) return;
+
             if(categories[cmd.category]){
                 categories[cmd.category].push(cmd.name);
             }
@@ -19,8 +50,8 @@ module.exports = {
         });
 
         const embed = new app.Embed()
-        .setTitle('t!play - Creates an account!')
-        .setFooter('To see more about a command, use help <command> | Need more help? Message me!')
+        .setTitle(message.prefix + 'play - Creates an account!')
+        .setFooter(`To see more about a command, use ${message.prefix}help <command> | Need more help? Message me!`)
         .setColor(13215302)
 
         Object.keys(categories).forEach(category => {
@@ -37,4 +68,24 @@ module.exports = {
 
         message.channel.createMessage(embed);
     },
+}
+
+function getUsage(prefix, cmd){
+    let finalStr = `${prefix}${cmd.name}`;
+
+    for(let arg of Object.keys(cmd.args)){
+        finalStr += ` <${arg}>`;
+    }
+
+    return finalStr;
+}
+
+function getOptions(cmd){
+    let finalStr = '';
+
+    for(let arg of Object.keys(cmd.args)){
+        finalStr += `\`${arg}\` - ${cmd.args[arg]}\n`
+    }
+
+    return finalStr;
 }

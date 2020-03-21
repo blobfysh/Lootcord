@@ -1,8 +1,14 @@
 module.exports = {
     name: 'eval',
     aliases: [''],
-    description: 'Admin-only command.',
+    description: "Admin-only command.",
+    long: "Runs code on the bot.",
+    args: {"input": "Code to run."},
+    examples: ["eval 2+2"],
+    ignoreHelp: false,
     requiresAcc: false,
+    requiresActive: false,
+    guildModsOnly: false,
     
     async execute(app, message){
         let commandInput = message.content.substring(6);

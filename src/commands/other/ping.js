@@ -2,9 +2,16 @@ const util = require('util');
 
 module.exports = {
     name: 'ping',
-    aliases: ['pang'],
-    description: 'Ping!',
+    aliases: [''],
+    description: "Check the bot's ping",
+    long: "Check the bot's ping",
+    args: {},
+    examples: ["ping"],
+    ignoreHelp: true,
     requiresAcc: false,
+    requiresActive: false,
+    guildModsOnly: false,
+    
     
     async execute(app, message){
         console.log(app.bot.shards.get(app.bot.guildShardMap[message.channel.guild.id]).latency);
