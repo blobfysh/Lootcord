@@ -1,3 +1,5 @@
+const badgedata = require('../resources/json/badges');
+
 class Items {
     constructor(app){
         this.app = app;
@@ -104,6 +106,21 @@ class Items {
         }
     
         return itemObj;
+    }
+
+    /**
+     * 
+     * @param {*} id User to retrieve badges for (in an array format).
+     */
+    async getBadges(id){
+        const badges = (await this.app.query(`SELECT badge FROM badges WHERE userId = "${id}"`));
+        let badgeArr = [];
+
+        for(let badge of badges){
+            if(badgedata[badge.badge]) badgeArr.push(badge.badge);
+        }
+
+        return badgeArr;
     }
 }
 
