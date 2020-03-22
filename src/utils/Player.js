@@ -63,7 +63,7 @@ class Player {
      * @param {string} guild Guild to check if user is active in
      */
     async isActive(id, guild){
-        if((await query(`SELECT * FROM userGuilds WHERE userId = ${id} AND guildId = ${guild}`)).length){
+        if((await this.app.query(`SELECT * FROM userGuilds WHERE userId = ${id} AND guildId = ${guild}`)).length){
             return true;
         }
         

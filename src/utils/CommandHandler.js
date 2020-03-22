@@ -3,10 +3,11 @@ class CommandHandler {
         this.app = app;
         this.spamCooldown = new Set();
         this.prefix = app.config.prefix;
+        this.argParser = require('./argParser');
     }
 
     async handle(message){
-        const prefix = message.channel.guild ? await this.getPrefix(message.channel.guild.id) : this.prefix;
+        const prefix = message.guild ? await this.getPrefix(message.guild.id) : this.prefix;
 
         if(!message.content.toLowerCase().startsWith(prefix)) return;
 
@@ -18,7 +19,7 @@ class CommandHandler {
         if(!command) return;
 
         // makes sure command wasn't used in DM's
-        if(!message.channel.guild) return;
+        if(!message.guild) return;
 
         // makes sure bot has all permissions from config (prevents permission-related errors)
         if(!this.botHasPermissions(message)) return;
@@ -44,7 +45,7 @@ class CommandHandler {
         if(command.requiresAcc && !(await this.app.player.hasAccount(message.author.id))) return message.channel.createMessage(`❌ You need an account to use that command. Use \`${prefix}play\` to make one!`);
 
         // check if command requires an active account (player would be elligible to be attacked) in the server
-        if(command.requiresAcc && command.requiresActive && !(await this.app.player.isActive(message.author.id, message.channel.guild.id))) return message.channel.createMessage(`❌ You need to activate before using that command here! Use \`${prefix}play\` to activate.`);
+        if(command.requiresAcc && command.requiresActive && !(await this.app.player.isActive(message.author.id, message.guild.id))) return message.channel.createMessage(`❌ You need to activate before using that command here! Use \`${prefix}play\` to activate.`);
         
         // check if user has manage server permission before running guildModsOnly command
         if(command.guildModsOnly && !message.member.permission.has('manageGuild')) return message.channel.createMessage('❌ You need the `Manage Server` permission to use this command!');
@@ -72,6 +73,9 @@ class CommandHandler {
         msg.args = args;
         msg.prefix = prefix;
         msg.sentTime = Date.now();
+        msg.items = this.argParser.getItemsFromArgs(args);
+        msg.numbers = this.argParser.getNumbersFromArgs(args);
+        msg.badges = this.argParser.getBadgesFromArgs(args);
         msg.reply = function(content){
             return msg.channel.createMessage({content: `<@${msg.author.id}>, ` + content});
         }

@@ -11,14 +11,14 @@ module.exports = {
     guildModsOnly: true,
     
     async execute(app, message){
-        const guildRow = (await app.query(`SELECT * FROM guildInfo WHERE guildId ="${message.channel.guild.id}"`))[0];
+        const guildRow = (await app.query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`))[0];
         
         if(guildRow.levelChan == 0){
-            await app.query(`UPDATE guildInfo SET levelChan = "${message.channel.id}" WHERE guildId = "${message.channel.guild.id}"`);
+            await app.query(`UPDATE guildInfo SET levelChan = "${message.channel.id}" WHERE guildId = "${message.guild.id}"`);
             message.reply('✅ Now sending level up messages to this channel!');
         }
         else{
-            await app.query(`UPDATE guildInfo SET levelChan = 0 WHERE guildId = "${message.channel.guild.id}"`);
+            await app.query(`UPDATE guildInfo SET levelChan = 0 WHERE guildId = "${message.guild.id}"`);
             message.reply('✅ Disabled level channel for this server!');
         }
     },

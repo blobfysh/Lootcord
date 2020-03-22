@@ -17,14 +17,14 @@ module.exports = {
             return message.reply(`Please enter a prefix up to 5 characters long! \`${message.prefix}setprefix *****\``);
         }
 
-        let prefixRow = (await app.query(`SELECT * FROM guildPrefix WHERE guildId = "${message.channel.guild.id}"`))[0];
+        let prefixRow = (await app.query(`SELECT * FROM guildPrefix WHERE guildId = "${message.guild.id}"`))[0];
 
-        if(prefixRow) await app.query(`DELETE FROM guildPrefix WHERE guildId = "${message.channel.guild.id}"`);
+        if(prefixRow) await app.query(`DELETE FROM guildPrefix WHERE guildId = "${message.guild.id}"`);
 
         prefixString = prefixString.toLowerCase();
 
-        await app.query("INSERT IGNORE INTO guildPrefix (guildId, prefix) VALUES (?, ?)", [message.channel.guild.id, prefixString]);
-        await app.cache.set(`prefix|${message.channel.guild.id}`, prefixString, 43200);
+        await app.query("INSERT IGNORE INTO guildPrefix (guildId, prefix) VALUES (?, ?)", [message.guild.id, prefixString]);
+        await app.cache.set(`prefix|${message.guild.id}`, prefixString, 43200);
             
         message.reply(`Server prefix successfully changed to \`${prefixString}\``);
     },

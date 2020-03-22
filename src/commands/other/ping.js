@@ -14,11 +14,9 @@ module.exports = {
     
     
     async execute(app, message){
-        console.log(app.bot.shards.get(app.bot.guildShardMap[message.channel.guild.id]).latency);
+        console.log(app.bot.shards.get(app.bot.guildShardMap[message.guild.id]).latency);
 
-        console.log(require('util').inspect(await app.query(`INSERT INTO cooldown (userId, type, start, length) VALUES (?, ?, ?, ?)`, [message.author.id, 'attack', new Date().getTime(), 10000])));
-        
-        message.reply('hey!');
+        message.reply('items found in message:```\n' + message.items.join('\n') + '```');
         /*
         try{
             let user = await app.bot.users.get('168958344361541633');
