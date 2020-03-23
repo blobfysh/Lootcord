@@ -1,4 +1,3 @@
-const itemdata = require('../../resources/json/items/completeItemList');
 
 module.exports = {
     name: 'play',
@@ -34,7 +33,7 @@ module.exports = {
         const embedInfo = new app.Embed()
         .setTitle(`Thanks for joining LOOTCORD ${message.member.effectiveName}!`)
         .setColor(14202368)
-        .addField("Items Received","**1x** " + itemdata['item_box'].icon + "`item_box`")
+        .addField("Items Received","**1x** " + app.itemdata['item_box'].icon + "`item_box`")
         .setFooter("Open it with t-use item_box")
         .setImage("https://cdn.discordapp.com/attachments/454163538886524928/525315435382571028/lc_welcome.png")
 

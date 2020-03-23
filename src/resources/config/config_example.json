@@ -21,6 +21,7 @@
   "base_inv_slots":     15,
   "clan_interest_rate": 0.005,
   "adminUsers":         ["168958344361541633"],
+  "requiredPerms":      ["sendMessages", "addReactions", "manageMessages", "embedLinks", "attachFiles", "externalEmojis", "readMessageHistory"],
 
   "activeRoleGuilds": {
   },

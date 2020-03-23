@@ -1,4 +1,3 @@
-const itemdata = require('../../resources/json/items/completeItemList');
 
 module.exports = {
     name: 'setammo',
@@ -13,7 +12,7 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
-        let equipItem = message.items[0];
+        let equipItem = app.parse.items(message.args)[0];
 
         if(message.args[0].toLowerCase() == 'none'){
             await app.query(`UPDATE scores SET ammo = 'none' WHERE userId = ${message.author.id}`);
@@ -24,7 +23,7 @@ module.exports = {
             return message.reply("❌ I don't recognize that item.");
         }
         //TODO make it check item type == 'ammo'
-        else if(!itemdata[equipItem].isAmmo.length){
+        else if(!app.itemdata[equipItem].isAmmo.length){
             return message.reply("❌ That isn't a type of ammunition.");
         }
         else if(!await app.itm.hasItems(message.author.id, equipItem, 1)){
@@ -33,6 +32,6 @@ module.exports = {
 
         await query(`UPDATE scores SET ammo = '${equipItem}' WHERE userId = ${message.author.id}`);
 
-        message.reply(`✅ Successfully set ${itemdata[equipItem].icon}\`${equipItem}\` as your preferred ammo type. (Will prioritize over other ammo types.)`);
+        message.reply(`✅ Successfully set ${app.itemdata[equipItem].icon}\`${equipItem}\` as your preferred ammo type. (Will prioritize over other ammo types.)`);
     },
 }

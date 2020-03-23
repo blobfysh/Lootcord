@@ -95,6 +95,46 @@ class Items {
 
     /**
      * 
+     * @param {string} id ID of user to check
+     * @param {number} amount Amount of items to check if user has space for
+     */
+    async hasSpace(id, amount = 0){
+        const itemCt = await this.getItemCount(id);
+        
+        console.log((itemCt.itemCt + parseInt(amount)) + " <= " + itemCt.maxCt);
+
+        if((itemCt.itemCt + parseInt(amount)) <= itemCt.maxCt) return true;
+        else return false;
+    }
+    async getItemCount(id, cntTokens = false, cntBanners = false){
+        const userItems = await this.getItemObject(id);
+        const scoreRow  = await this.app.player.getRow(id);
+
+        let totalItemCt = 0;
+
+        Object.keys(this.app.itemdata).forEach(key => {
+            if(userItems[key] > 0){
+                if(key == 'token' && cntTokens){
+                    totalItemCt += userItems[key];
+                }
+                else if(this.app.itemdata[key].isBanner && cntBanners){
+                    totalItemCt += userItems[key];
+                }
+                else if(key !== 'token' && !this.app.itemdata[key].isBanner){
+                    totalItemCt += userItems[key];
+                }
+            }
+        });
+
+        return {
+            itemCt: totalItemCt,
+            maxCt: (this.app.config.base_inv_slots + scoreRow.inv_slots),
+            capacity: (totalItemCt + "/" + (this.app.config.base_inv_slots + scoreRow.inv_slots))
+        }
+    }
+
+    /**
+     * 
      * @param {*} id User to retrieve items for (in an object format).
      */
     async getItemObject(id){
@@ -102,7 +142,7 @@ class Items {
         var itemObj = {}
     
         for(var i = 0; i < itemRows.length; i++){
-            itemObj[itemRows[i].item] = itemRows[i].amount;
+            if(this.app.itemdata[itemRows[i].item]) itemObj[itemRows[i].item] = itemRows[i].amount;
         }
     
         return itemObj;

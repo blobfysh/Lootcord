@@ -3,7 +3,6 @@ class CommandHandler {
         this.app = app;
         this.spamCooldown = new Set();
         this.prefix = app.config.prefix;
-        this.argParser = require('./argParser');
     }
 
     async handle(message){
@@ -73,9 +72,6 @@ class CommandHandler {
         msg.args = args;
         msg.prefix = prefix;
         msg.sentTime = Date.now();
-        msg.items = this.argParser.getItemsFromArgs(args);
-        msg.numbers = this.argParser.getNumbersFromArgs(args);
-        msg.badges = this.argParser.getBadgesFromArgs(args);
         msg.reply = function(content){
             return msg.channel.createMessage({content: `<@${msg.author.id}>, ` + content});
         }

@@ -69,6 +69,31 @@ class Player {
         
         return false;
     }
+
+    /**
+     * Returns an icon based on how much health player has
+     * @param {number} curHP Player's current health
+     * @param {number} maxHP Player's maximum health
+     */
+    getHealthIcon(curHP, maxHP){
+        let hpPerc = curHP / maxHP;
+
+        if(hpPerc >= .75){
+            return icons.health.full;
+        }
+        else if(hpPerc >= .5){
+            return icons.health.percent_75;
+        }
+        else if(hpPerc >= .25){
+            return icons.health.percent_50;
+        }
+        else if(hpPerc >= .1){
+            return icons.health.percent_25;
+        }
+        else{
+            return icons.health.empty;
+        }
+    }
 }
 
 const insertScoreSQL = `

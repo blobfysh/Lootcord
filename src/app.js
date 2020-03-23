@@ -12,6 +12,7 @@ const MySQL          = require('./utils/MySQL');
 const Cooldowns      = require('./utils/Cooldowns');
 const Items          = require('./utils/Items');
 const Player         = require('./utils/Player');
+const ArgParser      = require('./utils/ArgParser');
 
 const events         = fs.readdirSync(__dirname + '/events');
 const categories     = fs.readdirSync(__dirname + '/commands');
@@ -20,9 +21,9 @@ class Lootcord extends Base {
     constructor(bot){
         super(bot);
 
-
         this.isReady = true;
         this.config = config;
+        this.itemdata = require('./resources/json/items/completeItemList');
         this.commands = this.loadCommands();
         this.sets = this.loadSets();
         this.cache = require('./utils/cache');
@@ -30,6 +31,7 @@ class Lootcord extends Base {
         this.cd = new Cooldowns(this);
         this.itm = new Items(this);
         this.player = new Player(this);
+        this.parse = new ArgParser(this);
         this.Embed = Embed.DiscordEmbed;
         this.commandHandler = new CommandHandler(this);
     }
@@ -90,6 +92,11 @@ class Lootcord extends Base {
     initIPC(){
         this.ipc.register('clearCD', (msg) => {
             this.cd.clearTimers(msg.userId, msg.type);
+        });
+        this.ipc.register('reloadItems', (msg) => {
+            delete require.cache[require.resolve('./resources/json/items/completeItemList')]
+            this.itemdata = require('./resources/json/items/completeItemList');
+            this.parse = new ArgParser(this); // must reload arg parser so the spell correction can update
         });
     }
 
