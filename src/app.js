@@ -7,12 +7,17 @@ const fs             = require('fs');
 const Embed          = require('embedcord');
 
 const config         = require('./resources/config/config');
+const icons          = require('./resources/config/icons');
 const CommandHandler = require('./utils/CommandHandler');
 const MySQL          = require('./utils/MySQL');
 const Cooldowns      = require('./utils/Cooldowns');
 const Items          = require('./utils/Items');
 const Player         = require('./utils/Player');
 const ArgParser      = require('./utils/ArgParser');
+const Reactor        = require('./utils/Reactor');
+const Discoin        = require('./utils/Discoin');
+const Messager       = require('./utils/Messager');
+const Common         = require('./utils/Common');
 
 const events         = fs.readdirSync(__dirname + '/events');
 const categories     = fs.readdirSync(__dirname + '/commands');
@@ -23,11 +28,16 @@ class Lootcord extends Base {
 
         this.isReady = true;
         this.config = config;
+        this.icons = icons;
         this.itemdata = require('./resources/json/items/completeItemList');
         this.commands = this.loadCommands();
         this.sets = this.loadSets();
         this.cache = require('./utils/cache');
         this.mysql = new MySQL(config);
+        this.common = new Common(icons);
+        this.react = new Reactor(icons);
+        this.discoin = new Discoin(this);
+        this.messager = new Messager(this);
         this.cd = new Cooldowns(this);
         this.itm = new Items(this);
         this.player = new Player(this);
@@ -66,6 +76,8 @@ class Lootcord extends Base {
             const commandFiles = fs.readdirSync(__dirname + `/commands/${category}`);
         
             for(var file of commandFiles){
+                if(file == 'convert.js' && this.config.debug) continue; // removes convert command to prevent issues with Discoin api
+
                 const command = require(`./commands/${category}/${file}`);
     
                 // set command category based on which folder it's in

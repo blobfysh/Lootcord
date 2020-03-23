@@ -33,15 +33,20 @@ class CommandHandler {
             return;
         }
 
+        const account = await this.app.player.getRow(message.author.id);
+
         // chcek if user is admin before running admin command
         if(command.category == "admin" && !this.app.sets.adminUsers.has(message.author.id)) return;
 
         // ignore mod command if user is not a moderator or admin
         if(command.category == "moderation" && (!this.app.sets.moderators.has(message.author.id) && !this.app.sets.adminUsers.has(message.author.id))) return;
 
-        // check if command requires an account at all. 
         //TODO make this automatic by creating account here
-        if(command.requiresAcc && !(await this.app.player.hasAccount(message.author.id))) return message.channel.createMessage(`❌ You need an account to use that command. Use \`${prefix}play\` to make one!`);
+        // check if command requires an account at all. 
+        if(command.requiresAcc && !(account)) return message.channel.createMessage(`❌ You need an account to use that command. Use \`${prefix}play\` to make one!`);
+
+        // check if player meets the minimum level required to run the command
+        if(command.levelReq && (account.level < command.levelReq)) return message.channel.createMessage('❌ You must be atleast level `' + command.levelReq + '` to use that command!');
 
         // check if command requires an active account (player would be elligible to be attacked) in the server
         if(command.requiresAcc && command.requiresActive && !(await this.app.player.isActive(message.author.id, message.guild.id))) return message.channel.createMessage(`❌ You need to activate before using that command here! Use \`${prefix}play\` to activate.`);

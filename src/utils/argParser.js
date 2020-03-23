@@ -165,6 +165,44 @@ class ArgParser {
     
         return badgeArgs.filter(arg => arg !== undefined);
     }
+
+    /**
+     * 
+     * @param {*} message Discord message object
+     * @param {string[]} args Array of args to find members from
+     * @returns {Array<Member>} Array of members
+     */
+    members(message, args){
+        let userArgs = args.map((arg, i) => {
+
+            // regex tests for <@!1234etc>, will pass when player mentions someone or types a user id
+            if(/^<?@?!?(\d+)>?$/.test(arg)){
+                
+                // remove <, @, !, > characters from arg to leave only numbers
+                let userId = arg.match(/^<?@?!?(\d+)>?$/)[1];
+
+                // find member matching id
+                let member = message.guild.members.find(member => member.id === userId);
+
+                return member;
+            }
+            else if(/^(.*)#([0-9]{4})$/.test(arg)){
+                let userTag = arg.split('#');
+                let member = message.guild.members.find(member => member.username.toLowerCase() === userTag[0].toLowerCase() && member.discriminator === userTag[1]);
+                
+                return member;
+            }
+
+            // no user found
+            else return undefined;
+        });
+
+        return userArgs.filter(arg => arg !== undefined);
+    }
+
+    getUser(userId){
+        this.msg.channel.guild.members.find(member => `${member.username}#${member.discriminator}` === args || `${member.nick}#${member.discriminator}` === args);
+    }
 }
 
 module.exports = ArgParser;

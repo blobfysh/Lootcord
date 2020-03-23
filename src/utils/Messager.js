@@ -1,0 +1,45 @@
+
+class Messager {
+    constructor(app){
+        this.app = app;
+        this.config = app.config;
+        this.modChannel = app.config.modChannel;
+        this.logChannel = app.config.logChannel;
+        this.modRoleID = app.config.modRoleID;
+    }
+
+    /**
+     * 
+     * @param {{content: string, embed: DiscordEmbed}} message Message object to send
+     * @param {{ping: boolean}} options Ping will ping the moderators to notify of message
+     */
+    messageMods(message, options = { ping: false }){
+        try{
+            if(options.ping){
+                message.content = `<@&${this.modRoleID}>, ` + (message.content ? message.content : '');
+                this.app.bot.createMessage(this.modChannel, message);
+            }
+            else{
+                this.app.bot.createMessage(this.modChannel, message);
+            }
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+
+    /**
+     * 
+     * @param {{content: string, embed: DiscordEmbed}|DiscordEmbed} message 
+     */
+    messageLogs(message){
+        try{
+            this.app.bot.createMessage(this.logChannel, message);
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+}
+
+module.exports = Messager;

@@ -79,20 +79,54 @@ class Player {
         let hpPerc = curHP / maxHP;
 
         if(hpPerc >= .75){
-            return icons.health.full;
+            return this.app.icons.health.full;
         }
         else if(hpPerc >= .5){
-            return icons.health.percent_75;
+            return this.app.icons.health.percent_75;
         }
         else if(hpPerc >= .25){
-            return icons.health.percent_50;
+            return this.app.icons.health.percent_50;
         }
         else if(hpPerc >= .1){
-            return icons.health.percent_25;
+            return this.app.icons.health.percent_25;
         }
         else{
-            return icons.health.empty;
+            return this.app.icons.health.empty;
         }
+    }
+
+    /**
+     * Checks if players has the amount specified
+     * @param {string} id ID of player to check
+     * @param {number} amount Amount of money to check
+     */
+    async hasMoney(id, amount){
+        let row = await this.getRow(id);
+        
+        if(row.money >= amount){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    /**
+     * 
+     * @param {string} id ID of player to remove from
+     * @param {number} amount Amount to remove
+     */
+    async removeMoney(id, amount){
+        await this.app.query(`UPDATE scores SET money = money - ${parseInt(amount)} WHERE userId = ${id}`);
+    }
+
+    /**
+     * 
+     * @param {*} id ID of user to add money to.
+     * @param {*} amount Amount of money to add.
+     */
+    async addMoney(id, amount){
+        await this.app.query(`UPDATE scores SET money = money + ${parseInt(amount)} WHERE userId = ${id}`);
     }
 }
 

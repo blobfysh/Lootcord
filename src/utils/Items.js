@@ -106,6 +106,7 @@ class Items {
         if((itemCt.itemCt + parseInt(amount)) <= itemCt.maxCt) return true;
         else return false;
     }
+
     async getItemCount(id, cntTokens = false, cntBanners = false){
         const userItems = await this.getItemObject(id);
         const scoreRow  = await this.app.player.getRow(id);
@@ -146,6 +147,93 @@ class Items {
         }
     
         return itemObj;
+    }
+
+    /**
+     * 
+     * @param {string} userId User to get item display for
+     * @param {*} options
+     * @returns {{onlyBanners:boolean,countBanners:boolean,countLimited:boolean}} Object with array for each item rarity, and value of all items in inventory
+     */
+    async getUserItems(userId, options = { onlyBanners: false, countBanners: false, countLimited: true }){
+        const itemRow = await this.getItemObject(userId);
+        let commonItems   = [];
+        let uncommonItems = [];
+        let rareItems     = [];
+        let epicItems     = [];
+        let legendItems   = [];
+        let ultraItems    = [];
+        let limitedItems  = [];
+        let invValue      = 0;
+        let itemCount     = 0;
+
+        let filteredItems = Object.keys(this.app.itemdata).filter(item => {
+            if(options.onlyBanners){
+                if(this.app.itemdata[item].isBanner) return true;
+                else return false;
+            }
+            else if(options.countBanners && options.countLimited){
+                return true;
+            }
+            else if(!options.countBanners && options.countLimited){
+                if(!this.app.itemdata[item].isBanner) return true;
+                else return false;
+            }
+            else if(options.countBanners && !options.countLimited){
+                if(this.app.itemdata[item].isBanner && this.app.itemdata[item].rarity !== 'Limited') return true
+                else if(!this.app.itemdata[item].isBanner && this.app.itemdata[item].rarity !== 'Limited') return true
+                else return false;
+            }
+        });
+
+        for(let key of filteredItems){
+            if(itemRow[key] >= 1){
+                addIt(key);
+            }
+        }
+
+        function addIt(key){
+            switch(this.app.itemdata[key].rarity){
+                case "Common": commonItems.push(key); break;
+                case "Uncommon": uncommonItems.push(key); break;
+                case "Rare": rareItems.push(key); break;
+                case "Epic": epicItems.push(key); break;
+                case "Legendary": legendItems.push(key); break;
+                case "Ultra": ultraItems.push(key); break;
+                case "Limited": limitedItems.push(key); break;
+            }
+
+            invValue += itemdata[key].sell * itemRow[key];
+            itemCount+= itemRow[key];
+        }
+        
+        commonItems.sort();
+        uncommonItems.sort();
+        rareItems.sort();
+        epicItems.sort();
+        legendItems.sort();
+        ultraItems.sort();
+        limitedItems.sort();
+
+        commonItems = commonItems.map(item => itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
+        uncommonItems = uncommonItems.map(item => itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
+        rareItems = rareItems.map(item => itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
+        epicItems = epicItems.map(item => itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
+        legendItems = legendItems.map(item => itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
+        ultraItems = ultraItems.map(item => itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
+        limitedItems = limitedItems.map(item => itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
+
+        return {
+            common: commonItems,
+            uncommon: uncommonItems,
+            rare: rareItems,
+            epic: epicItems,
+            legendary: legendItems,
+            ultra: ultraItems,
+            limited: limitedItems,
+            invValue: invValue,
+            itemCount: itemCount
+        }
     }
 
     /**

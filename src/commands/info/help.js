@@ -30,7 +30,7 @@ module.exports = {
             if(cmd.examples.length && cmd.examples[0].length) embed.addField("Examples", cmd.examples.map(ex => '`' + message.prefix + ex + '`').join(', '))
             if(cmd.aliases.length && cmd.aliases[0].length) embed.addField("Aliases", cmd.aliases.map(alias => '`' + alias + '`').join(', '))
             embed.addField("Usage", '`' + getUsage(message.prefix, cmd) + '`')
-            if(cmd.args.length) embed.addField("Options", getOptions(cmd))
+            if(Object.keys(cmd.args).length) embed.addField("Options", getOptions(cmd))
             embed.setColor(13215302)
 
             return message.channel.createMessage(embed);
@@ -59,8 +59,8 @@ module.exports = {
             else if(category == 'games') embed.addField('🎲 Games and Rewards', categories[category].map(cmd => '`' + cmd + '`').join(', '));
             else if(category == 'info') embed.addField('📋 Info', categories[category].map(cmd => '`' + cmd + '`').join(', '));
             else if(category == 'blackmarket') embed.addField('💰 Black Market', categories[category].map(cmd => '`' + cmd + '`').join(', '));
-            else if(category == 'utilities') embed.addField('⚙ Utility', categories[category].map(cmd => '`' + cmd + '`').join(', '));
             else if(category == 'other') embed.addField('📈 Other', categories[category].map(cmd => '`' + cmd + '`').join(', '));
+            else if(category == 'utilities') embed.addField('⚙ Utility', categories[category].map(cmd => '`' + cmd + '`').join(', '));
         });
         
         embed.addField('⚔️ Clans', 'Use `clan help` to see clan commands. Check this [link](https://github.com/blobfysh/Lootcord/wiki/Clans) out for more details on how clans work.')

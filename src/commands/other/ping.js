@@ -16,7 +16,7 @@ module.exports = {
     async execute(app, message){
         console.log(app.bot.shards.get(app.bot.guildShardMap[message.guild.id]).latency);
         let items = app.parse.items(message.args);
-        message.reply('items found in message:```\n' + items.join('\n') + '```');
+        message.reply('items found in message:```\n' + items.join('\n') + '```');;
         /*
         try{
             let user = await app.bot.users.get('168958344361541633');
