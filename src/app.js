@@ -19,6 +19,7 @@ const Discoin        = require('./utils/Discoin');
 const Messager       = require('./utils/Messager');
 const Common         = require('./utils/Common');
 const Leaderboard    = require('./utils/Leaderboard');
+const Airdrop        = require('./utils/Airdrop');
 
 const events         = fs.readdirSync(__dirname + '/events');
 const categories     = fs.readdirSync(__dirname + '/commands');
@@ -46,6 +47,7 @@ class Lootcord extends Base {
         this.leaderboard = new Leaderboard(this);
         this.parse = new ArgParser(this);
         this.Embed = Embed.DiscordEmbed;
+        this.airdrop = new Airdrop(this);
         this.commandHandler = new CommandHandler(this);
     }
 
@@ -59,7 +61,7 @@ class Lootcord extends Base {
             await this.refreshCooldowns();
             await this.refreshLists();
 
-            //TODO airdrops start here
+            await this.startAirdrops();
         }
 
         this.bot.editStatus(null, {
@@ -160,6 +162,16 @@ class Lootcord extends Base {
         for(let banned of tradeBannedRows){
             if(banned.userId !== undefined && banned.userId !== null){
                 await this.cache.setNoExpire(`tradeban|${banned.userId}`, 'Tradebanned perma');
+            }
+        }
+    }
+
+    async startAirdrops(){
+        const airdropRows = await this.query(`SELECT * FROM guildInfo WHERE dropChan != 0`);
+
+        for(var i = 0; i < airdropRows.length; i++){
+            if(airdropRows[i].guildId !== undefined && airdropRows[i].guildId !== null && airdropRows[i].dropChan !== 0){
+                await this.airdrop.initAirdrop(airdropRows[i].guildId);
             }
         }
     }
