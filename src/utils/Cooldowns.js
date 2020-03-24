@@ -53,6 +53,7 @@ class Cooldown {
 
         // return undefined if user is not on cooldown
         if(!endTime) return undefined;
+        if(endTime === -1) return 'Permanently';
 
         return this.convertTime(endTime - Date.now());
     }

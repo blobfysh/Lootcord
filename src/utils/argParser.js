@@ -199,10 +199,6 @@ class ArgParser {
 
         return userArgs.filter(arg => arg !== undefined);
     }
-
-    getUser(userId){
-        this.msg.channel.guild.members.find(member => `${member.username}#${member.discriminator}` === args || `${member.nick}#${member.discriminator}` === args);
-    }
 }
 
 module.exports = ArgParser;

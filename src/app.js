@@ -54,6 +54,7 @@ class Lootcord extends Base {
         if(cluster.worker.id === 1) {
             // only run these on main cluster, cooldowns only need to be refreshed once for all other clusters
             await this.refreshCooldowns();
+            await this.refreshLists();
 
             //TODO airdrops start here
         }
@@ -94,7 +95,6 @@ class Lootcord extends Base {
         //TODO make this obsolete by using cache
         return {
             adminUsers: new Set(this.config.adminUsers),
-            moddedUsers: new Set(),
             activeCmdCooldown: new Set(),
             disabledCommands: new Set(),
             gettingRaided: new Set()
@@ -105,6 +105,7 @@ class Lootcord extends Base {
         this.ipc.register('clearCD', (msg) => {
             this.cd.clearTimers(msg.userId, msg.type);
         });
+
         this.ipc.register('reloadItems', (msg) => {
             delete require.cache[require.resolve('./resources/json/items/completeItemList')]
             this.itemdata = require('./resources/json/items/completeItemList');
@@ -120,7 +121,7 @@ class Lootcord extends Base {
         const rows = await this.query(`SELECT * FROM cooldown`);
         let cdsAdded = 0;
 
-        for(var cdInfo of rows){
+        for(let cdInfo of rows){
             if(cdInfo.userId !== undefined){
                 let timeLeft = (cdInfo.length) - ((new Date()).getTime() - cdInfo.start);
                 if(timeLeft > 0){
@@ -132,6 +133,32 @@ class Lootcord extends Base {
         }
 
         console.log('[APP] ' + cdsAdded + " cooldowns refreshed.");
+    }
+
+    async refreshLists(){
+        // refreshes the list of moderators on startup
+        const modRows = await this.query(`SELECT * FROM mods`); 
+        for(let mod of modRows){
+            if(mod.userId !== undefined && mod.userId !== null){
+                await this.cache.setNoExpire(`mod|${mod.userId}`, 'Modded');
+            }
+        }
+
+        // OLD MODS TABLE, cooldown table is now used to ban
+        const bannedRows = await this.query(`SELECT * FROM banned`); 
+        for(let banned of bannedRows){
+            if(banned.userId !== undefined && banned.userId !== null){
+                await this.cache.setNoExpire(`banned|${banned.userId}`, 'Banned perma');
+            }
+        }
+
+        // refreshes the list of tradebanned users on startup
+        const tradeBannedRows = await this.query(`SELECT * FROM tradebanned`); 
+        for(let banned of tradeBannedRows){
+            if(banned.userId !== undefined && banned.userId !== null){
+                await this.cache.setNoExpire(`tradeban|${banned.userId}`, 'Tradebanned perma');
+            }
+        }
     }
 }
 

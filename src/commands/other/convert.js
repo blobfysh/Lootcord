@@ -21,7 +21,7 @@ module.exports = {
         if(!convertAmnt){
             return message.reply('❌ Please specify an amount to convert.')
         }
-        else if(app.sets.tradeBannedUsers.has(message.author.id)){
+        else if(await app.cd.getCD(message.author.id, 'tradeban')){
             return message.reply("❌ Trade banned users are not allowed to convert.");
         }
         else if(convertAmnt < 100){

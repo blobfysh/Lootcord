@@ -188,23 +188,20 @@ class Items {
 
         for(let key of filteredItems){
             if(itemRow[key] >= 1){
-                addIt(key);
-            }
-        }
 
-        function addIt(key){
-            switch(this.app.itemdata[key].rarity){
-                case "Common": commonItems.push(key); break;
-                case "Uncommon": uncommonItems.push(key); break;
-                case "Rare": rareItems.push(key); break;
-                case "Epic": epicItems.push(key); break;
-                case "Legendary": legendItems.push(key); break;
-                case "Ultra": ultraItems.push(key); break;
-                case "Limited": limitedItems.push(key); break;
+                switch(this.app.itemdata[key].rarity){
+                    case "Common": commonItems.push(key); break;
+                    case "Uncommon": uncommonItems.push(key); break;
+                    case "Rare": rareItems.push(key); break;
+                    case "Epic": epicItems.push(key); break;
+                    case "Legendary": legendItems.push(key); break;
+                    case "Ultra": ultraItems.push(key); break;
+                    case "Limited": limitedItems.push(key); break;
+                }
+    
+                invValue += this.app.itemdata[key].sell * itemRow[key];
+                itemCount+= itemRow[key];
             }
-
-            invValue += itemdata[key].sell * itemRow[key];
-            itemCount+= itemRow[key];
         }
         
         commonItems.sort();
@@ -215,13 +212,13 @@ class Items {
         ultraItems.sort();
         limitedItems.sort();
 
-        commonItems = commonItems.map(item => itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
-        uncommonItems = uncommonItems.map(item => itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
-        rareItems = rareItems.map(item => itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
-        epicItems = epicItems.map(item => itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
-        legendItems = legendItems.map(item => itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
-        ultraItems = ultraItems.map(item => itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
-        limitedItems = limitedItems.map(item => itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
+        commonItems = commonItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
+        uncommonItems = uncommonItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
+        rareItems = rareItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
+        epicItems = epicItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
+        legendItems = legendItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
+        ultraItems = ultraItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
+        limitedItems = limitedItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
 
         return {
             common: commonItems,

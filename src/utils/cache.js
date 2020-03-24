@@ -12,6 +12,16 @@ exports.set = function(key, value, ttl = 3600){
     });
 }
 
+exports.setNoExpire = function(key, value){
+    return new Promise((resolve, reject) => {
+        client.set(key, value, (err, result) => {
+            if(err) return reject(err);
+            
+            resolve(result);
+        });
+    });
+}
+
 exports.hmset = function(key, value){
     return new Promise((resolve, reject) => {
         client.hmset(key, value, (err, result) => {
@@ -57,6 +67,7 @@ exports.getTTL = function(key, options = {formatDate: false, getEPOCH: false}){
         client.ttl(key, (err, result) => {
             if(err) return reject(err);
 
+            if(result === -1) return resolve(-1);
             if(result < 0) return resolve(null);
             if(options.getEPOCH) return resolve(Date.now() + (result * 1000));
             if(options.formatDate) return resolve(exports.getShortDate(Date.now() + (result * 1000)));

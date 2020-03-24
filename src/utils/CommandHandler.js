@@ -20,6 +20,9 @@ class CommandHandler {
         // makes sure command wasn't used in DM's
         if(!message.guild) return;
 
+        // check if user is banned from bot
+        if(await this.app.cd.getCD(message.author.id, 'banned')) return;
+
         // makes sure bot has all permissions from config (prevents permission-related errors)
         if(!this.botHasPermissions(message)) return;
 
@@ -39,7 +42,7 @@ class CommandHandler {
         if(command.category == "admin" && !this.app.sets.adminUsers.has(message.author.id)) return;
 
         // ignore mod command if user is not a moderator or admin
-        if(command.category == "moderation" && (!this.app.sets.moderators.has(message.author.id) && !this.app.sets.adminUsers.has(message.author.id))) return;
+        if(command.category == "moderation" && (!(await this.app.cd.getCD(message.author.id, 'mod')) && !this.app.sets.adminUsers.has(message.author.id))) return;
 
         //TODO make this automatic by creating account here
         // check if command requires an account at all. 
