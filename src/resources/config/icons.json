@@ -18,9 +18,6 @@
   "slots_rare_icon": "<:UnboxRare:526248948579434496>",
   "slots_epic_icon": "<:UnboxEpic:526248961892155402>",
   "slots_legendary_icon": "<:UnboxLegendary:526248970914234368>",
-  "prestige_1_badge": "⭐",
-  "prestige_2_badge": "⭐",
-  "prestige_3_badge": "⭐",
   "health": {
     "full": "<:heart_full:601346230781607936>",
     "empty": "<:heart_empty:601346230601252865>",

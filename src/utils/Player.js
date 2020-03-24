@@ -128,6 +128,19 @@ class Player {
     async addMoney(id, amount){
         await this.app.query(`UPDATE scores SET money = money + ${parseInt(amount)} WHERE userId = ${id}`);
     }
+
+    /**
+     * 
+     * @param {string} badge Badge to get icon for
+     */
+    getBadge(badge){
+        let badgeInfo = this.app.badgedata[badge];
+
+        if(badgeInfo){
+            return badgeInfo.icon
+        }
+        else return '';
+    }
 }
 
 const insertScoreSQL = `

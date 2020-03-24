@@ -14,14 +14,16 @@ module.exports = {
     requiresActive: false,
     guildModsOnly: false,
     
-    execute(app, message){
+    async execute(app, message){
         if(message.args[0]){
             let cmd = app.commands.get(message.args[0]) || app.commands.find(cmd => cmd.aliases && cmd.aliases.includes(message.args[0]));
 
             if(!cmd) return message.reply("❌ That command doesn't exist!");
 
             // disable command lookup of admin/moderator commands
-            if(cmd.category == 'admin' || cmd.category == 'moderation') return message.reply("❌ That command doesn't exist!");
+            if(cmd.category == 'admin'  && !app.sets.adminUsers.has(message.author.id)) return message.reply("❌ That command doesn't exist!");
+
+            if(cmd.category == 'moderation' && !(await app.cd.getCD(message.author.id, 'mod'))) return message.reply("❌ That command doesn't exist!");
 
             const embed = new app.Embed()
             .setTitle(`🔎 ${cmd.name}`)

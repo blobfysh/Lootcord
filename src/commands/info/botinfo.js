@@ -1,8 +1,8 @@
 const { version } = require('../../../package.json');
 
 module.exports = {
-    name: 'update',
-    aliases: ['botinfo', 'info', 'version', 'stats'],
+    name: 'botinfo',
+    aliases: ['update', 'info', 'version', 'stats'],
     description: "Displays various information about the bot.",
     long: "Displays information about the current update and the bot.",
     args: {},

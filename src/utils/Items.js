@@ -1,4 +1,3 @@
-const badgedata = require('../resources/json/badges');
 
 class Items {
     constructor(app){
@@ -242,7 +241,7 @@ class Items {
         let badgeArr = [];
 
         for(let badge of badges){
-            if(badgedata[badge.badge]) badgeArr.push(badge.badge);
+            if(this.app.badgedata[badge.badge]) badgeArr.push(badge.badge);
         }
 
         return badgeArr;

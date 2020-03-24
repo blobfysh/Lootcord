@@ -188,7 +188,10 @@ class ArgParser {
             }
             else if(/^(.*)#([0-9]{4})$/.test(arg)){
                 let userTag = arg.split('#');
-                let member = message.guild.members.find(member => member.username.toLowerCase() === userTag[0].toLowerCase() && member.discriminator === userTag[1]);
+                let member = message.guild.members.find(member => {
+                    return (member.username.toLowerCase() === userTag[0].toLowerCase() && member.discriminator === userTag[1] ||
+                    member.nick === userTag[0] && member.discriminator === userTag[1])
+                });
                 
                 return member;
             }
