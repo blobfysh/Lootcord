@@ -52,7 +52,6 @@ class Lootcord extends Base {
     }
 
     async launch(){
-        await this.mysql.connect();
         await this.mysql.createDB(); // create database structure
         this.initIPC();
 

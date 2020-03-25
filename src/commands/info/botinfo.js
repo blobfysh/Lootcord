@@ -21,16 +21,19 @@ module.exports = {
         embedInfo.setColor(13215302)
         embedInfo.setThumbnail(app.bot.user.avatarURL)
         embedInfo.setDescription('Hey!')
-        embedInfo.addField("Shard ID", message.guild.shard.id.toString(), true)
-        embedInfo.addField("Cluster ID", app.clusterID.toString(), true)
-        embedInfo.addField("Active Servers", stats.guilds, true)
-        embedInfo.addField("Uptime", app.cd.convertTime(app.bot.uptime), true)
-        embedInfo.addField("Library", "Eris", true)
-        embedInfo.addField("Memory Usage", Math.round(used) + " MB",true)
+        embedInfo.addField("Shard ID", codeWrap(message.guild.shard.id.toString(), 'js'), true)
+        embedInfo.addField("Cluster ID", codeWrap(app.clusterID.toString(), 'js'), true)
+        embedInfo.addField("Active Servers", codeWrap(stats.guilds, 'js'), true)
+        embedInfo.addField("Uptime", codeWrap(app.cd.convertTime(app.bot.uptime), 'fix'), true)
+        embedInfo.addField("Memory Usage", codeWrap(Math.round(used) + " MB", 'fix'),true)
+        embedInfo.addField("Library", codeWrap("Eris", 'js'), true)
         embedInfo.addField("Creators","blobfysh#4679\nOGSteve#0007",true)
         embedInfo.addField("Website", "https://lootcord.com",true)
         embedInfo.addField("Discord","https://discord.gg/7XNbdzP",true)
-        embedInfo.setFooter("Need help? Message the bot! | PM's to Lootcord are sent directly to moderators.")
         message.channel.createMessage(embedInfo);
     },
+}
+
+function codeWrap(input, code){
+    return '```' + code + '\n' + input + '```';
 }

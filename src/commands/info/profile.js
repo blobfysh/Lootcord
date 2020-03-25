@@ -59,12 +59,11 @@ module.exports = {
             .setAuthor(member.tag + "'s Profile", member.avatarURL)
             .setDescription(userStatus)
             .addField('Badges', badges.length ? badges.map(badge => badgedata[badge].icon).join(' ') : 'none :(')
-            .addField('Clan', (userRow.clanId !== 0 ? '`' + (await app.query(`SELECT name FROM clans WHERE clanId = ${userRow.clanId}`))[0].name + '`\n' : 'None'), true)
-            .addField('Level', userRow.level + ` (XP: ${xp.current}/${xp.needed})`, true)
-            .addField('K/D Ratio', (userRow.deaths == 0 ? userRow.kills+ " Kills | "+userRow.deaths+" Deaths ("+userRow.kills+" K/D)\n" : userRow.kills+ " Kills | "+userRow.deaths+" Deaths ("+(userRow.kills/ userRow.deaths).toFixed(2)+" K/D)"), true)
-            .addField('Power', userRow.power + "/" + userRow.max_power + " Power", true)
-            .addBlankField(true)
-            .addBlankField(true)
+            .addField('Clan', codeWrap((userRow.clanId !== 0 ? '`' + (await app.query(`SELECT name FROM clans WHERE clanId = ${userRow.clanId}`))[0].name + '`\n' : 'None'), 'js'), true)
+            .addField('Level', codeWrap(userRow.level + ` (XP: ${xp.current}/${xp.needed})`, 'js'), true)
+            .addField('Power', codeWrap(userRow.power + "/" + userRow.max_power + " Power", 'js'), true)
+            .addField('K/D Ratio', codeWrap((userRow.deaths == 0 ? userRow.kills+ " Kills\n"+userRow.deaths+" Deaths ("+userRow.kills+" K/D)\n" : userRow.kills+ " Kills\n"+userRow.deaths+" Deaths ("+(userRow.kills/ userRow.deaths).toFixed(2)+" K/D)"), 'fix'), true)
+            .addBlankField()
             .addField('Health', app.player.getHealthIcon(userRow.health, userRow.maxHealth) + ' ' + userRow.health + "/" + userRow.maxHealth + " HP", true)
             .addField('Strength', parseFloat(userRow.scaledDamage).toFixed(2) + "x damage", true)
             .addField('Luck', userRow.luck.toString(), true)
@@ -77,4 +76,8 @@ module.exports = {
             message.channel.createMessage(profileEmbed);
         }
     },
+}
+
+function codeWrap(input, code){
+    return '```' + code + '\n' + input + '```';
 }

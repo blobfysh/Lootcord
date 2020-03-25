@@ -1,4 +1,4 @@
-exports.run = function(err, id){
-    console.log(err);
-    console.log(id);
+exports.run = function(error, id){
+    console.error(error);
+    this.cache.incr('errors');
 }

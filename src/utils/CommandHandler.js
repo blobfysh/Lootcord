@@ -59,6 +59,7 @@ class CommandHandler {
         
         // execute command
         try{
+            this.app.cache.incr('commands');
             command.execute(this.app, this.buildMessage(message, prefix, args));
 
             // dont add spamCooldown if in debug mode or user is admin

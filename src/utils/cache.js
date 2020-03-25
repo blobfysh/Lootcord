@@ -76,6 +76,16 @@ exports.getTTL = function(key, options = {formatDate: false, getEPOCH: false}){
     });
 }
 
+exports.incr = function(key){
+    return new Promise((resolve, reject) => {
+        client.incr(key, (err, result) => {
+            if(err) return reject(err);
+
+            resolve(result);
+        });
+    });
+}
+
 exports.flushAll = function(){
     return new Promise((resolve, reject) => {
         client.flushdb((err, result) => {
