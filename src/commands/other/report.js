@@ -63,7 +63,6 @@ module.exports = {
                 }
             }
             catch(err){
-                console.log(require('util').inspect(err));
                 botMessage.edit("You didn't react in time!");
             }
         }

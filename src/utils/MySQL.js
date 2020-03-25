@@ -104,7 +104,8 @@ class MySQL {
      * @param {string} column 
      * @param {*} value 
      * @param {string} conditionColumn 
-     * @param {*} conditionValue 
+     * @param {*} conditionValue
+     * @override 
      */
     async update(table, column, value, conditionColumn, conditionValue){
         let sql = 'UPDATE ?? SET ?? = ? WHERE ?? = ?';

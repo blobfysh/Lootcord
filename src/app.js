@@ -20,6 +20,7 @@ const Messager       = require('./utils/Messager');
 const Common         = require('./utils/Common');
 const Leaderboard    = require('./utils/Leaderboard');
 const Airdrop        = require('./utils/Airdrop');
+const MessageCollector = require('./utils/MessageCollector');
 
 const events         = fs.readdirSync(__dirname + '/events');
 const categories     = fs.readdirSync(__dirname + '/commands');
@@ -39,6 +40,7 @@ class Lootcord extends Base {
         this.mysql = new MySQL(config);
         this.common = new Common(this);
         this.react = new Reactor(icons);
+        this.msgCollector = new MessageCollector(this);
         this.discoin = new Discoin(this);
         this.messager = new Messager(this);
         this.cd = new Cooldowns(this);
@@ -99,6 +101,7 @@ class Lootcord extends Base {
         //TODO make this obsolete by using cache
         return {
             adminUsers: new Set(this.config.adminUsers),
+            jackpotServers: new Set(),
             activeCmdCooldown: new Set(),
             disabledCommands: new Set(),
             gettingRaided: new Set()

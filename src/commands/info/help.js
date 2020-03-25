@@ -23,7 +23,7 @@ module.exports = {
             // disable command lookup of admin/moderator commands
             if(cmd.category == 'admin'  && !app.sets.adminUsers.has(message.author.id)) return message.reply("❌ That command doesn't exist!");
 
-            if(cmd.category == 'moderation' && !(await app.cd.getCD(message.author.id, 'mod'))) return message.reply("❌ That command doesn't exist!");
+            if(cmd.category == 'moderation' && ! (await app.cd.getCD(message.author.id, 'mod') || app.sets.adminUsers.has(message.author.id))) return message.reply("❌ That command doesn't exist!");
 
             const embed = new app.Embed()
             .setTitle(`🔎 ${cmd.name}`)
@@ -53,7 +53,7 @@ module.exports = {
 
         const embed = new app.Embed()
         .setTitle(message.prefix + 'play - Creates an account!')
-        .setFooter(`To see more about a command, use ${message.prefix}help <command> | Need more help? Message me!`)
+        .setFooter(`To see more about a command, use ${message.prefix}help <command>`)
         .setColor(13215302)
 
         Object.keys(categories).forEach(category => {
