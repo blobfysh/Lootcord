@@ -1,4 +1,4 @@
 exports.run = function(error, id){
-    console.error(error);
+    console.error(require('util').inspect(error));
     this.cache.incr('errors');
 }

@@ -129,12 +129,11 @@ class ArgParser {
         let numbers = [];
         for(let arg of args){
             arg = arg.replace(/[^0-9.-]+/g,"");
-
-            if(!isNaN(arg)){
+            
+            if(!isNaN(arg) && Number(arg)){
                 numbers.push(Math.floor(Number(arg)));
             }
         }
-        
         return numbers.filter(num => num >= 0);
     }
 

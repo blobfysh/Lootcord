@@ -13,8 +13,8 @@ module.exports = {
     
     async execute(app, message){
         const jackpotCD = await app.cd.getCD(message.author.id, 'jackpot');
+        const row = await app.player.getRow(message.author.id);
         let gambleAmount = app.parse.numbers(message.args)[0];
-        let jackpotObj = {};
 
         /*
         if(message.client.restartLockdown){
@@ -43,107 +43,13 @@ module.exports = {
             // jackpot active
             return message.reply('There is already an active jackpot in this server.');
         }
-        const botMessage = message.reply(`You are about to start a server jackpot with an entry of: ${app.common.formatNumber(gambleAmount)}\nAre you sure?`);
+        const botMessage = await message.reply(`You are about to start a server jackpot with an entry of: ${app.common.formatNumber(gambleAmount)}\nAre you sure?`);
 
         try{
             const result = await app.react.getConfirmation(message.author.id, botMessage, 15000);
 
-            if(result && app.player.hasMoney(message.author.id, gambleAmount) && app.sets.jackpotServers.has(message.guild.id)){
-                jackpotObj[message.author.id] = {name: message.author.username, amount: gambleAmount};
-                message.channel.send(lang.jackpot[4]);
-                message.channel.send(refreshEmbed(jackpotObj, prefix));
-                methods.removemoney(message.author.id, gambleAmount);
-
-                await methods.addCD(message.client, {
-                    userId: message.author.id,
-                    type: 'jackpot',
-                    time: config.cooldowns.jackpot * 1000
-                });
-                message.client.sets.jackpotServers.add(message.guild.id);
-                
-
-                setTimeout(() => {
-                    message.channel.send(lang.jackpot[5].replace('{0}', '1 minute').replace('{1}', prefix));
-                }, 60000)
-
-                setTimeout(() => {
-                    message.channel.send(lang.jackpot[5].replace('{0}', '30 seconds').replace('{1}', prefix));
-                }, 90000)
-
-                setTimeout(() => {
-                    message.channel.send(lang.jackpot[5].replace('{0}', '10 seconds').replace('{1}', prefix));
-                }, 110000)
-
-                setTimeout(() => {
-                    message.channel.send(lang.jackpot[6].replace('{0}', '5'));
-                }, 115000)
-
-                setTimeout(() => {
-                    message.channel.send(lang.jackpot[6].replace('{0}', '4'));
-                }, 116000)
-
-                setTimeout(() => {
-                    message.channel.send(lang.jackpot[6].replace('{0}', '3'));
-                }, 117000)
-                
-                setTimeout(() => {
-                    message.channel.send(lang.jackpot[6].replace('{0}', '2'));
-                }, 118000)
-
-                setTimeout(() => {
-                    message.channel.send(lang.jackpot[7]);
-                }, 119000)
-                
-                
-
-                const collector = new Discord.MessageCollector(message.channel, m => {
-                    return !m.author.bot && m.content.toLowerCase().startsWith(prefix + 'join');
-                }, { time: 120000 });
-
-                collector.on("collect", async response => {
-                    const activeRow = await query(`SELECT * FROM userGuilds WHERE userId = ${response.author.id} AND guildId = ${response.guild.id}`);
-                    const userArgs = response.content.slice(prefix.length).split(/ +/);
-                    var gambleAmount = userArgs[1];
-
-                    if(!activeRow.length) return response.reply(lang.general[1].replace('{0}', prefix));
-
-                    else if(jackpotObj.hasOwnProperty(response.author.id)){
-                        return response.reply(lang.jackpot[8]);
-                    }
-                    else if(Object.keys(jackpotObj).length >= 15){
-                        return response.reply(lang.jackpot[9])
-                    }
-                    else if(gambleAmount !== undefined && gambleAmount >= 100){
-                        gambleAmount = Math.floor(gambleAmount);
-                    }
-                    else{
-                        //give user info on jackpot command
-                        return response.reply(lang.jackpot[1]);
-                    }
-
-                    const hasMoney = await methods.hasmoney(response.author.id, gambleAmount);
-                    if(!hasMoney){
-                        return message.reply(lang.buy[4]);
-                    }
-                    else if(gambleAmount > 50000){
-                        return message.reply(lang.jackpot[2]);
-                    }
-                    else{
-                        jackpotObj[response.author.id] = {name: response.author.username, amount: gambleAmount};
-                        methods.removemoney(response.author.id, gambleAmount);
-                        response.channel.send(refreshEmbed(jackpotObj, prefix));
-                    }
-                });
-                collector.on("end", response => {
-                    message.client.sets.jackpotServers.delete(message.guild.id);
-
-                    var winnerId = pickWinner(jackpotObj);
-                    var winAmount = getJackpotTotal(jackpotObj);
-
-                    message.channel.send(lang.jackpot[10].replace('{0}', jackpotObj[winnerId].name).replace('{1}', methods.formatMoney(winAmount)).replace('{2}', (jackpotObj[winnerId].amount / getJackpotTotal(jackpotObj) * 100).toFixed(1)));
-
-                    methods.addmoney(winnerId, winAmount);
-                });
+            if(result && await app.player.hasMoney(message.author.id, gambleAmount)){
+                startJackpot(app, message, gambleAmount);
             }
             else{
                 botMessage.delete();
@@ -155,12 +61,103 @@ module.exports = {
     },
 }
 
-function refreshEmbed(jackpotObj, prefix){
+async function startJackpot(app, message, gambleAmount){
+    let jackpotObj = {};
+
+    try{
+        app.msgCollector.createChannelCollector(message, m => {
+            return m.channel.id === message.channel.id &&
+            m.content.toLowerCase().startsWith(message.prefix + 'join')
+        }, { time: 120000 });
+
+        jackpotObj[message.author.id] = {name: message.author.username, amount: gambleAmount};
+        message.channel.createMessage('**A jackpot has started! A winner will be chosen in `2 minutes`**');
+        message.channel.createMessage(refreshEmbed(app, jackpotObj, message.prefix));
+
+        await app.player.removeMoney(message.author.id, gambleAmount);
+        await app.cd.setCD(message.author.id, 'jackpot', app.config.cooldowns.jackpot * 1000);
+
+        setTimeout(() => {
+            message.channel.createMessage(`⏱ **\`1 minute\` remaining to enter the jackpot! Use \`${message.prefix}join <amount>\` to enter!**`);
+        }, 60000)
+
+        setTimeout(() => {
+            message.channel.createMessage(`⏱ **\`30 seconds\` remaining to enter the jackpot! Use \`${message.prefix}join <amount>\` to enter!**`);
+        }, 90000)
+
+        setTimeout(() => {
+            message.channel.createMessage(`⏱ **Jackpot ends in... 10**`);
+        }, 110000)
+
+        setTimeout(() => {
+            message.channel.createMessage(`⏱ **Jackpot ends in... 5**`);
+        }, 115000)
+
+        setTimeout(() => {
+            message.channel.createMessage(`⏱ **Jackpot ends in... 4**`);
+        }, 116000)
+
+        setTimeout(() => {
+            message.channel.createMessage(`⏱ **Jackpot ends in... 3**`);
+        }, 117000)
+        
+        setTimeout(() => {
+            message.channel.createMessage(`⏱ **Jackpot ends in... 2**`);
+        }, 118000)
+
+        setTimeout(() => {
+            message.channel.createMessage(`And the winner is...`);
+        }, 119000)
+
+        const collector = app.msgCollector.collectors[`${message.channel.id}`].collector;
+
+        collector.on('collect', async m => {
+            if(!await app.player.isActive(m.author.id, m.guild.id)) m.channel.createMessage(`Your account is not active in this server! Use \`${message.prefix}play\` to activate it here`);
+            const userArgs = m.content.slice(message.prefix.length).split(/ +/).slice(1);
+            let gambleAmnt = app.parse.numbers(userArgs)[0];
+
+            console.log(gambleAmnt);
+            if(jackpotObj.hasOwnProperty(m.author.id)){
+                return m.channel.createMessage('You already entered this jackpot!');
+            }
+            else if(Object.keys(jackpotObj).length >= 15){
+                return m.channel.createMessage('Sorry, this jackpot is full!')
+            }
+            else if(!gambleAmnt || gambleAmnt < 100){
+                return m.channel.createMessage('Please enter an amount of atleast ' + app.common.formatNumber(100));
+            }
+            else if(!await app.player.hasMoney(m.author.id, gambleAmnt)){
+                return m.channel.createMessage('You don\'t have that much money!');
+            }
+            else if(gambleAmnt > 50000){
+                return m.channel.createMessage('You cannot enter more than ' + app.common.formatNumber(50000) + '!');
+            }
+
+            jackpotObj[m.author.id] = {name: m.author.username, amount: gambleAmnt};
+            await app.player.removeMoney(m.author.id, gambleAmnt);
+            m.channel.createMessage(refreshEmbed(app, jackpotObj, message.prefix));
+        });
+
+        collector.on('end', async reason => {
+            let winnerId = pickWinner(jackpotObj);
+            let winAmount = getJackpotTotal(jackpotObj);
+            
+            await app.player.addMoney(winnerId, winAmount);
+
+            message.channel.createMessage(`**${jackpotObj[winnerId].name}** won the ${app.common.formatNumber(winAmount)} jackpot with a ${(jackpotObj[winnerId].amount / getJackpotTotal(jackpotObj) * 100).toFixed(1)}% chance of winning!`);
+        });
+    }
+    catch(err){
+        return message.reply('There is already an active jackpot in this channel.');
+    }
+}
+
+function refreshEmbed(app, jackpotObj, prefix){
     var usersArr = [];
     var usersChances = [];
 
     Object.keys(jackpotObj).forEach(user => {
-        usersArr.push((jackpotObj[user].name).slice(0, 18).padEnd(20) + methods.formatMoney(jackpotObj[user].amount, true).padEnd(15) + ((jackpotObj[user].amount / getJackpotTotal(jackpotObj)) * 100).toFixed(1) + '%');
+        usersArr.push((jackpotObj[user].name).slice(0, 18).padEnd(20) + app.common.formatNumber(jackpotObj[user].amount, true).padEnd(15) + ((jackpotObj[user].amount / getJackpotTotal(jackpotObj)) * 100).toFixed(1) + '%');
 
         usersChances.push(((jackpotObj[user].amount / getJackpotTotal(jackpotObj)) * 100).toFixed(1));
         i++;
@@ -177,11 +174,11 @@ function refreshEmbed(jackpotObj, prefix){
 
     usersArr.unshift(('Player').padEnd(22) + 'Bet'.padEnd(15) + 'Chance');
 
-    const jackpotEmbed = new Discord.RichEmbed()
+    const jackpotEmbed = new app.Embed()
     .setColor(14202368)
     .setTitle('JACKPOT - Win it all!')
     .addField('🎟 Current entrants', '```cs\n' + usersArr.join('\n') + '```')
-    .addField('💰 Prize pool', '```fix\n' + methods.formatMoney(getJackpotTotal(jackpotObj), true) + '```')
+    .addField('💰 Prize pool', '```fix\n' + app.common.formatNumber(getJackpotTotal(jackpotObj), true) + '```')
     .setFooter('Use ' + prefix + 'join <amount> to enter!')
     return jackpotEmbed;
 }
