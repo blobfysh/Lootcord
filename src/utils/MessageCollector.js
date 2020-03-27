@@ -41,15 +41,17 @@ class MessageCollector {
         }
 
         const eventCollector = new EventEmitter();
-        
+        let timer;
+
         if(options.time){
-            setTimeout(() => {
+            timer = setTimeout(() => {
                 eventCollector.emit('end', 'time');
                 delete this.collectors[`${message.channel.id}`];
             }, options.time);
         }
 
         this.collectors[`${message.channel.id}`] = {
+            timer: timer,
             collector: eventCollector,
             filter: filter
         };
@@ -68,18 +70,32 @@ class MessageCollector {
         }
 
         const eventCollector = new EventEmitter();
-        
+        let timer;
+
         if(options.time){
-            setTimeout(() => {
+            timer = setTimeout(() => {
                 eventCollector.emit('end', 'time');
                 delete this.collectors[`${message.author.id}_${message.channel.id}`];
             }, options.time);
         }
 
         this.collectors[`${message.author.id}_${message.channel.id}`] = {
+            timer: timer,
             collector: eventCollector,
             filter: filter
         };
+    }
+
+    /**
+     * Clears timeout for collector and stops it
+     * @param {string} key Key of collector to remove, can be channel ID or User ID + channel ID
+     */
+    stopCollector(key){
+        if(this.collectors[key]){
+            clearTimeout(this.collectors[key].timer);
+            this.collectors[key].collector.emit('end', 'forced');
+            delete this.collectors[key];
+        }
     }
 }
 

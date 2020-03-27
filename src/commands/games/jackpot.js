@@ -116,7 +116,6 @@ async function startJackpot(app, message, gambleAmount){
             const userArgs = m.content.slice(message.prefix.length).split(/ +/).slice(1);
             let gambleAmnt = app.parse.numbers(userArgs)[0];
 
-            console.log(gambleAmnt);
             if(jackpotObj.hasOwnProperty(m.author.id)){
                 return m.channel.createMessage('You already entered this jackpot!');
             }
@@ -175,7 +174,7 @@ function refreshEmbed(app, jackpotObj, prefix){
     usersArr.unshift(('Player').padEnd(22) + 'Bet'.padEnd(15) + 'Chance');
 
     const jackpotEmbed = new app.Embed()
-    .setColor(14202368)
+    .setColor(13215302)
     .setTitle('JACKPOT - Win it all!')
     .addField('🎟 Current entrants', '```cs\n' + usersArr.join('\n') + '```')
     .addField('💰 Prize pool', '```fix\n' + app.common.formatNumber(getJackpotTotal(jackpotObj), true) + '```')

@@ -67,6 +67,28 @@ class Reactor {
             }
         });
     }
+
+    /**
+     * 
+     * @param {string} userId The user to collect the reaction from
+     * @param {*} botMessage The message to react to
+     * @param {number} time How long collector lasts
+     * @param {Array<string>} reactions Array of reaction to react to the message with
+     */
+    async getFirstReaction(userId, botMessage, time = 30000, reactions = []){
+        try{
+            for(let reaction of reactions){
+                await botMessage.addReaction(reaction);
+            }
+            const userReacted = await ReactionHandler.collectReactions(botMessage, (reactorId) => reactorId === userId, {maxMatches: 1, time: time});
+
+            return userReacted[0].emoji.name;
+        }
+        catch(err){
+            console.log(require('util').inspect(err))
+            throw new Error('Ran out of time.');
+        }
+    }
 }
 
 module.exports = Reactor;

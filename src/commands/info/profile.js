@@ -1,11 +1,4 @@
-/*
-const Discord = require('discord.js');
-const { query } = require('../mysql.js');
-const methods = require('../methods/methods.js');
-const itemdata = require('../json/completeItemList.json');
-const badgedata = require('../json/badges');
-const general = require('../methods/general');
-*/
+
 module.exports = {
     name: 'profile',
     aliases: ['p', 'badges', 'kills', 'deaths', 'banners'],
@@ -58,7 +51,7 @@ module.exports = {
             .setColor(13215302)
             .setAuthor(member.tag + "'s Profile", member.avatarURL)
             .setDescription(userStatus)
-            .addField('Badges', badges.length ? badges.map(badge => badgedata[badge].icon).join(' ') : 'none :(')
+            .addField('Badges', badges.length ? badges.map(badge => app.badgedata[badge].icon).join(' ') : 'none :(')
             .addField('Clan', codeWrap((userRow.clanId !== 0 ? '`' + (await app.query(`SELECT name FROM clans WHERE clanId = ${userRow.clanId}`))[0].name + '`\n' : 'None'), 'js'), true)
             .addField('Level', codeWrap(userRow.level + ` (XP: ${xp.current}/${xp.needed})`, 'js'), true)
             .addField('Power', codeWrap(userRow.power + "/" + userRow.max_power + " Power", 'js'), true)

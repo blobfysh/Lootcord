@@ -1,29 +1,29 @@
-const Base           = require('eris-sharder').Base;
-const Eris           = require('eris');
-                       require('eris-additions')(Eris, {disabled: ['Eris.Embed']});
+const Base             = require('eris-sharder').Base;
+const Eris             = require('eris');
+                         require('eris-additions')(Eris, {disabled: ['Eris.Embed']});
 
-const cluster        = require('cluster');
-const fs             = require('fs');
-const Embed          = require('embedcord');
+const cluster          = require('cluster');
+const fs               = require('fs');
+const Embed            = require('embedcord');
 
-const config         = require('./resources/config/config');
-const icons          = require('./resources/config/icons');
-const CommandHandler = require('./utils/CommandHandler');
-const MySQL          = require('./utils/MySQL');
-const Cooldowns      = require('./utils/Cooldowns');
-const Items          = require('./utils/Items');
-const Player         = require('./utils/Player');
-const ArgParser      = require('./utils/ArgParser');
-const Reactor        = require('./utils/Reactor');
-const Discoin        = require('./utils/Discoin');
-const Messager       = require('./utils/Messager');
-const Common         = require('./utils/Common');
-const Leaderboard    = require('./utils/Leaderboard');
-const Airdrop        = require('./utils/Airdrop');
+const config           = require('./resources/config/config');
+const icons            = require('./resources/config/icons');
+const CommandHandler   = require('./utils/CommandHandler');
+const MySQL            = require('./utils/MySQL');
+const Cooldowns        = require('./utils/Cooldowns');
+const Items            = require('./utils/Items');
+const Player           = require('./utils/Player');
+const ArgParser        = require('./utils/ArgParser');
+const Reactor          = require('./utils/Reactor');
+const Discoin          = require('./utils/Discoin');
+const Messager         = require('./utils/Messager');
+const Common           = require('./utils/Common');
+const Leaderboard      = require('./utils/Leaderboard');
+const Airdrop          = require('./utils/Airdrop');
 const MessageCollector = require('./utils/MessageCollector');
 
-const events         = fs.readdirSync(__dirname + '/events');
-const categories     = fs.readdirSync(__dirname + '/commands');
+const events           = fs.readdirSync(__dirname + '/events');
+const categories       = fs.readdirSync(__dirname + '/commands');
 
 class Lootcord extends Base {
     constructor(bot){
@@ -34,6 +34,8 @@ class Lootcord extends Base {
         this.icons = icons;
         this.itemdata = require('./resources/json/items/completeItemList');
         this.badgedata = require('./resources/json/badges');
+        this.trivia_questions = require('./resources/json/trivia_questions');
+        this.scramble_words = require('./resources/json/scramble_words');
         this.commands = this.loadCommands();
         this.sets = this.loadSets();
         this.cache = require('./utils/cache');

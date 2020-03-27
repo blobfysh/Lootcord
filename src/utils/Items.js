@@ -246,6 +246,25 @@ class Items {
 
         return badgeArr;
     }
+
+    /**
+     * 
+     * @param {*} userId ID of user to add badge to.
+     * @param {*} badge Badge to add
+     */
+    async addBadge(userId, badge){
+        return await this.app.query(`INSERT IGNORE INTO badges (userId, badge, earned) VALUES (${userId}, '${badge}', ${new Date().getTime()})`);
+    }
+
+    /**
+     * 
+     * @param {*} userId ID of user to remove badge from.
+     * @param {*} badge Badge to remove
+     */
+    async removeBadge(userId, badge){
+        await this.app.query(`UPDATE scores SET badge = 'none' WHERE userId = ${userId} AND badge = '${badge}'`);
+        return await this.app.query(`DELETE FROM badges WHERE userId = ${userId} AND badge = '${badge}'`);
+    }
 }
 
 module.exports = Items;
