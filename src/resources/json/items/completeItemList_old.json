@@ -2489,7 +2489,7 @@
         "isItem": true,
         "isHeal": true,
         "healMin": 20,
-        "healMax": 25,
+        "healMax": 24,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
