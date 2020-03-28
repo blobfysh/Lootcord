@@ -21,6 +21,7 @@ const Common           = require('./utils/Common');
 const Leaderboard      = require('./utils/Leaderboard');
 const Airdrop          = require('./utils/Airdrop');
 const MessageCollector = require('./utils/MessageCollector');
+const BlackMarket      = require('./utils/BlackMarket');
 
 const events           = fs.readdirSync(__dirname + '/events');
 const categories       = fs.readdirSync(__dirname + '/commands');
@@ -49,6 +50,7 @@ class Lootcord extends Base {
         this.itm = new Items(this);
         this.player = new Player(this);
         this.leaderboard = new Leaderboard(this);
+        this.bm = new BlackMarket(this);
         this.parse = new ArgParser(this);
         this.Embed = Embed.DiscordEmbed;
         this.airdrop = new Airdrop(this);
