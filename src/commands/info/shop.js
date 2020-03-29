@@ -83,13 +83,13 @@ async function getHomePage(app){
     firstEmbed.setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/602129484900204545/shopping-cart.png");
     firstEmbed.setColor(13215302);
 
-    for(var gameRow of gameRows){
+    for(let gameRow of gameRows){
         if(gameRow !== null){
             if(gameRow.gameCurrency == "money"){
-                firstEmbed.addField(gameRow.gameDisplay,"Price: " + methods.formatMoney(gameRow.gamePrice) + " | **" + gameRow.gameAmount + "** left! Use `buy " + gameRow.gameName + "` to purchase!");
+                firstEmbed.addField(gameRow.gameDisplay,"Price: " + app.common.formatNumber(gameRow.gamePrice) + " | **" + gameRow.gameAmount + "** left! Use `buy " + gameRow.gameName + "` to purchase!");
             }
             else{
-                firstEmbed.addField(gameRow.gameDisplay,"Price: " + gameRow.gamePrice + " `" + gameRow.gameCurrency + "` | **" + gameRow.gameAmount + "** left! Use `buy " + gameRow.gameName + "` to purchase!");
+                firstEmbed.addField(gameRow.gameDisplay,"Price: " + gameRow.gamePrice + "x " + app.itemdata[gameRow.gameCurrency].icon + "`" + gameRow.gameCurrency + "` | **" + gameRow.gameAmount + "** left! Use `buy " + gameRow.gameName + "` to purchase!");
             }
         }
     }

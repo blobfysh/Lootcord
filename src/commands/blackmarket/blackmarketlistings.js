@@ -24,7 +24,7 @@ module.exports = {
 }
 
 function generatePages(app, message, listings){
-    let maxPage = Math.ceil(listings.length / ITEMS_PER_PAGE);
+    let maxPage = Math.ceil(listings.length / ITEMS_PER_PAGE) || 1;
     let pages = [];
 
     for(let i = 1; i < maxPage + 1; i++){

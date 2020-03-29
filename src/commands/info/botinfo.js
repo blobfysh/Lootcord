@@ -14,7 +14,7 @@ module.exports = {
     
     async execute(app, message){
         var used = process.memoryUsage().heapUsed / 1024 / 1024;
-        let stats = JSON.parse(await app.cache.get('stats'));
+        let stats = JSON.parse(await app.cache.get('stats')) || {};
 
         const embedInfo = new app.Embed()
         embedInfo.setTitle(`**Lootcord Update Info**`)
@@ -23,7 +23,7 @@ module.exports = {
         embedInfo.setDescription('Hey!')
         embedInfo.addField("Shard ID", codeWrap(message.guild.shard.id.toString(), 'js'), true)
         embedInfo.addField("Cluster ID", codeWrap(app.clusterID.toString(), 'js'), true)
-        embedInfo.addField("Active Servers", codeWrap(stats.guilds, 'js'), true)
+        embedInfo.addField("Active Servers", codeWrap(stats.guilds || 'unknown', 'js'), true)
         embedInfo.addField("Uptime", codeWrap(app.cd.convertTime(app.bot.uptime), 'fix'), true)
         embedInfo.addField("Memory Usage", codeWrap(Math.round(used) + " MB", 'fix'),true)
         embedInfo.addField("Library", codeWrap("Eris", 'js'), true)
