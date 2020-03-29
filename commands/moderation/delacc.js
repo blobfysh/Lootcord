@@ -62,9 +62,7 @@ module.exports = {
                 query(`DELETE FROM user_items WHERE userId ="${userId}"`);
                 query(`DELETE FROM badges WHERE userId = ${userId}`);
                 query(`DELETE FROM userGuilds WHERE userId = ${userId}`); //delete user from server
-
-                query(`UPDATE cooldowns SET mittenShieldTime = 0, ironShieldTime = 0, goldShieldTime = 0 WHERE userId ="${userId}"`);
-
+                
                 methods.clearCD(message.client, userId, 'shield');
 
                 message.reply(`Account deleted for \`${user.tag}\`. A log of their account code has been created in <#${config.logChannel}>.`);
