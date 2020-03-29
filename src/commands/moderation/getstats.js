@@ -25,17 +25,17 @@ module.exports = {
         .setColor(13215302)
         .setThumbnail(app.bot.user.avatarURL)
         .setDescription('Some top secret information right here...')
-        .addField("Clusters", codeWrap(stats.clusters.length, 'js'), true)
+        .addField("Clusters", codeWrap(stats.clusters.length || 'unknown', 'js'), true)
         .addField("Total Memory Usage", codeWrap(stats.totalRam.toFixed(2) + ' MB', 'fix'), true)
         .addField("Cluster ID", codeWrap(app.clusterID.toString(), 'js'), true)
-        .addField("Total Servers", codeWrap(stats.guilds.toString(), 'js'), true)
+        .addField("Total Servers", codeWrap(stats.guilds.toString() || 'unknown', 'js'), true)
         .addField("Servers Gained", codeWrap(guildsJoined.toString(), 'js'), true)
         .addField("Servers Lost", codeWrap(guildsLeft.toString(), 'js'), true)
         .addField("Shard Disconnects", codeWrap(disconnects.toString(), 'js'), true)
         .addField("Shards Resumed", codeWrap(resumes.toString(), 'js'), true)
         .addField("Commands Called", codeWrap(commandsUsed, 'js'), true)
         .addField("Total Errors", codeWrap(errors.toString(), 'js'), true)
-        .addField("Total Large Guilds", codeWrap(stats.largeGuilds.toString(), 'js'), true)
+        .addField("Total Large Guilds", codeWrap(stats.largeGuilds.toString() || 'unknown', 'js'), true)
         message.channel.createMessage(embedInfo);
     },
 }

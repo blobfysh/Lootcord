@@ -56,14 +56,14 @@ module.exports = {
         .setFooter(`To see more about a command, use ${message.prefix}help <command>`)
         .setColor(13215302)
 
-        Object.keys(categories).forEach(category => {
-            if(category == 'items') embed.addField('⚔ Item Usage', categories[category].map(cmd => '`' + cmd + '`').join(', '));
-            else if(category == 'games') embed.addField('🎲 Games and Rewards', categories[category].map(cmd => '`' + cmd + '`').join(', '));
-            else if(category == 'info') embed.addField('📋 Info', categories[category].map(cmd => '`' + cmd + '`').join(', '));
-            else if(category == 'blackmarket') embed.addField('💰 Black Market', categories[category].map(cmd => '`' + cmd + '`').join(', '));
-            else if(category == 'other') embed.addField('📈 Other', categories[category].map(cmd => '`' + cmd + '`').join(', '));
-            else if(category == 'utilities') embed.addField('⚙ Utility', categories[category].map(cmd => '`' + cmd + '`').join(', '));
-        });
+        const categoriesArr = Object.keys(categories);
+
+        if(categoriesArr.includes('items')) embed.addField('⚔ Item Usage', categories['items'].map(cmd => '`' + cmd + '`').join(', '));
+        if(categoriesArr.includes('games')) embed.addField('🎲 Games and Rewards', categories['games'].map(cmd => '`' + cmd + '`').join(', '));
+        if(categoriesArr.includes('info')) embed.addField('📋 Info', categories['info'].map(cmd => '`' + cmd + '`').join(', '));
+        if(categoriesArr.includes('blackmarket')) embed.addField('💰 Black Market', categories['blackmarket'].map(cmd => '`' + cmd + '`').join(', '));
+        if(categoriesArr.includes('other')) embed.addField('📈 Other', categories['other'].map(cmd => '`' + cmd + '`').join(', '));
+        if(categoriesArr.includes('utilities')) embed.addField('⚙ Utility', categories['utilities'].map(cmd => '`' + cmd + '`').join(', '));
         
         embed.addField('⚔️ Clans', 'Use `clan help` to see clan commands. Check this [link](https://github.com/blobfysh/Lootcord/wiki/Clans) out for more details on how clans work.')
         embed.addField('💡 Random Tip', tips[Math.floor(Math.random() * tips.length)])

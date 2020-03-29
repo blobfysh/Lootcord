@@ -16,14 +16,13 @@ class Items {
                 return;
             }
             for(var i = 0; i < item.length; i++){
-
+                
                 // store amounts in array as ["rock|5","ak47|2"] then use split("|")
                 let itemToCheck = item[i].split("|");
-
                 // Store id and item in array to bulk insert x times # of items.
                 let insertValues = Array(parseInt(itemToCheck[1])).fill([id, itemToCheck[0]]); 
 
-                return await this.app.query(`INSERT INTO user_items (userId, item) VALUES ?`, [insertValues]);
+                await this.app.query(`INSERT INTO user_items (userId, item) VALUES ?`, [insertValues]);
             }
         }
         else{
@@ -48,7 +47,7 @@ class Items {
                 //store amounts in array as ["rock|5","ak47|2"] then use split("|")
                 let itemToCheck = item[i].split("|");
 
-                return await this.app.query(`DELETE FROM user_items WHERE userId = ${id} AND item = '${itemToCheck[0]}' LIMIT ${parseInt(itemToCheck[1])}`);
+                await this.app.query(`DELETE FROM user_items WHERE userId = ${id} AND item = '${itemToCheck[0]}' LIMIT ${parseInt(itemToCheck[1])}`);
             }
         }
         else{
@@ -264,6 +263,20 @@ class Items {
     async removeBadge(userId, badge){
         await this.app.query(`UPDATE scores SET badge = 'none' WHERE userId = ${userId} AND badge = '${badge}'`);
         return await this.app.query(`DELETE FROM badges WHERE userId = ${userId} AND badge = '${badge}'`);
+    }
+
+    getTotalItmCountFromList(list){
+        if(list.length == 0){
+            return 0;
+        }
+        let totalItemCt = 0;
+        for(var i=0; i < list.length; i++){
+            //do stuff for each item
+            //store amounts in array as ["rock|5","ak47|2"] then use split("|")
+            let itemToCheck = list[i].split("|");
+            totalItemCt += parseInt(itemToCheck[1]);
+        }
+        return totalItemCt;
     }
 }
 
