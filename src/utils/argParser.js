@@ -1,9 +1,9 @@
-const badgedata = require('../resources/json/badges');
 const MicroSpellingCorrecter = require('micro-spelling-correcter');
 
 class ArgParser {
     constructor(app){
         this.app = app;
+        this.badgedata = app.badgedata;
         this.spell = new MicroSpellingCorrecter(Object.keys(this.app.itemdata));
     }
 
@@ -146,7 +146,7 @@ class ArgParser {
 
             let badge = arg + '_' + (args[i + 1]);
             // check if two args make up  badge
-            if(badgedata[badge]){
+            if(this.badgedata[badge]){
                 
                 // remove the next element because we already found a badge using it.
                 args.splice(args.indexOf(args[i + 1]), 1);
@@ -156,7 +156,7 @@ class ArgParser {
             }
     
             // check if single arg was badge
-            if(badgedata[arg]) return arg;
+            if(this.badgedata[arg]) return arg;
             
             // no badge found
             else return undefined;

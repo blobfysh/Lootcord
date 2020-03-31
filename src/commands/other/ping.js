@@ -20,7 +20,7 @@ module.exports = {
         */
 
         try{
-            app.msgCollector.createUserCollector(message, m => m.author.id === message.author.id);
+            app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id);
 
             const usercollector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
 
@@ -39,7 +39,7 @@ module.exports = {
 
 
         /*
-        app.msgCollector.createUserCollector(message, m => m.author.id === message.author.id);
+        app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id);
 
         const usercollector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
 

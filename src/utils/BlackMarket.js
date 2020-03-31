@@ -24,7 +24,7 @@ class BlackMarket {
         const userRow = (await this.app.query(`SELECT * FROM scores WHERE userId = ${listingInfo.sellerId}`))[0];
 
         await this.app.query(`DELETE FROM blackmarket WHERE listingId = "${listingInfo.listingId}"`);
-        this.app.common.formatNumber(listingInfo.sellerId, listingInfo.price);
+        this.app.player.addMoney(listingInfo.sellerId, listingInfo.price);
 
         if(userRow && userRow.notify1){
             const notifyEmb = new this.app.Embed()
@@ -36,9 +36,11 @@ class BlackMarket {
 
             try{
                 let user = await this.app.common.fetchUser(listingInfo.sellerId, { checkIPC: false });
-                await user.getDMChannel().createMessage(notifyEmb);
+                let dm = await user.getDMChannel()
+                dm.createMessage(notifyEmb);
             }
             catch(err){
+                console.log(require('util').inspect(err))
                 // user disabled DMs or removed bot
             }
         }

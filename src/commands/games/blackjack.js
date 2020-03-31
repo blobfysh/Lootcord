@@ -36,7 +36,7 @@ module.exports = {
 
         try{
             // try to create collector first so that it can error out before removing player money and adding cooldown
-            app.msgCollector.createUserCollector(message, m => {
+            app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
                 return m.author.id === message.author.id
             }, { time: 60000 });
 

@@ -63,9 +63,9 @@ class MessageCollector {
      * @param {*} filter custom filter options
      * @param {*} options options.time - time in milliseconds collector should last
      */
-    createUserCollector(message, filter, options = { time: 15000 }){
+    createUserCollector(userId, channelId, filter, options = { time: 15000 }){
         // check if a collector already exists for this user on this channel
-        if(this.collectors[`${message.author.id}_${message.channel.id}`]){
+        if(this.collectors[`${userId}_${channelId}`]){
             throw new Error('Overlapping collectors should be handled gracefully. You should be checking if a collector already exists before creating a new one.');
         }
 
@@ -75,11 +75,11 @@ class MessageCollector {
         if(options.time){
             timer = setTimeout(() => {
                 eventCollector.emit('end', 'time');
-                delete this.collectors[`${message.author.id}_${message.channel.id}`];
+                delete this.collectors[`${userId}_${channelId}`];
             }, options.time);
         }
 
-        this.collectors[`${message.author.id}_${message.channel.id}`] = {
+        this.collectors[`${userId}_${channelId}`] = {
             timer: timer,
             collector: eventCollector,
             filter: filter

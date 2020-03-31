@@ -59,7 +59,7 @@ module.exports = {
         }
 
         try{
-            app.msgCollector.createUserCollector(message, m => {
+            app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
                 return m.author.id === message.author.id
             }, { time: 30000 });
 
