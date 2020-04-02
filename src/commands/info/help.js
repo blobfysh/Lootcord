@@ -62,8 +62,8 @@ module.exports = {
         if(categoriesArr.includes('games')) embed.addField('🎲 Games and Rewards', categories['games'].map(cmd => '`' + cmd + '`').join(', '));
         if(categoriesArr.includes('info')) embed.addField('📋 Info', categories['info'].map(cmd => '`' + cmd + '`').join(', '));
         if(categoriesArr.includes('blackmarket')) embed.addField('💰 Black Market', categories['blackmarket'].map(cmd => '`' + cmd + '`').join(', '));
-        if(categoriesArr.includes('other')) embed.addField('📈 Other', categories['other'].map(cmd => '`' + cmd + '`').join(', '));
         if(categoriesArr.includes('utilities')) embed.addField('⚙ Utility', categories['utilities'].map(cmd => '`' + cmd + '`').join(', '));
+        if(categoriesArr.includes('other')) embed.addField('📈 Other', categories['other'].map(cmd => '`' + cmd + '`').join(', '));
         
         embed.addField('⚔️ Clans', 'Use `clan help` to see clan commands. Check this [link](https://github.com/blobfysh/Lootcord/wiki/Clans) out for more details on how clans work.')
         embed.addField('💡 Random Tip', tips[Math.floor(Math.random() * tips.length)])

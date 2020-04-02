@@ -82,10 +82,12 @@ class Reactor {
             }
             const userReacted = await ReactionHandler.collectReactions(botMessage, (reactorId) => reactorId === userId, {maxMatches: 1, time: time});
 
+            if(!userReacted.length) throw new Error('time');
+
             return userReacted[0].emoji.name;
         }
         catch(err){
-            console.log(require('util').inspect(err))
+            console.log(require('util').inspect(err));
             throw new Error('Ran out of time.');
         }
     }

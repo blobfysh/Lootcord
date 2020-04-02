@@ -15,7 +15,7 @@ module.exports = {
         const playerBadges  = await app.itm.getBadges(message.author.id);
         const badgeToSet = app.parse.badges(message.args)[0];
 
-        if(message.args[0] == 'none'){
+        if(message.args[0] && message.args[0].toLowerCase() === 'none'){
             await app.query(`UPDATE scores SET badge = 'none' WHERE userId = ${message.author.id}`);
 
             return message.reply(`✅ Successfully cleared your display badge!`);

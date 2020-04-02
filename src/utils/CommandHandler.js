@@ -107,7 +107,8 @@ class CommandHandler {
             }
             catch(err){
                 console.log('[CMD] Prefix query failed, MySQL not working?:')
-                console.log(err);
+                console.log(require('util').inspect(err));
+                this.cache.incr('mysql_errors');
             }
         }
         else{

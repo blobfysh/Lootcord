@@ -102,8 +102,6 @@ module.exports = {
                     }
 
                     async function handleMsg(m, args, command, player){
-                        console.log(args);
-                        console.log('command - ' + command);
                         if(command.toLowerCase() === 'cancel'){
                             app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
                             app.msgCollector.stopCollector(`${user.id}_${message.channel.id}`);

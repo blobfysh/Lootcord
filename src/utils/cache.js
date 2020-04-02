@@ -95,6 +95,19 @@ exports.flushAll = function(){
     });
 }
 
+exports.flushStats = function(){
+    exports.del('servers_joined');
+    exports.del('servers_left');
+    exports.del('shards_disconnected');
+    exports.del('shards_resumed');
+    exports.del('errors');
+    exports.del('commands');
+    exports.del('mysql_errors');
+    exports.del('stats');
+
+    exports.setNoExpire('stats_since', Date.now());
+}
+
 exports.getStats = function(){
     return new Promise((resolve, reject) => {
         client.info((err, result) => {

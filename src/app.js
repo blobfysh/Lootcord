@@ -22,6 +22,7 @@ const Leaderboard      = require('./utils/Leaderboard');
 const Airdrop          = require('./utils/Airdrop');
 const MessageCollector = require('./utils/MessageCollector');
 const BlackMarket      = require('./utils/BlackMarket');
+const Clans            = require('./utils/Clans');
 
 const events           = fs.readdirSync(__dirname + '/events');
 const categories       = fs.readdirSync(__dirname + '/commands');
@@ -35,9 +36,11 @@ class Lootcord extends Base {
         this.icons = icons;
         this.itemdata = require('./resources/json/items/completeItemList');
         this.badgedata = require('./resources/json/badges');
+        this.clan_ranks = require('./resources/json/clan_ranks');
         this.trivia_questions = require('./resources/json/trivia_questions');
         this.scramble_words = require('./resources/json/scramble_words');
         this.commands = this.loadCommands();
+        this.clanCommands = this.loadClanCommands();
         this.sets = this.loadSets();
         this.cache = require('./utils/cache');
         this.mysql = new MySQL(config);
@@ -51,6 +54,7 @@ class Lootcord extends Base {
         this.player = new Player(this);
         this.leaderboard = new Leaderboard(this);
         this.bm = new BlackMarket(this);
+        this.clans = new Clans(this);
         this.parse = new ArgParser(this);
         this.Embed = Embed.DiscordEmbed;
         this.airdrop = new Airdrop(this);
@@ -75,7 +79,7 @@ class Lootcord extends Base {
         });
 
         console.log('[APP] Listening for events');
-        for(var event of events){
+        for(let event of events){
             this.bot.on(event.replace('.js', ''), require(`./events/${event}`).run.bind(this));
         }
     }
@@ -83,12 +87,13 @@ class Lootcord extends Base {
     loadCommands(){
         let commands = new Eris.Collection();
 
-        for(var category of categories){
-            const commandFiles = fs.readdirSync(__dirname + `/commands/${category}`);
+        for(let category of categories){
+            
+            const commandFiles = fs.readdirSync(__dirname + `/commands/${category}`).filter(file => file.endsWith('.js'));
         
-            for(var file of commandFiles){
+            for(let file of commandFiles){
                 if(file == 'convert.js' && this.config.debug) continue; // removes convert command to prevent issues with Discoin api
-
+                
                 const command = require(`./commands/${category}/${file}`);
     
                 // set command category based on which folder it's in
@@ -99,6 +104,22 @@ class Lootcord extends Base {
         }
     
         return commands
+    }
+    
+    loadClanCommands(){
+        let commands = new Eris.Collection();
+
+        const clanFiles = fs.readdirSync(__dirname + `/commands/clans/commands`);
+
+        for(let file of clanFiles){
+            const command = require(`./commands/clans/commands/${file}`);
+
+            command.category = 'clans';
+
+            commands.set(command.name, command);
+        }
+
+        return commands;
     }
 
     loadSets(){
@@ -175,7 +196,7 @@ class Lootcord extends Base {
     async startAirdrops(){
         const airdropRows = await this.query(`SELECT * FROM guildInfo WHERE dropChan != 0`);
 
-        for(var i = 0; i < airdropRows.length; i++){
+        for(let i = 0; i < airdropRows.length; i++){
             if(airdropRows[i].guildId !== undefined && airdropRows[i].guildId !== null && airdropRows[i].dropChan !== 0){
                 await this.airdrop.initAirdrop(airdropRows[i].guildId);
             }

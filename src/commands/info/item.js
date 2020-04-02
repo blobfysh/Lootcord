@@ -126,10 +126,10 @@ module.exports = {
             if(itemCraftedWith !== "" || itemRecyclesTo.materials !== undefined) embedItem.addBlankField();
 
             if(itemCraftedWith !== ""){
-                embedItem.addField("🔩 Craft Ingredients:", itemCraftedWith.display.split('\n').map(component =>  app.itemdata[component.split(' ')[1]].icon + component.split(' ')[0] + ' `' + component.split(' ')[1] + '`').join('\n'), true)
+                embedItem.addField("🔩 Craft Ingredients:", itemCraftedWith.display.split('\n').map(component =>  component.split(' ')[0] + ' ' + app.itemdata[component.split(' ')[1]].icon + '`' + component.split(' ')[1] + '`').join('\n'), true)
             }
             if(itemRecyclesTo.materials !== undefined){
-                embedItem.addField("♻ Recycles into:", itemRecyclesTo.display.split('\n').map(item =>  app.itemdata[item.split(' ')[1]].icon + item.split(' ')[0] + ' `' + item.split(' ')[1] + '`').join('\n'), true)
+                embedItem.addField("♻ Recycles into:", itemRecyclesTo.display.split('\n').map(item =>  item.split(' ')[0] + ' ' + app.itemdata[item.split(' ')[1]].icon + '`' + item.split(' ')[1] + '`').join('\n'), true)
             }
 
             message.channel.createMessage(embedItem);
@@ -145,7 +145,6 @@ module.exports = {
             const embedInfo = new app.Embed()
             .setColor('#000')
             .setTitle("Full Items List")
-            .setURL("https://lootcord.com/items")
             .addField("Common", commonList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
             .addField("Uncommon", uncommonList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
             .addField("Rare", rareList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
@@ -228,7 +227,7 @@ function editEmbed(app, type, message){
     if(legendList.length <= 0){
         embedInfo.addBlankField(true)
     }
-    embedInfo.setDescription(`You can also type \`${message.prefix}item <type>\` to see specific items. Types include:\n\`usable\`, \`weapons\`, \`ammo\`, \`banner\`, \`backpack\`, \`material\``)
+    embedInfo.setDescription(`You can also type \`${message.prefix}items <type>\` to see specific items. Types include:\n\`usable\`, \`weapons\`, \`ammo\`, \`banner\`, \`backpack\`, \`material\``)
     embedInfo.setFooter(`Use ${message.prefix}item <item> to retrieve more information!`)
 
     return embedInfo
