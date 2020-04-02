@@ -128,8 +128,7 @@ class Lootcord extends Base {
             adminUsers: new Set(this.config.adminUsers),
             jackpotServers: new Set(),
             activeCmdCooldown: new Set(),
-            disabledCommands: new Set(),
-            gettingRaided: new Set()
+            disabledCommands: new Set()
         }
     }
 

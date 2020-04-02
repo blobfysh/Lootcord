@@ -1,112 +1,104 @@
-const Discord = require('discord.js');
-const { query } = require('../../mysql.js');
-const clans = require('../../methods/clan_methods.js');
-const methods = require('../../methods/methods.js');
 
 module.exports = {
     name: 'vault',
     aliases: ['inv', 'v'],
     description: 'Show the items in a clans vault.',
     long: 'Shows all items in a clans vault.',
-    args: {},
-    examples: ["clan vault mod squad"],
+    args: {"clan/user": "Clan or user to search, will default to your own clan if none specified."},
+    examples: ["clan vault Mod Squad"],
     requiresClan: false,
     minimumRank: 0,
     
-    async execute(message, args, lang, prefix){
-        const scoreRow = (await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`))[0];
-        const mentionedUser = message.mentions.users.first();
+    async execute(app, message, args){
+        const scoreRow = await app.player.getRow(message.author.id);
+        const mentionedUser = app.parse.members(message, args)[0];
 
         if(!args.length && scoreRow.clanId == 0){
-            return message.reply(lang.clans.info[0]);
+            return message.reply('You are not a member of any clan! You can look up other clans by searching their name.');
         }
         else if(!args.length){
-            getVaultInfo(message, lang, scoreRow.clanId);
+            message.channel.createMessage(await getVaultInfo(app, scoreRow.clanId));
         }
         else if(mentionedUser !== undefined){
-            const invitedScoreRow = (await query(`SELECT * FROM scores WHERE userId = ${mentionedUser.id}`))[0];
-            if(!invitedScoreRow){
-                return message.reply(lang.errors[0]);
+            const mentionedScoreRow = await app.player.getRow(mentionedUser.id);
+            if(!mentionedScoreRow){
+                return message.reply(`❌ The person you're trying to search doesn't have an account!`);
             }
-            else if(invitedScoreRow.clanId == 0){
-                return message.reply(lang.clans.errors[1]);
+            else if(mentionedScoreRow.clanId == 0){
+                return message.reply('❌ That user is not in a clan.');
             }
             else{
-                getVaultInfo(message, lang, invitedScoreRow.clanId);
+                message.channel.createMessage(await getVaultInfo(app, mentionedScoreRow.clanId));
             }
         }
         else{
-            var clanName = args.join(" ");
-            const clanRow = (await query(`SELECT * FROM clans WHERE LOWER(name) = ?`, [clanName.toLowerCase()]));
+            let clanName = args.join(" ");
+            const clanRow = (await app.query(`SELECT * FROM clans WHERE LOWER(name) = ?`, [clanName.toLowerCase()]));
 
             if(!clanRow.length){
-                return message.reply(lang.clans.info[1]);
+                return message.reply('I could not find a clan with that name! Maybe you misspelled it?');
             }
             
-            getVaultInfo(message, lang, clanRow[0].clanId);
+            message.channel.createMessage(await getVaultInfo(app, clanRow[0].clanId));
         }
     },
 }
 
-async function getVaultInfo(message, lang, clanId){
-    const clanRow = (await query(`SELECT * FROM clans WHERE clanId = ${clanId}`))[0];
-    //const clanMembers = await clans.getMembers(clanId);
-    //const clanPower = await clans.getPower(clanId);
-    const clanItems = await methods.getuseritems(clanId, {amounts: true, countBanners: true, sep: '`', icon: true});
+async function getVaultInfo(app, clanId){
+    const clanRow = (await app.query(`SELECT * FROM clans WHERE clanId = ${clanId}`))[0];
+    const clanItems = await app.itm.getUserItems(clanId);
 
-    var ultraItemList    = clanItems.ultra;
-    var legendItemList   = clanItems.legendary;
-    var epicItemList     = clanItems.epic;
-    var rareItemList     = clanItems.rare;
-    var uncommonItemList = clanItems.uncommon;
-    var commonItemList   = clanItems.common;
-    var limitedItemList  = clanItems.limited;
+    let ultraItemList    = clanItems.ultra;
+    let legendItemList   = clanItems.legendary;
+    let epicItemList     = clanItems.epic;
+    let rareItemList     = clanItems.rare;
+    let uncommonItemList = clanItems.uncommon;
+    let commonItemList   = clanItems.common;
+    let limitedItemList  = clanItems.limited;
 
-    const embedInfo = new Discord.RichEmbed()
+    const embedInfo = new app.Embed()
     .setColor(13215302)
-    .setTitle(clanRow.name + ' Vault')
-    .setDescription(clanRow.status !== '' ? clanRow.status : lang.clans.info[2])
-    .setThumbnail(clanRow.iconURL)
+    .setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
+    .setTitle('Vault')
+    .setDescription(clanRow.status !== '' ? clanRow.status : 'This clan is too mysterious for a status...')
+    
+    if(clanRow.iconURL){
+        clanEmbed.setThumbnail(clanRow.iconURL)
+    }
+
     if(ultraItemList != ""){
-        let newList = ultraItemList.join('\n');
-        embedInfo.addField("Ultra", newList, true);
+        embedInfo.addField("Ultra", ultraItemList.join('\n'), true);
     }
     
     if(legendItemList != ""){
-        let newList = legendItemList.join('\n');
-        embedInfo.addField("Legendary", newList, true);
+        embedInfo.addField("Legendary", legendItemList.join('\n'), true);
     }
     
     if(epicItemList != ""){
-        let newList = epicItemList.join('\n');
-        embedInfo.addField("Epic", newList, true);
+        embedInfo.addField("Epic", epicItemList.join('\n'), true);
     }
     
     if(rareItemList != ""){
-        let newList = rareItemList.join('\n');
-        embedInfo.addField("Rare", newList, true);
+        embedInfo.addField("Rare", rareItemList.join('\n'), true);
     }
     
     if(uncommonItemList != ""){
-        let newList = uncommonItemList.join('\n');
-        embedInfo.addField("Uncommon", newList, true);
+        embedInfo.addField("Uncommon", uncommonItemList.join('\n'), true);
     }
     
     if(commonItemList != ""){
-        let newList = commonItemList.join('\n');
-        embedInfo.addField("Common", newList, true);
+        embedInfo.addField("Common", commonItemList.join('\n'), true);
     }
     
     if(limitedItemList != ""){
-        let newList = limitedItemList.join('\n');
-        embedInfo.addField("Limited", newList, true);
+        embedInfo.addField("Limited", limitedItemList.join('\n'), true);
     }
     
     if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){
-        embedInfo.addField(lang.clans.vault[0], "\u200b");
+        embedInfo.addField('The vault is empty!', "\u200b");
     }
 
-    embedInfo.addField("\u200b", `Power(slots) used: ${clanItems.itemCount} | Vault value: ${methods.formatMoney(clanItems.invValue, true)}`)
+    embedInfo.addField("\u200b", `Power(slots) used: ${clanItems.itemCount} | Vault value: ${app.common.formatNumber(clanItems.invValue)}`)
 
-    message.channel.send(embedInfo);
+    return embedInfo;
 }

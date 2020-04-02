@@ -4,14 +4,14 @@ module.exports = {
     aliases: ['i', 'inf'],
     description: 'Show information about a clan.',
     long: 'Shows information about a clan.',
-    args: {},
-    examples: ["clan info mod squad"],
+    args: {"clan/user": "Clan or user to search, will default to your own clan if none specified."},
+    examples: ["clan info Mod Squad"],
     requiresClan: false,
     minimumRank: 0,
     
     async execute(app, message, args){
         const scoreRow = await app.player.getRow(message.author.id);
-        let mentionedUser = app.parse.members(message, args)[0];
+        const mentionedUser = app.parse.members(message, args)[0];
 
         if(!args.length && scoreRow.clanId === 0){
             return message.reply('You are not a member of any clan! You can look up other clans by searching their name.');
@@ -20,7 +20,8 @@ module.exports = {
             message.channel.createMessage(await getClanInfo(app, message.author.id, scoreRow.clanId));
         }
         else if(mentionedUser){
-            const invitedScoreRow = (await app.query(`SELECT * FROM scores WHERE userId = ${mentionedUser.id}`))[0];
+            const invitedScoreRow = await app.player.getRow(mentionedUser.id);
+
             if(!invitedScoreRow){
                 return message.reply(`❌ The person you're trying to search doesn't have an account!`);
             }
@@ -76,7 +77,8 @@ async function getClanInfo(app, userId, clanId){
 
     const clanEmbed = new app.Embed()
     .setColor(13215302)
-    .setTitle(app.icons.clan_icon + clanRow.name)
+    .setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
+    .setTitle('Info')
     .setDescription(clanRow.status !== '' ? clanRow.status : 'This clan is too mysterious for a status...')
     .addField('Clan Power (Used / Current / Max)', clanPower.usedPower + '/' + clanPower.currPower + '/' + clanPower.maxPower, true)
     .addField('Founded', getShortDate(clanRow.clanCreated), true)

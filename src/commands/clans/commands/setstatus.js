@@ -1,21 +1,20 @@
 const Filter = require('bad-words');
 const filter = new Filter();
-//TODO probably remove this command entirely...
 
 module.exports = {
     name: 'setstatus',
-    aliases: [''],
-    description: "Sets the users status to display in commands.",
-    long: "Changes your status in the profile command. Supports Discord unicode emoji.",
-    args: {"status": "Status to set in the profile command."},
-    examples: ["setstatus I am very cool"],
-    ignoreHelp: false,
-    requiresAcc: true,
-    requiresActive: false,
-    guildModsOnly: false,
+    aliases: ['status'],
+    description: 'Changes the clan status.',
+    long: 'Changes the clan status.',
+    args: {"status": "Status to set."},
+    examples: ["clan setstatus Better than u"],
+    requiresClan: true,
+    minimumRank: 2,
     
-    async execute(app, message){
-        let statusToSet = message.cleanContent.slice(message.prefix.length).split(/ +/).slice(1).join(" ");
+    async execute(app, message, args){
+        const scoreRow = await app.player.getRow(message.author.id);
+
+        let statusToSet = message.cleanContent.slice(prefix.length).split(/ +/).slice(2).join(" ");
 
         if(statusToSet.length > 120){
             return message.reply(`Your status can only be up to 120 characters long! You tried to set one that was ${statusToSet.length} characters long.`);
@@ -27,8 +26,9 @@ module.exports = {
         statusToSet = filter.clean(statusToSet);
 
         try{
-            await app.query(`UPDATE scores SET status = ? WHERE userId = ?`, [statusToSet, message.author.id]);
+            await app.query(`UPDATE clans SET status = ? WHERE clanId = ?`, [statusToSet, scoreRow.clanId]);
 
+            app.clans.addLog(scoreRow.clanId, `${message.author.username} set the clan status to: ${statusToSet}`);
             message.reply('✅ Successfully set status to: ' + statusToSet);
         }
         catch(err){

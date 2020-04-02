@@ -73,38 +73,31 @@ module.exports = {
                 
                 // item fields
                 if(ultraItemList != ""){
-                    let newList = ultraItemList.join('\n');
-                    embedInfo.addField("Ultra", newList, true);
+                    embedInfo.addField("Ultra", ultraItemList.join('\n'), true);
                 }
                 
                 if(legendItemList != ""){
-                    let newList = legendItemList.join('\n');
-                    embedInfo.addField("Legendary", newList, true);
+                    embedInfo.addField("Legendary", legendItemList.join('\n'), true);
                 }
                 
                 if(epicItemList != ""){
-                    let newList = epicItemList.join('\n');
-                    embedInfo.addField("Epic", newList, true);
+                    embedInfo.addField("Epic", epicItemList.join('\n'), true);
                 }
                 
                 if(rareItemList != ""){
-                    let newList = rareItemList.join('\n');
-                    embedInfo.addField("Rare", newList, true);
+                    embedInfo.addField("Rare", rareItemList.join('\n'), true);
                 }
                 
                 if(uncommonItemList != ""){
-                    let newList = uncommonItemList.join('\n');
-                    embedInfo.addField("Uncommon", newList, true);
+                    embedInfo.addField("Uncommon", uncommonItemList.join('\n'), true);
                 }
                 
                 if(commonItemList != ""){
-                    let newList = commonItemList.join('\n');
-                    embedInfo.addField("Common", newList, true);
+                    embedInfo.addField("Common", commonItemList.join('\n'), true);
                 }
                 
                 if(limitedItemList != ""){
-                    let newList = limitedItemList.join('\n');
-                    embedInfo.addField("Limited", newList, true);
+                    embedInfo.addField("Limited", limitedItemList.join('\n'), true);
                 }
                 
                 if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){

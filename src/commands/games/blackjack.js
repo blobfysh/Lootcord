@@ -117,7 +117,7 @@ module.exports = {
             });
         }
         catch(err){
-            return message.reply('You have an active game of blackjack running!');
+            return message.reply('You have an active command running!');
         }
     },
 }

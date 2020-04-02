@@ -6,9 +6,9 @@ module.exports = {
     name: 'create',
     aliases: [''],
     description: 'Create a clan.',
-    long: 'Create a clan.',
+    long: 'Create a clan. Costs 25,000 Lootcoin.',
     args: {"name": "Desired name of your clan."},
-    examples: ["clan info mod squad"],
+    examples: [],
     requiresClan: false,
     minimumRank: 0,
     

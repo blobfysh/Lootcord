@@ -68,7 +68,7 @@ class Clans {
     }
 
     async hasMoney(clanId, amount){
-        const clan = (await this.app.query(`SELECT * FROM clans WHERE clanId = ${clanId}`))[0];
+        const clan = (await this.app.query(`SELECT * FROM clans WHERE clanId = '${clanId}'`))[0];
 
         if(clan.money >= amount){
             return true;
@@ -78,12 +78,39 @@ class Clans {
         }
     }
 
+    async raidNotify(victimClanId, raiderClanName, moneyStolen, itemsStolen){
+        const users = (await this.app.query(`SELECT * FROM scores WHERE clanId = ${victimClanId}`));
+        
+        for(var i = 0; i < users.length; i++){
+            if(users[i].notify3){
+                const raidedEmb = new this.app.Embed()
+                .setTitle(`Your clan was raided by \`${raiderClanName}\`!`)
+                .addField('Money Stolen:', this.app.common.formatNumber(moneyStolen), true)
+                .addField('Items Stolen:', itemsStolen.join('\n'))
+                .setColor(16734296)
+
+                try{
+                    let user = await this.app.common.fetchUser(users[i].userId, { checkIPC: false });
+                    let dm = await user.getDMChannel()
+                    dm.createMessage(raidedEmb);
+                }
+                catch(err){
+                    // user disabled DMs
+                }
+            }
+        }
+    }
+
     async removeMoney(clanId, amount){
         await this.app.query(`UPDATE clans SET money = money - ${parseInt(amount)} WHERE clanId = ${clanId}`);
     }
 
     async addMoney(clanId, amount){
-        await this.app,query(`UPDATE clans SET money = money + ${parseInt(amount)} WHERE clanId = ${clanId}`);
+        await this.app.query(`UPDATE clans SET money = money + ${parseInt(amount)} WHERE clanId = ${clanId}`);
+    }
+
+    async addLog(clanId, details){
+        await this.app.query(`INSERT INTO clan_logs (clanId, details, logTime, logDate) VALUES (?, ?, ?, NOW())`, [clanId, details, new Date().getTime()]);
     }
 }
 
