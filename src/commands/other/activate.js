@@ -7,8 +7,8 @@ module.exports = {
     args: {},
     examples: [],
     ignoreHelp: false,
-    requiresAcc: false,
-    requiresActive: true,
+    requiresAcc: true,
+    requiresActive: false,
     guildModsOnly: false,
     
     async execute(app, message){
