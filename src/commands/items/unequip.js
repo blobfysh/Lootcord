@@ -54,7 +54,7 @@ module.exports = {
             await app.cd.setCD(message.author.id, 'attack', 3600 * 1000); // 1 hour attack cooldown
             await app.cd.clearCD(message.author.id, 'shield');
             
-            message.reply(`Successfully unequipped your ${app.icons.items.shield}**shield**, you have also been given a 60 minute cooldown from attacking other players.`);
+            message.reply(`Successfully unequipped your ${app.icons.items.shield}**shield**, you have also been given a \`60 minute\` cooldown from attacking other players.`);
         }
 
         else{

@@ -26,10 +26,10 @@ module.exports = {
             }
         }
         else if(scoreRow.clanId == 0 && command.requiresClan){
-            return message.reply('You are not a member of any clan.');
+            return message.reply('❌ That command requires that you are a member of a clan.');
         }
         else if(scoreRow.clanRank < command.minimumRank){
-            return message.reply('Your clan rank is not high enough to use this command! Your rank: `' + app.clan_ranks[scoreRow.clanRank].title + '` Required: `' + app.clan_ranks[command.minimumRank].title + '`+');
+            return message.reply('❌ Your clan rank is not high enough to use this command! Your rank: `' + app.clan_ranks[scoreRow.clanRank].title + '` Required: `' + app.clan_ranks[command.minimumRank].title + '`+');
         }
         else if(command.levelReq && scoreRow.level < command.levelReq){
             return message.reply('❌ You must be atleast level `' + command.levelReq + '` to use this command!');

@@ -30,7 +30,7 @@ module.exports = {
                 message.channel.createMessage(evalEmbed);
             }
             else{
-                for(var i = 0; i < (segments.length < 5 ? segments.length : 5); i++){
+                for(let i = 0; i < (segments.length < 5 ? segments.length : 5); i++){
                     await message.channel.createMessage('```js\n' + segments[i] + '```');
                 }
             }

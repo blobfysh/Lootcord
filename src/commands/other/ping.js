@@ -14,31 +14,36 @@ module.exports = {
     
     async execute(app, message){
         console.log(app.bot.shards.get(app.bot.guildShardMap[message.guild.id]).latency);
-        /*
+
         let items = app.parse.items(message.args);
+        
         message.reply('items found in message:```\n' + items.join('\n') + '```');
-        */
+        
+        app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id);
+        
+        const usercollector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
+        
+        console.log(await wait());
 
-        try{
-            app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id);
-
-            const usercollector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
-
-            usercollector.on('collect', m => {
-                m.channel.createMessage(`<@${m.author.id}>, You must be that unique user!`);
-            });
-            usercollector.on('end', reason => {
-                console.log(reason);
-                message.channel.createMessage('The user collector ended!');
-            });
-        }
-        catch(err){
-            message.channel.createMessage('You tried creating a collector while another was already active: ' + err.toString());
+        async function wait(){
+            return new Promise(resolve => {
+                usercollector.on('collect', m => {
+                    resolve(`<@${m.author.id}>, You must be that unique user!`);
+                });
+                usercollector.on('end', reason => {
+                    resolve('The user collector ended!');
+                });        
+            })
         }
         
 
-
         /*
+
+        awaiting message
+        const messages = await app.msgCollector.awaitMessages(message.author.id, message.channel.id, m => {
+            return m.author.id === message.author.id
+        }, {maxMatches: 1});
+
         app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id);
 
         const usercollector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;

@@ -44,9 +44,8 @@ class CommandHandler {
         // ignore mod command if user is not a moderator or admin
         if(command.category == "moderation" && (!(await this.app.cd.getCD(message.author.id, 'mod')) && !this.app.sets.adminUsers.has(message.author.id))) return;
 
-        //TODO make this automatic by creating account here
-        // check if command requires an account at all. 
-        if(command.requiresAcc && !(account)) return message.channel.createMessage(`❌ You need an account to use that command. Use \`${prefix}play\` to make one!`);
+        // check if command requires an account at all, create new account for player if command requires it.
+        if(command.requiresAcc && !(account)) await this.app.player.createAccount(message.author.id);
 
         // check if player meets the minimum level required to run the command
         if(command.levelReq && (account.level < command.levelReq)) return message.channel.createMessage('❌ You must be atleast level `' + command.levelReq + '` to use that command!');

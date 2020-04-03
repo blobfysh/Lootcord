@@ -52,7 +52,8 @@ module.exports = {
         });
 
         const embed = new app.Embed()
-        .setTitle(message.prefix + 'play - Creates an account!')
+        .setAuthor('Lootcord Commands', message.author.avatarURL)
+        .setDescription('For details on using clan commands, you can type `clan help`, or check this [link](https://github.com/blobfysh/Lootcord/wiki/Clans).')
         .setFooter(`To see more about a command, use ${message.prefix}help <command>`)
         .setColor(13215302)
 
@@ -65,7 +66,7 @@ module.exports = {
         if(categoriesArr.includes('utilities')) embed.addField('⚙ Utility', categories['utilities'].map(cmd => '`' + cmd + '`').join(', '));
         if(categoriesArr.includes('other')) embed.addField('📈 Other', categories['other'].map(cmd => '`' + cmd + '`').join(', '));
         
-        embed.addField('⚔️ Clans', 'Use `clan help` to see clan commands. Check this [link](https://github.com/blobfysh/Lootcord/wiki/Clans) out for more details on how clans work.')
+        embed.addField('⚔️ Clans', Array.from(app.clanCommands.keys()).map(cmd => '`' + cmd + '`').join(', '))
         embed.addField('💡 Random Tip', tips[Math.floor(Math.random() * tips.length)])
 
         message.channel.createMessage(embed);

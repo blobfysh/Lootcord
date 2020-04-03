@@ -7,9 +7,9 @@ class Clans {
     async getMembers(clanId){
         const users = (await this.app.query(`SELECT * FROM scores WHERE clanId = ${clanId}`));
         
-        var memberIds = [];
+        let memberIds = [];
 
-        for(var i = 0; i < users.length; i++){
+        for(let i = 0; i < users.length; i++){
             memberIds.push(users[i].userId)
         }
 
@@ -28,17 +28,17 @@ class Clans {
     }
 
     async getClanData(clanId){
-        var currPower = 0;
-        var maxPower = 0;
-        var kills = 0;
-        var deaths = 0;
-        var timePlayed = 0;
+        let currPower = 0;
+        let maxPower = 0;
+        let kills = 0;
+        let deaths = 0;
+        let timePlayed = 0;
         const dateTime = new Date().getTime();
 
         const clanItems = await this.app.itm.getUserItems(clanId);
         const memberRows = (await this.app.query(`SELECT * FROM scores WHERE clanId = ${clanId}`));
 
-        for(var i = 0; i < memberRows.length; i++){
+        for(let i = 0; i < memberRows.length; i++){
             kills += memberRows[i].kills;
             deaths += memberRows[i].deaths;
             currPower += memberRows[i].power;

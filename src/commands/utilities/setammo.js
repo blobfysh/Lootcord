@@ -30,7 +30,7 @@ module.exports = {
             return message.reply("❌ You don't own that ammo.");
         }
 
-        await query(`UPDATE scores SET ammo = '${equipItem}' WHERE userId = ${message.author.id}`);
+        await app.query(`UPDATE scores SET ammo = '${equipItem}' WHERE userId = ${message.author.id}`);
 
         message.reply(`✅ Successfully set ${app.itemdata[equipItem].icon}\`${equipItem}\` as your preferred ammo type. (Will prioritize over other ammo types.)`);
     },

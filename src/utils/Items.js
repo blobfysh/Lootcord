@@ -278,6 +278,119 @@ class Items {
         }
         return totalItemCt;
     }
+
+    openBox(type, amount = 1, luck){
+        let itemsDisplay      = [];
+        let finalItemsAmounts = [];
+        let xpToAdd           = 0;
+        let weightedArr       = this.generateWeightedArray(type, luck);
+    
+        for(let i = 0; i < amount; i++){
+            let rand = this.pickRandomItem(type, weightedArr);
+            let splitRand = rand.item.split('|');
+    
+            xpToAdd += rand.xp;
+            finalItemsAmounts.push(rand.item);
+            itemsDisplay.push(this.app.itemdata[splitRand[0]].icon + " " + splitRand[1] + "x `" + splitRand[0] + "`");
+        }
+
+        return {
+            xp: xpToAdd,
+            itemAmounts: finalItemsAmounts,
+            display: itemsDisplay
+        }
+    }
+
+    generateWeightedArray(type, luck){
+        let weightedArr = [];
+        let luckMltplr = 0;
+    
+        Object.keys(this.app.itemdata[type].rates).forEach(percentage => {
+            if(parseFloat(percentage) <= 25){
+                luckMltplr = luck/2;
+            }
+            else{
+                luckMltplr = 0;
+            }
+
+            // Multiply the percentage by 2 for accuracy, 0.5 => 1, increase for better accuracy ie. 0.2 => 1 would require multiplier of 5
+            for(let i = 0; i < (parseFloat(percentage) * 2) + luckMltplr; i++){
+                weightedArr.push(percentage);
+            }
+        });
+    
+        return weightedArr;
+    }
+
+    pickRandomItem(type, weightedArray){
+        let rand = weightedArray[Math.floor(Math.random() * weightedArray.length)];
+        let rewards = this.app.itemdata[type].rates[rand].items;
+    
+        return {
+            xp: this.app.itemdata[type].rates[rand].xp,
+            item: rewards[Math.floor(Math.random() * rewards.length)]
+        };
+    }
+
+    /**
+     * Gets random items from a user, can also return multiple of the same item.
+     * @param {*} userId User to get random items from
+     * @param {*} amount Amount of items to get
+     */
+    async getRandomUserItems(userId, amount){
+        const items = await this.getItemObject(userId);
+
+        let randArr = [];
+        
+        for(let item in items){
+            if(this.app.itemdata[item].canBeStolen){
+                for(let i = 0; i < items[item]; i++){
+                    randArr.push(item);
+                }
+            }
+        }
+
+        // no amount specified, get amount based on user item count.
+        if(!amount && amount !== 0){
+            if(randArr.length == 0){
+                amount = 0;
+            }
+            else if(randArr.length <= 9){
+                amount = 2;
+            }
+            else{
+                amount = Math.floor(randArr.length / 5);
+            }
+        }
+
+        randArr = randArr.sort(() => 0.5 - Math.random());
+        
+        let results = randArr.slice(0, amount);
+        let display = [];
+        let amountResults = [];
+
+        for(let i = 0; i < results.length; i++){
+            let exists = amountResults.filter(item => item.split('|')[0] === results[i]);
+
+            if(!exists.length){
+                let sameItems = results.filter(item => item === results[i]);
+
+                amountResults.push(results[i] + '|' + sameItems.length);
+            }
+        }
+
+        for(let item of amountResults){
+            let split = item.split('|');
+
+            display.push(`${split[1]}x ${this.app.itemdata[split[0]].icon}\`${split[0]}\``);
+        }
+
+        return {
+            items: results,
+            display: display,
+            amounts: amountResults
+        }
+    }
 }
 
 module.exports = Items;

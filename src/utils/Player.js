@@ -131,6 +131,15 @@ class Player {
 
     /**
      * 
+     * @param {*} id ID of user to add xp to.
+     * @param {*} amount Amount of xp to add.
+     */
+    async addPoints(id, amount){
+        await this.app.query(`UPDATE scores SET points = points + ${parseInt(amount)} WHERE userId = ${id}`);
+    }
+
+    /**
+     * 
      * @param {string} badge Badge to get icon for
      */
     getBadge(badge){

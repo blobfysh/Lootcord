@@ -8,10 +8,12 @@ class ArgParser {
     }
 
     /**
-     * Finds all items from an array of arguments
+     * Finds all items from an array of arguments, works for up to 6 items
      * @param {string[]} args Array of args to find items from
      */
     items(args){
+        args = args.slice(0, 6);
+
         let itemArgs = args.map((arg, i) => {
 
             // check if two args make up item name
@@ -80,7 +82,8 @@ class ArgParser {
             case "care":
             case "package": itemSearched = "care_package"; break;
             case "cyber": itemSearched = "cyber_pack"; break;
-            case "supply": itemSearched = "suppy_signal"; break;
+            case "signal":
+            case "supply": itemSearched = "supply_signal"; break;
             case "powder": itemSearched = "gunpowder"; break;
             case "smg": itemSearched = "smg_body"; break;
             case "pump": itemSearched = "pump_body"; break;

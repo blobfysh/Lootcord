@@ -70,7 +70,7 @@ module.exports = {
                     await app.player.removeMoney(message.author.id, listingFee);
                     await app.itm.removeItem(message.author.id, itemName, itemAmnt);
 
-                    var listingId = await listItem(app, message, itemName, itemAmnt, itemCost);
+                    let listingId = await listItem(app, message, itemName, itemAmnt, itemCost);
 
                     return botMessage.edit(`Success! Your \`${itemName}\` was listed with the ID: \`${listingId}\`.`, {embed: null});
                 }
@@ -205,8 +205,8 @@ module.exports = {
 }
 
 async function listItem(app, message, item, amount, price){
-    var listId = shortid.generate();
-    var pricePer = Math.floor(price / amount);
+    let listId = shortid.generate();
+    let pricePer = Math.floor(price / amount);
 
     const BMrow = await app.query(insertBMSQL, [
         listId, 

@@ -4,7 +4,7 @@ module.exports = {
     aliases: [''],
     description: 'Show all clan commands.',
     long: 'Shows all clan commands.',
-    args: {},
+    args: {"command": "Command to lookup info for."},
     examples: [],
     requiresClan: false,
     minimumRank: 0,

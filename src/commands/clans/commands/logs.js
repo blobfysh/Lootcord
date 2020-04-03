@@ -52,7 +52,7 @@ async function getClanLogs(app, clanId){
     let display = '';
     let header = 'Description                            Date              ';
 
-    for(var i = 0; i < logs.length; i++){
+    for(let i = 0; i < logs.length; i++){
         display += `${logs[i].details.slice(0, 38)}`.padEnd(39, ' ') + `${getShortDate(logs[i].logTime)}\n`;
     }
 
@@ -66,16 +66,16 @@ async function getClanLogs(app, clanId){
 }
 
 function getShortDate(date){
-    var convertedTime = new Date(date).toLocaleString('en-US', {
+    let convertedTime = new Date(date).toLocaleString('en-US', {
         timeZone: 'America/New_York'
     });
     convertedTime = new Date(convertedTime);
     
-    var d = convertedTime;
-    var month = d.getMonth() + 1;
-    var day = d.getDate();
-    var year = d.getFullYear();
-    var time = d.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'}).replace(' ', '');
+    let d = convertedTime;
+    let month = d.getMonth() + 1;
+    let day = d.getDate();
+    let year = d.getFullYear();
+    let time = d.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'}).replace(' ', '');
     
     return month + '/' + day + '/' + year.toString().slice(2) + ' ' + time + ' EST';
 }

@@ -14,8 +14,12 @@ module.exports = {
     
     async execute(app, message){
         const gamesRow = await getGamesData(app);
-        let buyAmount = app.parse.numbers(message.args)[0] || 1;
         let buyItem = app.parse.items(message.args)[0];
+        let buyAmount = app.parse.numbers(message.args)[0] || 1;
+        //let buyItem = app.parse.items(message.args)[0];
+
+        console.log(buyAmount);
+        console.log(buyItem);
 
         if(buyItem){
             let currency = app.itemdata[buyItem].buy.currency;

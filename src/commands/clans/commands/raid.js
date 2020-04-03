@@ -42,7 +42,7 @@ module.exports = {
             const isRaidable = clanPower.usedPower > clanPower.currPower ? true : false;
             const itemsToSteal = clanPower.usedPower - clanPower.currPower;
 
-            var raidEmbed = new app.Embed()
+            const raidEmbed = new app.Embed()
             .setAuthor(message.author.username + ' | ' + raider.name, message.author.avatarURL)
             .setDescription(`Raiding: \`${clanRow[0].name}\``)
             .setTitle(app.icons.loading)

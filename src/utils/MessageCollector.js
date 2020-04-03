@@ -25,6 +25,11 @@ class MessageCollector {
 
         if(userCollectorObj && userCollectorObj.filter(msg)){
             userCollectorObj.collector.emit('collect', msg);
+            userCollectorObj.collected.push(msg);
+
+            if(userCollectorObj.maxMatches && userCollectorObj.collected.length >= userCollectorObj.maxMatches){
+                this.stopCollector([`${msg.author.id}_${msg.channel.id}`], userCollectorObj.collected);
+            }
         }
     }
 
@@ -63,7 +68,7 @@ class MessageCollector {
      * @param {*} filter custom filter options
      * @param {*} options options.time - time in milliseconds collector should last
      */
-    createUserCollector(userId, channelId, filter, options = { time: 15000 }){
+    createUserCollector(userId, channelId, filter, options = { time: 15000, maxMatches: undefined }){
         // check if a collector already exists for this user on this channel
         if(this.collectors[`${userId}_${channelId}`]){
             throw new Error('Overlapping collectors should be handled gracefully. You should be checking if a collector already exists before creating a new one.');
@@ -82,18 +87,30 @@ class MessageCollector {
         this.collectors[`${userId}_${channelId}`] = {
             timer: timer,
             collector: eventCollector,
+            collected: [],
+            maxMatches: options.maxMatches,
             filter: filter
         };
+    }
+
+    awaitMessages(userId, channelId, filter, options = { time: 15000, maxMatches: 1 }){
+        // check if a collector already exists for this user on this channel
+        this.createUserCollector(userId, channelId, filter, options);
+        const collector = this.collectors[`${userId}_${channelId}`].collector;
+
+        return new Promise((resolve) => {
+            collector.on('end', resolve)
+        });
     }
 
     /**
      * Clears timeout for collector and stops it
      * @param {string} key Key of collector to remove, can be channel ID or User ID + channel ID
      */
-    stopCollector(key){
+    stopCollector(key, message = 'forced'){
         if(this.collectors[key]){
             clearTimeout(this.collectors[key].timer);
-            this.collectors[key].collector.emit('end', 'forced');
+            this.collectors[key].collector.emit('end', message);
             delete this.collectors[key];
         }
     }

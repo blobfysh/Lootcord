@@ -31,8 +31,8 @@ module.exports = {
             return message.reply(`You don't have that much money! You currently have ${app.common.formatNumber(row.money)}`);
         }
         
-        if(gambleAmount > 750000){
-            return message.reply(`Woah there high roller, you cannot gamble more than ${app.common.formatNumber(750000)} on coinflip.`);
+        if(gambleAmount > 1000000){
+            return message.reply(`Woah there high roller, you cannot gamble more than ${app.common.formatNumber(1000000)} on coinflip.`);
         }
         
         

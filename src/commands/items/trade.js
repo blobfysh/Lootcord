@@ -1,9 +1,3 @@
-// const Discord = require('discord.js');
-// const { query } = require('../mysql.js');
-// const methods = require('../methods/methods.js');
-// const config = require('../json/_config.json');
-// const itemdata = require('../json/completeItemList.json');
-// const general = require('../methods/general');
 const MAX_DISPARITY = 2; // number of times greater one persons value can be over the others
 
 module.exports = {
@@ -137,7 +131,6 @@ module.exports = {
                                             tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix), message.member, user);
                                         }
                                         catch(err){
-                                            console.warn(require('util').inspect(err))
                                             if(err.player){
                                                 botMessage.edit(`❌ **${err.player.effectiveName}** ${err.msg}`);
                                             }
@@ -177,7 +170,6 @@ module.exports = {
                                             tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user);
                                         }
                                         catch(err){
-                                            console.warn(require('util').inspect(err))
                                             if(err.player){
                                                 botMessage.edit(`❌ **${err.player.effectiveName}** ${err.msg}`);
                                             }

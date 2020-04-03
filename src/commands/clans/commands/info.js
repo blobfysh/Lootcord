@@ -97,16 +97,16 @@ async function getClanInfo(app, userId, clanId){
 }
 
 function getShortDate(date){
-    var convertedTime = new Date(date).toLocaleString('en-US', {
+    let convertedTime = new Date(date).toLocaleString('en-US', {
         timeZone: 'America/New_York'
     });
     convertedTime = new Date(convertedTime);
     
-    var d = convertedTime;
-    var month = d.getMonth() + 1;
-    var day = d.getDate();
-    var year = d.getFullYear();
-    var time = d.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'}).replace(' ', '');
+    let d = convertedTime;
+    let month = d.getMonth() + 1;
+    let day = d.getDate();
+    let year = d.getFullYear();
+    let time = d.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'}).replace(' ', '');
     
     return month + '/' + day + '/' + year.toString().slice(2) + ' ' + time + ' EST';
 }
