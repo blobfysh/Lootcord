@@ -50,9 +50,6 @@ module.exports = {
         else if(await app.cd.getCD(user.id, 'peck')){
             return message.reply(`That person is under the effects of ${app.itemdata['peck_seed'].icon}\`peck_seed\``);
         }
-        else if(app.sets.activeCmdCooldown.has(user.id)){
-            return message.reply("This user has an active command running! Wait for them to finish the command before trading with them.");
-        }
 
         const botMessage = await message.channel.createMessage(`<@${user.id}>, **${message.member.effectiveName}** would like to trade with you!`);
         

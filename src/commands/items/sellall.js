@@ -37,7 +37,7 @@ module.exports = {
                 }
             }
             if(totalAmount <= 0){
-                return message.reply("You don't have any items of that quality.");
+                return message.reply("❌ You don't have any items of that quality.");
             }
 
             const botMessage = await message.reply(`Sell ${totalAmount}x \`${sellItem.toLowerCase()}\` items for ${app.common.formatNumber(commonTotal)}?`);
@@ -63,10 +63,10 @@ module.exports = {
                         }
                         await app.player.addMoney(message.author.id, parseInt(commonTotal));
 
-                        message.reply(`Successfully sold all ${sellItem.toLowerCase()} items.`);
+                        botMessage.edit(`Successfully sold all ${sellItem.toLowerCase()} items.`);
                     }
                     else{
-                        message.reply('Sellall failed. Your inventory was altered during the sale.');
+                        botMessage.edit('❌ Sellall failed. Your inventory was altered during the sale.');
                     }
                 }
                 else{
@@ -96,7 +96,7 @@ module.exports = {
             }
 
             if(totalAmount <= 0){
-                return message.reply("You don't have any items of that quality.");
+                return message.reply("❌ You don't have any items you can sell.");
             }
 
             const botMessage = await message.reply(`Sell ${totalAmount}x items for ${app.common.formatNumber(commonTotal)}?`.replace('{0}', totalAmount));
@@ -122,10 +122,10 @@ module.exports = {
                         }
                         await app.player.addMoney(message.author.id, parseInt(commonTotal));
 
-                        message.reply('Successfully sold all items.');
+                        botMessage.edit('Successfully sold all items.');
                     }
                     else{
-                        message.reply('Sellall failed. Your inventory was altered during the sale.');
+                        botMessage.edit('❌ Sellall failed. Your inventory was altered during the sale.');
                     }
                 }
                 else{

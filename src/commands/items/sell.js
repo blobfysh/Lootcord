@@ -39,10 +39,10 @@ module.exports = {
                         if(hasItems){
                             app.player.addMoney(message.author.id, parseInt(itemPrice * sellAmount));
                             app.itm.removeItem(message.author.id, sellItem, sellAmount);
-                            message.reply(`Successfully sold ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(itemPrice * sellAmount)}.`);
+                            botMessage.edit(`Successfully sold ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(itemPrice * sellAmount)}.`);
                         }
                         else{
-                            message.reply("You don't have enough of that item!");
+                            botMessage.edit("❌ You don't have enough of that item!");
                         }
                     }
                     else{
@@ -54,7 +54,7 @@ module.exports = {
                 }
             }
             else{
-                message.reply("You can't sell that item!");
+                message.reply("❌ You can't sell that item!");
             }
         }
         else{

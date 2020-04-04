@@ -181,7 +181,7 @@ class Player {
                     await this.app.itm.addItem(message.author.id, 'ultra_box', 1);
                 }
                 else{
-                    levelItem = `2x ${this.app.itemdata['item_box'].icon}item_box`;
+                    levelItem = `2x ${this.app.itemdata['item_box'].icon}\`item_box\``;
                     await this.app.itm.addItem(message.author.id, 'item_box', 2);
                 }
 
