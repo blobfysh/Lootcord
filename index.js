@@ -18,7 +18,7 @@ const sharder = new Sharder('Bot ' + config.botToken, '/src/app.js', {
             TYPING_START: true,
             VOICE_STATE_UPDATE: true
         },
-        messageLimit: 1,
+        messageLimit: 30,
         disableEveryone: true,
         defaultImageFormat: 'png',
         defaultImageSize: 256,

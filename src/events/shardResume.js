@@ -1,4 +1,4 @@
 exports.run = function(id){
-    console.error('Shard ' + id + ' resumed');
+    console.warn('Shard ' + id + ' resumed');
     this.cache.incr('shards_resumed');
 }

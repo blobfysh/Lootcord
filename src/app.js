@@ -73,8 +73,8 @@ class Lootcord extends Base {
             await this.startAirdrops();
         }
 
-        this.bot.editStatus(null, {
-            name: 't-help',
+        this.bot.editStatus('online', {
+            name: 't-help | early alpha beta TEST',
             type: 0
         });
 
@@ -123,11 +123,8 @@ class Lootcord extends Base {
     }
 
     loadSets(){
-        //TODO make this obsolete by using cache
         return {
             adminUsers: new Set(this.config.adminUsers),
-            jackpotServers: new Set(),
-            activeCmdCooldown: new Set(),
             disabledCommands: new Set()
         }
     }

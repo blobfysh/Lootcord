@@ -37,12 +37,7 @@ module.exports = {
         if(gambleAmount > 50000){
             return message.reply(`Woah there high roller, you cannot gamble more than ${app.common.formatNumber(50000)} on jackpot.`);
         }
-
-        // Check if there's already an active jackpot in the server.
-        if(app.sets.jackpotServers.has(message.guild.id)){
-            // jackpot active
-            return message.reply('There is already an active jackpot in this server.');
-        }
+        
         const botMessage = await message.reply(`You are about to start a server jackpot with an entry of: ${app.common.formatNumber(gambleAmount)}\nAre you sure?`);
 
         try{

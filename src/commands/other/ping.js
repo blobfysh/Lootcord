@@ -18,24 +18,6 @@ module.exports = {
         let items = app.parse.items(message.args);
         
         message.reply('items found in message:```\n' + items.join('\n') + '```');
-        
-        app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id);
-        
-        const usercollector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
-        
-        console.log(await wait());
-
-        async function wait(){
-            return new Promise(resolve => {
-                usercollector.on('collect', m => {
-                    resolve(`<@${m.author.id}>, You must be that unique user!`);
-                });
-                usercollector.on('end', reason => {
-                    resolve('The user collector ended!');
-                });        
-            })
-        }
-        
 
         /*
 

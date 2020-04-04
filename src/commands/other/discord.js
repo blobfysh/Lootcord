@@ -11,6 +11,6 @@ module.exports = {
     guildModsOnly: false,
     
     execute(app, message){
-        message.channel.createMessage("https://discord.gg/7XNbdzP");
+        message.channel.createMessage("https://discord.gg/apKSxuE");
     },
 }

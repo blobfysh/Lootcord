@@ -9,7 +9,7 @@ module.exports = {
     },
     examples: ["inv blobfysh#4679"],
     ignoreHelp: false,
-    requiresAcc: false,
+    requiresAcc: true,
     requiresActive: false,
     guildModsOnly: false,
     

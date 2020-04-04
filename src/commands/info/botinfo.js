@@ -29,7 +29,7 @@ module.exports = {
         embedInfo.addField("Library", codeWrap("Eris", 'js'), true)
         embedInfo.addField("Creators","blobfysh#4679\nOGSteve#0007",true)
         embedInfo.addField("Website", "https://lootcord.com",true)
-        embedInfo.addField("Discord","https://discord.gg/7XNbdzP",true)
+        embedInfo.addField("Discord","https://discord.gg/apKSxuE",true)
         message.channel.createMessage(embedInfo);
     },
 }
