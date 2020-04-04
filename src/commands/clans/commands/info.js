@@ -89,7 +89,7 @@ async function getClanInfo(app, userId, clanId){
         clanEmbed.setThumbnail(clanRow.iconURL)
     }
     clanEmbed.addBlankField()    
-    clanEmbed.addField(`Bank (Interest Rate: \`${((clanMembers.count * app.config.clan_interest_rate) * 100).toFixed(1)}%\`)`, app.common.formatNumber(clanRow.money))
+    clanEmbed.addField(`Bank (Interest Rate: \`${((clanMembers.count * app.config.clanInterestRate) * 100).toFixed(1)}%\`)`, app.common.formatNumber(clanRow.money))
     clanEmbed.addField(`Members (${clanMembers.count})`, membersList.join('\n'), true)
     clanEmbed.addField('Member Stats', `${clanPower.kills + ' kills | ' + clanPower.deaths + ' deaths'}\n${app.cd.convertTime(clanPower.playtime)} of total playtime`, true)
     

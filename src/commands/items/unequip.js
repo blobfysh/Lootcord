@@ -21,7 +21,7 @@ module.exports = {
                 await app.query(`UPDATE scores SET inv_slots = inv_slots - ${app.itemdata[userRow.backpack].inv_slots} WHERE userId = ${message.author.id}`);
                 await app.itm.addItem(message.author.id, userRow.backpack, 1);
 
-                message.reply(`Successfully unequipped ${app.itemdata[userRow.backpack].icon}\`${userRow.backpack}\`.\nYour carry capacity is now **${app.config.base_inv_slots + (userRow.inv_slots - app.itemdata[userRow.backpack].inv_slots)}** items.`);
+                message.reply(`Successfully unequipped ${app.itemdata[userRow.backpack].icon}\`${userRow.backpack}\`.\nYour carry capacity is now **${app.config.baseInvSlots + (userRow.inv_slots - app.itemdata[userRow.backpack].inv_slots)}** items.`);
             }
             else{
                 message.reply(`❌ You don't have a backpack equipped! You can check what backpacks you own in your \`inventory\`.`);

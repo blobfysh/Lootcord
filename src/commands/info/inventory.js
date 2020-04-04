@@ -61,7 +61,7 @@ module.exports = {
                     embedInfo.setColor(app.itemdata[userRow.banner].bannerColor);
                 }
                 
-                embedInfo.addField('Level ' + userRow.level, `\`${xp.needed} xp until level ${userRow.level}\``, true)
+                embedInfo.addField('Level ' + userRow.level, `\`${xp.needed} xp until level ${userRow.level + 1}\``, true)
 
                 if(shieldLeft){
                     embedInfo.addField("Shield Active", '🛡 `' + shieldLeft + '`', true);

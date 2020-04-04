@@ -27,7 +27,7 @@ module.exports = {
         const prestigeEmbed = new app.Embed()
         .setTitle('Upgrade your prestige level!')
         .addField('You will lose', `${app.icons.minus} Trade-in all items (except ***Limited***)\n${app.icons.minus} Hand over your Lootcoins (${app.common.formatNumber(row.money)} → ${app.common.formatNumber(100)})\n${app.icons.minus} Reset level EXP and skills (Lvl ${row.level} → 1)\n${app.icons.minus} Stats such as kills and deaths reset`)
-        .addField('Gain the following', `${app.icons.plus} A unique \`prestige_1\` banner\n${app.icons.plus} A badge next to your name displayed on your profile, leaderboards, and attack menus\n${app.icons.plus} \`5\` permanent inventory slots (${app.config.base_inv_slots + (5 * row.prestige)} → ${app.config.base_inv_slots + (5 * (row.prestige + 1))})`)
+        .addField('Gain the following', `${app.icons.plus} A unique \`prestige_1\` banner\n${app.icons.plus} A badge next to your name displayed on your profile, leaderboards, and attack menus\n${app.icons.plus} \`5\` permanent inventory slots (${app.config.baseInvSlots + (5 * row.prestige)} → ${app.config.baseInvSlots + (5 * (row.prestige + 1))})`)
         .addField('Minimum Lootcoin Required', app.common.formatNumber(price), true)
         .addField('Minimum Items Required', `${requiredItemCt} (With a total value of atleast ${app.common.formatNumber(requiredItemVal)})`, true)
         .setColor(13215302)

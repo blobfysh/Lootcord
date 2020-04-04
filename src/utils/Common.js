@@ -16,17 +16,30 @@ class Common {
     
     calculateXP(playerXP, playerLVL){
         let currLvlXP = 0;
+        let xpNeededTotal = 0;
 
         for(let i = 1; i <= playerLVL; i++){
+            xpNeededTotal += Math.floor(50*(i**1.7));
             if(i == playerLVL){
                 break;
             }
             currLvlXP += Math.floor(50*(i**1.7));
         }
 
+        // curLvlXp - how much xp player has relative to their level
+        
+        // needed - xp needed to level up relative to players current points
+
+        // neededForLvl - how much xp is required for next level
+
+        // totalNeeded - the total amount of xp needed to level up, largest because its the sum of all previous levels xp required
+        // (this is the raw amount, and isn't shown in any commands, only used for to check if player should level up)
+
         return {
-            current: playerXP - currLvlXP,
-            needed: Math.floor(50 * (playerLVL ** 1.7))
+            curLvlXp: playerXP - currLvlXP,
+            needed: xpNeededTotal - playerXP,
+            neededForLvl: Math.floor(50*(playerLVL**1.7)),
+            totalNeeded: xpNeededTotal
         }
     }
 

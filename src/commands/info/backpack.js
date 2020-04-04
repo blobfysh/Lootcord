@@ -16,7 +16,7 @@ module.exports = {
         const itemCt = await app.itm.getItemCount(message.author.id);
         
         if(row.backpack !== "none"){
-            message.reply("\n**Backpack equipped:** " + app.itemdata[row.backpack].icon + "`" + row.backpack + "`\n**Inventory space:** `" + itemCt.capacity + "` (base " + (app.config.base_inv_slots + (5 * row.prestige)) + " ***+" + app.itemdata[row.backpack].inv_slots + "***)\nIncrease space by equipping a better backpack!");
+            message.reply("\n**Backpack equipped:** " + app.itemdata[row.backpack].icon + "`" + row.backpack + "`\n**Inventory space:** `" + itemCt.capacity + "` (base " + (app.config.baseInvSlots + (5 * row.prestige)) + " ***+" + app.itemdata[row.backpack].inv_slots + "***)\nIncrease space by equipping a better backpack!");
         }
         else{
             message.reply("\n**Backpack equipped:** " + "`" + row.backpack + "`\n**Inventory space:** `" + itemCt.capacity + "`\nIncrease space by equipping a better backpack!");

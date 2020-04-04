@@ -127,8 +127,8 @@ class Items {
 
         return {
             itemCt: totalItemCt,
-            maxCt: (this.app.config.base_inv_slots + scoreRow.inv_slots),
-            capacity: (totalItemCt + "/" + (this.app.config.base_inv_slots + scoreRow.inv_slots))
+            maxCt: (this.app.config.baseInvSlots + scoreRow.inv_slots),
+            capacity: (totalItemCt + "/" + (this.app.config.baseInvSlots + scoreRow.inv_slots))
         }
     }
 

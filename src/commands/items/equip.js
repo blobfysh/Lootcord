@@ -39,7 +39,7 @@ module.exports = {
                     else{
                         await app.query(`UPDATE scores SET inv_slots = inv_slots + ${app.itemdata[equipItem].inv_slots} WHERE userId = ${message.author.id}`);
 
-                        message.reply(`Successfully equipped ${app.itemdata[equipItem].icon}\`${equipItem}\` and gained **${app.itemdata[equipItem].inv_slots}** item slots. (${app.itemdata[equipItem].inv_slots + app.config.base_inv_slots + userRow.inv_slots} max)`);
+                        message.reply(`Successfully equipped ${app.itemdata[equipItem].icon}\`${equipItem}\` and gained **${app.itemdata[equipItem].inv_slots}** item slots. (${app.itemdata[equipItem].inv_slots + app.config.baseInvSlots + userRow.inv_slots} max)`);
                     }
                 }
                 else if(app.itemdata[equipItem].isBanner){

@@ -36,13 +36,29 @@ class CommandHandler {
             return;
         }
 
-        const account = await this.app.player.getRow(message.author.id);
+        const peckCD = await this.app.cd.getCD(message.author.id, 'peck');
+
+        // check if user is under effects of peck_seed
+        if(peckCD && command.category !== "admin" && command.category !== "moderation"){
+            const embedChicken = new this.app.Embed()
+            .setAuthor(message.author.tag, message.author.avatarURL)
+            .setTitle('`you try to type a command but your insatiable appetite for seeds keeps you preoccupied`')
+            .setColor(16734296)
+            .setFooter(`Your appetite will calm in ${peckCD}.`)
+
+            return message.channel.createMessage(embedChicken);
+        }
 
         // chcek if user is admin before running admin command
         if(command.category == "admin" && !this.app.sets.adminUsers.has(message.author.id)) return;
 
         // ignore mod command if user is not a moderator or admin
         if(command.category == "moderation" && (!(await this.app.cd.getCD(message.author.id, 'mod')) && !this.app.sets.adminUsers.has(message.author.id))) return;
+
+        const account = await this.app.player.getRow(message.author.id);
+
+        // check if player leveled up
+        if(account) await this.app.player.checkLevelXP(message, account);
 
         // check if command requires an account at all, create new account for player if command requires it.
         if(command.requiresAcc && !(account)) await this.app.player.createAccount(message.author.id);
