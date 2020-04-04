@@ -1,6 +1,9 @@
-const config  = require('./src/resources/config/config');
-const cache   = require('./src/utils/cache');
+const config    = require('./src/resources/config/config');
+const cache     = require('./src/utils/cache');
+const LoopTasks = require('./handlers/LoopTasks');
+
 const Sharder = require('eris-sharder').Master;
+
 const sharder = new Sharder('Bot ' + config.botToken, '/src/app.js', {
     name: 'Lootcord ' + require('./package').version,
     stats: true,
@@ -30,3 +33,7 @@ sharder.on('stats', stats => {
     console.log('stored');
     cache.set('stats', JSON.stringify(stats));
 });
+
+const loopTasks = new LoopTasks(cache, config);
+
+loopTasks.start();

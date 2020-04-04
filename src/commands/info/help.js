@@ -53,7 +53,7 @@ module.exports = {
 
         const embed = new app.Embed()
         .setAuthor('Lootcord Commands', message.author.avatarURL)
-        .setDescription('**THIS IS JUST A TEST, expect some major issues.**\nList of known things not working:\npower does not regenerate,\nno clan interest,\nvoting,\nmessaging mods (`report` works though),\nno moderation commands\nIf you find any other issues, let me know @blobfysh#4679\n\nFor details on using clan commands, you can type `clan help`, or check this [link](https://github.com/blobfysh/Lootcord/wiki/Clans).')
+        .setDescription('**THIS IS JUST A TEST, expect some major issues.**\nList of known things not working:\nvoting,\nmessaging mods (`report` works though),\nno moderation commands\nIf you find any other issues, let me know @blobfysh#4679\n\nFor details on using clan commands, you can type `clan help`, or check this [link](https://github.com/blobfysh/Lootcord/wiki/Clans).')
         .setFooter(`To see more about a command, use ${message.prefix}help <command>`)
         .setColor(13215302)
 

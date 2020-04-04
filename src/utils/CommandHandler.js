@@ -67,7 +67,7 @@ class CommandHandler {
         if(command.levelReq && (account.level < command.levelReq)) return message.channel.createMessage('❌ You must be atleast level `' + command.levelReq + '` to use that command!');
 
         // check if command requires an active account (player would be elligible to be attacked) in the server
-        if(command.requiresAcc && command.requiresActive && !(await this.app.player.isActive(message.author.id, message.guild.id))) return message.channel.createMessage(`❌ You need to activate before using that command here! Use \`${prefix}play\` to activate.`);
+        if(command.requiresAcc && command.requiresActive && !(await this.app.player.isActive(message.author.id, message.guild.id))) return message.channel.createMessage(`❌ You need to activate before using that command here! Use \`${prefix}activate\` to activate.`);
         
         // check if user has manage server permission before running guildModsOnly command
         if(command.guildModsOnly && !message.member.permission.has('manageGuild')) return message.channel.createMessage('❌ You need the `Manage Server` permission to use this command!');

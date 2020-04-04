@@ -32,7 +32,7 @@ class Leaderboard {
                 
                 leaderJSON.money[user.username] = {
                     data: this.app.common.formatNumber(moneyRows[key].money, true), 
-                    avatar: user.avatarURL
+                    avatar: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=512`
                 };
             }
             catch(err){
@@ -46,7 +46,7 @@ class Leaderboard {
 
                 leaderJSON.level[user.username] = {
                     data: levelRows[key].level, 
-                    avatar: user.avatarURL
+                    avatar: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=512`
                 };
             }
             catch(err){
@@ -60,7 +60,7 @@ class Leaderboard {
 
                 leaderJSON.kills[user.username] = {
                     data: killRows[key].kills, 
-                    avatar: user.avatarURL
+                    avatar: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=512`
                 };
             }
             catch(err){

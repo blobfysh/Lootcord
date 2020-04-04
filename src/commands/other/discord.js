@@ -11,6 +11,6 @@ module.exports = {
     guildModsOnly: false,
     
     execute(app, message){
-        message.channel.createMessage("https://discord.gg/apKSxuE");
+        message.channel.createMessage("Come join the discord server! Suggest new ideas, submit bug reports, join giveaways, get an exclusive first look at updates on the LootDev bot,\n\nor just chill and play Lootcord with everyone 😃\nhttps://discord.gg/apKSxuE");
     },
 }

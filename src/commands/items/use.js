@@ -6,7 +6,7 @@
 // const itemdata = require('../json/completeItemList.json');
 // const general = require('../methods/general');
 //const icons = require('../json/icons');
-const RANDOM_SELECTION_MINIMUM = 10; // # of active players required for an attack menu to show when using random
+const RANDOM_SELECTION_MINIMUM = 6; // # of active players required for an attack menu to show when using random
 
 module.exports = {
     name: 'use',

@@ -23,6 +23,7 @@ const Airdrop          = require('./utils/Airdrop');
 const MessageCollector = require('./utils/MessageCollector');
 const BlackMarket      = require('./utils/BlackMarket');
 const Clans            = require('./utils/Clans');
+const LoopTasks        = require('./utils/LoopTasks');
 
 const events           = fs.readdirSync(__dirname + '/events');
 const categories       = fs.readdirSync(__dirname + '/commands');
@@ -58,12 +59,14 @@ class Lootcord extends Base {
         this.parse = new ArgParser(this);
         this.Embed = Embed.DiscordEmbed;
         this.airdrop = new Airdrop(this);
+        this.loopTasks = new LoopTasks(this);
         this.commandHandler = new CommandHandler(this);
     }
 
     async launch(){
         await this.mysql.createDB(); // create database structure
         this.initIPC();
+        this.loopTasks.start();
 
         if(cluster.worker.id === 1) {
             // only run these on main cluster, cooldowns only need to be refreshed once for all other clusters

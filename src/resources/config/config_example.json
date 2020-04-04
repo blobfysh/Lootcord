@@ -7,7 +7,6 @@
   "debug":             true,
   "botToken":          "secret_bot_token_here",
   "discoinToken":      "",
-  "dblToken":          "",
   "dblWebhookPath":    "/dblwebhook",
   "dblWebhookPort":    "5000",
   "dblAuth":           "",
@@ -22,10 +21,11 @@
   "clanInterestRate":  0.005,
   "adminUsers":        ["168958344361541633"],
   "requiredPerms":     ["sendMessages", "addReactions", "manageMessages", "embedLinks", "attachFiles", "externalEmojis", "readMessageHistory"],
-  "botListDiscords":   [],
+  "ignoreLvlMessages": [],
 
   "activeRoleGuilds": {
   },
+  "botLists": [],
   "cooldowns": {
     "hourly": 3600,
     "blackjack": 180,

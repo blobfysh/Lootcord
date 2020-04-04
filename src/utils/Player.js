@@ -186,7 +186,7 @@ class Player {
                 }
 
                 // ignore bot list discords
-                if(this.app.config.botListDiscords.includes(message.guild.id)) return;
+                if(this.app.config.ignoreLvlMessages.includes(message.guild.id)) return;
 
                 const guildRow = (await this.app.query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`))[0];
                 
@@ -196,7 +196,7 @@ class Player {
                     if(guildRow.levelChan !== undefined && guildRow.levelChan !== "" && guildRow.levelChan !== 0){
                         try{
                             await this.app.bot.createMessage(guildRow.levelChan, {
-                                content: `<@${message.author.id}>,\nLEVEL **${row.level + 1}!**\n\n**Item received!** ${levelItem}`
+                                content: `**${message.author.username}** level up!\n**Item received:** ${levelItem}`
                             }, {
                                 file: lvlUpImage,
                                 name: 'userLvl.jpeg'
@@ -209,7 +209,7 @@ class Player {
                     }
                     else{
                         message.channel.createMessage({
-                            content: `<@${message.author.id}>,\n**LEVEL UP!**\n\n**Item received!** ${levelItem}`
+                            content: `**${message.author.username}** level up!\n**Item received:** ${levelItem}`
                         }, {
                             file: lvlUpImage,
                             name: 'userLvl.jpeg'
