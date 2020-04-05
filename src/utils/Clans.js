@@ -89,14 +89,7 @@ class Clans {
                 .addField('Items Stolen:', itemsStolen.join('\n'))
                 .setColor(16734296)
 
-                try{
-                    let user = await this.app.common.fetchUser(users[i].userId, { checkIPC: false });
-                    let dm = await user.getDMChannel()
-                    dm.createMessage(raidedEmb);
-                }
-                catch(err){
-                    // user disabled DMs
-                }
+                this.app.common.messageUser(users[i].userId, raidedEmb);
             }
         }
     }

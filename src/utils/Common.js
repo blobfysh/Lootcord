@@ -46,9 +46,9 @@ class Common {
     /**
      * Checks cache on all clusters before making API call
      * @param {string} id ID of user to fetch tag for
-     * @param {{checkIPC:boolean}} options Whether or not to retrieve user info using IPC
+     * @param {{cache:boolean}} options Whether or not to retrieve user info using IPC and whether to add user to cache
      */
-    async fetchUser(id, options = { checkIPC: true }){
+    async fetchUser(id, options = { cache: true }){
         let user = this.app.bot.users.get(id);
 
         if(user){
@@ -56,17 +56,22 @@ class Common {
             return user
         }
 
-        if(options.checkIPC){
-            try{
-                let IPCuser = await this.app.ipc.fetchUser(id);
+        try{
+            let IPCuser = await this.app.ipc.fetchUser(id);
 
-                if(IPCuser){
-                    console.log('[COMMON] Found user using IPC');
-                    return IPCuser
-                }
+            if(IPCuser && options.cache){
+                console.log('[COMMON] Found user using IPC and cached it');
+                this.app.bot.users.add(IPCuser, this.app.bot, false);
+
+                return this.app.bot.users.get(id);
             }
-            catch(err){
+            else if(IPCuser){
+                console.log('[COMMON] Found user using IPC');
+                return IPCuser;
             }
+        }
+        catch(err){
+            console.warn(require('util').inspect(err))
         }
         
         //API call
@@ -75,12 +80,14 @@ class Common {
             user = await this.app.bot.getRESTUser(id);
 
             if(user){
+                // cache user no matter cache option to prevent api spam...
                 this.app.bot.users.add(user, this.app.bot, false);
 
                 return user;
             }
         }
         catch(err){
+            console.error(require('util').inspect(err))
             return undefined;
         }
     }
@@ -105,19 +112,18 @@ class Common {
     }
 
     /**
-     * 
+     * Will DM a user from any cluster
      * @param {*} id ID of user to message
      * @param {*} message Message to DM
      */
     async messageUser(id, message){
         try{
-            let user = await this.fetchUser(id, { checkIPC: false });
-            let dm = await user.getDMChannel()
+            let user = await this.fetchUser(id, { cache: true });
+            let dm = await user.getDMChannel();
             dm.createMessage(message);
         }
         catch(err){
             console.warn('[COMMON] Failed to send message to user: ' + id);
-            console.log(require('util').inspect(err))
             // user disabled DMs
         }
     }

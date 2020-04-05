@@ -4,17 +4,17 @@ const STATUS_LIST = ["Looting {users} players", "{users} loot goblins", "{guilds
 class LoopTasks {
     constructor(app){
         this.app = app;
-        this.daily = new CronJob('0 0 0 * * *', () => {this.dailyTasks()}, null, false, 'America/New_York');
-        this.biHourly = new CronJob('0 */2 * * *', () => {this.biHourlyTasks()}, null, false, 'America/New_York');
-        this.hourly = new CronJob('0 * * * *', () => {this.hourlyTasks()}, null, false, 'America/New_York');
+        this.daily = new CronJob('0 0 0 * * *', this.dailyTasks.bind(this), null, false, 'America/New_York');
+        this.biHourly = new CronJob('0 */2 * * *', this.biHourlyTasks.bind(this), null, false, 'America/New_York');
+        this.hourly = new CronJob('0 * * * *', this.hourlyTasks.bind(this), null, false, 'America/New_York');
 
         // every 3 minutes
-        this.often = new CronJob('*/3 * * * *', () => {this.frequentTasks()}, null, false, 'America/New_York');
+        this.often = new CronJob('*/3 * * * *', this.frequentTasks.bind(this), null, false, 'America/New_York');
     }
 
     start(){
         if(this.app.clusterID === 0){
-            console.log('Starting daily/bi-hourly tasks...');
+            console.log('[LOOPTASKS] Starting daily/bi-hourly tasks...');
             this.daily.start();
             this.biHourly.start();
             this.often.start();
@@ -64,7 +64,6 @@ class LoopTasks {
     }
 
     async frequentTasks(){
-
         if(!this.app.config.debug && this.app.clusterID === 0){
             this.handleDiscoinTransactions();
         }

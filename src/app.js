@@ -24,7 +24,7 @@ const MessageCollector = require('./utils/MessageCollector');
 const BlackMarket      = require('./utils/BlackMarket');
 const Clans            = require('./utils/Clans');
 const LoopTasks        = require('./utils/LoopTasks');
-const Webhooks         = require('./webhooks/Webhooks');
+const voteHandler      = require('./utils/voteHandler');
 
 const events           = fs.readdirSync(__dirname + '/events');
 const categories       = fs.readdirSync(__dirname + '/commands');
@@ -73,7 +73,7 @@ class Lootcord extends Base {
             // only run these on main cluster, cooldowns only need to be refreshed once for all other clusters
             await this.refreshCooldowns();
             await this.refreshLists();
-            new Webhooks(this).launch();
+            //new Webhooks(this);
             await this.startAirdrops();
         }
 
@@ -143,6 +143,8 @@ class Lootcord extends Base {
             this.itemdata = require('./resources/json/items/completeItemList');
             this.parse = new ArgParser(this); // must reload arg parser so the spell correction can update
         });
+
+        this.ipc.register('vote', voteHandler.handle.bind(this));
     }
 
     query(sql, args){

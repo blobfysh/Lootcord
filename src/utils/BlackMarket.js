@@ -34,15 +34,7 @@ class BlackMarket {
             .setFooter('Listing ID: ' + listingInfo.listingId)
             .setColor('#4CAD4C')
 
-            try{
-                let user = await this.app.common.fetchUser(listingInfo.sellerId, { checkIPC: false });
-                let dm = await user.getDMChannel()
-                dm.createMessage(notifyEmb);
-            }
-            catch(err){
-                console.log(require('util').inspect(err))
-                // user disabled DMs or removed bot
-            }
+            this.app.common.messageUser(listingInfo.sellerId, notifyEmb);
         }
     }
 

@@ -5,7 +5,7 @@ module.exports = {
     description: "Displays information about the bot.",
     long: "Displays statistics about the bot.",
     args: {},
-    examples: ["getstats"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: false,
     requiresActive: false,

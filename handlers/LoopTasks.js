@@ -9,8 +9,6 @@ class LoopTasks {
     }
 
     start(){
-
-        console.log('i was started!');
         this.hourly.start();
     }
 
@@ -57,6 +55,7 @@ class LoopTasks {
         }
 
         console.log('Posted stats to ' + completedLists + ' bot lists.');
+        
         /*
         for(let cluster of stats.clusters){
             for(let shard of cluster.shardStats){
