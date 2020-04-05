@@ -24,6 +24,7 @@ const MessageCollector = require('./utils/MessageCollector');
 const BlackMarket      = require('./utils/BlackMarket');
 const Clans            = require('./utils/Clans');
 const LoopTasks        = require('./utils/LoopTasks');
+const Webhooks         = require('./webhooks/Webhooks');
 
 const events           = fs.readdirSync(__dirname + '/events');
 const categories       = fs.readdirSync(__dirname + '/commands');
@@ -72,7 +73,7 @@ class Lootcord extends Base {
             // only run these on main cluster, cooldowns only need to be refreshed once for all other clusters
             await this.refreshCooldowns();
             await this.refreshLists();
-
+            new Webhooks(this).launch();
             await this.startAirdrops();
         }
 

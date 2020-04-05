@@ -65,7 +65,7 @@ module.exports = {
             .addField("💗 Health", `Increases max health by 5 (\`${row.maxHealth} HP\` →\`${(row.maxHealth + 5)} HP\`)`)
             .addField("💥 Strength", `Increases damage by 3% (\`${(row.scaledDamage).toFixed(2)}x\` → \`${(row.scaledDamage + 0.03).toFixed(2)}x\`)`)
             .addField("🍀 Luck", `Increases luck by 2 (\`${row.luck}\` → \`${row.luck + 2}\`)`)
-            .setFooter('The cost to upgrade skills triples after each purchase. You can reset skills with a reroll_scroll')
+            .setFooter('The cost to upgrade skills doubles after each purchase. You can reset skills with a reroll_scroll')
 
             const botMessage = await message.channel.createMessage(skillEmbed);
 
