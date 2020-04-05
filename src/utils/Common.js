@@ -52,7 +52,7 @@ class Common {
         let user = this.app.bot.users.get(id);
 
         if(user){
-            console.log('Found user in cache');
+            console.log('[COMMON] Found user in cache');
             return user
         }
 
@@ -61,7 +61,7 @@ class Common {
                 let IPCuser = await this.app.ipc.fetchUser(id);
 
                 if(IPCuser){
-                    console.log('Found user using IPC');
+                    console.log('[COMMON] Found user using IPC');
                     return IPCuser
                 }
             }
@@ -71,7 +71,7 @@ class Common {
         
         //API call
         try{
-            console.log('Had to make API call');
+            console.log('[COMMON] Made call to API for user');
             user = await this.app.bot.getRESTUser(id);
 
             if(user){
@@ -89,18 +89,36 @@ class Common {
         let member = guild.members.get(id);
 
         if(member){
-            console.log('Found member in cache');
+            console.log('[COMMON] Found member in cache');
             return member;
         }
 
         try{
-            console.log('Made call to API for member');
+            console.log('[COMMON] Made call to API for member');
             member = await guild.getRESTMember(id);
 
             guild.members.add(member, guild, false);
         }
         catch(err){
             return undefined;
+        }
+    }
+
+    /**
+     * 
+     * @param {*} id ID of user to message
+     * @param {*} message Message to DM
+     */
+    async messageUser(id, message){
+        try{
+            let user = await this.fetchUser(id, { checkIPC: false });
+            let dm = await user.getDMChannel()
+            dm.createMessage(message);
+        }
+        catch(err){
+            console.warn('[COMMON] Failed to send message to user: ' + id);
+            console.log(require('util').inspect(err))
+            // user disabled DMs
         }
     }
 }

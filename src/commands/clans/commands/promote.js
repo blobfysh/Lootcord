@@ -57,7 +57,7 @@ module.exports = {
                     await app.query(`UPDATE scores SET clanRank = ${invitedScoreRow2.clanRank + 1} WHERE userId = ${user.id}`);
                 }
 
-                botMessage.edit(`✅ Successfully promoted member to rank \`${app.clan_ranks[invitedScoreRow2.clanRank + 1].title}\``);
+                botMessage.edit(`✅ Successfully promoted **${user.effectiveName}** to rank \`${app.clan_ranks[invitedScoreRow2.clanRank + 1].title}\``);
             }
             else{
                 botMessage.delete();

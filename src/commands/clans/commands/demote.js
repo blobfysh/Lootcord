@@ -49,7 +49,7 @@ module.exports = {
                 
                 await app.query(`UPDATE scores SET clanRank = ${invitedScoreRow2.clanRank - 1} WHERE userId = ${user.id}`);
 
-                botMessage.edit(`Demoted member to rank \`${app.clan_ranks[invitedScoreRow2.clanRank - 1].title}\``);
+                botMessage.edit(`Demoted **${user.effectiveName}** to rank \`${app.clan_ranks[invitedScoreRow2.clanRank - 1].title}\``);
             }
             else{
                 botMessage.delete();

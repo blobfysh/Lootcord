@@ -60,7 +60,7 @@ module.exports = {
                     const prestigeSuccess = new app.Embed()
                     .setTitle('Success!')
                     .setDescription('✅ Prestige increased to ' + (row.prestige + 1))
-                    message.channel.createMessage(prestigeSuccess);
+                    botMessage.edit(prestigeSuccess);
                 }
             }
             else{
@@ -68,7 +68,7 @@ module.exports = {
             }
         }
         catch(err){
-            botMessage.edit(prestigeEmbed.setFooter("Command timed out."));
+            botMessage.edit(prestigeEmbed.setFooter("❌ Command timed out."));
         }
     },
 }

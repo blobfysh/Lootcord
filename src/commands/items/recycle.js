@@ -37,20 +37,34 @@ module.exports = {
                 const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
 
                 if(confirmed){
-                    if(!await app.itm.hasItems(message.author.id, sellItem, sellAmount)) return message.reply(`You don't have enough of that item!`);
+                    if(!await app.itm.hasItems(message.author.id, sellItem, sellAmount)){
+                        embedInfo.setColor(16734296)
+                        embedInfo.setTitle('Failed to Recycle!')
+                        embedInfo.setDescription(`❌ You don't have enough of that item.`);
+                        return botMessage.edit(embedInfo);
+                    } 
                         
-                    if(!await app.itm.hasSpace(message.author.id, app.itm.getTotalItmCountFromList(itemMats))) return message.reply("❌ **You don't have enough space in your inventory!** You can clear up space by selling some items.");
+                    if(!await app.itm.hasSpace(message.author.id, app.itm.getTotalItmCountFromList(itemMats))){
+                        embedInfo.setColor(16734296)
+                        embedInfo.setTitle('Failed to Recycle!')
+                        embedInfo.setDescription(`❌ **You don't have enough space in your inventory!**\nYou can clear up space by selling some items.`);
+                        return botMessage.edit(embedInfo);
+                    }
 
                     await app.itm.addItem(message.author.id, itemMats);
                     await app.itm.removeItem(message.author.id, sellItem, sellAmount);
-                    message.reply(`${sellAmount}x \`${sellItem}\` recycled for:\n${getMatsDisplay(app, itemMats)}`);
+
+                    embedInfo.setColor(9043800)
+                    embedInfo.setTitle('Success!')
+                    embedInfo.setDescription(`You recycled ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for:\n${getMatsDisplay(app, itemMats)}`)
+                    botMessage.edit(embedInfo);
                 }
                 else{
                     botMessage.delete();
                 }
             }
             catch(err){
-                embedInfo.setFooter('Command timed out.');
+                embedInfo.setFooter('❌ Command timed out.');
                 botMessage.edit(embedInfo);
             }
         }

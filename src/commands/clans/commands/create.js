@@ -62,7 +62,7 @@ module.exports = {
                 
                 await app.player.removeMoney(message.author.id, CREATION_COST);
                 createClan(app, clanName, message.author.id);
-                message.reply(`Congratulations! You are now the proud leader of the \`${clanName}\` clan!\n\nView your clan information with \`${message.prefix}clan info\` and check the vault with \`${message.prefix}clan vault\`.`);
+                botMessage.edit(`Congratulations! You are now the proud leader of the \`${clanName}\` clan!\n\nView your clan information with \`${message.prefix}clan info\` and check the vault with \`${message.prefix}clan vault\`.`);
             }
             else{
                 botMessage.delete();

@@ -38,12 +38,19 @@ module.exports = {
                 if(confirmed){
                     const hasEnough = await app.itm.hasItems(message.author.id, itemMats);
                     if(hasEnough){
-                        message.reply(`Successfully crafted ${craftAmount}x ${app.itemdata[craftItem].icon}\`${craftItem}\`!`);
                         await app.itm.removeItem(message.author.id, itemMats);
                         await app.itm.addItem(message.author.id, craftItem, craftAmount);
+
+                        embedInfo.setColor(9043800)
+                        embedInfo.setTitle('Success!')
+                        embedInfo.setDescription(`You crafted ${craftAmount}x ${app.itemdata[craftItem].icon}\`${craftItem}\``)
+                        botMessage.edit(embedInfo);
                     }
                     else{
-                        message.reply('You are missing the required materials for this item!');
+                        embedInfo.setColor(16734296)
+                        embedInfo.setTitle('Failed to Craft!')
+                        embedInfo.setDescription(`You are missing the required materials for this item!`)
+                        botMessage.edit(embedInfo);
                     }
                 }
                 else{
@@ -51,7 +58,7 @@ module.exports = {
                 }
             }
             catch(err){
-                embedInfo.setFooter('Command timed out.');
+                embedInfo.setFooter('❌ Command timed out.');
                 botMessage.edit(embedInfo);
             }
         }

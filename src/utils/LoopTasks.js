@@ -74,7 +74,7 @@ class LoopTasks {
         try{
             const unhandled = await this.app.discoin.getUnhandled();
     
-            for(var i = 0; i < unhandled.data.length; i++){
+            for(let i = 0; i < unhandled.data.length; i++){
                 let transaction = unhandled.data[i];
                 let payout = Math.round(transaction.payout);
                 
@@ -96,13 +96,7 @@ class LoopTasks {
                 .setDescription(`You received ${this.app.common.formatNumber(payout)} (${transaction.payout} rounded) through Discoin! [Click this to see more details.](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)`)
                 .setColor(13215302)
 
-                //messageUser(manager, transaction.user, {embed: embed});
-                try{
-                    
-                }
-                catch(err){
-                    // user has dm's disabled
-                }
+                this.app.common.messageUser(transaction.user, embed);
             }
     
             console.log('[DISCOIN] Successfully handled ' + unhandled.data.length + ' transactions.');

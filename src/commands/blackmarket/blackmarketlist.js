@@ -192,7 +192,7 @@ module.exports = {
                 });
                 collector.on('end', reason => {
                     if(reason === 'time'){
-                        bmEmbed.setFooter('COMMAND TIMED OUT');
+                        bmEmbed.setFooter('❌ Command timed out.');
                         botMessage.edit(bmEmbed);
                     }
                 });
