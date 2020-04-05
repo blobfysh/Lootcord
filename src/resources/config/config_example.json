@@ -28,6 +28,7 @@
   "botLists": [],
   "cooldowns": {
     "hourly": 3600,
+    "daily": 86400,
     "blackjack": 180,
     "coinflip": 180,
     "scramble": 900,

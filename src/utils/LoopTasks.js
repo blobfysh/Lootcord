@@ -7,6 +7,9 @@ class LoopTasks {
         this.daily = new CronJob('0 0 0 * * *', () => {this.dailyTasks()}, null, false, 'America/New_York');
         this.biHourly = new CronJob('0 */2 * * *', () => {this.biHourlyTasks()}, null, false, 'America/New_York');
         this.hourly = new CronJob('0 * * * *', () => {this.hourlyTasks()}, null, false, 'America/New_York');
+
+        // every 3 minutes
+        this.often = new CronJob('*/3 * * * *', () => {this.frequentTasks()}, null, false, 'America/New_York');
     }
 
     start(){
@@ -14,6 +17,7 @@ class LoopTasks {
             console.log('Starting daily/bi-hourly tasks...');
             this.daily.start();
             this.biHourly.start();
+            this.often.start();
         }
         
         this.hourly.start();
@@ -56,6 +60,56 @@ class LoopTasks {
                 name: 't-help | ' + STATUS_LIST[Math.floor(Math.random() * STATUS_LIST.length)].replace('{users}', stats.users).replace('{guilds', stats.guilds),
                 type: 0
             });
+        }
+    }
+
+    async frequentTasks(){
+
+        if(!this.app.config.debug && this.app.clusterID === 0){
+            this.handleDiscoinTransactions();
+        }
+    }
+
+    async handleDiscoinTransactions(){
+        try{
+            const unhandled = await this.app.discoin.getUnhandled();
+    
+            for(var i = 0; i < unhandled.data.length; i++){
+                let transaction = unhandled.data[i];
+                let payout = Math.round(transaction.payout);
+                
+                let userRow = await this.app.player.getRow(transaction.user);
+                await this.app.discoin.handle(transaction.id);
+    
+                if(!userRow){
+                    // create account for user if they dont have one
+                    await this.app.player.createAccount(transaction.user);
+
+                    userRow = await this.app.player.getRow(transaction.user);
+                }
+
+                this.app.player.addMoney(transaction.user, payout);
+    
+                const embed = new this.app.Embed()
+                .setTitle('Conversion Successful')
+                .setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/662369574720765994/spaces2F-LQzahLixLnvmbDfQ1K02Favatar.png')
+                .setDescription(`You received ${this.app.common.formatNumber(payout)} (${transaction.payout} rounded) through Discoin! [Click this to see more details.](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)`)
+                .setColor(13215302)
+
+                //messageUser(manager, transaction.user, {embed: embed});
+                try{
+                    
+                }
+                catch(err){
+                    // user has dm's disabled
+                }
+            }
+    
+            console.log('[DISCOIN] Successfully handled ' + unhandled.data.length + ' transactions.');
+        }
+        catch(err){
+            console.log('[DISCOIN] API error:');
+            console.log(require('util').inspect(err));
         }
     }
 }

@@ -99,7 +99,7 @@ module.exports = {
                     let amount = app.parse.numbers(userArgs)[0] || 1;
                     let item = app.parse.items(userArgs)[0];
                     
-                    if(userArgs[0] === 'stop' || userArgs[0] === 'end'){
+                    if(userArgs[0]  && (userArgs[0].toLowerCase() === 'stop' || userArgs[0].toLowerCase() === 'end')){
                         app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
                         return m.channel.createMessage(`<@${m.author.id}>, -> Ending raid.`);
                     }

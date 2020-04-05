@@ -212,7 +212,7 @@ function getPrice(used_stats, amount){
     let initial_start = used_stats;
 
     for(var i = 0; i < amount; i++){
-        total_price += Math.floor((3**initial_start) * 1000)
+        total_price += Math.floor((2**initial_start) * 1000)
 
         initial_start+= 1
     }

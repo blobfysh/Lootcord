@@ -1,8 +1,10 @@
+const cluster = require('cluster');
+const Sharder = require('eris-sharder').Master;
+
 const config    = require('./src/resources/config/config');
 const cache     = require('./src/utils/cache');
 const LoopTasks = require('./handlers/LoopTasks');
-
-const Sharder = require('eris-sharder').Master;
+const loopTasks = new LoopTasks(cache, config);
 
 const sharder = new Sharder('Bot ' + config.botToken, '/src/app.js', {
     name: 'Lootcord ' + require('./package').version,
@@ -34,6 +36,6 @@ sharder.on('stats', stats => {
     cache.set('stats', JSON.stringify(stats));
 });
 
-const loopTasks = new LoopTasks(cache, config);
-
-loopTasks.start();
+if(cluster.isMaster){
+    loopTasks.start();
+}

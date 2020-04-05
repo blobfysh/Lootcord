@@ -9,11 +9,13 @@ class LoopTasks {
     }
 
     start(){
+
+        console.log('i was started!');
         this.hourly.start();
     }
 
     async postStats(){
-        const stats = JSON.parse(await this.app.cache.get('stats')) || {};
+        const stats = JSON.parse(await this.cache.get('stats')) || {};
         
         if(this.config.debug || !stats.guilds || !stats.users) return;
 

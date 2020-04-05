@@ -16,6 +16,7 @@ module.exports = {
         const healCD = await app.cd.getCD(message.author.id, 'heal');
         const shieldCD = await app.cd.getCD(message.author.id, 'shield');
         const hourlyCD = await app.cd.getCD(message.author.id, 'hourly');
+        const dailyCD = await app.cd.getCD(message.author.id, 'daily');
         const triviaCD = await app.cd.getCD(message.author.id, 'trivia');
         const scrambleCD = await app.cd.getCD(message.author.id, 'scramble');
         const voteCD = await app.cd.getCD(message.author.id, 'vote');
@@ -29,6 +30,7 @@ module.exports = {
         const xp_potionCD = await app.cd.getCD(message.author.id, 'xp_potion');
                     
         let hourlyReady = hourlyCD ? hourlyCD : "✅ ready"
+        let dailyReady = dailyCD ? dailyCD : "✅ ready"
         let triviaReady = triviaCD ? triviaCD : "✅ ready"
         let scrambleReady = scrambleCD ? scrambleCD : "✅ ready"
         let attackReady = attackCD ? attackCD : "✅ ready"
@@ -53,6 +55,7 @@ module.exports = {
         embedLeader.setTitle(`**${message.author.username} Cooldowns**`)
         embedLeader.setColor(13215302)
         embedLeader.addField("hourly", "`" + hourlyReady + "`",true)
+        embedLeader.addField("daily", "`" + dailyReady + "`", true)
         embedLeader.addField("trivia", "`" + triviaReady + "`",true)
         embedLeader.addField("scramble", "`" + scrambleReady + "`",true)
         embedLeader.addField("blackjack", "`" + blackjackReady + "`",true)

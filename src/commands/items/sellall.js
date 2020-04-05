@@ -52,7 +52,7 @@ module.exports = {
                     for (var i = 0; i < itemsToCheck.length; i++){
                         if(itemRow2[itemsToCheck[i]] >= 1){
                             testTotalItems += itemRow2[itemsToCheck[i]];
-                            testAmount += (itemRow2[itemsToCheck[i]] * itemdata[itemsToCheck[i]].sell);
+                            testAmount += (itemRow2[itemsToCheck[i]] * app.itemdata[itemsToCheck[i]].sell);
                         }
                     }
                     
