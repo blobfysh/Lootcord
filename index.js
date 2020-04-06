@@ -10,9 +10,9 @@ const loopTasks = new LoopTasks(cache, config);
 const sharder = new Sharder('Bot ' + config.botToken, '/src/app.js', {
     name: 'Lootcord ' + require('./package').version,
     stats: true,
-    statsInterval: 120 * 1000,
+    statsInterval: 60 * 1000,
     debug: config.debug,
-    clusters: 2,
+    clusters: 1,
     shards: 2,
     clientOptions: {
         disableEvents: {

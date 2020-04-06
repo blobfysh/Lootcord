@@ -26,7 +26,7 @@ module.exports = {
             message.reply("You forgot to put a message! `" + message.prefix + "report <discordtag#1234> <reason for report>`");
         }
         else if(/^<?@?!?(\d+)>?$/.test(userOldID) || /^(.*)#([0-9]{4})$/.test(userOldID)){
-            const botMessage = await message.reply("Confirm this report? " + userOldID);
+            const botMessage = await message.reply("Confirm this report? **" + userOldID + "**\n\n**Spamming this command or using it for purposes other than reporting will result in a warning or ban.**");
             
             try{
                 let confirmed = await app.react.getConfirmation(message.author.id, botMessage);

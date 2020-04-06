@@ -35,14 +35,15 @@ module.exports = {
                 return message.reply(`❌ The person you're trying to search doesn't have an account!`);
             }
 
-            const banners = await app.itm.getUserItems(message.author.id, { onlyBanners: true });
-            const badges = await app.itm.getBadges(member.id);
-            let xp = app.common.calculateXP(userRow.points, userRow.level);
-            let bannerIcon = app.itemdata[userRow.banner] !== undefined ? app.itemdata[userRow.banner].icon : ''
-            let bannersList = 'Equipped: ' + bannerIcon + '`' + userRow.banner + '`\n' + banners.ultra.concat(banners.legendary, banners.epic, banners.rare, banners.uncommon, banners.common, banners.limited).join('\n');
-            let userStatus = 'Change your status with the `setstatus` command!';
-
+            const banners    = await app.itm.getUserItems(message.author.id, { onlyBanners: true });
+            const badges     = await app.itm.getBadges(member.id);
+            const xp         = app.common.calculateXP(userRow.points, userRow.level);
+            
+            let bannerIcon   = app.itemdata[userRow.banner] !== undefined ? app.itemdata[userRow.banner].icon : ''
+            let bannersList  = 'Equipped: ' + bannerIcon + '`' + userRow.banner + '`\n' + banners.ultra.concat(banners.legendary, banners.epic, banners.rare, banners.uncommon, banners.common, banners.limited).join('\n');
+            let userStatus   = 'Change your status with the `setstatus` command!';
             let backpackIcon = app.itemdata[userRow.backpack] !== undefined ? app.itemdata[userRow.backpack].icon : ''
+
             if(userRow.status !== ''){
                 userStatus = userRow.status;
             }

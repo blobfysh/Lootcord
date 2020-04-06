@@ -5,9 +5,9 @@ class Leaderboard {
     }
 
     async getLB(){
-        const moneyRows = await this.app.query('SELECT userId, money, prestige, badge FROM scores ORDER BY money DESC LIMIT 5');
-        const levelRows = await this.app.query('SELECT userId, level, prestige, badge FROM scores ORDER BY level DESC LIMIT 5');
-        const killRows  = await this.app.query('SELECT userId, kills, prestige, badge FROM scores ORDER BY kills DESC LIMIT 5');
+        const moneyRows = (await this.app.query('SELECT userId, money, prestige, badge FROM scores ORDER BY money DESC LIMIT 5')).filter(user => user.userId !== 0);
+        const levelRows = (await this.app.query('SELECT userId, level, prestige, badge FROM scores ORDER BY level DESC LIMIT 5')).filter(user => user.userId !== 0);
+        const killRows  = (await this.app.query('SELECT userId, kills, prestige, badge FROM scores ORDER BY kills DESC LIMIT 5')).filter(user => user.userId !== 0);
         const clanRows  = await this.app.query('SELECT name, money FROM clans ORDER BY money DESC LIMIT 5');
 
         let leaders      = [];
@@ -32,7 +32,7 @@ class Leaderboard {
                 
                 leaderJSON.money[user.username] = {
                     data: this.app.common.formatNumber(moneyRows[key].money, true), 
-                    avatar: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=512`
+                    avatar: this.app.common.getAvatar(user)
                 };
             }
             catch(err){
@@ -46,7 +46,7 @@ class Leaderboard {
 
                 leaderJSON.level[user.username] = {
                     data: levelRows[key].level, 
-                    avatar: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=512`
+                    avatar: this.app.common.getAvatar(user)
                 };
             }
             catch(err){
@@ -60,14 +60,14 @@ class Leaderboard {
 
                 leaderJSON.kills[user.username] = {
                     data: killRows[key].kills, 
-                    avatar: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=512`
+                    avatar: this.app.common.getAvatar(user)
                 };
             }
             catch(err){
             }
         }
 
-        for(var i = 0; i < clanRows.length; i++){
+        for(let i = 0; i < clanRows.length; i++){
             try{
                 clanLeaders.push(`🗡 \`${clanRows[i].name}\`` + ' - ' + this.app.common.formatNumber(clanRows[i].money));
 

@@ -57,7 +57,7 @@ class LoopTasks {
         
         if(stats.guilds){
             this.app.bot.editStatus('online', {
-                name: 't-help | ' + STATUS_LIST[Math.floor(Math.random() * STATUS_LIST.length)].replace('{users}', stats.users).replace('{guilds', stats.guilds),
+                name: 't-help | ' + STATUS_LIST[Math.floor(Math.random() * STATUS_LIST.length)].replace('{users}', stats.users).replace('{guilds}', stats.guilds),
                 type: 0
             });
         }

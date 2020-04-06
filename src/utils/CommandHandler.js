@@ -75,6 +75,7 @@ class CommandHandler {
         // execute command
         try{
             this.app.cache.incr('commands');
+            this.app.query(`UPDATE scores SET lastActive = NOW() WHERE userId = ${message.author.id}`);
             command.execute(this.app, this.buildMessage(message, prefix, args));
 
             // dont add spamCooldown if in debug mode or user is admin

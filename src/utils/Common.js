@@ -13,6 +13,21 @@ class Common {
             return this.icons.money + " " + (parseInt(number)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
         }
     }
+
+    getShortDate(date){
+        let convertedTime = new Date(date).toLocaleString('en-US', {
+            timeZone: 'America/New_York'
+        });
+        convertedTime = new Date(convertedTime);
+        
+        let d = convertedTime;
+        let month = d.getMonth() + 1;
+        let day = d.getDate();
+        let year = d.getFullYear();
+        let time = d.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'}).replace(' ', '');
+        
+        return month + '/' + day + '/' + year.toString().slice(2) + ' ' + time + ' EST';
+    }
     
     calculateXP(playerXP, playerLVL){
         let currLvlXP = 0;
@@ -116,7 +131,7 @@ class Common {
      * @param {*} id ID of user to message
      * @param {*} message Message to DM
      */
-    async messageUser(id, message){
+    async messageUser(id, message, options = { throwErr: false }){
         try{
             let user = await this.fetchUser(id, { cacheIPC: true });
             let dm = await user.getDMChannel();
@@ -124,7 +139,21 @@ class Common {
         }
         catch(err){
             console.warn('[COMMON] Failed to send message to user: ' + id);
+            if(options.throwErr) throw new Error(err);
             // user disabled DMs
+        }
+    }
+
+    /**
+     * 
+     * @param {*} user User object, must contain user ID, avatar and discriminator
+     */
+    getAvatar(user){
+        if(user.avatar){
+            return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar.startsWith('a_') ? user.avatar + '.gif' : user.avatar + '.png'}`;
+        }
+        else{
+            return `https://cdn.discordapp.com/embed/avatars/${user.discriminator % 5}.png`;
         }
     }
 }
