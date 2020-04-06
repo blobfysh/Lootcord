@@ -16,9 +16,8 @@ module.exports = {
     execute(app, message){
         let member = app.parse.members(message, message.args)[0];
 
-        // no member foudn in ArgParser
+        // no member found in ArgParser
         if(!member){
-
             // player was trying to search someone
             if(message.args.length){
                 message.reply('❌ Could not find anyone matching that description!\nYou can mention someone, use their Discord#tag, or type their user ID');

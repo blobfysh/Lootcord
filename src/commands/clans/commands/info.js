@@ -55,7 +55,7 @@ async function getClanInfo(app, userId, clanId){
     let membersList = [];
 
     for(let i = 0; i < clanMembers.count; i++){
-        const clanUser = await app.common.fetchUser(clanMembers.memberIds[i], { cache: false });
+        const clanUser = await app.common.fetchUser(clanMembers.memberIds[i], { cacheIPC: false });
         const clanUserRow = await app.player.getRow(clanMembers.memberIds[i]);
 
         if(clanUser.id == userId){

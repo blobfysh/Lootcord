@@ -1,7 +1,14 @@
 {
     "prestige_1": {
-        "icon": "⭐",
+        "icon": "<:prestige_1:696238361656164442>",
         "description": "Earned by reaching prestige level 1.",
-        "image": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/209/white-medium-star_2b50.png"
+        "image": "https://cdn.discordapp.com/attachments/610502203672756295/696238599183663154/prestige_1.png",
+        "artist": "221087115893669889"
+    },
+    "prestige_2": {
+        "icon": "<:prestige_2:696270207043371080>",
+        "description": "Earned by reaching prestige level 2.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/696270078844600362/prestige_2.png",
+        "artist": "221087115893669889"
     }
 }

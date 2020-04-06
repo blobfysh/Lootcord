@@ -131,7 +131,7 @@ class ArgParser {
     numbers(args){
         let numbers = [];
         for(let arg of args){
-            arg = arg.replace(/[^0-9.-]+/g,"");
+            arg = arg.replace(/,/g,"");
             
             if(!isNaN(arg) && Number(arg)){
                 numbers.push(Math.floor(Number(arg)));
@@ -149,17 +149,17 @@ class ArgParser {
 
             let badge = arg + '_' + (args[i + 1]);
             // check if two args make up  badge
-            if(this.badgedata[badge]){
+            if(this.badgedata[badge.toLowerCase()]){
                 
                 // remove the next element because we already found a badge using it.
                 args.splice(args.indexOf(args[i + 1]), 1);
     
                 // return the item
-                return badge
+                return badge.toLowerCase()
             }
     
             // check if single arg was badge
-            if(this.badgedata[arg]) return arg;
+            if(this.badgedata[arg.toLowerCase()]) return arg.toLowerCase();
             
             // no badge found
             else return undefined;
@@ -175,7 +175,9 @@ class ArgParser {
      * @returns {Array<Member>} Array of members
      */
     members(message, args){
-        let userArgs = args.map((arg, i) => {
+        let newArgs = args.slice(0, 6);
+
+        let userArgs = newArgs.map((arg, i) => {
 
             // regex tests for <@!1234etc>, will pass when player mentions someone or types a user id
             if(/^<?@?!?(\d+)>?$/.test(arg)){
@@ -190,12 +192,24 @@ class ArgParser {
             }
             else if(/^(.*)#([0-9]{4})$/.test(arg)){
                 let userTag = arg.split('#');
-                let member = message.guild.members.find(member => {
-                    return (member.username.toLowerCase() === userTag[0].toLowerCase() && member.discriminator === userTag[1] ||
-                    member.nick === userTag[0] && member.discriminator === userTag[1])
-                });
-                
-                return member;
+                // check for usernames with space
+                let previousArgs = newArgs.slice(0, i);
+
+                previousArgs.push(userTag[0]);
+
+                for(let i = 1; i < previousArgs.length + 1; i++){
+                    // start checking args backwards, starting from the arg that had # in it, ie. big blob fysh#4679, it would check blob fysh then check big blob fysh
+                    let userToCheck = previousArgs.slice(i * -1).join(' ');
+
+                    let member = message.guild.members.find(member => {
+                        return (member.username.toLowerCase() === userToCheck.toLowerCase() && member.discriminator === userTag[1] ||
+                        (member.nick && member.nick.toLowerCase() === userToCheck) && member.discriminator === userTag[1])
+                    });
+
+                    if(member) return member;
+                }
+
+                return undefined;
             }
 
             // no user found

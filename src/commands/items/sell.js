@@ -20,7 +20,7 @@ module.exports = {
             let itemPrice = app.itemdata[sellItem].sell;
             
             if(!hasItems){
-                return message.reply("You don't have enough of that item!");
+                return message.reply("❌ You don't have enough of that item!");
             }
             
             if(itemPrice !== ""){

@@ -46,9 +46,9 @@ class Common {
     /**
      * Checks cache on all clusters before making API call
      * @param {string} id ID of user to fetch tag for
-     * @param {{cache:boolean}} options Whether or not to retrieve user info using IPC and whether to add user to cache
+     * @param {{cache:boolean}} options Whether or not to cahe IPC user info
      */
-    async fetchUser(id, options = { cache: true }){
+    async fetchUser(id, options = { cacheIPC: true }){
         let user = this.app.bot.users.get(id);
 
         if(user){
@@ -59,7 +59,7 @@ class Common {
         try{
             let IPCuser = await this.app.ipc.fetchUser(id);
 
-            if(IPCuser && options.cache){
+            if(IPCuser && options.cacheIPC){
                 console.log('[COMMON] Found user using IPC and cached it');
                 this.app.bot.users.add(IPCuser, this.app.bot, false);
 
@@ -118,7 +118,7 @@ class Common {
      */
     async messageUser(id, message){
         try{
-            let user = await this.fetchUser(id, { cache: true });
+            let user = await this.fetchUser(id, { cacheIPC: true });
             let dm = await user.getDMChannel();
             dm.createMessage(message);
         }
