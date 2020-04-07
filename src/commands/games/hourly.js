@@ -1,3 +1,8 @@
+const QUOTES = [
+    'Oh look, I found this {icon}{item} for you!', 
+    'Here\'s a free {icon}{item}!', 
+    'This {icon}{item} has some insane loot inside it.'
+];
 
 module.exports = {
     name: 'hourly',
@@ -34,7 +39,7 @@ module.exports = {
         }
         else{
             await app.itm.addItem(message.author.id, 'item_box', 1);
-            message.reply("Here's a free " + app.itemdata['item_box'].icon + "`item_box`!");
+            message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata['item_box'].icon).replace('{item}', '`item_box`'));
         }
     },
 }

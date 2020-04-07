@@ -7,7 +7,7 @@ class Common {
 
     formatNumber(number, noEmoji = false){
         if(noEmoji){
-            return "$" + (parseInt(number)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+            return (parseInt(number)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
         }
         else{
             return this.icons.money + " " + (parseInt(number)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');

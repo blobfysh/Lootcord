@@ -313,7 +313,7 @@ module.exports = {
                     }
                     
                     const killedReward = new app.Embed()
-                    .setTitle('LOOT RECEIVED')
+                    .setTitle('Loot Received')
                     .setDescription("Money: " + app.common.formatNumber(victimRow.money) + "\nExperience: `" + xpGained + "xp`")
                     .setColor(7274496)
                     .addField("Items", randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
@@ -459,7 +459,7 @@ module.exports = {
                     }
                     
                     const killedReward = new app.Embed()
-                    .setTitle('LOOT RECEIVED')
+                    .setTitle('Loot Received')
                     .setDescription("Money: " + app.common.formatNumber(victimRow.money) + "\nExperience: `" + xpGained + "xp`")
                     .setColor(7274496)
                     .addField("Items", randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
@@ -574,7 +574,7 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
     }
 
     if(itemBroke){
-        finalStr += `\n${app.icons.minus}**${message.member.effectiveName}**'s ${app.itemdata[itemUsed].icon}\`${itemUsed}\` broke.`;
+        finalStr += `\n\n${app.icons.minus}**${message.member.effectiveName}**'s ${app.itemdata[itemUsed].icon}\`${itemUsed}\` broke.`;
     }
 
     return finalStr;

@@ -53,7 +53,7 @@ async function generatePages(app, allItems, itemsPerPage){
 
         const pageEmbed = new app.Embed()
         .setTitle('Item Shop')
-        .setDescription('📥 Buy 📤 Sell\nUse `buy <item>` to purchase and `sell <item>` to sell items.')
+        .setDescription('📥 Cost in Lootcoin 📤 Sell price in Lootcoin\nUse `buy <item>` to purchase and `sell <item>` to sell items.')
         .setColor(13215302)
 
         for(let item of filteredItems){
@@ -61,7 +61,7 @@ async function generatePages(app, allItems, itemsPerPage){
             let itemSellPrice = app.itemdata[item].sell;
 
             if(itemBuyCurr !== undefined && itemBuyCurr == 'money' && itemSellPrice !== ''){
-                pageEmbed.addField(app.itemdata[item].icon + '`' + item + '`', '📥 ' + app.common.formatNumber(app.itemdata[item].buy.amount, true) + '📤 ' + app.common.formatNumber(itemSellPrice, true), true)
+                pageEmbed.addField(app.itemdata[item].icon + '`' + item + '`', '📥 ' + app.common.formatNumber(app.itemdata[item].buy.amount, true) + ' 📤 ' + app.common.formatNumber(itemSellPrice, true), true)
             }
             else if(itemSellPrice !== ""){
                 pageEmbed.addField(app.itemdata[item].icon + '`' + item + '`', '📤 ' + app.common.formatNumber(itemSellPrice, true), true)
@@ -79,7 +79,7 @@ async function getHomePage(app){
     const gameRows = await app.query(`SELECT * FROM gamesData`);
     const firstEmbed = new app.Embed()
     firstEmbed.setTitle(`Item Shop`);
-    firstEmbed.setDescription('📥 Buy 📤 Sell\nUse `buy <item>` to purchase and `sell <item>` to sell items.');
+    firstEmbed.setDescription('📥 Cost in Lootcoin 📤 Sell price in Lootcoin\nUse `buy <item>` to purchase and `sell <item>` to sell items.');
     firstEmbed.setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/602129484900204545/shopping-cart.png");
     firstEmbed.setColor(13215302);
 

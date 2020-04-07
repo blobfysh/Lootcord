@@ -1,3 +1,8 @@
+const QUOTES = [
+    'Oh look, I found this {icon}{item} for you!', 
+    'Here\'s a free {icon}{item}!', 
+    'This {icon}{item} has some insane loot inside it.'
+];
 
 module.exports = {
     name: 'daily',
@@ -24,6 +29,6 @@ module.exports = {
         await app.cd.setCD(message.author.id, 'daily', app.config.cooldowns.daily * 1000);
 
         await app.itm.addItem(message.author.id, 'ultra_box', 1);
-        message.reply("Here's a free " + app.itemdata['ultra_box'].icon + "`ultra_box`!");
+        message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata['ultra_box'].icon).replace('{item}', '`ultra_box`'));
     },
 }

@@ -40,9 +40,9 @@ class BlackMarket {
 
     createDisplay(searchResults){
         let display = '';
-        let header = 'Item               Price          Listing ID'
+        let header = 'Item               Price (Lootcoin)         Listing ID'
         for(var i = 0; i < searchResults.length; i++){
-            display += (`${searchResults[i].quantity}x ${searchResults[i].itemName}`.padEnd(19, ' ') + `${this.app.common.formatNumber(searchResults[i].price, true)}`.padEnd(15, ' ') + `${searchResults[i].listingId}\n`)
+            display += (`${searchResults[i].quantity}x ${searchResults[i].itemName}`.padEnd(19, ' ') + `${this.app.common.formatNumber(searchResults[i].price, true)}`.padEnd(25, ' ') + `${searchResults[i].listingId}\n`)
         }
 
         if(!display.length){

@@ -1,5 +1,5 @@
-const winQuotes = ['You just won {0}!', 'Wow you\'re pretty good at flipping this coin 👀 You won {0}!', 'Congratulations! You just won {0}!'];
-const loseQuotes = ['You just lost {0}!', 'Congratulations! You just lost {0}!'];
+const WIN_QUOTES = ['You just won {0}!', 'Wow you\'re pretty good at flipping this coin 👀 You won {0}!', 'Congratulations! You just won {0}!'];
+const LOSE_QUOTES = ['You just lost {0}!', 'Congratulations! You just lost {0}!'];
 
 module.exports = {
     name: 'coinflip',
@@ -38,11 +38,11 @@ module.exports = {
         
         if(Math.random() < 0.5){
             await app.player.addMoney(message.author.id, gambleAmount);
-            message.reply(winQuotes[Math.floor(Math.random() * winQuotes.length)].replace('{0}', app.common.formatNumber(gambleAmount * 2)));
+            message.reply(WIN_QUOTES[Math.floor(Math.random() * WIN_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount * 2)));
         }
         else{
             await app.player.removeMoney(message.author.id, gambleAmount);
-            message.reply(loseQuotes[Math.floor(Math.random() * loseQuotes.length)].replace('{0}', app.common.formatNumber(gambleAmount)));
+            message.reply(LOSE_QUOTES[Math.floor(Math.random() * LOSE_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount)));
         }
         
         await app.cd.setCD(message.author.id, 'coinflip', app.config.cooldowns.coinflip * 1000);

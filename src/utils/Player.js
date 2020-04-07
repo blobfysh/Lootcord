@@ -228,26 +228,28 @@ class Player {
     }
 
     async getLevelImage(name, playerImage, level){
+        //const smallFont = await Jimp.loadFont('./src/resources/fonts/Quicksand_Light25.fnt');
         const image = await Jimp.read('./src/resources/images/LvlUp2.png');
         const avatar = await Jimp.read(playerImage);
-        const largeFont = await Jimp.loadFont('./src/resources/fonts/BebasNeue37.fnt');
-        const smallFont = await Jimp.loadFont('./src/resources/fonts/BebasNeue25.fnt');
+        const largeFont = await Jimp.loadFont('./src/resources/fonts/BebasNeue37GoldExtended.fnt');
+
         image.quality(70);
         avatar.resize(64, 64);
 
-        image.print(largeFont, 0, 0, {
-            text: "lvl " + level,
-            alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
-            alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM
-        }, 128, 144);
+        image.print(largeFont, 0, 85, {
+            text: "LVL " + level,
+            alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER
+        }, 108, 128);
         
+        /* Old lvl image showing users name
         image.print(smallFont, 0, 0, {
             text: name.substring(0, 13),
             alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
             alignmentY: Jimp.VERTICAL_ALIGN_TOP
-        }, 128, 144);
+        }, 164, 144);
+        */
 
-        image.composite(avatar, 32, 32);
+        image.composite(avatar, 22, 16);
 
         return new Promise((resolve, reject) => {
             image.getBuffer(Jimp.AUTO, (err, buffer) => {
