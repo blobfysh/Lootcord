@@ -217,13 +217,13 @@ class Player {
                     }
                 }
                 catch(err){
-                    console.log(require('util').inspect(err));
+                    console.log(err);
                     // error creating level up image
                 }
             }
         }
         catch(err){
-            console.log(require('util').inspect(err));
+            console.log(err);
         }
     }
 

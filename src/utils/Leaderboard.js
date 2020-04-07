@@ -27,7 +27,6 @@ class Leaderboard {
         for(let key in moneyRows){
             try{
                 let user = await this.app.common.fetchUser(moneyRows[key].userId, { cacheIPC: false });
-                //console.log(require('util').inspect(user));
                 leaders.push(`💵 ${this.app.player.getBadge(moneyRows[key].badge)} ${user.username}#${user.discriminator}` + ' - ' + this.app.common.formatNumber(moneyRows[key].money));  
                 
                 leaderJSON.money[user.username] = {

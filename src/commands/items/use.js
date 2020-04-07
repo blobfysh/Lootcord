@@ -539,7 +539,7 @@ function logKill(app, killer, victim, item, ammo, damage, moneyStolen, itemsLost
         app.messager.messageLogs(embed);
     }
     catch(err){
-        console.warn(require('util').inspect(err));
+        console.warn(err);
     }
 }
 
@@ -598,7 +598,7 @@ async function getRandomPlayers(app, userId, guild){ // returns a random userId 
             }
         }
         catch(err){
-            console.log(require('util').inspect(err));
+            console.log(err);
         }
     }
 

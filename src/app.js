@@ -69,11 +69,11 @@ class Lootcord extends Base {
         this.initIPC();
         this.loopTasks.start();
 
-        if(cluster.worker.id === 1) {
+
+        if(this.clusterID === 0) {
             // only run these on main cluster, cooldowns only need to be refreshed once for all other clusters
             await this.refreshCooldowns();
             await this.refreshLists();
-            //new Webhooks(this);
             await this.startAirdrops();
         }
 
@@ -139,6 +139,7 @@ class Lootcord extends Base {
         });
 
         this.ipc.register('reloadItems', (msg) => {
+            console.log('[APP] Reloading items');
             delete require.cache[require.resolve('./resources/json/items/completeItemList')]
             this.itemdata = require('./resources/json/items/completeItemList');
             this.parse = new ArgParser(this); // must reload arg parser so the spell correction can update

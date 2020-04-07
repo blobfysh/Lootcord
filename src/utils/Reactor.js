@@ -87,7 +87,7 @@ class Reactor {
             return userReacted[0].emoji.name;
         }
         catch(err){
-            console.log(require('util').inspect(err));
+            console.log(err);
             throw new Error('Ran out of time.');
         }
     }

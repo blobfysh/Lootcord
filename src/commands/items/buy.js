@@ -223,7 +223,7 @@ async function boughtGame(app, user, game){
         dm.createMessage(buyerEmbed);
     }
     catch(err){
-        console.warn(require('util').inspect(err));
+        console.warn(err);
         // user has DM's disabled
     }
 

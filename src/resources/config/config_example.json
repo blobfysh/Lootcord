@@ -7,10 +7,8 @@
   "debug":             true,
   "botToken":          "secret_bot_token_here",
   "discoinToken":      "",
-  "dblWebhookPath":    "/dblwebhook",
-  "dblWebhookPort":    "5000",
-  "dblAuth":           "",
-  "lootcordAPIAuth":   "not_needed",
+  "serverPort":        "5000",
+  "serverAuth":        "",
   "encryptionAuth":    "",
   "supportGuildID":    "497302646521069568",
   "logChannel":        "channel_to_send_logs_to",
@@ -22,9 +20,8 @@
   "adminUsers":        ["168958344361541633"],
   "requiredPerms":     ["sendMessages", "addReactions", "manageMessages", "embedLinks", "attachFiles", "externalEmojis", "readMessageHistory"],
   "ignoreLvlMessages": [],
-
-  "activeRoleGuilds": {
-  },
+  "activeRoleGuilds": {},
+  "webhooks": {},
   "botLists": [],
   "cooldowns": {
     "hourly": 3600,

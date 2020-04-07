@@ -60,7 +60,7 @@ module.exports = {
             }
         }
         catch(err){
-            console.log(require('util').inspect(err))
+            console.log(err);
             botMessage.edit('❌ Timed out.');
         }
     },

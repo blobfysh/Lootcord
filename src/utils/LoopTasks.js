@@ -102,7 +102,7 @@ class LoopTasks {
         }
         catch(err){
             console.log('[DISCOIN] API error:');
-            console.log(require('util').inspect(err));
+            console.log(err);
         }
     }
 }

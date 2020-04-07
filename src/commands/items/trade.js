@@ -369,6 +369,6 @@ function tradeCompleted(app, embed, player1, player2){
         app.messager.messageLogs(embed);
     }
     catch(err){
-        console.warn(require('util').inspect(err))
+        console.warn(err);
     }
 }

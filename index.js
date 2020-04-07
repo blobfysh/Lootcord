@@ -3,7 +3,7 @@ const Sharder = require('eris-sharder').Master;
 
 const config    = require('./src/resources/config/config');
 const cache     = require('./src/utils/cache');
-const Webhooks  = require('./handlers/Webhooks');
+const Server    = require('./handlers/Server');
 const LoopTasks = require('./handlers/LoopTasks');
 const loopTasks = new LoopTasks(cache, config);
 
@@ -39,5 +39,5 @@ sharder.on('stats', stats => {
 
 if(cluster.isMaster){
     loopTasks.start();
-    new Webhooks(sharder, config);
+    new Server(sharder, config);
 }

@@ -87,7 +87,7 @@ class CommandHandler {
             }, 3000);//3 second spam cooldown
         }
         catch(err){
-            console.error(require('util').inspect(err));
+            console.error(err);
             message.channel.createMessage('Command failed to execute!');
         }
     }
@@ -123,7 +123,7 @@ class CommandHandler {
             }
             catch(err){
                 console.log('[CMD] Prefix query failed, MySQL not working?:')
-                console.log(require('util').inspect(err));
+                console.log(err);
                 this.cache.incr('mysql_errors');
             }
         }

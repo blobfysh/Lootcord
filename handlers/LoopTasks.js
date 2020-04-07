@@ -50,7 +50,7 @@ class LoopTasks {
                 completedLists++;
             }
             catch(err){
-                console.error(require('util').inspect(err));
+                console.error(err);
             }
         }
 

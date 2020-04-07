@@ -86,7 +86,7 @@ class Common {
             }
         }
         catch(err){
-            console.warn(require('util').inspect(err))
+            console.warn(err);
         }
         
         //API call
@@ -102,7 +102,7 @@ class Common {
             }
         }
         catch(err){
-            console.error(require('util').inspect(err))
+            console.error(err);
             return undefined;
         }
     }
