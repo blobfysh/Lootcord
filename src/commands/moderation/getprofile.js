@@ -16,8 +16,12 @@ module.exports = {
     async execute(app, message){
         let userID = message.args[0];
 
+        if(!userID){
+            return message.reply('❌ You forgot to include a user ID.')
+        }
+
         try{
-            const row = await app.player.getRow(userID);
+            const row = await app.player.getRow(userID.toString());
 
             if(!row){
                 return message.reply('❌ User has no account.');

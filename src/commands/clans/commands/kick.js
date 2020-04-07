@@ -11,7 +11,7 @@ module.exports = {
     
     async execute(app, message, args){
         const scoreRow = await app.player.getRow(message.author.id);
-        let member = undefined
+        let member = app.parse.members(message, message.args)[0];
 
         if(!member){
             // check args for id

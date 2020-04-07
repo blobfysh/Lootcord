@@ -20,7 +20,7 @@ class Player {
      * @param {string} id ID of player to get information for
      */
     async getRow(id){
-        return (await this.app.query(`SELECT * FROM scores WHERE userId ="${id}"`))[0];
+        return (await this.app.query(`SELECT * FROM scores WHERE userId ="${id}" AND userId > 0`))[0];
     }
 
     async createAccount(id){
@@ -231,7 +231,7 @@ class Player {
         //const smallFont = await Jimp.loadFont('./src/resources/fonts/Quicksand_Light25.fnt');
         const image = await Jimp.read('./src/resources/images/LvlUp2.png');
         const avatar = await Jimp.read(playerImage);
-        const largeFont = await Jimp.loadFont('./src/resources/fonts/BebasNeue37GoldExtended.fnt');
+        const largeFont = await Jimp.loadFont('./src/resources/fonts/BebasNeueWhite.fnt');
 
         image.quality(70);
         avatar.resize(64, 64);
