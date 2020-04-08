@@ -11,12 +11,14 @@ class Cooldown {
      * @param {string} userId User to give cooldown, does not have to be a user ID.
      * @param {string} type Type of cooldown
      * @param {number} time Time in milliseconds cooldown lasts
-     * @param {{ignoreQuery: boolean}} options ignoreQuery is only used when bot starting up to prevent multiple table entries
+     * @param {{ignoreQuery: boolean, patron: boolean}} options ignoreQuery is only used when bot starting up to prevent multiple table entries
      */
-    async setCD(userId, type, time, options = { ignoreQuery: false }){
+    async setCD(userId, type, time, options = { ignoreQuery: false, patron: false }){
         let key = `${type}|${userId}`;
+        options.ignoreQuery = options.ignoreQuery || false;
+        options.patron = options.patron || false;
 
-        if(!options.ignoreQuery && await this.app.cache.get(key)) return false;
+        if(!options.patron && !options.ignoreQuery && await this.app.cache.get(key)) return false;
 
         let seconds = Math.round(time / 1000);
 
@@ -25,10 +27,12 @@ class Cooldown {
         
         // add cooldown to cooldown table for persistence (if server were to shut down, this table would be used to set cooldowns for all players)
         if(!options.ignoreQuery) await this.app.mysql.query(`INSERT INTO cooldown (userId, type, start, length) VALUES (?, ?, ?, ?)`, [userId, type, new Date().getTime(), time]);
+        
+        if(options.patron) return 'Success';
 
         let timeObj = {
             userId: userId, 
-            type: type, 
+            type: type,
             timer: setTimeout(() => {
                 console.log(`[COOLDOWNS] Deleted ${userId} from '${type}' cooldown`);
                 this.app.mysql.query(`DELETE FROM cooldown WHERE userId = ${userId} AND type = '${type}'`);

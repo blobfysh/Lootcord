@@ -16,8 +16,11 @@ module.exports = {
     async execute(app, message){
         let clusterID = message.args[0];
 
-        if(!clusterID || !parseInt(clusterID)){
-            return message.reply('❌ You forgot to include a cluster ID.')
+        if(clusterID === undefined){
+            return message.reply('❌ You forgot to include a cluster ID.');
+        }
+        else if(!parseInt(clusterID) && clusterID !== '0'){
+            return message.reply('❌ Only numbers are supported.');
         }
 
         try{

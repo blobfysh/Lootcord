@@ -79,12 +79,21 @@ class CommandHandler {
             command.execute(this.app, this.buildMessage(message, prefix, args));
 
             // dont add spamCooldown if in debug mode or user is admin
-            if(this.app.config.debug || this.app.sets.adminUsers.has(message.author.id)) return;
+            //if(this.app.config.debug || this.app.sets.adminUsers.has(message.author.id)) return;
+
+            if(await this.app.cd.getCD(message.author.id, 'patron')){
+                this.spamCooldown.add(message.author.id);
+                setTimeout(() => {
+                    this.spamCooldown.delete(message.author.id);
+                }, 1000);// 1 second spam cooldown
+
+                return;
+            }
 
             this.spamCooldown.add(message.author.id);
             setTimeout(() => {
                 this.spamCooldown.delete(message.author.id);
-            }, 3000);//3 second spam cooldown
+            }, 3000);// 3 second spam cooldown
         }
         catch(err){
             console.error(err);

@@ -25,6 +25,7 @@ const BlackMarket      = require('./utils/BlackMarket');
 const Clans            = require('./utils/Clans');
 const LoopTasks        = require('./utils/LoopTasks');
 const voteHandler      = require('./utils/voteHandler');
+const patronHandler    = require('./utils/patronHandler');
 
 const events           = fs.readdirSync(__dirname + '/events');
 const categories       = fs.readdirSync(__dirname + '/commands');
@@ -146,6 +147,7 @@ class Lootcord extends Base {
         });
 
         this.ipc.register('vote', voteHandler.handle.bind(this));
+        this.ipc.register('donation', patronHandler.handle.bind(this));
     }
 
     query(sql, args){
@@ -160,7 +162,8 @@ class Lootcord extends Base {
             if(cdInfo.userId !== undefined){
                 let timeLeft = (cdInfo.length) - ((new Date()).getTime() - cdInfo.start);
                 if(timeLeft > 0){
-                    await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true });
+                    if(cdInfo.type === 'patron') await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true, patron: true });
+                    else await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true });
                     
                     cdsAdded++;
                 }

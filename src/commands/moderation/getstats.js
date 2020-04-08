@@ -32,6 +32,7 @@ module.exports = {
             const warnings = (await app.query(`SELECT * FROM warnings WHERE userId = '${userID}'`));
             const banned = await app.cd.getCD(userID, 'banned');
             const tradebanned = await app.cd.getCD(userID, 'tradeban');
+            const patron = await app.cd.getCD(userID, 'patron');
 
             const statEmbed = new app.Embed()
             .setColor(13215302)
@@ -45,7 +46,7 @@ module.exports = {
             if(banned){
                 const bannedRow = (await app.query(`SELECT * FROM banned WHERE userId =${userID}`))[0];
 
-                statEmbed.addField('Banned?', codeWrap(`Yes - Length: ${banned}\n\nDate Banned:\n${app.common.getShortDate(bannedRow.date)}\n\nReason:\n${bannedRow.reason}`, 'cs'))
+                statEmbed.addField('Banned?', codeWrap(`Yes - Length:\n${banned}\n\nDate Banned:\n${app.common.getShortDate(bannedRow.date)}\n\nReason:\n${bannedRow.reason}`, 'cs'))
             }
             else{
                 statEmbed.addField('Banned?', codeWrap('No', 'cs'))
@@ -54,10 +55,17 @@ module.exports = {
             if(tradebanned){
                 const bannedRow = (await app.query(`SELECT * FROM tradebanned WHERE userId =${userID}`))[0];
                 
-                statEmbed.addField('Trade banned?', codeWrap(`Yes - Length: ${tradebanned}\n\nDate Banned:\n${app.common.getShortDate(bannedRow.date)}\n\nReason:\n${bannedRow.reason}`, 'cs'))
+                statEmbed.addField('Trade banned?', codeWrap(`Yes - Length:\n${tradebanned}\n\nDate Banned:\n${app.common.getShortDate(bannedRow.date)}\n\nReason:\n${bannedRow.reason}`, 'cs'))
             }
             else{
-                statEmbed.addField('Trade banned?', codeWrap(tradebanned || 'No', 'cs'));
+                statEmbed.addField('Trade banned?', codeWrap('No', 'cs'));
+            }
+
+            if(patron){
+                statEmbed.addField('Donator?', codeWrap(`Yes - Time Left:\n${patron}`, 'cs'));
+            }
+            else{
+                statEmbed.addField('Donator?', codeWrap('No', 'cs'));
             }
 
             message.channel.createMessage(statEmbed);

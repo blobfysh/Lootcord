@@ -46,10 +46,36 @@ class LoopTasks {
         this.app.query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 30 DAY`);
     }
 
-    biHourlyTasks(){
+    async biHourlyTasks(){
         console.log('[LOOPTASKS] Running bi-hourly tasks...');
         // add 1 power to all active players every 2 hours
         this.app.query(`UPDATE scores SET power = power + 1 WHERE power < max_power AND lastActive > NOW() - INTERVAL 30 DAY;`);
+
+        const patrons = await this.app.query(`SELECT * FROM cooldown WHERE type = 'patron'`);
+
+        for(let i = 0; i < patrons.length; i++){
+            if(!await this.app.cd.getCD(patrons[i].userId, 'patron')){
+                // remove patron items...
+                this.app.query(`DELETE FROM user_items WHERE userId = '${patrons[i].userId}' AND item = 'patron'`);
+                this.app.query(`UPDATE scores SET banner = 'none' WHERE userId = '${patrons[i].userId}' AND banner = 'patron'`);
+                console.log(patrons[i].userId + ' lost patronage');
+
+                try{
+                    const donateEmbed = new this.Embed()
+                    .setTitle('Perks Ended')
+                    .setColor('#29ABE0')
+                    .setDescription(`\`${patrons[i].userId}\`'s donator perks expried.`)
+
+                    this.app.messager.messageLogs(donateEmbed);
+                }
+                catch(err){
+                    console.warn(err);
+                }
+            }
+        }
+
+        // clean up cooldown table
+        this.app.query(`DELETE FROM cooldown WHERE UNIX_TIMESTAMP() * 1000 > start + length`);
     }
 
     async hourlyTasks(){
@@ -65,11 +91,11 @@ class LoopTasks {
 
     async frequentTasks(){
         if(!this.app.config.debug && this.app.clusterID === 0){
-            this.handleDiscoinTransactions();
+            this._handleDiscoinTransactions();
         }
     }
 
-    async handleDiscoinTransactions(){
+    async _handleDiscoinTransactions(){
         try{
             const unhandled = await this.app.discoin.getUnhandled();
     

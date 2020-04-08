@@ -1,7 +1,7 @@
 
 module.exports = {
-    name: 'item',
-    aliases: ['items'],
+    name: 'items',
+    aliases: ['item'],
     description: 'Shows information about an item.',
     long: 'Specify an item to see detailed information about it.',
     args: {"item": "Item to search."},

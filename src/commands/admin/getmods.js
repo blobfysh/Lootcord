@@ -25,7 +25,7 @@ module.exports = {
 
             const modMsg = new app.Embed()
             .setAuthor('Moderator list')
-            .setDescription(moddedList.join('\n'))
+            .setDescription(moddedList.join('\n') || 'None')
             .setColor(720640)
             message.channel.createMessage(modMsg);
         }

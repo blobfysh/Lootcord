@@ -40,7 +40,12 @@ class Server {
     async _handlePatron(req, res){
         if(this.config.serverAuth !== req.headers.authorization) return res.status(403).send('Unauthorized');
 
-        console.log(req.body.data);
+        if(req.body.data){
+            this.sharder.sendTo(0, {
+                _eventName: "donation", 
+                data: req.body.data
+            });
+        }
 
         res.status(200).send();
     }
