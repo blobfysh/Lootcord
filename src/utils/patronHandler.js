@@ -12,22 +12,36 @@ exports.handle = async function({ data }){
     
         if(!user.length){
             donateEmbed.addField('Message', data.message)
-            donateEmbed.setFooter('❌ No user in message')
+            donateEmbed.setFooter('❌ No user in message.')
 
             return this.messager.messageLogs(donateEmbed);
         }
     
         user = user[0][0];
         const months = Math.floor(parseInt(data.amount) / 3);
-    
+        const userObj = await this.common.fetchUser(user, { cacheIPC: true });
+
         if(!months){
             donateEmbed.addField('User', '```fix\n' + user + '```', true)
             donateEmbed.addField('Message', data.message)
-            .setFooter('❌ 0 months')
+            donateEmbed.setFooter('❌ 0 months.')
 
             return this.messager.messageLogs(donateEmbed);
         }
+        else if(!userObj){
+            donateEmbed.addField('User', '```fix\n' + user + '```', true)
+            donateEmbed.addField('Message', data.message)
+            donateEmbed.setFooter('❌ No user found.')
+
+            return this.messager.messageLogs(donateEmbed);
+        }
+
+        const account = await this.player.getRow(user);
+        if(!account){
+            await this.player.createAccount(user);
+        }
     
+        // give reward
         const patronCD = await this.cd.getCD(user, 'patron');
     
         const patronEmbed = new this.Embed()
@@ -52,7 +66,7 @@ exports.handle = async function({ data }){
         try{
             this.common.messageUser(user, patronEmbed, { throwErr: true });
 
-            donateEmbed.addField('User', '```fix\n' + user + '```', true)
+            donateEmbed.addField('User', '```fix\n' + userObj.username + '#' + userObj.discriminator + '\nID: ' + user + '```', true)
             donateEmbed.addField('Months', '```\n' + months + '```', true)
             donateEmbed.addField('Message', data.message)
             donateEmbed.setFooter('✅ Success')
@@ -60,10 +74,10 @@ exports.handle = async function({ data }){
             this.messager.messageLogs(donateEmbed);
         }
         catch(err){
-            donateEmbed.addField('User', '```fix\n' + user + '```', true)
+            donateEmbed.addField('User', '```fix\n' + userObj.username + '#' + userObj.discriminator + '\nID: ' + user + '```', true)
             donateEmbed.addField('Months', '```\n' + months + '```', true)
             donateEmbed.addField('Message', data.message)
-            donateEmbed.setFooter('❌ Failed to send message to user')
+            donateEmbed.setFooter('❌ Failed to send message to user.')
 
             this.messager.messageLogs(donateEmbed);
         }

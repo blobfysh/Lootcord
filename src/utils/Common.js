@@ -61,18 +61,32 @@ class Common {
     /**
      * Checks cache on all clusters before making API call
      * @param {string} id ID of user to fetch tag for
-     * @param {{cache:boolean}} options Whether or not to cahe IPC user info
+     * @param {{cacheIPC:boolean}} options Whether or not to cache IPC user info
      */
-    async fetchUser(id, options = { cacheIPC: true }){
+    async fetchUser(id, options = { cacheIPC: true, useIPC: true }){
         let user = this.app.bot.users.get(id);
-
+        
         if(user){
             console.log('[COMMON] Found user in cache');
             return user
         }
 
         try{
-            let IPCuser = await this.app.ipc.fetchUser(id);
+            let timeoutId;
+            let IPCuser;
+            const maxTime = new Promise((resolve, reject) => {
+                timeoutId = setTimeout(() => {
+                    reject(new Error('no IPC user found.'));
+                }, 2000);
+            });
+
+            // will try searching IPC for 2 seconds, otherwise return undefined (have to do this because ipc.fetchUser wont return undefined)
+            try{
+                IPCuser = await Promise.race([maxTime, this.app.ipc.fetchUser(id)]);
+            }
+            finally{
+                clearTimeout(timeoutId);
+            }
 
             if(IPCuser && options.cacheIPC){
                 console.log('[COMMON] Found user using IPC and cached it');

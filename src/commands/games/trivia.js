@@ -78,7 +78,7 @@ module.exports = {
                     await app.itm.addItem(message.author.id, 'item_box', 2);
                 }
                 else{//40% chance
-                    rewardItem = "`$1,000`";
+                    rewardItem = app.common.formatNumber(1000);
                     await app.player.addMoney(message.author.id, 1000);
                 }
                 const embedReward = new app.Embed()

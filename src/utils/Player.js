@@ -20,7 +20,7 @@ class Player {
      * @param {string} id ID of player to get information for
      */
     async getRow(id){
-        return (await this.app.query(`SELECT * FROM scores WHERE userId ="${id}" AND userId > 0`))[0];
+        return (await this.app.query(`SELECT * FROM scores WHERE userId = ? AND userId > 0`, [id]))[0];
     }
 
     async createAccount(id){

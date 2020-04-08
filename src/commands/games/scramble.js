@@ -79,7 +79,7 @@ module.exports = {
 
                             if((chance < scrambleJSONlength/4) && hasEnough){
                                 await app.itm.addItem(message.author.id, 'ultra_box', 1);
-                                message.channel.createMessage(scrambleWinMsg(app, `${app.itemdata['ultra_box'].icon}ultra_box`));
+                                message.channel.createMessage(scrambleWinMsg(app, `${app.itemdata['ultra_box'].icon}\`ultra_box\``));
                             }
                             else{
                                 await app.player.addMoney(message.author.id, 1700);
@@ -92,7 +92,7 @@ module.exports = {
                             if((chance < scrambleJSONlength/3) && hasEnough){
                                 rewardItem = "2x item_box";
                                 await app.itm.addItem(message.author.id, 'item_box', 2);
-                                message.channel.createMessage(scrambleWinMsg(app, `2x ${app.itemdata['item_box'].icon}item_box`));
+                                message.channel.createMessage(scrambleWinMsg(app, `2x ${app.itemdata['item_box'].icon}\`item_box\``));
                             }
                             else{
                                 await app.player.addMoney(message.author.id, 1100);
@@ -104,7 +104,7 @@ module.exports = {
 
                             if((chance < scrambleJSONlength/3) && hasEnough){
                                 await app.itm.addItem(message.author.id, 'item_box', 2);
-                                message.channel.createMessage(scrambleWinMsg(app, `2x ${app.itemdata['item_box'].icon}item_box`));
+                                message.channel.createMessage(scrambleWinMsg(app, `2x ${app.itemdata['item_box'].icon}\`item_box\``));
                             }
                             else{
                                 await app.player.addMoney(message.author.id, 800);
@@ -118,7 +118,7 @@ module.exports = {
 
                             if((chance > scrambleJSONlength/2) && hasEnough){
                                 await app.itm.addItem(message.author.id, 'item_box', 2);
-                                message.channel.createMessage(scrambleWinMsg(app, `2x ${app.itemdata['item_box'].icon}item_box`));
+                                message.channel.createMessage(scrambleWinMsg(app, `2x ${app.itemdata['item_box'].icon}\`item_box\``));
                             }
                             else{
                                 await app.player.addMoney(message.author.id, 650);
@@ -130,7 +130,7 @@ module.exports = {
                             
                             if((chance > scrambleJSONlength/2) && hasEnough){
                                 await app.itm.addItem(message.author.id, 'item_box', 1);
-                                message.channel.createMessage(scrambleWinMsg(app, `${app.itemdata['item_box'].icon}item_box`));
+                                message.channel.createMessage(scrambleWinMsg(app, `${app.itemdata['item_box'].icon}\`item_box\``));
                             }
                             else{
                                 await app.player.addMoney(message.author.id, 400);
@@ -142,7 +142,7 @@ module.exports = {
                             
                             if(hasEnough){
                                 await app.itm.addItem(message.author.id, 'item_box', 1);
-                                message.channel.createMessage(scrambleWinMsg(app, `${app.itemdata['item_box'].icon}item_box`));
+                                message.channel.createMessage(scrambleWinMsg(app, `${app.itemdata['item_box'].icon}\`item_box\``));
                             }
                             else{
                                 await app.player.addMoney(message.author.id, 250);

@@ -28,8 +28,6 @@ module.exports = {
 
             await app.cd.clearCD(userID, 'mod');
             await app.query(`DELETE FROM mods WHERE userId ="${userID}"`);
-            
-            app.common.messageUser(userID, modMsg, { throwErr: true });
 
             message.reply(`Successfully unmodded **${user.username}#${user.discriminator}**!`);
         }
