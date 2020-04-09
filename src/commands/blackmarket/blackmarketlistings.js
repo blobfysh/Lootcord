@@ -6,7 +6,7 @@ module.exports = {
     description: 'View your Black Market listings.',
     long: 'Show all listings on the Black Market that you own.',
     args: {},
-    examples: ["bmlistings"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,

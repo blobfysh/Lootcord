@@ -5,7 +5,7 @@ module.exports = {
     description: 'View your currently equipped backpack and stats.',
     long: 'Shows currently equipped backpack and current inventory space.',
     args: {},
-    examples: ["backpack"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,

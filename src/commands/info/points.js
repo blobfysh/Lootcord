@@ -5,7 +5,7 @@ module.exports = {
     description: 'Shows total experience earned.',
     long: 'Shows your lifetime earned experience.',
     args: {},
-    examples: ["points"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,

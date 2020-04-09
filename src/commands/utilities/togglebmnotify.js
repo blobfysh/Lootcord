@@ -4,7 +4,7 @@ module.exports = {
     description: "Toggle this to enable DMs when you sell an item on the Black Market.",
     long: "Toggle notifications whenever you sell an item on the Black Market.",
     args: {},
-    examples: ["togglebmnotify"],
+    examples: [],
     ignoreHelp: true,
     requiresAcc: true,
     requiresActive: false,

@@ -5,7 +5,7 @@ module.exports = {
     description: "Removes the kill feed channel for the server.",
     long: "Stops the bot from logging all kills in the server.\nUser **MUST** have the Manage Server permission.",
     args: {},
-    examples: ["disablekillfeed"],
+    examples: [],
     ignoreHelp: true,
     requiresAcc: true,
     requiresActive: false,

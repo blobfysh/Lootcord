@@ -5,7 +5,7 @@ module.exports = {
     description: 'Answer a random question for a reward!',
     long: 'Answer a random trivia question for a reward! Rewards range from `item_box`\'s to `ultra_box`\'s.',
     args: {},
-    examples: ["trivia"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: true,

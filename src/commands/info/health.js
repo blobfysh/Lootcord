@@ -5,7 +5,7 @@ module.exports = {
     description: 'Displays current health.',
     long: 'Displays your current health and your maximum possible health.',
     args: {},
-    examples: ["health"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,

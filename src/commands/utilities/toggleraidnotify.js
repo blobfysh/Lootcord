@@ -4,7 +4,7 @@ module.exports = {
     description: "Toggle this to enable DMs when your clan is raided.",
     long: "Toggle notifications whenever your clan gets raided.",
     args: {},
-    examples: ["togglelevelchannel"],
+    examples: [],
     ignoreHelp: true,
     requiresAcc: true,
     requiresActive: false,

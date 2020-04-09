@@ -10,7 +10,7 @@ module.exports = {
     description: 'Receive a free item_box every hour!',
     long: 'Use this command to receive a free item_box every hour.',
     args: {},
-    examples: ["hourly"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: true,

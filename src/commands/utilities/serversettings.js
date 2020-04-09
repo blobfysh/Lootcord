@@ -5,7 +5,7 @@ module.exports = {
     description: "View the servers settings and how to change them.",
     long: "View current settings for the server and see how to change them.",
     args: {},
-    examples: ["serversettings"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: false,
     requiresActive: false,

@@ -5,7 +5,7 @@ module.exports = {
     description: "Will send care_package drops to the channel it was used in.",
     long: "Request care_packages to be sent to the specified channel.\nServer **MUST** have atleast 5 active players.\nUser **MUST** have the Manage Server permission.",
     args: {},
-    examples: ["setdropchan"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: true,

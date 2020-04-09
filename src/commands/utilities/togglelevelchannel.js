@@ -4,7 +4,7 @@ module.exports = {
     description: "Toggles whether or not to send all level up messages for the server to the channel this command is used in.",
     long: "Toggle a channel to send all level up messages to.\nUser **MUST** have the Manage Server permission.",
     args: {},
-    examples: ["togglelevelchannel"],
+    examples: [],
     ignoreHelp: true,
     requiresAcc: true,
     requiresActive: false,

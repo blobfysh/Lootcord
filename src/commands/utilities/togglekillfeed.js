@@ -4,7 +4,7 @@ module.exports = {
     description: "Toggles the channel its used in as the kill feed for the server.",
     long: "Toggle the current channel as the kill feed channel, will log all kills from the server in that channel.\nUser **MUST** have the Manage Server permission.",
     args: {},
-    examples: ["togglekillfeed"],
+    examples: [],
     ignoreHelp: true,
     requiresAcc: true,
     requiresActive: false,

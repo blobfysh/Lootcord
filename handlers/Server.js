@@ -71,6 +71,14 @@ class Server {
 
         res.status(200).send(JSON.parse(leaderboard).leadersOBJ);
     }
+
+    async _getPatrons(req, res){
+        if(this.config.serverAuth !== req.headers.authorization) return res.status(403).send('Unauthorized');
+
+        const patrons = await this.mysql.query(`SELECT * FROM cooldown WHERE type = 'patron'`);
+
+        res.status(200).send(patrons);
+    }
 }
 
 module.exports = Server;

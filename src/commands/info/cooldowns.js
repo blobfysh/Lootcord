@@ -5,7 +5,7 @@ module.exports = {
     description: "Displays all command cooldowns.",
     long: "Displays cooldowns for all commands and time remaining on your shield if you have one active.",
     args: {},
-    examples: ["cd"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,

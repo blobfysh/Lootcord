@@ -5,7 +5,7 @@ module.exports = {
     description: 'View your current power.',
     long: 'View your current power.',
     args: {},
-    examples: ["power"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,

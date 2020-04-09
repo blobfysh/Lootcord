@@ -7,7 +7,7 @@ module.exports = {
     description: 'Displays level.',
     long: 'Displays your level along with your current scaled damage.',
     args: {},
-    examples: ["level"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,

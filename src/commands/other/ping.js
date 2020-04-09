@@ -5,7 +5,7 @@ module.exports = {
     description: "Check the bot's ping",
     long: "Check the bot's ping",
     args: {},
-    examples: ["ping"],
+    examples: [],
     ignoreHelp: true,
     requiresAcc: false,
     requiresActive: false,
@@ -13,11 +13,7 @@ module.exports = {
     
     
     async execute(app, message){
-        console.log(app.bot.shards.get(app.bot.guildShardMap[message.guild.id]).latency);
-
-        let items = app.parse.items(message.args);
-        
-        message.reply('items found in message:```\n' + items.join('\n') + '```');
+        message.reply(`Pong! ${app.bot.shards.get(app.bot.guildShardMap[message.guild.id]).latency} ms`);
 
         /*
 

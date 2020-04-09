@@ -4,7 +4,7 @@ module.exports = {
     description: "Sends a link to invite the bot.",
     long: "Sends a link to invite the bot.",
     args: {},
-    examples: ["link"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: false,
     requiresActive: false,

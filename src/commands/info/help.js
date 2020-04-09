@@ -53,20 +53,20 @@ module.exports = {
 
         const embed = new app.Embed()
         .setAuthor('Lootcord Commands', message.author.avatarURL)
-        .setDescription('**THIS IS JUST A TEST, expect some major issues.**\nList of known things not working:\nmessaging mods (`report` works though),\nno moderation commands\nIf you find any other issues, let me know @blobfysh#4679\n\nFor details on using clan commands, you can type `clan help`, or check this [link](https://github.com/blobfysh/Lootcord/wiki/Clans).')
+        .setDescription('**[Help keep the bot running!](https://ko-fi.com/blobfysh)**\nFor details on using clan commands, you can type `clan help`, or check this [link](https://github.com/blobfysh/Lootcord/wiki/Clans).')
         .setFooter(`To see more about a command, use ${message.prefix}help <command>`)
         .setColor(13215302)
 
         const categoriesArr = Object.keys(categories);
 
-        if(categoriesArr.includes('items')) embed.addField('⚔ Item Usage', categories['items'].map(cmd => '`' + cmd + '`').join(', '));
-        if(categoriesArr.includes('games')) embed.addField('🎲 Games and Rewards', categories['games'].map(cmd => '`' + cmd + '`').join(', '));
-        if(categoriesArr.includes('info')) embed.addField('📋 Info', categories['info'].map(cmd => '`' + cmd + '`').join(', '));
-        if(categoriesArr.includes('blackmarket')) embed.addField('💰 Black Market', categories['blackmarket'].map(cmd => '`' + cmd + '`').join(', '));
-        if(categoriesArr.includes('utilities')) embed.addField('⚙ Utility', categories['utilities'].map(cmd => '`' + cmd + '`').join(', '));
-        if(categoriesArr.includes('other')) embed.addField('📈 Other', categories['other'].map(cmd => '`' + cmd + '`').join(', '));
+        if(categoriesArr.includes('items')) embed.addField('⚔ Item Usage', categories['items'].map(cmd => '`' + cmd + '`').join(' '));
+        if(categoriesArr.includes('games')) embed.addField('🎲 Games and Rewards', categories['games'].map(cmd => '`' + cmd + '`').join(' '));
+        if(categoriesArr.includes('info')) embed.addField('📋 Info', categories['info'].map(cmd => '`' + cmd + '`').join(' '));
+        if(categoriesArr.includes('blackmarket')) embed.addField('💰 Black Market', categories['blackmarket'].map(cmd => '`' + cmd + '`').join(' '));
+        if(categoriesArr.includes('utilities')) embed.addField('⚙ Utility', categories['utilities'].map(cmd => '`' + cmd + '`').join(' '));
+        if(categoriesArr.includes('other')) embed.addField('📈 Other', categories['other'].map(cmd => '`' + cmd + '`').join(' '));
         
-        embed.addField('⚔️ Clans', Array.from(app.clanCommands.keys()).map(cmd => '`' + cmd + '`').join(', '))
+        embed.addField('⚔️ Clans', Array.from(app.clanCommands.keys()).map(cmd => '`' + cmd + '`').join(' '))
         embed.addField('💡 Random Tip', tips[Math.floor(Math.random() * tips.length)])
 
         message.channel.createMessage(embed);

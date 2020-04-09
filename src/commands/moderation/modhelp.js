@@ -1,4 +1,3 @@
-const tips = require('../../resources/json/tips');
 
 module.exports = {
     name: 'modhelp',
@@ -38,7 +37,7 @@ module.exports = {
 
         const embed = new app.Embed()
         .setAuthor('Moderation Commands', message.author.avatarURL)
-        .setDescription('Most commands require you are in the moderator channel. `getstats`, `getprofile`, `getinv`, and `shardinfo` work anywhere.\n\n' + commands.map(cmd => '`' + cmd.name + '`').join(', '))
+        .setDescription('Most commands require you are in the moderator channel. `getstats`, `getprofile`, `getinv`, and `shardinfo` work anywhere.\n\n' + commands.map(cmd => '`' + cmd.name + '`').join(' '))
         .setFooter(`To see more about a command, use ${message.prefix}modhelp <command>`)
         .setColor('#ff7272')
 

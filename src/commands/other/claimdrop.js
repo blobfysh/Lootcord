@@ -5,7 +5,7 @@ module.exports = {
     description: "Claim a `care_package` drop.",
     long: "Claim the airdrop in this channel (if there is any).",
     args: {},
-    examples: ["claimdrop"],
+    examples: [],
     ignoreHelp: true,
     requiresAcc: true,
     requiresActive: true,

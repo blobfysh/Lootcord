@@ -5,7 +5,7 @@ module.exports = {
     description: 'Displays your current balance.',
     long: 'Displays your current balance.',
     args: {},
-    examples: ["bal"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,

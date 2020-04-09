@@ -6,7 +6,7 @@ module.exports = {
     description: 'Displays all active users on the server.',
     long: 'Displays all active users on the server.',
     args: {},
-    examples: ["active"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: true,

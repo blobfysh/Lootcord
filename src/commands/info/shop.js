@@ -6,7 +6,7 @@ module.exports = {
     description: 'Shows all buy and sell prices for items.',
     long: 'Show the market of all items that can be bought or sold. Occasionally, steam keys may be displayed for sale on the home page.',
     args: {},
-    examples: ["shop"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: false,
     requiresActive: false,

@@ -4,7 +4,7 @@ module.exports = {
     description: "Sends a link to the Lootcord server.",
     long: "Sends a link to the official Lootcord Discord Server.",
     args: {},
-    examples: ["deactivate"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: false,
     requiresActive: false,

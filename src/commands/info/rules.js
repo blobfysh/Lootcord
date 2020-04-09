@@ -5,7 +5,7 @@ module.exports = {
     description: 'View the rules of Lootcord.',
     long: 'Displays official Lootcord rules.',
     args: {},
-    examples: ["rules"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: false,
     requiresActive: false,

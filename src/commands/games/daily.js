@@ -10,7 +10,7 @@ module.exports = {
     description: 'Receive a free ultra_box every day!',
     long: 'Use this command to receive a free ultra_box every day.',
     args: {},
-    examples: ["daily"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: true,

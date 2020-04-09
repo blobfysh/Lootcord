@@ -5,7 +5,7 @@ module.exports = {
     description: 'Vote for the bot to collect a reward!',
     long: 'Vote for the bot to receive a reward.',
     args: {},
-    examples: ["vote"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,

@@ -5,7 +5,7 @@ module.exports = {
     description: "Will stop requesting airdrops.",
     long: "Stop airdrops from being sent to the server.\nUser **MUST** have the Manage Server permission.",
     args: {},
-    examples: ["disabledropchan"],
+    examples: [],
     ignoreHelp: true,
     requiresAcc: true,
     requiresActive: true,

@@ -5,7 +5,7 @@ module.exports = {
     description: "View your settings and how to change them.",
     long: "View your current settings and how to change them.",
     args: {},
-    examples: ["mysettings"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,

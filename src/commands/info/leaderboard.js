@@ -5,7 +5,7 @@ module.exports = {
     description: 'Show the best players overall or in the current server.',
     long: 'Displays a leaderboard of all players with the highest level and amount of money.',
     args: {"g": "**OPTIONAL** Will show the global leaderboard"},
-    examples: ["lb"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: true,

@@ -5,7 +5,7 @@ module.exports = {
     description: "Disables the dedicated channel for level-up messages.",
     long: "Removes the level channel from the server, will cause the bot to default back to replying when users level up.\nUser **MUST** have the Manage Server permission.",
     args: {},
-    examples: ["disablelevelchannel"],
+    examples: [],
     ignoreHelp: true,
     requiresAcc: true,
     requiresActive: false,

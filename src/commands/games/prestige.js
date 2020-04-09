@@ -7,7 +7,7 @@ module.exports = {
     description: 'Restart and gain new stats!',
     long: 'Trade all experience and items for permanent stats! Cost to prestige increases with each level.',
     args: {},
-    examples: ["prestige"],
+    examples: [],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: true,
