@@ -33,7 +33,7 @@ module.exports = {
 
             switch(itemRarity){
                 case 'Ultra': itemRarityColor = 16711778; break;
-                case 'Legendary': itemRarityColor = 16312092; break
+                case 'Legendary': itemRarityColor = 13215302; break
                 case 'Limited': itemRarityColor = 13391388; break
                 case 'Epic': itemRarityColor = 12390624; break;
                 case 'Rare': itemRarityColor = 30463; break;
@@ -47,6 +47,7 @@ module.exports = {
             .setColor(itemRarityColor)
             if(app.itemdata[itemSearched].isBanner){
                 embedItem.setImage(itemImg);
+                embedItem.setColor(app.itemdata[itemSearched].bannerColor)
                 embedItem.addField('Type', 'Banner');
             }
             else if(itemImg){

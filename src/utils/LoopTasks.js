@@ -56,8 +56,8 @@ class LoopTasks {
         for(let i = 0; i < patrons.length; i++){
             if(!await this.app.cd.getCD(patrons[i].userId, 'patron')){
                 // remove patron items...
-                this.app.query(`DELETE FROM user_items WHERE userId = '${patrons[i].userId}' AND item = 'patron'`);
-                this.app.query(`UPDATE scores SET banner = 'none' WHERE userId = '${patrons[i].userId}' AND banner = 'patron'`);
+                this.app.query(`DELETE FROM user_items WHERE userId = '${patrons[i].userId}' AND item = 'kofi_king'`);
+                this.app.query(`UPDATE scores SET banner = 'none' WHERE userId = '${patrons[i].userId}' AND banner = 'kofi_king'`);
                 console.log(patrons[i].userId + ' lost patronage');
 
                 try{

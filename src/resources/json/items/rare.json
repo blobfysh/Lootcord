@@ -479,5 +479,36 @@
         "breaksOnUse": "",
         "canBeStolen": false,
         "cooldown": ""
+    },
+    "elite": {
+        "rarity": "Rare",
+        "isBanner": true,
+        "bannerColor": "#737373",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "7x module",
+            "materials": [
+                "module|7"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": {
+            "amount": 21000,
+            "currency": "money"
+        },
+        "sell": 3500,
+        "desc": "Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/697679342821572639/elite_banner.png",
+        "equippable": true,
+        "icon": "<:rare_banner:601368019943424001>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": ""
     }
 }

@@ -624,10 +624,10 @@
         "canBeStolen": false,
         "cooldown": ""
     },
-    "patron": {
+    "kofi_king": {
         "rarity": "Limited",
         "isBanner": true,
-        "bannerColor": 16345172,
+        "bannerColor": "#FF6C4E",
         "isWeap": false,
         "isItem": false,
         "damage": "",
@@ -639,8 +639,8 @@
         "recyclesTo": [],
         "buy": "",
         "sell": "",
-        "desc": "Patreon exclusive banner! Equip this to give your inventory a fresh new look!",
-        "image": "https://cdn.discordapp.com/attachments/501120454136692737/583589453952712704/patron_banner.gif",
+        "desc": "Get this banner by donating on [Ko-fi](https://ko-fi.com/blobfysh)! Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/697675528039039016/kofikingv2.png",
         "equippable": true,
         "icon": "<:limit_banner:601371062214852619>",
         "breaksOnUse": "",

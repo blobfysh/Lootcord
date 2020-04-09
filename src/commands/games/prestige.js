@@ -24,10 +24,12 @@ module.exports = {
             return message.reply('👀 You are the highest prestige level possible right now. We have to work on more banners and badges for the higher prestige levels.')
         }
 
+        let badgeReward = getBadge(row.prestige);
+
         const prestigeEmbed = new app.Embed()
         .setTitle('Upgrade your prestige level!')
         .addField('You will lose', `${app.icons.minus} Trade-in all items (except ***Limited***)\n${app.icons.minus} Hand over your Lootcoins (${app.common.formatNumber(row.money)} → ${app.common.formatNumber(100)})\n${app.icons.minus} Reset level EXP and skills (Lvl ${row.level} → 1)\n${app.icons.minus} Stats such as kills and deaths reset`)
-        .addField('Gain the following', `${app.icons.plus} A unique \`prestige_1\` banner\n${app.icons.plus} A badge next to your name displayed on your profile, leaderboards, and attack menus\n${app.icons.plus} \`5\` permanent inventory slots (${app.config.baseInvSlots + (5 * row.prestige)} → ${app.config.baseInvSlots + (5 * (row.prestige + 1))})`)
+        .addField('Gain the following', `${app.icons.plus} A unique ${app.badgedata[badgeReward].icon}\`${badgeReward}\` badge\n${app.icons.plus} \`5\` permanent inventory slots (${app.config.baseInvSlots + (5 * row.prestige)} → ${app.config.baseInvSlots + (5 * (row.prestige + 1))})`)
         .addField('Minimum Lootcoin Required', app.common.formatNumber(price), true)
         .addField('Minimum Items Required', `${requiredItemCt} (With a total value of atleast ${app.common.formatNumber(requiredItemVal)})`, true)
         .setColor(13215302)
@@ -55,7 +57,7 @@ module.exports = {
                 else{
                     await app.query(`UPDATE scores SET prestige = prestige + 1 WHERE userId = "${message.author.id}"`);
                     await resetData(app, message, row.prestige);
-                    await app.itm.addBadge(message.author.id, 'prestige_1');
+                    await app.itm.addBadge(message.author.id, badgeReward);
                     
                     const prestigeSuccess = new app.Embed()
                     .setTitle('Success!')
@@ -100,14 +102,6 @@ async function resetData(app, message, prestigeLvl){
                 default: resetVal = 0;
             }
 
-            if(item == 'banner'){
-                switch(prestigeLvl + 1){
-                    case 1: resetVal = 'recruit'; break;
-                    case 2: resetVal = 'recruit'; break;
-                    default: resetVal = 'recruit'; break;
-                }
-            }
-
             //run this query every iteration to reset each column
             await app.query(`UPDATE scores SET ${item} = '${resetVal}' WHERE userId = '${message.author.id}'`);
         }
@@ -117,6 +111,14 @@ async function resetData(app, message, prestigeLvl){
         if(app.itemdata[item].rarity !== 'Limited'){
             await app.query(`DELETE FROM user_items WHERE userId = '${message.author.id}' AND item = '${item}'`);
         }
+    }
+}
+
+function getBadge(prestige){
+    switch(prestige){
+        case 0: return 'prestige_1';
+        case 1: return 'prestige_2';
+        default: return undefined;
     }
 }
 

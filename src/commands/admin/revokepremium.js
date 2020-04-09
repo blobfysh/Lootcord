@@ -28,8 +28,8 @@ module.exports = {
 
         await app.cache.del(`patron|${userID}`);
         await app.query(`DELETE FROM cooldown WHERE userId = '${userID}' AND type = 'patron'`);
-        await app.query(`DELETE FROM user_items WHERE userId = '${userID}' AND item = 'patron'`);
-        await app.query(`UPDATE scores SET banner = 'none' WHERE userId = '${userID}' AND banner = 'patron'`);
+        await app.query(`DELETE FROM user_items WHERE userId = '${userID}' AND item = 'kofi_king'`);
+        await app.query(`UPDATE scores SET banner = 'none' WHERE userId = '${userID}' AND banner = 'kofi_king'`);
 
         try{
             const donateEmbed = new app.Embed()

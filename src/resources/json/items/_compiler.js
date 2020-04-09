@@ -57,16 +57,19 @@ for(let item of Object.keys(previousList)){
             }
         }
     }
-    for(let key of Object.keys(combined[item])){
-        if(previousList[item]){
-            if(previousList[item][key] == undefined){
-                args.includes('verbose') ? console.log(key + ' was added to ' + item) : undefined;
-                itemsChanged[item] = {
-                    rarity: combined[item].rarity,
-                    changes: itemsChanged[item] ? itemsChanged[item].changes + 1 : 1
-                };
+    
+    if(combined[item]){
+        for(let key of Object.keys(combined[item])){
+            if(previousList[item]){
+                if(previousList[item][key] == undefined){
+                    args.includes('verbose') ? console.log(key + ' was added to ' + item) : undefined;
+                    itemsChanged[item] = {
+                        rarity: combined[item].rarity,
+                        changes: itemsChanged[item] ? itemsChanged[item].changes + 1 : 1
+                    };
+                }
             }
-        }
+        }    
     }
 }
 

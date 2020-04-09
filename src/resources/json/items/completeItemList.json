@@ -1229,6 +1229,37 @@
         "canBeStolen": false,
         "cooldown": ""
     },
+    "elite": {
+        "rarity": "Rare",
+        "isBanner": true,
+        "bannerColor": "#737373",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "7x module",
+            "materials": [
+                "module|7"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": {
+            "amount": 21000,
+            "currency": "money"
+        },
+        "sell": 3500,
+        "desc": "Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/697679342821572639/elite_banner.png",
+        "equippable": true,
+        "icon": "<:rare_banner:601368019943424001>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": ""
+    },
     "canvas_bag": {
         "rarity": "Epic",
         "isWeap": false,
@@ -2344,6 +2375,37 @@
         "canBeStolen": false,
         "cooldown": ""
     },
+    "master": {
+        "rarity": "Legendary",
+        "isBanner": true,
+        "bannerColor": "#FFFF43",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "25x module",
+            "materials": [
+                "module|25"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": {
+            "amount": 250000,
+            "currency": "money"
+        },
+        "sell": 31000,
+        "desc": "Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/697679345715773480/master_banner.png",
+        "equippable": true,
+        "icon": "<:L_banner:601369664504987659>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": ""
+    },
     "cyber_pack": {
         "rarity": "Ultra",
         "isWeap": false,
@@ -3085,10 +3147,10 @@
         "canBeStolen": false,
         "cooldown": ""
     },
-    "patron": {
+    "kofi_king": {
         "rarity": "Limited",
         "isBanner": true,
-        "bannerColor": 16345172,
+        "bannerColor": "#FF6C4E",
         "isWeap": false,
         "isItem": false,
         "damage": "",
@@ -3100,8 +3162,8 @@
         "recyclesTo": [],
         "buy": "",
         "sell": "",
-        "desc": "Patreon exclusive banner! Equip this to give your inventory a fresh new look!",
-        "image": "https://cdn.discordapp.com/attachments/501120454136692737/583589453952712704/patron_banner.gif",
+        "desc": "Get this banner by donating on [Ko-fi](https://ko-fi.com/blobfysh)! Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/697675528039039016/kofikingv2.png",
         "equippable": true,
         "icon": "<:limit_banner:601371062214852619>",
         "breaksOnUse": "",
