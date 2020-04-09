@@ -148,6 +148,34 @@ class Lootcord extends Base {
 
         this.ipc.register('vote', voteHandler.handle.bind(this));
         this.ipc.register('donation', patronHandler.handle.bind(this));
+        this.ipc.register('addPatronRole', (msg) => {
+            const guild = this.bot.guilds.get(msg.guildId);
+            if(guild){
+                const member = guild.members.get(msg.userId);
+
+                try{
+                    if(member) member.addRole(this.config.tier1PatronRoleID);
+                }
+                catch(err){
+                    console.warn('Failed adding donator role.');
+                    console.warn(err);
+                }
+            }
+        });
+        this.ipc.register('removePatronRole', (msg) => {
+            const guild = this.bot.guilds.get(msg.guildId);
+            if(guild){
+                const member = guild.members.get(msg.userId);
+
+                try{
+                    if(member) member.removeRole(this.config.tier1PatronRoleID);
+                }
+                catch(err){
+                    console.warn('Failed removing donator role.');
+                    console.warn(err);
+                }
+            }
+        });
     }
 
     query(sql, args){

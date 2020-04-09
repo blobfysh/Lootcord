@@ -30,6 +30,7 @@ module.exports = {
         await app.query(`DELETE FROM cooldown WHERE userId = '${userID}' AND type = 'patron'`);
         await app.query(`DELETE FROM user_items WHERE userId = '${userID}' AND item = 'kofi_king'`);
         await app.query(`UPDATE scores SET banner = 'none' WHERE userId = '${userID}' AND banner = 'kofi_king'`);
+        app.ipc.broadcast('removePatronRole', { guildId: app.config.supportGuildID, userId: userID });
 
         try{
             const donateEmbed = new app.Embed()

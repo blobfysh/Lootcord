@@ -37,7 +37,7 @@ module.exports = {
         let stats = JSON.parse(await app.cache.get('stats')) || {};
 
         const embedInfo = new app.Embed()
-        embedInfo.setTitle(`**Lootcord Update Info**`)
+        embedInfo.setTitle(`Lootcord Update Info`)
         embedInfo.setColor(13215302)
         embedInfo.setThumbnail(app.bot.user.avatarURL)
         embedInfo.setDescription('[Source](https://github.com/blobfysh/Lootcord)\nAdditions\n' + additions.join('\n'))

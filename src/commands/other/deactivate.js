@@ -35,11 +35,14 @@ module.exports = {
 
                 botMessage.edit('Your account has been disabled on this server');
 
-                /* TODO fix the active role in deactivate and play command
-                if(Object.keys(config.activeRoleGuilds).includes(message.guild.id)){
-                    refresher.refreshactives(message);
+                if(Object.keys(app.config.activeRoleGuilds).includes(message.guild.id)){
+                    try{
+                        message.member.removeRole(app.config.activeRoleGuilds[message.guild.id].activeRoleID);
+                    }
+                    catch(err){
+                        console.warn('Failed to add active role.');
+                    }
                 }
-                */
             }
             else{
                 botMessage.delete();

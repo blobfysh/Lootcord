@@ -19,6 +19,15 @@ module.exports = {
         await app.cd.setCD(message.author.id, 'activate', 3600 * 1000);
         await app.player.activate(message.author.id, message.guild.id);
         
+        if(Object.keys(app.config.activeRoleGuilds).includes(message.guild.id)){
+            try{
+                message.member.addRole(app.config.activeRoleGuilds[message.guild.id].activeRoleID);
+            }
+            catch(err){
+                console.warn('Failed to add active role.');
+            }
+        }
+
         return message.reply('✅ Account activated in this server');
 
         /*

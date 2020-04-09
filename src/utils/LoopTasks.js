@@ -58,6 +58,7 @@ class LoopTasks {
                 // remove patron items...
                 this.app.query(`DELETE FROM user_items WHERE userId = '${patrons[i].userId}' AND item = 'kofi_king'`);
                 this.app.query(`UPDATE scores SET banner = 'none' WHERE userId = '${patrons[i].userId}' AND banner = 'kofi_king'`);
+                this.app.ipc.broadcast('removePatronRole', { guildId: this.app.config.supportGuildID, userId: patrons[i].userId });
                 console.log(patrons[i].userId + ' lost patronage');
 
                 try{

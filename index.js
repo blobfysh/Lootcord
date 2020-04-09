@@ -34,7 +34,6 @@ const sharder = new Sharder('Bot ' + config.botToken, '/src/app.js', {
 });
 
 sharder.on('stats', stats => {
-    console.log('stored');
     cache.set('stats', JSON.stringify(stats));
 });
 
