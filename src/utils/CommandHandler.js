@@ -79,8 +79,9 @@ class CommandHandler {
             command.execute(this.app, this.buildMessage(message, prefix, args));
 
             // dont add spamCooldown if in debug mode or user is admin
-            //if(this.app.config.debug || this.app.sets.adminUsers.has(message.author.id)) return;
+            if(this.app.config.debug || this.app.sets.adminUsers.has(message.author.id)) return;
 
+            // donator reduced spam cooldown
             if(await this.app.cd.getCD(message.author.id, 'patron')){
                 this.spamCooldown.add(message.author.id);
                 setTimeout(() => {

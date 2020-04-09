@@ -5,7 +5,7 @@ module.exports = {
     description: 'Deletes a user account.',
     long: 'Deletes a user account from the database. This includes items. Does NOT send a message to the user.',
     args: {
-        "User ID": "ID of user to ban."
+        "User ID": "ID of user to delete."
     },
     examples: ["delacc 168958344361541633"],
     ignoreHelp: false,

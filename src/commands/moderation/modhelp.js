@@ -29,7 +29,7 @@ module.exports = {
             if(cmd.aliases.length && cmd.aliases[0].length) embed.addField("Aliases", cmd.aliases.map(alias => '`' + alias + '`').join(', '))
             embed.addField("Usage", '`' + getUsage(message.prefix, cmd) + '`')
             if(Object.keys(cmd.args).length) embed.addField("Options", getOptions(cmd))
-            embed.setColor(13215302)
+            embed.setColor('#ff7272')
 
             return message.channel.createMessage(embed);
         }
@@ -40,6 +40,7 @@ module.exports = {
         .setAuthor('Moderation Commands', message.author.avatarURL)
         .setDescription('Most commands require you are in the moderator channel. `getstats`, `getprofile`, `getinv`, and `shardinfo` work anywhere.\n\n' + commands.map(cmd => '`' + cmd.name + '`').join(', '))
         .setFooter(`To see more about a command, use ${message.prefix}modhelp <command>`)
+        .setColor('#ff7272')
 
         message.channel.createMessage(embed);
     },

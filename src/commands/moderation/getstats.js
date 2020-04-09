@@ -3,7 +3,7 @@ module.exports = {
     name: 'getstats',
     aliases: [''],
     description: "Shows statistics about a user.",
-    long: "Shows statistics about a user.",
+    long: "Shows statistics about a user. Shows ban/tradeban information, donator information, warnings, account creation date, and other handy information.",
     args: {
         "User ID": "ID of user to check."
     },

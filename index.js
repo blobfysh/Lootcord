@@ -3,6 +3,7 @@ const Sharder = require('eris-sharder').Master;
 
 const config    = require('./src/resources/config/config');
 const cache     = require('./src/utils/cache');
+const MySQL     = require('./src/utils/MySQL');
 const Server    = require('./handlers/Server');
 const LoopTasks = require('./handlers/LoopTasks');
 const loopTasks = new LoopTasks(cache, config);
@@ -39,5 +40,5 @@ sharder.on('stats', stats => {
 
 if(cluster.isMaster){
     loopTasks.start();
-    new Server(sharder, config);
+    new Server(sharder, new MySQL(config), cache, config);
 }
