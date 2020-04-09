@@ -1,11 +1,3 @@
-// const Discord = require('discord.js');
-// const { query } = require('../mysql.js');
-// const methods = require('../methods/methods.js');
-// const boxes = require('../methods/open_box.js');
-// const config = require('../json/_config.json');
-// const itemdata = require('../json/completeItemList.json');
-// const general = require('../methods/general');
-//const icons = require('../json/icons');
 const RANDOM_SELECTION_MINIMUM = 6; // # of active players required for an attack menu to show when using random
 
 module.exports = {

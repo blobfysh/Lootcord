@@ -20,7 +20,7 @@ module.exports = {
         }
 
         const donateEmb = new app.Embed()
-        .setAuthor('Thanks for Donating!', message.author.avatarURL)
+        .setAuthor('Thank you!', message.author.avatarURL)
         .addField('Status', 'active 😃')
         .addField('Benefits', '```\n' + patronCD + '```')
         .setColor('#29ABE0')

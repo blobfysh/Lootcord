@@ -26,6 +26,14 @@ class Player {
     async createAccount(id){
         await this.app.query(insertScoreSQL, [id, (new Date()).getTime(), 100, 1, 100, 100, 1.00, 'none', 'none', 'none', 'none']);
         await this.app.itm.addItem(id, 'item_box', 1);
+
+        const newPlayer = new this.app.Embed()
+        .setTitle('Thanks for joining Lootcord!')
+        .setColor(13215302)
+        .setDescription('Make sure to follow the [rules](https://lootcord.com/rules)!\n\nSupport server: https://discord.gg/apKSxuE')
+        .addField("Items Received", this.app.icons.plus + "1x " + this.app.itemdata['item_box'].icon + "`item_box`\n\nOpen it with `t-use item_box`")
+        .setFooter("This message will only be sent the first time your account is created.")
+        this.app.common.messageUser(id, newPlayer)
     }
 
     /**
@@ -120,6 +128,8 @@ class Player {
      */
     async removeMoney(id, amount){
         await this.app.query(`UPDATE scores SET money = money - ${parseInt(amount)} WHERE userId = ${id}`);
+
+        this.app.query(insertTransaction, [id, 0, amount]);
     }
 
     /**
@@ -129,6 +139,8 @@ class Player {
      */
     async addMoney(id, amount){
         await this.app.query(`UPDATE scores SET money = money + ${parseInt(amount)} WHERE userId = ${id}`);
+        
+        this.app.query(insertTransaction, [id, amount, 0]);
     }
 
     /**
@@ -309,6 +321,17 @@ INSERT IGNORE INTO scores (
         ?,
         0, 0, 0, 0, 0, 0, 0, '', 'recruit', 'en-us', 
         0, 5, 5, 0, 0, NOW(), 0, 0, 0, 0
+    )
+`
+
+const insertTransaction = `
+INSERT INTO transactions (
+    userId,
+    date,
+    gained,
+    lost)
+    VALUES (
+        ?, NOW(), ?, ?
     )
 `
 

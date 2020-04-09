@@ -60,6 +60,8 @@ class MySQL {
             // blackmarket listings table
             await this.query(createBlackMarket);
 
+            await this.query(transactionsTable);
+
             // userGuilds table for keeping track of which servers users are activated in
             await this.query('CREATE TABLE IF NOT EXISTS userGuilds (userId bigint, guildId bigint) ENGINE = InnoDB');
 
@@ -166,7 +168,8 @@ class MySQL {
 const createItemsSQL = `
 CREATE TABLE IF NOT EXISTS user_items (
     userId BIGINT,
-    item VARCHAR(255))
+    item VARCHAR(255),
+    PRIMARY KEY (userId))
     ENGINE = InnoDB
 `
 
@@ -211,7 +214,8 @@ CREATE TABLE IF NOT EXISTS scores (
     notify1 BOOLEAN,
     notify2 BOOLEAN,
     notify3 BOOLEAN,
-    prestige INT)
+    prestige INT,
+    PRIMARY KEY (userId))
     ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `
 
@@ -220,7 +224,8 @@ CREATE TABLE IF NOT EXISTS cooldown (
     userId BIGINT,
     type VARCHAR(255),
     start BIGINT,
-    length BIGINT)
+    length BIGINT,
+    PRIMARY KEY (userId))
     ENGINE = InnoDB
 `
 
@@ -244,7 +249,8 @@ CREATE TABLE IF NOT EXISTS clan_logs (
     clanId BIGINT,
     details VARCHAR(255),
     logTime BIGINT,
-    logDate DATETIME)
+    logDate DATETIME,
+    PRIMARY KEY (clanId))
     ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `
 
@@ -258,6 +264,15 @@ CREATE TABLE IF NOT EXISTS blackmarket (
     pricePer INT,
     sellerName VARCHAR(255),
     listTime BIGINT)
+    ENGINE = InnoDB
+`
+
+const transactionsTable =`
+CREATE TABLE IF NOT EXISTS transactions (
+    userId BIGINT,
+    date DATETIME,
+    gained BIGINT,
+    lost BIGINT)
     ENGINE = InnoDB
 `
 

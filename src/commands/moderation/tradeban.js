@@ -42,7 +42,7 @@ module.exports = {
             if(confirmed){
                 const banMsg = new app.Embed()
                 .setTitle(`You were banned from trading by ${message.author.tag}`)
-                .setDescription("You have been banned for breaking rules. If you wish to challenge this ban, you can appeal at our website.```\n" + messageIn + "```")
+                .setDescription("You have been banned from trading for breaking rules. If you wish to challenge this ban, you can appeal at our website.```\n" + messageIn + "```")
                 .setColor(16734296)
                 .setFooter("https://lootcord.com/rules | Only moderators can send you messages.")
 
