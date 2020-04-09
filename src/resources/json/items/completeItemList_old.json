@@ -2378,7 +2378,7 @@
     "master": {
         "rarity": "Legendary",
         "isBanner": true,
-        "bannerColor": "#A59E94",
+        "bannerColor": "#FFFF43",
         "isWeap": false,
         "isItem": false,
         "damage": "",

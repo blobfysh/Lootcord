@@ -525,7 +525,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "30": {
+            "25": {
                 "xp": 100,
                 "items": [
                     "medkit|1",
@@ -558,7 +558,7 @@
                     "gold_shield|1"
                 ]
             },
-            "8": {
+            "10": {
                 "xp": 160,
                 "items": [
                     "desert_eagle|1",
@@ -567,7 +567,7 @@
                     "javelin|1"
                 ]
             },
-            "6": {
+            "9": {
                 "xp": 180,
                 "items": [
                     "rail_cannon|1",
