@@ -92,8 +92,18 @@ class ArgParser {
             case "body": itemSearched = "rifle_body"; break;
             case "desert":
             case "deagle": itemSearched = "desert_eagle"; break;
-            case "762": itemSearched = "7.62x39_fmj"; break;
-            case "556": itemSearched = "5.56x45_fmj"; break;
+            case "7.62":
+            case "7.62x39":
+            case "762x39":
+            case "7.62x39_fmj":
+            case "762x39_fmj":
+            case "762": itemSearched = "7.62_fmj"; break;
+            case "5.56x45":
+            case "556x45":
+            case "5.56x45_fmj":
+            case "5.56x45_fmj":
+            case "5.56":
+            case "556": itemSearched = "5.56_fmj"; break;
             case "50ae":
             case ".50": itemSearched = ".50ae_hp"; break;
             case "slug": itemSearched = "12g_slug"; break;
@@ -101,16 +111,18 @@ class ArgParser {
             case "cross": itemSearched = "crossbow"; break;
             case "buckshot":
             case "12g": itemSearched = "12g_buckshot"; break;
+            case "45":
             case ".45":
             case "acp": itemSearched = ".45_fmj"; break;
             case ".44": itemSearched = ".44_fmj"; break;
             case "9mm":
             case "bullet":
-            case "9x19": itemSearched = "9x19_fmj"; break;
-            case "7n23": itemSearched = "7.62x39_7n23"; break;
-            case "m61": itemSearched = "7.62x51_m61"; break;
-            case "m80": itemSearched = "7.62x51_m80"; break;
-            case "m855": itemSearched = "5.56x45_m855"; break;
+            case "9fmj":
+            case "9x19": itemSearched = "9mm_fmj"; break;
+            case "7n23": itemSearched = "7.62_7n23"; break;
+            case "m61": itemSearched = "7.62_m61"; break;
+            case "m80": itemSearched = "7.62_m80"; break;
+            case "m855": itemSearched = "5.56_m855"; break;
 
             default:
                 // try using spell correction to find the item name

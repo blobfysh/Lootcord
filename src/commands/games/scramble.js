@@ -190,7 +190,7 @@ function shuffleWordNoDupe(word){
 
 function scrambleWinMsg(app, itemReward){
     const embedScramble = new app.Embed()
-    .setTitle("**You got it correct!**")
+    .setTitle("You got it correct!")
     .addField("Reward", itemReward)
     .setColor(9043800);
     return embedScramble;

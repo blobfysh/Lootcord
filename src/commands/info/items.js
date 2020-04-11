@@ -32,14 +32,14 @@ module.exports = {
             let itemRarityColor = 0;
 
             switch(itemRarity){
-                case 'Ultra': itemRarityColor = 16711778; break;
+                case 'Ultra': itemRarityColor = '#EC402C'; break;
                 case 'Legendary': itemRarityColor = 13215302; break
-                case 'Limited': itemRarityColor = 13391388; break
-                case 'Epic': itemRarityColor = 12390624; break;
-                case 'Rare': itemRarityColor = 30463; break;
-                case 'Uncommon': itemRarityColor = 4755200; break;
+                case 'Limited': itemRarityColor = '#EA5A2A'; break
+                case 'Epic': itemRarityColor = '#7251E6'; break;
+                case 'Rare': itemRarityColor = '#325AD7'; break;
+                case 'Uncommon': itemRarityColor = '#429642'; break;
                 default:
-                    itemRarityColor = 10197915;
+                    itemRarityColor = '#818181';
             }
             
             const embedItem = new app.Embed()

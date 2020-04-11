@@ -33,18 +33,17 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
-        var used = process.memoryUsage().heapUsed / 1024 / 1024;
+        let used = process.memoryUsage().heapUsed / 1024 / 1024;
         let stats = JSON.parse(await app.cache.get('stats')) || {};
 
         const embedInfo = new app.Embed()
         embedInfo.setTitle(`Lootcord Update Info`)
         embedInfo.setColor(13215302)
         embedInfo.setThumbnail(app.bot.user.avatarURL)
-        embedInfo.setDescription('[Source](https://github.com/blobfysh/Lootcord)\nAdditions\n' + additions.join('\n'))
-        embedInfo.addField('Removed', removed.map(s => app.icons.minus + ' ' + s).join('\n'))
+        embedInfo.setDescription('Bot has been rewritten in Eris!\n\nRead [here](https://lootcord.com/blog) for more on the update!')
         embedInfo.addField("Shard ID", codeWrap(message.guild.shard.id.toString(), 'js'), true)
         embedInfo.addField("Cluster ID", codeWrap(app.clusterID.toString(), 'js'), true)
-        embedInfo.addField("Active Servers", codeWrap(stats.guilds || 'unknown', 'js'), true)
+        embedInfo.addField("Active Servers", codeWrap(stats.guilds || '1', 'js'), true)
         embedInfo.addField("Uptime", codeWrap(app.cd.convertTime(app.bot.uptime), 'fix'), true)
         embedInfo.addField("Memory Usage", codeWrap(Math.round(used) + " MB", 'fix'),true)
         embedInfo.addField("Library", codeWrap("Eris", 'js'), true)

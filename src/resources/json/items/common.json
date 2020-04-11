@@ -96,7 +96,7 @@
                     "screw|1",
                     "xp_potion|1",
                     "bow|1",
-                    "9x19_fmj|1",
+                    "9mm_fmj|1",
                     ".45_fmj|1",
                     ".44_fmj|1"
                 ]
@@ -115,7 +115,7 @@
                 "items": [
                     "glock|1",
                     "adhesive|1",
-                    "9x19_ps|1"
+                    "9mm_ps|1"
                 ]
             },
             "0.5": {
@@ -124,7 +124,7 @@
                     "peck_seed|1",
                     "fiber_optics|1",
                     "spas|1",
-                    "7.62x39_fmj|1",
+                    "7.62_fmj|1",
                     ".45_ap|1"
                 ]
             }

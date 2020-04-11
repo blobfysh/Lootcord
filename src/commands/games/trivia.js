@@ -58,7 +58,7 @@ module.exports = {
             }
             else{
                 const embedWrong = new app.Embed() 
-                .setTitle('INCORRECT')
+                .setTitle('Incorrect')
                 .setColor(13632027)
                 .addField("Reward", "`shame`")
                 botMessage.edit(embedWrong);
@@ -82,7 +82,7 @@ module.exports = {
                     await app.player.addMoney(message.author.id, 1000);
                 }
                 const embedReward = new app.Embed()
-                .setTitle(`${(app.trivia_questions[chance][app.trivia_questions[chance].correct_answer]).toUpperCase()} IS CORRECT`)
+                .setTitle(`${(app.trivia_questions[chance][app.trivia_questions[chance].correct_answer])} is correct!`)
                 .setColor(720640)
                 .addField("Reward", rewardItem)
                 botMessage.edit(embedReward);

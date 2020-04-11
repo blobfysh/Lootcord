@@ -16,7 +16,7 @@ module.exports = {
             const leaders = await getGlobalLB(app);
 
             const embedLeader = new app.Embed() 
-            .setTitle(`**Global Leaderboard**`)
+            .setTitle('Global Leaderboard')
             .setColor('#000000')
             .addField("Money", leaders.moneyLB.join('\n'))
             .addField("Level", leaders.levelLB.join('\n'))

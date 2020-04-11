@@ -13,27 +13,7 @@ module.exports = {
     guildModsOnly: false,
 
     async execute(app, message){
-        let allItems = Object.keys(app.itemdata).sort(sortItems);
-
-        // sorts items by rarity, and by name if they are the same rarity
-        function sortItems(a, b){
-            let aRarity = getRarityValue(app.itemdata[a]);
-            let bRarity = getRarityValue(app.itemdata[b]);
-
-            if(aRarity < bRarity) return -1;
-
-            else if(aRarity > bRarity) return 1;
-
-            else if(aRarity === bRarity){
-                if(a < b) return -1;
-                
-                else if(a > b) return 1;
-
-                return 0
-            }
-
-            return 0;
-        }
+        let allItems = Object.keys(app.itemdata).sort(app.itm.sortItemsLowHigh.bind(app));
 
         app.react.paginate(message, await generatePages(app, allItems, max_items_per_page));
     },

@@ -31,7 +31,7 @@ class Player {
         .setTitle('Thanks for joining Lootcord!')
         .setColor(13215302)
         .setDescription('Make sure to follow the [rules](https://lootcord.com/rules)!\n\nSupport server: https://discord.gg/apKSxuE')
-        .addField("Items Received", this.app.icons.plus + "1x " + this.app.itemdata['item_box'].icon + "`item_box`\n\nOpen it with `t-use item_box`")
+        .addField("Items Received", this.app.icons.plus + "1x " + this.app.itemdata['item_box'].icon + "`item_box`\n\nOpen it with `t-use item_box`\nItems are displayed in your inventory, check with the `inv` command.")
         .setFooter("This message will only be sent the first time your account is created.")
         this.app.common.messageUser(id, newPlayer)
     }

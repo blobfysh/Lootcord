@@ -45,7 +45,7 @@ module.exports = {
             .setColor(13215302)
             .setAuthor(`${userInfo.username}#${userInfo.discriminator}'s Profile`, app.common.getAvatar(userInfo))
             .setDescription(userStatus)
-            .addField('Badges', badges.length ? badges.map(badge => app.badgedata[badge].icon).join(' ') : 'none :(')
+            .addField('Badges', badges.length ? badges.map(badge => app.badgedata[badge].icon + '`' + badge + '`').join(' ') : 'none :(')
             .addField('Clan', codeWrap((row.clanId !== 0 ? (await app.query(`SELECT name FROM clans WHERE clanId = ${row.clanId}`))[0].name : 'None'), 'js'), true)
             .addField('Level', codeWrap(row.level + ` (XP: ${xp.curLvlXp}/${xp.neededForLvl})`, 'js'), true)
             .addField('Power', codeWrap(row.power + "/" + row.max_power + " Power", 'js'), true)

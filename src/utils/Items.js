@@ -282,6 +282,7 @@ class Items {
     openBox(type, amount = 1, luck){
         let itemsDisplay      = [];
         let finalItemsAmounts = [];
+        let items             = [];
         let xpToAdd           = 0;
         let weightedArr       = this.generateWeightedArray(type, luck);
     
@@ -292,12 +293,14 @@ class Items {
             xpToAdd += rand.xp;
             finalItemsAmounts.push(rand.item);
             itemsDisplay.push(this.app.itemdata[splitRand[0]].icon + " " + splitRand[1] + "x `" + splitRand[0] + "`");
+            items.push(splitRand[0]);
         }
 
         return {
             xp: xpToAdd,
             itemAmounts: finalItemsAmounts,
-            display: itemsDisplay
+            display: itemsDisplay,
+            items: items
         }
     }
 
@@ -390,6 +393,82 @@ class Items {
             display: display,
             amounts: amountResults
         }
+    }
+
+    sortItemsLowHigh(a, b){
+        let aRarity;
+        let bRarity;
+
+        switch(this.itemdata[a].rarity){
+            case "Common": aRarity = 0; break;
+            case "Uncommon": aRarity = 1; break;
+            case "Rare": aRarity = 2; break;
+            case "Epic": aRarity = 3; break;
+            case "Legendary": aRarity = 4; break;
+            case "Ultra": aRarity = 5; break;
+            default: aRarity = 6;
+        }
+        switch(this.itemdata[b].rarity){
+            case "Common": bRarity = 0; break;
+            case "Uncommon": bRarity = 1; break;
+            case "Rare": bRarity = 2; break;
+            case "Epic": bRarity = 3; break;
+            case "Legendary": bRarity = 4; break;
+            case "Ultra": bRarity = 5; break;
+            default: bRarity = 6;
+        }
+
+        if(aRarity < bRarity) return -1;
+
+        else if(aRarity > bRarity) return 1;
+
+        else if(aRarity === bRarity){
+            if(a < b) return -1;
+            
+            else if(a > b) return 1;
+
+            return 0
+        }
+
+        return 0;
+    }
+
+    sortItemsHighLow(a, b){
+        let aRarity;
+        let bRarity;
+
+        switch(this.itemdata[a].rarity){
+            case "Common": aRarity = 6; break;
+            case "Uncommon": aRarity = 5; break;
+            case "Rare": aRarity = 4; break;
+            case "Epic": aRarity = 3; break;
+            case "Legendary": aRarity = 2; break;
+            case "Ultra": aRarity = 1; break;
+            default: aRarity = 0;
+        }
+        switch(this.itemdata[b].rarity){
+            case "Common": bRarity = 6; break;
+            case "Uncommon": bRarity = 5; break;
+            case "Rare": bRarity = 4; break;
+            case "Epic": bRarity = 3; break;
+            case "Legendary": bRarity = 2; break;
+            case "Ultra": bRarity = 1; break;
+            default: bRarity = 0;
+        }
+
+        if(aRarity < bRarity) return -1;
+
+        else if(aRarity > bRarity) return 1;
+
+        else if(aRarity === bRarity){
+            if(a < b) return -1;
+            
+            else if(a > b) return 1;
+
+            return 0
+        }
+
+        return 0;
     }
 }
 

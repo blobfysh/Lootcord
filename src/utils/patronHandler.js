@@ -38,7 +38,12 @@ exports.handle = async function({ data }){
 
         const account = await this.player.getRow(user);
         if(!account){
-            await this.player.createAccount(user);
+            // dont create a new account to prevent issues with users putting in other peoples ID's to spam them
+            donateEmbed.addField('User', '```fix\n' + user + '```', true)
+            donateEmbed.addField('Message', data.message)
+            donateEmbed.setFooter('❌ No Lootcord account found.')
+
+            return this.messager.messageLogs(donateEmbed);
         }
     
         // give reward

@@ -44,26 +44,30 @@ class Reactor {
             time: time
         });
 
-        reactionListener.on('reacted', reaction => {
-            if(reaction.emoji.name === '◀️'){
-                if(page !== 0){
-                    page--;
-                    embeds[page].setFooter(`Page ${page + 1}/${embeds.length}`)
-                    botMessage.edit(embeds[page]);
+        reactionListener.on('reacted', async reaction => {
+            try{
+                if(reaction.emoji.name === '◀️'){
+                    if(page !== 0){
+                        page--;
+                        embeds[page].setFooter(`Page ${page + 1}/${embeds.length}`)
+                        await botMessage.edit(embeds[page]);
+                    }
+                    await botMessage.removeReaction('◀️', message.author.id);
                 }
-                botMessage.removeReaction('◀️', message.author.id);
-            }
-            else if(reaction.emoji.name === '▶️'){
-                if(page !== (embeds.length - 1)){
-                    page++;
-                    embeds[page].setFooter(`Page ${page + 1}/${embeds.length}`)
-                    botMessage.edit(embeds[page]);
+                else if(reaction.emoji.name === '▶️'){
+                    if(page !== (embeds.length - 1)){
+                        page++;
+                        embeds[page].setFooter(`Page ${page + 1}/${embeds.length}`)
+                        await botMessage.edit(embeds[page]);
+                    }
+                    await botMessage.removeReaction('▶️', message.author.id)
                 }
-                botMessage.removeReaction('▶️', message.author.id)
+                else if(reaction.emoji.name === this.icons.cancel){
+                    reactionListener.stopListening('Cancelled');
+                    botMessage.delete();
+                }
             }
-            else if(reaction.emoji.name === this.icons.cancel){
-                reactionListener.stopListening('Cancelled');
-                botMessage.delete();
+            catch(err){
             }
         });
     }

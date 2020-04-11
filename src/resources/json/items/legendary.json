@@ -80,8 +80,8 @@
         "maxDmg": 10,
         "isAmmo": [],
         "ammo": [
-            "7.62x51_m61",
-            "7.62x51_m80"
+            "7.62_m61",
+            "7.62_m80"
         ],
         "craftedWith": {
             "display": "2x rifle_body\n2x steel\n2x screw",
@@ -224,7 +224,7 @@
         "canBeStolen": true,
         "cooldown": ""
     },
-    "7.62x39_7n23": {
+    "7.62_7n23": {
         "rarity": "Legendary",
         "isWeap": false,
         "isItem": false,
@@ -246,7 +246,7 @@
         "canBeStolen": true,
         "cooldown": ""
     },
-    "7.62x51_m61": {
+    "7.62_m61": {
         "rarity": "Legendary",
         "isWeap": false,
         "isItem": false,

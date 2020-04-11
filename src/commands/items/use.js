@@ -1,4 +1,4 @@
-const RANDOM_SELECTION_MINIMUM = 6; // # of active players required for an attack menu to show when using random
+const RANDOM_SELECTION_MINIMUM = 8; // # of active players required for an attack menu to show when using random
 
 module.exports = {
     name: 'use',
@@ -42,13 +42,25 @@ module.exports = {
                 await app.itm.removeItem(message.author.id, item, amount);
 
                 let results = app.itm.openBox(item, amount, row.luck);
+                let bestItem = results.items.sort(app.itm.sortItemsHighLow.bind(app));
                 
                 await app.itm.addItem(message.author.id, results.itemAmounts);
                 await app.player.addPoints(message.author.id, results.xp);
 
                 const embedInfo = new app.Embed()
                 .setAuthor(message.member.effectiveName, message.author.avatarURL)
-                .setColor(14202368)
+                
+                switch(app.itemdata[bestItem[0]].rarity){
+                    case 'Ultra': embedInfo.setColor('#EC402C'); break;
+                    case 'Legendary': embedInfo.setColor(13215302); break
+                    case 'Limited': embedInfo.setColor('#EA5A2A'); break
+                    case 'Epic': embedInfo.setColor('#7251E6'); break;
+                    case 'Rare': embedInfo.setColor('#325AD7'); break;
+                    case 'Uncommon': embedInfo.setColor('#429642'); break;
+                    default:
+                        embedInfo.setColor('#818181');
+                }
+                
                 if(amount === 1){
                     embedInfo.setTitle('You received ' + results.display.join());
                     embedInfo.setFooter('⭐ ' + results.xp + ' XP earned!')
@@ -678,7 +690,7 @@ async function pickTarget(app, message, selection){
 async function notifyAttackVictim(app, message, victim, itemUsed, damage, victimRow){
     const notifyEmbed = new app.Embed()
     .setTitle('You were attacked!')
-    .setDescription(`${message.author.tag} hit you for **${damage}** damage using a: ${app.itemdata[itemUsed].icon}\`${itemUsed}\`.
+    .setDescription(`${message.author.tag} hit you for **${damage}** damage using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`.
     
     Health: ${app.player.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)}\`${victimRow.health - damage}/${victimRow.maxHealth}\``)
     .setColor(16610383)
@@ -694,7 +706,7 @@ async function notifyAttackVictim(app, message, victim, itemUsed, damage, victim
 async function notifyDeathVictim(app, message, victim, itemUsed, damage, itemsLost){
     const notifyEmbed = new app.Embed()
     .setTitle('You were killed!')
-    .setDescription(`${message.author.tag} hit you for **${damage}** damage using a: ${app.itemdata[itemUsed].icon}\`${itemUsed}\`.`)
+    .setDescription(`${message.author.tag} hit you for **${damage}** damage using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`.`)
     .addField('Items Lost:', itemsLost.join('\n'))
     .setColor(16600911)
 

@@ -168,8 +168,7 @@ class MySQL {
 const createItemsSQL = `
 CREATE TABLE IF NOT EXISTS user_items (
     userId BIGINT,
-    item VARCHAR(255),
-    PRIMARY KEY (userId))
+    item VARCHAR(255))
     ENGINE = InnoDB
 `
 
@@ -224,8 +223,7 @@ CREATE TABLE IF NOT EXISTS cooldown (
     userId BIGINT,
     type VARCHAR(255),
     start BIGINT,
-    length BIGINT,
-    PRIMARY KEY (userId))
+    length BIGINT)
     ENGINE = InnoDB
 `
 
@@ -249,8 +247,7 @@ CREATE TABLE IF NOT EXISTS clan_logs (
     clanId BIGINT,
     details VARCHAR(255),
     logTime BIGINT,
-    logDate DATETIME,
-    PRIMARY KEY (clanId))
+    logDate DATETIME)
     ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `
 
@@ -263,7 +260,8 @@ CREATE TABLE IF NOT EXISTS blackmarket (
     quantity INT,
     pricePer INT,
     sellerName VARCHAR(255),
-    listTime BIGINT)
+    listTime BIGINT,
+    PRIMARY KEY (listingId))
     ENGINE = InnoDB
 `
 

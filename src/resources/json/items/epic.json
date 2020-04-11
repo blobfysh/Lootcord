@@ -80,9 +80,9 @@
         "maxDmg": 30,
         "isAmmo": [],
         "ammo": [
-            "7.62x39_7n23",
-            "7.62x39_hp",
-            "7.62x39_fmj"
+            "7.62_7n23",
+            "7.62_hp",
+            "7.62_fmj"
         ],
         "craftedWith": {
             "display": "3x assault_body\n3x steel\n2x wood",
@@ -171,7 +171,7 @@
         "canBeStolen": true,
         "cooldown": ""
     },
-    "7.62x39_hp": {
+    "7.62_hp": {
         "rarity": "Epic",
         "isWeap": false,
         "isItem": false,
@@ -215,7 +215,7 @@
         "canBeStolen": true,
         "cooldown": ""
     },
-    "5.56x45_m855": {
+    "5.56_m855": {
         "rarity": "Epic",
         "isWeap": false,
         "isItem": false,
@@ -259,7 +259,7 @@
         "canBeStolen": true,
         "cooldown": ""
     },
-    "7.62x51_m80": {
+    "7.62_m80": {
         "rarity": "Epic",
         "isWeap": false,
         "isItem": false,
@@ -378,8 +378,8 @@
         "maxDmg": 10,
         "isAmmo": [],
         "ammo": [
-            "5.56x45_m855",
-            "5.56x45_fmj"
+            "5.56_m855",
+            "5.56_fmj"
         ],
         "craftedWith": {
             "display": "2x assault_body\n3x steel\n2x screw",
@@ -451,8 +451,8 @@
                     "crossbow|1",
                     "grenade|1",
                     "12g_buckshot|1",
-                    "5.56x45_fmj|1",
-                    "7.62x39_fmj|1",
+                    "5.56_fmj|1",
+                    "7.62_fmj|1",
                     ".44_fmj|1"
                 ]
             },
@@ -463,7 +463,7 @@
                     "iron_shield|1",
                     "adhesive|1",
                     "smg_body|1",
-                    "9x19_ps|1",
+                    "9mm_ps|1",
                     "12g_slug|1"
                 ]
             },
@@ -474,7 +474,7 @@
                     "fiber_optics|1",
                     "spas|1",
                     "blunderbuss|1",
-                    "7.62x39_hp|1",
+                    "7.62_hp|1",
                     ".45_ap|1"
                 ]
             },
@@ -487,7 +487,7 @@
                     "medkit|1",
                     "peck_seed|1",
                     "plasma|1",
-                    "7.62x51_m80|1",
+                    "7.62_m80|1",
                     ".50ae_hp|1"
                 ]
             },
@@ -532,14 +532,14 @@
                     "rifle_body|1",
                     ".44_fmj|1",
                     "assault_body|1",
-                    "5.56x45_m855|1"
+                    "5.56_m855|1"
                 ]
             },
             "35": {
                 "xp": 130,
                 "items": [
                     "spas|1",
-                    "7.62x51_m80|1",
+                    "7.62_m80|1",
                     "fiber_optics|1",
                     ".50ae_hp|1",
                     ".45_ap|1",
@@ -554,7 +554,7 @@
                 "items": [
                     "ak47|1",
                     "canvas_bag|1",
-                    "7.62x39_hp|1",
+                    "7.62_hp|1",
                     "gold_shield|1"
                 ]
             },
@@ -571,14 +571,14 @@
                 "xp": 180,
                 "items": [
                     "rail_cannon|1",
-                    "7.62x39_7n23|1",
+                    "7.62_7n23|1",
                     "plasma|1"
                 ]
             },
             "1": {
                 "xp": 200,
                 "items": [
-                    "7.62x51_m61|1",
+                    "7.62_m61|1",
                     "ray_gun|1",
                     "rpg|1"
                 ]

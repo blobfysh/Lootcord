@@ -52,7 +52,7 @@ module.exports = {
 
         const embedLeader = new app.Embed()
         embedLeader.setThumbnail(message.author.avatarURL)
-        embedLeader.setTitle(`**${message.author.username} Cooldowns**`)
+        embedLeader.setAuthor('Cooldowns', message.author.avatarURL)
         embedLeader.setColor(13215302)
         embedLeader.addField("hourly", "`" + hourlyReady + "`",true)
         embedLeader.addField("daily", "`" + dailyReady + "`", true)
