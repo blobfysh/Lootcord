@@ -79,7 +79,7 @@ class Lootcord extends Base {
         }
 
         this.bot.editStatus('online', {
-            name: 't-help | early alpha beta TEST',
+            name: 't-help | Join the discord!',
             type: 0
         });
 
@@ -146,8 +146,23 @@ class Lootcord extends Base {
             this.parse = new ArgParser(this); // must reload arg parser so the spell correction can update
         });
 
+        this.ipc.register('setStatus', (msg) => {
+            this.bot.editStatus(msg.status || 'online', {
+                name: 't-help | ' + msg.content,
+                type: parseInt(msg.type) || 0
+            });
+        });
+
+        this.ipc.register('disableCmd', (msg) => {
+            this.sets.disabledCommands.add(msg.cmd);
+        });
+        this.ipc.register('enableCmd', (msg) => {
+            this.sets.disabledCommands.delete(msg.cmd);
+        });
+
         this.ipc.register('vote', voteHandler.handle.bind(this));
         this.ipc.register('donation', patronHandler.handle.bind(this));
+
         this.ipc.register('addPatronRole', (msg) => {
             const guild = this.bot.guilds.get(msg.guildId);
             if(guild){

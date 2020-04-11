@@ -36,6 +36,10 @@ class CommandHandler {
             return;
         }
 
+        if(this.app.sets.disabledCommands.has(command.name)){
+            return message.channel.createMessage('❌ That command has been disabled to prevent issues! Sorry about that...');
+        }
+
         const peckCD = await this.app.cd.getCD(message.author.id, 'peck');
 
         // check if user is under effects of peck_seed

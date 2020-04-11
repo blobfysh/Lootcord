@@ -82,6 +82,8 @@ class LoopTasks {
     async hourlyTasks(){
         const stats = JSON.parse(await this.app.cache.get('stats')) || {};
         
+        if(this.app.bot.shards.get([...this.app.bot.shards][0][0]).presence.game.type === 2) return;
+
         if(stats.guilds){
             this.app.bot.editStatus('online', {
                 name: 't-help | ' + STATUS_LIST[Math.floor(Math.random() * STATUS_LIST.length)].replace('{users}', this.app.common.formatNumber(stats.users, true)).replace('{guilds}', this.app.common.formatNumber(stats.guilds, true)),
@@ -99,7 +101,8 @@ class LoopTasks {
     async _handleDiscoinTransactions(){
         try{
             const unhandled = await this.app.discoin.getUnhandled();
-    
+            let logTransactions = [];
+
             for(let i = 0; i < unhandled.data.length; i++){
                 let transaction = unhandled.data[i];
                 let payout = Math.round(transaction.payout);
@@ -123,8 +126,19 @@ class LoopTasks {
                 .setColor(13215302)
 
                 this.app.common.messageUser(transaction.user, embed);
+
+                const logEmbed = new this.app.Embed()
+                .setTitle('Discoin Conversion')
+                .setDescription(`${transaction.from.name}(${transaction.from.id}) to Lootcoin\n\n[Link](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)`)
+                .addField('Lootcoin Payout', this.app.common.formatNumber(payout), true)
+                .addField('User', transaction.user)
+                .setFooter(`Transaction ID: ${transaction.id}`)
+                .setColor(13215302)
+
+                logTransactions.push(logEmbed);
             }
     
+            this.app.messager.messageLogs(logTransactions);
             console.log('[DISCOIN] Successfully handled ' + unhandled.data.length + ' transactions.');
         }
         catch(err){

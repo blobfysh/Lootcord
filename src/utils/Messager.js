@@ -36,7 +36,12 @@ class Messager {
             if(!this.config.webhooks.logs || !this.config.webhooks.logs.id.length) return;
 
             // in future can queue up logs to send multiple embeds at once
-            if(message instanceof this.app.Embed){
+            if(Array.isArray(message)){
+                this.app.bot.executeWebhook(this.config.webhooks.logs.id, this.config.webhooks.logs.token, {
+                    embeds: message.map(embed => embed.embed)
+                });
+            }
+            else if(message instanceof this.app.Embed){
                 this.app.bot.executeWebhook(this.config.webhooks.logs.id, this.config.webhooks.logs.token, {
                     embeds: [message].map(embed => embed.embed)
                 });
