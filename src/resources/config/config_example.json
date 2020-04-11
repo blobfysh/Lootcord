@@ -11,7 +11,6 @@
   "serverAuth":        "",
   "encryptionAuth":    "",
   "supportGuildID":    "497302646521069568",
-  "logChannel":        "channel_to_send_logs_to",
   "modChannel":        "channel_for_moderators_to_use_commands",
   "modRoleID":         "ID_of_role_to_ping_moderators",
   "tier1PatronRoleID": "",
@@ -21,7 +20,12 @@
   "requiredPerms":     ["sendMessages", "addReactions", "manageMessages", "embedLinks", "attachFiles", "externalEmojis", "readMessageHistory"],
   "ignoreLvlMessages": [],
   "activeRoleGuilds": {},
-  "webhooks": {},
+  "webhooks": {
+    "logs": {
+      "id": "",
+      "token": ""
+    }
+  },
   "botLists": [],
   "cooldowns": {
     "hourly": 3600,

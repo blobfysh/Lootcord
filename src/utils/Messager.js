@@ -4,7 +4,6 @@ class Messager {
         this.app = app;
         this.config = app.config;
         this.modChannel = app.config.modChannel;
-        this.logChannel = app.config.logChannel;
         this.modRoleID = app.config.modRoleID;
     }
 
@@ -34,7 +33,20 @@ class Messager {
      */
     messageLogs(message){
         try{
-            this.app.bot.createMessage(this.logChannel, message);
+            if(!this.config.webhooks.logs || !this.config.webhooks.logs.id.length) return;
+
+            // in future can queue up logs to send multiple embeds at once
+            if(message instanceof this.app.Embed){
+                this.app.bot.executeWebhook(this.config.webhooks.logs.id, this.config.webhooks.logs.token, {
+                    embeds: [message].map(embed => embed.embed)
+                });
+            }
+            else{
+                this.app.bot.executeWebhook(this.config.webhooks.logs.id, this.config.webhooks.logs.token, {
+                    content: message
+                });
+            }
+            
         }
         catch(err){
             console.log(err);
