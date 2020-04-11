@@ -214,6 +214,10 @@ function winnerEmbed(app, message, playerCards, dealerCards, quote, gambleAmount
     embed.setColor(720640);
     app.player.addMoney(message.author.id, gambleAmount * 2);
 
+    if(gambleAmount * 2 >= 2000000){
+        app.itm.addBadge(message.author.id, 'gambler');
+    }
+
     return embed;
 }
 

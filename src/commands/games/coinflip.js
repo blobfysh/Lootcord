@@ -38,6 +38,11 @@ module.exports = {
         
         if(Math.random() < 0.5){
             await app.player.addMoney(message.author.id, gambleAmount);
+
+            if(gambleAmount >= 1000000){
+                await app.itm.addBadge(message.author.id, 'gambler');
+            }
+
             message.reply(WIN_QUOTES[Math.floor(Math.random() * WIN_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount * 2)));
         }
         else{

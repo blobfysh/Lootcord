@@ -52,7 +52,7 @@ module.exports = {
             .setColor(13215302)
             .setAuthor(member.tag + "'s Profile", member.avatarURL)
             .setDescription(userStatus)
-            .addField('Badges', badges.length ? badges.map(badge => app.badgedata[badge].icon + '`' + badge + '`').join(' ') : 'none :(')
+            .addField('Badges', badges.length ? badges.sort().map(badge => app.badgedata[badge].icon + '`' + badge + '`').join(', ') : 'none :(')
             .addField('Clan', codeWrap((userRow.clanId !== 0 ? (await app.query(`SELECT name FROM clans WHERE clanId = ${userRow.clanId}`))[0].name : 'None'), 'js'), true)
             .addField('Level', codeWrap(userRow.level + ` (XP: ${xp.curLvlXp}/${xp.neededForLvl})`, 'js'), true)
             .addField('Power', codeWrap(userRow.power + "/" + userRow.max_power + " Power", 'js'), true)
@@ -64,7 +64,7 @@ module.exports = {
             .addBlankField()
             .addField('Banners', bannersList, true)
             .addField("Backpack", 'Equipped: ' + backpackIcon + "`" + userRow.backpack + "`", true)
-            .addField('Preferred Ammo', app.itemdata[userRow.ammo] ? app.itemdata[userRow.ammo].icon + '`' + userRow.ammo + '`' : 'Not set\n(Set with `setammo <ammo>`)', true)
+            .addField('Preferred Ammo', app.itemdata[userRow.ammo] ? app.itemdata[userRow.ammo].icon + '`' + userRow.ammo + '`' : 'Not set', true)
             .setFooter("🌟 Skills upgraded " + userRow.used_stats + " times")
 
             message.channel.createMessage(profileEmbed);

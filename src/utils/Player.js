@@ -197,13 +197,23 @@ class Player {
                     await this.app.itm.addItem(message.author.id, 'item_box', 2);
                 }
 
+                if(row.level + 1 >= 5){
+                    await this.app.itm.addBadge(message.author.id, 'loot_goblin');
+                }
+                if(row.level + 1 >= 25){
+                    await this.app.itm.addBadge(message.author.id, 'loot_fiend');
+                }
+                if(row.level + 1 >= 100){
+                    await this.app.itm.addBadge(message.author.id, 'loot_legend');
+                }
+
                 // ignore bot list discords
                 if(this.app.config.ignoreLvlMessages.includes(message.guild.id)) return;
 
                 const guildRow = (await this.app.query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`))[0];
                 
                 try{
-                    const lvlUpImage = await this.getLevelImage(message.author.username, message.author.avatarURL, row.level + 1);
+                    const lvlUpImage = await this.getLevelImage(message.author.avatarURL, row.level + 1);
                     
                     if(guildRow.levelChan !== undefined && guildRow.levelChan !== "" && guildRow.levelChan !== 0){
                         try{
@@ -239,7 +249,7 @@ class Player {
         }
     }
 
-    async getLevelImage(name, playerImage, level){
+    async getLevelImage(playerImage, level){
         //const smallFont = await Jimp.loadFont('./src/resources/fonts/Quicksand_Light25.fnt');
         const image = await Jimp.read('./src/resources/images/LvlUp2.png');
         const avatar = await Jimp.read(playerImage);

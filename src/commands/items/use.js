@@ -315,6 +315,13 @@ module.exports = {
                     else{
                         await app.query(`UPDATE scores SET power = -5 WHERE userId = ${target.id}`);
                     }
+
+                    if(row.kills + 1 >= 20){
+                        await app.itm.addBadge(message.author.id, 'specialist');
+                    }
+                    if(row.kills + 1 >= 100){
+                        await app.itm.addBadge(message.author.id, 'hitman');
+                    }
                     
                     const killedReward = new app.Embed()
                     .setTitle('Loot Received')
@@ -460,6 +467,13 @@ module.exports = {
                     }
                     else{
                         await app.query(`UPDATE scores SET power = -5 WHERE userId = ${member.id}`);
+                    }
+
+                    if(row.kills + 1 >= 20){
+                        await app.itm.addBadge(message.author.id, 'specialist');
+                    }
+                    if(row.kills + 1 >= 100){
+                        await app.itm.addBadge(message.author.id, 'hitman');
                     }
                     
                     const killedReward = new app.Embed()

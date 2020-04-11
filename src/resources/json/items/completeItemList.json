@@ -2538,9 +2538,9 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 700,
-        "desc": "Has a chance to contain `$500-$2000`\n**Christmas event item**",
+        "desc": "Has a chance to contain `500 - 2,000` Lootcoin\n**Christmas event item**",
         "image": "",
-        "icon": "🎁",
+        "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": ""
@@ -2563,7 +2563,7 @@
         "sell": 200,
         "desc": "Eat this to heal `20-25` HP!\n**Christmas event item**",
         "image": "",
-        "icon": "🎁",
+        "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
@@ -2585,7 +2585,7 @@
         "sell": 300,
         "desc": "Sharpened for maximum efficiency\n**Christmas event item**",
         "image": "",
-        "icon": "🎁",
+        "icon": "<:limit_melee:698423086747353168>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
@@ -2607,7 +2607,7 @@
         "sell": 3500,
         "desc": "Tightly packed snowball\n**Christmas event item**",
         "image": "",
-        "icon": "🎁",
+        "icon": "<:limit_melee:698423086747353168>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
@@ -2629,7 +2629,7 @@
         "sell": 7000,
         "desc": "Send the nutcracker to bite your enemies\n**Christmas event item**",
         "image": "",
-        "icon": "🎁",
+        "icon": "<:limit_melee:698423086747353168>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
@@ -2657,7 +2657,7 @@
         "sell": 400,
         "desc": "Wear these cozy gloves to shield yourself for 30 minutes!\n**Christmas event item**",
         "image": "",
-        "icon": "🎁",
+        "icon": "<:limit_shield:698423077377409054>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": ""
@@ -2678,7 +2678,7 @@
         "sell": 100,
         "desc": "You were on the naughty list!\n**Christmas event item**",
         "image": "",
-        "icon": "🎁",
+        "icon": "<:limit_material:656757111388241920>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": ""
@@ -2703,7 +2703,7 @@
         "sell": 300,
         "desc": "Unwrap it to see what's inside!\n**Christmas event item**",
         "image": "",
-        "icon": "🎁",
+        "icon": "<:limit_box:698423594203611176>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -2746,8 +2746,8 @@
         "buy": "",
         "sell": 350,
         "desc": "Limited event currency that can be used to buy event-only items!\nCheck the `store` to see what can be purchased",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/632223509933850624/lootcoin.png",
-        "icon": "<:token:631945324121948190>",
+        "image": "",
+        "icon": "<:Lootcoin:698425524606730271>",
         "breaksOnUse": "",
         "canBeStolen": false,
         "cooldown": ""
@@ -2768,9 +2768,9 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 150,
-        "desc": "Has a chance to contain `$300-$1500`!\n**Easter 2019 item**",
+        "desc": "Has a chance to contain `300 - 1,500` Lootcoin!\n**Easter 2019 item**",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/562550734944731157/easter_egg.png",
-        "icon": "<:easter_egg:562550831132704790>",
+        "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": ""
@@ -2790,7 +2790,7 @@
         "sell": 200,
         "desc": "Send this rabid bunny to chomp your foes...  🐰\n**Easter 2019 item**",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/562621501241688074/067.png",
-        "icon": "🐰",
+        "icon": "<:limit_melee:698423086747353168>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
@@ -2817,7 +2817,7 @@
         "sell": 200,
         "desc": "Eat this healthy carrot to heal `17-25` HP!\n**Easter 2019 item**",
         "image": "",
-        "icon": "🥕",
+        "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
@@ -2842,9 +2842,9 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 3000,
-        "desc": "You found it! The rare golden easter egg has a chance to contain `$5000-$20000` <:PogU:535575450882408448>\n**Easter 2019 item**",
+        "desc": "You found it! The rare golden easter egg has a chance to contain `5,000 - 20,000` Lootcoin.\n**Easter 2019 item**",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/562529404434120704/golden_egg.png",
-        "icon": "<:golden_egg:562529468703440907>",
+        "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": ""
@@ -2867,7 +2867,7 @@
         "sell": 200,
         "desc": "Delicious chocolate candy eggs that heal `22-30` HP when you eat them!\n**Easter 2019 item**",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/562550732574818309/candy_egg.png",
-        "icon": "<:candy_egg:562550819745038356>",
+        "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
@@ -2891,7 +2891,7 @@
         "sell": 3500,
         "desc": "Do not be fooled, this egg has enough gunpowder in it to destroy a small house. Throw it at an enemy to unleash its deadly force.\n**Easter 2019 item**",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/562525958121455663/tnt_egg.png",
-        "icon": "<:tnt_egg:562526020801003523>",
+        "icon": "<:limit_melee:698423086747353168>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
@@ -2918,7 +2918,7 @@
         "sell": 200,
         "desc": "Someone seriously gave you an apple... You can eat it to gain `9-13` HP.\n**Halloween 2019 item**",
         "image": "",
-        "icon": "🎃",
+        "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
@@ -2945,7 +2945,7 @@
         "sell": 700,
         "desc": "A pumpkin! You could make a jack-o'-lantern... Or you could just eat it to gain `15-30` HP.\n**Halloween 2019 item**",
         "image": "",
-        "icon": "🎃",
+        "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
@@ -2972,7 +2972,7 @@
         "sell": 600,
         "desc": "A king-sized candy bar! Heals `13-28` HP.\n**Halloween 2019 item**",
         "image": "",
-        "icon": "🎃",
+        "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
@@ -2996,7 +2996,7 @@
         "sell": 1000,
         "desc": "A real spider. Toss it at a foe to make them scream!\n**Halloween 2019 item**",
         "image": "",
-        "icon": "🎃",
+        "icon": "<:limit_melee:698423086747353168>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
@@ -3020,7 +3020,7 @@
         "sell": 3000,
         "desc": "It's meant for reaping crops, but I think we all know what you'll be using it for.\n**Halloween 2019 item**",
         "image": "",
-        "icon": "🎃",
+        "icon": "<:limit_melee:698423086747353168>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
@@ -3044,7 +3044,7 @@
         "sell": 10000,
         "desc": "Wait this is real magic?\n**Halloween 2019 item**",
         "image": "",
-        "icon": "🎃",
+        "icon": "<:limit_melee:698423086747353168>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
@@ -3068,7 +3068,7 @@
         "sell": 500,
         "desc": "A trick-or-treat pail. It could contain some cool Halloween items!",
         "image": "",
-        "icon": "🎃",
+        "icon": "<:limit_box:698423594203611176>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",

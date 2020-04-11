@@ -31,19 +31,19 @@ module.exports = {
             let levelLeaders = [];
             let killLeaders  = [];
 
-            const moneyRows = await app.query(`SELECT scores.userId, money, prestige, badge
+            const moneyRows = await app.query(`SELECT scores.userId, money, badge
             FROM userGuilds 
             INNER JOIN scores 
             ON userGuilds.userId = scores.userId 
             WHERE userGuilds.guildId ="${message.guild.id}" 
             ORDER BY money DESC LIMIT 3`);
-            const levelRows = await app.query(`SELECT scores.userId, level, prestige, badge
+            const levelRows = await app.query(`SELECT scores.userId, level, badge
             FROM userGuilds 
             INNER JOIN scores 
             ON userGuilds.userId = scores.userId 
             WHERE userGuilds.guildId ="${message.guild.id}" 
             ORDER BY level DESC LIMIT 3`);
-            const killRows  = await app.query(`SELECT scores.userId, kills, prestige, badge
+            const killRows  = await app.query(`SELECT scores.userId, kills, badge
             FROM userGuilds 
             INNER JOIN scores 
             ON userGuilds.userId = scores.userId 
@@ -53,7 +53,7 @@ module.exports = {
             for(let key in moneyRows){
                 try{
                     let member = await app.common.fetchMember(message.guild, moneyRows[key].userId);
-                    leaders.push(`💵 ${app.player.getBadge(moneyRows[key].badge)} ${member.effectiveName + '#' + member.discriminator}` + ' - ' + app.common.formatNumber(moneyRows[key].money));
+                    leaders.push(`${app.player.getBadge(moneyRows[key].badge)} **${member.effectiveName + '#' + member.discriminator}**` + ' - ' + app.common.formatNumber(moneyRows[key].money));
                 }
                 catch(err){
                     console.log(err);
@@ -62,7 +62,7 @@ module.exports = {
             for(let key in levelRows){
                 try{
                     let member = await app.common.fetchMember(message.guild, levelRows[key].userId);
-                    levelLeaders.push(`🔹 ${app.player.getBadge(levelRows[key].badge)} ${member.effectiveName + '#' + member.discriminator}` + ' - Level  ' + levelRows[key].level);
+                    levelLeaders.push(`${app.player.getBadge(levelRows[key].badge)} **${member.effectiveName + '#' + member.discriminator}**` + ' - Level  ' + levelRows[key].level);
                 }
                 catch(err){
         
@@ -71,16 +71,12 @@ module.exports = {
             for(let key in killRows){
                 try{
                     let member = await app.common.fetchMember(message.guild, killRows[key].userId);
-                    killLeaders.push(`🏅 ${app.player.getBadge(killRows[key].badge)} ${member.effectiveName + '#' + member.discriminator}` + ' - ' + killRows[key].kills + " kills");
+                    killLeaders.push(`${app.player.getBadge(killRows[key].badge)} **${member.effectiveName + '#' + member.discriminator}**` + ' - ' + killRows[key].kills + " kills");
                 }
                 catch(err){
                     
                 }
             }
-            
-            leaders[0] = leaders[0].replace("💵", "💰");
-            levelLeaders[0] = levelLeaders[0].replace("🔹","💠");
-            killLeaders[0] = killLeaders[0].replace("🏅","🏆");
 
             const embedLeader = new app.Embed() 
             .setTitle(`Server Leaderboard`)

@@ -6,7 +6,7 @@ module.exports = {
     description: 'Shows information about a badge.',
     long: 'Specify a badge to see detailed information about it.',
     args: {"badge": "Badge to search."},
-    examples: ["badge prestige_1"],
+    examples: ["badge elitist"],
     ignoreHelp: false,
     requiresAcc: false,
     requiresActive: false,
@@ -51,7 +51,7 @@ function generatePages(app, badges, itemsPerPage){
 
         const pageEmbed = new app.Embed()
         .setTitle('Badge List')
-        .setDescription(filteredBadges.map(badge => app.badgedata[badge].icon + '`' + badge + '`').join('\n'))
+        .setDescription(filteredBadges.sort().map(badge => app.badgedata[badge].icon + ' `' + badge + '`').join('\n'))
         .setFooter('Use badge <badge> to see more information about a badge.')
         .setColor(13215302)
 

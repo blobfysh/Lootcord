@@ -18,7 +18,7 @@ module.exports = {
             const row = await app.player.getRow(message.author.id);
 
             message.channel.createMessage({content: `Your current level is **${row.level}**`}, { 
-                file: await app.player.getLevelImage(message.author.username, message.author.avatarURL, row.level), 
+                file: await app.player.getLevelImage(message.author.avatarURL, row.level), 
                 name: 'userLvl.jpeg'
             });
         }

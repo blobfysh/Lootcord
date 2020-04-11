@@ -109,6 +109,10 @@ module.exports = {
         winnings = Math.floor(gambleAmount * rewardMltp);
         await app.player.addMoney(message.author.id, winnings);
 
+        if(winnings >= 2000000){
+            await app.itm.addBadge(message.author.id, 'gambler');
+        }
+
         let template = "⬛"+topRowGif+topRowGif+topRowGif+"⬛\n▶"+mainRowGif+mainRowGif+mainRowGif+"◀\n⬛"+botRowGif+botRowGif+botRowGif+"⬛";
         
         const slotEmbed = new app.Embed()
