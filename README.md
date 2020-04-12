@@ -13,4 +13,30 @@
   <h3 align="center"><strong>Collect items and battle your friends!</strong></h3>
 </div>
 
-# This branch is the rewrite of Lootcord using Eris, it is extremely unstable at the moment
+## About
+Website: https://lootcord.com<br>
+Invite: https://lootcord.com/invite<br>
+Discord Server: https://discord.gg/7XNbdzP<br>
+
+## Commands
+Commands can be found [here](https://lootcord.com/commands).
+
+## Self-hosting when?
+Requirements:
+
+- Node.js (>= v10.19.0)
+- MySQL or MariaDB
+- Redis (tested on Windows using Memurai)
+
+Edit `config_example.json` in src/resources/config to point to your MySQL database and rename it to `config.json`.
+
+Install dependencies: 
+```javascript
+npm install
+```
+Run:
+```
+node index.js
+```
+
+Custom icons will not show for you, you can change those in `icons.json`.
