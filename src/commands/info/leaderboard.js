@@ -22,7 +22,7 @@ module.exports = {
             .addField("Level", leaders.levelLB.join('\n'))
             .addField("Kills", leaders.killLB.join('\n'))
             .addField("Richest Clans", leaders.clanLB.join('\n'))
-            .setFooter("Top 5")
+            .setFooter("Top 5 | Refreshes every 6 hours")
 
             return message.channel.createMessage(embedLeader);
         }

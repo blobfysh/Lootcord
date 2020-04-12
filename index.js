@@ -7,9 +7,10 @@ const MySQL     = require('./src/utils/MySQL');
 const Server    = require('./handlers/Server');
 const LoopTasks = require('./handlers/LoopTasks');
 const loopTasks = new LoopTasks(cache, config);
+const mysql     = new MySQL(config);
 
 const sharder = new Sharder('Bot ' + config.botToken, '/src/app.js', {
-    name: 'Lootcord ' + require('./package').version,
+    name: 'Lootcord',
     stats: true,
     statsInterval: 60 * 1000,
     debug: config.debug,
@@ -25,7 +26,7 @@ const sharder = new Sharder('Bot ' + config.botToken, '/src/app.js', {
             TYPING_START: true,
             VOICE_STATE_UPDATE: true
         },
-        messageLimit: 30,
+        messageLimit: 10,
         disableEveryone: true,
         defaultImageFormat: 'png',
         defaultImageSize: 256,
@@ -39,5 +40,5 @@ sharder.on('stats', stats => {
 
 if(cluster.isMaster){
     loopTasks.start();
-    new Server(sharder, new MySQL(config), cache, config);
+    new Server(sharder, mysql, cache, config);
 }

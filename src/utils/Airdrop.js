@@ -7,7 +7,7 @@ class Airdrop {
 
     initAirdrop(guildId){
         let rand = Math.round(Math.random() * (14400 * 1000)) + (14400 * 1000); // Generate random time from 4 - 8 hours 14400
-        console.log(`[AIRDROP] Counting down from ${rand/1000/60} minutes`);
+        console.log(`[AIRDROP] Counting down from ${this.app.cd.convertTime(rand)}`);
 
         let timeObj = {guild: guildId, started: Date.now(), length: rand, timer: setTimeout(() => {
             this.callAirdrop(guildId, 'care_package');

@@ -339,7 +339,7 @@ module.exports = {
                     if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
                         sendToKillFeed(app, message, serverInfo.killChan, target, item, randDmg);
                     }
-                    logKill(app, message.member, target, item, ammoUsed, randDmg, victimRow.money, randomItems.items.length !== 0 ? randomItems.display : ['Nothing'])
+                    logKill(app, message.member, target, item, ammoUsed, randDmg, victimRow.money, randomItems.items.length !== 0 ? randomItems.amounts : ['Nothing'])
                 }
                 else{
                     // normal attack
@@ -492,7 +492,7 @@ module.exports = {
                     if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
                         sendToKillFeed(app, message, serverInfo.killChan, member, item, randDmg);
                     }
-                    logKill(app, message.member, member, item, ammoUsed, randDmg, victimRow.money, randomItems.items.length !== 0 ? randomItems.display : ['Nothing'])
+                    logKill(app, message.member, member, item, ammoUsed, randDmg, victimRow.money, randomItems.items.length !== 0 ? randomItems.amounts : ['Nothing'])
                 }
                 else{
                     // normal attack
@@ -545,12 +545,12 @@ function getAmmo(app, item, row, userItems){
 function logKill(app, killer, victim, item, ammo, damage, moneyStolen, itemsLost){
     try{
         const embed = new app.Embed()
-        .setTitle('💀 Kill Log')
+        .setTitle('Kill Log')
         .setColor(16721703)
-        .setDescription(`**Weapon**: ${app.itemdata[item].icon}\`${item}\` - **${damage} damage**\n**Ammo**: ${ammo ? app.itemdata[ammo].icon + '`' + ammo + '`' : 'Not required'}`)
+        .setDescription(`**Weapon**: \`${item}\` - **${damage} damage**\n**Ammo**: ${ammo ? '`' + ammo + '`' : 'Not required'}`)
         .addField('Killer', killer.tag + ' ID: ```\n' + killer.id + '```')
         .addField('Victim', victim.tag + ' ID: ```\n' + victim.id + '```')
-        .addField('Items Stolen', itemsLost.join('\n'), true)
+        .addField('Items Stolen', itemsLost[0] !== 'Nothing' ? itemsLost.map(itm => itm.split('|')[1] + 'x `' + itm.split('|')[0] + '`').join('\n') : 'Nothing', true)
         .addField('Money Stolen', app.common.formatNumber(moneyStolen), true)
         .setTimestamp()
         

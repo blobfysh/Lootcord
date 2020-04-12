@@ -5,7 +5,7 @@ class LoopTasks {
     constructor(cache, config){
         this.cache = cache;
         this.config = config;
-        this.hourly = new CronJob('0 * * * *', () => {this.postStats()}, null, false, 'America/New_York');
+        this.hourly = new CronJob('0 * * * *', this.postStats.bind(this), null, false, 'America/New_York');
     }
 
     start(){

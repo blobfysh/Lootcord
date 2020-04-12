@@ -32,7 +32,7 @@ class LoopTasks {
             const members = await this.app.clans.getMembers(clans[i].clanId);
 
             if(Math.floor(clans[i].money * (members.count * this.app.config.clanInterestRate)) >= 100000){
-                this.app.query(`UPDATE clans SET money = money + 100000 WHERE clanId = ${rows[i].clanId} AND money < 10000000`);
+                this.app.query(`UPDATE clans SET money = money + 100000 WHERE clanId = ${clans[i].clanId} AND money < 10000000`);
             }
             else{
                 this.app.query(`UPDATE clans SET money = money + FLOOR(money * ${members.count * this.app.config.clanInterestRate}) WHERE clanId = ${clans[i].clanId} AND money < 10000000`);
@@ -40,10 +40,16 @@ class LoopTasks {
         }
 
         // remove 1 power each day for players inactve over a month, down to minimum of 0
-        this.app.query(`UPDATE scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 30 DAY`);
+        this.mysql.query(`UPDATE scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 30 DAY`);
+
+        // remove old logs
+        this.mysql.query(`DELETE FROM clan_logs WHERE logDate < NOW() - INTERVAL 30 DAY`);
+
+        // remove old transactions
+        this.mysql.query(`DELETE FROM transactions WHERE date < NOW() - INTERVAL 30 DAY`);
 
         // auto-deactivate players who have not played for 30 days
-        this.app.query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 30 DAY`);
+        this.mysql.query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 30 DAY`);
     }
 
     async biHourlyTasks(){

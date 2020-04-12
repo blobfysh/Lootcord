@@ -83,7 +83,7 @@ class Lootcord extends Base {
             type: 0
         });
 
-        console.log('[APP] Listening for events');
+        console.info('[APP] Listening for events');
         for(let event of events){
             this.bot.on(event.replace('.js', ''), require(`./events/${event}`).run.bind(this));
         }

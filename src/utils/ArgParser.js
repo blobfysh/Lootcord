@@ -145,7 +145,7 @@ class ArgParser {
         for(let arg of args){
             arg = arg.replace(/,/g,"");
             
-            if(!isNaN(arg) && Number(arg)){
+            if(!isNaN(arg) && Number(arg) && !arg.includes('.')){
                 numbers.push(Math.floor(Number(arg)));
             }
         }

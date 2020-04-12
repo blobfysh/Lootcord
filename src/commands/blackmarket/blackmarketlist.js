@@ -1,5 +1,6 @@
 const shortid   = require('shortid');
 const listing_fee = 0.10;
+const max_listings = 15;
 
 module.exports = {
     name: 'blackmarketlist',
@@ -21,8 +22,8 @@ module.exports = {
         if(await app.cd.getCD(message.author.id, 'tradeban')){
             return message.reply("❌ You are trade banned.");
         }
-        else if((await app.query(`SELECT * FROM blackmarket WHERE sellerId = ${message.author.id}`)).length >= 15){
-            return message.reply("❌ You have 15 listings on the market already! Remove some or wait for them to sell.");
+        else if((await app.query(`SELECT * FROM blackmarket WHERE sellerId = ${message.author.id}`)).length >= max_listings){
+            return message.reply("❌ You have " + max_listings + " listings on the market already! Remove some or wait for them to sell.");
         }
         else if(itemName && itemAmnt && itemCost){
             // skip listing process...
@@ -42,7 +43,7 @@ module.exports = {
                 return message.reply('Please enter a lower price o.o');
             }
             else if(itemCost < 100){
-                return message.reply('Please enter a higher price! Minimum $100');
+                return message.reply('Please enter a higher price! Minimum ' + app.common.formatNumber(100));
             }
             else if(itemCost <= (app.itemdata[itemName].sell * itemAmnt)){
                 return message.reply('You can `sell` that for more money! You should list for more money, or sell them to the bot instead.');
@@ -108,6 +109,8 @@ module.exports = {
 
                     if(m.content.toLowerCase() == 'cancel' || m.content.toLowerCase() == 'stop'){
                         app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+
+                        return message.reply('Listing cancelled.');
                     }
                     else if(newItem && !item){
                         if(!await app.itm.hasItems(message.author.id, newItem, 1)){
@@ -117,7 +120,7 @@ module.exports = {
                             return m.channel.createMessage('That item cannot be sold on the market!');
                         }
                         item = newItem;
-                        bmEmbed.addField('Item:', item, true);
+                        bmEmbed.addField('Item:', app.itemdata[item].icon + ' `' + item + '`', true);
                         bmEmbed.setDescription('Enter the amount to sell:')
                         botMessage = await message.channel.createMessage(bmEmbed);
                         return;
@@ -152,7 +155,7 @@ module.exports = {
                             return m.channel.createMessage('Please enter a lower value.');
                         }
                         else if(newCost < 100){
-                            return m.channel.createMessage('Please enter a higher price! Minimum $100');
+                            return m.channel.createMessage('Please enter a higher price! Minimum ' + app.common.formatNumber(100));
                         }
                         else if(newCost <= (app.itemdata[item].sell * amount)){
                             return m.channel.createMessage('You can `sell` that for more money! You should list for more money, or sell them using the sell command instead.');

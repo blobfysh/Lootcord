@@ -125,7 +125,7 @@ module.exports = {
                                             
                                             botMessage.edit('✅ Trade completed!');
 
-                                            tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix), message.member, user);
+                                            tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user);
                                         }
                                         catch(err){
                                             if(err.player){
@@ -284,17 +284,17 @@ module.exports = {
     },
 }
 
-function refreshWindow(app, player1Member, player1Money, player1Items, player2Member, player2Money, player2Items, prefix, showUsernames = false){
+function refreshWindow(app, player1Member, player1Money, player1Items, player2Member, player2Money, player2Items, prefix, log = false){
     const tradeWindow = new app.Embed()
     .setTitle("Trade Window")
     .setColor(2713128)
     .setDescription(player1Member.effectiveName + '\'s offer may not exceed **' + MAX_DISPARITY + 'x** the value of ' + player2Member.effectiveName + '\'s offer, and vice versa.')
     //.setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/568469679081914435/tradeIcon.png")
-    .addField(showUsernames ? player1Member.username : player1Member.effectiveName + `'s Offer`, app.common.formatNumber(player1Money),true)
-    .addField(showUsernames ? player2Member.username : player2Member.effectiveName + `'s Offer`, app.common.formatNumber(player2Money),true)
+    .addField(log ? player1Member.username : player1Member.effectiveName + `'s Offer`, app.common.formatNumber(player1Money),true)
+    .addField(log ? player2Member.username : player2Member.effectiveName + `'s Offer`, app.common.formatNumber(player2Money),true)
     .addBlankField(true)
-    .addField('Items', getDisplay(app, player1Items).join('\n'), true)
-    .addField('Items', getDisplay(app, player2Items).join('\n'), true)
+    .addField('Items', getDisplay(app, player1Items, true).join('\n'), true)
+    .addField('Items', getDisplay(app, player2Items, true).join('\n'), true)
     .addBlankField(true)
     .addBlankField()
     .addField('Value', app.common.formatNumber(getValue(app, player1Money, player1Items)), true)
@@ -308,18 +308,18 @@ function refreshWindow(app, player1Member, player1Money, player1Items, player2Me
 function getValue(app, playerMoney, playerItems){
     let value = playerMoney;
 
-    for(var i = 0; i < playerItems.length; i++){
+    for(let i = 0; i < playerItems.length; i++){
         value += app.itemdata[playerItems[i].split('|')[0]].sell * playerItems[i].split('|')[1];
     }
 
     return value;
 }
 
-function getDisplay(app, itemList){
+function getDisplay(app, itemList, log = false){
     let items = [];
     
     for(let i = 0; i < itemList.length; i++){
-        items.push(itemList[i].split('|')[1] + 'x ' + app.itemdata[itemList[i].split('|')[0]].icon + '`' + itemList[i].split('|')[0] + '`')
+        items.push(itemList[i].split('|')[1] + 'x ' + (!log ? app.itemdata[itemList[i].split('|')[0]].icon : '') + '`' + itemList[i].split('|')[0] + '`')
     }
 
     if(!items.length) items.push('None');
