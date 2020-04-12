@@ -15,7 +15,7 @@
 
 ## About
 Website: https://lootcord.com<br>
-Invite: https://lootcord.com/invite<br>
+Invite: https://discordapp.com/oauth2/authorize?client_id=493316754689359874&permissions=519232&scope=bot<br>
 Discord Server: https://discord.gg/7XNbdzP<br>
 
 ## Commands
