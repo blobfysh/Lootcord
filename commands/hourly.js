@@ -15,7 +15,10 @@ module.exports = {
     adminOnly: false,
     
     async execute(message, args, lang, prefix){
-        const row = (await query(`SELECT * FROM scores WHERE userId = ${message.author.id}`))[0];
+        const row = (await query(`SELECT * FROM scores 
+        INNER JOIN cooldowns
+        ON scores.userId = cooldowns.userId
+        WHERE scores.userId = ${message.author.id}`))[0];
 
         const hourlyCD = methods.getCD(message.client, {
             userId: message.author.id,

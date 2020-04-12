@@ -49,6 +49,9 @@ module.exports = {
                 botMessage.delete();
                 await query(`DELETE FROM userGuilds WHERE userId = ${message.author.id} AND guildId = ${message.guild.id}`); //delete user from server 
                 
+
+                await query(`UPDATE cooldowns SET deactivateTime = ${(new Date()).getTime()} WHERE userId = ${message.author.id}`);
+
                 await methods.addCD(message.client, {
                     userId: message.author.id,
                     type: 'deactivate',
