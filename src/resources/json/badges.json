@@ -1,0 +1,44 @@
+{
+    "elitist": {
+        "icon": "🥇",
+        "description": "Reach #1 on the global leaderboard in any category.",
+        "image": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/236/first-place-medal_1f947.png",
+        "artist": ""
+    },
+    "specialist": {
+        "icon": "<:glock:551394726624886796>",
+        "description": "Obtain 20 or more kills.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/698393828087955556/glockTest.png",
+        "artist": "221087115893669889"
+    },
+    "hitman": {
+        "icon": "<:awpT:551398648408178703>",
+        "description": "Obtain 100 or more kills.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/698395123918045224/awpT.png",
+        "artist": "221087115893669889"
+    },
+    "loot_goblin": {
+        "icon": "🔰",
+        "description": "Reach level 5.",
+        "image": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/236/japanese-symbol-for-beginner_1f530.png",
+        "artist": ""
+    },
+    "loot_fiend": {
+        "icon": "🔹",
+        "description": "Reach level 25.",
+        "image": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/236/small-blue-diamond_1f539.png",
+        "artist": ""
+    },
+    "loot_legend": {
+        "icon": "💠",
+        "description": "Reach level 100.",
+        "image": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/236/diamond-shape-with-a-dot-inside_1f4a0.png",
+        "artist": ""
+    },
+    "gambler": {
+        "icon": "💰",
+        "description": "Win at least 2,000,000 Lootcoin in a single gamble.",
+        "image": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/236/money-bag_1f4b0.png",
+        "artist": ""
+    }
+}

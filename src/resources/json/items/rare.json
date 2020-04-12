@@ -1,0 +1,514 @@
+{
+    "xp_potion": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": true,
+        "xpAmt": 75,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 700,
+        "desc": "Use this to instantly gain `75` xp!",
+        "image": "https://cdn.discordapp.com/attachments/454163538886524928/550331631521628172/xp_potion.png",
+        "icon": "<:rare_usable:601368019972653067>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "glock": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "0-9",
+        "minDmg": 0,
+        "maxDmg": 9,
+        "isAmmo": [],
+        "ammo": [
+            "9mm_ps",
+            "9mm_fmj"
+        ],
+        "craftedWith": {
+            "display": "1x pistol_body\n1x screw\n2x steel",
+            "materials": [
+                "pistol_body|1",
+                "screw|1",
+                "steel|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x pistol_body",
+            "materials": [
+                "pistol_body|1"
+            ]
+        },
+        "buy": "",
+        "sell": 750,
+        "desc": "Simple and effective pistol. Fires 9mm ammunition.",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/551395788018941970/ThanGlock.png",
+        "icon": "<:rare_weapon:601368020295876608>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.30,
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "45 minutes",
+            "scoreRow": "_45mCD",
+            "seconds": 2467
+        }
+    },
+    "revolver": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "0-10",
+        "minDmg": 0,
+        "maxDmg": 10,
+        "isAmmo": [],
+        "ammo": [
+            ".44_fmj"
+        ],
+        "craftedWith": {
+            "display": "2x pistol_body\n2x screw\n2x steel",
+            "materials": [
+                "pistol_body|2",
+                "screw|2",
+                "steel|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x pistol_body",
+            "materials": [
+                "pistol_body|1"
+            ]
+        },
+        "buy": "",
+        "sell": 800,
+        "desc": "High-recoil handgun",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/549083780854579277/Revolver.png",
+        "icon": "<:rare_weapon:601368020295876608>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.35,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 2721
+        }
+    },
+    "9mm_ps": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 29,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "glock"
+        ],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 1050,
+        "desc": "9x19mm PS cartridge. Use with weapon.",
+        "image": "",
+        "icon": "<:rare_ammo:601368020270448659>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "7.62_fmj": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 26,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "ak47"
+        ],
+        "ammo": "",
+        "craftedWith": {
+            "display": "2x gunpowder\n1x steel",
+            "materials": [
+                "gunpowder|2",
+                "steel|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 2100,
+        "desc": "7.62x39mm full metal jacket ammo for 7.62 caliber rifles.",
+        "image": "",
+        "icon": "<:rare_ammo:601368020270448659>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "5.56_fmj": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 39,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "m4a1"
+        ],
+        "ammo": "",
+        "craftedWith": {
+            "display": "2x gunpowder\n1x steel",
+            "materials": [
+                "gunpowder|2",
+                "steel|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 2100,
+        "desc": "Full metal jacket 5.56x45mm NATO cartridge.",
+        "image": "",
+        "icon": "<:rare_ammo:601368020270448659>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "crossbow": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "6-24",
+        "minDmg": 6,
+        "maxDmg": 24,
+        "isAmmo": [],
+        "ammo": [
+            "arrow"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "1x wood\n1x steel",
+            "materials": [
+                "wood|1",
+                "steel|1"
+            ]
+        },
+        "buy": "",
+        "sell": 775,
+        "desc": "Shoots arrows at high velocity.",
+        "image": "",
+        "icon": "<:rare_weapon:601368020295876608>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.35,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 2232
+        }
+    },
+    "spear": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "15-25",
+        "minDmg": 15,
+        "maxDmg": 25,
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 675,
+        "desc": "Stab the enemy.",
+        "image": "",
+        "icon": "<:rare_melee:601368020325236756>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1568
+        }
+    },
+    "health_pot": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 20,
+        "healMax": 28,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 4700,
+            "currency": "money"
+        },
+        "sell": 1520,
+        "desc": "Restores `20-28` HP!",
+        "image": "",
+        "icon": "<:rare_usable:601368019972653067>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1596
+        }
+    },
+    "blunderbuss": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "0-25",
+        "minDmg": 0,
+        "maxDmg": 25,
+        "isAmmo": [],
+        "ammo": [
+            "12g_buckshot"
+        ],
+        "craftedWith": {
+            "display": "3x wood\n3x steel\n1x screw",
+            "materials": [
+                "wood|3",
+                "steel|3",
+                "screw|1"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x wood\n1x screw",
+            "materials": [
+                "wood|1",
+                "screw|1"
+            ]
+        },
+        "buy": "",
+        "sell": 800,
+        "desc": "Unreliable makeshift shotgun.",
+        "image": "",
+        "icon": "<:rare_weapon:601368020295876608>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.50,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 2732
+        }
+    },
+    "12g_buckshot": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 15,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "blunderbuss",
+            "spas"
+        ],
+        "ammo": "",
+        "craftedWith": {
+            "display": "2x gunpowder\n1x steel",
+            "materials": [
+                "gunpowder|2",
+                "steel|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 1300,
+        "desc": "12 Gauge buckshot shell. Used for shotguns.",
+        "image": "",
+        "icon": "<:rare_ammo:601368020270448659>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "grenade": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "19-30",
+        "minDmg": 19,
+        "maxDmg": 30,
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 700,
+        "desc": "Small hand-thrown explosive",
+        "image": "",
+        "icon": "<:rare_melee:601368020325236756>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1862
+        }
+    },
+    "screw": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 100,
+        "desc": "Metal pin used to hold objects together.\nCrafting component for creating items using the `craft` command.",
+        "image": "",
+        "icon": "<:rare_material:601368020459454465>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "screw_bundle": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "5x screw",
+            "materials": [
+                "screw|5"
+            ]
+        },
+        "recyclesTo": {
+            "display": "5x screw",
+            "materials": [
+                "screw|5"
+            ]
+        },
+        "buy": "",
+        "sell": 500,
+        "desc": "Bundle of 5 `screw`'s. Good for saving inventory space!",
+        "image": "",
+        "icon": "<:rare_material:601368020459454465>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "smg_body": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "2x module",
+            "materials": [
+                "module|2"
+            ]
+        },
+        "buy": "",
+        "sell": 700,
+        "desc": "Parts used to craft smaller automatic weapons.",
+        "image": "",
+        "icon": "<:rare_material:601368020459454465>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "pump_body": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "2x module",
+            "materials": [
+                "module|2"
+            ]
+        },
+        "buy": "",
+        "sell": 700,
+        "desc": "Parts used to craft shotguns.",
+        "image": "",
+        "icon": "<:rare_material:601368020459454465>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "killer": {
+        "rarity": "Rare",
+        "isBanner": true,
+        "bannerColor": 16734464,
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "5x module",
+            "materials": [
+                "module|5"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": {
+            "amount": 15000,
+            "currency": "money"
+        },
+        "sell": 1000,
+        "desc": "Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971821483261953/pixelbnner3stronk.png",
+        "equippable": true,
+        "icon": "<:rare_banner:601368019943424001>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": ""
+    },
+    "elite": {
+        "rarity": "Rare",
+        "isBanner": true,
+        "bannerColor": "#737373",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "7x module",
+            "materials": [
+                "module|7"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": {
+            "amount": 21000,
+            "currency": "money"
+        },
+        "sell": 3500,
+        "desc": "Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/697679342821572639/elite_banner.png",
+        "equippable": true,
+        "icon": "<:rare_banner:601368019943424001>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": ""
+    }
+}

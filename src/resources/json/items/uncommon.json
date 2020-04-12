@@ -1,0 +1,390 @@
+{
+    "light_pack": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "2x cloth\n1x adhesive",
+            "materials": [
+                "cloth|2",
+                "adhesive|1"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x cloth",
+            "materials": [
+                "cloth|1"
+            ]
+        },
+        "buy": "",
+        "sell": 500,
+        "desc": "Equip this backpack to gain **5** item slots!",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/556894001534337024/Fanny_Pack_w.o_logo.png",
+        "equippable": true,
+        "type": "backpack",
+        "inv_slots": 5,
+        "icon": "<:U_backpack:601366669595508736>",
+        "breaksOnUse": false,
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "sword": {
+        "rarity": "Uncommon",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "10-20",
+        "minDmg": 10,
+        "maxDmg": 20,
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 250,
+        "desc": "A pretty average looking sword.",
+        "image": "",
+        "icon": "<:U_melee:601366669251575857>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1123
+        }
+    },
+    "9mm_fmj": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 21,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "glock"
+        ],
+        "ammo": "",
+        "craftedWith": {
+            "display": "1x gunpowder\n1x steel",
+            "materials": [
+                "gunpowder|1",
+                "steel|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 400,
+        "desc": "9x19mm cartridge. Common round used in pistols. Use with weapon.",
+        "image": "",
+        "icon": "<:U_ammo:601366669318815745>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    ".45_fmj": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 20,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "thompson"
+        ],
+        "ammo": "",
+        "craftedWith": {
+            "display": "1x gunpowder\n1x steel",
+            "materials": [
+                "gunpowder|1",
+                "steel|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 850,
+        "desc": ".45 ACP cartridge. Use with weapon.",
+        "image": "",
+        "icon": "<:U_ammo:601366669318815745>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "bat": {
+        "rarity": "Uncommon",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "10-18",
+        "minDmg": 10,
+        "maxDmg": 18,
+        "isAmmo": [],
+        "ammo": [
+            "baseball"
+        ],
+        "ammoOptional": true,
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "1x wood",
+            "materials": [
+                "wood|1"
+            ]
+        },
+        "buy": "",
+        "sell": 400,
+        "desc": "Hit a grand slam!\nDoes `12` bonus damage if you have a `baseball` in your inventory",
+        "image": "",
+        "icon": "<:U_melee:601366669251575857>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1244
+        }
+    },
+    "golf_club": {
+        "rarity": "Uncommon",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "12-21",
+        "minDmg": 12,
+        "maxDmg": 21,
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 350,
+        "desc": "An iron club used for hitting golf balls, or enemies.",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501129547316461578/Golf_club_aka_stick_for_those_who_dont_know_what_a_golf_club_is.png",
+        "icon": "<:U_melee:601366669251575857>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1141
+        }
+    },
+    "bow": {
+        "rarity": "Uncommon",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "0-9",
+        "minDmg": 0,
+        "maxDmg": 9,
+        "isAmmo": [],
+        "ammo": [
+            "arrow"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "1x wood\n1x cloth",
+            "materials": [
+                "wood|1",
+                "cloth|1"
+            ]
+        },
+        "buy": "",
+        "sell": 350,
+        "desc": "Shoots arrows.",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501129557609283585/Long_Bow.png",
+        "icon": "<:U_weapon:601366669272678411>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.50,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1715
+        }
+    },
+    "pills": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 10,
+        "healMax": 19,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 2200,
+            "currency": "money"
+        },
+        "sell": 620,
+        "desc": "Restores `10-19` HP!",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/549083366809665541/Pills.png",
+        "icon": "<:U_usable:601366669259964418>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "10 minutes",
+            "scoreRow": "_10mHEALCD",
+            "seconds": 967
+        }
+    },
+    "steel": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 75,
+        "desc": "A cheap but strong material used to craft items.",
+        "image": "",
+        "icon": "<:U_material:601366669452902400>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "steel_bundle": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "5x steel",
+            "materials": [
+                "steel|5"
+            ]
+        },
+        "recyclesTo": {
+            "display": "5x steel",
+            "materials": [
+                "steel|5"
+            ]
+        },
+        "buy": "",
+        "sell": 375,
+        "desc": "Bundle of 5 `steel`. Good for saving inventory space!",
+        "image": "",
+        "icon": "<:U_material:601366669452902400>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "cloth": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 100,
+        "desc": "Fibrous material used for crafting items such as clothing.",
+        "image": "",
+        "icon": "<:U_material:601366669452902400>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "cloth_bundle": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "5x cloth",
+            "materials": [
+                "cloth|5"
+            ]
+        },
+        "recyclesTo": {
+            "display": "5x cloth",
+            "materials": [
+                "cloth|5"
+            ]
+        },
+        "buy": "",
+        "sell": 500,
+        "desc": "Bundle of 5 `cloth`. Good for saving inventory space!",
+        "image": "",
+        "icon": "<:U_material:601366669452902400>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "pistol_body": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "1x module",
+            "materials": [
+                "module|1"
+            ]
+        },
+        "buy": "",
+        "sell": 500,
+        "desc": "Parts used to craft handguns.",
+        "image": "",
+        "icon": "<:U_material:601366669452902400>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "looter": {
+        "rarity": "Uncommon",
+        "isBanner": true,
+        "bannerColor": 16761856,
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "3x module",
+            "materials": [
+                "module|3"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": {
+            "amount": 5000,
+            "currency": "money"
+        },
+        "sell": 600,
+        "desc": "Inventory banner that can only be bought. Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971770098843668/pixelbnner2good-Recovered.png",
+        "equippable": true,
+        "unboxable": false,
+        "icon": "<:U_banner:601366669293781003>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "shopOrderCode": 3
+    }
+}

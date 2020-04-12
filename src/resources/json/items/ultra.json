@@ -1,0 +1,118 @@
+{
+    "cyber_pack": {
+        "rarity": "Ultra",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "2x fiber_optics\n2x adhesive\n1x screw\n1x steel",
+            "materials": [
+                "fiber_optics|2",
+                "adhesive|2",
+                "screw|1",
+                "steel|1"
+            ]
+        },
+        "recyclesTo": {
+            "display": "2x adhesive\n1x fiber_optics",
+            "materials": [
+                "adhesive|2",
+                "fiber_optics|1"
+            ]
+        },
+        "buy": "",
+        "sell": 15000,
+        "desc": "Equip this backpack to gain **40** item slots!",
+        "image": "",
+        "equippable": true,
+        "type": "backpack",
+        "inv_slots": 40,
+        "icon": "<:ultra_backpack:601370404375887873>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "rail_cannon": {
+        "rarity": "Ultra",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "20-60",
+        "minDmg": 20,
+        "maxDmg": 60,
+        "isAmmo": [],
+        "ammo": [
+            "plasma"
+        ],
+        "craftedWith": {
+            "display": "23x module\n3x steel\n2x fiber_optics\n1x screw",
+            "materials": [
+                "module|23",
+                "steel|3",
+                "fiber_optics|2",
+                "screw|1"
+            ]
+        },
+        "recyclesTo": {
+            "display": "5x module\n2x fiber_optics",
+            "materials": [
+                "module|5",
+                "fiber_optics|2"
+            ]
+        },
+        "buy": "",
+        "sell": 22500,
+        "desc": "Uses electromagnetic force to blast a ball of plasma that vaporizes anything it touches.",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501195476775993355/Rail_Cannon.png",
+        "icon": "<:ultra_weapon:601370404069572634>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.15,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 6720
+        }
+    },
+    "ray_gun": {
+        "rarity": "Ultra",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "0-30",
+        "minDmg": 0,
+        "maxDmg": 30,
+        "isAmmo": [],
+        "ammo": [
+            "plasma"
+        ],
+        "craftedWith": {
+            "display": "20x module\n3x fiber_optics\n2x steel\n2x adhesive\n1x screw",
+            "materials": [
+                "module|20",
+                "fiber_optics|3",
+                "steel|2",
+                "adhesive|2",
+                "screw|1"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x module\n3x fiber_optics",
+            "materials": [
+                "module|1",
+                "fiber_optics|3"
+            ]
+        },
+        "buy": "",
+        "sell": 20000,
+        "desc": "A lightweight particle-beam weapon that disintegrates targets on contact.",
+        "image": "",
+        "icon": "<:ultra_weapon:601370404069572634>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.13,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 6034
+        }
+    }
+}

@@ -1,23 +1,17 @@
 # Bot config file
-json/_config.json
+src/resources/config/config.json
 
 # Trivia json to prevent cheating
-json/_trivia_questions.json
+src/resources/json/trivia_questions.json
 
 # Scramble json to prevent cheating
-json/scramble_words.json
+src/resources/json/scramble_words.json
 
 # Data file
 *.sqlite
 
 # sqlite3 exe
 sqlite3.exe
-
-# Level XP file
-Level_EXP.txt
-
-#Secret codes
-StartingTheGameCodes.txt
 
 # Logs
 logs

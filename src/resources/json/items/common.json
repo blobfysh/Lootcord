@@ -1,0 +1,363 @@
+{
+    "rock": {
+        "rarity": "Common",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "5-10",
+        "minDmg": 5,
+        "maxDmg": 10,
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 125,
+        "desc": "It's a rock.",
+        "image": "",
+        "icon": "<:melee:601323077745246219>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 445
+        }
+    },
+    "baseball": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 12,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "bat"
+        ],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 500,
+        "desc": "Use with weapon.",
+        "image": "",
+        "icon": "<:ammo:601323077569347584>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "item_box": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 1500,
+            "currency": "money"
+        },
+        "sell": 300,
+        "desc": "Use this to get a random item!\nCan drop items up to Legendary quality.",
+        "image": "https://cdn.discordapp.com/attachments/454163538886524928/499746695370768408/thanbox_emptysmall.png",
+        "icon": "<:common_box:601415564564627467>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "45": {
+                "xp": 10,
+                "items": [
+                    "club|1",
+                    "fish|1",
+                    "fork|1",
+                    "rock|1",
+                    "stick|1"
+                ]
+            },
+            "35": {
+                "xp": 15,
+                "items": [
+                    "bat|1",
+                    "golf_club|1",
+                    "pills|1",
+                    "steel|1",
+                    "sword|1",
+                    "baseball|1",
+                    "spear|1",
+                    "grenade|1"
+                ]
+            },
+            "15": {
+                "xp": 30,
+                "items": [
+                    "health_pot|1",
+                    "screw|1",
+                    "xp_potion|1",
+                    "bow|1",
+                    "9mm_fmj|1",
+                    ".45_fmj|1",
+                    ".44_fmj|1"
+                ]
+            },
+            "3": {
+                "xp": 50,
+                "items": [
+                    "pistol_body|1",
+                    "crossbow|1",
+                    "gunpowder|1",
+                    "12g_buckshot|1"
+                ]
+            },
+            "1.5": {
+                "xp": 50,
+                "items": [
+                    "glock|1",
+                    "adhesive|1",
+                    "9mm_ps|1"
+                ]
+            },
+            "0.5": {
+                "xp": 80,
+                "items": [
+                    "peck_seed|1",
+                    "fiber_optics|1",
+                    "spas|1",
+                    "7.62_fmj|1",
+                    ".45_ap|1"
+                ]
+            }
+        }
+    },
+    "fork": {
+        "rarity": "Common",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "4-9",
+        "minDmg": 4,
+        "maxDmg": 9,
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 100,
+        "desc": "What you gonna do with that?",
+        "image": "https://cdn.discordapp.com/attachments/454163538886524928/555082708028751872/lootcordFork.png",
+        "icon": "<:melee:601323077745246219>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 420
+        }
+    },
+    "stick": {
+        "rarity": "Common",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "3-6",
+        "minDmg": 3,
+        "maxDmg": 6,
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 100,
+        "desc": "It fell off a tree.",
+        "image": "https://cdn.discordapp.com/attachments/454163538886524928/543899419276214277/455435423200575500.png",
+        "icon": "<:melee:601323077745246219>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "15 minutes",
+            "scoreRow": "_15mCD",
+            "seconds": 354
+        }
+    },
+    "club": {
+        "rarity": "Common",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "6-11",
+        "minDmg": 6,
+        "maxDmg": 11,
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 150,
+        "desc": "ME ATTACK!",
+        "image": "https://cdn.discordapp.com/attachments/454163538886524928/555082704555868160/lootcordClub.png",
+        "icon": "<:melee:601323077745246219>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 458
+        }
+    },
+    "fish": {
+        "rarity": "Common",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "5-11",
+        "minDmg": 5,
+        "maxDmg": 11,
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 125,
+        "desc": "Slap them I guess?",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501129543340261398/Fish_AI.png",
+        "icon": "<:melee:601323077745246219>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 442
+        }
+    },
+    "arrow": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 9,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "bow",
+            "crossbow"
+        ],
+        "ammo": "",
+        "craftedWith": {
+            "display": "1x rock\n1x stick\n1x cloth",
+            "materials": [
+                "rock|1",
+                "stick|1",
+                "cloth|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 250,
+        "desc": "Use with weapon",
+        "image": "https://cdn.discordapp.com/attachments/454163538886524928/501139012912676889/arrow.png",
+        "icon": "<:ammo:601323077569347584>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "wood": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 50,
+        "desc": "Basic resource used for crafting many items.",
+        "image": "",
+        "icon": "<:material:601323077359370251>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "wood_bundle": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "5x wood",
+            "materials": [
+                "wood|5"
+            ]
+        },
+        "recyclesTo": {
+            "display": "5x wood",
+            "materials": [
+                "wood|5"
+            ]
+        },
+        "buy": "",
+        "sell": 250,
+        "desc": "Bundle of 5 `wood`. Good for saving inventory space!",
+        "image": "",
+        "icon": "<:material:601323077359370251>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
+    },
+    "sushi": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 5,
+        "healMax": 9,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "2x fish",
+            "materials": [
+                "fish|2"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 225,
+        "desc": "Hearty roll of rice and fish.\n\nUse this to restore `5-9` HP!",
+        "image": "",
+        "icon": "<:usable:601323078038847488>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 366
+        }
+    },
+    "recruit": {
+        "rarity": "Common",
+        "isBanner": true,
+        "bannerColor": 720640,
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "1x module",
+            "materials": [
+                "module|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 100,
+        "desc": "Given when you create an account! Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971708585050133/pixelbnner.png",
+        "equippable": true,
+        "icon": "<:banner:601323077581799434>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": ""
+    }
+}
