@@ -50,7 +50,7 @@ class Lootcord extends Base {
         this.common = new Common(this);
         this.react = new Reactor(icons);
         this.msgCollector = new MessageCollector(this);
-        this.discoin = new Discoin(this);
+        this.discoin = new Discoin(config);
         this.messager = new Messager(this);
         this.cd = new Cooldowns(this);
         this.itm = new Items(this);

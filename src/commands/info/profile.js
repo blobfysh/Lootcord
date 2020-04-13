@@ -35,7 +35,7 @@ module.exports = {
                 return message.reply(`❌ The person you're trying to search doesn't have an account!`);
             }
 
-            const banners    = await app.itm.getUserItems(message.author.id, { onlyBanners: true });
+            const banners    = await app.itm.getUserItems(member.id, { onlyBanners: true });
             const badges     = await app.itm.getBadges(member.id);
             const xp         = app.common.calculateXP(userRow.points, userRow.level);
             

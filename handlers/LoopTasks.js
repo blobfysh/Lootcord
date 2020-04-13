@@ -25,10 +25,11 @@ class LoopTasks {
                     const result = await axios({
                         method: 'POST',
                         headers: {
-                            Authorization: botList.token
+                            'Authorization': botList.token,
+                            'Content-Type': 'application/json'
                         },
                         data: {
-                            server_count: stats.guilds
+                            'server_count': stats.guilds
                         },
                         url: botList.url,
                     });
@@ -37,11 +38,11 @@ class LoopTasks {
                     const result = await axios({
                         method: 'POST',
                         headers: {
-                            Authorization: botList.token
+                            'Authorization': botList.token,
+                            'Content-Type': 'application/json'
                         },
                         data: {
-                            guilds: stats.guilds,
-                            users: stats.users
+                            'guildCount': stats.guilds
                         },
                         url: botList.url,
                     });

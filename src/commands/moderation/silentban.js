@@ -7,7 +7,7 @@ module.exports = {
     args: {
         "User ID": "ID of user to ban."
     },
-    examples: ["ban 168958344361541633"],
+    examples: ["silentban 168958344361541633"],
     ignoreHelp: false,
     requiresAcc: false,
     requiresActive: false,
