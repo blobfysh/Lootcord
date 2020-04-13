@@ -24,10 +24,10 @@ module.exports = {
 
         const clanRows = await app.query(`SELECT DISTINCT clans.name FROM (
             SELECT scores.clanId
-            FROM userguilds
+            FROM userGuilds
             INNER JOIN scores
-            ON userguilds.userId = scores.userId
-            WHERE userguilds.guildId = ${message.guild.id}
+            ON userGuilds.userId = scores.userId
+            WHERE userGuilds.guildId = ${message.guild.id}
         ) c
         INNER JOIN clans
         ON c.clanId = clans.clanId`);
@@ -53,13 +53,19 @@ module.exports = {
 
             for(let i = 1; i < maxPage + 1; i++){
                 // create each page for pagination
-                pages.push(getEmbedPage(app, guildUsers, clans, i, usersPerPage).setThumbnail(message.guild.iconURL));
+                let page = getEmbedPage(app, guildUsers, clans, i, usersPerPage);
+
+                if(message.guild.iconURL) page.setThumbnail(message.guild.iconURL);
+                pages.push(page);
             }
             
             app.react.paginate(message, pages);
         }
         else{
-            message.channel.createMessage(getEmbedPage(app, guildUsers, clans, 1, usersPerPage).setThumbnail(message.guild.iconURL));
+            let page = getEmbedPage(app, guildUsers, clans, 1, usersPerPage);
+
+            if(message.guild.iconURL) page.setThumbnail(message.guild.iconURL);
+            message.channel.createMessage(page);
         }
     },
 }

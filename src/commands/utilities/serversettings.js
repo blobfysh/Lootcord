@@ -21,7 +21,6 @@ module.exports = {
         
         const settings = new app.Embed()
         .setTitle('Settings for: ' + message.guild.name)
-        .setThumbnail(message.guild.iconURL)
         .setDescription('Changing these settings requires that you have the `Manage Server` permission.')
         .addField('Prefix\n(Change with `setprefix`)', prefixRow ? prefixRow.prefix : app.config.prefix)
         .addField(`Killfeed Channel\n${killfeedStr}`, message.guild.channels.get(guildRow.killChan) ? message.guild.channels.get(guildRow.killChan).mention : 'None set')
@@ -29,6 +28,7 @@ module.exports = {
         .addField('Attack Mode\n(Change with `togglerandomattacks`)', guildRow.randomOnly ? 'Random only' : 'Selectable')
         .addField(`Airdrop Channel\n${airdropChan}`, message.guild.channels.get(guildRow.dropChan) ? message.guild.channels.get(guildRow.dropChan).mention : 'None set')
 
+        if(message.guild.iconURL) settings.setThumbnail(message.guild.iconURL);
         message.channel.createMessage(settings);
     },
 }

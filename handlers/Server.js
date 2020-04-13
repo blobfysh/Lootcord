@@ -42,7 +42,8 @@ class Server {
     }
 
     async _handlePatron(req, res){
-        if(this.config.serverAuth !== req.headers.authorization) return res.status(403).send('Unauthorized');
+        // wow ko-fi doesn't support authorization headers...
+        //if(this.config.serverAuth !== req.headers.authorization) return res.status(403).send('Unauthorized');
 
         if(req.body.data){
             this.sharder.sendTo(0, {

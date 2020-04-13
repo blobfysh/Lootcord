@@ -80,12 +80,13 @@ module.exports = {
 
             const embedLeader = new app.Embed() 
             .setTitle(`Server Leaderboard`)
-            .setThumbnail(message.guild.iconURL)
             .setColor(13215302)
             .addField("Money", leaders.join('\n'))
             .addField("Level", levelLeaders.join('\n'))
             .addField("Kills", killLeaders.join('\n'))
             .setFooter("Top " + leaders.length)
+
+            if(message.guild.iconURL) embedLeader.setThumbnail(message.guild.iconURL);
             message.channel.createMessage(embedLeader);
         }
     },
