@@ -50,7 +50,7 @@ module.exports = {
             }
             const bmEmbed = new app.Embed()
             .setTitle('List an item on the Black Market')
-            .addField('Item:', itemName)
+            .addField('Item:', app.itemdata[itemName].icon + '`' + itemName + '`')
             .addField('Quantity:', itemAmnt)
             .addField('Price:', itemCost)
             .setColor(13215302)
@@ -73,7 +73,7 @@ module.exports = {
 
                     let listingId = await listItem(app, message, itemName, itemAmnt, itemCost);
 
-                    return botMessage.edit(`Success! Your \`${itemName}\` was listed with the ID: \`${listingId}\`.`, {embed: null});
+                    return botMessage.edit(`Success! Your ${app.itemdata[itemName].icon}\`${itemName}\` was listed with the ID: \`${listingId}\`.`, {embed: null});
                 }
                 else{
                     botMessage.delete();

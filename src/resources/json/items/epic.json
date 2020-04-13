@@ -452,14 +452,14 @@
                     "grenade|1",
                     "12g_buckshot|1",
                     "5.56_fmj|1",
-                    "7.62_fmj|1",
+                    "glock|1",
                     ".44_fmj|1"
                 ]
             },
             "10": {
                 "xp": 50,
                 "items": [
-                    "glock|1",
+                    "7.62_fmj|1",
                     "iron_shield|1",
                     "adhesive|1",
                     "smg_body|1",

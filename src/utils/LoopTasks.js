@@ -40,16 +40,16 @@ class LoopTasks {
         }
 
         // remove 1 power each day for players inactve over a month, down to minimum of 0
-        this.mysql.query(`UPDATE scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 30 DAY`);
+        this.app.query(`UPDATE scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 30 DAY`);
 
         // remove old logs
-        this.mysql.query(`DELETE FROM clan_logs WHERE logDate < NOW() - INTERVAL 30 DAY`);
+        this.app.query(`DELETE FROM clan_logs WHERE logDate < NOW() - INTERVAL 30 DAY`);
 
         // remove old transactions
-        this.mysql.query(`DELETE FROM transactions WHERE date < NOW() - INTERVAL 30 DAY`);
+        this.app.query(`DELETE FROM transactions WHERE date < NOW() - INTERVAL 30 DAY`);
 
         // auto-deactivate players who have not played for 30 days
-        this.mysql.query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 30 DAY`);
+        this.app.query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 30 DAY`);
     }
 
     async biHourlyTasks(){
@@ -144,7 +144,7 @@ class LoopTasks {
                 logTransactions.push(logEmbed);
             }
     
-            this.app.messager.messageLogs(logTransactions);
+            if(logTransactions.length) this.app.messager.messageLogs(logTransactions);
             console.log('[DISCOIN] Successfully handled ' + unhandled.data.length + ' transactions.');
         }
         catch(err){

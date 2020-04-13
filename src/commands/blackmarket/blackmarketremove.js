@@ -28,7 +28,7 @@ module.exports = {
             else{
                 await app.query(`DELETE FROM blackmarket WHERE listingId = '${listing.listingId}'`);
                 await app.itm.addItem(message.author.id, listing.item, listing.amount);
-                message.reply(`Successfully removed (\`${listing.listingId}\`) **${listing.amount}x** \`${listing.item}\` from the Black Market. You can find them in your inventory.`);
+                message.reply(`Successfully removed (\`${listing.listingId}\`) **${listing.amount}x** ${app.itemdata[listing.item].icon}\`${listing.item}\` from the Black Market. You can find them in your inventory.`);
             }
         }
         else{
