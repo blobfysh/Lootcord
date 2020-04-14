@@ -8,7 +8,7 @@ module.exports = {
     examples: [],
     ignoreHelp: false,
     requiresAcc: true,
-    requiresActive: true,
+    requiresActive: false,
     guildModsOnly: false,
     
     async execute(app, message){
@@ -81,9 +81,9 @@ module.exports = {
             const embedLeader = new app.Embed() 
             .setTitle(`Server Leaderboard`)
             .setColor(13215302)
-            .addField("Money", leaders.join('\n'))
-            .addField("Level", levelLeaders.join('\n'))
-            .addField("Kills", killLeaders.join('\n'))
+            .addField("Money", leaders.length ? leaders.join('\n') : 'Noone?!')
+            .addField("Level", levelLeaders.length ? levelLeaders.join('\n') : 'Noone :(')
+            .addField("Kills", killLeaders.length ? killLeaders.join('\n') : 'Where is everyone?!')
             .setFooter("Top " + leaders.length)
 
             if(message.guild.iconURL) embedLeader.setThumbnail(message.guild.iconURL);
