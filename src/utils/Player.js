@@ -198,8 +198,8 @@ class Player {
                     await this.app.itm.addItem(message.author.id, 'ultra_box', 1);
                 }
                 else{
-                    levelItem = `2x ${this.app.itemdata['item_box'].icon}\`item_box\``;
-                    await this.app.itm.addItem(message.author.id, 'item_box', 2);
+                    levelItem = `1x ${this.app.itemdata['item_box'].icon}\`item_box\``;
+                    await this.app.itm.addItem(message.author.id, 'item_box', 1);
                 }
 
                 if(row.level + 1 >= 5){
