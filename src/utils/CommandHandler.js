@@ -151,8 +151,10 @@ class CommandHandler {
         let botPerms = message.channel.permissionsOf(this.app.bot.user.id);
         let neededPerms = [];
 
-        for(var perm of this.app.config.requiredPerms){
-            if(!botPerms.has(perm)) neededPerms.push(perm);
+        for(let perm of Object.keys(this.app.config.requiredPerms)){
+            if(!botPerms.has(perm)){
+                neededPerms.push(this.app.config.requiredPerms[perm]);
+            }
         }
 
         if(neededPerms.length) {

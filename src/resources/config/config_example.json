@@ -17,7 +17,15 @@
   "baseInvSlots":      15,
   "clanInterestRate":  0.005,
   "adminUsers":        ["168958344361541633"],
-  "requiredPerms":     ["sendMessages", "addReactions", "manageMessages", "embedLinks", "attachFiles", "externalEmojis", "readMessageHistory"],
+  "requiredPerms":     {
+    "sendMessages": "Send Messages", 
+    "addReactions": "Add Reactions", 
+    "manageMessages": "Manage Messages", 
+    "embedLinks": "Embed Links", 
+    "attachFiles": "Attach Files", 
+    "externalEmojis": "Use External Emoji", 
+    "readMessageHistory": "Read Message History"
+  },
   "ignoreLvlMessages": [],
   "activeRoleGuilds": {},
   "webhooks": {
