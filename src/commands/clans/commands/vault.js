@@ -63,7 +63,7 @@ async function getVaultInfo(app, clanId){
     .setDescription(clanRow.status !== '' ? clanRow.status : 'This clan is too mysterious for a status...')
     
     if(clanRow.iconURL){
-        clanEmbed.setThumbnail(clanRow.iconURL)
+        embedInfo.setThumbnail(clanRow.iconURL)
     }
 
     if(ultraItemList != ""){

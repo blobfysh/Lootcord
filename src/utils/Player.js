@@ -23,10 +23,14 @@ class Player {
         return (await this.app.query(`SELECT * FROM scores WHERE userId = ? AND userId > 0`, [id]))[0];
     }
 
-    async createAccount(id){
+    async createAccount(id, guild = undefined){
         await this.app.query(insertScoreSQL, [id, (new Date()).getTime(), 100, 1, 100, 100, 1.00, 'none', 'none', 'none', 'none']);
         await this.app.itm.addItem(id, 'item_box', 1);
 
+        if(guild && !(await this.app.query(`SELECT * FROM guildInfo WHERE guildId = ${guild}`)).length){
+            await this.app.query(`INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItemChan, dropItem, randomOnly) VALUES (${guild}, 0, 0, 0, 0, '', 0)`);
+        }
+        
         const newPlayer = new this.app.Embed()
         .setTitle('Thanks for joining Lootcord!')
         .setColor(13215302)

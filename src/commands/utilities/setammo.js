@@ -14,7 +14,7 @@ module.exports = {
     async execute(app, message){
         let equipItem = app.parse.items(message.args)[0];
 
-        if(message.args[0].toLowerCase() == 'none'){
+        if(message.args[0] && message.args[0].toLowerCase() === 'none'){
             await app.query(`UPDATE scores SET ammo = 'none' WHERE userId = ${message.author.id}`);
 
             return message.reply(`✅ Successfully cleared your preferred ammo type. (Best ammo available will be used.)`);

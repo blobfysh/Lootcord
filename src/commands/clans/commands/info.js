@@ -59,7 +59,7 @@ async function getClanInfo(app, userId, clanId){
         const clanUserRow = await app.player.getRow(clanMembers.memberIds[i]);
 
         if(clanUser.id == userId){
-            membersRanksList.push(['** ->' + app.clan_ranks[clanUserRow.clanRank].title + ' ' + app.player.getBadge(clanUserRow.badge) + ' ' + (`${clanUser.username}#${clanUser.discriminator}`) + '**', clanUserRow.clanRank]);
+            membersRanksList.push(['** >' + app.clan_ranks[clanUserRow.clanRank].title + ' ' + app.player.getBadge(clanUserRow.badge) + ' ' + (`${clanUser.username}#${clanUser.discriminator}`) + '**', clanUserRow.clanRank]);
         }
         else{
             if(app.clan_ranks[clanUserRow.clanRank].title == 'Leader'){

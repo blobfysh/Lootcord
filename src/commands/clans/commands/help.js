@@ -40,7 +40,7 @@ module.exports = {
         const helpEmbed = new app.Embed()
         .setTitle('Clan help')
         .setColor(13215302)
-        .setDescription('Check out this page for specific help: [Clans Wiki](https://github.com/blobfysh/Lootcord/wiki/Clans)')
+        .setDescription('Check out this page for specific help: [Clans Wiki](https://github.com/blobfysh/Lootcord/wiki/Clans)\nTo use a clan command: `clan <command>`')
         .addField('Information', commands.join('\n'))
         .setFooter('To see more about a clan command, use t-clan help <command>')
 
