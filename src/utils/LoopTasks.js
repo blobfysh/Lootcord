@@ -1,5 +1,11 @@
 const CronJob = require('cron').CronJob;
-const STATUS_LIST = ["Looting {users} players", "{users} loot goblins", "{guilds} servers!", "Join the discord!", "lootcord.com 👀"];
+const STATUS_LIST = [
+    "Looting {users} players", 
+    "{users} loot goblins", 
+    "{guilds} servers!", 
+    "Join the discord!", 
+    "lootcord.com 👀"
+];
 
 class LoopTasks {
     constructor(app){

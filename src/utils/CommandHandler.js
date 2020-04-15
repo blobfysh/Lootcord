@@ -159,7 +159,7 @@ class CommandHandler {
 
         if(neededPerms.length) {
             let permsString = neededPerms.map((perm) => neededPerms.length > 1 && neededPerms.indexOf(perm) == (neededPerms.length - 1) ? 'or `' + perm + '`': '`' + perm + '`').join(', ');
-            if(!neededPerms.includes("sendMessages")) message.channel.createMessage(`I don't have permission to ${permsString}... Please reinvite me or give me those permissions :(`);
+            if(!neededPerms.includes("Send Messages")) message.channel.createMessage(`I don't have permission to ${permsString}... Please reinvite me or give me those permissions :(`);
             return false;
         }
         else return true;
