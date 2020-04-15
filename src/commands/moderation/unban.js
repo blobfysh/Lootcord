@@ -46,7 +46,7 @@ module.exports = {
                     await app.query(`DELETE FROM banned WHERE userId ="${userID}"`);
                     await app.cd.clearCD(userID, 'banned');
 
-                    app.common.messageUser(userID, banMsg, { throwErr: true });
+                    await app.common.messageUser(userID, banMsg, { throwErr: true });
                     botMessage.edit(`Successfully unbanned **${user.username}#${user.discriminator}**.`);
                 }
                 catch(err){

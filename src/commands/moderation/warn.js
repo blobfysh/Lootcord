@@ -48,7 +48,7 @@ module.exports = {
 
                 try{
                     await app.query("INSERT INTO warnings (userId, modId, reason, date) VALUES (?, ?, ?, ?)", [userID, message.author.id, messageIn, (new Date()).getTime()]);
-                    app.common.messageUser(userID, warnMsg, { throwErr: true });
+                    await app.common.messageUser(userID, warnMsg, { throwErr: true });
                     botMessage.edit(`Successfully warned **${user.username}#${user.discriminator}**.`);
                 }
                 catch(err){

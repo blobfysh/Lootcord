@@ -12,18 +12,18 @@ class Messager {
      * @param {{content: string, embed: DiscordEmbed}} message Message object to send
      * @param {{ping: boolean}} options Ping will ping the moderators to notify of message
      */
-    messageMods(message, options = { ping: false }){
+    async messageMods(message, options = { ping: false }){
         try{
             if(options.ping){
                 message.content = `<@&${this.modRoleID}>, ` + (message.content ? message.content : '');
-                this.app.bot.createMessage(this.modChannel, message);
+                await this.app.bot.createMessage(this.modChannel, message);
             }
             else{
-                this.app.bot.createMessage(this.modChannel, message);
+                await this.app.bot.createMessage(this.modChannel, message);
             }
         }
         catch(err){
-            console.log(err);
+            console.warn('[MESSAGER] Failed to message moderators');
         }
     }
 

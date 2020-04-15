@@ -149,7 +149,7 @@ class Common {
         try{
             let user = await this.fetchUser(id, { cacheIPC: true });
             let dm = await user.getDMChannel();
-            dm.createMessage(message);
+            await dm.createMessage(message);
         }
         catch(err){
             console.warn('[COMMON] Failed to send message to user: ' + id);

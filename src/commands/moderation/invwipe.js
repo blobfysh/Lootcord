@@ -62,7 +62,7 @@ module.exports = {
         
                 try{
                     app.messager.messageLogs(logMsg);
-                    app.common.messageUser(userID, invWipeMsg, { throwErr: true });
+                    await app.common.messageUser(userID, invWipeMsg, { throwErr: true });
 
                     botMessage.edit(`Successfully wiped **${user.username}#${user.discriminator}**.`);
                 }

@@ -70,7 +70,7 @@ exports.handle = async function({ data }){
         }
     
         try{
-            this.common.messageUser(user, patronEmbed, { throwErr: true });
+            await this.common.messageUser(user, patronEmbed, { throwErr: true });
 
             donateEmbed.addField('User', '```fix\n' + userObj.username + '#' + userObj.discriminator + '\nID: ' + user + '```', true)
             donateEmbed.addField('Months', '```\n' + months + '```', true)

@@ -35,7 +35,7 @@ module.exports = {
             await app.cache.setNoExpire(`mod|${userID}`, 'Moderator');
             await app.query("INSERT INTO mods (userId) VALUES (?)", [userID]);
             
-            app.common.messageUser(userID, modMsg, { throwErr: true });
+            await app.common.messageUser(userID, modMsg, { throwErr: true });
 
             message.reply(`Successfully modded **${user.username}#${user.discriminator}**!`);
         }

@@ -26,14 +26,10 @@ exports.handle = async function({ vote }){
     await this.cd.setCD(vote.user, 'vote', 43200 * 1000);
     await this.query(`UPDATE scores SET voteCounter = voteCounter + 1 WHERE userId = ${vote.user}`);
 
-    try{
-        this.common.messageUser(vote.user, {
-            content: '**Thanks for voting!**\n' + itemReward,
-            embed: getCounterEmbed(this, account.voteCounter + 1).embed
-        });
-    }
-    catch(err){
-    }
+    this.common.messageUser(vote.user, {
+        content: '**Thanks for voting!**\n' + itemReward,
+        embed: getCounterEmbed(this, account.voteCounter + 1).embed
+    });
 }
 
 function getCounterEmbed(app, counterVal){

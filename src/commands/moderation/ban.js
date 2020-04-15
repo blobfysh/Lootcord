@@ -50,7 +50,7 @@ module.exports = {
                     await app.query("INSERT INTO banned (userId, reason, date) VALUES (?, ?, ?)", [userID, messageIn, (new Date()).getTime()]);
                     await app.cache.setNoExpire(`banned|${userID}`, 'Banned perma');
 
-                    app.common.messageUser(userID, banMsg, { throwErr: true });
+                    await app.common.messageUser(userID, banMsg, { throwErr: true });
                     botMessage.edit(`Successfully banned **${user.username}#${user.discriminator}**.`);
                 }
                 catch(err){

@@ -49,7 +49,7 @@ module.exports = {
         }
 
         try{
-            app.common.messageUser(userID, userMsg, { throwErr: true });
+            await app.common.messageUser(userID, userMsg, { throwErr: true });
 
             message.reply(`📨 Message sent to **${user.username}#${user.discriminator}**!`);
         }
