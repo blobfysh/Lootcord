@@ -30,6 +30,15 @@ module.exports = {
             await app.query(`UPDATE scores SET status = ? WHERE userId = ?`, [statusToSet, message.author.id]);
 
             message.reply('✅ Successfully set status to: ' + statusToSet);
+
+            const logEmbed = new app.Embed()
+            .setTitle('Modified Status')
+            .setThumbnail(message.author.avatarURL)
+            .setDescription(`${message.author.tag} ID: \`\`\`\n${message.author.id}\`\`\``)
+            .addField('Status Changed', statusToSet)
+            .setColor('#8C8C8C')
+            .setFooter('Make sure status does not violate TOS or is vulgar')
+            app.messager.messageLogs(logEmbed);
         }
         catch(err){
             message.reply('❌ There was an error trying to modify your status.');

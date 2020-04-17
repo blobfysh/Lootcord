@@ -163,13 +163,13 @@ class Lootcord extends Base {
         this.ipc.register('vote', voteHandler.handle.bind(this));
         this.ipc.register('donation', patronHandler.handle.bind(this));
 
-        this.ipc.register('addPatronRole', (msg) => {
+        this.ipc.register('addPatronRole', async (msg) => {
             const guild = this.bot.guilds.get(msg.guildId);
             if(guild){
                 const member = guild.members.get(msg.userId);
 
                 try{
-                    if(member) member.addRole(this.config.tier1PatronRoleID);
+                    if(member) await member.addRole(this.config.tier1PatronRoleID);
                 }
                 catch(err){
                     console.warn('Failed adding donator role.');
@@ -177,13 +177,13 @@ class Lootcord extends Base {
                 }
             }
         });
-        this.ipc.register('removePatronRole', (msg) => {
+        this.ipc.register('removePatronRole', async (msg) => {
             const guild = this.bot.guilds.get(msg.guildId);
             if(guild){
                 const member = guild.members.get(msg.userId);
 
                 try{
-                    if(member) member.removeRole(this.config.tier1PatronRoleID);
+                    if(member) await member.removeRole(this.config.tier1PatronRoleID);
                 }
                 catch(err){
                     console.warn('Failed removing donator role.');

@@ -1,3 +1,4 @@
+const MEMBER_LIMIT = 20;
 
 module.exports = {
     name: 'invite',
@@ -26,8 +27,8 @@ module.exports = {
         else if(invitedScoreRow.clanId !== 0){
             return message.reply('❌ That user is already in a clan!');
         }
-        else if((await app.clans.getMembers(scoreRow.clanId)).count >= 20){
-            return message.reply('❌ Your clan has the max limit of members! (20/20)');
+        else if((await app.clans.getMembers(scoreRow.clanId)).count >= MEMBER_LIMIT){
+            return message.reply(`❌ Your clan has the max limit of members! (${MEMBER_LIMIT}/${MEMBER_LIMIT})`);
         }
 
         const botMessage = await message.channel.createMessage(`<@${user.id}>, ${message.member.effectiveName} invited you to join the clan: \`${clanRow.name}\`. Do you accept?`);
@@ -45,8 +46,8 @@ module.exports = {
                 else if(invitedScoreRow2.clanId !== 0){
                     return botMessage.edit(`<@${user.id}>, you are already in a clan!`);
                 }
-                else if(memberCount >= 20){
-                    return botMessage.edit('The clan has hit the max limit of members! (20/20)');
+                else if(memberCount >= MEMBER_LIMIT){
+                    return botMessage.edit(`The clan has hit the max limit of members! (${MEMBER_LIMIT}/${MEMBER_LIMIT})`);
                 }
 
                 await joinClan(app, user.id, clanRow.clanId);

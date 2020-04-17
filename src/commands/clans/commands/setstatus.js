@@ -30,6 +30,15 @@ module.exports = {
 
             app.clans.addLog(scoreRow.clanId, `${message.author.username} set the clan status to: ${statusToSet}`);
             message.reply('✅ Successfully set status to: ' + statusToSet);
+
+            const logEmbed = new app.Embed()
+            .setTitle('Modified Clan Status')
+            .setThumbnail(message.author.avatarURL)
+            .setDescription(`${message.author.tag} ID: \`\`\`\n${message.author.id}\`\`\`Clan ID:\`\`\`\n${scoreRow.clanId}\`\`\``)
+            .addField('Status Changed', statusToSet)
+            .setColor('#8E588E')
+            .setFooter('Make sure status does not violate TOS or is vulgar')
+            app.messager.messageLogs(logEmbed);
         }
         catch(err){
             message.reply('❌ There was an error trying to modify your status.');
