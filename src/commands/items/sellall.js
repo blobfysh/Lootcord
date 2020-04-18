@@ -22,7 +22,7 @@ module.exports = {
             // filter items by rarity and exclude banners
             let itemsToCheck = Object.keys(app.itemdata).filter(item => {
                 return app.itemdata[item].rarity.toLowerCase() === sellItem.toLowerCase() && !app.itemdata[item].isBanner
-            })
+            });
 
             if(itemsToCheck.length < 1){
                 return message.reply(`You need to enter a valid type to sell! \`${message.prefix}sellall <rarity>\``);
@@ -58,12 +58,14 @@ module.exports = {
                     
                     if(testTotalItems == totalAmount && testAmount == commonTotal){
                         //VERIFIED
+                        const row = await app.player.getRow(message.author.id);
+
                         for (var i = 0; i < itemsToCheck.length; i++) {
-                            if(itemRow2[itemsToCheck[i]] !== undefined) app.itm.removeItem(message.author.id, itemsToCheck[i], itemRow2[itemsToCheck[i]]);
+                            if(itemRow2[itemsToCheck[i]] !== undefined) await app.itm.removeItem(message.author.id, itemsToCheck[i], itemRow2[itemsToCheck[i]]);
                         }
                         await app.player.addMoney(message.author.id, parseInt(commonTotal));
 
-                        botMessage.edit(`Successfully sold all ${sellItem.toLowerCase()} items.`);
+                        botMessage.edit(`Successfully sold all ${sellItem.toLowerCase()} items.\n\nYou now have ${app.common.formatNumber(row.money + commonTotal)}.`);
                     }
                     else{
                         botMessage.edit('❌ Sellall failed. Your inventory was altered during the sale.');
@@ -99,7 +101,7 @@ module.exports = {
                 return message.reply("❌ You don't have any items you can sell.");
             }
 
-            const botMessage = await message.reply(`Sell ${totalAmount}x items for ${app.common.formatNumber(commonTotal)}?`.replace('{0}', totalAmount));
+            const botMessage = await message.reply(`Sell ${totalAmount}x items for ${app.common.formatNumber(commonTotal)}?`);
 
             try{
                 const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
@@ -118,11 +120,13 @@ module.exports = {
                     
                     if(testTotalItems == totalAmount && testAmount == commonTotal){
                         for (var i = 0; i < itemsToCheck.length; i++) {
-                            if(itemRow2[itemsToCheck[i]] !== undefined) app.itm.removeItem(message.author.id, itemsToCheck[i], itemRow2[itemsToCheck[i]]);
+                            if(itemRow2[itemsToCheck[i]] !== undefined) await app.itm.removeItem(message.author.id, itemsToCheck[i], itemRow2[itemsToCheck[i]]);
                         }
+                        const row = await app.player.getRow(message.author.id);
+
                         await app.player.addMoney(message.author.id, parseInt(commonTotal));
 
-                        botMessage.edit('Successfully sold all items.');
+                        botMessage.edit(`Successfully sold all items.\n\nYou now have ${app.common.formatNumber(row.money + commonTotal)}.`);
                     }
                     else{
                         botMessage.edit('❌ Sellall failed. Your inventory was altered during the sale.');

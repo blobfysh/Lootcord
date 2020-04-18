@@ -37,9 +37,11 @@ module.exports = {
                         const hasItems = await app.itm.hasItems(message.author.id, sellItem, sellAmount);
 
                         if(hasItems){
+                            const row = await app.player.getRow(message.author.id);
+
                             app.player.addMoney(message.author.id, parseInt(itemPrice * sellAmount));
                             app.itm.removeItem(message.author.id, sellItem, sellAmount);
-                            botMessage.edit(`Successfully sold ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(itemPrice * sellAmount)}.`);
+                            botMessage.edit(`Successfully sold ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(itemPrice * sellAmount)}.\n\nYou now have ${app.common.formatNumber(row.money + (itemPrice * sellAmount))}.`);
                         }
                         else{
                             botMessage.edit("❌ You don't have enough of that item!");

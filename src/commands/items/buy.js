@@ -18,9 +18,6 @@ module.exports = {
         let buyAmount = app.parse.numbers(message.args)[0] || 1;
         //let buyItem = app.parse.items(message.args)[0];
 
-        console.log(buyAmount);
-        console.log(buyItem);
-
         if(buyItem){
             let currency = app.itemdata[buyItem].buy.currency;
             let itemPrice = app.itemdata[buyItem].buy.amount;
@@ -48,10 +45,12 @@ module.exports = {
                             return botMessage.edit("❌ **You don't have enough space in your inventory!** You can clear up space by selling some items.");
                         }
 
+                        const row = await app.player.getRow(message.author.id);
+
                         await app.player.removeMoney(message.author.id, itemPrice * buyAmount);
                         await app.itm.addItem(message.author.id, buyItem, buyAmount);
 
-                        botMessage.edit(`Successfully bought ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\`!`);
+                        botMessage.edit(`Successfully bought ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\`!\n\nYou now have ${app.common.formatNumber(row.money - (itemPrice * buyAmount))}.`);
                     }
                     else{
                         botMessage.delete();
