@@ -10,7 +10,7 @@ module.exports = {
     minimumRank: 0,
     
     async execute(app, message, args){
-        const scoreRow = await app.player.getRow(message,author.id);
+        const scoreRow = await app.player.getRow(message.author.id);
         const clanRow = (await app.query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0];
 
         let leaveMsg = `Leave clan: \`${clanRow.name}\`?`;
