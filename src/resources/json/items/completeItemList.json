@@ -1780,7 +1780,7 @@
         "buy": "",
         "sell": 8000,
         "desc": "A supply drop that may infrequently land in your server after requesting them.\nCan only be looted by the first person to claim it.\nHas a high chance of containing legendary items.",
-        "image": "https://rustlabs.com/img/screenshots/supply-drop.png",
+        "image": "https://cdn.discordapp.com/attachments/542248243313246208/701448923612708864/9k.png",
         "icon": "<:epic_box:601415582126178304>",
         "breaksOnUse": "",
         "canBeStolen": true,

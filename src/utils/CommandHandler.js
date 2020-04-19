@@ -12,7 +12,7 @@ class CommandHandler {
 
         const args = message.content.slice(prefix.length).split(/ +/);
         const commandName = args.shift().toLowerCase();
-        const command = this.app.commands.get(commandName) || this.app.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+        const command = this.app.commands.get(commandName) || this.app.commands.find(cmd => cmd.aliases && cmd.aliases[0].length && cmd.aliases.includes(commandName));
 
         // no command was found
         if(!command) return;

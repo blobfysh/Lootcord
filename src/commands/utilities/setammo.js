@@ -22,7 +22,6 @@ module.exports = {
         else if(!equipItem){
             return message.reply("❌ I don't recognize that item.");
         }
-        //TODO make it check item type == 'ammo'
         else if(!app.itemdata[equipItem].isAmmo.length){
             return message.reply("❌ That isn't a type of ammunition.");
         }
