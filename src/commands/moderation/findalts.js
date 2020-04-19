@@ -1,0 +1,55 @@
+
+module.exports = {
+    name: 'findalts',
+    aliases: [''],
+    description: "Attempt to find alts of a user.",
+    long: "Attempt to find alts of a user.",
+    args: {
+        "User ID": "ID of user to check."
+    },
+    examples: ["findalts 168958344361541633"],
+    ignoreHelp: false,
+    requiresAcc: false,
+    requiresActive: false,
+    guildModsOnly: false,
+    
+    async execute(app, message){
+        let userID = message.args[0];
+
+        try{
+            const userInfo   = await app.common.fetchUser(userID, { cacheIPC: false });
+            const activeGuilds = await app.query(`SELECT * FROM userGuilds WHERE userId = '${userID}'`);
+
+            let userPool = {};
+
+            for(let guild of activeGuilds){
+                const guildPlayers = await app.query(`SELECT * FROM userGuilds WHERE guildId = '${guild.guildId}'`);
+
+                for(let player of guildPlayers){
+                    if(guildPlayers.length == 2){
+                        if(player.userId === userID) continue;
+                        if(!userPool[player.userId]) userPool[player.userId] = 0;
+                        
+                        userPool[player.userId] += 1;
+                    }
+                }
+            }
+
+
+            const alts = new app.Embed()
+            .setColor(13215302)
+            .setAuthor(`${userInfo.username}#${userInfo.discriminator}`)
+            .setTitle('Possible Alts')
+            .setThumbnail(app.common.getAvatar(userInfo))
+            
+            for(let user in userPool){
+                alts.addField(user, `This user is alone in ${userPool[user]} ${userPool[user] > 1 ? 'servers' : 'server'} with ${userInfo.username}`)
+            }
+            
+            message.channel.createMessage(alts);
+        }
+        catch(err){
+            message.reply('Error:```' + err + '```');
+        }
+    },
+}
