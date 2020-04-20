@@ -63,30 +63,6 @@ class LoopTasks {
         // remove 1 power for players inactve over a month, down to minimum of 0
         await this.app.query(`UPDATE scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 30 DAY`);
 
-        const patrons = await this.app.query(`SELECT * FROM cooldown WHERE type = 'patron'`);
-
-        for(let i = 0; i < patrons.length; i++){
-            if(!await this.app.cd.getCD(patrons[i].userId, 'patron')){
-                // remove patron items...
-                this.app.query(`DELETE FROM user_items WHERE userId = '${patrons[i].userId}' AND item = 'kofi_king'`);
-                this.app.query(`UPDATE scores SET banner = 'none' WHERE userId = '${patrons[i].userId}' AND banner = 'kofi_king'`);
-                this.app.ipc.broadcast('removePatronRole', { guildId: this.app.config.supportGuildID, userId: patrons[i].userId });
-                console.log(patrons[i].userId + ' lost patronage');
-
-                try{
-                    const donateEmbed = new this.Embed()
-                    .setTitle('Perks Ended')
-                    .setColor('#29ABE0')
-                    .setDescription(`\`${patrons[i].userId}\`'s donator perks expried.`)
-
-                    this.app.messager.messageLogs(donateEmbed);
-                }
-                catch(err){
-                    console.warn(err);
-                }
-            }
-        }
-
         // clean up cooldown table
         this.app.query(`DELETE FROM cooldown WHERE UNIX_TIMESTAMP() * 1000 > start + length`);
     }

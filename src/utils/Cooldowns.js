@@ -1,3 +1,4 @@
+const bt = require('big-time');
 
 class Cooldown {
     constructor(app){
@@ -13,12 +14,11 @@ class Cooldown {
      * @param {number} time Time in milliseconds cooldown lasts
      * @param {{ignoreQuery: boolean, patron: boolean}} options ignoreQuery is only used when bot starting up to prevent multiple table entries
      */
-    async setCD(userId, type, time, options = { ignoreQuery: false, patron: false }){
+    async setCD(userId, type, time, options = { ignoreQuery: false }){
         let key = `${type}|${userId}`;
         options.ignoreQuery = options.ignoreQuery || false;
-        options.patron = options.patron || false;
 
-        if(!options.patron && !options.ignoreQuery && await this.app.cache.get(key)) return false;
+        if(!options.ignoreQuery && await this.app.cache.get(key)) return false;
 
         let seconds = Math.round(time / 1000);
 
@@ -27,15 +27,33 @@ class Cooldown {
         
         // add cooldown to cooldown table for persistence (if server were to shut down, this table would be used to set cooldowns for all players)
         if(!options.ignoreQuery) await this.app.mysql.query(`INSERT INTO cooldown (userId, type, start, length) VALUES (?, ?, ?, ?)`, [userId, type, new Date().getTime(), time]);
-        
-        if(options.patron) return 'Success';
 
         let timeObj = {
             userId: userId, 
             type: type,
-            timer: setTimeout(() => {
+            timer: bt.setTimeout(() => {
                 console.log(`[COOLDOWNS] Deleted ${userId} from '${type}' cooldown`);
                 this.app.mysql.query(`DELETE FROM cooldown WHERE userId = ${userId} AND type = '${type}'`);
+
+                if(type === 'patron'){
+                    // do patron stuff
+                    this.app.mysql.query(`DELETE FROM user_items WHERE userId = '${userId}' AND item = 'kofi_king'`);
+                    this.app.mysql.query(`UPDATE scores SET banner = 'none' WHERE userId = '${userId}' AND banner = 'kofi_king'`);
+                    this.app.ipc.broadcast('removePatronRole', { guildId: this.app.config.supportGuildID, userId: userId });
+    
+                    try{
+                        const donateEmbed = new this.app.Embed()
+                        .setTitle('Perks Ended')
+                        .setColor(16734296)
+                        .setThumbnail('https://pbs.twimg.com/profile_images/1207570720034701314/dTLz6VR2_400x400.jpg')
+                        .setDescription(`\`${userId}\`'s donator perks expried.`)
+    
+                        this.app.messager.messageLogs(donateEmbed);
+                    }
+                    catch(err){
+                        console.warn(err);
+                    }
+                }
             }, seconds * 1000)
         };
 
@@ -70,7 +88,7 @@ class Cooldown {
         this.timers.forEach(obj => {
             if(obj.userId == userId && obj.type == type){
                 console.log('Successfully found timer and cleared it.');
-                clearTimeout(obj.timer);
+                bt.clearTimeout(obj.timer);
 
                 this.timers.splice(this.timers.indexOf(obj), 1);
             }

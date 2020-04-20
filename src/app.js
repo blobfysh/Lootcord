@@ -205,8 +205,7 @@ class Lootcord extends Base {
             if(cdInfo.userId !== undefined){
                 let timeLeft = (cdInfo.length) - ((new Date()).getTime() - cdInfo.start);
                 if(timeLeft > 0){
-                    if(cdInfo.type === 'patron') await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true, patron: true });
-                    else await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true });
+                    await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true });
                     
                     cdsAdded++;
                 }

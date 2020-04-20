@@ -60,13 +60,13 @@ exports.handle = async function({ data }){
             patronEmbed.setDescription(`Thank you for helping me create Lootcord!!\n\nYour premium perks were extended for \`${months} months\`!`);
     
             await this.query(`DELETE FROM cooldown WHERE userId = '${user}' AND type = 'patron'`);
-            await this.cd.setCD(user, 'patron', (MILLISECONDS_MONTH * months) + (patronRemaining * 1000), { patron: true });
+            await this.cd.setCD(user, 'patron', (MILLISECONDS_MONTH * months) + (patronRemaining * 1000));
         }
         else{
             this.itm.addItem(user, 'kofi_king', 1);
             this.ipc.broadcast('addPatronRole', { guildId: this.config.supportGuildID, userId: user });
             patronEmbed.setDescription(`Thank you for helping me create Lootcord!!\n\nYour account has been given premium perks for \`${months} months\`!`);
-            await this.cd.setCD(user, 'patron', MILLISECONDS_MONTH * months, { patron: true });
+            await this.cd.setCD(user, 'patron', MILLISECONDS_MONTH * months);
         }
     
         try{
