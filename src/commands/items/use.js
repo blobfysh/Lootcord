@@ -248,6 +248,7 @@ module.exports = {
                     }
                 }
                 catch(err){
+                    app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
                     return message.reply("❌ You don't have any ammo for that weapon!");
                 }
 
