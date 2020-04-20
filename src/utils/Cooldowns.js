@@ -104,7 +104,7 @@ class Cooldown {
 
     convertTime(ms){
         let remaining = ms;
-        let finalStr = '';
+        let finalStr = [];
 
         let rawDays = remaining / (1000 * 60 * 60 * 24);
         let days = Math.floor(rawDays);
@@ -121,18 +121,25 @@ class Cooldown {
         let seconds = Math.floor(remaining / 1000);
         
         if(days > 0){
-            finalStr += days == 1 ? days + ' day ' : days + ' days ';
+            finalStr.push(days == 1 ? days + ' day' : days + ' days');
         }
         if(hours > 0){
-            if(days > 0) return finalStr += rawHours.toFixed(1) + ' hours';
-            else finalStr += hours == 1 ? hours + ' hour ' : hours + ' hours ';
+            if(days > 0){
+                finalStr.push(rawHours.toFixed(1) + ' hours');
+                return finalStr.join(' ');
+            }
+            else finalStr.push(hours == 1 ? `${hours} hour` : `${hours} hours`);
         }
         if(minutes > 0){
-            if(hours > 0) return finalStr += rawMinutes.toFixed(1) + ' minutes';
-            else finalStr += minutes == 1 ? minutes + ' minute ' : minutes + ' minutes ';
+            if(hours > 0){
+                finalStr.push(rawMinutes.toFixed(1) + ' minutes');
+                return finalStr.join(' ');
+            }
+            else finalStr.push(minutes == 1 ? `${minutes} minute` : `${minutes} minutes`);
         }
 
-        return finalStr += seconds == 1 ? seconds + ' second' : seconds + ' seconds';
+        if(seconds !== 0) finalStr.push(seconds == 1 ? `${seconds} second` : `${seconds} seconds`);
+        return finalStr.join(' ');
     }
 }
 
