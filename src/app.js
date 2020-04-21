@@ -20,6 +20,7 @@ const Messager         = require('./utils/Messager');
 const Common           = require('./utils/Common');
 const Leaderboard      = require('./utils/Leaderboard');
 const Airdrop          = require('./utils/Airdrop');
+const Monsters         = require('./utils/Monsters');
 const MessageCollector = require('./utils/MessageCollector');
 const BlackMarket      = require('./utils/BlackMarket');
 const Clans            = require('./utils/Clans');
@@ -39,6 +40,7 @@ class Lootcord extends Base {
         this.icons = icons;
         this.itemdata = require('./resources/json/items/completeItemList');
         this.badgedata = require('./resources/json/badges');
+        this.mobdata = require('./resources/json/monsters');
         this.clan_ranks = require('./resources/json/clan_ranks');
         this.trivia_questions = require('./resources/json/trivia_questions');
         this.scramble_words = require('./resources/json/scramble_words');
@@ -61,6 +63,7 @@ class Lootcord extends Base {
         this.parse = new ArgParser(this);
         this.Embed = Embed.DiscordEmbed;
         this.airdrop = new Airdrop(this);
+        this.monsters = new Monsters(this);
         this.loopTasks = new LoopTasks(this);
         this.commandHandler = new CommandHandler(this);
     }
@@ -76,6 +79,7 @@ class Lootcord extends Base {
             await this.refreshCooldowns();
             await this.refreshLists();
             await this.startAirdrops();
+            await this.startSpawns();
         }
 
         this.bot.editStatus('online', {
@@ -205,9 +209,26 @@ class Lootcord extends Base {
             if(cdInfo.userId !== undefined){
                 let timeLeft = (cdInfo.length) - ((new Date()).getTime() - cdInfo.start);
                 if(timeLeft > 0){
-                    await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true });
+                    let callback = undefined;
+                    if(cdInfo.type === 'mob'){
+                        callback = () => {
+                            this.monsters.onFinished(cdInfo.userId);
+                        }
+                    }
+                    else if(cdInfo.type === 'mobHalf'){
+                        callback = () => {
+                            this.monsters.onHalf(cdInfo.userId);
+                        }
+                    }
+                    
+                    await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true }, callback);
                     
                     cdsAdded++;
+                }
+                else if(cdInfo.type === 'mob'){
+                    // delete mob
+                    await this.query(`DELETE FROM cooldown WHERE userId = '${cdInfo.userId}' AND type = '${cdInfo.type}'`);
+                    await this.query(`DELETE FROM spawns WHERE channelId = ?`, [cdInfo.userId]);
                 }
             }
         }
@@ -246,8 +267,16 @@ class Lootcord extends Base {
 
         for(let i = 0; i < airdropRows.length; i++){
             if(airdropRows[i].guildId !== undefined && airdropRows[i].guildId !== null && airdropRows[i].dropChan !== 0){
-                await this.airdrop.initAirdrop(airdropRows[i].guildId);
+                this.airdrop.initAirdrop(airdropRows[i].guildId);
             }
+        }
+    }
+
+    async startSpawns(){
+        const spawnChannels = await this.query(`SELECT * FROM spawnChannels`);
+
+        for(let i = 0; i < spawnChannels.length; i++){
+            await this.monsters.initSpawn(spawnChannels[i].channelId);
         }
     }
 }

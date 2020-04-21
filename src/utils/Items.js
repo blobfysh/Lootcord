@@ -470,6 +470,16 @@ class Items {
 
         return 0;
     }
+
+    getDisplay(itemList){
+        let items = [];
+        
+        for(let i = 0; i < itemList.length; i++){
+            items.push(itemList[i].split('|')[1] + 'x ' + this.app.itemdata[itemList[i].split('|')[0]].icon + '`' + itemList[i].split('|')[0] + '`')
+        }
+    
+        return items;
+    }
 }
 
 module.exports = Items;

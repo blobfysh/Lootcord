@@ -62,6 +62,10 @@ class MySQL {
 
             await this.query(transactionsTable);
 
+            // create monsters table
+            await this.query(createSpawnChannels);
+            await this.query(createSpawnsSQL);
+
             // userGuilds table for keeping track of which servers users are activated in
             await this.query('CREATE TABLE IF NOT EXISTS userGuilds (userId bigint, guildId bigint) ENGINE = InnoDB');
 
@@ -164,6 +168,24 @@ class MySQL {
         return selectRows ? await this.query(sql) : (await this.query(sql))[0];
     }
 }
+const createSpawnChannels = `
+CREATE TABLE IF NOT EXISTS spawnChannels (
+    channelId BIGINT,
+    guildId BIGINT,
+    userId BIGINT,
+    PRIMARY KEY (channelId))
+    ENGINE = InnoDB
+`
+const createSpawnsSQL = `
+CREATE TABLE IF NOT EXISTS spawns (
+    channelId BIGINT,
+    start BIGINT,
+    monster VARCHAR(255),
+    health INT,
+    money BIGINT,
+    PRIMARY KEY (channelId))
+    ENGINE = InnoDB
+`
 
 const createItemsSQL = `
 CREATE TABLE IF NOT EXISTS user_items (

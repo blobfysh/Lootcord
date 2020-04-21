@@ -7,14 +7,15 @@ class Cooldown {
     }
 
     /**
-     * Gives player a cooldown of specified type
+     * Sets a cooldown of specified type
      * 
      * @param {string} userId User to give cooldown, does not have to be a user ID.
      * @param {string} type Type of cooldown
      * @param {number} time Time in milliseconds cooldown lasts
-     * @param {{ignoreQuery: boolean, patron: boolean}} options ignoreQuery is only used when bot starting up to prevent multiple table entries
+     * @param {{ignoreQuery: boolean}} options ignoreQuery is only used when bot starting up to prevent multiple table entries
+     * @param {function()} callback Callback to run when finished
      */
-    async setCD(userId, type, time, options = { ignoreQuery: false }){
+    async setCD(userId, type, time, options = { ignoreQuery: false }, callback = undefined){
         let key = `${type}|${userId}`;
         options.ignoreQuery = options.ignoreQuery || false;
 
@@ -34,6 +35,7 @@ class Cooldown {
             timer: bt.setTimeout(() => {
                 console.log(`[COOLDOWNS] Deleted ${userId} from '${type}' cooldown`);
                 this.app.mysql.query(`DELETE FROM cooldown WHERE userId = ${userId} AND type = '${type}'`);
+                this.clearTimers(userId, type);
 
                 if(type === 'patron'){
                     // do patron stuff
@@ -54,6 +56,8 @@ class Cooldown {
                         console.warn(err);
                     }
                 }
+
+                typeof callback === 'function' && callback();
             }, seconds * 1000)
         };
 
@@ -87,7 +91,7 @@ class Cooldown {
 
         this.timers.forEach(obj => {
             if(obj.userId == userId && obj.type == type){
-                console.log('Successfully found timer and cleared it.');
+                console.log('cleared.');
                 bt.clearTimeout(obj.timer);
 
                 this.timers.splice(this.timers.indexOf(obj), 1);
@@ -131,7 +135,7 @@ class Cooldown {
             else finalStr.push(hours == 1 ? `${hours} hour` : `${hours} hours`);
         }
         if(minutes > 0){
-            if(hours > 0){
+            if(hours > 0 || days > 0){
                 finalStr.push(rawMinutes.toFixed(1) + ' minutes');
                 return finalStr.join(' ');
             }

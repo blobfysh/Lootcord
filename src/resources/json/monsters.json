@@ -1,0 +1,19 @@
+{
+    "hitman1": {
+        "title": "Hitman",
+        "image": "https://wallpaperaccess.com/full/2288284.jpg",
+        "pronoun": "he",
+        "health": 500,
+        "minDamage": 40,
+        "maxDamage": 60,
+        "minMoney": 20000,
+        "maxMoney": 30000,
+        "loot": [
+            "awp|1",
+            "7.62_m61|6"
+        ],
+        "staysFor": {
+            "seconds": 60
+        }
+    }
+}

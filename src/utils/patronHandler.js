@@ -92,3 +92,23 @@ exports.handle = async function({ data }){
         console.warn(err);
     }
 }
+
+/*
+    // end patron
+    this.query(`DELETE FROM user_items WHERE userId = '${user}' AND item = 'kofi_king'`);
+    this.query(`UPDATE scores SET banner = 'none' WHERE userId = '${user}' AND banner = 'kofi_king'`);
+    this.broadcast('removePatronRole', { guildId: this.config.supportGuildID, userId: user });
+
+    try{
+        const donateEmbed = new this.Embed()
+        .setTitle('Perks Ended')
+        .setColor(16734296)
+        .setThumbnail('https://pbs.twimg.com/profile_images/1207570720034701314/dTLz6VR2_400x400.jpg')
+        .setDescription(`\`${user}\`'s donator perks expried.`)
+
+        this.messager.messageLogs(donateEmbed);
+    }
+    catch(err){
+        console.warn(err);
+    }
+*/
