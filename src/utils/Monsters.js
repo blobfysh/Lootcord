@@ -12,7 +12,7 @@ class Monsters {
         let rand = Math.round(Math.random() * (14 * 1000)) + (28 * 1000); // Generate random time from 8 - 12 hours
         console.log(`[MONSTERS] Counting down from ${this.app.cd.convertTime(rand)}`);
 
-        this.app.cd.setCD(channelId, 'spawnCD', rand, undefined, () => {
+        this.app.cd.setCD(channelId, 'spawnCD', rand, { ignoreQuery: true }, () => {
             this.spawnMob(channelId, Object.keys(this.mobdata)[Math.floor(Math.random() * Object.keys(this.mobdata).length)]);
         });
     }
@@ -23,9 +23,6 @@ class Monsters {
             if(!spawnInfo) throw new Error('No spawn channel.');
 
             const randMoney = Math.floor(Math.random() * (this.mobdata[monster].maxMoney - this.mobdata[monster].minMoney + 1)) + this.mobdata[monster].minMoney;
-            const mobEmbed = await this.genMobEmbed(channelId, this.mobdata[monster], this.mobdata[monster].health, randMoney);
-            mobEmbed.setDescription(`The ${(this.mobdata[monster].title).toLowerCase()} has arrived...\n\nAttack with \`use <weapon> ${(this.mobdata[monster].title).toLowerCase()}\`\n\nYou have \`${this.app.cd.convertTime(this.mobdata[monster].staysFor.seconds * 1000)}\` to defeat the ${this.mobdata[monster].title} before ${this.mobdata[monster].pronoun} leaves the server.`);
-            
             
             await this.app.query(`INSERT INTO spawns (channelId, start, monster, health, money) VALUES (?, ?, ?, ?, ?)`, [channelId, Date.now(), monster, this.mobdata[monster].health, randMoney]);
             
@@ -35,6 +32,9 @@ class Monsters {
             await this.app.cd.setCD(channelId, 'mobHalf', Math.floor(this.mobdata[monster].staysFor.seconds * .5) * 1000, undefined, () => {
                 this.onHalf(channelId);
             });
+
+            const mobEmbed = await this.genMobEmbed(channelId, this.mobdata[monster], this.mobdata[monster].health, randMoney);
+            mobEmbed.setAuthor('A bounty has arrived...')
 
             await this.app.bot.createMessage(channelId, mobEmbed);
         }
@@ -48,17 +48,36 @@ class Monsters {
     }
 
     async genMobEmbed(channelId, monster, health, money){
+        const spawnInfo = await this.app.mysql.select('spawnChannels', 'channelId', channelId);
         const remaining = await this.app.cd.getCD(channelId, 'mob');
+
+        
+        let guildPrefix = await this.app.cache.get(`prefix|${spawnInfo.guildId}`);
+
+        if(!guildPrefix){
+            // check db for prefix
+            guildPrefix = await this.app.query(`SELECT * FROM guildPrefix WHERE guildId = ${spawnInfo.guildId}`);
+
+            if(guildPrefix.length && guildPrefix[0].prefix){
+                await this.app.cache.set(`prefix|${spawnInfo.guildId}`, guildPrefix[0].prefix, 43200);
+                guildPrefix = guildPrefix[0].prefix;
+            }
+            else{
+                // no prefix found in cache or db, use config
+                await this.app.cache.set(`prefix|${spawnInfo.guildId}`, this.app.config.prefix, 43200);
+                guildPrefix = this.app.config.prefix;
+            }
+        }
 
         const mobEmbed = new this.app.Embed()
         .setTitle(monster.title)
-        .setDescription(`Attack with \`use <weapon> ${(monster.title).toLowerCase()}\`\n\nYou have \`${remaining}\` to defeat the ${monster.title} before ${monster.pronoun} leaves the server.`)
+        .setDescription(`Attack with \`${guildPrefix}use <weapon> bounty\`\n\nYou have \`${remaining}\` to defeat the ${monster.title} before ${monster.pronoun} leaves the server.`)
         .setColor(16734296)
         .addField('Health', `${this.app.player.getHealthIcon(health, monster.health)} ${health}/${monster.health}`, true)
         .addField('Damage', `${monster.minDamage} - ${monster.maxDamage}`, true)
         .addBlankField()
         .addField('Loot', this.app.itm.getDisplay(monster.loot).join('\n'), true)
-        .addField('Money', this.app.common.formatNumber(money), true) //TODO make money random
+        .addField('Money', this.app.common.formatNumber(money), true)
         .setImage(monster.image)
 
         return mobEmbed;
@@ -66,7 +85,7 @@ class Monsters {
 
     mobLeftEmbed(monster){
         const mobEmbed = new this.app.Embed()
-        .setTitle(`The ${monster.title} left...`)
+        .setTitle(`The bounty left...`)
         .setDescription(`Noone defeated the ${monster.title}!`)
         .setColor(16734296)
         .setImage(monster.image)
@@ -102,43 +121,9 @@ class Monsters {
             await this.app.query(`DELETE FROM spawnChannels WHERE channelId = ?`, [channelId]);
         }
     }
-
-    async callAirdrop(guildId, itemToDrop){
-        try{
-
-            let channelToDrop = dropChan[0].dropChan;
-
-            const dropEmbed = new this.app.Embed()
-            .setTitle(`A \`${itemToDrop}\` has arrived`)
-            .setDescription(`Use \`${guildPrefix}claimdrop\` to claim it!`)
-            .setImage(this.app.itemdata[itemToDrop].image)
-            .setColor(13215302)
-            
-            await this.app.bot.createMessage(channelToDrop, dropEmbed);
-            await this.app.query(`UPDATE guildInfo SET dropItemChan = '${channelToDrop}' WHERE guildId = ${guildId}`);
-            await this.app.query(`UPDATE guildInfo SET dropItem = '${itemToDrop}' WHERE guildId = ${guildId}`);
-
-            this.cancelAirdrop(guildId); // remove timer from timers array
-            this.initAirdrop(guildId); // start another airdrop countdown
-        }
-        catch(err){
-
-            // cancel airdrops for guild because it clearly isn't working
-            this.app.query(`UPDATE guildInfo SET dropChan = 0 WHERE guildId ='${guildId}'`);
-            this.cancelAirdrop(guildId);
-            console.log(err);
-        }
-        
-    }
-
-    cancelSpawn(channelId){
-        for(let arrObj of this.timers){
-            if(arrObj.channel == channelId){
-                clearTimeout(arrObj.timer);
-
-                this.timers.splice(this.timers.indexOf(arrObj), 1);
-            }
-        }
+    
+    async subHealth(channelId, amount){
+        await this.app.query(`UPDATE spawns SET health = health - ? WHERE channelId = ?`, [amount, channelId]);
     }
 }
 

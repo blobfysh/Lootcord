@@ -8,6 +8,12 @@
         "maxDamage": 60,
         "minMoney": 20000,
         "maxMoney": 30000,
+        "xp": 200,
+        "weapon": {
+            "name": "silenced pistol",
+            "icon": "<:L_weapon:601369664492404746>"
+        },
+        "ammo": ".45_ap",
         "loot": [
             "awp|1",
             "7.62_m61|6"

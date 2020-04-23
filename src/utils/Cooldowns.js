@@ -35,7 +35,6 @@ class Cooldown {
             timer: bt.setTimeout(() => {
                 console.log(`[COOLDOWNS] Deleted ${userId} from '${type}' cooldown`);
                 this.app.mysql.query(`DELETE FROM cooldown WHERE userId = ${userId} AND type = '${type}'`);
-                this.clearTimers(userId, type);
 
                 if(type === 'patron'){
                     // do patron stuff
@@ -58,6 +57,8 @@ class Cooldown {
                 }
 
                 typeof callback === 'function' && callback();
+
+                this.clearTimers(userId, type);
             }, seconds * 1000)
         };
 
