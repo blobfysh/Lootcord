@@ -33,7 +33,6 @@ class Cooldown {
             userId: userId, 
             type: type,
             timer: bt.setTimeout(() => {
-                console.log(`[COOLDOWNS] Deleted ${userId} from '${type}' cooldown`);
                 this.app.mysql.query(`DELETE FROM cooldown WHERE userId = ${userId} AND type = '${type}'`);
 
                 if(type === 'patron'){
@@ -41,19 +40,14 @@ class Cooldown {
                     this.app.mysql.query(`DELETE FROM user_items WHERE userId = '${userId}' AND item = 'kofi_king'`);
                     this.app.mysql.query(`UPDATE scores SET banner = 'none' WHERE userId = '${userId}' AND banner = 'kofi_king'`);
                     this.app.ipc.broadcast('removePatronRole', { guildId: this.app.config.supportGuildID, userId: userId });
-    
-                    try{
-                        const donateEmbed = new this.app.Embed()
-                        .setTitle('Perks Ended')
-                        .setColor(16734296)
-                        .setThumbnail('https://pbs.twimg.com/profile_images/1207570720034701314/dTLz6VR2_400x400.jpg')
-                        .setDescription(`\`${userId}\`'s donator perks expried.`)
-    
-                        this.app.messager.messageLogs(donateEmbed);
-                    }
-                    catch(err){
-                        console.warn(err);
-                    }
+                    
+                    const donateEmbed = new this.app.Embed()
+                    .setTitle('Perks Ended')
+                    .setColor(16734296)
+                    .setThumbnail('https://pbs.twimg.com/profile_images/1207570720034701314/dTLz6VR2_400x400.jpg')
+                    .setDescription(`\`${userId}\`'s donator perks expried.`)
+
+                    this.app.messager.messageLogs(donateEmbed);
                 }
 
                 typeof callback === 'function' && callback();

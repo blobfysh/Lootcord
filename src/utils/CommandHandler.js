@@ -78,6 +78,7 @@ class CommandHandler {
         
         // execute command
         try{
+            console.log(message.author.id + ' ran command: ' + command.name);
             this.app.cache.incr('commands');
             this.app.query(`UPDATE scores SET lastActive = NOW() WHERE userId = ${message.author.id}`);
             command.execute(this.app, this.buildMessage(message, prefix, args));
