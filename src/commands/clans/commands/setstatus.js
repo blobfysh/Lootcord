@@ -26,16 +26,16 @@ module.exports = {
         statusToSet = filter.clean(statusToSet);
 
         try{
-            await app.query(`UPDATE clans SET status = ? WHERE clanId = ?`, [statusToSet, scoreRow.clanId]);
+            await app.query(`UPDATE clans SET status = ? WHERE clanId = ?`, [!statusToSet ? '' : statusToSet, message.author.id]);
 
-            app.clans.addLog(scoreRow.clanId, `${message.author.username} set the clan status to: ${statusToSet}`);
-            message.reply('✅ Successfully set status to: ' + statusToSet);
+            app.clans.addLog(scoreRow.clanId, `${message.author.username} set the clan status to: ${!statusToSet ? 'Nothing?' : statusToSet}`);
+            message.reply('✅ Successfully set status to: ' + (!statusToSet ? 'Nothing?' : statusToSet));
 
             const logEmbed = new app.Embed()
             .setTitle('Modified Clan Status')
             .setThumbnail(message.author.avatarURL)
             .setDescription(`${message.author.tag} ID: \`\`\`\n${message.author.id}\`\`\`Clan ID:\`\`\`\n${scoreRow.clanId}\`\`\``)
-            .addField('Status Changed', statusToSet)
+            .addField('Status Changed', !statusToSet ? 'Nothing?' : statusToSet)
             .setColor('#8E588E')
             .setFooter('Make sure status does not violate TOS or is vulgar')
             app.messager.messageLogs(logEmbed);

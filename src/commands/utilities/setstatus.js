@@ -27,15 +27,15 @@ module.exports = {
         statusToSet = filter.clean(statusToSet);
 
         try{
-            await app.query(`UPDATE scores SET status = ? WHERE userId = ?`, [statusToSet, message.author.id]);
+            await app.query(`UPDATE scores SET status = ? WHERE userId = ?`, [!statusToSet ? '' : statusToSet, message.author.id]);
 
-            message.reply('✅ Successfully set status to: ' + statusToSet);
+            message.reply('✅ Successfully set status to: ' + (!statusToSet ? 'Nothing?' : statusToSet));
 
             const logEmbed = new app.Embed()
             .setTitle('Modified Status')
             .setThumbnail(message.author.avatarURL)
             .setDescription(`${message.author.tag} ID: \`\`\`\n${message.author.id}\`\`\``)
-            .addField('Status Changed', statusToSet)
+            .addField('Status Changed', !statusToSet ? 'Nothing?' : statusToSet)
             .setColor('#8C8C8C')
             .setFooter('Make sure status does not violate TOS or is vulgar')
             app.messager.messageLogs(logEmbed);

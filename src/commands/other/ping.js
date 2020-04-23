@@ -13,8 +13,7 @@ module.exports = {
     
     
     async execute(app, message){
-        message.reply(`Pong! ${app.bot.shards.get(app.bot.guildShardMap[message.guild.id]).latency} ms`);
-
+        message.reply(`Pong! ws: ${app.bot.shards.get(app.bot.guildShardMap[message.guild.id]).latency} ms`);
         /*
 
         awaiting message
