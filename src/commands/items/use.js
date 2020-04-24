@@ -66,7 +66,7 @@ module.exports = {
                     embedInfo.setFooter('⭐ ' + results.xp + ' XP earned!')
 
                     if(app.itemdata[results.itemAmounts[0].split('|')[0]].image != ""){
-                        embedInfo.setImage(app.itemdata[results.itemAmounts[0].split('|')[0]].image);
+                        embedInfo.setThumbnail(app.itemdata[results.itemAmounts[0].split('|')[0]].image);
                     }
                 }
                 else{
