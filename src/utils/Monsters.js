@@ -24,7 +24,7 @@ class Monsters {
 
             const randMoney = Math.floor(Math.random() * (this.mobdata[monster].maxMoney - this.mobdata[monster].minMoney + 1)) + this.mobdata[monster].minMoney;
             
-            await this.app.query(`INSERT INTO spawns (channelId, start, monster, health, money) VALUES (?, ?, ?, ?, ?)`, [channelId, Date.now(), monster, this.mobdata[monster].health, randMoney]);
+            await this.app.query(`INSERT INTO spawns (channelId, guildId, start, monster, health, money) VALUES (?, ?, ?, ?, ?, ?)`, [channelId, spawnInfo.guildId, Date.now(), monster, this.mobdata[monster].health, randMoney]);
             
             await this.app.cd.setCD(channelId, 'mob', this.mobdata[monster].staysFor.seconds * 1000, undefined, () => {
                 this.onFinished(channelId);
@@ -48,7 +48,7 @@ class Monsters {
     }
 
     async genMobEmbed(channelId, monster, health, money){
-        const spawnInfo = await this.app.mysql.select('spawnChannels', 'channelId', channelId);
+        const spawnInfo = await this.app.mysql.select('spawns', 'channelId', channelId);
         const remaining = await this.app.cd.getCD(channelId, 'mob');
 
         
@@ -116,6 +116,7 @@ class Monsters {
             await this.app.bot.createMessage(channelId, embed);
         }
         catch(err){
+            console.log(err);
             await this.app.cd.clearCD(channelId, 'mob');
             await this.app.query(`DELETE FROM spawns WHERE channelId = ?`, [channelId]);
             await this.app.query(`DELETE FROM spawnChannels WHERE channelId = ?`, [channelId]);

@@ -179,6 +179,7 @@ CREATE TABLE IF NOT EXISTS spawnChannels (
 const createSpawnsSQL = `
 CREATE TABLE IF NOT EXISTS spawns (
     channelId BIGINT,
+    guildId BIGINT,
     start BIGINT,
     monster VARCHAR(255),
     health INT,

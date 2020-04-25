@@ -1,7 +1,7 @@
 {
     "hitman1": {
-        "title": "Hitman",
-        "image": "https://wallpaperaccess.com/full/2288284.jpg",
+        "title": "Assassin",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703199645400301598/tumblr_mylsx3JspW1sn0mkdo1_500.png",
         "pronoun": "he",
         "health": 500,
         "minDamage": 40,
@@ -10,16 +10,16 @@
         "maxMoney": 30000,
         "xp": 200,
         "weapon": {
-            "name": "silenced pistol",
+            "name": "silenced sniper",
             "icon": "<:L_weapon:601369664492404746>"
         },
-        "ammo": ".45_ap",
+        "ammo": "7.62_m61",
         "loot": [
             "awp|1",
             "7.62_m61|6"
         ],
         "staysFor": {
-            "seconds": 60
+            "seconds": 28800
         }
     }
 }
