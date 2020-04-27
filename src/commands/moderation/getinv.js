@@ -31,7 +31,6 @@ module.exports = {
             const usersItems     = await app.itm.getUserItems(userID);
             const itemCt         = await app.itm.getItemCount(userID);
             const shieldLeft     = await app.cd.getCD(userID, 'shield');
-            const xp             = app.common.calculateXP(row.points, row.level);
 
             let ultraItemList    = usersItems.ultra;
             let legendItemList   = usersItems.legendary;
@@ -40,6 +39,7 @@ module.exports = {
             let uncommonItemList = usersItems.uncommon;
             let commonItemList   = usersItems.common;
             let limitedItemList  = usersItems.limited;
+            let backpack         = row.backpack;
 
             const embedInfo = new app.Embed()
             .setTitle(`${userInfo.username}#${userInfo.discriminator}'s Inventory`)
@@ -48,17 +48,24 @@ module.exports = {
                 embedInfo.setImage(app.itemdata[row.banner].image);
                 embedInfo.setColor(app.itemdata[row.banner].bannerColor);
             }
-            
-            embedInfo.addField('Level ' + row.level, `\`${xp.needed} xp until level ${row.level + 1}\``, true)
 
             if(shieldLeft){
-                embedInfo.addField("Shield Active", '🛡 `' + shieldLeft + '`', true);
+                embedInfo.addField("🛡️ Shield", '`' + shieldLeft + '`');
             }
 
-            embedInfo.addField("Health",`${app.player.getHealthIcon(row.health, row.maxHealth)} ${row.health}/${row.maxHealth}`)
+            embedInfo.addField("Health",`${app.player.getHealthIcon(row.health, row.maxHealth)} ${row.health}/${row.maxHealth}`, true)
             
-            embedInfo.addField("Money", app.common.formatNumber(row.money))
+            embedInfo.addField("Money", app.common.formatNumber(row.money), true)
+
+            if(backpack === 'none'){
+                embedInfo.addField('Backpack', 'None', true)
+            }
+            else{
+                embedInfo.addField('Backpack', app.itemdata[backpack].icon + '`' + backpack + '`', true)
+            }
             
+            embedInfo.addField('\u200b', '__**Items**__')
+
             // item fields
             if(ultraItemList != ""){
                 embedInfo.addField("Ultra", ultraItemList.join('\n'), true);

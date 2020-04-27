@@ -40,30 +40,38 @@ module.exports = {
             const xp         = app.common.calculateXP(userRow.points, userRow.level);
             
             let bannerIcon   = app.itemdata[userRow.banner] !== undefined ? app.itemdata[userRow.banner].icon : ''
-            let bannersList  = 'Equipped: ' + bannerIcon + '`' + userRow.banner + '`\n' + banners.ultra.concat(banners.legendary, banners.epic, banners.rare, banners.uncommon, banners.common, banners.limited).join('\n');
+            let bannersList  = '**Equipped:** ' + bannerIcon + '`' + userRow.banner + '`\n' + banners.ultra.concat(banners.legendary, banners.epic, banners.rare, banners.uncommon, banners.common, banners.limited).join('\n');
             let userStatus   = 'Change your status with the `setstatus` command!';
-            let backpackIcon = app.itemdata[userRow.backpack] !== undefined ? app.itemdata[userRow.backpack].icon : ''
+            let badgeList    = ''
 
             if(userRow.status !== ''){
                 userStatus = userRow.status;
+            }
+
+            if(badges.length){
+                if(userRow.badge !== 'none'){
+                    badgeList = '**Display**: ' + app.badgedata[userRow.badge].icon + '`' + userRow.badge + '`\n';
+                }
+
+                badgeList += badges.sort().filter(badge => badge !== userRow.badge).map(badge => app.badgedata[badge].icon + '`' + badge + '`').join('\n')
+            }
+            else {
+                badgeList = 'None';
             }
 
             const profileEmbed = new app.Embed()
             .setColor(13215302)
             .setAuthor(member.tag + "'s Profile", member.avatarURL)
             .setDescription(userStatus)
-            .addField('Badges', badges.length ? badges.sort().map(badge => app.badgedata[badge].icon + '`' + badge + '`').join(', ') : 'none :(')
             .addField('Clan', codeWrap((userRow.clanId !== 0 ? (await app.query(`SELECT name FROM clans WHERE clanId = ${userRow.clanId}`))[0].name : 'None'), 'js'), true)
-            .addField('Level', codeWrap(userRow.level + ` (XP: ${xp.curLvlXp}/${xp.neededForLvl})`, 'js'), true)
-            .addField('Power', codeWrap(userRow.power + "/" + userRow.max_power + " Power", 'js'), true)
-            .addField('K/D Ratio', codeWrap((userRow.deaths == 0 ? userRow.kills+ " Kills\n"+userRow.deaths+" Deaths ("+userRow.kills+" K/D)\n" : userRow.kills+ " Kills\n"+userRow.deaths+" Deaths ("+(userRow.kills/ userRow.deaths).toFixed(2)+" K/D)"), 'fix'), true)
-            .addBlankField()
+            .addField('Level', codeWrap(userRow.level + ` (XP: ${xp.curLvlXp} / ${xp.neededForLvl})`, 'js'), true)
+            .addField('Power', codeWrap(userRow.power + " / " + userRow.max_power + " Power", 'js'), true)
+            .addField('K/D Ratio', codeWrap((userRow.deaths == 0 ? userRow.kills+ " Kills\n"+userRow.deaths+" Deaths ("+userRow.kills+" K/D)\n" : userRow.kills+ " Kills\n"+userRow.deaths+" Deaths ("+(userRow.kills/ userRow.deaths).toFixed(2)+" K/D)"), 'fix'))
             .addField('Health', app.player.getHealthIcon(userRow.health, userRow.maxHealth) + ' ' + userRow.health + "/" + userRow.maxHealth + " HP", true)
             .addField('Strength', parseFloat(userRow.scaledDamage).toFixed(2) + "x damage", true)
             .addField('Luck', userRow.luck.toString(), true)
-            .addBlankField()
             .addField('Banners', bannersList, true)
-            .addField("Backpack", 'Equipped: ' + backpackIcon + "`" + userRow.backpack + "`", true)
+            .addField('Badges', badgeList, true)
             .addField('Preferred Ammo', app.itemdata[userRow.ammo] ? app.itemdata[userRow.ammo].icon + '`' + userRow.ammo + '`' : 'Not set', true)
             .setFooter("🌟 Skills upgraded " + userRow.used_stats + " times")
 

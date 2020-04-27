@@ -42,7 +42,6 @@ module.exports = {
                 const usersItems     = await app.itm.getUserItems(member.id);
                 const itemCt         = await app.itm.getItemCount(member.id);
                 const shieldLeft     = await app.cd.getCD(member.id, 'shield');
-                const xp             = app.common.calculateXP(userRow.points, userRow.level);
 
                 let ultraItemList    = usersItems.ultra;
                 let legendItemList   = usersItems.legendary;
@@ -51,6 +50,7 @@ module.exports = {
                 let uncommonItemList = usersItems.uncommon;
                 let commonItemList   = usersItems.common;
                 let limitedItemList  = usersItems.limited;
+                let backpack         = userRow.backpack;
 
                 const embedInfo = new app.Embed()
                 .setTitle(`${isActive ? app.icons.accounts.active : app.icons.accounts.inactive} ${member.tag}'s Inventory`)
@@ -59,17 +59,26 @@ module.exports = {
                     embedInfo.setImage(app.itemdata[userRow.banner].image);
                     embedInfo.setColor(app.itemdata[userRow.banner].bannerColor);
                 }
-                
-                embedInfo.addField('Level ' + userRow.level, `\`${xp.needed} xp until level ${userRow.level + 1}\``, true)
 
                 if(shieldLeft){
-                    embedInfo.addField("Shield Active", '🛡 `' + shieldLeft + '`', true);
+                    embedInfo.addField("🛡️ Shield", '`' + shieldLeft + '`');
                 }
 
-                embedInfo.addField("Health",`${app.player.getHealthIcon(userRow.health, userRow.maxHealth)} ${userRow.health}/${userRow.maxHealth}`)
+                embedInfo.addField("Health",`${app.player.getHealthIcon(userRow.health, userRow.maxHealth)} ${userRow.health}/${userRow.maxHealth}`, true)
                 
-                embedInfo.addField("Money", app.common.formatNumber(userRow.money))
+                embedInfo.addField("Money", app.common.formatNumber(userRow.money), true)
+
+                //embedInfo.addField('Level ' + userRow.level, `\`${xp.needed} xp until level ${userRow.level + 1}\``, true)
+
+                if(backpack === 'none'){
+                    embedInfo.addField('Backpack', 'None', true)
+                }
+                else{
+                    embedInfo.addField('Backpack', app.itemdata[backpack].icon + '`' + backpack + '`', true)
+                }
                 
+                embedInfo.addField('\u200b', '__**Items**__')
+
                 // item fields
                 if(ultraItemList != ""){
                     embedInfo.addField("Ultra", ultraItemList.join('\n'), true);
@@ -103,7 +112,8 @@ module.exports = {
                     embedInfo.addField('This inventory is empty! :(', "\u200b");
                 }
 
-                embedInfo.addField("\u200b", "Inventory space: " + itemCt.capacity + " max | Value: " + app.common.formatNumber(usersItems.invValue));
+                //embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max | Value: " + app.common.formatNumber(usersItems.invValue, true))
+                embedInfo.addField("\u200b", "Inventory space: " + itemCt.capacity + " max | Value: " + app.common.formatNumber(usersItems.invValue) + '');
                 
                 message.channel.createMessage(embedInfo);
             }
