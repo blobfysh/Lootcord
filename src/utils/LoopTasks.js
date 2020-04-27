@@ -11,6 +11,7 @@ class LoopTasks {
     constructor(app){
         this.app = app;
         this.daily = new CronJob('0 0 0 * * *', this.dailyTasks.bind(this), null, false, 'America/New_York');
+        this.refreshLBJob = new CronJob('0 */6 * * *', this.refreshLB.bind(this), null, false, 'America/New_York');
         this.biHourly = new CronJob('0 */2 * * *', this.biHourlyTasks.bind(this), null, false, 'America/New_York');
         this.hourly = new CronJob('0 * * * *', this.hourlyTasks.bind(this), null, false, 'America/New_York');
 
@@ -22,6 +23,7 @@ class LoopTasks {
         if(this.app.clusterID === 0){
             console.log('[LOOPTASKS] Starting daily/bi-hourly tasks...');
             this.daily.start();
+            this.refreshLBJob.start();
             this.biHourly.start();
             this.often.start();
         }
@@ -53,6 +55,12 @@ class LoopTasks {
 
         // auto-deactivate players who have not played for 14 days
         this.app.query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 14 DAY`);
+    }
+
+    async refreshLB(){
+        console.log('[LOOPTASKS] Refreshing global leaderboard...');
+        const leaders = await this.app.leaderboard.getLB();
+        this.app.cache.setNoExpire('leaderboard', JSON.stringify(leaders));
     }
 
     async biHourlyTasks(){

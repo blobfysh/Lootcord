@@ -86,7 +86,7 @@ class Monsters {
     mobLeftEmbed(monster){
         const mobEmbed = new this.app.Embed()
         .setTitle(`The bounty left...`)
-        .setDescription(`Noone defeated the ${monster.title}!`)
+        .setDescription(`Nobody defeated the ${monster.title}!`)
         .setColor(16734296)
         .setImage(monster.image)
 

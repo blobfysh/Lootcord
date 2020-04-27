@@ -1,5 +1,3 @@
-const util = require('util');
-
 exports.run = function(error, id){
     console.error(error);
     this.cache.incr('errors');
@@ -7,7 +5,7 @@ exports.run = function(error, id){
     const errEmbed = new this.Embed()
     .setTitle('API Error')
     .setColor(16734296)
-    .setDescription('```js\n' + util.inspect(error) + '```')
+    .setDescription('```js\n' + error.message + '```')
     .setTimestamp()
     this.messager.messageLogs(errEmbed);
 }

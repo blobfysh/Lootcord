@@ -99,8 +99,7 @@ async function getGlobalLB(app){
         try{
             const leaders = await app.leaderboard.getLB();
             
-            // cache leaderboard for 6 hours
-            app.cache.set('leaderboard', JSON.stringify(leaders), 3600 * 6);
+            app.cache.setNoExpire('leaderboard', JSON.stringify(leaders));
             return leaders;
         }
         catch(err){

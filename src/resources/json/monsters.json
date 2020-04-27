@@ -3,7 +3,7 @@
         "title": "Assassin",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703199645400301598/tumblr_mylsx3JspW1sn0mkdo1_500.png",
         "pronoun": "he",
-        "health": 500,
+        "health": 200,
         "minDamage": 40,
         "maxDamage": 60,
         "minMoney": 20000,
@@ -19,7 +19,7 @@
             "7.62_m61|6"
         ],
         "staysFor": {
-            "seconds": 28800
+            "seconds": 43200
         }
     }
 }
