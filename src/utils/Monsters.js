@@ -73,7 +73,7 @@ class Monsters {
         .setTitle(monster.title)
         .setDescription(`Attack with \`${guildPrefix}use <weapon> bounty\`\n\nYou have \`${remaining}\` to defeat the ${monster.title} before ${monster.pronoun} leaves the server.`)
         .setColor(16734296)
-        .addField('Health', `${this.app.player.getHealthIcon(health, monster.health)} ${health}/${monster.health}`, true)
+        .addField('Health', `${this.app.player.getHealthIcon(health, monster.health)} ${health} / ${monster.health}`, true)
         .addField('Damage', `${monster.minDamage} - ${monster.maxDamage}`, true)
         .addBlankField()
         .addField('Loot', this.app.itm.getDisplay(monster.loot).join('\n'), true)

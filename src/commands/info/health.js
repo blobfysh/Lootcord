@@ -14,6 +14,6 @@ module.exports = {
     async execute(app, message){
         const row = await app.player.getRow(message.author.id);
 
-        message.reply(`You currently have: ${app.player.getHealthIcon(row.health, row.maxHealth)}\`${row.health}/${row.maxHealth}\` HP (Gain more with the \`upgrade\` command)`);
+        message.reply(`You currently have: ${app.player.getHealthIcon(row.health, row.maxHealth)} **${row.health} / ${row.maxHealth}** HP (Gain more with the \`upgrade\` command)`);
     },
 }

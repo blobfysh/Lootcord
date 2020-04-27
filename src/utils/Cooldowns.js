@@ -80,13 +80,9 @@ class Cooldown {
     }
 
     async clearTimers(userId, type){
-        console.log('Clearing timers for ' + userId + ' | ' + type);
-        //let key = `${type}|${userId}`;
-        //this.app.cache.del(key);
-
         this.timers.forEach(obj => {
             if(obj.userId == userId && obj.type == type){
-                console.log('cleared.');
+                console.log('Clearing timers for ' + userId + ' | ' + type);
                 bt.clearTimeout(obj.timer);
 
                 this.timers.splice(this.timers.indexOf(obj), 1);

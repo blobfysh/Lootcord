@@ -143,12 +143,12 @@ module.exports = {
                 if(userMaxHeal > randHeal){
                     await app.query(`UPDATE scores SET health = health + ${randHeal} WHERE userId = '${message.author.id}'`);
                     await app.itm.removeItem(message.author.id, item, 1);
-                    message.reply(`You have healed for \`${randHeal}\` HP! Current HP: ${app.player.getHealthIcon(row.health + randHeal, row.maxHealth)} ${row.health + randHeal}/${row.maxHealth}`);
+                    message.reply(`You have healed for \`${randHeal}\` HP! Current HP: ${app.player.getHealthIcon(row.health + randHeal, row.maxHealth)} ${row.health + randHeal} / ${row.maxHealth}`);
                 }
                 else if(userMaxHeal <= randHeal){
                     await app.query(`UPDATE scores SET health = health + ${userMaxHeal} WHERE userId = '${message.author.id}'`);
                     await app.itm.removeItem(message.author.id, item, 1);
-                    message.reply(`You have healed for \`${userMaxHeal}\` HP! Current HP: ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} ${row.health + userMaxHeal}/${row.maxHealth}`);
+                    message.reply(`You have healed for \`${userMaxHeal}\` HP! Current HP: ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} ${row.health + userMaxHeal} / ${row.maxHealth}`);
                 }
             }
             else if(app.itemdata[item].givesMoneyOnUse){
@@ -420,7 +420,7 @@ module.exports = {
 
                 if(chance <= luck){
                     if(weaponBroke){
-                        return message.channel.createMessage(`🍀<@${target.id}> EVADED **${message.member.effectiveName}**'s attack! How lucky!\n${app.icons.minus}**${message.member.effectiveName}**'s ${app.itemdata[item].icon}${item} broke.`);
+                        return message.channel.createMessage(`🍀<@${target.id}> EVADED **${message.member.effectiveName}**'s attack! How lucky!\n${app.icons.minus}**${message.member.effectiveName}**'s ${app.itemdata[item].icon}\`${item}\` broke.`);
                     }
                     else{
                         return message.channel.createMessage(`🍀<@${target.id}> EVADED **${message.member.effectiveName}**'s attack! How lucky!`);
@@ -573,7 +573,7 @@ module.exports = {
 
                 if(chance <= luck){
                     if(weaponBroke){
-                        return message.channel.createMessage(`🍀<@${member.id}> EVADED **${message.member.effectiveName}**'s attack! How lucky!\n${app.icons.minus}**${message.member.effectiveName}**'s ${app.itemdata[item].icon}${item} broke.`);
+                        return message.channel.createMessage(`🍀<@${member.id}> EVADED **${message.member.effectiveName}**'s attack! How lucky!\n${app.icons.minus}**${message.member.effectiveName}**'s ${app.itemdata[item].icon}\`${item}\` broke.`);
                     }
                     else{
                         return message.channel.createMessage(`🍀<@${member.id}> EVADED **${message.member.effectiveName}**'s attack! How lucky!`);
@@ -899,7 +899,7 @@ async function notifyAttackVictim(app, message, victim, itemUsed, damage, victim
     .setTitle('You were attacked!')
     .setDescription(`${message.author.tag} hit you for **${damage}** damage using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`.
     
-    Health: ${app.player.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)}\`${victimRow.health - damage}/${victimRow.maxHealth}\``)
+    Health: ${app.player.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage} / ${victimRow.maxHealth}**`)
     .setColor(16610383)
 
     try{

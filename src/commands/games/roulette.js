@@ -21,7 +21,7 @@ module.exports = {
         }
         
         if(row.health < 25){
-            return message.reply(`⚠ You need atleast **25 HP** to use the \`roulette\` command, you currently have ${app.player.getHealthIcon(row.health, row.maxHealth)}**${row.health}/${row.maxHealth}**.`);
+            return message.reply(`⚠ You need atleast **25 HP** to use the \`roulette\` command, you currently have ${app.player.getHealthIcon(row.health, row.maxHealth)} **${row.health} / ${row.maxHealth}**.`);
         }
 
         if(!gambleAmount || gambleAmount < 100){
