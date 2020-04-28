@@ -23,13 +23,9 @@ class Player {
         return (await this.app.query(`SELECT * FROM scores WHERE userId = ? AND userId > 0`, [id]))[0];
     }
 
-    async createAccount(id, guild = undefined){
+    async createAccount(id){
         await this.app.query(insertScoreSQL, [id, (new Date()).getTime(), 100, 1, 100, 100, 1.00, 'none', 'none', 'none', 'none']);
         await this.app.itm.addItem(id, 'item_box', 1);
-
-        if(guild && !(await this.app.query(`SELECT * FROM guildInfo WHERE guildId = ${guild}`)).length){
-            await this.app.query(`INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItemChan, dropItem, randomOnly) VALUES (${guild}, 0, 0, 0, 0, '', 0)`);
-        }
         
         const newPlayer = new this.app.Embed()
         .setTitle('Thanks for joining Lootcord!')
@@ -48,11 +44,6 @@ class Player {
      */
     async activate(id, guild){
         await this.app.query(`INSERT INTO userGuilds (userId, guildId) VALUES (${id}, ${guild})`);
-
-        // check if guildInfo table has guild
-        if(!(await this.app.query(`SELECT * FROM guildInfo WHERE guildId = ${guild}`)).length){
-            await this.app.query(`INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItemChan, dropItem, randomOnly) VALUES (${guild}, 0, 0, 0, 0, '', 0)`);
-        }
     }
 
     /**
@@ -215,7 +206,7 @@ class Player {
                 // ignore bot list discords
                 if(this.app.config.ignoreLvlMessages.includes(message.guild.id)) return;
 
-                const guildRow = (await this.app.query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`))[0];
+                const guildRow = await this.app.common.getGuildInfo(message.guild.id);
                 
                 try{
                     const lvlUpImage = await this.getLevelImage(message.author.avatarURL, row.level + 1);

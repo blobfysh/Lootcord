@@ -12,7 +12,7 @@ module.exports = {
     guildModsOnly: true,
     
     async execute(app, message){
-        const guildRow  = await app.query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`);
+        const guildRow = await app.common.getGuildInfo(message.guild.id);
         const activeRow = await app.query(`SELECT * FROM userGuilds WHERE guildId = ${message.guild.id}`);
         
         if(Object.keys(activeRow).length < 5){
@@ -23,7 +23,7 @@ module.exports = {
         
         message.reply("✅ Now requesting for `care_package`'s to be sent to this channel!");
 
-        if(guildRow[0].dropChan == 0){
+        if(guildRow.dropChan == 0){
             app.airdrop.initAirdrop(message.guild.id);
         }
     },

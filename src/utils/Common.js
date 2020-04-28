@@ -28,6 +28,18 @@ class Common {
         
         return month + '/' + day + '/' + year.toString().slice(2) + ' ' + time + ' EST';
     }
+
+    async getGuildInfo(guildId){
+        let guildInfo = (await this.app.query(`SELECT * FROM guildInfo WHERE guildId = ?`, [guildId]))[0];
+        
+        if(!guildInfo){
+            console.warn('Creating new guildInfo row');
+            await this.app.query(`INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItemChan, dropItem, randomOnly) VALUES (?, 0, 0, 0, 0, '', 0)`, [guildId]);
+            guildInfo = (await this.app.query(`SELECT * FROM guildInfo WHERE guildId = ?`, [guildId]))[0];
+        }
+        
+        return guildInfo;
+    }
     
     calculateXP(playerXP, playerLVL){
         let currLvlXP = 0;

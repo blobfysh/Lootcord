@@ -65,7 +65,7 @@ class CommandHandler {
         if(account) await this.app.player.checkLevelXP(message, account);
 
         // check if command requires an account at all, create new account for player if command requires it.
-        if(command.requiresAcc && !(account)) await this.app.player.createAccount(message.author.id, message.guild.id);
+        if(command.requiresAcc && !(account)) await this.app.player.createAccount(message.author.id);
 
         // check if player meets the minimum level required to run the command
         if(command.levelReq && (account.level < command.levelReq)) return message.channel.createMessage('❌ You must be atleast level `' + command.levelReq + '` to use that command!');

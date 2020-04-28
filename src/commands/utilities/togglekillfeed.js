@@ -11,9 +11,9 @@ module.exports = {
     guildModsOnly: true,
     
     async execute(app, message){
-        const row = (await app.query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`))[0];
+        const guildRow = await app.common.getGuildInfo(message.guild.id);
         
-        if(row.killChan == 0){
+        if(guildRow.killChan == 0){
             await app.query(`UPDATE guildInfo SET killChan = ${message.channel.id} WHERE guildId = ${message.guild.id}`);
 
             message.reply('✅ Set this channel as the kill feed channel!');

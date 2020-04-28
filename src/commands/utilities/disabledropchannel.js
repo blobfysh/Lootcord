@@ -12,9 +12,9 @@ module.exports = {
     guildModsOnly: true,
     
     async execute(app, message){
-        const guildRow = await app.query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`)
+        const guildRow = await app.common.getGuildInfo(message.guild.id);
 
-        if(guildRow[0].dropChan === 0) return message.reply('❌ Airdrops are not enabled for this server!');
+        if(guildRow.dropChan === 0) return message.reply('❌ Airdrops are not enabled for this server!');
 
         app.airdrop.cancelAirdrop(message.guild.id);
         await app.query(`UPDATE guildInfo SET dropChan = 0 WHERE guildId ='${message.guild.id}'`);

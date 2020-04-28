@@ -11,7 +11,7 @@ module.exports = {
     guildModsOnly: true,
     
     async execute(app, message){
-        const guildRow = (await app.query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`))[0];
+        const guildRow = await app.common.getGuildInfo(message.guild.id);
         
         if(guildRow.randomOnly == 0){
             await app.query(`UPDATE guildInfo SET randomOnly = 1 WHERE guildId = ${message.guild.id}`);

@@ -12,7 +12,7 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
-        const guildRow  = (await app.query(`SELECT * FROM guildInfo WHERE guildId ="${message.guild.id}"`))[0] || {};
+        const guildRow = await app.common.getGuildInfo(message.guild.id);
         const prefixRow = (await app.query(`SELECT * FROM guildPrefix WHERE guildId ="${message.guild.id}"`))[0];
 
         let killfeedStr = message.guild.channels.get(guildRow.killChan) ? '(Disable with `togglekillfeed`)' : '(Set with `togglekillfeed`)';

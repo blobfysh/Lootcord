@@ -12,15 +12,15 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
-        const guildInfo = await app.query(`SELECT * FROM guildInfo WHERE guildId = ${message.guild.id}`);
+        const guildRow = await app.common.getGuildInfo(message.guild.id);
         const airdropCD = await app.cd.getCD(message.author.id, 'airdrop');
         const hasEnough = await app.itm.hasSpace(message.author.id, 1);
     
-        if(message.channel.id !== guildInfo[0].dropItemChan){
+        if(message.channel.id !== guildRow.dropItemChan){
             return message.reply('There is no ' + app.itemdata['care_package'].icon + '`care_package` in this channel.');
         }
         
-        if(guildInfo[0].dropItem == ''){
+        if(guildRow.dropItem == ''){
             return message.reply('There is no lootable ' + app.itemdata['care_package'].icon + '`care_package`.');
         }
         
@@ -33,8 +33,8 @@ module.exports = {
         await app.query(`UPDATE guildInfo SET dropItem = '' WHERE guildId = ${message.guild.id}`);
         await app.query(`UPDATE guildInfo SET dropItemChan = 0 WHERE guildId = ${message.guild.id}`);
         await app.cd.setCD(message.author.id, 'airdrop', app.config.cooldowns.claimdrop * 1000);
-        await app.itm.addItem(message.author.id, guildInfo[0].dropItem, 1);
+        await app.itm.addItem(message.author.id, guildRow.dropItem, 1);
 
-        message.reply(`You got the ${app.itemdata[guildInfo[0].dropItem].icon}\`${guildInfo[0].dropItem}\`!`);
+        message.reply(`You got the ${app.itemdata[guildRow.dropItem].icon}\`${guildRow.dropItem}\`!`);
     },
 }
