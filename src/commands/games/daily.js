@@ -1,7 +1,7 @@
 const QUOTES = [
-    'Oh look, I found this {icon}{item} for you!', 
-    'Here\'s a free {icon}{item}!', 
-    'Heard this {icon}{item} has some insane loot inside it...'
+    'Oh look, I found this {icon}{item} for you!\n\nWant more? Try the `hourly`, `vote` commands.', 
+    'Here\'s a free {icon}{item}!\n\nWant more? Try the `hourly`, `vote` commands.', 
+    'Heard this {icon}{item} has some insane loot inside it...\n\nWant more? Try the `hourly`, `vote` commands.'
 ];
 
 module.exports = {
