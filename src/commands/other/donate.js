@@ -16,7 +16,8 @@ module.exports = {
 
         if(!patronCD){
             return message.channel.createMessage(`**Help support the development of Lootcord!** Donate and get some cool rewards like:
-            \n- Reduced global spam cooldown from 3 seconds to 1 second.\n- A ${app.itemdata['kofi_king'].icon}\`kofi_king\` banner to show off your support.\n- A role in the official Discord server.\n- Supporting the development of the bot!\nhttps://ko-fi.com/blobfysh`);
+            \n- Reduced global spam cooldown from 3 seconds to 1 second.\n- A ${app.itemdata['kofi_king'].icon}\`kofi_king\` banner to show off your support.\n- A role in the official Discord server.\n- Supporting the development of the bot!
+            \n**Your Discord ID:** \`${message.author.id}\`\nhttps://ko-fi.com/blobfysh`);
         }
 
         const donateEmb = new app.Embed()
