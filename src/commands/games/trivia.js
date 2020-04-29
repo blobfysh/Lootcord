@@ -27,12 +27,33 @@ module.exports = {
         let questionB = app.trivia_questions[chance].b;
         let questionC = app.trivia_questions[chance].c;
         let questionD = app.trivia_questions[chance].d;
+        
+        let chanceR = Math.floor(Math.random() * 10); //returns 0-9 (10% chance)
+        let reward = {};
+
+        const hasenough = await app.itm.hasSpace(message.author.id, 2);
+        if (chanceR <= 0 && hasenough){
+            reward.display = app.itemdata['ultra_box'].icon + "`ultra_box`";
+            reward.item = "ultra_box";
+            reward.amount = 1;
+        }
+        else if (chanceR >= 5 && hasenough){
+            reward.display = "2x " + app.itemdata['item_box'].icon + "`item_box`";
+            reward.item = "item_box";
+            reward.amount = 2;
+        }
+        else{
+            reward.display = app.common.formatNumber(1000);
+            reward.item = "money";
+            reward.amount = 1000;
+        }
 
         const embedTrivia = new app.Embed()
         .setAuthor('Category - ' + app.trivia_questions[chance].category)
         .setTitle(questionInfo)
         .setColor(16777215)
-        .setDescription(`🇦: ${questionA}\n🇧: ${questionB}\n🇨: ${questionC}\n🇩: ${questionD}`)
+        .setDescription(`🇦 ${questionA}\n🇧 ${questionB}\n🇨 ${questionC}\n🇩 ${questionD}`)
+        .addField("Reward", reward.display)
         .setFooter('You have 15 seconds to answer.')
 
         const botMessage = await message.channel.createMessage(embedTrivia);
@@ -65,26 +86,17 @@ module.exports = {
             }
 
             async function triviaReward(){
-                let chanceR = Math.floor(Math.random() * 10); //returns 0-9 (10% chance)
-                
-                let rewardItem = "";
-                const hasenough = await app.itm.hasSpace(message.author.id, 2);
-                if (chanceR <= 0 && hasenough){
-                    rewardItem = app.itemdata['ultra_box'].icon + "`ultra_box`";
-                    await app.itm.addItem(message.author.id, 'ultra_box', 1);
+                if(reward.item === 'money'){
+                    await app.player.addMoney(message.author.id, reward.amount);
                 }
-                else if (chanceR >= 5 && hasenough){
-                    rewardItem = "2x " + app.itemdata['item_box'].icon + "`item_box`";
-                    await app.itm.addItem(message.author.id, 'item_box', 2);
+                else{
+                    await app.itm.addItem(message.author.id, reward.item, reward.amount);
                 }
-                else{//40% chance
-                    rewardItem = app.common.formatNumber(1000);
-                    await app.player.addMoney(message.author.id, 1000);
-                }
+
                 const embedReward = new app.Embed()
                 .setTitle(`${(app.trivia_questions[chance][app.trivia_questions[chance].correct_answer])} is correct!`)
                 .setColor(720640)
-                .addField("Reward", rewardItem)
+                .addField("Reward", reward.display)
                 botMessage.edit(embedReward);
             }
         }

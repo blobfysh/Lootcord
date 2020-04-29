@@ -78,6 +78,7 @@ module.exports = {
                 message.channel.createMessage(embedInfo);
             }
             else if(item === 'supply_signal'){
+                const serverInfo = await app.common.getGuildInfo(message.guild.id);
                 await app.itm.removeItem(message.author.id, item, 1);
 
                 message.reply('📻 Requesting immediate airdrop...').then(msg => {
@@ -199,7 +200,7 @@ module.exports = {
         }
         else if(app.itemdata[item].isWeap){
             const userItems = await app.itm.getItemObject(message.author.id);
-            const serverInfo = (await app.query(`SELECT * FROM guildInfo WHERE guildId = ${message.guild.id}`))[0];
+            const serverInfo = await app.common.getGuildInfo(message.guild.id);
             const attackCD = await app.cd.getCD(message.author.id, 'attack');
             const shieldCD = await app.cd.getCD(message.author.id, 'shield');
             // item is a weapon, start checking for member
@@ -469,7 +470,7 @@ module.exports = {
                     });
 
                     // send notifications
-                    if(victimRow.notify2) notifyDeathVictim(app, message, target, item, randDmg, randomItems.items.length !== 0 ? randomItems.display : 'You had nothing they could steal!');
+                    if(victimRow.notify2) notifyDeathVictim(app, message, target, item, randDmg, randomItems.items.length !== 0 ? randomItems.display : ['You had nothing they could steal!']);
                     if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
                         sendToKillFeed(app, message.author, serverInfo.killChan, target, item, randDmg);
                     }
@@ -622,7 +623,7 @@ module.exports = {
                     });
 
                     // send notifications
-                    if(victimRow.notify2) notifyDeathVictim(app, message, member, item, randDmg, randomItems.items.length !== 0 ? randomItems.display : 'You had nothing they could steal!');
+                    if(victimRow.notify2) notifyDeathVictim(app, message, member, item, randDmg, randomItems.items.length !== 0 ? randomItems.display : ['You had nothing they could steal!']);
                     if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
                         sendToKillFeed(app, message.author, serverInfo.killChan, member, item, randDmg);
                     }

@@ -28,12 +28,10 @@ module.exports = {
             scrambleHint = app.scramble_words[chance].hint;
         }
         let finalWord = scrambleWord.toLowerCase(); //final word to check if user got correct
-        let isHardMode = false;
+        let chanceR = Math.random(); //returns 0-9 (10% chance)
+        let reward = {};
         
-        if(!option){
-            return message.reply(`You need to choose a difficulty \`${message.prefix}scramble easy/hard\`\nEasy: Hint but less reward\nHard: Better reward, no hint`);
-        }
-        else if(option !== 'easy' && option !== 'hard'){
+        if(!option || (option !== 'easy' && option !== 'hard')){
             return message.reply(`You need to choose a difficulty \`${message.prefix}scramble easy/hard\`\nEasy: Hint but less reward\nHard: Better reward, no hint`);
         }
         
@@ -42,11 +40,97 @@ module.exports = {
         
         if(option === "easy"){
             embedScramble.setDescription("**Hint:** " + scrambleHint + "\nWord: ```fix\n" + (shuffleWordNoDupe(scrambleWord))+"```");
+            if(scrambleDifficulty == "hard"){
+                const hasEnough = await app.itm.hasSpace(message.author.id, 2);
+
+                if((chanceR < .5) && hasEnough){
+                    reward.display = app.itemdata['item_box'].icon + "`item_box`";
+                    reward.item = "item_box";
+                    reward.amount = 2;
+                }
+                else{
+                    reward.display = app.common.formatNumber(650);
+                    reward.item = "money";
+                    reward.amount = 650;
+                }
+            }
+            else if(scrambleDifficulty == "medium"){
+                const hasEnough = await app.itm.hasSpace(message.author.id, 1);
+                            
+                if((chanceR < .5) && hasEnough){
+                    reward.display = app.itemdata['item_box'].icon + "`item_box`";
+                    reward.item = "item_box";
+                    reward.amount = 1;
+                }
+                else{
+                    reward.display = app.common.formatNumber(400);
+                    reward.item = "money";
+                    reward.amount = 400;
+                }
+            }
+            else{
+                const hasEnough = await app.itm.hasSpace(message.author.id, 1);
+                            
+                if(hasEnough){
+                    reward.display = app.itemdata['item_box'].icon + "`item_box`";
+                    reward.item = "item_box";
+                    reward.amount = 1;
+                }
+                else{
+                    reward.display = app.common.formatNumber(250);
+                    reward.item = "money";
+                    reward.amount = 250;
+                }
+            }
         }
         else if(option === "hard"){
             embedScramble.setDescription("Word: ```fix\n" + shuffleWordNoDupe(scrambleWord.toLowerCase())+"```");
-            isHardMode = true;
+            
+            if(scrambleDifficulty == "hard"){
+                const hasEnough = await app.itm.hasSpace(message.author.id, 1);
+
+                if((chanceR < .5) && hasEnough){
+                    reward.display = app.itemdata['ultra_box'].icon + "`ultra_box`";
+                    reward.item = "ultra_box";
+                    reward.amount = 1;
+                }
+                else{
+                    reward.display = app.common.formatNumber(1700);
+                    reward.item = "money";
+                    reward.amount = 1700;
+                }
+            }
+            else if(scrambleDifficulty == "medium"){
+                const hasEnough = await app.itm.hasSpace(message.author.id, 2);
+
+                if((chanceR < .5) && hasEnough){
+                    reward.display = `2x ${app.itemdata['item_box'].icon}\`item_box\``
+                    reward.item = "item_box";
+                    reward.amount = 2;
+                }
+                else{
+                    reward.display = app.common.formatNumber(1100);
+                    reward.item = "money";
+                    reward.amount = 1100;
+                }
+            }
+            else{
+                const hasEnough = await app.itm.hasSpace(message.author.id, 2);
+
+                if((chanceR < .5) && hasEnough){
+                    reward.display = `2x ${app.itemdata['item_box'].icon}\`item_box\``
+                    reward.item = "item_box";
+                    reward.amount = 2;
+                }
+                else{
+                    reward.display = app.common.formatNumber(800);
+                    reward.item = "money";
+                    reward.amount = 800;
+                }
+            }
         }
+
+        embedScramble.addField("Reward", reward.display);
 
         if(scrambleDifficulty == "hard"){
             embedScramble.setColor(16734296);
@@ -72,84 +156,20 @@ module.exports = {
             collector.on('collect', async m => {
                 if(m.content.toLowerCase() == finalWord){
                     app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
-                    
-                    if(isHardMode){
-                        if(scrambleDifficulty =="hard"){
-                            const hasEnough = await app.itm.hasSpace(message.author.id, 1);
 
-                            if((chance < scrambleJSONlength/4) && hasEnough){
-                                await app.itm.addItem(message.author.id, 'ultra_box', 1);
-                                message.channel.createMessage(scrambleWinMsg(app, `${app.itemdata['ultra_box'].icon}\`ultra_box\``));
-                            }
-                            else{
-                                await app.player.addMoney(message.author.id, 1700);
-                                message.channel.createMessage(scrambleWinMsg(app, app.common.formatNumber(1700)));
-                            }
-                        }
-                        else if(scrambleDifficulty == "medium"){
-                            const hasEnough = await app.itm.hasSpace(message.author.id, 1);
-
-                            if((chance < scrambleJSONlength/3) && hasEnough){
-                                rewardItem = "2x item_box";
-                                await app.itm.addItem(message.author.id, 'item_box', 2);
-                                message.channel.createMessage(scrambleWinMsg(app, `2x ${app.itemdata['item_box'].icon}\`item_box\``));
-                            }
-                            else{
-                                await app.player.addMoney(message.author.id, 1100);
-                                message.channel.createMessage(scrambleWinMsg(app, app.common.formatNumber(1100)));
-                            }
-                        }
-                        else{
-                            const hasEnough = await app.itm.hasSpace(message.author.id, 2);
-
-                            if((chance < scrambleJSONlength/3) && hasEnough){
-                                await app.itm.addItem(message.author.id, 'item_box', 2);
-                                message.channel.createMessage(scrambleWinMsg(app, `2x ${app.itemdata['item_box'].icon}\`item_box\``));
-                            }
-                            else{
-                                await app.player.addMoney(message.author.id, 800);
-                                message.channel.createMessage(scrambleWinMsg(app, app.common.formatNumber(800)));
-                            }
-                        }
+                    if(reward.item === 'money'){
+                        await app.player.addMoney(message.author.id, reward.amount);
                     }
                     else{
-                        if(scrambleDifficulty =="hard"){
-                            const hasEnough = await app.itm.hasSpace(message.author.id, 2);
-
-                            if((chance > scrambleJSONlength/2) && hasEnough){
-                                await app.itm.addItem(message.author.id, 'item_box', 2);
-                                message.channel.createMessage(scrambleWinMsg(app, `2x ${app.itemdata['item_box'].icon}\`item_box\``));
-                            }
-                            else{
-                                await app.player.addMoney(message.author.id, 650);
-                                message.channel.createMessage(scrambleWinMsg(app, app.common.formatNumber(650)));
-                            }
-                        }
-                        else if(scrambleDifficulty == "medium"){
-                            const hasEnough = await app.itm.hasSpace(message.author.id, 1);
-                            
-                            if((chance > scrambleJSONlength/2) && hasEnough){
-                                await app.itm.addItem(message.author.id, 'item_box', 1);
-                                message.channel.createMessage(scrambleWinMsg(app, `${app.itemdata['item_box'].icon}\`item_box\``));
-                            }
-                            else{
-                                await app.player.addMoney(message.author.id, 400);
-                                message.channel.createMessage(scrambleWinMsg(app, app.common.formatNumber(400)));
-                            }
-                        }
-                        else{
-                            const hasEnough = await app.itm.hasSpace(message.author.id, 1);
-                            
-                            if(hasEnough){
-                                await app.itm.addItem(message.author.id, 'item_box', 1);
-                                message.channel.createMessage(scrambleWinMsg(app, `${app.itemdata['item_box'].icon}\`item_box\``));
-                            }
-                            else{
-                                await app.player.addMoney(message.author.id, 250);
-                                message.channel.createMessage(scrambleWinMsg(app, app.common.formatNumber(250)));
-                            }
-                        }
+                        await app.itm.addItem(message.author.id, reward.item, reward.amount);
                     }
+    
+                    const embedScramble = new app.Embed()
+                    .setTitle("You got it correct!")
+                    .addField("Reward", reward.display)
+                    .setColor(9043800);
+
+                    message.channel.createMessage(embedScramble);
                 }
             });
 
@@ -186,12 +206,4 @@ function shuffleWordNoDupe(word){
     }
 
     return shuffled
-}
-
-function scrambleWinMsg(app, itemReward){
-    const embedScramble = new app.Embed()
-    .setTitle("You got it correct!")
-    .addField("Reward", itemReward)
-    .setColor(9043800);
-    return embedScramble;
 }
