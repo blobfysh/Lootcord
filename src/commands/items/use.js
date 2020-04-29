@@ -65,7 +65,10 @@ module.exports = {
                     embedInfo.setTitle('You received ' + results.display.join());
                     embedInfo.setFooter('⭐ ' + results.xp + ' XP earned!')
 
-                    if(app.itemdata[results.itemAmounts[0].split('|')[0]].image != ""){
+                    if(app.itemdata[results.itemAmounts[0].split('|')[0]].unboxImage && app.itemdata[results.itemAmounts[0].split('|')[0]].unboxImage !== ""){
+                        embedInfo.setThumbnail(app.itemdata[results.itemAmounts[0].split('|')[0]].unboxImage);
+                    }
+                    else if(app.itemdata[results.itemAmounts[0].split('|')[0]].image !== ""){
                         embedInfo.setThumbnail(app.itemdata[results.itemAmounts[0].split('|')[0]].image);
                     }
                 }
