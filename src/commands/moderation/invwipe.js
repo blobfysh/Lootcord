@@ -54,7 +54,7 @@ module.exports = {
                 
                 const logMsg = new app.Embed()
                 .setTitle("Inventory Wiped")
-                .setThumbnail(app.common.getAvatar(userInfo))
+                .setThumbnail(app.common.getAvatar(user))
                 .addField('Moderator', '```\n' + message.author.tag + '```')
                 .addField('User', '```\n' + (user.username + '#' + user.discriminator) + '\nID: ' + userID + '```')
                 .setColor(11346517)
