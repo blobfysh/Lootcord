@@ -25,7 +25,7 @@ module.exports = {
             if(app.itemdata[item].craftedWith !== ''){
                 for(let i = 0; i < app.itemdata[item].craftedWith.materials.length; i++){
                     if(app.itemdata[item].craftedWith.materials[i].split('|')[0] == itemSearched){
-                        craftItems.push(app.itemdata[item].icon + ' ' + item);
+                        craftItems.push(app.itemdata[item].icon + '`' + item + '`');
                     }
                 }
             }
@@ -33,7 +33,7 @@ module.exports = {
             if(app.itemdata[item].recyclesTo.length == undefined){
                 for(var i = 0; i < app.itemdata[item].recyclesTo.materials.length; i++){
                     if(app.itemdata[item].recyclesTo.materials[i].split('|')[0] == itemSearched){
-                        recycledFrom.push(app.itemdata[item].icon + ' ' + item);
+                        recycledFrom.push(app.itemdata[item].icon + '`' + item + '`');
                     }
                 }
             }
