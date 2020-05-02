@@ -146,6 +146,8 @@ class Common {
             member = await guild.getRESTMember(id);
 
             guild.members.add(member, guild, false);
+
+            return guild.members.get(id);
         }
         catch(err){
             return undefined;
