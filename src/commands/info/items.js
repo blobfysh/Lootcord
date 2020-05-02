@@ -88,7 +88,7 @@ module.exports = {
             if(!isBound){
                 embedItem.setDescription(itemInfo + "\n```css\nThis item binds to the user when received, and cannot be traded or stolen.```");
             }
-            else{
+            else if(itemInfo !== ""){
                 embedItem.setDescription(itemInfo);
             }
 
