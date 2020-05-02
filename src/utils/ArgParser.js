@@ -148,6 +148,13 @@ class ArgParser {
             if(!isNaN(arg) && Number(arg) && !arg.includes('.')){
                 numbers.push(Math.floor(Number(arg)));
             }
+            else if(arg.endsWith('m') && !isNaN(arg.slice(0, -1)) && Number(arg.slice(0, -1))){
+                arg.charAt()
+                numbers.push(Math.floor(parseFloat(arg) * 1000000))
+            }
+            else if(arg.endsWith('k') && !isNaN(arg.slice(0, -1)) && Number(arg.slice(0, -1))){
+                numbers.push(Math.floor(parseFloat(arg) * 1000))
+            }
         }
         return numbers.filter(num => num >= 0);
     }
