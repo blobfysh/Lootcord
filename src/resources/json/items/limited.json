@@ -14,7 +14,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 700,
+        "sell": 1954,
         "desc": "Has a chance to contain `500 - 2,000` Lootcoin\n**Christmas event item**",
         "image": "",
         "icon": "<:limit_usable:698423067965390849>",
@@ -37,7 +37,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 200,
+        "sell": 553,
         "desc": "Eat this to heal `20-25` HP!\n**Christmas event item**",
         "image": "",
         "icon": "<:limit_usable:698423067965390849>",
@@ -59,7 +59,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 300,
+        "sell": 834,
         "desc": "Sharpened for maximum efficiency\n**Christmas event item**",
         "image": "",
         "icon": "<:limit_melee:698423086747353168>",
@@ -81,7 +81,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 3500,
+        "sell": 8253,
         "desc": "Tightly packed snowball\n**Christmas event item**",
         "image": "",
         "icon": "<:limit_melee:698423086747353168>",
@@ -103,7 +103,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 7000,
+        "sell": 16487,
         "desc": "Send the nutcracker to bite your enemies\n**Christmas event item**",
         "image": "",
         "icon": "<:limit_melee:698423086747353168>",
@@ -131,7 +131,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 400,
+        "sell": 1010,
         "desc": "Wear these cozy gloves to shield yourself for 30 minutes!\n**Christmas event item**",
         "image": "",
         "icon": "<:limit_shield:698423077377409054>",
@@ -152,7 +152,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 100,
+        "sell": 234,
         "desc": "You were on the naughty list!\n**Christmas event item**",
         "image": "",
         "icon": "<:limit_material:656757111388241920>",
@@ -177,7 +177,7 @@
         },
         "recyclesTo": [],
         "buy": "",
-        "sell": 300,
+        "sell": 693,
         "desc": "Unwrap it to see what's inside!\n**Christmas event item**",
         "image": "",
         "icon": "<:limit_box:698423594203611176>",
@@ -185,12 +185,10 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "70": {
-                "xp": 20,
+            "5": {
+                "xp": 75,
                 "items": [
-                    "stocking|1",
-                    "gingerbread|1",
-                    "candycane|1"
+                    "nutcracker|1"
                 ]
             },
             "25": {
@@ -201,10 +199,12 @@
                     "coal|1"
                 ]
             },
-            "5": {
-                "xp": 75,
+            "70": {
+                "xp": 20,
                 "items": [
-                    "nutcracker|1"
+                    "stocking|1",
+                    "gingerbread|1",
+                    "candycane|1"
                 ]
             }
         }
@@ -221,7 +221,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 350,
+        "sell": 968,
         "desc": "Limited event currency that can be used to buy event-only items!\nCheck the `store` to see what can be purchased",
         "image": "",
         "icon": "<:Lootcoin:698425524606730271>",
@@ -244,7 +244,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 150,
+        "sell": 415,
         "desc": "Has a chance to contain `300 - 1,500` Lootcoin!\n**Easter event item**",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/562550734944731157/easter_egg.png",
         "icon": "<:limit_usable:698423067965390849>",
@@ -264,7 +264,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 200,
+        "sell": 501,
         "desc": "Send this rabid bunny to chomp your foes...  🐰\n**Easter event item**",
         "image": "",
         "icon": "<:limit_melee:698423086747353168>",
@@ -291,7 +291,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 200,
+        "sell": 544,
         "desc": "Eat this healthy carrot to heal `17-25` HP!\n**Easter event item**",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703180605147447296/carrot.png",
         "icon": "<:limit_usable:698423067965390849>",
@@ -318,7 +318,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 3000,
+        "sell": 7661,
         "desc": "This rare golden easter egg has a chance to contain `5,000 - 20,000` Lootcoin.\n**Easter event item**",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/562529404434120704/golden_egg.png",
         "icon": "<:limit_usable:698423067965390849>",
@@ -341,7 +341,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 200,
+        "sell": 551,
         "desc": "Delicious chocolate candy eggs that heal `22-30` HP when you eat them!\n**Easter event item**",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/562550732574818309/candy_egg.png",
         "icon": "<:limit_usable:698423067965390849>",
@@ -365,7 +365,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 3500,
+        "sell": 8600,
         "desc": "Do not be fooled, this egg has enough gunpowder in it to destroy a small house. Throw it at an enemy to unleash its deadly force.\n**Easter event item**",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/562525958121455663/tnt_egg.png",
         "icon": "<:limit_melee:698423086747353168>",
@@ -392,7 +392,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 200,
+        "sell": 549,
         "desc": "Someone seriously gave you an apple... You can eat it to gain `9-13` HP.\n**Halloween event item**",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703180591780331520/apple.png",
         "icon": "<:limit_usable:698423067965390849>",
@@ -419,7 +419,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 700,
+        "sell": 1624,
         "desc": "A pumpkin! You could make a jack-o'-lantern... Or you could just eat it to gain `15-30` HP.\n**Halloween event item**",
         "image": "",
         "icon": "<:limit_usable:698423067965390849>",
@@ -446,7 +446,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 600,
+        "sell": 1387,
         "desc": "A king-sized candy bar! Heals `13-28` HP.\n**Halloween event item**",
         "image": "",
         "icon": "<:limit_usable:698423067965390849>",
@@ -470,7 +470,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 1000,
+        "sell": 2638,
         "desc": "A real spider. Toss it at someone to make them scream!\n**Halloween event item**",
         "image": "",
         "icon": "<:limit_melee:698423086747353168>",
@@ -494,7 +494,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 3000,
+        "sell": 8020,
         "desc": "It's meant for reaping crops, but I think we all know what you'll be using it for.\n**Halloween event item**",
         "image": "",
         "icon": "<:limit_melee:698423086747353168>",
@@ -518,7 +518,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 10000,
+        "sell": 24583,
         "desc": "**Halloween event item**",
         "image": "",
         "icon": "<:limit_melee:698423086747353168>",
@@ -542,7 +542,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 500,
+        "sell": 1267,
         "desc": "A trick-or-treat pail. It could contain some cool Halloween items!",
         "image": "",
         "icon": "<:limit_box:698423594203611176>",
@@ -550,11 +550,16 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "40": {
-                "xp": 20,
+            "5": {
+                "xp": 75,
                 "items": [
-                    "candy_bar|1",
-                    "pumpkin|1"
+                    "magic_staff|1"
+                ]
+            },
+            "20": {
+                "xp": 40,
+                "items": [
+                    "scythe|1"
                 ]
             },
             "35": {
@@ -564,16 +569,11 @@
                     "spider|1"
                 ]
             },
-            "20": {
-                "xp": 40,
+            "40": {
+                "xp": 20,
                 "items": [
-                    "scythe|1"
-                ]
-            },
-            "5": {
-                "xp": 75,
-                "items": [
-                    "magic_staff|1"
+                    "candy_bar|1",
+                    "pumpkin|1"
                 ]
             }
         }
@@ -592,7 +592,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 1000,
+        "sell": 2359,
         "desc": "Very spooky banner...\nEquip this to give your inventory a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/631885680175480852/batbanner.png",
         "equippable": true,
@@ -615,7 +615,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 10000,
+        "sell": 24842,
         "desc": "Only the best.",
         "image": "https://cdn.discordapp.com/attachments/542248243313246208/682025810798051418/sheriff_bar.png",
         "equippable": true,

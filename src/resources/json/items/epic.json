@@ -22,7 +22,7 @@
             ]
         },
         "buy": "",
-        "sell": 2100,
+        "sell": 7545,
         "desc": "Equip this backpack to gain **15** item slots!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132298471800862/canvas_bag.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965756407775312/canvas_bag.png",
@@ -61,7 +61,7 @@
             ]
         },
         "buy": "",
-        "sell": 1700,
+        "sell": 7988,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/704970454019997696/thompson.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965796761305138/thompson.png",
@@ -101,7 +101,7 @@
             ]
         },
         "buy": "",
-        "sell": 1800,
+        "sell": 8329,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132215185375302/ak47.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965752519917608/ak47.png",
@@ -129,10 +129,10 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 10000,
+            "amount": 42692,
             "currency": "money"
         },
-        "sell": 2000,
+        "sell": 7510,
         "desc": "Shields you from attacks for 2 hours.",
         "image": "",
         "unboxImage": "",
@@ -167,7 +167,7 @@
             ]
         },
         "buy": "",
-        "sell": 5000,
+        "sell": 17532,
         "desc": "Explosive ammunition, use with weapon.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132526012661883/rocket.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965790629363772/rocket.png",
@@ -190,7 +190,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 2250,
+        "sell": 7509,
         "desc": "7.62x39mm hollow-point bullet. Hollow-point rounds expand on impact, causing more damage.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703158571843452988/7.62_fmj.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965741467795476/7.62.png",
@@ -213,7 +213,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 1000,
+        "sell": 3325,
         "desc": ".45 ACP AP cartridge. Use with weapon.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703158465996259328/45acp_ap.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965746475663470/45acp_ap.png",
@@ -236,7 +236,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 3050,
+        "sell": 10119,
         "desc": "62-grain 5.56x45mm \"green tip\" NATO cartridge.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132464041951242/m855.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704966484912504912/m855.png",
@@ -259,7 +259,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 950,
+        "sell": 3220,
         "desc": ".44 Magnum bullet.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703172202270425188/44_fmj.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965738586308698/44_fmj.png",
@@ -282,7 +282,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 4400,
+        "sell": 16128,
         "desc": "7.62x51mm NATO rifle cartridge.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703158571843452988/7.62_fmj.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965741467795476/7.62.png",
@@ -305,7 +305,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 2300,
+        "sell": 8044,
         "desc": "12 Gauge slug shell. Used for shotguns.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703143362395635782/12g_slug.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965744013607033/12g_slug.png",
@@ -341,13 +341,13 @@
             ]
         },
         "buy": "",
-        "sell": 1500,
+        "sell": 7031,
         "desc": "Military shotgun.",
         "image": "",
         "unboxImage": "",
         "icon": "<:E_weapon:601368952274419723>",
         "breaksOnUse": false,
-        "chanceToBreak": 0.20,
+        "chanceToBreak": 0.2,
         "canBeStolen": true,
         "cooldown": {
             "seconds": 3683
@@ -368,10 +368,10 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 9000,
+            "amount": 28803,
             "currency": "money"
         },
-        "sell": 1900,
+        "sell": 4254,
         "desc": "Restores `50-60` HP!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132470710763520/medkit.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704966791658602537/medkit.png",
@@ -409,13 +409,13 @@
             ]
         },
         "buy": "",
-        "sell": 1700,
+        "sell": 8144,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132457561489428/m4a1.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965761697054750/m4a1.png",
         "icon": "<:E_weapon:601368952274419723>",
         "breaksOnUse": false,
-        "chanceToBreak": 0.20,
+        "chanceToBreak": 0.2,
         "canBeStolen": true,
         "cooldown": {
             "seconds": 3425
@@ -438,10 +438,10 @@
         },
         "recyclesTo": [],
         "buy": {
-            "amount": 10000,
+            "amount": 45143,
             "currency": "money"
         },
-        "sell": 2000,
+        "sell": 7089,
         "desc": "This box drops an item of atleast Rare quality, or potentially an Ultra item.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/702813612359548928/BagsAndBoxes_76_t.PNG",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/702813612359548928/BagsAndBoxes_76_t.PNG",
@@ -450,25 +450,15 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "50": {
-                "xp": 30,
+            "3": {
+                "xp": 80,
                 "items": [
-                    "screw|1",
-                    "spear|1",
-                    "health_pot|1",
-                    "xp_potion|1",
-                    "gunpowder|1"
-                ]
-            },
-            "35": {
-                "xp": 40,
-                "items": [
-                    "crossbow|1",
-                    "grenade|1",
-                    "12g_buckshot|1",
-                    "5.56_fmj|1",
-                    "glock|1",
-                    ".44_fmj|1"
+                    "revolver|1",
+                    "fiber_optics|1",
+                    "spas|1",
+                    "blunderbuss|1",
+                    "7.62_hp|1",
+                    ".45_ap|1"
                 ]
             },
             "10": {
@@ -482,15 +472,25 @@
                     "12g_slug|1"
                 ]
             },
-            "3": {
-                "xp": 80,
+            "35": {
+                "xp": 40,
                 "items": [
-                    "revolver|1",
-                    "fiber_optics|1",
-                    "spas|1",
-                    "blunderbuss|1",
-                    "7.62_hp|1",
-                    ".45_ap|1"
+                    "crossbow|1",
+                    "grenade|1",
+                    "12g_buckshot|1",
+                    "5.56_fmj|1",
+                    "glock|1",
+                    ".44_fmj|1"
+                ]
+            },
+            "50": {
+                "xp": 30,
+                "items": [
+                    "screw|1",
+                    "spear|1",
+                    "health_pot|1",
+                    "xp_potion|1",
+                    "gunpowder|1"
                 ]
             },
             "1.5": {
@@ -532,7 +532,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 8000,
+        "sell": 26621,
         "desc": "A supply drop that may infrequently land in your server after requesting them.\nCan only be looted by the first person to claim it.\nHas a high chance of containing legendary items.",
         "image": "https://cdn.discordapp.com/attachments/542248243313246208/701448923612708864/9k.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/542248243313246208/701448923612708864/9k.png",
@@ -541,6 +541,40 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
+            "1": {
+                "xp": 200,
+                "items": [
+                    "7.62_m61|1",
+                    "ray_gun|1",
+                    "rpg|1"
+                ]
+            },
+            "9": {
+                "xp": 180,
+                "items": [
+                    "rail_cannon|1",
+                    "7.62_7n23|1",
+                    "plasma|1"
+                ]
+            },
+            "10": {
+                "xp": 160,
+                "items": [
+                    "desert_eagle|1",
+                    "awp|1",
+                    "rocket|1",
+                    "javelin|1"
+                ]
+            },
+            "20": {
+                "xp": 150,
+                "items": [
+                    "ak47|1",
+                    "canvas_bag|1",
+                    "7.62_hp|1",
+                    "gold_shield|1"
+                ]
+            },
             "25": {
                 "xp": 100,
                 "items": [
@@ -564,40 +598,6 @@
                     "iron_shield|1",
                     "thompson|1"
                 ]
-            },
-            "20": {
-                "xp": 150,
-                "items": [
-                    "ak47|1",
-                    "canvas_bag|1",
-                    "7.62_hp|1",
-                    "gold_shield|1"
-                ]
-            },
-            "10": {
-                "xp": 160,
-                "items": [
-                    "desert_eagle|1",
-                    "awp|1",
-                    "rocket|1",
-                    "javelin|1"
-                ]
-            },
-            "9": {
-                "xp": 180,
-                "items": [
-                    "rail_cannon|1",
-                    "7.62_7n23|1",
-                    "plasma|1"
-                ]
-            },
-            "1": {
-                "xp": 200,
-                "items": [
-                    "7.62_m61|1",
-                    "ray_gun|1",
-                    "rpg|1"
-                ]
             }
         }
     },
@@ -614,7 +614,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 700,
+        "sell": 2629,
         "desc": "Used to hold things together.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132199792410634/adhesive.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965748883325038/adhesive.png",
@@ -636,7 +636,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 300,
+        "sell": 1095,
         "desc": "Makes things go boom. Useful for crafting ammunition.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132412233908314/gunpowder.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965758622629978/gunpowder.png",
@@ -663,7 +663,7 @@
             ]
         },
         "buy": "",
-        "sell": 1200,
+        "sell": 4279,
         "desc": "Parts used to craft high damage rifles.",
         "image": "",
         "unboxImage": "",
@@ -690,7 +690,7 @@
             ]
         },
         "buy": "",
-        "sell": 900,
+        "sell": 3213,
         "desc": "Parts used to craft high damage automatic weapons.",
         "image": "",
         "unboxImage": "",

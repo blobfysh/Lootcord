@@ -49,9 +49,9 @@ module.exports = {
                     reward.amount = 2;
                 }
                 else{
-                    reward.display = app.common.formatNumber(650);
+                    reward.display = app.common.formatNumber(1250);
                     reward.item = "money";
-                    reward.amount = 650;
+                    reward.amount = 1250;
                 }
             }
             else if(scrambleDifficulty == "medium"){
@@ -63,9 +63,9 @@ module.exports = {
                     reward.amount = 1;
                 }
                 else{
-                    reward.display = app.common.formatNumber(400);
+                    reward.display = app.common.formatNumber(950);
                     reward.item = "money";
-                    reward.amount = 400;
+                    reward.amount = 950;
                 }
             }
             else{
@@ -77,9 +77,9 @@ module.exports = {
                     reward.amount = 1;
                 }
                 else{
-                    reward.display = app.common.formatNumber(250);
+                    reward.display = app.common.formatNumber(750);
                     reward.item = "money";
-                    reward.amount = 250;
+                    reward.amount = 750;
                 }
             }
         }
@@ -95,9 +95,9 @@ module.exports = {
                     reward.amount = 1;
                 }
                 else{
-                    reward.display = app.common.formatNumber(1700);
+                    reward.display = app.common.formatNumber(3500);
                     reward.item = "money";
-                    reward.amount = 1700;
+                    reward.amount = 3500;
                 }
             }
             else if(scrambleDifficulty == "medium"){
@@ -109,9 +109,9 @@ module.exports = {
                     reward.amount = 2;
                 }
                 else{
-                    reward.display = app.common.formatNumber(1100);
+                    reward.display = app.common.formatNumber(2000);
                     reward.item = "money";
-                    reward.amount = 1100;
+                    reward.amount = 2000;
                 }
             }
             else{
@@ -123,9 +123,9 @@ module.exports = {
                     reward.amount = 2;
                 }
                 else{
-                    reward.display = app.common.formatNumber(800);
+                    reward.display = app.common.formatNumber(1200);
                     reward.item = "money";
-                    reward.amount = 800;
+                    reward.amount = 1200;
                 }
             }
         }

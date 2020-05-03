@@ -11,7 +11,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 125,
+        "sell": 466,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132515275374662/rock.png",
         "icon": "<:melee:601323077745246219>",
@@ -35,7 +35,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 500,
+        "sell": 1883,
         "desc": "Use with weapon.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132237868040212/baseball.png",
         "icon": "<:ammo:601323077569347584>",
@@ -55,10 +55,10 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 1500,
+            "amount": 6566,
             "currency": "money"
         },
-        "sell": 300,
+        "sell": 776,
         "desc": "Use this to get a random item!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/702813593976176699/BagsAndBoxes_77_t.PNG",
         "icon": "<:common_box:601415564564627467>",
@@ -66,14 +66,25 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "45": {
-                "xp": 10,
+            "3": {
+                "xp": 50,
                 "items": [
-                    "club|1",
-                    "fish|1",
-                    "fork|1",
-                    "rock|1",
-                    "stick|1"
+                    "pistol_body|1",
+                    "crossbow|1",
+                    "gunpowder|1",
+                    "12g_buckshot|1"
+                ]
+            },
+            "15": {
+                "xp": 30,
+                "items": [
+                    "health_pot|1",
+                    "screw|1",
+                    "xp_potion|1",
+                    "bow|1",
+                    "9mm_fmj|1",
+                    ".45_fmj|1",
+                    ".44_fmj|1"
                 ]
             },
             "35": {
@@ -89,25 +100,14 @@
                     "grenade|1"
                 ]
             },
-            "15": {
-                "xp": 30,
+            "45": {
+                "xp": 10,
                 "items": [
-                    "health_pot|1",
-                    "screw|1",
-                    "xp_potion|1",
-                    "bow|1",
-                    "9mm_fmj|1",
-                    ".45_fmj|1",
-                    ".44_fmj|1"
-                ]
-            },
-            "3": {
-                "xp": 50,
-                "items": [
-                    "pistol_body|1",
-                    "crossbow|1",
-                    "gunpowder|1",
-                    "12g_buckshot|1"
+                    "club|1",
+                    "fish|1",
+                    "fork|1",
+                    "rock|1",
+                    "stick|1"
                 ]
             },
             "1.5": {
@@ -142,7 +142,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 100,
+        "sell": 379,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132371695829012/fork.png",
         "icon": "<:melee:601323077745246219>",
@@ -164,7 +164,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 100,
+        "sell": 340,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132581960614038/stick.png",
         "icon": "<:melee:601323077745246219>",
@@ -188,7 +188,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 150,
+        "sell": 532,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132324581343292/club.png",
         "icon": "<:melee:601323077745246219>",
@@ -210,7 +210,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 125,
+        "sell": 441,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132363680514088/fish.png",
         "icon": "<:melee:601323077745246219>",
@@ -242,7 +242,7 @@
         },
         "recyclesTo": [],
         "buy": "",
-        "sell": 250,
+        "sell": 928,
         "desc": "Use with weapon.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132222970134568/arrow.png",
         "icon": "<:ammo:601323077569347584>",
@@ -263,7 +263,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 50,
+        "sell": 169,
         "desc": "Basic resource used for crafting many items.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132629041545268/wood.png",
         "icon": "<:material:601323077359370251>",
@@ -294,7 +294,7 @@
             ]
         },
         "buy": "",
-        "sell": 250,
+        "sell": 897,
         "desc": "Bundle of 5 `wood`. Good for saving inventory space!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132629041545268/wood.png",
         "icon": "<:material:601323077359370251>",
@@ -322,7 +322,7 @@
         },
         "recyclesTo": [],
         "buy": "",
-        "sell": 225,
+        "sell": 781,
         "desc": "Use this to restore `5-9` HP!",
         "image": "",
         "icon": "<:usable:601323078038847488>",
@@ -351,7 +351,7 @@
         },
         "recyclesTo": [],
         "buy": "",
-        "sell": 100,
+        "sell": 378,
         "desc": "Given when you create an account! Equip this to give your inventory a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971708585050133/pixelbnner.png",
         "equippable": true,

@@ -9,10 +9,10 @@
         "isAmmo": [],
         "ammo": "",
         "craftedWith": {
-            "display": "2x fiber_optics\n2x adhesive\n1x screw\n1x steel",
+            "display": "5x adhesive\n2x fiber_optics\n1x screw\n1x steel",
             "materials": [
+                "adhesive|5",
                 "fiber_optics|2",
-                "adhesive|2",
                 "screw|1",
                 "steel|1"
             ]
@@ -25,7 +25,7 @@
             ]
         },
         "buy": "",
-        "sell": 15000,
+        "sell": 66342,
         "desc": "Equip this backpack to gain **40** item slots!",
         "image": "",
         "unboxImage": "",
@@ -65,7 +65,7 @@
             ]
         },
         "buy": "",
-        "sell": 22500,
+        "sell": 129797,
         "desc": "Uses electromagnetic force to blast a ball of plasma that vaporizes anything it touches.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132500721008741/rail_cannon.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704968624242163812/rail_cannon.png",
@@ -106,7 +106,7 @@
             ]
         },
         "buy": "",
-        "sell": 20000,
+        "sell": 115296,
         "desc": "A lightweight particle-beam weapon that disintegrates targets on contact.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703173875814498364/ray_gun.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704968626180194335/ray_gun.png",
