@@ -26,7 +26,7 @@ module.exports = {
         statusToSet = filter.clean(statusToSet);
 
         try{
-            await app.query(`UPDATE clans SET status = ? WHERE clanId = ?`, [!statusToSet ? '' : statusToSet, message.author.id]);
+            await app.query(`UPDATE clans SET status = ? WHERE clanId = ?`, [!statusToSet ? '' : statusToSet, scoreRow.clanId]);
 
             app.clans.addLog(scoreRow.clanId, `${message.author.username} set the clan status to: ${!statusToSet ? 'Nothing?' : statusToSet}`);
             message.reply('✅ Successfully set status to: ' + (!statusToSet ? 'Nothing?' : statusToSet));
