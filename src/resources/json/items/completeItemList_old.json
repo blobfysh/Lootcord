@@ -2453,10 +2453,10 @@
         "isAmmo": [],
         "ammo": "",
         "craftedWith": {
-            "display": "2x fiber_optics\n2x adhesive\n1x screw\n1x steel",
+            "display": "5x adhesive\n2x fiber_optics\n1x screw\n1x steel",
             "materials": [
+                "adhesive|5",
                 "fiber_optics|2",
-                "adhesive|2",
                 "screw|1",
                 "steel|1"
             ]
