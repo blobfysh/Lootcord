@@ -14,7 +14,7 @@ const sharder = new Sharder('Bot ' + config.botToken, '/src/app.js', {
     stats: true,
     statsInterval: 60 * 1000,
     debug: config.debug,
-    clusters: 1,
+    clusters: 2,
     //shards: 1,
     clientOptions: {
         disableEvents: {

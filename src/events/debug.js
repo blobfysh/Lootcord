@@ -1,3 +1,3 @@
 exports.run = function(message, id){
-    //console.log(message);
+    //if(!message.startsWith('Duplicate presence')) console.log(message);
 }
