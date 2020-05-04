@@ -292,7 +292,7 @@ class Items {
     
             xpToAdd += rand.xp;
             finalItemsAmounts.push(rand.item);
-            itemsDisplay.push(splitRand[1] + "x " + this.app.itemdata[splitRand[0]].icon + "`" + splitRand[0] + "`");
+            itemsDisplay.push((splitRand[1] > 1 ? splitRand[1] + "x " : '') + this.app.itemdata[splitRand[0]].icon + "`" + splitRand[0] + "`");
             items.push(splitRand[0]);
         }
 

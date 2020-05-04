@@ -43,7 +43,8 @@ module.exports = {
 
                 let results = app.itm.openBox(item, amount, row.luck);
                 let bestItem = results.items.sort(app.itm.sortItemsHighLow.bind(app));
-                
+                let rarityStr = '';
+
                 await app.itm.addItem(message.author.id, results.itemAmounts);
                 await app.player.addPoints(message.author.id, results.xp);
 
@@ -51,18 +52,19 @@ module.exports = {
                 .setAuthor(message.member.effectiveName, message.author.avatarURL)
                 
                 switch(app.itemdata[bestItem[0]].rarity){
-                    case 'Ultra': embedInfo.setColor('#EC402C'); break;
-                    case 'Legendary': embedInfo.setColor(13215302); break
-                    case 'Limited': embedInfo.setColor('#EA5A2A'); break
-                    case 'Epic': embedInfo.setColor('#7251E6'); break;
-                    case 'Rare': embedInfo.setColor('#325AD7'); break;
-                    case 'Uncommon': embedInfo.setColor('#429642'); break;
+                    case 'Ultra': embedInfo.setColor('#EC402C');rarityStr = 'an ***U L T R A*** '; break;
+                    case 'Legendary': embedInfo.setColor(13215302);rarityStr = 'a ***LEGENDARY*** '; break
+                    case 'Limited': embedInfo.setColor('#EA5A2A');rarityStr = 'a *Limited* '; break
+                    case 'Epic': embedInfo.setColor('#7251E6');rarityStr = 'an ***EPIC*** '; break;
+                    case 'Rare': embedInfo.setColor('#325AD7');rarityStr = 'a ***Rare*** '; break;
+                    case 'Uncommon': embedInfo.setColor('#429642');rarityStr = 'an *Uncommon* '; break;
                     default:
-                        embedInfo.setColor('#818181');
+                        embedInfo.setColor('#818181');rarityStr = 'a *Common* ';
                 }
                 
                 if(amount === 1){
-                    embedInfo.setTitle('You received ' + results.display.join());
+                    console.log(bestItem[0]);
+                    embedInfo.setTitle('You received ' + rarityStr + results.display.join());
                     embedInfo.setFooter('⭐ ' + results.xp + ' XP earned!')
 
                     if(app.itemdata[results.itemAmounts[0].split('|')[0]].unboxImage && app.itemdata[results.itemAmounts[0].split('|')[0]].unboxImage !== ""){
@@ -73,6 +75,13 @@ module.exports = {
                     }
                 }
                 else{
+                    if(app.itemdata[bestItem[0]].unboxImage && app.itemdata[bestItem[0]].unboxImage !== ""){
+                        embedInfo.setThumbnail(app.itemdata[bestItem[0]].unboxImage);
+                    }
+                    else if(app.itemdata[bestItem[0]].image !== ""){
+                        embedInfo.setThumbnail(app.itemdata[bestItem[0]].image);
+                    }
+                    
                     embedInfo.setFooter('⭐ ' + results.xp + ' XP earned!');
                     embedInfo.setDescription(results.display.join('\n'));
                     embedInfo.setTitle(amount + " boxes opened.");
