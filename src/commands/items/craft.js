@@ -26,7 +26,7 @@ module.exports = {
 
             const embedInfo = new app.Embed()
             .setTitle(`Craft ${craftAmount}x ${app.itemdata[craftItem].icon}\`${craftItem}\` for`)
-            .setDescription(getMatsDisplay(app, itemMats))
+            .setDescription(app.itm.getDisplay(itemMats).join('\n'))
             .setColor('#818181')
             .setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/601372871301791755/craft.png")
 
@@ -78,16 +78,4 @@ function getItemMats(itemMats, craftAmount){
     }
 
     return itemPrice;
-}
-
-function getMatsDisplay(app, itemMats){
-    var displayTxt = '';
-
-    for(var i = 0; i < itemMats.length; i++){
-        let matAmount = itemMats[i].split('|');
-
-        displayTxt += matAmount[1] + 'x ' + app.itemdata[matAmount[0]].icon + matAmount[0] + '\n';
-    }
-
-    return displayTxt;
 }

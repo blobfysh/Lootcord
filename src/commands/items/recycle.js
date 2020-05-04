@@ -26,7 +26,7 @@ module.exports = {
 
             const embedInfo = new app.Embed()
             .setTitle(`Recycle ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for`)
-            .setDescription(getMatsDisplay(app, itemMats))
+            .setDescription(app.itm.getDisplay(itemMats).join('\n'))
             .setColor('#4CAD4C')
             .setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/601373249753841665/recycle.png")
             .setFooter("You will need " + app.itm.getTotalItmCountFromList(itemMats) + " open slots in your inventory to recycle this.")
@@ -84,16 +84,4 @@ function getItemMats(itemMats, recycleAmount){
     }
 
     return itemPrice;
-}
-
-function getMatsDisplay(app, itemMats){
-    var displayTxt = [];
-
-    for(var i = 0; i < itemMats.length; i++){
-        let matAmount = itemMats[i].split('|');
-
-        displayTxt.push(matAmount[1] + 'x ' + app.itemdata[matAmount[0]].icon + matAmount[0]);
-    }
-
-    return displayTxt.join('\n');
 }
