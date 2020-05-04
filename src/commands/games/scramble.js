@@ -15,7 +15,7 @@ module.exports = {
         const scrambleCD = await app.cd.getCD(message.author.id, 'scramble');
 
         if(scrambleCD){
-            return message.reply(`You need to wait  \`${scrambleCD}\`  before using this command again`);
+            return message.reply(`You need to wait \`${scrambleCD}\` before playing another game of scramble.`);
         }
 
         let option = message.args[0] ? message.args[0].toLowerCase() : undefined;

@@ -1,7 +1,7 @@
 const QUOTES = [
     'Oh look, I found this {icon}{item} for you!\n\nWant more? Try the `hourly`, `vote` commands.', 
     'Here\'s a free {icon}{item}!\n\nWant more? Try the `hourly`, `vote` commands.', 
-    'Heard this {icon}{item} has some insane loot inside it...\n\nWant more? Try the `hourly`, `vote` commands.'
+    'You earned a free {icon}{item}!\n\nWant more? Try the `hourly`, `vote` commands.'
 ];
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
         const dailyCD = await app.cd.getCD(message.author.id, 'daily');
 
         if(dailyCD){
-            return message.reply(`You need to wait \`${dailyCD}\` before using this command again.`);
+            return message.reply(`You've already claimed your daily reward today! Wait \`${dailyCD}\` before claiming another.`);
         }
 
         const hasEnough = await app.itm.hasSpace(message.author.id, 1);

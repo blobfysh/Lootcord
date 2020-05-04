@@ -1,6 +1,7 @@
 const QUOTES = [
     'Oh look, I found this {icon}{item} for you!', 
-    'Here\'s a free {icon}{item}!'
+    'Here\'s a free {icon}{item}!',
+    'Here\'s your hourly {icon}{item}!'
 ];
 
 module.exports = {
@@ -19,7 +20,7 @@ module.exports = {
         const hourlyCD = await app.cd.getCD(message.author.id, 'hourly');
 
         if(hourlyCD){
-            return message.reply(`You need to wait \`${hourlyCD}\` before using this command again.`);
+            return message.reply(`You need to wait \`${hourlyCD}\` before collecting another hourly reward.`);
         }
 
         const hasEnough = await app.itm.hasSpace(message.author.id, 1);
@@ -34,7 +35,7 @@ module.exports = {
         
         if(chance >= 100){
             await app.itm.addItem(message.author.id, 'ultra_box', 1);
-            message.reply("🍀 Here's a free " + app.itemdata['ultra_box'].icon + "`ultra_box`!");
+            message.reply("🍀 **How lucky!** You earned a free " + app.itemdata['ultra_box'].icon + "`ultra_box`!");
         }
         else{
             await app.itm.addItem(message.author.id, 'item_box', 1);

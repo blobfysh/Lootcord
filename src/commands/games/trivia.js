@@ -15,7 +15,7 @@ module.exports = {
         const triviaCD = await app.cd.getCD(message.author.id, 'trivia');
 
         if(triviaCD){
-            return message.reply(`You need to wait \`${triviaCD}\` before using this command again`);
+            return message.reply(`You just played a game of trivia! Please wait \`${triviaCD}\` before playing another.`);
         }
 
         await app.cd.setCD(message.author.id, 'trivia', app.config.cooldowns.trivia * 1000);

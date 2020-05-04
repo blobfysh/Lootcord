@@ -23,7 +23,7 @@ module.exports = {
         */
 
        if(jackpotCD){
-            return message.reply(`You need to wait  \`${jackpotCD}\`  before using this command again`);
+            return message.reply(`You recently started a server jackpot! You can create another in \`${jackpotCD}\`.`);
         }
 
         if(!gambleAmount || gambleAmount < 100){

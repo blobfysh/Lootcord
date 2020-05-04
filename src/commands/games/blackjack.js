@@ -19,7 +19,7 @@ module.exports = {
         let gambleAmount = app.parse.numbers(message.args)[0];
 
         if(blackjackCD){
-            return message.reply(`You need to wait  \`${blackjackCD}\`  before using this command again`);
+            return message.reply(`You need to wait \`${blackjackCD}\` before playing another game of blackjack.`);
         }
 
         if(!gambleAmount || gambleAmount < 100){

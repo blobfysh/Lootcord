@@ -17,7 +17,7 @@ module.exports = {
         let gambleAmount = app.parse.numbers(message.args)[0];
 
         if(rouletteCD){
-            return message.reply(`You need to wait  \`${rouletteCD}\`  before using this command again`);
+            return message.reply(`You need to wait  \`${rouletteCD}\`  before using this command again.`);
         }
         
         if(row.health < 25){

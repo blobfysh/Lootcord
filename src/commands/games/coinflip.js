@@ -20,7 +20,7 @@ module.exports = {
         let gambleAmount = app.parse.numbers(message.args)[0];
         
         if(coinflipCD){
-            return message.reply(`You need to wait  \`${coinflipCD}\`  before using this command again`);
+            return message.reply(`You need to wait \`${coinflipCD}\` before flipping another coin.`);
         }
 
         if(!gambleAmount || gambleAmount < 100){
