@@ -62,10 +62,10 @@ module.exports = {
                     // try to create collector first so that it can error out
                     app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
                         return m.author.id === message.author.id
-                    }, { time: 120000 });
+                    }, { time: 180000 });
                     app.msgCollector.createUserCollector(user.id, message.channel.id, m => {
                         return m.author.id === user.id
-                    }, { time: 120000 });
+                    }, { time: 180000 });
 
                     const player1Collector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
                     const player2Collector = app.msgCollector.collectors[`${user.id}_${message.channel.id}`].collector;
