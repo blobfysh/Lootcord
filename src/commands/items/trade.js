@@ -1,10 +1,9 @@
-const MAX_DISPARITY = 2; // number of times greater one persons value can be over the others
 
 module.exports = {
     name: 'trade',
     aliases: [''],
     description: 'Trade items and money with another player.',
-    long: '**A players value cannot be 2x greater than the other players value.**\nLvl Required: 3+\nStart a trade with another user. Trade commands include:\n\n`add <item> <amount>` - Item to add to trade\n`remove <item>` - Remove item from trade\n`addmoney <amount>` - Amount of money to add\n`accept`\n`cancel`',
+    long: 'Lvl Required: 3+\nStart a trade with another user. Trade commands include:\n\n`add <item> <amount>` - Item to add to trade\n`remove <item>` - Remove item from trade\n`addmoney <amount>` - Amount of money to add\n`accept`\n`cancel`',
     args: {"@user": "User to trade with."},
     examples: ["trade @blobfysh"],
     ignoreHelp: false,
@@ -121,13 +120,6 @@ module.exports = {
                                         let player1val = getValue(app, player1Money, player1Items);
                                         let player2val = getValue(app, player2Money, player2Items);
 
-                                        if(player1val > player2val * MAX_DISPARITY){
-                                            return botMessage.edit(`❌ Cannot complete trade. **${message.member.effectiveName}**'s offer (${app.common.formatNumber(player1val)}) was ${MAX_DISPARITY}x greater than **${user.effectiveName}**'s offer (${app.common.formatNumber(player2val)}).`)
-                                        }
-                                        else if(player2val > player1val * MAX_DISPARITY){
-                                            return botMessage.edit(`❌ Cannot complete trade. **${user.effectiveName}**'s offer (${app.common.formatNumber(player2val)}) was ${MAX_DISPARITY}x greater than **${message.member.effectiveName}**'s offer (${app.common.formatNumber(player1val)}).`)
-                                        }
-
                                         await tradeItems(app, message.member, player1Money, player1Items, user, player2Money, player2Items);
                                         
                                         botMessage.edit('✅ Trade completed!');
@@ -159,13 +151,6 @@ module.exports = {
                                     try{
                                         let player1val = getValue(app, player1Money, player1Items);
                                         let player2val = getValue(app, player2Money, player2Items);
-
-                                        if(player1val > player2val * MAX_DISPARITY){
-                                            return botMessage.edit(`❌ Cannot complete trade. **${message.member.effectiveName}**'s offer (${app.common.formatNumber(player1val)}) was ${MAX_DISPARITY}x greater than **${user.effectiveName}**'s offer (${app.common.formatNumber(player2val)}).`)
-                                        }
-                                        else if(player2val > player1val * MAX_DISPARITY){
-                                            return botMessage.edit(`❌ Cannot complete trade. **${user.effectiveName}**'s offer (${app.common.formatNumber(player2val)}) was ${MAX_DISPARITY}x greater than **${message.member.effectiveName}**'s offer (${app.common.formatNumber(player1val)}).`)
-                                        }
 
                                         await tradeItems(app, message.member, player1Money, player1Items, user, player2Money, player2Items);
 
@@ -292,8 +277,7 @@ function refreshWindow(app, player1Member, player1Money, player1Items, player2Me
     const tradeWindow = new app.Embed()
     .setTitle("Trade Window")
     .setColor(2713128)
-    .setDescription(player1Member.effectiveName + '\'s offer may not exceed **' + MAX_DISPARITY + 'x** the value of ' + player2Member.effectiveName + '\'s offer, and vice versa.')
-    //.setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/568469679081914435/tradeIcon.png")
+    .setDescription('Reminder that handouts are not allowed, **giving** items/money to another player may result in punishment.')
     .addField(log ? player1Member.username : player1Member.effectiveName + `'s Offer`, app.common.formatNumber(player1Money),true)
     .addField(log ? player2Member.username : player2Member.effectiveName + `'s Offer`, app.common.formatNumber(player2Money),true)
     .addBlankField(true)
