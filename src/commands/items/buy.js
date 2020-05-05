@@ -197,7 +197,7 @@ module.exports = {
                     .setTimestamp()
                     .setColor(9043800)
                     .addField('Buyer', message.author.tag + ' ID: ```\n' + message.author.id + '```')
-                    .addField('Seller', 'ID: ```\n' + listInfo.sellerId + '```')
+                    .addField('Seller', '```\n' + listInfo.sellerId + '```')
                     .addField('List Duration (how long it was listed)', app.cd.convertTime(Date.now() - listInfo.listTime))
                     .addField('Item Sold', `${listInfo.amount}x \`${listInfo.item}\``, true)
                     .addField('Price', app.common.formatNumber(listInfo.price), true)
