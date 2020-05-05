@@ -66,213 +66,216 @@ module.exports = {
                     app.msgCollector.createUserCollector(user.id, message.channel.id, m => {
                         return m.author.id === user.id
                     }, { time: 180000 });
-
-                    const player1Collector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
-                    const player2Collector = app.msgCollector.collectors[`${user.id}_${message.channel.id}`].collector;
-
-                    let player1Money = 0;
-                    let player2Money = 0;
-                    let player1Items = [];
-                    let player2Items = [];
-
-                    player1Collector.on('collect', getPlayer);
-                    player2Collector.on('collect', getPlayer);
-                    
-                    player1Collector.on('end', reason => {
-                        if(reason === 'time'){
-                            message.channel.createMessage('❌ The trade timed out.');
-                        }
-                    })
-
-                    function getPlayer(m){
-                        let args = m.content.slice(message.prefix.length).split(/ +/);
-
-                        if(m.author.id === user.id) return handleMsg(m, args.slice(1), args[0] || '', 2);
-                        
-                        return handleMsg(m, args.slice(1), args[0] || '', 1);
-                    }
-
-                    async function handleMsg(m, args, command, player){
-                        if(command.toLowerCase() === 'cancel'){
-                            app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
-                            app.msgCollector.stopCollector(`${user.id}_${message.channel.id}`);
-
-                            message.channel.createMessage('Trade has been cancelled.');
-                        }
-                        else if(command.toLowerCase() === 'accept'){
-                            if(!getValue(app, player2Money, player2Items) && !getValue(app, player1Money, player1Items)) return m.channel.createMessage(`❌ You should add something to the trade!`);
-                            app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
-                            app.msgCollector.stopCollector(`${user.id}_${message.channel.id}`);
-
-                            if(player === 1){
-                                const botMessage = await message.channel.createMessage(`<@${user.id}>, **${message.member.effectiveName}** has accepted the trade! Do you accept?`);
-
-                                try{
-                                    const accepted = await app.react.getConfirmation(user.id, botMessage);
-
-                                    if(accepted){
-                                        try{
-                                            let player1val = getValue(app, player1Money, player1Items);
-                                            let player2val = getValue(app, player2Money, player2Items);
-
-                                            if(player1val > player2val * MAX_DISPARITY){
-                                                return botMessage.edit(`❌ Cannot complete trade. **${message.member.effectiveName}**'s offer (${app.common.formatNumber(player1val)}) was ${MAX_DISPARITY}x greater than **${user.effectiveName}**'s offer (${app.common.formatNumber(player2val)}).`)
-                                            }
-                                            else if(player2val > player1val * MAX_DISPARITY){
-                                                return botMessage.edit(`❌ Cannot complete trade. **${user.effectiveName}**'s offer (${app.common.formatNumber(player2val)}) was ${MAX_DISPARITY}x greater than **${message.member.effectiveName}**'s offer (${app.common.formatNumber(player1val)}).`)
-                                            }
-
-                                            await tradeItems(app, message.member, player1Money, player1Items, user, player2Money, player2Items);
-                                            
-                                            botMessage.edit('✅ Trade completed!');
-
-                                            tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user);
-                                        }
-                                        catch(err){
-                                            if(err.player){
-                                                botMessage.edit(`❌ **${err.player.effectiveName}** ${err.msg}`);
-                                            }
-                                        }
-                                        
-                                    }
-                                    else{
-                                        botMessage.edit(`❌ **${user.effectiveName}** declined the trade.`);
-                                    }
-                                }
-                                catch(err){
-                                    botMessage.edit(`❌ **${user.effectiveName}** did not respond.`);
-                                }
-                            }
-                            else if(player === 2){
-                                const botMessage = await message.channel.createMessage(`<@${message.author.id}>, **${user.effectiveName}** has accepted the trade! Do you accept?`);
-
-                                try{
-                                    const accepted = await app.react.getConfirmation(message.author.id, botMessage);
-
-                                    if(accepted){
-                                        try{
-                                            let player1val = getValue(app, player1Money, player1Items);
-                                            let player2val = getValue(app, player2Money, player2Items);
-
-                                            if(player1val > player2val * MAX_DISPARITY){
-                                                return botMessage.edit(`❌ Cannot complete trade. **${message.member.effectiveName}**'s offer (${app.common.formatNumber(player1val)}) was ${MAX_DISPARITY}x greater than **${user.effectiveName}**'s offer (${app.common.formatNumber(player2val)}).`)
-                                            }
-                                            else if(player2val > player1val * MAX_DISPARITY){
-                                                return botMessage.edit(`❌ Cannot complete trade. **${user.effectiveName}**'s offer (${app.common.formatNumber(player2val)}) was ${MAX_DISPARITY}x greater than **${message.member.effectiveName}**'s offer (${app.common.formatNumber(player1val)}).`)
-                                            }
-
-                                            await tradeItems(app, message.member, player1Money, player1Items, user, player2Money, player2Items);
-
-                                            botMessage.edit('✅ Trade completed!');
-
-                                            tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user);
-                                        }
-                                        catch(err){
-                                            if(err.player){
-                                                botMessage.edit(`❌ **${err.player.effectiveName}** ${err.msg}`);
-                                            }
-                                        }
-                                    }
-                                    else{
-                                        botMessage.edit(`❌ **${message.member.effectiveName}** declined the trade.`);
-                                    }
-                                }
-                                catch(err){
-                                    botMessage.edit(`❌ **${message.member.effectiveName}** did not respond.`);
-                                }
-                            }
-                        }
-                        else if(command.toLowerCase() === 'addmoney'){
-                            let amount = app.parse.numbers(args)[0];
-
-                            if(!await app.player.hasMoney(m.author.id, amount)){
-                                return m.channel.createMessage(`❌ You don't have that much money.`);
-                            }
-
-                            if(player === 1){
-                                player1Money += amount;
-                            }
-                            else if(player === 2){
-                                player2Money += amount;
-                            }
-
-                            message.channel.createMessage(refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix));
-                        }
-                        else if(command.toLowerCase() === 'add'){
-                            let amount = app.parse.numbers(args)[0] || 1;
-                            let item = app.parse.items(args)[0];
-
-                            if(!item){
-                                return m.channel.createMessage('❌ You need to specify an item.');
-                            }
-                            if(!app.itemdata[item].canBeStolen){
-                                return m.channel.createMessage('❌ That item cannot be traded.');
-                            }
-
-                            if(player === 1){
-                                if(listHasItem(player1Items, item)){
-                                    return m.channel.createMessage('❌ That item is already in the trade.');
-                                }
-                                if(!await app.itm.hasItems(m.author.id, item, amount)){
-                                    return m.channel.createMessage('❌ You don\'t have enough of that item.');
-                                }
-
-                                player1Items.push(item+"|"+amount);
-                            }
-                            else if(player === 2){
-                                if(listHasItem(player2Items, item)){
-                                    return m.channel.createMessage('❌ That item is already in the trade.');
-                                }
-                                if(!await app.itm.hasItems(m.author.id, item, amount)){
-                                    return m.channel.createMessage('❌ You don\'t have enough of that item.');
-                                }
-
-                                player2Items.push(item+"|"+amount);
-                            }
-
-                            message.channel.createMessage(refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix));
-                        }
-                        else if(command.toLowerCase() === 'remove'){
-                            let item = app.parse.items(args)[0];
-
-                            if(!item){
-                                return m.channel.createMessage('❌ You need to specify an item.');
-                            }
-
-                            if(player === 1){
-                                if(!listHasItem(player1Items, item)){
-                                    return m.channel.createMessage('❌ You don\'t have that item in the trade.');
-                                }
-
-                                for(let i = 0; i < player1Items.length; i++){
-                                    if(player1Items[i].split('|')[0] === item){
-                                        player1Items.splice(i, 1);
-                                    }
-                                }
-
-                                m.channel.createMessage(`Item ${app.itemdata[item].icon}\`${item}\` removed.`);
-                            }
-                            else if(player === 2){
-                                if(!listHasItem(player2Items, item)){
-                                    return m.channel.createMessage('❌ You don\'t have that item in the trade.');
-                                }
-
-                                for(let i = 0; i < player2Items.length; i++){
-                                    if(player2Items[i].split('|')[0] === item){
-                                        player2Items.splice(i, 1);
-                                    }
-                                }
-
-                                m.channel.createMessage(`Item ${app.itemdata[item].icon}\`${item}\` removed.`);
-                            }
-
-                            message.channel.createMessage(refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix));
-                        }
-                    }
                 }
                 catch(err){
-                    return message.channel.createMessage('❌ One of the trading partners has another command active. Finish using that command before starting a trade.');
+                    return botMessage.edit('❌ One of the trading partners has another command active. Finish using that command before starting a trade.');
                 }
+
+                const player1Collector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
+                const player2Collector = app.msgCollector.collectors[`${user.id}_${message.channel.id}`].collector;
+
+                let player1Money = 0;
+                let player2Money = 0;
+                let player1Items = [];
+                let player2Items = [];
+
+                player1Collector.on('collect', getPlayer);
+                player2Collector.on('collect', getPlayer);
+                
+                player1Collector.on('end', reason => {
+                    if(reason === 'time'){
+                        message.channel.createMessage('❌ The trade timed out.');
+                    }
+                })
+
+                function getPlayer(m){
+                    if(!m.content.toLowerCase().startsWith(message.prefix)) return;
+
+                    let args = m.content.slice(message.prefix.length).split(/ +/);
+
+                    if(m.author.id === user.id) return handleMsg(m, args.slice(1), args[0] || '', 2);
+                    
+                    return handleMsg(m, args.slice(1), args[0] || '', 1);
+                }
+
+                async function handleMsg(m, args, command, player){
+                    if(command.toLowerCase() === 'cancel'){
+                        app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                        app.msgCollector.stopCollector(`${user.id}_${message.channel.id}`);
+
+                        message.channel.createMessage('Trade has been cancelled.');
+                    }
+                    else if(command.toLowerCase() === 'accept'){
+                        if(!getValue(app, player2Money, player2Items) && !getValue(app, player1Money, player1Items)) return m.channel.createMessage(`❌ You should add something to the trade!`);
+                        app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                        app.msgCollector.stopCollector(`${user.id}_${message.channel.id}`);
+
+                        if(player === 1){
+                            const botMessage = await message.channel.createMessage(`<@${user.id}>, **${message.member.effectiveName}** has accepted the trade! Do you accept?`);
+
+                            try{
+                                const accepted = await app.react.getConfirmation(user.id, botMessage);
+
+                                if(accepted){
+                                    try{
+                                        let player1val = getValue(app, player1Money, player1Items);
+                                        let player2val = getValue(app, player2Money, player2Items);
+
+                                        if(player1val > player2val * MAX_DISPARITY){
+                                            return botMessage.edit(`❌ Cannot complete trade. **${message.member.effectiveName}**'s offer (${app.common.formatNumber(player1val)}) was ${MAX_DISPARITY}x greater than **${user.effectiveName}**'s offer (${app.common.formatNumber(player2val)}).`)
+                                        }
+                                        else if(player2val > player1val * MAX_DISPARITY){
+                                            return botMessage.edit(`❌ Cannot complete trade. **${user.effectiveName}**'s offer (${app.common.formatNumber(player2val)}) was ${MAX_DISPARITY}x greater than **${message.member.effectiveName}**'s offer (${app.common.formatNumber(player1val)}).`)
+                                        }
+
+                                        await tradeItems(app, message.member, player1Money, player1Items, user, player2Money, player2Items);
+                                        
+                                        botMessage.edit('✅ Trade completed!');
+
+                                        tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user);
+                                    }
+                                    catch(err){
+                                        if(err.player){
+                                            botMessage.edit(`❌ **${err.player.effectiveName}** ${err.msg}`);
+                                        }
+                                    }
+                                    
+                                }
+                                else{
+                                    botMessage.edit(`❌ **${user.effectiveName}** declined the trade.`);
+                                }
+                            }
+                            catch(err){
+                                botMessage.edit(`❌ **${user.effectiveName}** did not respond.`);
+                            }
+                        }
+                        else if(player === 2){
+                            const botMessage = await message.channel.createMessage(`<@${message.author.id}>, **${user.effectiveName}** has accepted the trade! Do you accept?`);
+
+                            try{
+                                const accepted = await app.react.getConfirmation(message.author.id, botMessage);
+
+                                if(accepted){
+                                    try{
+                                        let player1val = getValue(app, player1Money, player1Items);
+                                        let player2val = getValue(app, player2Money, player2Items);
+
+                                        if(player1val > player2val * MAX_DISPARITY){
+                                            return botMessage.edit(`❌ Cannot complete trade. **${message.member.effectiveName}**'s offer (${app.common.formatNumber(player1val)}) was ${MAX_DISPARITY}x greater than **${user.effectiveName}**'s offer (${app.common.formatNumber(player2val)}).`)
+                                        }
+                                        else if(player2val > player1val * MAX_DISPARITY){
+                                            return botMessage.edit(`❌ Cannot complete trade. **${user.effectiveName}**'s offer (${app.common.formatNumber(player2val)}) was ${MAX_DISPARITY}x greater than **${message.member.effectiveName}**'s offer (${app.common.formatNumber(player1val)}).`)
+                                        }
+
+                                        await tradeItems(app, message.member, player1Money, player1Items, user, player2Money, player2Items);
+
+                                        botMessage.edit('✅ Trade completed!');
+
+                                        tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user);
+                                    }
+                                    catch(err){
+                                        if(err.player){
+                                            botMessage.edit(`❌ **${err.player.effectiveName}** ${err.msg}`);
+                                        }
+                                    }
+                                }
+                                else{
+                                    botMessage.edit(`❌ **${message.member.effectiveName}** declined the trade.`);
+                                }
+                            }
+                            catch(err){
+                                botMessage.edit(`❌ **${message.member.effectiveName}** did not respond.`);
+                            }
+                        }
+                    }
+                    else if(command.toLowerCase() === 'addmoney'){
+                        let amount = app.parse.numbers(args)[0];
+
+                        if(!await app.player.hasMoney(m.author.id, amount)){
+                            return m.channel.createMessage(`❌ You don't have that much money.`);
+                        }
+
+                        if(player === 1){
+                            player1Money += amount;
+                        }
+                        else if(player === 2){
+                            player2Money += amount;
+                        }
+
+                        message.channel.createMessage(refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix));
+                    }
+                    else if(command.toLowerCase() === 'add'){
+                        let amount = app.parse.numbers(args)[0] || 1;
+                        let item = app.parse.items(args)[0];
+
+                        if(!item){
+                            return m.channel.createMessage('❌ You need to specify an item.');
+                        }
+                        if(!app.itemdata[item].canBeStolen){
+                            return m.channel.createMessage('❌ That item cannot be traded.');
+                        }
+
+                        if(player === 1){
+                            if(listHasItem(player1Items, item)){
+                                return m.channel.createMessage('❌ That item is already in the trade.');
+                            }
+                            if(!await app.itm.hasItems(m.author.id, item, amount)){
+                                return m.channel.createMessage('❌ You don\'t have enough of that item.');
+                            }
+
+                            player1Items.push(item+"|"+amount);
+                        }
+                        else if(player === 2){
+                            if(listHasItem(player2Items, item)){
+                                return m.channel.createMessage('❌ That item is already in the trade.');
+                            }
+                            if(!await app.itm.hasItems(m.author.id, item, amount)){
+                                return m.channel.createMessage('❌ You don\'t have enough of that item.');
+                            }
+
+                            player2Items.push(item+"|"+amount);
+                        }
+
+                        message.channel.createMessage(refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix));
+                    }
+                    else if(command.toLowerCase() === 'remove'){
+                        let item = app.parse.items(args)[0];
+
+                        if(!item){
+                            return m.channel.createMessage('❌ You need to specify an item.');
+                        }
+
+                        if(player === 1){
+                            if(!listHasItem(player1Items, item)){
+                                return m.channel.createMessage('❌ You don\'t have that item in the trade.');
+                            }
+
+                            for(let i = 0; i < player1Items.length; i++){
+                                if(player1Items[i].split('|')[0] === item){
+                                    player1Items.splice(i, 1);
+                                }
+                            }
+
+                            m.channel.createMessage(`Item ${app.itemdata[item].icon}\`${item}\` removed.`);
+                        }
+                        else if(player === 2){
+                            if(!listHasItem(player2Items, item)){
+                                return m.channel.createMessage('❌ You don\'t have that item in the trade.');
+                            }
+
+                            for(let i = 0; i < player2Items.length; i++){
+                                if(player2Items[i].split('|')[0] === item){
+                                    player2Items.splice(i, 1);
+                                }
+                            }
+
+                            m.channel.createMessage(`Item ${app.itemdata[item].icon}\`${item}\` removed.`);
+                        }
+
+                        message.channel.createMessage(refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix));
+                    }
+                }
+
                 message.channel.createMessage(refreshWindow(app, message.member, 0, [], user, 0, [], message.prefix));
             }
             else{
