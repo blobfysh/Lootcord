@@ -192,6 +192,18 @@ module.exports = {
                     await app.player.removeMoney(message.author.id, listInfo.price);
                     await app.itm.addItem(message.author.id, listInfo.item, listInfo.amount);
 
+                    const bmLogEmbed = new app.Embed()
+                    .setTitle('BM Listing Sold')
+                    .setTimestamp()
+                    .setColor(9043800)
+                    .addField('Buyer', message.author.tag + ' ID: ```\n' + message.author.id + '```')
+                    .addField('Seller', 'ID: ```\n' + listInfo.sellerId + '```')
+                    .addField('List Duration (how long it was listed)', app.cd.convertTime(Date.now() - listInfo.listTime))
+                    .addField('Item Sold', `${listInfo.amount}x \`${listInfo.item}\``, true)
+                    .addField('Price', app.common.formatNumber(listInfo.price), true)
+                    .setFooter('Make sure listing isn\'t faked to transfer money')
+                    app.messager.messageLogs(bmLogEmbed);
+
                     botMessage.edit(`Successfully bought ${listInfo.amount}x ${app.itemdata[listInfo.item].icon}\`${listInfo.item}\`!`);
                 }
                 else{
