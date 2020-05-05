@@ -324,8 +324,10 @@ module.exports = {
                     if(row.health - mobDmg <= 0){
                         // player was killed
                         let randomItems = await app.itm.getRandomUserItems(message.author.id);
+                        let moneyStolen = Math.floor(row.money * .75);
+                        
                         await app.itm.removeItem(message.author.id, randomItems.amounts);
-                        await app.player.removeMoney(message.author.id, row.money);
+                        await app.player.removeMoney(message.author.id, moneyStolen);
 
                         await app.query(`UPDATE scores SET deaths = deaths + 1 WHERE userId = ${message.author.id}`);
                         await app.query(`UPDATE scores SET health = 100 WHERE userId = ${message.author.id}`);
@@ -338,7 +340,7 @@ module.exports = {
                         
                         const killedReward = new app.Embed()
                         .setTitle(`Loot Lost`)
-                        .setDescription("Money: " + app.common.formatNumber(row.money))
+                        .setDescription("Money: " + app.common.formatNumber(moneyStolen))
                         .setColor(7274496)
                         .addField("Items", randomItems.items.length !== 0 ? randomItems.display.join('\n') : `The ${monster.title} did not find anything on you!`)
 
@@ -351,7 +353,7 @@ module.exports = {
                         if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
                             sendToKillFeed(app, {tag: monster.title, id: monsterRow.monster}, serverInfo.killChan, message.member, monster.weapon.name, mobDmg, true);
                         }
-                        logKill(app, {tag: monster.title, id: monsterRow.monster}, message.author, monster.weapon.name, monster.ammo, mobDmg, row.money, randomItems.items.length !== 0 ? randomItems.amounts : ['Nothing'])
+                        logKill(app, {tag: monster.title, id: monsterRow.monster}, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, randomItems.items.length !== 0 ? randomItems.amounts : ['Nothing'])
                     }
                     else{
                         await app.query(`UPDATE scores SET health = health - ${mobDmg} WHERE userId = ${message.author.id}`);
@@ -446,10 +448,11 @@ module.exports = {
                     
                     let randomItems = await app.itm.getRandomUserItems(target.id);
                     let xpGained = randomItems.items.length * 50;
+                    let moneyStolen = Math.floor(victimRow.money * .75);
                     await app.itm.removeItem(target.id, randomItems.amounts);
                     await app.itm.addItem(message.author.id, randomItems.amounts);
-                    await app.player.removeMoney(target.id, victimRow.money);
-                    await app.player.addMoney(message.author.id, victimRow.money);
+                    await app.player.removeMoney(target.id, moneyStolen);
+                    await app.player.addMoney(message.author.id, moneyStolen);
 
                     await app.player.addPoints(message.author.id, xpGained); // 50 xp for each item stolen
 
@@ -472,7 +475,7 @@ module.exports = {
                     
                     const killedReward = new app.Embed()
                     .setTitle('Loot Received')
-                    .setDescription("Money: " + app.common.formatNumber(victimRow.money) + "\nExperience: `" + xpGained + "xp`")
+                    .setDescription("Money: " + app.common.formatNumber(moneyStolen) + "\nExperience: `" + xpGained + "xp`")
                     .setColor(7274496)
                     .addField("Items", randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
                     
@@ -486,7 +489,7 @@ module.exports = {
                     if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
                         sendToKillFeed(app, message.author, serverInfo.killChan, target, item, randDmg);
                     }
-                    logKill(app, message.member, target, item, ammoUsed, randDmg, victimRow.money, randomItems.items.length !== 0 ? randomItems.amounts : ['Nothing'])
+                    logKill(app, message.member, target, item, ammoUsed, randDmg, moneyStolen, randomItems.items.length !== 0 ? randomItems.amounts : ['Nothing'])
                 }
                 else{
                     // normal attack
@@ -599,10 +602,12 @@ module.exports = {
                     
                     let randomItems = await app.itm.getRandomUserItems(member.id);
                     let xpGained = randomItems.items.length * 50;
+                    let moneyStolen = Math.floor(victimRow.money * .75);
+
                     await app.itm.removeItem(member.id, randomItems.amounts);
                     await app.itm.addItem(message.author.id, randomItems.amounts);
-                    await app.player.removeMoney(member.id, victimRow.money);
-                    await app.player.addMoney(message.author.id, victimRow.money);
+                    await app.player.removeMoney(member.id, moneyStolen);
+                    await app.player.addMoney(message.author.id, moneyStolen);
 
                     await app.player.addPoints(message.author.id, xpGained); // 50 xp for each item stolen
 
@@ -625,7 +630,7 @@ module.exports = {
                     
                     const killedReward = new app.Embed()
                     .setTitle('Loot Received')
-                    .setDescription("Money: " + app.common.formatNumber(victimRow.money) + "\nExperience: `" + xpGained + "xp`")
+                    .setDescription("Money: " + app.common.formatNumber(moneyStolen) + "\nExperience: `" + xpGained + "xp`")
                     .setColor(7274496)
                     .addField("Items", randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
                     
@@ -639,7 +644,7 @@ module.exports = {
                     if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
                         sendToKillFeed(app, message.author, serverInfo.killChan, member, item, randDmg);
                     }
-                    logKill(app, message.member, member, item, ammoUsed, randDmg, victimRow.money, randomItems.items.length !== 0 ? randomItems.amounts : ['Nothing'])
+                    logKill(app, message.member, member, item, ammoUsed, randDmg, moneyStolen, randomItems.items.length !== 0 ? randomItems.amounts : ['Nothing'])
                 }
                 else{
                     // normal attack
