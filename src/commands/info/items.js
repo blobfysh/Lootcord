@@ -43,7 +43,7 @@ module.exports = {
             }
             
             const embedItem = new app.Embed()
-            .setTitle(`${app.itemdata[itemSearched].icon} **${itemSearched} Info**`)
+            .setTitle(`${app.itemdata[itemSearched].icon} ${itemSearched}`)
             .setColor(itemRarityColor)
             if(app.itemdata[itemSearched].isBanner){
                 embedItem.setImage(itemImg);
