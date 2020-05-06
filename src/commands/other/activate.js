@@ -16,6 +16,7 @@ module.exports = {
             return message.reply('❌ Your account is already active on this server!');
         }
 
+        await app.cd.clearCD(message.author.id, 'activate');
         await app.cd.setCD(message.author.id, 'activate', 3600 * 1000);
         await app.player.activate(message.author.id, message.guild.id);
         
