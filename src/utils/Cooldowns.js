@@ -49,6 +49,9 @@ class Cooldown {
 
                     this.app.messager.messageLogs(donateEmbed);
                 }
+                else if(type === 'banned'){
+                    this.app.mysql.query(`DELETE FROM banned WHERE userId = '${userId}'`);
+                }
 
                 typeof callback === 'function' && callback();
 

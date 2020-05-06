@@ -16,18 +16,22 @@ module.exports = {
             let bannedList = [];
             const bans = await app.query(`SELECT * FROM banned`);
 
-            
+            const banMsg = new app.Embed()
+            .setAuthor('Banned Players')
+            .setDescription(app.icons.loading + ' fetching bans...')
+            .setColor(720640)
+            const botMessage = await message.channel.createMessage(banMsg);
+
             for(let i = 0; i < bans.length; i++){
                 const user = await app.common.fetchUser(bans[i].userId, { cacheIPC: false });
 
-                bannedList.push(`${i + 1}. ${user.username}#${user.discriminator} (\`${user.id}\`)`);
+                bannedList.push(`${i + 1}. ${user.username}#${user.discriminator} (${user.id})`);
             }
 
-            const banMsg = new app.Embed()
-            .setAuthor('Banned Players')
-            .setDescription(bannedList.join('\n') || 'None')
-            .setColor(720640)
-            message.channel.createMessage(banMsg);
+            setTimeout(() => {
+                banMsg.setDescription('```\n' + (bannedList.join('\n') || 'None') + '```')
+                botMessage.edit(banMsg);
+            }, 1000);
         }
         catch(err){
             message.reply("Error: ```" + err + "```")

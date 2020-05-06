@@ -32,7 +32,7 @@ module.exports = {
         let imageAttached = message.attachments;
 
         const userMsg = new app.Embed()
-        .setTitle(`New Message from ${message.author.tag}`)
+        .setTitle(`New message from ${message.author.tag}`)
         .setThumbnail(message.author.avatarURL)
         .setDescription(messageIn)
         .setColor(13215302)

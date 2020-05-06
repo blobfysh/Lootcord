@@ -249,6 +249,8 @@ class Lootcord extends Base {
         const bannedRows = await this.query(`SELECT * FROM banned`); 
         for(let banned of bannedRows){
             if(banned.userId !== undefined && banned.userId !== null){
+                if(await this.cd.getCD(banned.userId, 'banned')) continue;
+                
                 await this.cache.setNoExpire(`banned|${banned.userId}`, 'Banned perma');
             }
         }
