@@ -310,12 +310,16 @@ module.exports = {
                     });
                 }
                 else{
+                    let mobMoneyStolen = Math.floor((randDmg / monsterRow.health) * monsterRow.money);
+
+                    await app.monsters.subMoney(message.channel.id, mobMoneyStolen);
                     await app.monsters.subHealth(message.channel.id, randDmg);
-                    // normal attack
+
+                    await app.player.addMoney(message.author.id, mobMoneyStolen);
 
                     message.channel.createMessage({
-                        content: generateAttackMobString(app, message, monsterRow, randDmg, item, ammoUsed, weaponBroke, false), 
-                        embed: (await app.monsters.genMobEmbed(message.channel.id, monster, monsterRow.health - randDmg, monsterRow.money)).embed
+                        content: generateAttackMobString(app, message, monsterRow, randDmg, item, ammoUsed, weaponBroke, false, mobMoneyStolen), 
+                        embed: (await app.monsters.genMobEmbed(message.channel.id, monster, monsterRow.health - randDmg, monsterRow.money - mobMoneyStolen)).embed
                     });
 
                     // mob attacks player
@@ -324,7 +328,7 @@ module.exports = {
                     if(row.health - mobDmg <= 0){
                         // player was killed
                         let randomItems = await app.itm.getRandomUserItems(message.author.id);
-                        let moneyStolen = Math.floor(row.money * .75);
+                        let moneyStolen = Math.floor((row.money + mobMoneyStolen) * .75);
                         
                         await app.itm.removeItem(message.author.id, randomItems.amounts);
                         await app.player.removeMoney(message.author.id, moneyStolen);
@@ -750,7 +754,7 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
     return finalStr;
 }
 
-function generateAttackMobString(app, message, monsterRow, damage, itemUsed, ammoUsed, itemBroke, killed){
+function generateAttackMobString(app, message, monsterRow, damage, itemUsed, ammoUsed, itemBroke, killed, moneyStolen){
     const weaponRarity = app.itemdata[itemUsed].rarity;
     const monster = app.mobdata[monsterRow.monster];
     let finalStr = "";
@@ -779,7 +783,14 @@ function generateAttackMobString(app, message, monsterRow, damage, itemUsed, amm
         finalStr += `\nThe **${monster.title}** resisted the effects of the ${app.itemdata[itemUsed].icon}\`${itemUsed}\`!`;
     }
 
-    if(itemBroke){
+    if(moneyStolen){
+        finalStr += `\n\n**${message.member.effectiveName}** dealt **${(damage / monsterRow.health).toFixed(2) * 100}%** of the **${monster.title}**'s current health and managed to steal **${app.common.formatNumber(moneyStolen)}**.`;
+    }
+
+    if(itemBroke && moneyStolen){
+        finalStr += `\n${app.icons.minus}**${message.member.effectiveName}**'s ${app.itemdata[itemUsed].icon}\`${itemUsed}\` broke.`;
+    }
+    else if(itemBroke){
         finalStr += `\n\n${app.icons.minus}**${message.member.effectiveName}**'s ${app.itemdata[itemUsed].icon}\`${itemUsed}\` broke.`;
     }
 

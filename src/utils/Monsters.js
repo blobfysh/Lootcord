@@ -126,6 +126,10 @@ class Monsters {
     async subHealth(channelId, amount){
         await this.app.query(`UPDATE spawns SET health = health - ? WHERE channelId = ?`, [amount, channelId]);
     }
+
+    async subMoney(channelId, amount){
+        await this.app.query(`UPDATE spawns SET money = money - ? WHERE channelId = ?`, [amount, channelId]);
+    }
 }
 
 module.exports = Monsters;
