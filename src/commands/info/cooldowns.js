@@ -26,7 +26,6 @@ module.exports = {
         const coinflipCD = await app.cd.getCD(message.author.id, 'coinflip');
         const jackpotCD = await app.cd.getCD(message.author.id, 'jackpot');
         const airdropCD = await app.cd.getCD(message.author.id, 'airdrop');
-        const deactivateCD = await app.cd.getCD(message.author.id, 'deactivate');
         const xp_potionCD = await app.cd.getCD(message.author.id, 'xp_potion');
                     
         let hourlyReady = hourlyCD ? hourlyCD : "✅ ready"
@@ -71,9 +70,6 @@ module.exports = {
         }
         if(airdropCD){
             embedLeader.addField("claimdrop", '`' + airdropCD + '`', true)
-        }
-        if(deactivateCD){
-            embedLeader.addField("deactivate", '`' + deactivateCD + '`', true)
         }
         if(xp_potionCD){
             embedLeader.addField("xp_potion", '`' + xp_potionCD + '`', true)

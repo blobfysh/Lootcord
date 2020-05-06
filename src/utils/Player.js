@@ -50,15 +50,8 @@ class Player {
      * 
      * @param {string} id ID of user to deactivate
      * @param {string} guild ID of guild to deactivate user from
-     * @param {{addCD: boolean}} options addCD will give user a deactivate cooldown
      */
-    async deactivate(id, guild, options = { addCD: false }){
-        if(options.addCD){
-            // needed to make cooldown an option because if user leaves server to deactivate the timers could overlap.
-            //TODO make option to clear deactivate cd and add new one?
-            await this.app.cd.setCD(id, 'deactivate', 86400 * 1000);
-        }
-
+    async deactivate(id, guild){
         // delete user from server
         await this.app.query(`DELETE FROM userGuilds WHERE userId = ${id} AND guildId = ${guild}`);
     }

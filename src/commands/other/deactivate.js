@@ -12,11 +12,8 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
-        const deactivateCD = await app.cd.getCD(message.author.id, 'deactivate');
         const activateCD = await app.cd.getCD(message.author.id, 'activate');
         const attackCD = await app.cd.getCD(message.author.id, 'attack');
-
-        if(deactivateCD) return message.reply('You can only deactivate a server once every 24 hours');
 
         if(activateCD) return message.reply(`You must wait \`${activateCD}\` after activating in order to deactivate`);
         
@@ -28,10 +25,7 @@ module.exports = {
             let result = await app.react.getConfirmation(message.author.id, botMessage, 15000);
             
             if(result){
-
                 await app.player.deactivate(message.author.id, message.guild.id);
-
-                await app.cd.setCD(message.author.id, 'deactivate', 86400 * 1000);
 
                 botMessage.edit('Your account has been disabled on this server');
 
