@@ -56,7 +56,7 @@ module.exports = {
 
                     embedInfo.setColor(9043800)
                     embedInfo.setTitle('Success!')
-                    embedInfo.setDescription(`You recycled ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for:\n${getMatsDisplay(app, itemMats)}`)
+                    embedInfo.setDescription(`You recycled ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for:\n${app.itm.getDisplay(itemMats).join('\n')}`)
                     botMessage.edit(embedInfo);
                 }
                 else{
