@@ -170,7 +170,7 @@ class Lootcord extends Base {
         this.ipc.register('addPatronRole', async (msg) => {
             const guild = this.bot.guilds.get(msg.guildId);
             if(guild){
-                const member = guild.members.get(msg.userId);
+                const member = await this.common.fetchMember(guild, msg.userId);
 
                 try{
                     if(member) await member.addRole(this.config.tier1PatronRoleID);
@@ -184,7 +184,7 @@ class Lootcord extends Base {
         this.ipc.register('removePatronRole', async (msg) => {
             const guild = this.bot.guilds.get(msg.guildId);
             if(guild){
-                const member = guild.members.get(msg.userId);
+                const member = await this.common.fetchMember(guild, msg.userId);
 
                 try{
                     if(member) await member.removeRole(this.config.tier1PatronRoleID);
@@ -199,7 +199,7 @@ class Lootcord extends Base {
         this.ipc.register('removeActiveRole', async (msg) => {
             const guild = this.bot.guilds.get(msg.guildId);
             if(guild){
-                const member = guild.members.get(msg.userId);
+                const member = await this.common.fetchMember(guild, msg.userId);
 
                 try{
                     if(member) await member.removeRole(msg.roleId);
