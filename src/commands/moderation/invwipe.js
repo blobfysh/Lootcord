@@ -1,9 +1,10 @@
+const shortid = require('shortid');
 
 module.exports = {
     name: 'invwipe',
     aliases: [''],
     description: 'Wipes a users inventory.',
-    long: 'Wipes a users inventory. Be careful with this command, as the action cannot be undone (until account codes are reimplemented).\n- Notifies user',
+    long: 'Wipes a users inventory (specifically all items and money). Will generate a wipe ID that can be used to restore the player\'s inventory.\nNotifies user',
     args: {
         "User ID": "ID of user to wipe.",
         "reason": "Reason for wiping."
@@ -42,9 +43,12 @@ module.exports = {
             const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
 
             if(confirmed){
-                await app.query(`DELETE FROM user_items WHERE userId = '${userID}'`);
-                await app.query(`DELETE FROM badges WHERE userId = '${userID}'`);
-                await app.query(`UPDATE scores SET money = 100 WHERE userId = '${userID}'`);
+                let wipeId = shortid.generate();
+
+                await app.query(`INSERT INTO wiped_data (wipeId, userId, item) SELECT ?, userId, item FROM user_items WHERE userId = ?`, [wipeId, userID]);
+                
+                await app.query(`DELETE FROM user_items WHERE userId = ?`, [userID]);
+                await app.query(`UPDATE scores SET money = 100 WHERE userId = ?`, [userID]);
         
                 const invWipeMsg = new app.Embed()
                 .setTitle("Inventory Wiped")
@@ -57,6 +61,8 @@ module.exports = {
                 .setThumbnail(app.common.getAvatar(user))
                 .addField('Moderator', '```\n' + message.author.tag + '```')
                 .addField('User', '```\n' + (user.username + '#' + user.discriminator) + '\nID: ' + userID + '```')
+                .addField('Wipe ID', '```\n' + wipeId + '```')
+                .addField('Money Wiped', app.common.formatNumber(row.money))
                 .setColor(11346517)
                 .setTimestamp()
         
@@ -64,7 +70,7 @@ module.exports = {
                     app.messager.messageLogs(logMsg);
                     await app.common.messageUser(userID, invWipeMsg, { throwErr: true });
 
-                    botMessage.edit(`Successfully wiped **${user.username}#${user.discriminator}**.`);
+                    botMessage.edit(`Successfully wiped **${user.username}#${user.discriminator}**'s items and money. (Wipe ID: \`${wipeId}\`)`);
                 }
                 catch(err){
                     botMessage.edit('Unable to send message to user, their inventory was still wiped however. ```js\n' + err + '```');

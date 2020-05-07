@@ -19,7 +19,7 @@
             "7.62_m61|6"
         ],
         "staysFor": {
-            "seconds": 180
+            "seconds": 43200
         }
     }
 }

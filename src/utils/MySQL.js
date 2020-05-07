@@ -45,6 +45,9 @@ class MySQL {
             // items table
             await this.query(createItemsSQL);
 
+            // wiped data
+            await this.query(createWipedSQL);
+
             // player badges table
             await this.query(createBadgesSQL);
 
@@ -168,6 +171,15 @@ class MySQL {
         return selectRows ? await this.query(sql) : (await this.query(sql))[0];
     }
 }
+
+const createWipedSQL = `
+CREATE TABLE IF NOT EXISTS wiped_data (
+    wipeId VARCHAR(255),
+    userId BIGINT,
+    item VARCHAR(255))
+    ENGINE = InnoDB
+`
+
 const createSpawnChannels = `
 CREATE TABLE IF NOT EXISTS spawnChannels (
     channelId BIGINT,
