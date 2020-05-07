@@ -195,6 +195,21 @@ class Lootcord extends Base {
                 }
             }
         });
+
+        this.ipc.register('removeActiveRole', async (msg) => {
+            const guild = this.bot.guilds.get(msg.guildId);
+            if(guild){
+                const member = guild.members.get(msg.userId);
+
+                try{
+                    if(member) await member.removeRole(msg.roleId);
+                }
+                catch(err){
+                    console.warn('Failed removing active role.');
+                    console.warn(err);
+                }
+            }
+        });
     }
 
     query(sql, args){

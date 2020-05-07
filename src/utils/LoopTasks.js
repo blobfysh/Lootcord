@@ -54,6 +54,22 @@ class LoopTasks {
         this.app.query(`DELETE FROM transactions WHERE date < NOW() - INTERVAL 30 DAY`);
 
         // auto-deactivate players who have not played for 14 days
+        const InactiveUsers = await this.app.query(`SELECT scores.userId, guildId, lastActive FROM userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 14 DAY`);
+        let activeRolesRemoved = 0;
+
+        for(let i = 0; i < InactiveUser.length; i++){
+            if(Object.keys(this.app.config.activeRoleGuilds).includes(InactiveUsers[i].guildId)){
+                this.app.ipc.broadcast('removeActiveRole', {
+                    guildId: InactiveUsers[i].guildId,
+                    userId: InactiveUsers[i].userId,
+                    roleId: this.app.config.activeRoleGuilds[InactiveUsers[i].guildId].activeRoleID
+                });
+
+                activeRolesRemoved++;
+            }
+        }
+        console.log('[LOOPTASKS] Removed active role from ' + activeRolesRemoved + ' players.');
+        
         this.app.query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 14 DAY`);
     }
 

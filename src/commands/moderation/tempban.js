@@ -9,7 +9,7 @@ module.exports = {
         "limit": "Length of ban.",
         "reason": "Reason for ban."
     },
-    examples: ["ban 168958344361541633 24h cheating", "ban 168958344361541633 10m Being annoying", "ban 168958344361541633 7d Banned for a week"],
+    examples: ["tempban 168958344361541633 24h cheating", "tempban 168958344361541633 10m Being annoying", "tempban 168958344361541633 7d Banned for a week"],
     ignoreHelp: false,
     requiresAcc: false,
     requiresActive: false,
