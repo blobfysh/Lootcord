@@ -51,7 +51,7 @@ class LoopTasks {
                 completedLists++;
             }
             catch(err){
-                console.error(err);
+                console.warn('Failed posting stats to ' + botList.url);
             }
         }
 
