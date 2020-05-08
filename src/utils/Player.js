@@ -74,24 +74,40 @@ class Player {
      * @param {number} curHP Player's current health
      * @param {number} maxHP Player's maximum health
      */
-    getHealthIcon(curHP, maxHP){
-        let hpPerc = curHP / maxHP;
+    getHealthIcon(curHP, maxHP, nextLine = false){
+        let numHearts = Math.ceil(maxHP / 25);
+        let hpStr = '';
 
-        if(hpPerc >= .75){
-            return this.app.icons.health.full;
+        for(let i = 0; i < numHearts; i++){
+            let hpPerc = curHP / 25;
+
+            // add new line of hearts every 5 hearts
+            if(nextLine && i % 5 == 0) hpStr += '\n';
+
+            if(hpPerc >= 1){
+                hpStr += this.app.icons.health.full
+
+                curHP -= 25;
+            }
+            else if(hpPerc > 0){
+                if(hpPerc >= .66){
+                    hpStr += this.app.icons.health.percent_75;
+                }
+                else if(hpPerc >= .33){
+                    hpStr += this.app.icons.health.percent_50;
+                }
+                else{
+                    hpStr += this.app.icons.health.percent_25;
+                }
+
+                curHP = 0;
+            }
+            else{
+                hpStr += this.app.icons.health.empty;
+            }
         }
-        else if(hpPerc >= .5){
-            return this.app.icons.health.percent_75;
-        }
-        else if(hpPerc >= .25){
-            return this.app.icons.health.percent_50;
-        }
-        else if(hpPerc >= .1){
-            return this.app.icons.health.percent_25;
-        }
-        else{
-            return this.app.icons.health.empty;
-        }
+
+        return hpStr;
     }
 
     /**

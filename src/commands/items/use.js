@@ -156,12 +156,12 @@ module.exports = {
                 if(userMaxHeal > randHeal){
                     await app.query(`UPDATE scores SET health = health + ${randHeal} WHERE userId = '${message.author.id}'`);
                     await app.itm.removeItem(message.author.id, item, 1);
-                    message.reply(`You have healed for \`${randHeal}\` HP! Current HP: ${app.player.getHealthIcon(row.health + randHeal, row.maxHealth)} ${row.health + randHeal} / ${row.maxHealth}`);
+                    message.reply(`You have healed for **${randHeal}** health! You now have ${app.player.getHealthIcon(row.health + randHeal, row.maxHealth)} ${row.health + randHeal} / ${row.maxHealth} HP`);
                 }
                 else if(userMaxHeal <= randHeal){
                     await app.query(`UPDATE scores SET health = health + ${userMaxHeal} WHERE userId = '${message.author.id}'`);
                     await app.itm.removeItem(message.author.id, item, 1);
-                    message.reply(`You have healed for \`${userMaxHeal}\` HP! Current HP: ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} ${row.health + userMaxHeal} / ${row.maxHealth}`);
+                    message.reply(`You have healed for **${userMaxHeal}** health! You now have ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} ${row.health + userMaxHeal} / ${row.maxHealth} HP`);
                 }
             }
             else if(app.itemdata[item].givesMoneyOnUse){
@@ -776,7 +776,7 @@ function generateAttackMobString(app, message, monsterRow, damage, itemUsed, amm
         finalStr += `\n${app.icons.death_skull} **The ${monster.title} DIED!**`
     }
     else{
-        finalStr += `\nThe **${monster.title}** is left with ${app.player.getHealthIcon(monsterRow.health - damage, monster.health)} **${monsterRow.health - damage}** health.`;
+        finalStr += `\nThe **${monster.title}** is left with ${app.icons.health.full} **${monsterRow.health - damage}** health.`;
     }
 
     if(itemUsed == 'peck_seed'){
@@ -784,7 +784,7 @@ function generateAttackMobString(app, message, monsterRow, damage, itemUsed, amm
     }
 
     if(moneyStolen){
-        finalStr += `\n\n**${message.member.effectiveName}** dealt **${(damage / monsterRow.health).toFixed(2) * 100}%** of the **${monster.title}**'s current health and managed to steal **${app.common.formatNumber(moneyStolen)}**.`;
+        finalStr += `\n\n**${message.member.effectiveName}** dealt **${Math.floor((damage / monsterRow.health).toFixed(2) * 100)}%** of the **${monster.title}**'s current health and managed to steal **${app.common.formatNumber(moneyStolen)}**.`;
     }
 
     if(itemBroke && moneyStolen){
@@ -879,9 +879,9 @@ async function pickTarget(app, message, selection){
             .setAuthor(message.author.tag, message.author.avatarURL)
             .setTitle('Pick someone to attack!')
             .setDescription(`Type 1, 2, or 3 to select.\n
-            1. ${app.player.getBadge(userdata.user1.badge)} **${(selection.members[0]).tag}** ${app.player.getHealthIcon(userdata.user1.health, userdata.user1.maxHealth)} ${userdata.user1.health} - ${app.common.formatNumber(userdata.user1.money)} - ${(await app.itm.getItemCount(selection.users[0])).itemCt} items\n
-            2. ${app.player.getBadge(userdata.user2.badge)} **${(selection.members[1]).tag}** ${app.player.getHealthIcon(userdata.user2.health, userdata.user2.maxHealth)} ${userdata.user2.health} - ${app.common.formatNumber(userdata.user2.money)} - ${(await app.itm.getItemCount(selection.users[1])).itemCt} items\n
-            3. ${app.player.getBadge(userdata.user3.badge)} **${(selection.members[2]).tag}** ${app.player.getHealthIcon(userdata.user3.health, userdata.user3.maxHealth)} ${userdata.user3.health} - ${app.common.formatNumber(userdata.user3.money)} - ${(await app.itm.getItemCount(selection.users[2])).itemCt} items`)
+            1. ${app.player.getBadge(userdata.user1.badge)} **${(selection.members[0]).tag}** ${app.icons.health.full} ${userdata.user1.health} - ${app.common.formatNumber(userdata.user1.money)} - ${(await app.itm.getItemCount(selection.users[0])).itemCt} items\n
+            2. ${app.player.getBadge(userdata.user2.badge)} **${(selection.members[1]).tag}** ${app.icons.health.full} ${userdata.user2.health} - ${app.common.formatNumber(userdata.user2.money)} - ${(await app.itm.getItemCount(selection.users[1])).itemCt} items\n
+            3. ${app.player.getBadge(userdata.user3.badge)} **${(selection.members[2]).tag}** ${app.icons.health.full} ${userdata.user3.health} - ${app.common.formatNumber(userdata.user3.money)} - ${(await app.itm.getItemCount(selection.users[2])).itemCt} items`)
             .setColor(13215302)
             .setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
 
