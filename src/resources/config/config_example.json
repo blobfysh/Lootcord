@@ -13,7 +13,6 @@
   "supportGuildID":    "497302646521069568",
   "modChannel":        "channel_for_moderators_to_use_commands",
   "modRoleID":         "ID_of_role_to_ping_moderators",
-  "tier1PatronRoleID": "",
   "baseInvSlots":      15,
   "clanInterestRate":  0.005,
   "adminUsers":        ["168958344361541633"],
@@ -28,6 +27,11 @@
   },
   "ignoreLvlMessages": [],
   "activeRoleGuilds": {},
+  "donatorRoles": {
+    "kofi": "",
+    "tier1Patreon": "",
+    "tier2Patreon": ""
+  },
   "webhooks": {
     "logs": {
       "id": "",

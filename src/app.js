@@ -26,7 +26,7 @@ const BlackMarket      = require('./utils/BlackMarket');
 const Clans            = require('./utils/Clans');
 const LoopTasks        = require('./utils/LoopTasks');
 const voteHandler      = require('./utils/voteHandler');
-const patronHandler    = require('./utils/patronHandler');
+const kofiHandler    = require('./utils/kofiHandler');
 
 const events           = fs.readdirSync(__dirname + '/events');
 const categories       = fs.readdirSync(__dirname + '/commands');
@@ -165,15 +165,15 @@ class Lootcord extends Base {
         });
 
         this.ipc.register('vote', voteHandler.handle.bind(this));
-        this.ipc.register('donation', patronHandler.handle.bind(this));
+        this.ipc.register('donation', kofiHandler.handle.bind(this));
 
-        this.ipc.register('addPatronRole', async (msg) => {
+        this.ipc.register('addKofiRole', async (msg) => {
             const guild = this.bot.guilds.get(msg.guildId);
             if(guild){
                 const member = await this.common.fetchMember(guild, msg.userId);
 
                 try{
-                    if(member) await member.addRole(this.config.tier1PatronRoleID);
+                    if(member) await member.addRole(this.config.donatorRoles.kofi);
                 }
                 catch(err){
                     console.warn('Failed adding donator role.');
@@ -181,13 +181,13 @@ class Lootcord extends Base {
                 }
             }
         });
-        this.ipc.register('removePatronRole', async (msg) => {
+        this.ipc.register('removeKofiRole', async (msg) => {
             const guild = this.bot.guilds.get(msg.guildId);
             if(guild){
                 const member = await this.common.fetchMember(guild, msg.userId);
 
                 try{
-                    if(member) await member.removeRole(this.config.tier1PatronRoleID);
+                    if(member) await member.removeRole(this.config.donatorRoles.kofi);
                 }
                 catch(err){
                     console.warn('Failed removing donator role.');

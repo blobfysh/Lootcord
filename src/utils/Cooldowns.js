@@ -39,7 +39,7 @@ class Cooldown {
                     // do patron stuff
                     this.app.mysql.query(`DELETE FROM user_items WHERE userId = '${userId}' AND item = 'kofi_king'`);
                     this.app.mysql.query(`UPDATE scores SET banner = 'none' WHERE userId = '${userId}' AND banner = 'kofi_king'`);
-                    this.app.ipc.broadcast('removePatronRole', { guildId: this.app.config.supportGuildID, userId: userId });
+                    this.app.ipc.broadcast('removeKofiRole', { guildId: this.app.config.supportGuildID, userId: userId });
                     
                     const donateEmbed = new this.app.Embed()
                     .setTitle('Perks Ended')

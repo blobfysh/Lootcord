@@ -64,7 +64,7 @@ exports.handle = async function({ data }){
         }
         else{
             this.itm.addItem(user, 'kofi_king', 1);
-            this.ipc.broadcast('addPatronRole', { guildId: this.config.supportGuildID, userId: user });
+            this.ipc.broadcast('addKofiRole', { guildId: this.config.supportGuildID, userId: user });
             patronEmbed.setDescription(`Thank you for helping me create Lootcord!!\n\nYour account has been given premium perks for \`${months} months\`!`);
             await this.cd.setCD(user, 'patron', MILLISECONDS_MONTH * months);
         }
@@ -92,23 +92,3 @@ exports.handle = async function({ data }){
         console.warn(err);
     }
 }
-
-/*
-    // end patron
-    this.query(`DELETE FROM user_items WHERE userId = '${user}' AND item = 'kofi_king'`);
-    this.query(`UPDATE scores SET banner = 'none' WHERE userId = '${user}' AND banner = 'kofi_king'`);
-    this.broadcast('removePatronRole', { guildId: this.config.supportGuildID, userId: user });
-
-    try{
-        const donateEmbed = new this.Embed()
-        .setTitle('Perks Ended')
-        .setColor(16734296)
-        .setThumbnail('https://pbs.twimg.com/profile_images/1207570720034701314/dTLz6VR2_400x400.jpg')
-        .setDescription(`\`${user}\`'s donator perks expried.`)
-
-        this.messager.messageLogs(donateEmbed);
-    }
-    catch(err){
-        console.warn(err);
-    }
-*/
