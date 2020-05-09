@@ -1,14 +1,14 @@
 
 module.exports = {
-    name: 'givepremium',
+    name: 'sendkofidonation',
     aliases: [''],
-    description: "Gives user Lootcord premium.",
-    long: "Gives user Lootcord premium. Premium lowers spam cooldown to 1 second from 3 seconds and gives user a donator banner.",
+    description: "Gives user Ko-fi donation rewards.",
+    long: "Gives user Ko-fi donation rewards.",
     args: {
-        "User ID": "ID of user to give premium perks.",
-        "months": "Number of months of premium to give."
+        "User ID": "ID of user to give rewards.",
+        "coffees": "Number of coffees to send."
     },
-    examples: ["givepremium 168958344361541633 2"],
+    examples: ["sendkofidonation 168958344361541633 2"],
     ignoreHelp: false,
     requiresAcc: false,
     requiresActive: false,
@@ -16,18 +16,18 @@ module.exports = {
     
     async execute(app, message){
         let userID = message.args[0];
-        let months = message.args[1];
+        let coffees = message.args[1];
 
         if(!userID){
             return message.reply('❌ You forgot to include a user ID.');
         }
-        else if(!months){
-            return message.reply('❌ You forgot to include the number of months.');
+        else if(!coffees){
+            return message.reply('❌ You forgot to include the number of coffees.');
         }
 
         let donateObj = {
             message: userID,
-            amount: months * 3
+            amount: coffees * 3
         }
 
         app.ipc.sendTo(0, 'donation', {data: JSON.stringify(donateObj)});

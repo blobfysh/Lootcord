@@ -1,4 +1,3 @@
-const MILLISECONDS_MONTH = 2592000 * 1000;
 
 exports.handle = async function({ data }){
     const donateEmbed = new this.Embed()
@@ -18,10 +17,10 @@ exports.handle = async function({ data }){
         }
     
         user = user[0][0];
-        const months = Math.floor(parseInt(data.amount) / 3);
+        const coffees = Math.floor(parseInt(data.amount) / 3);
         const userObj = await this.common.fetchUser(user, { cacheIPC: true });
 
-        if(!months){
+        if(!coffees){
             donateEmbed.addField('User', '```fix\n' + user + '```', true)
             donateEmbed.addField('Message', data.message)
             donateEmbed.setFooter('❌ 0 months.')
@@ -47,33 +46,21 @@ exports.handle = async function({ data }){
         }
     
         // give reward
-        const patronCD = await this.cd.getCD(user, 'patron');
-    
+        this.itm.addItem(user, 'kofi_king', 1);
+        this.itm.addItem(user, 'ultra_box', coffees);
+
         const patronEmbed = new this.Embed()
         .setTitle('😲 a donator!')
         .setFooter('💙 blobfysh')
         .setColor('#29ABE0')
-    
-        if(patronCD){
-            const patronRemaining = await this.cache.getTTL(`patron|${user}`);
-    
-            patronEmbed.setDescription(`Thank you for helping me create Lootcord!!\n\nYour premium perks were extended for \`${months} months\`!`);
-    
-            await this.query(`DELETE FROM cooldown WHERE userId = '${user}' AND type = 'patron'`);
-            await this.cd.setCD(user, 'patron', (MILLISECONDS_MONTH * months) + (patronRemaining * 1000));
-        }
-        else{
-            this.itm.addItem(user, 'kofi_king', 1);
-            this.ipc.broadcast('addKofiRole', { guildId: this.config.supportGuildID, userId: user });
-            patronEmbed.setDescription(`Thank you for helping me create Lootcord!!\n\nYour account has been given premium perks for \`${months} months\`!`);
-            await this.cd.setCD(user, 'patron', MILLISECONDS_MONTH * months);
-        }
+        .setDescription(`Thank you for helping me create Lootcord!!`)
+        .addField('Items Received', `${coffees}x ${this.itemdata['ultra_box'].icon}\`ultra_box\`\n1x ${this.itemdata['kofi_king'].icon}\`kofi_king\``)
     
         try{
             await this.common.messageUser(user, patronEmbed, { throwErr: true });
 
             donateEmbed.addField('User', '```fix\n' + userObj.username + '#' + userObj.discriminator + '\nID: ' + user + '```', true)
-            donateEmbed.addField('Months', '```\n' + months + '```', true)
+            donateEmbed.addField('Coffees', '```\n' + coffees + '```', true)
             donateEmbed.addField('Message', data.message)
             donateEmbed.setFooter('✅ Success')
 
@@ -81,7 +68,7 @@ exports.handle = async function({ data }){
         }
         catch(err){
             donateEmbed.addField('User', '```fix\n' + userObj.username + '#' + userObj.discriminator + '\nID: ' + user + '```', true)
-            donateEmbed.addField('Months', '```\n' + months + '```', true)
+            donateEmbed.addField('Coffees', '```\n' + coffees + '```', true)
             donateEmbed.addField('Message', data.message)
             donateEmbed.setFooter('❌ Failed to send message to user.')
 
