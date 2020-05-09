@@ -88,7 +88,7 @@ class CommandHandler {
 
             let spamCD = 2000;
             this.spamCooldown.add(message.author.id);
-            if(await this.app.cd.getCD(message.author.id, 'patron')) spamCD = 1000;
+            if(await this.app.cd.getCD(message.author.id, 'patron') || await this.app.cd.getCD(message.author.id, 'patron1') || await this.app.cd.getCD(message.author.id, 'patron2')) spamCD = 1000;
 
             setTimeout(() => {
                 this.spamCooldown.delete(message.author.id);

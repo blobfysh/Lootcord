@@ -646,5 +646,28 @@
         "breaksOnUse": "",
         "canBeStolen": false,
         "cooldown": ""
+    },
+    "patron": {
+        "rarity": "Limited",
+        "isBanner": true,
+        "bannerColor": "#f96854",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": "",
+        "desc": "Exclusive banner for [patrons](https://www.patreon.com/lootcord)! Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/708570527177900062/patron_banner.gif",
+        "equippable": true,
+        "icon": "<:limit_banner:601371062214852619>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": ""
     }
 }

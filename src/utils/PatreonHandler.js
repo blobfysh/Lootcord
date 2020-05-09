@@ -63,6 +63,7 @@ class PatreonHandler {
         try{
             await this.app.query("INSERT INTO patrons (userId, tier, started) VALUES (?, ?, ?)", [userId, 1, Date.now()]);
             await this.app.cache.setNoExpire(`patron1|${userId}`, 'Patron Monthly Tier 1');
+            await this.addPatronItems(userId);
 
             await this.app.common.messageUser(userId, patronEmbed, { throwErr: true });
 
@@ -93,6 +94,7 @@ class PatreonHandler {
         try{
             await this.app.query("INSERT INTO patrons (userId, tier, started) VALUES (?, ?, ?)", [userId, 2, Date.now()]);
             await this.app.cache.setNoExpire(`patron2|${userId}`, 'Patron Monthly Tier 2');
+            await this.addPatronItems(userId);
 
             await this.app.common.messageUser(userId, patronEmbed, { throwErr: true });
 
@@ -110,6 +112,7 @@ class PatreonHandler {
         try{
             await this.app.query(`DELETE FROM patrons WHERE userId = ? AND tier = ?`, [userId, 1]);
             await this.app.cd.clearCD(userId, 'patron1');
+            await this.removePatronItems(userId);
 
             const patreonLogEmbed = new this.app.Embed()
             .setTitle('Perks Ended')
@@ -127,6 +130,7 @@ class PatreonHandler {
         try{
             await this.app.query(`DELETE FROM patrons WHERE userId = ? AND tier = ?`, [userId, 2]);
             await this.app.cd.clearCD(userId, 'patron2');
+            await this.removePatronItems(userId);
 
             const patreonLogEmbed = new this.app.Embed()
             .setTitle('Perks Ended')
@@ -138,6 +142,16 @@ class PatreonHandler {
         catch(err){
             console.error(err);
         }
+    }
+
+    
+    async addPatronItems(userId){
+        await this.app.itm.addItem(userId, 'patron', 1);
+    }
+
+    async removePatronItems(userId){
+        await this.app.query(`DELETE FROM user_items WHERE userId = ? AND item = 'patron'`, [userId]);
+        await this.app.query(`UPDATE scores SET banner = 'none' WHERE userId = ? AND banner = 'patron'`, [userId]);
     }
 }
 
