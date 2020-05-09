@@ -28,7 +28,9 @@ module.exports = {
             const warnings = (await app.query(`SELECT * FROM warnings WHERE userId = ?`, [userID]));
             const banned = await app.cd.getCD(userID, 'banned');
             const tradebanned = await app.cd.getCD(userID, 'tradeban');
-            const patron = await app.cd.getCD(userID, 'patron');
+            const kofiPatron = await app.cd.getCD(userID, 'patron');
+            const patreonTier1Patron = await app.cd.getCD(userID, 'patron1');
+            const patreonTier2Patron = await app.cd.getCD(userID, 'patron2');
             const createdString = row ? codeWrap(new Date(row.createdAt).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric', timeZone: 'America/New_York'}) + '\n' + new Date(row.createdAt).toLocaleTimeString('en-US', {timeZone: 'America/New_York'}) + ' (EST)', 'fix') : codeWrap('No Account', 'fix');
             const activeString = row ? codeWrap(new Date(row.lastActive).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric', timeZone: 'America/New_York'}) + '\n' + new Date(row.lastActive).toLocaleTimeString('en-US', {timeZone: 'America/New_York'}) + ' (EST)', 'fix') : codeWrap('Never', 'fix');
             
@@ -59,11 +61,19 @@ module.exports = {
                 statEmbed.addField('Trade banned?', codeWrap('No', 'cs'));
             }
 
-            if(patron){
-                statEmbed.addField('Donator?', codeWrap(`Yes - Time Left:\n${patron}`, 'cs'));
+            if(kofiPatron){
+                statEmbed.addField('Ko-fi Donator?', codeWrap(`Yes - Time Left:\n${kofiPatron}`, 'cs'));
             }
             else{
-                statEmbed.addField('Donator?', codeWrap('No', 'cs'));
+                statEmbed.addField('Ko-fi Donator?', codeWrap('No', 'cs'));
+            }
+
+            if(patreonTier1Patron){
+                statEmbed.addField('Patreon Tier', codeWrap('Active - Tier 1 Donator', 'cs'))
+            }
+
+            if(patreonTier2Patron){
+                statEmbed.addField('Patreon Tier', codeWrap('Active - Tier 2 Donator', 'cs'))
             }
 
             message.channel.createMessage(statEmbed);

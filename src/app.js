@@ -2,7 +2,6 @@ const Base             = require('eris-sharder').Base;
 const Eris             = require('eris');
                          require('eris-additions')(Eris, {disabled: ['Eris.Embed']});
 
-const cluster          = require('cluster');
 const fs               = require('fs');
 const Embed            = require('embedcord');
 
@@ -25,8 +24,9 @@ const MessageCollector = require('./utils/MessageCollector');
 const BlackMarket      = require('./utils/BlackMarket');
 const Clans            = require('./utils/Clans');
 const LoopTasks        = require('./utils/LoopTasks');
+const PatreonHandler   = require('./utils/PatreonHandler');
 const voteHandler      = require('./utils/voteHandler');
-const kofiHandler    = require('./utils/kofiHandler');
+const kofiHandler      = require('./utils/kofiHandler');
 
 const events           = fs.readdirSync(__dirname + '/events');
 const categories       = fs.readdirSync(__dirname + '/commands');
@@ -51,6 +51,7 @@ class Lootcord extends Base {
         this.mysql = new MySQL(config);
         this.common = new Common(this);
         this.react = new Reactor(icons);
+        this.patreonHandler = new PatreonHandler(this);
         this.msgCollector = new MessageCollector(this);
         this.discoin = new Discoin(config);
         this.messager = new Messager(this);
@@ -257,6 +258,22 @@ class Lootcord extends Base {
         for(let mod of modRows){
             if(mod.userId !== undefined && mod.userId !== null){
                 await this.cache.setNoExpire(`mod|${mod.userId}`, 'Modded');
+            }
+        }
+
+        // refreshes tier 1 patrons
+        const tier1Patrons = await this.query(`SELECT * FROM patrons WHERE tier = 1`); 
+        for(let patron of tier1Patrons){
+            if(patron.userId !== undefined && patron.userId !== null){
+                await this.cache.setNoExpire(`patron1|${patron.userId}`, 'Patron Monthly Tier 1');
+            }
+        }
+
+        // refreshes tier 2 patrons
+        const tier2Patrons = await this.query(`SELECT * FROM patrons WHERE tier = 2`); 
+        for(let patron of tier2Patrons){
+            if(patron.userId !== undefined && patron.userId !== null){
+                await this.cache.setNoExpire(`patron2|${patron.userId}`, 'Patron Monthly Tier 2');
             }
         }
 

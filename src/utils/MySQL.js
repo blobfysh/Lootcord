@@ -80,6 +80,8 @@ class MySQL {
             // mods table
             await this.query('CREATE TABLE IF NOT EXISTS mods (userId bigint) ENGINE = InnoDB');
 
+            await this.query('CREATE TABLE IF NOT EXISTS patrons (userId bigint, tier INT, started bigint) ENGINE = InnoDB');
+
             await this.query('CREATE TABLE IF NOT EXISTS banned (userId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB');
 
             await this.query('CREATE TABLE IF NOT EXISTS tradebanned (userId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB');
