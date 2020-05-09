@@ -73,6 +73,14 @@ class CommandHandler {
         // check if command requires an active account (player would be elligible to be attacked) in the server
         if(command.requiresAcc && command.requiresActive && !(await this.app.player.isActive(message.author.id, message.guild.id))) return message.channel.createMessage(`❌ You need to activate before using that command here! Use \`${prefix}activate\` to activate.`);
         
+        // check if command is patrons only
+        if(command.patronTier1Only && !await this.app.cd.getCD(message.author.id, 'patron1') && !await this.app.cd.getCD(message.author.id, 'patron2') && !this.app.sets.adminUsers.has(message.author.id)){
+            return message.channel.createMessage(`❌ \`${command.name}\` is exclusive for patreon donators. Support Lootcord on patreon to get access: https://www.patreon.com/lootcord`);
+        }
+        else if(command.patronTier2Only && !await this.app.cd.getCD(message.author.id, 'patron2') && !this.app.sets.adminUsers.has(message.author.id)){
+            return message.channel.createMessage(`❌ \`${command.name}\` is exclusive for **Loot Lord** patreon donators. Support Lootcord on patreon to get access: https://www.patreon.com/lootcord`);
+        }
+        
         // check if user has manage server permission before running guildModsOnly command
         if(command.guildModsOnly && !message.member.permission.has('manageGuild')) return message.channel.createMessage('❌ You need the `Manage Server` permission to use this command!');
         
