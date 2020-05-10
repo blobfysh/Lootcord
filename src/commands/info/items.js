@@ -123,14 +123,42 @@ module.exports = {
             if(itemSellPrice !== ""){
                 embedItem.addField("Sell", app.common.formatNumber(itemSellPrice), true);
             }
+            
+            let craftItems = [];
+            let recycledFrom = [];
 
-            if(itemCraftedWith !== "" || itemRecyclesTo.materials !== undefined) embedItem.addBlankField();
+            Object.keys(app.itemdata).forEach(item => {
+                if(app.itemdata[item].craftedWith !== ''){
+                    for(let i = 0; i < app.itemdata[item].craftedWith.materials.length; i++){
+                        if(app.itemdata[item].craftedWith.materials[i].split('|')[0] == itemSearched){
+                            craftItems.push(app.itemdata[item].icon + '`' + item + '`');
+                        }
+                    }
+                }
+                
+                if(app.itemdata[item].recyclesTo.length == undefined){
+                    for(var i = 0; i < app.itemdata[item].recyclesTo.materials.length; i++){
+                        if(app.itemdata[item].recyclesTo.materials[i].split('|')[0] == itemSearched){
+                            recycledFrom.push(app.itemdata[item].icon + '`' + item + '`');
+                        }
+                    }
+                }
+            });
+
+            if(itemCraftedWith !== "" || itemRecyclesTo.materials !== undefined || craftItems.length || recycledFrom.length) embedItem.addBlankField();
 
             if(itemCraftedWith !== ""){
                 embedItem.addField("🔩 Craft Ingredients:", itemCraftedWith.display.split('\n').map(component =>  component.split(' ')[0] + ' ' + app.itemdata[component.split(' ')[1]].icon + '`' + component.split(' ')[1] + '`').join('\n'), true)
             }
             if(itemRecyclesTo.materials !== undefined){
                 embedItem.addField("♻ Recycles into:", itemRecyclesTo.display.split('\n').map(item =>  item.split(' ')[0] + ' ' + app.itemdata[item.split(' ')[1]].icon + '`' + item.split(' ')[1] + '`').join('\n'), true)
+            }
+
+            if(craftItems.length){
+                embedItem.addField('Used to craft:', craftItems.join('\n'), true)
+            }
+            if(recycledFrom.length){
+                embedItem.addField('Recycled from:', recycledFrom.join('\n'), true)
             }
 
             message.channel.createMessage(embedItem);

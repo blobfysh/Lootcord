@@ -1,6 +1,6 @@
 [
 	"You can unequip shields with `unequip shield`. Be careful though, you won't be able to attack for an additional `60 minutes`.",
-	"You can see what an item can be crafted into with the `craftitems` command.",
+	"You can see what an item can be crafted into with the `item` command.",
 	"Your max health can be increased with the `upgrade` command.",
 	"Have more than 5 active players in your server? Call in supply drops with the `setdropchannel` command.",
 	"Clan leaders can kick members by using their ID. This is handy if the member you're trying to kick doesn't share a server with you.",
