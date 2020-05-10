@@ -53,7 +53,7 @@ module.exports = {
                 embedInfo.addField("🛡️ Shield", '`' + shieldLeft + '`');
             }
 
-            embedInfo.addField("Health",`${app.player.getHealthIcon(row.health, row.maxHealth)}\n${row.health} / ${row.maxHealth}`, true)
+            embedInfo.addField("Health",`${app.player.getHealthIcon(row.health, row.maxHealth, true)}\n${row.health} / ${row.maxHealth}`, true)
             
             embedInfo.addField("Money", app.common.formatNumber(row.money), true)
 
