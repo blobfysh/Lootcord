@@ -3,8 +3,8 @@ const max_items_per_page = 16;
 module.exports = {
     name: 'shop',
     aliases: ['store','market'],
-    description: 'Shows all buy and sell prices for items.',
-    long: 'Show the market of all items that can be bought or sold. Occasionally, steam keys may be displayed for sale on the home page.',
+    description: 'Shows all items that can be bought.',
+    long: 'Show the market of all items that can be bought. Occasionally, steam keys may be displayed for sale on the home page.',
     args: {},
     examples: [],
     ignoreHelp: false,
