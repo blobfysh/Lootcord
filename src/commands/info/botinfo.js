@@ -27,7 +27,7 @@ module.exports = {
         embedInfo.addField("Uptime", codeWrap(app.cd.convertTime(app.bot.uptime), 'fix'), true)
         embedInfo.addField("Memory Usage", codeWrap(Math.round(used) + " MB", 'fix'),true)
         embedInfo.addField("Library", codeWrap("Eris", 'js'), true)
-        embedInfo.addField("Creators","blobfysh#4679\nOGSteve#0007",true)
+        embedInfo.addField("Creators","blobfysh#4679\nShteebr#0007",true)
         embedInfo.addField("Website", "https://lootcord.com",true)
         embedInfo.addField("Discord","https://discord.gg/apKSxuE",true)
         message.channel.createMessage(embedInfo);

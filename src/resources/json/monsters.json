@@ -1,22 +1,76 @@
 {
     "hitman1": {
         "title": "Assassin",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703199645400301598/tumblr_mylsx3JspW1sn0mkdo1_500.png",
+        "artist": "Shteebr#0007",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/709144565944418325/Hitman_LootcordV2.png",
         "pronoun": "he",
-        "health": 200,
+        "health": 250,
         "minDamage": 40,
         "maxDamage": 60,
         "minMoney": 20000,
         "maxMoney": 30000,
         "xp": 200,
         "weapon": {
-            "name": "silenced sniper",
+            "name": "silenced pistol",
             "icon": "<:L_weapon:601369664492404746>"
         },
-        "ammo": "7.62_m61",
+        "ammo": ".45_ap",
         "loot": [
             "awp|1",
-            "7.62_m61|6"
+            "7.62_m61|1",
+            ".45_ap|1",
+            "adhesive|1"
+        ],
+        "staysFor": {
+            "seconds": 43200
+        }
+    },
+    "hitman2": {
+        "title": "Assassin",
+        "artist": "Shteebr#0007",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/709144565944418325/Hitman_LootcordV2.png",
+        "pronoun": "he",
+        "health": 250,
+        "minDamage": 40,
+        "maxDamage": 60,
+        "minMoney": 20000,
+        "maxMoney": 30000,
+        "xp": 200,
+        "weapon": {
+            "name": "silenced pistol",
+            "icon": "<:L_weapon:601369664492404746>"
+        },
+        "ammo": ".45_ap",
+        "loot": [
+            "m4a1|1",
+            ".50ae_hp|1",
+            ".45_ap|1",
+            "cloth|2"
+        ],
+        "staysFor": {
+            "seconds": 43200
+        }
+    },
+    "hitman3": {
+        "title": "Assassin",
+        "artist": "Shteebr#0007",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/709144565944418325/Hitman_LootcordV2.png",
+        "pronoun": "he",
+        "health": 250,
+        "minDamage": 40,
+        "maxDamage": 60,
+        "minMoney": 20000,
+        "maxMoney": 30000,
+        "xp": 200,
+        "weapon": {
+            "name": "silenced pistol",
+            "icon": "<:L_weapon:601369664492404746>"
+        },
+        "ammo": ".45_ap",
+        "loot": [
+            "desert_eagle|1",
+            "care_package|1",
+            ".45_ap|1"
         ],
         "staysFor": {
             "seconds": 43200

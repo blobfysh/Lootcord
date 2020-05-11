@@ -83,6 +83,7 @@ class Monsters {
         .addBlankField()
         .addField('Loot', this.app.itm.getDisplay(monster.loot).join('\n'), true)
         .addField('Money', this.app.common.formatNumber(money), true)
+        .setFooter('Artist: ' + monster.artist)
         .setImage(monster.image)
 
         return mobEmbed;

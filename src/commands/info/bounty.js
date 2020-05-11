@@ -3,7 +3,7 @@ module.exports = {
     name: 'bounty',
     aliases: ['bounties', 'bountys'],
     description: 'Displays the bounty present in the channel, if there is one.',
-    long: 'Displays the bounty present in the channel, if there is one.\nBounties are like raid bosses, you can fight them for loot, or die trying.\nThe bounty system is exclusive to patreon donators: https://www.patreon.com/lootcord.',
+    long: 'Displays the bounty present in the channel, if there is one.\n\nBounties are like raid bosses, you can fight them for loot, or die trying.\n\nThe bounty system is exclusive to patreon donators: https://www.patreon.com/lootcord.',
     args: {},
     examples: [],
     ignoreHelp: false,
