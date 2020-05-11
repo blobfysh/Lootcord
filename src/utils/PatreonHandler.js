@@ -50,7 +50,7 @@ class PatreonHandler {
         const patreonLogEmbed = new this.app.Embed()
         .setTitle('New Patron!')
         .addField('User', '```fix\n' + userId + '```', true)
-        .addField('Tier', '```\nTier 1 (Loot Goblin)```', true)
+        .addField('Tier', '```\nTier 1 (Loot Fiend)```', true)
         .setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/708499928586125372/1200px-Patreon_logomark.png')
         .setColor('#f96854')
 

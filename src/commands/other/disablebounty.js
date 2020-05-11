@@ -1,7 +1,7 @@
 
 module.exports = {
     name: 'disablebounty',
-    aliases: ['disablespawn'],
+    aliases: ['disablespawn', 'disablespawns'],
     description: "Stop your active spawn channels.",
     long: "Stop all active spawn channels you created. Using this will not cause any existing enemies to leave, only prevent future spawns.",
     args: {},
