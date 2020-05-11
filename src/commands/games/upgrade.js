@@ -169,7 +169,10 @@ module.exports = {
                 }
             }
             catch(err){
-                botMessage.edit("You didn't react in time!");
+                const errorEmbed = new app.Embed()
+                .setColor(16734296)
+                .setTitle('❌ Command timed out');
+                botMessage.edit(errorEmbed);
             }
         }
     },
