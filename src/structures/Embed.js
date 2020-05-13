@@ -23,8 +23,8 @@ class Embed {
         }
         
         this.embed.fields.push({
-            name: name.substring(0, 256),
-            value: value.substring(0, 1024),
+            name: name.toString().substring(0, 256),
+            value: value.toString().substring(0, 1024),
             inline
         });
 
@@ -38,7 +38,7 @@ class Embed {
     setTitle(title){
         if (!title) return this;
         
-        this.embed.title = title.substring(0, 256);
+        this.embed.title = title.toString().substring(0, 256);
 
         return this;
     }
@@ -62,7 +62,7 @@ class Embed {
     setDescription(desc){
         if (!desc) return this;
 
-        this.embed.description = desc.substring(0, 2048);
+        this.embed.description = desc.toString().substring(0, 2048);
         
         return this;
     }
@@ -104,7 +104,7 @@ class Embed {
         if (!text) return this;
         
         this.embed.footer = {
-            text: text.substring(0, 2048),
+            text: text.toString().substring(0, 2048),
             icon_url: icon || null
         };
 
@@ -128,7 +128,7 @@ class Embed {
         if (!name) return this;
 
         this.embed.author = {
-            name: name.substring(0, 256),
+            name: name.toString().substring(0, 256),
             icon_url: icon || null,
             url: url || null
         };
