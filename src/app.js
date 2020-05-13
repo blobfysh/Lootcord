@@ -3,10 +3,10 @@ const Eris             = require('eris');
                          require('eris-additions')(Eris, {disabled: ['Eris.Embed']});
 
 const fs               = require('fs');
-const Embed            = require('embedcord');
 
 const config           = require('./resources/config/config');
 const icons            = require('./resources/config/icons');
+const Embed            = require('./structures/Embed');
 const CommandHandler   = require('./utils/CommandHandler');
 const MySQL            = require('./utils/MySQL');
 const Cooldowns        = require('./utils/Cooldowns');
@@ -62,7 +62,7 @@ class Lootcord extends Base {
         this.bm = new BlackMarket(this);
         this.clans = new Clans(this);
         this.parse = new ArgParser(this);
-        this.Embed = Embed.DiscordEmbed;
+        this.Embed = Embed;
         this.airdrop = new Airdrop(this);
         this.monsters = new Monsters(this);
         this.loopTasks = new LoopTasks(this);
