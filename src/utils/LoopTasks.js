@@ -57,7 +57,7 @@ class LoopTasks {
         const InactiveUsers = await this.app.query(`SELECT scores.userId, guildId, lastActive FROM userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 14 DAY`);
         let activeRolesRemoved = 0;
 
-        for(let i = 0; i < InactiveUser.length; i++){
+        for(let i = 0; i < InactiveUsers.length; i++){
             if(Object.keys(this.app.config.activeRoleGuilds).includes(InactiveUsers[i].guildId)){
                 this.app.ipc.broadcast('removeActiveRole', {
                     guildId: InactiveUsers[i].guildId,
