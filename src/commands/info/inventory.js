@@ -53,7 +53,7 @@ module.exports = {
                 let backpack         = userRow.backpack;
 
                 const embedInfo = new app.Embed()
-                .setTitle(`${isActive ? app.icons.accounts.active : app.icons.accounts.inactive} ${member.tag}'s Inventory`)
+                .setTitle(`${isActive ? app.icons.accounts.active : app.icons.accounts.inactive} ${member.username + '#' + member.discriminator}'s Inventory`)
 
                 if(userRow.banner !== 'none'){
                     embedInfo.setImage(app.itemdata[userRow.banner].image);

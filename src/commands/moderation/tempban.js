@@ -50,7 +50,7 @@ module.exports = {
 
             if(confirmed){
                 const banMsg = new app.Embed()
-                .setTitle(`You have been temporarily banned by ${message.author.tag}`)
+                .setTitle(`You have been temporarily banned by ${(message.author.username + '#' + message.author.discriminator)}`)
                 .setDescription("You have been banned for `" + app.cd.convertTime(banLength) + "`. If you wish to challenge this ban, you can appeal at our website.```\n" + messageIn + "```")
                 .setColor(16734296)
                 .setFooter("https://lootcord.com/rules | Only moderators can send you messages.")

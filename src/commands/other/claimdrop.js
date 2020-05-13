@@ -12,7 +12,7 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
-        const guildRow = await app.common.getGuildInfo(message.guild.id);
+        const guildRow = await app.common.getGuildInfo(message.channel.guild.id);
         const airdropCD = await app.cd.getCD(message.author.id, 'airdrop');
         const hasEnough = await app.itm.hasSpace(message.author.id, 1);
     
@@ -30,8 +30,8 @@ module.exports = {
         
         if(!hasEnough) return message.reply("❌ **You don't have enough space in your inventory!** You can clear up space by selling some items.");
         
-        await app.query(`UPDATE guildInfo SET dropItem = '' WHERE guildId = ${message.guild.id}`);
-        await app.query(`UPDATE guildInfo SET dropItemChan = 0 WHERE guildId = ${message.guild.id}`);
+        await app.query(`UPDATE guildInfo SET dropItem = '' WHERE guildId = ${message.channel.guild.id}`);
+        await app.query(`UPDATE guildInfo SET dropItemChan = 0 WHERE guildId = ${message.channel.guild.id}`);
         await app.cd.setCD(message.author.id, 'airdrop', app.config.cooldowns.claimdrop * 1000);
         await app.itm.addItem(message.author.id, guildRow.dropItem, 1);
 

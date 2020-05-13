@@ -59,7 +59,7 @@ module.exports = {
                 const logMsg = new app.Embed()
                 .setTitle("Inventory Wiped")
                 .setThumbnail(app.common.getAvatar(user))
-                .addField('Moderator', '```\n' + message.author.tag + '```')
+                .addField('Moderator', '```\n' + (message.author.username + '#' + message.author.discriminator) + '```')
                 .addField('User', '```\n' + (user.username + '#' + user.discriminator) + '\nID: ' + userID + '```')
                 .addField('Wipe ID', '```\n' + wipeId + '```')
                 .addField('Money Wiped', app.common.formatNumber(row.money))

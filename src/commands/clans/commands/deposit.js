@@ -39,7 +39,7 @@ module.exports = {
             await app.player.removeMoney(message.author.id, itemAmnt);
             await depositItem(app, 'money', itemAmnt, scoreRow.clanId);
 
-            app.clans.addLog(scoreRow.clanId, `${message.author.tag} deposited ${app.common.formatNumber(itemAmnt, true)}`);
+            app.clans.addLog(scoreRow.clanId, `${(message.author.username + '#' + message.author.discriminator)} deposited ${app.common.formatNumber(itemAmnt, true)}`);
 
             return message.reply(`Deposited **${app.common.formatNumber(itemAmnt)}**\n\nThe clan bank now has **${app.common.formatNumber(clanRow.money + itemAmnt)}**`);
         }
@@ -65,7 +65,7 @@ module.exports = {
         await app.itm.removeItem(message.author.id, itemName, itemAmnt);
         await depositItem(app, itemName, itemAmnt, scoreRow.clanId);
 
-        app.clans.addLog(scoreRow.clanId, `${message.author.tag} deposited ${itemAmnt}x ${itemName}`);
+        app.clans.addLog(scoreRow.clanId, `${(message.author.username + '#' + message.author.discriminator)} deposited ${itemAmnt}x ${itemName}`);
 
         const clanItems = await app.itm.getItemObject(scoreRow.clanId);
         const clanPow = await app.clans.getClanData(scoreRow.clanId);

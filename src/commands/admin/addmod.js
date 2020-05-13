@@ -24,7 +24,7 @@ module.exports = {
         }
 
         const modMsg = new app.Embed()
-        .setTitle("😃 " + message.author.tag + " made you a moderator!")
+        .setTitle("😃 " + (message.author.username + '#' + message.author.discriminator) + " made you a moderator!")
         .setDescription("Use `t-modhelp` to see your fancy new commands!")
         .setFooter("You can use mod commands in the Lootcord Workshop moderator channel")
         .setColor(720640)

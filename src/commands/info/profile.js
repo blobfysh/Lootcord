@@ -61,7 +61,7 @@ module.exports = {
 
             const profileEmbed = new app.Embed()
             .setColor(13215302)
-            .setAuthor(member.tag + "'s Profile", member.avatarURL)
+            .setAuthor(member.username + '#' + member.discriminator + "'s Profile", member.avatarURL)
             .setDescription(userStatus)
             .addField('Clan', codeWrap((userRow.clanId !== 0 ? (await app.query(`SELECT name FROM clans WHERE clanId = ${userRow.clanId}`))[0].name : 'None'), 'js'), true)
             .addField('Level', codeWrap(userRow.level + ` (XP: ${xp.curLvlXp} / ${xp.neededForLvl})`, 'js'), true)

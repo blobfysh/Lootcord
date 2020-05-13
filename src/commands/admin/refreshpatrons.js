@@ -13,13 +13,13 @@ module.exports = {
     
     async execute(app, message){
         try{
-            if(message.guild.id !== app.config.supportGuildID) return message.reply('This only works in the support guild!');
+            if(message.channel.guild.id !== app.config.supportGuildID) return message.reply('This only works in the support guild!');
             
             const patrons = await app.query(`SELECT * FROM patrons`);
             let removed = 0;
 
             for(let i = 0; i < patrons.length; i++){
-                const member = await app.common.fetchMember(message.guild, patrons[i].userId);
+                const member = await app.common.fetchMember(message.channel.guild, patrons[i].userId);
 
                 if(patrons[i].tier === 1 && !member.roles.includes(app.config.donatorRoles.tier1Patreon)){
                     app.patreonHandler.lostTier1(patrons[i].userId, `\`${patrons[i].userId}\`'s tier 1 donator perks expried.`);

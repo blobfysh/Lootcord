@@ -59,7 +59,7 @@ module.exports = {
 
                 const deleteEmbed = new app.Embed()
                 .setTitle('⛔ Account Deleted by Moderators')
-                .setDescription(`**${message.author.tag}** deleted **${user.username}#${user.discriminator}**'s account.\`\`\`fix\nID: ${userID}\`\`\``)
+                .setDescription(`**${(message.author.username + '#' + message.author.discriminator)}** deleted **${user.username}#${user.discriminator}**'s account.\`\`\`fix\nID: ${userID}\`\`\``)
                 .setColor(16636672)
 
                 try{

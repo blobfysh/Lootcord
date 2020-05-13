@@ -21,7 +21,7 @@ module.exports = {
         embedInfo.setColor(13215302)
         embedInfo.setThumbnail(app.bot.user.avatarURL)
         embedInfo.setDescription('Read [here](https://lootcord.com/blog) for update details')
-        embedInfo.addField("Shard ID", codeWrap(message.guild.shard.id.toString(), 'js'), true)
+        embedInfo.addField("Shard ID", codeWrap(message.channel.guild.shard.id.toString(), 'js'), true)
         embedInfo.addField("Cluster ID", codeWrap(app.clusterID.toString(), 'js'), true)
         embedInfo.addField("Active Servers", codeWrap(stats.guilds || '1', 'js'), true)
         embedInfo.addField("Uptime", codeWrap(app.cd.convertTime(app.bot.uptime), 'fix'), true)

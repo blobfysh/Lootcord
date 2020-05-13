@@ -206,7 +206,7 @@ class ArgParser {
                 let userId = arg.match(/^<?@?!?(\d+)>?$/)[1];
 
                 // find member matching id
-                let member = message.guild.members.find(member => member.id === userId);
+                let member = message.channel.guild.members.find(member => member.id === userId);
 
                 return member;
             }
@@ -221,7 +221,7 @@ class ArgParser {
                     // start checking args backwards, starting from the arg that had # in it, ie. big blob fysh#4679, it would check blob fysh then check big blob fysh
                     let userToCheck = previousArgs.slice(i * -1).join(' ');
 
-                    let member = message.guild.members.find(member => {
+                    let member = message.channel.guild.members.find(member => {
                         return (member.username.toLowerCase() === userToCheck.toLowerCase() && member.discriminator === userTag[1] ||
                         (member.nick && member.nick.toLowerCase() === userToCheck) && member.discriminator === userTag[1])
                     });

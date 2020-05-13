@@ -6,7 +6,7 @@ class CommandHandler {
     }
 
     async handle(message){
-        const prefix = message.guild ? await this.getPrefix(message.guild.id) : this.prefix;
+        const prefix = message.channel.guild ? await this.getPrefix(message.channel.guild.id) : this.prefix;
 
         if(!message.content.toLowerCase().startsWith(prefix)) return;
 
@@ -18,7 +18,7 @@ class CommandHandler {
         if(!command) return;
 
         // makes sure command wasn't used in DM's
-        if(!message.guild) return;
+        if(!message.channel.guild) return;
 
         // check if user is banned from bot
         if(await this.app.cd.getCD(message.author.id, 'banned')) return;
@@ -45,7 +45,7 @@ class CommandHandler {
         // check if user is under effects of peck_seed
         if(peckCD && command.category !== "admin" && command.category !== "moderation"){
             const embedChicken = new this.app.Embed()
-            .setAuthor(message.author.tag, message.author.avatarURL)
+            .setAuthor((message.author.username + '#' + message.author.discriminator), message.author.avatarURL)
             .setTitle('`you try to type a command but your insatiable appetite for seeds keeps you preoccupied`')
             .setColor(16734296)
             .setFooter(`Your appetite will calm in ${peckCD}.`)
@@ -71,7 +71,7 @@ class CommandHandler {
         if(command.levelReq && (account.level < command.levelReq)) return message.channel.createMessage('❌ You must be atleast level `' + command.levelReq + '` to use that command!');
 
         // check if command requires an active account (player would be elligible to be attacked) in the server
-        if(command.requiresAcc && command.requiresActive && !(await this.app.player.isActive(message.author.id, message.guild.id))) return message.channel.createMessage(`❌ You need to activate before using that command here! Use \`${prefix}activate\` to activate.`);
+        if(command.requiresAcc && command.requiresActive && !(await this.app.player.isActive(message.author.id, message.channel.guild.id))) return message.channel.createMessage(`❌ You need to activate before using that command here! Use \`${prefix}activate\` to activate.`);
         
         // check if command is patrons only
         if(command.patronTier1Only && !await this.app.cd.getCD(message.author.id, 'patron1') && !await this.app.cd.getCD(message.author.id, 'patron2') && !this.app.sets.adminUsers.has(message.author.id)){

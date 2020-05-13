@@ -38,7 +38,7 @@ module.exports = {
 
             if(confirmed){
                 const banMsg = new app.Embed()
-                .setTitle(`😃 Your tradeban was lifted by ${message.author.tag}`)
+                .setTitle(`😃 Your tradeban was lifted by ${(message.author.username + '#' + message.author.discriminator)}`)
                 .setColor(720640)
                 .setFooter("https://lootcord.com/rules | Only moderators can send you messages.")
 

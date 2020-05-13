@@ -33,7 +33,7 @@ module.exports = {
                 const reportEmbed = new app.Embed()
                 .setAuthor("New Report")
                 .setThumbnail(message.author.avatarURL)
-                .addField("Submitted by", `${message.author.tag}\n(${message.author.id})`)
+                .addField("Submitted by", `${(message.author.username + '#' + message.author.discriminator)}\n(${message.author.id})`)
                 .addField("Message", messageIn)
                 .setFooter(`Respond with t-message ${message.author.id} <message>`)
                 .setColor(16734296)

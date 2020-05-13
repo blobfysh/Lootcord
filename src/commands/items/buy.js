@@ -196,7 +196,7 @@ module.exports = {
                     .setTitle('BM Listing Sold')
                     .setTimestamp()
                     .setColor(9043800)
-                    .addField('Buyer', message.author.tag + ' ID: ```\n' + message.author.id + '```')
+                    .addField('Buyer', (message.author.username + '#' + message.author.discriminator) + ' ID: ```\n' + message.author.id + '```')
                     .addField('Seller', '```\n' + listInfo.sellerId + '```')
                     .addField('List Duration (how long it was listed)', app.cd.convertTime(Date.now() - listInfo.listTime))
                     .addField('Item Sold', `${listInfo.amount}x \`${listInfo.item}\``, true)
@@ -241,7 +241,7 @@ async function boughtGame(app, user, game){
     const soldEmbed = new app.Embed()
     .setTitle('✅ Game Purchased')
     .addField('Game Sold', game.gameDisplay)
-    .addField('Buyer', `${user.tag} ID: \`\`\`\n${user.id}\`\`\``)
+    .addField('Buyer', `${user.username}#${user.discriminator} ID: \`\`\`\n${user.id}\`\`\``)
     
     app.messager.messageMods(soldEmbed);
     console.warn('A game (' + game.gameName + ') was sold to id: ' + user.id);

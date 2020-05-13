@@ -19,7 +19,7 @@ module.exports = {
         FROM scores 
         INNER JOIN userGuilds 
         ON scores.userId = userGuilds.userId 
-        WHERE guildId = "${message.guild.id}" 
+        WHERE guildId = "${message.channel.guild.id}" 
         ORDER BY LOWER(scores.userId)`);
 
         const clanRows = await app.query(`SELECT DISTINCT clans.name FROM (
@@ -27,14 +27,14 @@ module.exports = {
             FROM userGuilds
             INNER JOIN scores
             ON userGuilds.userId = scores.userId
-            WHERE userGuilds.guildId = ${message.guild.id}
+            WHERE userGuilds.guildId = ${message.channel.guild.id}
         ) c
         INNER JOIN clans
         ON c.clanId = clans.clanId`);
         
         for(var i = 0; i < rows.length; i++){
             try{
-                let member = await app.common.fetchMember(message.guild, rows[i].userId);
+                let member = await app.common.fetchMember(message.channel.guild, rows[i].userId);
 
                 guildUsers.push(app.player.getBadge(rows[i].badge) + ' ' + member.effectiveName);
             }
@@ -55,7 +55,7 @@ module.exports = {
                 // create each page for pagination
                 let page = getEmbedPage(app, guildUsers, clans, i, usersPerPage);
 
-                if(message.guild.iconURL) page.setThumbnail(message.guild.iconURL);
+                if(message.channel.guild.iconURL) page.setThumbnail(message.channel.guild.iconURL);
                 pages.push(page);
             }
             
@@ -64,7 +64,7 @@ module.exports = {
         else{
             let page = getEmbedPage(app, guildUsers, clans, 1, usersPerPage);
 
-            if(message.guild.iconURL) page.setThumbnail(message.guild.iconURL);
+            if(message.channel.guild.iconURL) page.setThumbnail(message.channel.guild.iconURL);
             message.channel.createMessage(page);
         }
     },

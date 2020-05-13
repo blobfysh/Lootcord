@@ -34,7 +34,7 @@ module.exports = {
             const logEmbed = new app.Embed()
             .setTitle('Modified Status')
             .setThumbnail(message.author.avatarURL)
-            .setDescription(`${message.author.tag} ID: \`\`\`\n${message.author.id}\`\`\``)
+            .setDescription(`${(message.author.username + '#' + message.author.discriminator)} ID: \`\`\`\n${message.author.id}\`\`\``)
             .addField('Status Changed', !statusToSet ? 'Nothing?' : statusToSet)
             .setColor('#8C8C8C')
             .setFooter('Make sure status does not violate TOS or is vulgar')

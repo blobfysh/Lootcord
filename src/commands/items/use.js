@@ -90,7 +90,7 @@ module.exports = {
                 message.channel.createMessage(embedInfo);
             }
             else if(item === 'supply_signal'){
-                const serverInfo = await app.common.getGuildInfo(message.guild.id);
+                const serverInfo = await app.common.getGuildInfo(message.channel.guild.id);
                 await app.itm.removeItem(message.author.id, item, 1);
 
                 message.reply('📻 Requesting immediate airdrop...').then(msg => {
@@ -115,8 +115,8 @@ module.exports = {
                         .setDescription(`Use \`${message.prefix}claimdrop\` to claim it!`)
                         .setImage(app.itemdata['care_package'].image)
                         .setColor(13215302)
-                        app.query(`UPDATE guildInfo SET dropItemChan = '${message.channel.id}' WHERE guildId = ${message.guild.id}`);
-                        app.query(`UPDATE guildInfo SET dropItem = 'care_package' WHERE guildId = ${message.guild.id}`);
+                        app.query(`UPDATE guildInfo SET dropItemChan = '${message.channel.id}' WHERE guildId = ${message.channel.guild.id}`);
+                        app.query(`UPDATE guildInfo SET dropItem = 'care_package' WHERE guildId = ${message.channel.guild.id}`);
                         
                         message.channel.createMessage(dropEmbed);
                     }, 30000);
@@ -212,7 +212,7 @@ module.exports = {
         }
         else if(app.itemdata[item].isWeap){
             const userItems = await app.itm.getItemObject(message.author.id);
-            const serverInfo = await app.common.getGuildInfo(message.guild.id);
+            const serverInfo = await app.common.getGuildInfo(message.channel.guild.id);
             const attackCD = await app.cd.getCD(message.author.id, 'attack');
             const shieldCD = await app.cd.getCD(message.author.id, 'shield');
             // item is a weapon, start checking for member
@@ -368,7 +368,7 @@ module.exports = {
 
             // check if attack is random
             else if(['rand', 'random'].some(arg => message.args.map(arg => arg.toLowerCase()).includes(arg)) || serverInfo.randomOnly === 1){
-                const randUsers = await getRandomPlayers(app, message.author.id, message.guild);
+                const randUsers = await getRandomPlayers(app, message.author.id, message.channel.guild);
 
                 if(randUsers.users[0] === undefined){
                     return message.reply("❌ There aren't any players you can attack in this server!");
@@ -518,7 +518,7 @@ module.exports = {
             }
             else{
                 const victimRow = await app.player.getRow(member.id);
-                const playRow = await app.query(`SELECT * FROM userGuilds WHERE userId ="${member.id}" AND guildId = "${message.guild.id}"`);
+                const playRow = await app.query(`SELECT * FROM userGuilds WHERE userId ="${member.id}" AND guildId = "${message.channel.guild.id}"`);
                 const victimShield = await app.cd.getCD(member.id, 'shield');
                 const victimPeckCD = await app.cd.getCD(member.id, 'peck');
 
@@ -704,8 +704,8 @@ function logKill(app, killer, victim, item, ammo, damage, moneyStolen, itemsLost
         .setTitle('Kill Log')
         .setColor(16721703)
         .setDescription(`**Weapon**: \`${item}\` - **${damage} damage**\n**Ammo**: ${ammo ? '`' + ammo + '`' : 'Not required'}`)
-        .addField('Killer', killer.tag + ' ID: ```\n' + killer.id + '```')
-        .addField('Victim', victim.tag + ' ID: ```\n' + victim.id + '```')
+        .addField('Killer', (killer.username + '#' + killer.discriminator) + ' ID: ```\n' + killer.id + '```')
+        .addField('Victim', (victim.username + '#' + victim.discriminator) + ' ID: ```\n' + victim.id + '```')
         .addField('Items Stolen', itemsLost[0] !== 'Nothing' ? itemsLost.map(itm => itm.split('|')[1] + 'x `' + itm.split('|')[0] + '`').join('\n') : 'Nothing', true)
         .addField('Money Stolen', app.common.formatNumber(moneyStolen), true)
         .setTimestamp()
@@ -876,12 +876,12 @@ async function pickTarget(app, message, selection){
                 user3: (await app.query(`SELECT money, health, maxHealth, badge FROM scores WHERE userId = '${selection.users[2]}'`))[0]
             };
             const atkEmbed = new app.Embed()
-            .setAuthor(message.author.tag, message.author.avatarURL)
+            .setAuthor((message.author.username + '#' + message.author.discriminator), message.author.avatarURL)
             .setTitle('Pick someone to attack!')
             .setDescription(`Type 1, 2, or 3 to select.\n
-            1. ${app.player.getBadge(userdata.user1.badge)} **${(selection.members[0]).tag}** ${app.icons.health.full} ${userdata.user1.health} - ${app.common.formatNumber(userdata.user1.money)} - ${(await app.itm.getItemCount(selection.users[0])).itemCt} items\n
-            2. ${app.player.getBadge(userdata.user2.badge)} **${(selection.members[1]).tag}** ${app.icons.health.full} ${userdata.user2.health} - ${app.common.formatNumber(userdata.user2.money)} - ${(await app.itm.getItemCount(selection.users[1])).itemCt} items\n
-            3. ${app.player.getBadge(userdata.user3.badge)} **${(selection.members[2]).tag}** ${app.icons.health.full} ${userdata.user3.health} - ${app.common.formatNumber(userdata.user3.money)} - ${(await app.itm.getItemCount(selection.users[2])).itemCt} items`)
+            1. ${app.player.getBadge(userdata.user1.badge)} **${(selection.members[0]).username + '#' + (selection.members[0]).discriminator}** ${app.icons.health.full} ${userdata.user1.health} - ${app.common.formatNumber(userdata.user1.money)} - ${(await app.itm.getItemCount(selection.users[0])).itemCt} items\n
+            2. ${app.player.getBadge(userdata.user2.badge)} **${(selection.members[1]).username + '#' + (selection.members[1]).discriminator}** ${app.icons.health.full} ${userdata.user2.health} - ${app.common.formatNumber(userdata.user2.money)} - ${(await app.itm.getItemCount(selection.users[1])).itemCt} items\n
+            3. ${app.player.getBadge(userdata.user3.badge)} **${(selection.members[2]).username + '#' + (selection.members[2]).discriminator}** ${app.icons.health.full} ${userdata.user3.health} - ${app.common.formatNumber(userdata.user3.money)} - ${(await app.itm.getItemCount(selection.users[2])).itemCt} items`)
             .setColor(13215302)
             .setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
 
@@ -926,7 +926,7 @@ async function pickTarget(app, message, selection){
 async function notifyAttackVictim(app, message, victim, itemUsed, damage, victimRow){
     const notifyEmbed = new app.Embed()
     .setTitle('You were attacked!')
-    .setDescription(`${message.author.tag} hit you for **${damage}** damage using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`.
+    .setDescription(`${(message.author.username + '#' + message.author.discriminator)} hit you for **${damage}** damage using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`.
     
     Health: ${app.player.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage} / ${victimRow.maxHealth}**`)
     .setColor(16610383)
@@ -942,7 +942,7 @@ async function notifyAttackVictim(app, message, victim, itemUsed, damage, victim
 async function notifyDeathVictim(app, message, victim, itemUsed, damage, itemsLost){
     const notifyEmbed = new app.Embed()
     .setTitle('You were killed!')
-    .setDescription(`${message.author.tag} hit you for **${damage}** damage using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`.`)
+    .setDescription(`${(message.author.username + '#' + message.author.discriminator)} hit you for **${damage}** damage using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`.`)
     .addField('Items Lost:', itemsLost.join('\n'))
     .setColor(16600911)
 
@@ -957,7 +957,7 @@ async function notifyDeathVictim(app, message, victim, itemUsed, damage, itemsLo
 
 async function sendToKillFeed(app, killer, channelID, victim, itemName, itemDmg, monster = false){
     const killEmbed = new app.Embed()
-    .setTitle(killer.tag + " 🗡 " + victim.user.tag + " 💀")
+    .setTitle((killer.username + '#' + killer.discriminator) + " 🗡 " + (victim.user.username + victim.user.discriminator) + " 💀")
     .setDescription(`**Weapon**: ${monster ? app.mobdata[killer.id].weapon.icon : app.itemdata[itemName].icon}\`${itemName}\` - **${itemDmg} damage**`)
     .setColor(16721703)
     .setTimestamp()

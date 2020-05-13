@@ -1,6 +1,5 @@
 const Base             = require('eris-sharder').Base;
 const Eris             = require('eris');
-                         require('eris-additions')(Eris, {disabled: ['Eris.Embed']});
 
 const fs               = require('fs');
 

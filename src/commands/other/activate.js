@@ -12,17 +12,17 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
-        if(await app.player.isActive(message.author.id, message.guild.id)){
+        if(await app.player.isActive(message.author.id, message.channel.guild.id)){
             return message.reply('❌ Your account is already active on this server!');
         }
 
         await app.cd.clearCD(message.author.id, 'activate');
         await app.cd.setCD(message.author.id, 'activate', 3600 * 1000);
-        await app.player.activate(message.author.id, message.guild.id);
+        await app.player.activate(message.author.id, message.channel.guild.id);
         
-        if(Object.keys(app.config.activeRoleGuilds).includes(message.guild.id)){
+        if(Object.keys(app.config.activeRoleGuilds).includes(message.channel.guild.id)){
             try{
-                message.member.addRole(app.config.activeRoleGuilds[message.guild.id].activeRoleID);
+                message.member.addRole(app.config.activeRoleGuilds[message.channel.guild.id].activeRoleID);
             }
             catch(err){
                 console.warn('Failed to add active role.');
@@ -36,7 +36,7 @@ module.exports = {
         await app.player.createAccount(message.author.id);
         
         // activate account in server
-        await app.player.activate(message.author.id, message.guild.id);
+        await app.player.activate(message.author.id, message.channel.guild.id);
 
         const embedInfo = new app.Embed()
         .setTitle(`Thanks for joining LOOTCORD ${message.member.effectiveName}!`)
@@ -49,7 +49,7 @@ module.exports = {
         */
        
         /*
-        if(Object.keys(config.activeRoleGuilds).includes(message.guild.id)){
+        if(Object.keys(config.activeRoleGuilds).includes(message.channel.guild.id)){
                     refresher.refreshactives(message);
         }
         */

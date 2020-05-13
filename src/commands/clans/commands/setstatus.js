@@ -34,7 +34,7 @@ module.exports = {
             const logEmbed = new app.Embed()
             .setTitle('Modified Clan Status')
             .setThumbnail(message.author.avatarURL)
-            .setDescription(`${message.author.tag} ID: \`\`\`\n${message.author.id}\`\`\`Clan ID:\`\`\`\n${scoreRow.clanId}\`\`\``)
+            .setDescription(`${(message.author.username + '#' + message.author.discriminator)} ID: \`\`\`\n${message.author.id}\`\`\`Clan ID:\`\`\`\n${scoreRow.clanId}\`\`\``)
             .addField('Status Changed', !statusToSet ? 'Nothing?' : statusToSet)
             .setColor('#8E588E')
             .setFooter('Make sure status does not violate TOS or is vulgar')

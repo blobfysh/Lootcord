@@ -35,7 +35,7 @@ module.exports = {
             await app.clans.removeMoney(scoreRow.clanId, itemAmnt);
             await app.player.addMoney(message.author.id, itemAmnt);
             
-            app.clans.addLog(scoreRow.clanId, `${message.author.tag} withdrew ${app.common.formatNumber(itemAmnt, true)}`);
+            app.clans.addLog(scoreRow.clanId, `${(message.author.username + '#' + message.author.discriminator)} withdrew ${app.common.formatNumber(itemAmnt, true)}`);
 
             return message.reply(`Withdrew **${app.common.formatNumber(itemAmnt)}**\n\nThe clan bank now has **${app.common.formatNumber((await app.query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0].money)}**`);
         }
@@ -58,7 +58,7 @@ module.exports = {
         await app.itm.removeItem(scoreRow.clanId, itemName, itemAmnt);
         await app.itm.addItem(message.author.id, itemName, itemAmnt);
 
-        app.clans.addLog(scoreRow.clanId, `${message.author.tag} withdrew ${itemAmnt}x ${itemName}`);
+        app.clans.addLog(scoreRow.clanId, `${(message.author.username + '#' + message.author.discriminator)} withdrew ${itemAmnt}x ${itemName}`);
 
         const clanPow = await app.clans.getClanData(scoreRow.clanId);
 

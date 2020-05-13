@@ -41,7 +41,7 @@ module.exports = {
 
             if(confirmed){
                 const warnMsg = new app.Embed()
-                .setTitle(`You have been warned by ${message.author.tag}`)
+                .setTitle(`You have been warned by ${(message.author.username + '#' + message.author.discriminator)}`)
                 .setDescription("You have been warned for breaking rules. Future offenses will result in a ban.```\n" + messageIn + "```")
                 .setColor(16734296)
                 .setFooter("https://lootcord.com/rules | Only moderators can send you messages.")

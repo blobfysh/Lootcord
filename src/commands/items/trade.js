@@ -40,7 +40,7 @@ module.exports = {
         else if(await app.cd.getCD(user.id, 'banned')){
             return message.reply("❌ User is banned.");
         }
-        else if(!await app.player.isActive(user.id, message.guild.id)){
+        else if(!await app.player.isActive(user.id, message.channel.guild.id)){
             return message.reply(`❌ User has not activated their account in this server.`);
         }
         else if(victimRow.level < this.levelReq){
@@ -350,7 +350,7 @@ function tradeCompleted(app, embed, player1, player2){
     try{
         embed.setTitle('Trade Log')
         embed.setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/white-heavy-check-mark_2705.png')
-        embed.setDescription(player1.tag + ' ID: ```\n' + player1.id + '```' + player2.tag + ' ID: ```\n' + player2.id + '```')
+        embed.setDescription((player1.username + '#' + player1.discriminator) + ' ID: ```\n' + player1.id + '```' + (player2.username + '#' + player2.discriminator) + ' ID: ```\n' + player2.id + '```')
         embed.setTimestamp()
         embed.setFooter('Keep an eye on users that trade low-value for high-value')
         

@@ -213,9 +213,9 @@ class Player {
                 }
 
                 // ignore bot list discords
-                if(this.app.config.ignoreLvlMessages.includes(message.guild.id)) return;
+                if(this.app.config.ignoreLvlMessages.includes(message.channel.guild.id)) return;
 
-                const guildRow = await this.app.common.getGuildInfo(message.guild.id);
+                const guildRow = await this.app.common.getGuildInfo(message.channel.guild.id);
                 
                 try{
                     const lvlUpImage = await this.getLevelImage(message.author.avatarURL, row.level + 1);

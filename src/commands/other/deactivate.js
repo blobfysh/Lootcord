@@ -25,13 +25,13 @@ module.exports = {
             let result = await app.react.getConfirmation(message.author.id, botMessage, 15000);
             
             if(result){
-                await app.player.deactivate(message.author.id, message.guild.id);
+                await app.player.deactivate(message.author.id, message.channel.guild.id);
 
                 botMessage.edit('Your account has been disabled on this server');
 
-                if(Object.keys(app.config.activeRoleGuilds).includes(message.guild.id)){
+                if(Object.keys(app.config.activeRoleGuilds).includes(message.channel.guild.id)){
                     try{
-                        message.member.removeRole(app.config.activeRoleGuilds[message.guild.id].activeRoleID);
+                        message.member.removeRole(app.config.activeRoleGuilds[message.channel.guild.id].activeRoleID);
                     }
                     catch(err){
                         console.warn('Failed to add active role.');

@@ -78,7 +78,7 @@ module.exports = {
 
                 console.log('[CLANS] Someone is raiding right now.');
                 app.clans.addLog(scoreRow.clanId, `${message.author.username} raided ${clanRow[0].name}`);
-                app.clans.addLog(clanRow[0].clanId, `Raided by ${raider.name} (${message.author.tag})`);
+                app.clans.addLog(clanRow[0].clanId, `Raided by ${raider.name} (${(message.author.username + '#' + message.author.discriminator)})`);
                 
                 let moneyStolen = Math.floor(clanRow[0].money / 3);
                 let itemsStolen = 0;

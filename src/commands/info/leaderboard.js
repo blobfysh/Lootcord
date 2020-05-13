@@ -35,24 +35,24 @@ module.exports = {
             FROM userGuilds 
             INNER JOIN scores 
             ON userGuilds.userId = scores.userId 
-            WHERE userGuilds.guildId ="${message.guild.id}" 
+            WHERE userGuilds.guildId ="${message.channel.guild.id}" 
             ORDER BY money DESC LIMIT 3`);
             const levelRows = await app.query(`SELECT scores.userId, level, badge
             FROM userGuilds 
             INNER JOIN scores 
             ON userGuilds.userId = scores.userId 
-            WHERE userGuilds.guildId ="${message.guild.id}" 
+            WHERE userGuilds.guildId ="${message.channel.guild.id}" 
             ORDER BY level DESC LIMIT 3`);
             const killRows  = await app.query(`SELECT scores.userId, kills, badge
             FROM userGuilds 
             INNER JOIN scores 
             ON userGuilds.userId = scores.userId 
-            WHERE userGuilds.guildId ="${message.guild.id}" 
+            WHERE userGuilds.guildId ="${message.channel.guild.id}" 
             ORDER BY kills DESC LIMIT 3`);
 
             for(let key in moneyRows){
                 try{
-                    let member = await app.common.fetchMember(message.guild, moneyRows[key].userId);
+                    let member = await app.common.fetchMember(message.channel.guild, moneyRows[key].userId);
                     leaders.push(`${app.player.getBadge(moneyRows[key].badge)} **${member.effectiveName + '#' + member.discriminator}**` + ' - ' + app.common.formatNumber(moneyRows[key].money));
                 }
                 catch(err){
@@ -61,7 +61,7 @@ module.exports = {
             }
             for(let key in levelRows){
                 try{
-                    let member = await app.common.fetchMember(message.guild, levelRows[key].userId);
+                    let member = await app.common.fetchMember(message.channel.guild, levelRows[key].userId);
                     levelLeaders.push(`${app.player.getBadge(levelRows[key].badge)} **${member.effectiveName + '#' + member.discriminator}**` + ' - Level  ' + levelRows[key].level);
                 }
                 catch(err){
@@ -70,7 +70,7 @@ module.exports = {
             }
             for(let key in killRows){
                 try{
-                    let member = await app.common.fetchMember(message.guild, killRows[key].userId);
+                    let member = await app.common.fetchMember(message.channel.guild, killRows[key].userId);
                     killLeaders.push(`${app.player.getBadge(killRows[key].badge)} **${member.effectiveName + '#' + member.discriminator}**` + ' - ' + killRows[key].kills + " kills");
                 }
                 catch(err){
@@ -86,7 +86,7 @@ module.exports = {
             .addField("Kills", killLeaders.length ? killLeaders.join('\n') : 'Where is everyone?!')
             .setFooter("Top " + leaders.length)
 
-            if(message.guild.iconURL) embedLeader.setThumbnail(message.guild.iconURL);
+            if(message.channel.guild.iconURL) embedLeader.setThumbnail(message.channel.guild.iconURL);
             message.channel.createMessage(embedLeader);
         }
     },
