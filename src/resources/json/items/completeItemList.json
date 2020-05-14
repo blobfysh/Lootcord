@@ -1519,7 +1519,12 @@
         ],
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "display": "1x gunpowder",
+            "materials": [
+                "gunpowder|1"
+            ]
+        },
         "buy": "",
         "sell": 3220,
         "desc": ".44 Magnum bullet.",
