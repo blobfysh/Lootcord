@@ -49,7 +49,7 @@ module.exports = {
                 await app.player.addPoints(message.author.id, results.xp);
 
                 const embedInfo = new app.Embed()
-                .setAuthor(message.member.effectiveName, message.author.avatarURL)
+                .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
                 
                 switch(app.itemdata[bestItem[0]].rarity){
                     case 'Ultra': embedInfo.setColor('#EC402C');rarityStr = 'an ***U L T R A*** '; break;
@@ -185,7 +185,7 @@ module.exports = {
                 }
 
                 const msgEmbed = new app.Embed()
-                .setAuthor(message.member.effectiveName, message.author.avatarURL)
+                .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
                 .setTitle("Successfully used 📜`reroll_scroll`")
                 .setDescription("Your skills have been reset.")
                 .setColor(14202368)
@@ -203,7 +203,7 @@ module.exports = {
                 await app.query(`UPDATE scores SET points = points + 75 WHERE userId = '${message.author.id}'`);
                 
                 const msgEmbed = new app.Embed()
-                .setAuthor(message.member.effectiveName, message.author.avatarURL)
+                .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
                 .setTitle("Successfully used `xp_potion`")
                 .setDescription("Gained **75 XP**!")
                 .setColor(14202368)
@@ -439,10 +439,10 @@ module.exports = {
 
                 if(chance <= luck){
                     if(weaponBroke){
-                        return message.channel.createMessage(`🍀<@${target.id}> EVADED **${message.member.effectiveName}**'s attack! How lucky!\n${app.icons.minus}**${message.member.effectiveName}**'s ${app.itemdata[item].icon}\`${item}\` broke.`);
+                        return message.channel.createMessage(`🍀<@${target.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[item].icon}\`${item}\` broke.`);
                     }
                     else{
-                        return message.channel.createMessage(`🍀<@${target.id}> EVADED **${message.member.effectiveName}**'s attack! How lucky!`);
+                        return message.channel.createMessage(`🍀<@${target.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!`);
                     }
                 }
                 
@@ -593,10 +593,10 @@ module.exports = {
 
                 if(chance <= luck){
                     if(weaponBroke){
-                        return message.channel.createMessage(`🍀<@${member.id}> EVADED **${message.member.effectiveName}**'s attack! How lucky!\n${app.icons.minus}**${message.member.effectiveName}**'s ${app.itemdata[item].icon}\`${item}\` broke.`);
+                        return message.channel.createMessage(`🍀<@${member.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[item].icon}\`${item}\` broke.`);
                     }
                     else{
-                        return message.channel.createMessage(`🍀<@${member.id}> EVADED **${message.member.effectiveName}**'s attack! How lucky!`);
+                        return message.channel.createMessage(`🍀<@${member.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!`);
                     }
                 }
 
@@ -736,19 +736,19 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
     }
 
     if(killed){
-        finalStr += `\n${app.icons.death_skull} **${victim.effectiveName} DIED!**`
+        finalStr += `\n${app.icons.death_skull} **${victim.nick || victim.username} DIED!**`
     }
     else{
-        if(Math.random() <= .5) finalStr += `\n**${victim.effectiveName}** is spared with ${app.player.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage}** health.`;
-        else finalStr += `\n**${victim.effectiveName}** is left with ${app.player.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage}** health.`;
+        if(Math.random() <= .5) finalStr += `\n**${victim.nick || victim.username}** is spared with ${app.player.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage}** health.`;
+        else finalStr += `\n**${victim.nick || victim.username}** is left with ${app.player.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage}** health.`;
     }
 
     if(itemUsed == 'peck_seed'){
-        finalStr += `\n**${victim.effectiveName}** was turned into a chicken and cannot use any commands for **2** hours!`;
+        finalStr += `\n**${victim.nick || victim.username}** was turned into a chicken and cannot use any commands for **2** hours!`;
     }
 
     if(itemBroke){
-        finalStr += `\n\n${app.icons.minus}**${message.member.effectiveName}**'s ${app.itemdata[itemUsed].icon}\`${itemUsed}\` broke.`;
+        finalStr += `\n\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[itemUsed].icon}\`${itemUsed}\` broke.`;
     }
 
     return finalStr;
@@ -784,14 +784,14 @@ function generateAttackMobString(app, message, monsterRow, damage, itemUsed, amm
     }
 
     if(moneyStolen){
-        finalStr += `\n\n**${message.member.effectiveName}** dealt **${Math.floor((damage / monsterRow.health).toFixed(2) * 100)}%** of the **${monster.title}**'s current health and managed to steal **${app.common.formatNumber(moneyStolen)}**.`;
+        finalStr += `\n\n**${message.member.nick || message.member.username}** dealt **${Math.floor((damage / monsterRow.health).toFixed(2) * 100)}%** of the **${monster.title}**'s current health and managed to steal **${app.common.formatNumber(moneyStolen)}**.`;
     }
 
     if(itemBroke && moneyStolen){
-        finalStr += `\n${app.icons.minus}**${message.member.effectiveName}**'s ${app.itemdata[itemUsed].icon}\`${itemUsed}\` broke.`;
+        finalStr += `\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[itemUsed].icon}\`${itemUsed}\` broke.`;
     }
     else if(itemBroke){
-        finalStr += `\n\n${app.icons.minus}**${message.member.effectiveName}**'s ${app.itemdata[itemUsed].icon}\`${itemUsed}\` broke.`;
+        finalStr += `\n\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[itemUsed].icon}\`${itemUsed}\` broke.`;
     }
 
     return finalStr;
@@ -811,10 +811,10 @@ function generateMobAttack(app, message, monsterRow, playerRow, damage, itemUsed
     }
 
     if(killed){
-        finalStr += `\n${app.icons.death_skull} **${message.member.effectiveName} DIED!**`
+        finalStr += `\n${app.icons.death_skull} **${message.member.nick || message.member.username} DIED!**`
     }
     else{
-        finalStr += `\n**${message.member.effectiveName}** is left with ${app.player.getHealthIcon(playerRow.health - damage, playerRow.maxHealth)} **${playerRow.health - damage}** health.`;
+        finalStr += `\n**${message.member.nick || message.member.username}** is left with ${app.player.getHealthIcon(playerRow.health - damage, playerRow.maxHealth)} **${playerRow.health - damage}** health.`;
     }
 
     return finalStr;

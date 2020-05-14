@@ -50,7 +50,7 @@ module.exports = {
             return message.reply(`That person is under the effects of ${app.itemdata['peck_seed'].icon}\`peck_seed\``);
         }
 
-        const botMessage = await message.channel.createMessage(`<@${user.id}>, **${message.member.effectiveName}** would like to trade with you!`);
+        const botMessage = await message.channel.createMessage(`<@${user.id}>, **${message.member.nick || message.member.username}** would like to trade with you!`);
         
         try{
             const confirmed = await app.react.getConfirmation(user.id, botMessage);
@@ -110,7 +110,7 @@ module.exports = {
                         app.msgCollector.stopCollector(`${user.id}_${message.channel.id}`);
 
                         if(player === 1){
-                            const botMessage = await message.channel.createMessage(`<@${user.id}>, **${message.member.effectiveName}** has accepted the trade! Do you accept?`);
+                            const botMessage = await message.channel.createMessage(`<@${user.id}>, **${message.member.nick || message.member.username}** has accepted the trade! Do you accept?`);
 
                             try{
                                 const accepted = await app.react.getConfirmation(user.id, botMessage);
@@ -128,21 +128,21 @@ module.exports = {
                                     }
                                     catch(err){
                                         if(err.player){
-                                            botMessage.edit(`❌ **${err.player.effectiveName}** ${err.msg}`);
+                                            botMessage.edit(`❌ **${err.player.nick || err.player.username}** ${err.msg}`);
                                         }
                                     }
                                     
                                 }
                                 else{
-                                    botMessage.edit(`❌ **${user.effectiveName}** declined the trade.`);
+                                    botMessage.edit(`❌ **${user.nick || user.username}** declined the trade.`);
                                 }
                             }
                             catch(err){
-                                botMessage.edit(`❌ **${user.effectiveName}** did not respond.`);
+                                botMessage.edit(`❌ **${user.nick || user.username}** did not respond.`);
                             }
                         }
                         else if(player === 2){
-                            const botMessage = await message.channel.createMessage(`<@${message.author.id}>, **${user.effectiveName}** has accepted the trade! Do you accept?`);
+                            const botMessage = await message.channel.createMessage(`<@${message.author.id}>, **${user.nick || user.username}** has accepted the trade! Do you accept?`);
 
                             try{
                                 const accepted = await app.react.getConfirmation(message.author.id, botMessage);
@@ -160,16 +160,16 @@ module.exports = {
                                     }
                                     catch(err){
                                         if(err.player){
-                                            botMessage.edit(`❌ **${err.player.effectiveName}** ${err.msg}`);
+                                            botMessage.edit(`❌ **${err.player.nick || err.player.username}** ${err.msg}`);
                                         }
                                     }
                                 }
                                 else{
-                                    botMessage.edit(`❌ **${message.member.effectiveName}** declined the trade.`);
+                                    botMessage.edit(`❌ **${message.member.nick || message.member.username}** declined the trade.`);
                                 }
                             }
                             catch(err){
-                                botMessage.edit(`❌ **${message.member.effectiveName}** did not respond.`);
+                                botMessage.edit(`❌ **${message.member.nick || message.member.username}** did not respond.`);
                             }
                         }
                     }
@@ -268,7 +268,7 @@ module.exports = {
             }
         }
         catch(err){
-            botMessage.edit(`❌ **${user.effectiveName}** did not respond.`);
+            botMessage.edit(`❌ **${user.nick || user.username}** did not respond.`);
         }
     },
 }
@@ -278,8 +278,8 @@ function refreshWindow(app, player1Member, player1Money, player1Items, player2Me
     .setTitle("Trade Window")
     .setColor(2713128)
     .setDescription('Reminder that handouts are not allowed, **giving** items/money to another player may result in punishment.')
-    .addField(log ? player1Member.username : player1Member.effectiveName + `'s Offer`, app.common.formatNumber(player1Money),true)
-    .addField(log ? player2Member.username : player2Member.effectiveName + `'s Offer`, app.common.formatNumber(player2Money),true)
+    .addField(log ? player1Member.username : (player1Member.nick || player1Member.username) + `'s Offer`, app.common.formatNumber(player1Money),true)
+    .addField(log ? player2Member.username : (player2Member.nick || player2Member.username) + `'s Offer`, app.common.formatNumber(player2Money),true)
     .addBlankField(true)
     .addField('Items', getDisplay(app, player1Items, log).join('\n'), true)
     .addField('Items', getDisplay(app, player2Items, log).join('\n'), true)

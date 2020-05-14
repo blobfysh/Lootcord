@@ -88,7 +88,7 @@ module.exports = {
             let item, amount, price;
 
             const bmEmbed = new app.Embed()
-            .setAuthor(message.member.effectiveName, message.author.avatarURL)
+            .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
             .setTitle('List an item on the Black Market')
             .setDescription('Enter the name of the item you would like to list:')
             .setFooter('Type cancel to stop the command.')

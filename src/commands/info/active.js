@@ -36,7 +36,7 @@ module.exports = {
             try{
                 let member = await app.common.fetchMember(message.channel.guild, rows[i].userId);
 
-                guildUsers.push(app.player.getBadge(rows[i].badge) + ' ' + member.effectiveName);
+                guildUsers.push(app.player.getBadge(rows[i].badge) + ' ' + (member.nick || member.username));
             }
             catch(err){
             }

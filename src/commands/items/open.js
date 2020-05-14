@@ -42,7 +42,7 @@ module.exports = {
             await app.player.addPoints(message.author.id, results.xp);
 
             const embedInfo = new app.Embed()
-            .setAuthor(message.member.effectiveName, message.author.avatarURL)
+            .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
             
             switch(app.itemdata[bestItem[0]].rarity){
                 case 'Ultra': embedInfo.setColor('#EC402C');rarityStr = 'an ***U L T R A*** '; break;

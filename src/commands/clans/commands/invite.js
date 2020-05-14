@@ -31,7 +31,7 @@ module.exports = {
             return message.reply(`❌ Your clan has the max limit of members! (${MEMBER_LIMIT}/${MEMBER_LIMIT})`);
         }
 
-        const botMessage = await message.channel.createMessage(`<@${user.id}>, ${message.member.effectiveName} invited you to join the clan: \`${clanRow.name}\`. Do you accept?`);
+        const botMessage = await message.channel.createMessage(`<@${user.id}>, ${message.member.nick || message.member.username} invited you to join the clan: \`${clanRow.name}\`. Do you accept?`);
         
         try{
             const confirmed = await app.react.getConfirmation(user.id, botMessage);

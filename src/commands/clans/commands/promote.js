@@ -33,7 +33,7 @@ module.exports = {
             return message.reply('You cannot promote members to an equal or higher rank!');
         }
         else if(app.clan_ranks[invitedScoreRow.clanRank + 1].title == 'Leader'){
-            promoteMessage = `Promoting this member will make them the leader of the clan! Are you sure you want to give leadership to ${user.effectiveName}?`;
+            promoteMessage = `Promoting this member will make them the leader of the clan! Are you sure you want to give leadership to ${user.nick || user.username}?`;
         }
         else{
             promoteMessage = `Promote member to \`${app.clan_ranks[invitedScoreRow.clanRank + 1].title}\`? This rank grants the following permissions:\n\`\`\`${app.clan_ranks[invitedScoreRow.clanRank + 1].perms.join('\n')}\`\`\``;
@@ -57,7 +57,7 @@ module.exports = {
                     await app.query(`UPDATE scores SET clanRank = ${invitedScoreRow2.clanRank + 1} WHERE userId = ${user.id}`);
                 }
 
-                botMessage.edit(`✅ Successfully promoted **${user.effectiveName}** to rank \`${app.clan_ranks[invitedScoreRow2.clanRank + 1].title}\``);
+                botMessage.edit(`✅ Successfully promoted **${user.nick || user.username}** to rank \`${app.clan_ranks[invitedScoreRow2.clanRank + 1].title}\``);
             }
             else{
                 botMessage.delete();

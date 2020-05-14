@@ -39,7 +39,7 @@ module.exports = {
         await app.player.activate(message.author.id, message.channel.guild.id);
 
         const embedInfo = new app.Embed()
-        .setTitle(`Thanks for joining LOOTCORD ${message.member.effectiveName}!`)
+        .setTitle(`Thanks for joining LOOTCORD ${message.member.nick || message.member.username}!`)
         .setColor(14202368)
         .addField("Items Received","**1x** " + app.itemdata['item_box'].icon + "`item_box`")
         .setFooter("Open it with t-use item_box")

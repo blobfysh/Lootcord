@@ -116,7 +116,7 @@ module.exports = {
         let template = "⬛"+topRowGif+topRowGif+topRowGif+"⬛\n▶"+mainRowGif+mainRowGif+mainRowGif+"◀\n⬛"+botRowGif+botRowGif+botRowGif+"⬛";
         
         const slotEmbed = new app.Embed()
-        .setAuthor(message.member.effectiveName, message.author.avatarURL)
+        .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
         .setTitle("Slot Machine")
         .setDescription(template)
 

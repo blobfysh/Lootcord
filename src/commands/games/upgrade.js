@@ -59,7 +59,7 @@ module.exports = {
         else{
             const skillEmbed = new app.Embed()
             .setColor(1)
-            .setAuthor(message.member.effectiveName, message.author.avatarURL)
+            .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
             .setTitle('Choose a skill to upgrade')
             .setDescription(`Cost to upgrade: ${app.common.formatNumber(price)}`)
             .addField("💗 Health", `Increases max health by 5 (\`${row.maxHealth} HP\` →\`${(row.maxHealth + 5)} HP\`)`)
@@ -95,7 +95,7 @@ module.exports = {
 
                         const skillEmbed = new app.Embed()
                         .setColor(14634070)
-                        .setAuthor(message.member.effectiveName, message.author.avatarURL)
+                        .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
                         .setTitle(`Successfully allocated ${upgrAmnt} points to 💗 Health!`)
                         .setDescription(`You now have ${row.maxHealth + 5} max health.`)
                         .setFooter('Total upgrades: ' + (row.used_stats + 1))
@@ -125,7 +125,7 @@ module.exports = {
 
                         const skillEmbed = new app.Embed()
                         .setColor(10036247)
-                        .setAuthor(message.member.effectiveName, message.author.avatarURL)
+                        .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
                         .setTitle(`Successfully allocated ${upgrAmnt} points to 💥 Strength!`)
                         .setDescription(`You now deal ${(row.scaledDamage + 0.03).toFixed(2)}x damage.`)
                         .setFooter('Total upgrades: ' + (row.used_stats + 1))
@@ -156,7 +156,7 @@ module.exports = {
 
                         const skillEmbed = new app.Embed()
                         .setColor(5868887)
-                        .setAuthor(message.member.effectiveName, message.author.avatarURL)
+                        .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
                         .setTitle(`Successfully allocated ${upgrAmnt} points to 🍀 Luck!`)
                         .setDescription('**Luck increased by 2**\nYour chance to get rare items has been increased.')
                         .setFooter('Total upgrades: ' + (row.used_stats + 1))
