@@ -14,6 +14,7 @@ module.exports = {
     async execute(app, message){
         const userRow = await app.player.getRow(message.author.id);
         let equipitem = app.parse.items(message.args)[0];
+        let equipBadge = app.parse.badges(message.args)[0];
 
         if(userRow.backpack === equipitem || message.args[0] === "backpack"){
             if(userRow.backpack !== "none"){
@@ -21,7 +22,7 @@ module.exports = {
                 await app.query(`UPDATE scores SET inv_slots = inv_slots - ${app.itemdata[userRow.backpack].inv_slots} WHERE userId = ${message.author.id}`);
                 await app.itm.addItem(message.author.id, userRow.backpack, 1);
 
-                message.reply(`Successfully unequipped ${app.itemdata[userRow.backpack].icon}\`${userRow.backpack}\`.\nYour carry capacity is now **${app.config.baseInvSlots + (userRow.inv_slots - app.itemdata[userRow.backpack].inv_slots)}** items.`);
+                message.reply(`✅ Successfully unequipped ${app.itemdata[userRow.backpack].icon}\`${userRow.backpack}\`.\nYour carry capacity is now **${app.config.baseInvSlots + (userRow.inv_slots - app.itemdata[userRow.backpack].inv_slots)}** items.`);
             }
             else{
                 message.reply(`❌ You don't have a backpack equipped! You can check what backpacks you own in your \`inventory\`.`);
@@ -33,11 +34,17 @@ module.exports = {
                 await app.query(`UPDATE scores SET banner = 'none' WHERE userId = ${message.author.id}`);
                 await app.itm.addItem(message.author.id, userRow.banner, 1);
 
-                message.reply(`Successfully unequipped ${app.itemdata[userRow.banner].icon}\`${userRow.banner}\`.`.replace('{-1}', app.itemdata[userRow.banner].icon).replace('{0}', userRow.banner));
+                message.reply(`✅ Successfully unequipped ${app.itemdata[userRow.banner].icon}\`${userRow.banner}\`.`);
             }
             else{
                 message.reply(`❌ You don't have a banner equipped! You can check what banners you own on your \`profile\`.`);
             }
+        }
+
+        else if(equipBadge || message.args[0] === 'badge'){
+            await app.query(`UPDATE scores SET badge = 'none' WHERE userId = ${message.author.id}`);
+
+            return message.reply(`✅ Successfully unequipped your display badge!`);
         }
 
         else if((equipitem && app.itemdata[equipitem].isShield) || message.args[0]  === 'shield'){
@@ -54,11 +61,11 @@ module.exports = {
             await app.cd.setCD(message.author.id, 'attack', 3600 * 1000); // 1 hour attack cooldown
             await app.cd.clearCD(message.author.id, 'shield');
             
-            message.reply(`Successfully unequipped your ${app.icons.items.shield}**shield**, you have also been given a \`60 minute\` cooldown from attacking other players.`);
+            message.reply(`✅ Successfully unequipped your ${app.icons.items.shield}**shield**, you have also been given a \`60 minute\` cooldown from attacking other players.`);
         }
 
         else{
-            message.reply("Specify a backpack, banner, or shield to unequip. `unequip <item>`");
+            message.reply("Specify a backpack, banner, badge, or shield to unequip. `unequip <item>`");
         }
     },
 }

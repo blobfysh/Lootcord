@@ -13,6 +13,7 @@ module.exports = {
     
     async execute(app, message){
         let equipItem = app.parse.items(message.args)[0];
+        let equipBadge = app.parse.badges(message.args)[0];
 
         if(equipItem){
             if(!app.itemdata[equipItem].equippable){
@@ -63,8 +64,19 @@ module.exports = {
                 message.reply(`❌ You don't have that item.`);
             }
         }
+        else if(equipBadge){
+            const playerBadges  = await app.itm.getBadges(message.author.id);
+
+            if(!playerBadges.includes(equipBadge)){
+                return message.reply("❌ You don't own that badge!");
+            }
+
+            await app.query(`UPDATE scores SET badge = ? WHERE userId = ?`, [equipBadge, message.author.id]);
+
+            message.reply(`✅ Successfully made ${app.badgedata[equipBadge].icon} \`${equipBadge}\` your display badge!`);
+        }
         else{
-            message.reply(`Specify a valid item that can be equipped. \`equip <item>\``);
+            message.reply(`Specify a valid item that can be equipped. \`${message.prefix}equip <item>\`. You can also equip a badge to set it as your display badge.`);
         }
     },
 }
