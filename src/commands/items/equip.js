@@ -3,7 +3,7 @@ module.exports = {
     name: 'equip',
     aliases: ['wear'],
     description: 'Equip an item.',
-    long: 'Allows user to equip different backpacks and inventory banners.',
+    long: 'Allows user to equip different backpacks and inventory banners. You can also equip a badge to set it as your display badge.',
     args: {"item/banner": "Item to equip."},
     examples: ["equip light_pack", "equip recruit"],
     ignoreHelp: false,

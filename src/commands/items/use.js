@@ -298,7 +298,7 @@ module.exports = {
                     
                     const brokeEmbed = new app.Embed()
                     .setTitle('💥 Unfortunately, your ' + app.itemdata[item].icon + '`' + item + '` broke from your last attack!')
-                    .setDescription('After rummaging through the pieces you were able to find: ```fix\n' + app.itemdata[item].recyclesTo.display + '```')
+                    .setDescription('After rummaging through the pieces you were able to find:\n' + app.itm.getDisplay(app.itemdata[item].recyclesTo.materials).join('\n'))
                     .setColor(14831897)
                 
                     try{
@@ -449,7 +449,7 @@ module.exports = {
                     
                     const brokeEmbed = new app.Embed()
                     .setTitle('💥 Unfortunately, your ' + app.itemdata[item].icon + '`' + item + '` broke from your last attack!')
-                    .setDescription('After rummaging through the pieces you were able to find: ```fix\n' + app.itemdata[item].recyclesTo.display + '```')
+                    .setDescription('After rummaging through the pieces you were able to find:\n' + app.itm.getDisplay(app.itemdata[item].recyclesTo.materials).join('\n'))
                     .setColor(14831897)
                 
                     try{
@@ -607,7 +607,7 @@ module.exports = {
                     
                     const brokeEmbed = new app.Embed()
                     .setTitle('💥 Unfortunately, your ' + app.itemdata[item].icon + '`' + item + '` broke from your last attack!')
-                    .setDescription('After rummaging through the pieces you were able to find: ```fix\n' + app.itemdata[item].recyclesTo.display + '```')
+                    .setDescription('After rummaging through the pieces you were able to find:\n' + app.itm.getDisplay(app.itemdata[item].recyclesTo.materials).join('\n'))
                     .setColor(14831897)
                 
                     try{

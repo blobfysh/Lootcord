@@ -19,7 +19,7 @@ module.exports = {
         
         if(attackCD) return message.reply(`You can't deactivate when you still have an attack cooldown!`);
         
-        const botMessage = await message.reply('Deactivating your account will prevent you from using commands or being targeted in **this** server.\n`Note : You can only do this once every 24 hours.`\n**Are you sure?**');
+        const botMessage = await message.reply('Deactivating your account will prevent you from using commands or being targeted in **this** server.\n\n**Are you sure?**');
         
         try{
             let result = await app.react.getConfirmation(message.author.id, botMessage, 15000);
