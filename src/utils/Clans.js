@@ -60,6 +60,7 @@ class Clans {
             currPower: currPower,
             explosion: clanRow.reduction,
             maxPower: maxPower,
+            memberCount: memberRows.length,
             kills: kills,
             deaths: deaths,
             playtime: timePlayed

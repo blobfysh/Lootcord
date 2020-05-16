@@ -80,7 +80,7 @@ module.exports = {
                 app.clans.addLog(scoreRow.clanId, `${message.author.username} raided ${clanRow.name}`);
                 app.clans.addLog(clanRow.clanId, `Raided by ${raider.name} (${(message.author.username + '#' + message.author.discriminator)})`);
                 
-                let moneyStolen = Math.floor(clanRow.money / 2) <= 5000000 ? Math.floor(clanRow.money / 2) : 5000000;
+                let moneyStolen = Math.floor(clanRow.money / 2) <= (clanPower.memberCount * 2000000) ? Math.floor(clanRow.money / 2) : (clanPower.memberCount * 2000000);
                 let itemsStolen = 0;
                 let itemsArray = [];
 
@@ -94,12 +94,19 @@ module.exports = {
 
                 const collector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
 
+                if((await app.itm.getUserItems(clanRow.clanId)).itemCount === 0){
+                    setTimeout(() => {
+                        app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                        message.channel.createMessage(`<@${message.author.id}>, -> Max items stolen. Ending raid.`);
+                    }, 2000);
+                }
+
                 collector.on('collect', async m => {
                     const userArgs = m.content.split(/ +/);
                     let amount = app.parse.numbers(userArgs)[0] || 1;
                     let item = app.parse.items(userArgs)[0];
                     
-                    if(userArgs[0]  && (userArgs[0].toLowerCase() === 'stop' || userArgs[0].toLowerCase() === 'end')){
+                    if(userArgs[0] && (userArgs[0].toLowerCase() === 'stop' || userArgs[0].toLowerCase() === 'end')){
                         app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
                         return m.channel.createMessage(`<@${m.author.id}>, -> Ending raid.`);
                     }
@@ -131,7 +138,7 @@ module.exports = {
 
                     const raidEmbed = new app.Embed()
                     .setAuthor(message.author.username + ' | ' + raider.name, message.author.avatarURL)
-                    .setTitle(`Money Stolen: ${app.common.formatNumber(moneyStolen)}`)
+                    .setDescription(`Money Stolen: ${app.common.formatNumber(moneyStolen)}`)
                     .addField(`Items Stolen:`, getItemsDisplay(app, itemsArray).join('\n'))
                     .setColor(8311585)
                     .setFooter('These items can be found in your clan vault.')
