@@ -70,7 +70,7 @@ async function getClanInfo(app, message, clanId){
     
     if(clanRow.reduction > 0){
         baseEmbed.addField('Clan Power (Used / Current / Max)', 
-        clanPower.usedPower + ' / 💥 ' + clanPower.currPower + ' / ' + clanPower.maxPower + '\n\n> **' + clanPower.usedPower + '** items in the clan vault, using ' + clanPower.usedPower + ' power.\n> **' + (clanPower.currPower + clanRow.reduction) + '** current cumulative power among members minus 💥 **' + clanRow.reduction + '** power from explosions.\n> **' + clanPower.maxPower + '** maximum possible power (if every member had 5 power).', 
+        clanPower.usedPower + ' / 💥 ' + clanPower.currPower + ' / ' + clanPower.maxPower + '\n\n- **' + clanPower.usedPower + '** items in the clan vault, using ' + clanPower.usedPower + ' power.\n- **' + (clanPower.currPower + clanRow.reduction) + '** current cumulative power among members minus 💥 **' + clanRow.reduction + '** power from explosions.\n- **' + clanPower.maxPower + '** maximum possible power (if every member had 5 power).', 
         true)
     }
     else{
