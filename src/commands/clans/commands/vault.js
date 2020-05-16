@@ -33,13 +33,13 @@ module.exports = {
         }
         else{
             let clanName = args.join(" ");
-            const clanRow = (await app.query(`SELECT * FROM clans WHERE LOWER(name) = ?`, [clanName.toLowerCase()]));
+            const clanRow = await app.clans.searchClanRow(clanName);
 
-            if(!clanRow.length){
+            if(!clanRow){
                 return message.reply('I could not find a clan with that name! Maybe you misspelled it?');
             }
             
-            message.channel.createMessage(await getVaultInfo(app, clanRow[0].clanId));
+            message.channel.createMessage(await getVaultInfo(app, clanRow.clanId));
         }
     },
 }
@@ -60,7 +60,6 @@ async function getVaultInfo(app, clanId){
     .setColor(13215302)
     .setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
     .setTitle('Vault')
-    .setDescription(clanRow.status !== '' ? clanRow.status : 'This clan is too mysterious for a status...')
     
     if(clanRow.iconURL){
         embedInfo.setThumbnail(clanRow.iconURL)
@@ -98,7 +97,7 @@ async function getVaultInfo(app, clanId){
         embedInfo.addField('The vault is empty!', "\u200b");
     }
 
-    embedInfo.addField("\u200b", `Power(slots) used: ${clanItems.itemCount} | Vault value: ${app.common.formatNumber(clanItems.invValue)}`)
+    embedInfo.addField("\u200b", `Power (slots) used: ${clanItems.itemCount} | Vault value: ${app.common.formatNumber(clanItems.invValue)}`)
 
     return embedInfo;
 }

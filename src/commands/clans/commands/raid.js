@@ -25,26 +25,26 @@ module.exports = {
         else{
             let clanName = args.join(" ");
             
-            const clanRow = (await app.query(`SELECT * FROM clans WHERE LOWER(name) = ?`, [clanName.toLowerCase()]));
+            const clanRow = await app.clans.searchClanRow(clanName);
 
-            if(!clanRow.length){
+            if(!clanRow){
                 return message.reply('I could not find a clan with that name! Maybe you misspelled it?');
             }
-            else if(clanRow[0].clanId == scoreRow.clanId){
+            else if(clanRow.clanId == scoreRow.clanId){
                 return message.reply('Raiding yourself???? What.');
             }
-            else if(await app.cd.getCD(clanRow[0].clanId, 'raided')){
+            else if(await app.cd.getCD(clanRow.clanId, 'raided')){
                 return message.reply('That clan just got raided! Let the clan recuperate before raiding them again.');
             }
 
-            const raider = (await app.query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0]
-            const clanPower = await app.clans.getClanData(clanRow[0].clanId);
+            const raider = (await app.query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0];
+            const clanPower = await app.clans.getClanData(clanRow.clanId);
             const isRaidable = clanPower.usedPower > clanPower.currPower ? true : false;
             const itemsToSteal = clanPower.usedPower - clanPower.currPower;
 
             const raidEmbed = new app.Embed()
             .setAuthor(message.author.username + ' | ' + raider.name, message.author.avatarURL)
-            .setDescription(`Raiding: \`${clanRow[0].name}\``)
+            .setDescription(`Raiding: \`${clanRow.name}\``)
             .setTitle(app.icons.loading)
 
             const botmsg = await message.channel.createMessage(raidEmbed);
@@ -54,7 +54,7 @@ module.exports = {
                 .setAuthor(message.author.username + ' | ' + raider.name, message.author.avatarURL)
 
                 if(!isRaidable){
-                    raidableEmbed.setDescription(`❌ Raid failed!\n\n\`${clanRow[0].name}\` has  **${clanPower.currPower}** current power and is only using **${clanPower.usedPower}** power in their vault.\n\nYou can only raid clans whose **used** power is greater than their **current** power.`);
+                    raidableEmbed.setDescription(`❌ Raid failed!\n\n\`${clanRow.name}\` has **${clanPower.currPower}** current power and is only using **${clanPower.usedPower}** power in their vault.\n\nYou can only raid clans whose **used** power is greater than their **current** power.`);
                     raidableEmbed.setColor(15083840);
 
                     setTimeout(() => {
@@ -69,7 +69,7 @@ module.exports = {
                     return m.author.id === message.author.id
                 }, { time: 120000 });
 
-                raidableEmbed.setDescription(`Raid successful!\n\nChoose up to **${itemsToSteal}** items to steal from their vault.\n\nExample: \`item_box 2\` to steal 2 boxes from the vault. Not sure what items they have? Check with \`clan vault ${clanRow[0].name}\`.`);
+                raidableEmbed.setDescription(`Raid successful!\n\nChoose up to **${itemsToSteal}** items to steal from their vault.\n\nExample: \`item_box 2\` to steal 2 boxes from the vault. Not sure what items they have? Check with \`clan vault ${clanRow.name}\`.`);
                 raidableEmbed.setFooter('You have 2 minutes to pick the items. | You can type stop to end the raid early.')
                 raidableEmbed.setColor(8311585);
                 setTimeout(() => {
@@ -77,18 +77,18 @@ module.exports = {
                 }, 2000);
 
                 console.log('[CLANS] Someone is raiding right now.');
-                app.clans.addLog(scoreRow.clanId, `${message.author.username} raided ${clanRow[0].name}`);
-                app.clans.addLog(clanRow[0].clanId, `Raided by ${raider.name} (${(message.author.username + '#' + message.author.discriminator)})`);
+                app.clans.addLog(scoreRow.clanId, `${message.author.username} raided ${clanRow.name}`);
+                app.clans.addLog(clanRow.clanId, `Raided by ${raider.name} (${(message.author.username + '#' + message.author.discriminator)})`);
                 
-                let moneyStolen = Math.floor(clanRow[0].money / 3);
+                let moneyStolen = Math.floor(clanRow.money / 2) <= 5000000 ? Math.floor(clanRow.money / 2) : 5000000;
                 let itemsStolen = 0;
                 let itemsArray = [];
 
-                await app.cd.setCD(clanRow[0].clanId, 'getting_raided', 130 * 1000, { ignoreQuery: true });
-                await app.cd.setCD(clanRow[0].clanId, 'raided', 3600 * 1000);
+                await app.cd.setCD(clanRow.clanId, 'getting_raided', 130 * 1000, { ignoreQuery: true });
+                await app.cd.setCD(clanRow.clanId, 'raided', 3600 * 1000);
                 await app.cd.setCD(scoreRow.clanId, 'raid', 3600 * 1000);
 
-                await app.clans.removeMoney(clanRow[0].clanId, moneyStolen);
+                await app.clans.removeMoney(clanRow.clanId, moneyStolen);
                 await app.clans.addMoney(scoreRow.clanId, moneyStolen);
 
 
@@ -110,11 +110,11 @@ module.exports = {
                         return m.channel.createMessage(`❌ Too many items! You can only steal ${itemsToSteal - itemsStolen} more items.`);
                     }
 
-                    else if(!await app.itm.hasItems(clanRow[0].clanId, item, amount)){
+                    else if(!await app.itm.hasItems(clanRow.clanId, item, amount)){
                         return m.channel.createMessage("❌ Their vault doesn't have enough of that item.");
                     }
 
-                    await app.itm.removeItem(clanRow[0].clanId, item, amount);
+                    await app.itm.removeItem(clanRow.clanId, item, amount);
                     await app.itm.addItem(scoreRow.clanId, item, amount);
 
                     m.channel.createMessage(`Successfully stole ${amount}x ${app.itemdata[item].icon}\`${item}\`.\n\nYou can steal **${(itemsToSteal - (amount + itemsStolen))}** more items.`);
@@ -127,7 +127,7 @@ module.exports = {
                     }
                 });
                 collector.on('end', async reason => {
-                    await app.cd.clearCD(clanRow[0].clanId, 'getting_raided');
+                    await app.cd.clearCD(clanRow.clanId, 'getting_raided');
 
                     const raidEmbed = new app.Embed()
                     .setAuthor(message.author.username + ' | ' + raider.name, message.author.avatarURL)
@@ -138,7 +138,7 @@ module.exports = {
 
                     message.channel.createMessage(raidEmbed);
 
-                    app.clans.raidNotify(clanRow[0].clanId, raider.name, moneyStolen, getItemsDisplay(app, itemsArray));
+                    app.clans.raidNotify(clanRow.clanId, raider.name, moneyStolen, getItemsDisplay(app, itemsArray));
                 });
             }
             catch(err){

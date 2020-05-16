@@ -274,7 +274,7 @@ CREATE TABLE IF NOT EXISTS clans (
     iconURL VARCHAR(255),
     clanCreated BIGINT,
     clanViews INT,
-    raidTime BIGINT,
+    reduction INT,
     PRIMARY KEY (clanId))
     ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `

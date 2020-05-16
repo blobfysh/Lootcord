@@ -209,6 +209,40 @@ module.exports = {
                 .setColor(14202368)
                 message.channel.createMessage(msgEmbed);
             }
+            else if(item === 'c4'){
+                const clanName = message.args.slice(1);
+                if(!clanName.length){
+                    return message.reply('You need to specify a clan to use your explosive on! `' + message.prefix + 'use c4 <clan name>`');
+                }
+
+                const clanRow = await app.clans.searchClanRow(clanName.join(' '));
+
+                if(!clanRow){
+                    return message.reply('I could not find a clan with that name! Maybe you misspelled it?');
+                }
+                else if(row.clanId === clanRow.clanId){
+                    return message.reply('❌ You cannot use explosives on your own clan.');
+                }
+
+                const clanPower = await app.clans.getClanData(clanRow.clanId);
+
+                await app.itm.removeItem(message.author.id, 'c4', 1);
+                await app.query("UPDATE clans SET reduction = reduction + 5 WHERE clanId = ?", [clanRow.clanId]);
+                await app.query(`INSERT INTO cooldown (userId, type, start, length) VALUES (?, ?, ?, ?)`, [clanRow.clanId, 'explosion', new Date().getTime(), 3600 * 1000]);
+                app.clans.addLog(clanRow.clanId, `${(message.author.username + '#' + message.author.discriminator)} used explosives on the clan! (c4)`);
+                
+                setTimeout(async () => {
+                    await app.query("UPDATE clans SET reduction = reduction - 5 WHERE clanId = ?", [clanRow.clanId]);
+                    await app.query(`DELETE FROM cooldown WHERE userId = ? AND type = 'explosion'`, [clanRow.clanId]);
+                }, 3600 * 1000);
+
+                const msgEmbed = new app.Embed()
+                .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
+                .setDescription(`💥 ***BOOM***\n\nThe current power of \`${clanRow.name}\` drops from **${clanPower.currPower}** to 💥 **${clanPower.currPower - 5}**.`)
+                .setFooter('This effect lasts one hour.')
+                .setColor(16734296)
+                message.channel.createMessage(msgEmbed);
+            }
         }
         else if(app.itemdata[item].isWeap){
             const userItems = await app.itm.getItemObject(message.author.id);

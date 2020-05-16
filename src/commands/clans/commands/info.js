@@ -34,13 +34,13 @@ module.exports = {
         }
         else{
             let clanName = args.join(" ");
-            const clanRow = (await app.query(`SELECT * FROM clans WHERE LOWER(name) = ?`, [clanName.toLowerCase()]));
+            const clanRow = await app.clans.searchClanRow(clanName);
 
-            if(!clanRow.length){
+            if(!clanRow){
                 return message.reply('I could not find a clan with that name! Maybe you misspelled it?');
             }
             
-            await getClanInfo(app, message, clanRow[0].clanId);
+            await getClanInfo(app, message, clanRow.clanId);
         }
     },
 }
@@ -50,21 +50,36 @@ async function getClanInfo(app, message, clanId){
     const clanMembers = await app.clans.getMembers(clanId);
     const clanPower = await app.clans.getClanData(clanId);
     const raidCD = await app.cd.getCD(clanId, 'raid');
+    const raidedCD = await app.cd.getCD(clanId, 'raided');
 
     const baseEmbed = new app.Embed();
-
     baseEmbed.setColor(13215302)
     baseEmbed.setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
     baseEmbed.setTitle('Info')
     baseEmbed.setDescription(clanRow.status !== '' ? clanRow.status : 'This clan is too mysterious for a status...')
-    baseEmbed.addField('Clan Power (Used / Current / Max)', clanPower.usedPower + '/' + clanPower.currPower + '/' + clanPower.maxPower, true)
-    baseEmbed.addField('Founded', getShortDate(clanRow.clanCreated), true)
+    
     if(raidCD){
-        baseEmbed.addField('Raid Timer', '`' + raidCD + '`')
+        baseEmbed.addField('Raid Timer', 'This clan cannot raid for `' + raidCD + '`.');
+    }
+    if(raidedCD){
+        baseEmbed.addField('Recently Raided', 'This clan just got raided and cannot be raided again for `' + raidedCD + '`.');
     }
     if(clanRow.iconURL){
         baseEmbed.setThumbnail(clanRow.iconURL)
     }
+    
+    if(clanRow.reduction > 0){
+        baseEmbed.addField('Clan Power (Used / Current / Max)', 
+        clanPower.usedPower + ' / 💥 ' + clanPower.currPower + ' / ' + clanPower.maxPower + '\n\n> **' + clanPower.usedPower + '** items in the clan vault, using ' + clanPower.usedPower + ' power.\n> **' + (clanPower.currPower + clanRow.reduction) + '** current cumulative power among members minus 💥 **' + clanRow.reduction + '** power from explosions.\n> **' + clanPower.maxPower + '** maximum possible power (if every member had 5 power).', 
+        true)
+    }
+    else{
+        baseEmbed.addField('Clan Power (Used / Current / Max)', 
+        clanPower.usedPower + ' / ' + clanPower.currPower + ' / ' + clanPower.maxPower + '\n\n- **' + clanPower.usedPower + '** items in the clan vault, using ' + clanPower.usedPower + ' power.\n- **' + clanPower.currPower + '** current cumulative power among members (5 per member).\n- **' + clanPower.maxPower + '** maximum possible power (if every member had 5 power).', 
+        true)
+    }
+    
+    baseEmbed.addField('Founded', getShortDate(clanRow.clanCreated), true)
     baseEmbed.addBlankField()    
     baseEmbed.addField(`Bank (Interest Rate: \`${((clanMembers.count * app.config.clanInterestRate) * 100).toFixed(1)}%\`)`, app.common.formatNumber(clanRow.money))
     

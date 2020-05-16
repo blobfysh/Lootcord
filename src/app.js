@@ -235,6 +235,14 @@ class Lootcord extends Base {
                             this.monsters.onHalf(cdInfo.userId);
                         }
                     }
+                    else if(cdInfo.type === 'explosion'){
+                        setTimeout(async () => {
+                            await this.query("UPDATE clans SET reduction = reduction - 5 WHERE clanId = ?", [cdInfo.userId]);
+                            await this.query(`DELETE FROM cooldown WHERE userId = ? AND type = 'explosion'`, [cdInfo.userId]);
+                        }, timeLeft);
+
+                        continue;
+                    }
                     
                     await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true }, callback);
                     
@@ -244,6 +252,10 @@ class Lootcord extends Base {
                     // delete mob
                     await this.query(`DELETE FROM cooldown WHERE userId = '${cdInfo.userId}' AND type = '${cdInfo.type}'`);
                     await this.query(`DELETE FROM spawns WHERE channelId = ?`, [cdInfo.userId]);
+                }
+                else if(cdInfo.type === 'explosion'){
+                    await this.query("UPDATE clans SET reduction = reduction - 5 WHERE clanId = ?", [cdInfo.userId]);
+                    await this.query(`DELETE FROM cooldown WHERE userId = ? AND type = 'explosion'`, [cdInfo.userId]);
                 }
             }
         }

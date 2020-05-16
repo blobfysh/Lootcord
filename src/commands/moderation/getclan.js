@@ -15,13 +15,13 @@ module.exports = {
     
     async execute(app, message){
         let clanName = message.args.join(" ");
-        const clanRow = (await app.query(`SELECT * FROM clans WHERE LOWER(name) = ?`, [clanName.toLowerCase()]));
+        const clanRow = await app.clans.searchClanRow(clanName);
 
-        if(!clanRow.length){
+        if(!clanRow){
             return message.reply('❌ A clan with that name does not exist.');
         }
 
-        const clanMembers = await app.clans.getMembers(clanRow[0].clanId);
+        const clanMembers = await app.clans.getMembers(clanRow.clanId);
 
         let membersRanksList = [];
 

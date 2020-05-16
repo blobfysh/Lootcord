@@ -1519,7 +1519,12 @@
         ],
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "display": "1x gunpowder",
+            "materials": [
+                "gunpowder|1"
+            ]
+        },
         "buy": "",
         "sell": 3220,
         "desc": ".44 Magnum bullet.",
@@ -2562,6 +2567,38 @@
         "cooldown": {
             "seconds": 6034
         }
+    },
+    "c4": {
+        "rarity": "Ultra",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "10x gunpowder\n2x fiber_optics",
+            "materials": [
+                "gunpowder|10",
+                "fiber_optics|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "4x gunpowder\n1x fiber_optics",
+            "materials": [
+                "gunpowder|4",
+                "fiber_optics|1"
+            ]
+        },
+        "buy": "",
+        "sell": 78951,
+        "desc": "Use this on another clan to temporarily lower their current power by **5** for 1 hour, making them vulnerable to a raid.\n\nThis effect can stack.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/710777441374961694/c4.png",
+        "icon": "<:ultra_usable:710781033666052106>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": ""
     },
     "stocking": {
         "rarity": "Limited",

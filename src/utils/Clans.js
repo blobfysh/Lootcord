@@ -4,6 +4,12 @@ class Clans {
         this.app = app;
     }
 
+    async searchClanRow(search){
+        if(!search.match(/^[a-zA-Z0-9 ]+$/)) return undefined;
+
+        return (await this.app.query(`SELECT * FROM clans WHERE LOWER(name) = ?`, [search.match(/^[a-zA-Z0-9 ]+$/)[0].toLowerCase()]))[0];
+    }
+
     async getMembers(clanId){
         const users = (await this.app.query(`SELECT * FROM scores WHERE clanId = ${clanId}`));
         
@@ -35,6 +41,7 @@ class Clans {
         let timePlayed = 0;
         const dateTime = new Date().getTime();
 
+        const clanRow = (await this.app.query(`SELECT reduction FROM clans WHERE clanId = ${clanId}`))[0];
         const clanItems = await this.app.itm.getUserItems(clanId);
         const memberRows = (await this.app.query(`SELECT * FROM scores WHERE clanId = ${clanId}`));
 
@@ -45,10 +52,13 @@ class Clans {
             maxPower += memberRows[i].max_power;
             timePlayed += (dateTime - memberRows[i].createdAt);
         }
+
+        currPower -= clanRow.reduction;
         
         return {
             usedPower: clanItems.itemCount,
             currPower: currPower,
+            explosion: clanRow.reduction,
             maxPower: maxPower,
             kills: kills,
             deaths: deaths,

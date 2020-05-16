@@ -34,13 +34,13 @@ module.exports = {
         }
         else{
             let clanName = args.join(" ");
-            const clanRow = (await app.query(`SELECT * FROM clans WHERE LOWER(name) = ?`, [clanName.toLowerCase()]));
+            const clanRow = await app.clans.searchClanRow(clanName);
 
-            if(!clanRow.length){
+            if(!clanRow){
                 return message.reply('I could not find a clan with that name! Maybe you misspelled it?');
             }
             
-            message.channel.createMessage(await getClanLogs(app, clanRow[0].clanId));
+            message.channel.createMessage(await getClanLogs(app, clanRow.clanId));
         }
     },
 }

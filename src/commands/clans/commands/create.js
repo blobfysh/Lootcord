@@ -32,9 +32,9 @@ module.exports = {
             return message.reply('❌ The clan tag you are trying to use contains innappropiate language. **Vulgar clan tags will not be tolerated.**');
         }
 
-        const clanRow = (await app.query(`SELECT * FROM clans WHERE LOWER(name) = ?`, [clanName.toLowerCase()]));
+        const clanRow = await app.clans.searchClanRow(clanName);
         
-        if(clanRow.length){
+        if(clanRow){
             return message.reply('❌ A clan with that tag already exists!');
         }
         else if(scoreRow.money < CREATION_COST){
@@ -48,7 +48,7 @@ module.exports = {
 
             if(confirmed){
                 const scoreRow2 = (await app.query(`SELECT * FROM scores WHERE userId = ${message.author.id}`))[0];
-                const clanRow2 = (await app.query(`SELECT * FROM clans WHERE LOWER(name) = ?`, [clanName.toLowerCase()]));
+                const clanRow2 = await app.clans.searchClanRow(clanName);
 
                 if(scoreRow2.clanId !== 0){
                     return message.reply('❌ You are already in a clan!');
@@ -56,7 +56,7 @@ module.exports = {
                 else if(scoreRow2.money < CREATION_COST){
                     return message.reply(`❌ You need atleast ${app.common.formatNumber(CREATION_COST)} to create a clan! You only have ${app.common.formatNumber(scoreRow2.money)}.\n\nCome back when you've racked up some more money...`);
                 }
-                else if(clanRow2.length){
+                else if(clanRow2){
                     return message.reply('❌ A clan with that tag already exists!');
                 }
                 
@@ -91,7 +91,7 @@ INSERT IGNORE INTO clans (
     iconURL,
     clanCreated,
     clanViews,
-    raidTime)
+    reduction)
     VALUES (
         ?, ?,
         0, '', '',
