@@ -22,6 +22,7 @@ class Server {
         if(this.config.webhooks.kofi) this.server.post(this.config.webhooks.kofi.path, this._handlePatron.bind(this));
         this.server.post('/api/searchbm', this._searchBlackMarket.bind(this));
         this.server.post('/api/leaderboard', this._getLeaderboard.bind(this));
+        this.server.post('/api/patrons', this._getPatrons.bind(this));
 
         this.server.listen(this.config.serverPort, () => {
             console.log(`[SERVER] Server running on port ${this.config.serverPort}`);
@@ -76,9 +77,11 @@ class Server {
     async _getPatrons(req, res){
         if(this.config.serverAuth !== req.headers.authorization) return res.status(403).send('Unauthorized');
 
-        const patrons = await this.mysql.query(`SELECT * FROM cooldown WHERE type = 'patron'`);
+        const patrons = await this.cache.get('tier2Patrons');
 
-        res.status(200).send(patrons);
+        if(!patrons) return res.status(200).send(undefined);
+
+        res.status(200).send(JSON.parse(patrons));
     }
 }
 

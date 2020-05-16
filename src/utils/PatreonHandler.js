@@ -153,6 +153,26 @@ class PatreonHandler {
         await this.app.query(`DELETE FROM user_items WHERE userId = ? AND item = 'patron'`, [userId]);
         await this.app.query(`UPDATE scores SET banner = 'none' WHERE userId = ? AND banner = 'patron'`, [userId]);
     }
+
+    async getTier2Patrons(){
+        const tier2Patrons  = await this.app.query('SELECT * FROM patrons WHERE tier = 2');
+
+        let patrons = {};
+
+        for(let i = 0; i < tier2Patrons.length; i++){
+            try{
+                let user = await this.app.common.fetchUser(tier2Patrons[i].userId, { cacheIPC: false });
+                
+                patrons[user.username] = {
+                    avatar: this.app.common.getAvatar(user)
+                };
+            }
+            catch(err){
+            }
+        }
+
+        return patrons;
+    }
 }
 
 module.exports = PatreonHandler;
