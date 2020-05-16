@@ -3,7 +3,7 @@ const faces = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q']
 
 module.exports = {
     name: 'blackjack',
-    aliases: [''],
+    aliases: ['bj'],
     description: 'Play a game of blackjack, get a higher total than the dealer without busting and you win!',
     long: 'Play a game of blackjack. Type hit to draw a random card from the deck or type stand to stop drawing cards and see if the dealer gets closer to 21 than you. Whoever gets closer to 21 without going over, wins!',
     args: {"amount": "Amount of money to gamble."},
