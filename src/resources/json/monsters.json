@@ -7,8 +7,8 @@
         "health": 250,
         "minDamage": 40,
         "maxDamage": 60,
-        "minMoney": 20000,
-        "maxMoney": 35000,
+        "minMoney": 30000,
+        "maxMoney": 40000,
         "xp": 200,
         "weapon": {
             "name": "silenced pistol",
@@ -33,8 +33,8 @@
         "health": 250,
         "minDamage": 40,
         "maxDamage": 60,
-        "minMoney": 25000,
-        "maxMoney": 90000,
+        "minMoney": 80000,
+        "maxMoney": 150000,
         "xp": 200,
         "weapon": {
             "name": "silenced pistol",
@@ -59,8 +59,8 @@
         "health": 250,
         "minDamage": 40,
         "maxDamage": 60,
-        "minMoney": 25000,
-        "maxMoney": 90000,
+        "minMoney": 80000,
+        "maxMoney": 150000,
         "xp": 200,
         "weapon": {
             "name": "silenced pistol",

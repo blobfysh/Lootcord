@@ -41,8 +41,8 @@ module.exports = {
 
         const baseEmbed = new app.Embed()
         .setColor(13215302)
-        .setAuthor(clanRow[0].name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
-        .addField('Clan ID', '```\n' + clanRow[0].clanId + '```')
+        .setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
+        .addField('Clan ID', '```\n' + clanRow.clanId + '```')
         .addField(`Members (${clanMembers.count})`, membersRanksList.map(member => member[0]).join('\n'))
 
         message.channel.createMessage(baseEmbed);
