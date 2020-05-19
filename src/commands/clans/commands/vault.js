@@ -46,7 +46,7 @@ module.exports = {
 
 async function getVaultInfo(app, clanId){
     const clanRow = (await app.query(`SELECT * FROM clans WHERE clanId = ${clanId}`))[0];
-    const clanItems = await app.itm.getUserItems(clanId);
+    const clanItems = await app.itm.getUserItems(await app.itm.getItemObject(clanId));
 
     let ultraItemList    = clanItems.ultra;
     let legendItemList   = clanItems.legendary;

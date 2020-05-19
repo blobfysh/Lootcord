@@ -905,17 +905,17 @@ async function pickTarget(app, message, selection){
     else{
         try{
             const userdata = {
-                user1: (await app.query(`SELECT money, health, maxHealth, badge FROM scores WHERE userId = '${selection.users[0]}'`))[0],
-                user2: (await app.query(`SELECT money, health, maxHealth, badge FROM scores WHERE userId = '${selection.users[1]}'`))[0],
-                user3: (await app.query(`SELECT money, health, maxHealth, badge FROM scores WHERE userId = '${selection.users[2]}'`))[0]
+                user1: await app.player.getRow(selection.users[0]),
+                user2: await app.player.getRow(selection.users[1]),
+                user3: await app.player.getRow(selection.users[2])
             };
             const atkEmbed = new app.Embed()
             .setAuthor((message.author.username + '#' + message.author.discriminator), message.author.avatarURL)
             .setTitle('Pick someone to attack!')
             .setDescription(`Type 1, 2, or 3 to select.\n
-            1. ${app.player.getBadge(userdata.user1.badge)} **${(selection.members[0]).username + '#' + (selection.members[0]).discriminator}** ${app.icons.health.full} ${userdata.user1.health} - ${app.common.formatNumber(userdata.user1.money)} - ${(await app.itm.getItemCount(selection.users[0])).itemCt} items\n
-            2. ${app.player.getBadge(userdata.user2.badge)} **${(selection.members[1]).username + '#' + (selection.members[1]).discriminator}** ${app.icons.health.full} ${userdata.user2.health} - ${app.common.formatNumber(userdata.user2.money)} - ${(await app.itm.getItemCount(selection.users[1])).itemCt} items\n
-            3. ${app.player.getBadge(userdata.user3.badge)} **${(selection.members[2]).username + '#' + (selection.members[2]).discriminator}** ${app.icons.health.full} ${userdata.user3.health} - ${app.common.formatNumber(userdata.user3.money)} - ${(await app.itm.getItemCount(selection.users[2])).itemCt} items`)
+            1. ${app.player.getBadge(userdata.user1.badge)} **${(selection.members[0]).username + '#' + (selection.members[0]).discriminator}** ${app.icons.health.full} ${userdata.user1.health} - ${app.common.formatNumber(userdata.user1.money)} - ${(await app.itm.getItemCount(await app.itm.getItemObject(selection.users[0]), userdata.user1)).itemCt} items\n
+            2. ${app.player.getBadge(userdata.user2.badge)} **${(selection.members[1]).username + '#' + (selection.members[1]).discriminator}** ${app.icons.health.full} ${userdata.user2.health} - ${app.common.formatNumber(userdata.user2.money)} - ${(await app.itm.getItemCount(await app.itm.getItemObject(selection.users[1]), userdata.user2)).itemCt} items\n
+            3. ${app.player.getBadge(userdata.user3.badge)} **${(selection.members[2]).username + '#' + (selection.members[2]).discriminator}** ${app.icons.health.full} ${userdata.user3.health} - ${app.common.formatNumber(userdata.user3.money)} - ${(await app.itm.getItemCount(await app.itm.getItemObject(selection.users[2]), userdata.user3)).itemCt} items`)
             .setColor(13215302)
             .setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
 

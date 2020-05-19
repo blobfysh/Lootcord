@@ -28,8 +28,9 @@ module.exports = {
             }
 
             const userInfo       = await app.common.fetchUser(userID, { cacheIPC: false });
-            const usersItems     = await app.itm.getUserItems(userID);
-            const itemCt         = await app.itm.getItemCount(userID);
+            const itemObject     = await app.itm.getItemObject(userID);
+            const usersItems     = await app.itm.getUserItems(itemObject);
+            const itemCt         = await app.itm.getItemCount(itemObject, row);
             const shieldLeft     = await app.cd.getCD(userID, 'shield');
 
             let ultraItemList    = usersItems.ultra;

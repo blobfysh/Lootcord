@@ -39,8 +39,9 @@ module.exports = {
                 }
                 
                 const isActive       = await app.player.isActive(member.id, member.guild.id);
-                const usersItems     = await app.itm.getUserItems(member.id);
-                const itemCt         = await app.itm.getItemCount(member.id);
+                const itemObject     = await app.itm.getItemObject(member.id);
+                const usersItems     = await app.itm.getUserItems(itemObject);
+                const itemCt         = await app.itm.getItemCount(itemObject, userRow);
                 const shieldLeft     = await app.cd.getCD(member.id, 'shield');
 
                 let ultraItemList    = usersItems.ultra;
@@ -115,7 +116,7 @@ module.exports = {
                 //embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max | Value: " + app.common.formatNumber(usersItems.invValue, true))
                 embedInfo.addField("\u200b", "Inventory space: " + itemCt.capacity + " max | Value: " + app.common.formatNumber(usersItems.invValue) + '');
                 
-                message.channel.createMessage(embedInfo);
+                await message.channel.createMessage(embedInfo);
             }
             catch(err){
                 console.log(err);

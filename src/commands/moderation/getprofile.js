@@ -28,7 +28,7 @@ module.exports = {
             }
 
             const userInfo   = await app.common.fetchUser(userID, { cacheIPC: false });
-            const banners    = await app.itm.getUserItems(userID, { onlyBanners: true });
+            const banners    = await app.itm.getUserItems(await app.itm.getItemObject(userID), { onlyBanners: true });
             const badges     = await app.itm.getBadges(userID);
             const xp         = app.common.calculateXP(row.points, row.level);
 

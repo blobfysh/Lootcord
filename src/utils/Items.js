@@ -97,7 +97,7 @@ class Items {
      * @param {number} amount Amount of items to check if user has space for
      */
     async hasSpace(id, amount = 0){
-        const itemCt = await this.getItemCount(id);
+        const itemCt = await this.getItemCount(await this.getItemObject(id), await this.app.player.getRow(id));
         
         console.log((itemCt.itemCt + parseInt(amount)) + " <= " + itemCt.maxCt);
 
@@ -105,18 +105,18 @@ class Items {
         else return false;
     }
 
-    async getItemCount(id, cntTokens = false, cntBanners = false){
-        const userItems = await this.getItemObject(id);
-        const scoreRow  = await this.app.player.getRow(id);
+    async getItemCount(userItems, userRow, options = { cntTokens: false, cntBanners: false }){
+        options.cntTokens = options.cntTokens == null ? false : options.cntTokens;
+        options.cntBanners = options.cntBanners == null ? false : options.cntBanners;
 
         let totalItemCt = 0;
 
         Object.keys(this.app.itemdata).forEach(key => {
             if(userItems[key] > 0){
-                if(key == 'token' && cntTokens){
+                if(key == 'token' && options.cntTokens){
                     totalItemCt += userItems[key];
                 }
-                else if(this.app.itemdata[key].isBanner && cntBanners){
+                else if(this.app.itemdata[key].isBanner && options.cntBanners){
                     totalItemCt += userItems[key];
                 }
                 else if(key !== 'token' && !this.app.itemdata[key].isBanner){
@@ -127,8 +127,8 @@ class Items {
 
         return {
             itemCt: totalItemCt,
-            maxCt: (this.app.config.baseInvSlots + scoreRow.inv_slots),
-            capacity: (totalItemCt + " / " + (this.app.config.baseInvSlots + scoreRow.inv_slots))
+            maxCt: (this.app.config.baseInvSlots + userRow.inv_slots),
+            capacity: (totalItemCt + " / " + (this.app.config.baseInvSlots + userRow.inv_slots))
         }
     }
 
@@ -149,12 +149,15 @@ class Items {
 
     /**
      * 
-     * @param {string} userId User to get item display for
+     * @param {*} items User's item object
      * @param {*} options
      * @returns {{onlyBanners:boolean,countBanners:boolean,countLimited:boolean}} Object with array for each item rarity, and value of all items in inventory
      */
-    async getUserItems(userId, options = { onlyBanners: false, countBanners: false, countLimited: true }){
-        const itemRow = await this.getItemObject(userId);
+    async getUserItems(items, options = { onlyBanners: false, countBanners: false, countLimited: true }){
+        options.onlyBanners = options.onlyBanners == null ? false : options.onlyBanners;
+        options.countBanners = options.countBanners == null ? false : options.countBanners;
+        options.countLimited = options.countLimited == null ? true : options.countLimited;
+        
         let commonItems   = [];
         let uncommonItems = [];
         let rareItems     = [];
@@ -185,7 +188,7 @@ class Items {
         });
 
         for(let key of filteredItems){
-            if(itemRow[key] >= 1){
+            if(items[key] >= 1){
 
                 switch(this.app.itemdata[key].rarity){
                     case "Common": commonItems.push(key); break;
@@ -197,8 +200,8 @@ class Items {
                     case "Limited": limitedItems.push(key); break;
                 }
     
-                invValue += this.app.itemdata[key].sell * itemRow[key];
-                itemCount+= itemRow[key];
+                invValue += this.app.itemdata[key].sell * items[key];
+                itemCount+= items[key];
             }
         }
         
@@ -210,13 +213,13 @@ class Items {
         ultraItems.sort();
         limitedItems.sort();
 
-        commonItems = commonItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
-        uncommonItems = uncommonItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
-        rareItems = rareItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
-        epicItems = epicItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
-        legendItems = legendItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
-        ultraItems = ultraItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
-        limitedItems = limitedItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + itemRow[item] + ")");
+        commonItems = commonItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        uncommonItems = uncommonItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        rareItems = rareItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        epicItems = epicItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        legendItems = legendItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        ultraItems = ultraItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        limitedItems = limitedItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
 
         return {
             common: commonItems,

@@ -42,7 +42,7 @@ class Clans {
         const dateTime = new Date().getTime();
 
         const clanRow = (await this.app.query(`SELECT reduction FROM clans WHERE clanId = ${clanId}`))[0];
-        const clanItems = await this.app.itm.getUserItems(clanId);
+        const clanItems = await this.app.itm.getUserItems(await this.app.itm.getItemObject(clanId));
         const memberRows = (await this.app.query(`SELECT * FROM scores WHERE clanId = ${clanId}`));
 
         for(let i = 0; i < memberRows.length; i++){

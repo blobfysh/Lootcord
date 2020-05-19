@@ -94,7 +94,7 @@ module.exports = {
 
                 const collector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
 
-                if((await app.itm.getUserItems(clanRow.clanId)).itemCount === 0){
+                if((await app.itm.getUserItems(await app.itm.getItemObject(clanRow.clanId))).itemCount === 0){
                     setTimeout(() => {
                         app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
                         message.channel.createMessage(`<@${message.author.id}>, -> Max items stolen. Ending raid.`);
