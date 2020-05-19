@@ -70,16 +70,40 @@ class Cooldown {
      * 
      * @param {string} userId User to get cooldown for
      * @param {string} type Type of cooldown to look for
+     * @param {{getEstimate:boolean}} options Options
      */
-    async getCD(userId, type){
+    async getCD(userId, type, options = { getEstimate: false }){
         let key = `${type}|${userId}`;
         let endTime = await this.app.cache.getTTL(key, {getEPOCH: true});
 
         // return undefined if user is not on cooldown
         if(!endTime) return undefined;
-        if(endTime === -1) return 'Permanently';
+        if(endTime === -1) return options.getEstimate ? 'in a really long time' : 'Permanently';
+        
+        const duration = endTime - Date.now();
 
-        return this.convertTime(endTime - Date.now());
+        if(options.getEstimate){
+            if(duration < 1000 * 60 * 15){
+                return 'very soon';
+            }
+            else if(duration < 1000 * 60 * 60){
+                return 'within the hour';
+            }
+            else if(duration < 1000 * 60 * 60 * 3){
+                return 'in a couple hours';
+            }
+            else if(duration < 1000 * 60 * 60 * 6){
+                return 'in a few hours';
+            }
+            else if(duration < 1000 * 60 * 60 * 12){
+                return 'sometime today';
+            }
+            else{
+                return 'in quite a while';
+            }
+        }
+
+        return this.convertTime(duration);
     }
 
     async clearTimers(userId, type){

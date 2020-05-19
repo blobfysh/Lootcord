@@ -16,7 +16,9 @@ module.exports = {
         const monsterSpawn = await app.mysql.select('spawns', 'channelId', message.channel.id);
 
         if(!monsterRow && !monsterSpawn) return message.reply("❌ There are no bounties in this channel.");
-        else if(monsterRow && !monsterSpawn) return message.reply("❌ There are no bounties in this channel, but something tells me one may arrive soon...");
+        else if(monsterRow && !monsterSpawn){
+            return message.reply("❌ There are no bounties in this channel, but something tells me one may arrive **" + (await app.cd.getCD(message.channel.id, 'spawnCD', { getEstimate: true })) + "...**");
+        }
         
         const mobEmbed = await app.monsters.genMobEmbed(message.channel.id, app.mobdata[monsterSpawn.monster], monsterSpawn.health, monsterSpawn.money);
         message.channel.createMessage(mobEmbed);
