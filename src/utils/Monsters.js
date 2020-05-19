@@ -39,9 +39,8 @@ class Monsters {
             });
 
             const mobEmbed = await this.genMobEmbed(channelId, this.mobdata[monster], this.mobdata[monster].health, randMoney);
-            mobEmbed.setAuthor('A bounty has arrived...')
 
-            await this.app.bot.createMessage(channelId, mobEmbed);
+            await this.app.bot.createMessage(channelId, {content: 'A bounty has arrived...', embed: mobEmbed.embed});
         }
         catch(err){
             await this.app.query(`DELETE FROM spawnChannels WHERE channelId = ?`, [channelId]);

@@ -68,7 +68,7 @@ class CommandHandler {
         if(command.requiresAcc && !(account)) await this.app.player.createAccount(message.author.id);
 
         // check if player meets the minimum level required to run the command
-        if(command.levelReq && (account.level < command.levelReq)) return message.channel.createMessage('❌ You must be atleast level `' + command.levelReq + '` to use that command!');
+        if(command.levelReq && ((account ? account.level : 1) < command.levelReq)) return message.channel.createMessage('❌ You must be atleast level `' + command.levelReq + '` to use that command!');
 
         // check if command requires an active account (player would be elligible to be attacked) in the server
         if(command.requiresAcc && command.requiresActive && !(await this.app.player.isActive(message.author.id, message.channel.guild.id))) return message.channel.createMessage(`❌ You need to activate before using that command here! Use \`${prefix}activate\` to activate.`);
