@@ -107,7 +107,7 @@ async function startJackpot(app, message, gambleAmount){
         const collector = app.msgCollector.collectors[`${message.channel.id}`].collector;
 
         collector.on('collect', async m => {
-            if(!await app.player.isActive(m.author.id, m.guild.id)) return m.channel.createMessage(`Your account is not active in this server! Use \`${message.prefix}play\` to activate it here`);
+            if(!await app.player.isActive(m.author.id, m.channel.guild.id)) return m.channel.createMessage(`Your account is not active in this server! Use \`${message.prefix}play\` to activate it here`);
             const userArgs = m.content.slice(message.prefix.length).split(/ +/).slice(1);
             let gambleAmnt = app.parse.numbers(userArgs)[0];
 
