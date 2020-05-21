@@ -75,7 +75,7 @@ module.exports = {
                 }
                 
                 embedInfo.setFooter('⭐ ' + results.xp + ' XP earned!');
-                embedInfo.setDescription(results.display.join('\n'));
+                embedInfo.setDescription(app.itm.getDisplay(results.itemAmounts).join('\n'));
                 embedInfo.setTitle(amount + " boxes opened.");
             }
 

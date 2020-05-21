@@ -483,13 +483,29 @@ class Items {
     }
 
     getDisplay(itemList){
-        let items = [];
-        
+        let nameArr = [];
+        let amountArr = [];
+        let finalArr = [];
+    
         for(let i = 0; i < itemList.length; i++){
-            items.push(itemList[i].split('|')[1] + 'x ' + this.app.itemdata[itemList[i].split('|')[0]].icon + '`' + itemList[i].split('|')[0] + '`')
+            let item = itemList[i].split('|');
+    
+            let nameArrIndex = nameArr.indexOf(item[0]);
+    
+            if(nameArrIndex !== -1){
+                amountArr[nameArrIndex] = parseInt(amountArr[nameArrIndex]) + parseInt(item[1]);
+            }
+            else{
+                nameArr.push(item[0]);
+                amountArr.push(item[1]);
+            }
         }
     
-        return items;
+        for(let i = 0; i < nameArr.length; i++){
+            finalArr.push(amountArr[i] + 'x ' + this.app.itemdata[nameArr[i]].icon + '`' + nameArr[i] + '`');
+        }
+    
+        return finalArr;
     }
 }
 
