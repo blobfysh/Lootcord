@@ -21,7 +21,7 @@ module.exports = {
         }
 
         if(!gambleAmount || gambleAmount < 100){
-            return message.reply(`Please specify an amount of atleast ${app.common.formatNumber(100)} to gamble!`);
+            return message.reply(`Please specify an amount of at least ${app.common.formatNumber(100)} to gamble!`);
         }
 
         if(gambleAmount > row.money){

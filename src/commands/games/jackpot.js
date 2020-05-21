@@ -27,7 +27,7 @@ module.exports = {
         }
 
         if(!gambleAmount || gambleAmount < 100){
-            return message.reply(`Please specify an amount of atleast ${app.common.formatNumber(100)} to gamble!`);
+            return message.reply(`Please specify an amount of at least ${app.common.formatNumber(100)} to gamble!`);
         }
 
         if(!await app.player.hasMoney(message.author.id, gambleAmount)){
@@ -118,7 +118,7 @@ async function startJackpot(app, message, gambleAmount){
                 return m.channel.createMessage('Sorry, this jackpot is full!')
             }
             else if(!gambleAmnt || gambleAmnt < 100){
-                return m.channel.createMessage('Please enter an amount of atleast ' + app.common.formatNumber(100));
+                return m.channel.createMessage('Please enter an amount of at least ' + app.common.formatNumber(100));
             }
             else if(!await app.player.hasMoney(m.author.id, gambleAmnt)){
                 return m.channel.createMessage('You don\'t have that much money!');

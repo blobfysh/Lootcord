@@ -35,19 +35,19 @@ module.exports = {
             return message.reply("❌ You are trade banned.");
         }
         else if(await app.cd.getCD(user.id, 'tradeban')){
-            return message.reply("❌ User is trade banned.");
+            return message.reply(`❌ **${user.nick || user.username}** is trade banned.`);
         }
         else if(await app.cd.getCD(user.id, 'banned')){
-            return message.reply("❌ User is banned.");
+            return message.reply(`❌ **${user.nick || user.username}** is banned.`);
         }
         else if(!await app.player.isActive(user.id, message.channel.guild.id)){
-            return message.reply(`❌ User has not activated their account in this server.`);
+            return message.reply(`❌ **${user.nick || user.username}** has not activated their account in this server.`);
         }
         else if(victimRow.level < this.levelReq){
-            return message.reply('❌ Target player must be atleast level 3.');
+            return message.reply(`❌ **${user.nick || user.username}** is not level 3. The target player must be at least level 3.`);
         }
         else if(await app.cd.getCD(user.id, 'peck')){
-            return message.reply(`That person is under the effects of ${app.itemdata['peck_seed'].icon}\`peck_seed\``);
+            return message.reply(`**${user.nick || user.username}** is under the effects of ${app.itemdata['peck_seed'].icon}\`peck_seed\``);
         }
 
         const botMessage = await message.channel.createMessage(`<@${user.id}>, **${message.member.nick || message.member.username}** would like to trade with you!`);
@@ -264,7 +264,7 @@ module.exports = {
                 message.channel.createMessage(refreshWindow(app, message.member, 0, [], user, 0, [], message.prefix));
             }
             else{
-                botMessage.delete();
+                botMessage.edit(`❌ **${user.nick || user.username}** declined the trade.`);
             }
         }
         catch(err){

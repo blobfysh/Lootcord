@@ -2210,7 +2210,12 @@
         ],
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "display": "3x gunpowder",
+            "materials": [
+                "gunpowder|3"
+            ]
+        },
         "buy": "",
         "sell": 24289,
         "desc": "7.62x39mm black-tip bullet designed to penetrate steel.",
@@ -2233,7 +2238,12 @@
         ],
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "display": "5x gunpowder",
+            "materials": [
+                "gunpowder|5"
+            ]
+        },
         "buy": "",
         "sell": 24609,
         "desc": "7.62x51mm NATO rifle cartridge.",

@@ -25,7 +25,7 @@ module.exports = {
             return message.reply("❌ Trade banned users are not allowed to convert.");
         }
         else if(convertAmnt < 100){
-            return message.reply('❌ Please enter an amount of atleast ' + app.common.formatNumber(100));
+            return message.reply('❌ Please enter an amount of at least ' + app.common.formatNumber(100));
         }
         else if(!(await app.player.hasMoney(message.author.id, convertAmnt))){
             return message.reply("❌ You don't have enough money for that conversion!");

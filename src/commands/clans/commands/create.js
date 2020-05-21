@@ -26,7 +26,7 @@ module.exports = {
             return message.reply('❌ Special characters are not supported in clan tags. Supported: Alphanumeric characters and space');
         }
         else if(clanName.length < 4 || clanName.length > 20){
-            return message.reply(`Clan tags must be atleast 4 characters long up to a max of 20 characters. The one you entered is ${clanName.length} characters.`);
+            return message.reply(`Clan tags must be at least 4 characters long up to a max of 20 characters. The one you entered is ${clanName.length} characters.`);
         }
         else if(filter.isProfane(clanName)){
             return message.reply('❌ The clan tag you are trying to use contains innappropiate language. **Vulgar clan tags will not be tolerated.**');
@@ -38,7 +38,7 @@ module.exports = {
             return message.reply('❌ A clan with that tag already exists!');
         }
         else if(scoreRow.money < CREATION_COST){
-            return message.reply(`❌ You need atleast ${app.common.formatNumber(CREATION_COST)} to create a clan! You only have ${app.common.formatNumber(scoreRow.money)}.\n\nCome back when you've racked up some more money...`);
+            return message.reply(`❌ You need at least ${app.common.formatNumber(CREATION_COST)} to create a clan! You only have ${app.common.formatNumber(scoreRow.money)}.\n\nCome back when you've racked up some more money...`);
         }
 
         const botMessage = await message.channel.createMessage(`**📤 Cost: ${app.common.formatNumber(CREATION_COST)}**\n\nCreate clan with the tag: \`${clanName}\`?`);
@@ -54,7 +54,7 @@ module.exports = {
                     return message.reply('❌ You are already in a clan!');
                 }
                 else if(scoreRow2.money < CREATION_COST){
-                    return message.reply(`❌ You need atleast ${app.common.formatNumber(CREATION_COST)} to create a clan! You only have ${app.common.formatNumber(scoreRow2.money)}.\n\nCome back when you've racked up some more money...`);
+                    return message.reply(`❌ You need at least ${app.common.formatNumber(CREATION_COST)} to create a clan! You only have ${app.common.formatNumber(scoreRow2.money)}.\n\nCome back when you've racked up some more money...`);
                 }
                 else if(clanRow2){
                     return message.reply('❌ A clan with that tag already exists!');

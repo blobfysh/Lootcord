@@ -1709,7 +1709,7 @@
             "currency": "money"
         },
         "sell": 7089,
-        "desc": "This box drops an item of atleast Rare quality, or potentially an Ultra item.",
+        "desc": "This box drops an item of at least Rare quality, or potentially an Ultra item.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/702813612359548928/BagsAndBoxes_76_t.PNG",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/702813612359548928/BagsAndBoxes_76_t.PNG",
         "icon": "<:epic_box:601415582126178304>",

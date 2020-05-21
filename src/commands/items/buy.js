@@ -227,7 +227,7 @@ async function boughtGame(app, user, game){
         const buyerEmbed = new app.Embed()
         .setTitle("✅ Game Purchased!")
         .setDescription("The moderators have received confirmation that you purchased a game and will respond with your key soon.")
-        .setFooter('Please do not message asking "Where is my code?" unless atleast 12 hours have passed. We have the right to cancel this purchase if we suspect you of cheating.')
+        .setFooter('Please do not message asking "Where is my code?" unless at least 12 hours have passed. We have the right to cancel this purchase if we suspect you of cheating.')
         .setTimestamp()
 
         let dm = await user.getDMChannel();

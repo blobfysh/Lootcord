@@ -21,11 +21,11 @@ module.exports = {
         }
         
         if(row.health < 25){
-            return message.reply(`⚠ You need atleast **25 HP** to use the \`roulette\` command, you currently have ${app.player.getHealthIcon(row.health, row.maxHealth)} **${row.health} / ${row.maxHealth}**.`);
+            return message.reply(`⚠ You need at least **25 HP** to use the \`roulette\` command, you currently have ${app.player.getHealthIcon(row.health, row.maxHealth)} **${row.health} / ${row.maxHealth}**.`);
         }
 
         if(!gambleAmount || gambleAmount < 100){
-            return message.reply(`Please specify an amount of atleast ${app.common.formatNumber(100)} to gamble!`);
+            return message.reply(`Please specify an amount of at least ${app.common.formatNumber(100)} to gamble!`);
         }
 
         if(gambleAmount > row.money){
