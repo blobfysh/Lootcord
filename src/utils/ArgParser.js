@@ -1,10 +1,10 @@
-const MicroSpellingCorrecter = require('micro-spelling-correcter');
+const SpellCorrector = require('../structures/Corrector');
 
 class ArgParser {
     constructor(app){
         this.app = app;
         this.badgedata = app.badgedata;
-        this.spell = new MicroSpellingCorrecter(Object.keys(this.app.itemdata));
+        this.spell = new SpellCorrector(Object.keys(this.app.itemdata));
     }
 
     /**
@@ -127,7 +127,7 @@ class ArgParser {
 
             default:
                 // try using spell correction to find the item name
-                let itemCorrected = this.spell.correct(itemSearched.slice(0, 13));
+                let itemCorrected = this.spell.getWord(itemSearched);
 
                 if(this.app.itemdata[itemCorrected]){
                     itemSearched = itemCorrected;
