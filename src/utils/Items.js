@@ -287,7 +287,7 @@ class Items {
         let finalItemsAmounts = [];
         let items             = [];
         let xpToAdd           = 0;
-        let weightedArr       = this.generateWeightedArray(type, luck);
+        let weightedArr       = this.generateWeightedArray(this.app.itemdata[type].rates, luck);
     
         for(let i = 0; i < amount; i++){
             let rand = this.pickRandomItem(type, weightedArr);
@@ -307,11 +307,11 @@ class Items {
         }
     }
 
-    generateWeightedArray(type, luck){
+    generateWeightedArray(rates, luck){
         let weightedArr = [];
         let luckMltplr = 0;
     
-        Object.keys(this.app.itemdata[type].rates).forEach(percentage => {
+        Object.keys(rates).forEach(percentage => {
             if(parseFloat(percentage) <= 25){
                 luckMltplr = luck/2;
             }
@@ -440,6 +440,11 @@ class Items {
         let aRarity;
         let bRarity;
 
+        if(a.includes('|')){
+            a = a.split('|')[0];
+            b = b.split('|')[0];
+        }
+
         switch(this.itemdata[a].rarity){
             case "Common": aRarity = 6; break;
             case "Uncommon": aRarity = 5; break;
@@ -464,9 +469,12 @@ class Items {
         else if(aRarity > bRarity) return 1;
 
         else if(aRarity === bRarity){
-            if(a < b) return -1;
+            let asell = this.itemdata[a].sell;
+            let bsell = this.itemdata[b].sell;
+
+            if(bsell < asell) return -1;
             
-            else if(a > b) return 1;
+            else if(bsell > asell) return 1;
 
             return 0
         }
