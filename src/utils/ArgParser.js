@@ -4,7 +4,8 @@ class ArgParser {
     constructor(app){
         this.app = app;
         this.badgedata = app.badgedata;
-        this.spell = new SpellCorrector(Object.keys(this.app.itemdata));
+        this.itemCorrector = new SpellCorrector(Object.keys(this.app.itemdata));
+        this.badgeCorrector = new SpellCorrector(Object.keys(this.app.badgedata));
     }
 
     /**
@@ -127,7 +128,7 @@ class ArgParser {
 
             default:
                 // try using spell correction to find the item name
-                let itemCorrected = this.spell.getWord(itemSearched);
+                let itemCorrected = this.itemCorrector.getWord(itemSearched);
 
                 if(this.app.itemdata[itemCorrected]){
                     itemSearched = itemCorrected;
@@ -170,19 +171,35 @@ class ArgParser {
             let badge = arg + '_' + (args[i + 1]);
             // check if two args make up  badge
             if(this.badgedata[badge.toLowerCase()]){
-                
                 // remove the next element because we already found a badge using it.
                 args.splice(args.indexOf(args[i + 1]), 1);
     
                 // return the item
-                return badge.toLowerCase()
+                return badge.toLowerCase();
+            }
+            else{
+                const corrected = this.badgeCorrector.getWord(badge.toLowerCase());
+
+                if(this.badgedata[corrected]){
+                    args.splice(args.indexOf(args[i + 1]), 1);
+
+                    return corrected;
+                }
             }
     
             // check if single arg was badge
-            if(this.badgedata[arg.toLowerCase()]) return arg.toLowerCase();
+            if(this.badgedata[arg.toLowerCase()]){
+                return arg.toLowerCase();
+            }
+            else{
+                const corrected = this.badgeCorrector.getWord(arg.toLowerCase());
+
+                if(this.badgedata[corrected]){
+                    return corrected;
+                }
+            }
             
-            // no badge found
-            else return undefined;
+            return undefined;
         });
     
         return badgeArgs.filter(arg => arg !== undefined);

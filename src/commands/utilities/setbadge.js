@@ -29,6 +29,6 @@ module.exports = {
 
         await app.query(`UPDATE scores SET badge = '${badgeToSet}' WHERE userId = ${message.author.id}`);
 
-        message.reply(`✅ Successfully made ${app.badgedata[badgeToSet].icon} \`${badgeToSet}\` your display badge!`);
+        message.reply(`✅ Successfully made ${app.badgedata[badgeToSet].icon}\`${badgeToSet}\` your display badge!`);
     },
 }

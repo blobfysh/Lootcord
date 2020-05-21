@@ -61,11 +61,11 @@ module.exports = {
             await app.cd.setCD(message.author.id, 'attack', 3600 * 1000); // 1 hour attack cooldown
             await app.cd.clearCD(message.author.id, 'shield');
             
-            message.reply(`✅ Successfully unequipped your ${app.icons.items.shield}**shield**, you have also been given a \`60 minute\` cooldown from attacking other players.`);
+            message.reply(`✅ Successfully unequipped your ${app.icons.items.shield} **shield**, you have also been given a \`60 minute\` cooldown from attacking other players.`);
         }
 
         else{
-            message.reply("Specify a backpack, banner, badge, or shield to unequip. `unequip <item>`");
+            message.reply("Specify a " + app.icons.items.backpack + " backpack, " + app.icons.items.banner + " banner, " + app.icons.items.shield + " shield, or badge to unequip. `" + message.prefix + "unequip <item/badge>`");
         }
     },
 }

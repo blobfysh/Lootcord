@@ -15,11 +15,7 @@ module.exports = {
         let equipItem = app.parse.items(message.args)[0];
         let equipBadge = app.parse.badges(message.args)[0];
 
-        if(equipItem){
-            if(!app.itemdata[equipItem].equippable){
-                return message.reply('❌ That item cannot be equipped. Specify a backpack or banner to equip.');
-            }
-
+        if(equipItem && app.itemdata[equipItem].equippable){
             const userRow = await app.player.getRow(message.author.id);
             const hasPack = await app.itm.hasItems(message.author.id, equipItem, 1);
 
@@ -73,7 +69,10 @@ module.exports = {
 
             await app.query(`UPDATE scores SET badge = ? WHERE userId = ?`, [equipBadge, message.author.id]);
 
-            message.reply(`✅ Successfully made ${app.badgedata[equipBadge].icon} \`${equipBadge}\` your display badge!`);
+            message.reply(`✅ Successfully made ${app.badgedata[equipBadge].icon}\`${equipBadge}\` your display badge!`);
+        }
+        else if(equipItem && !app.itemdata[equipItem].equippable){
+            return message.reply(app.itemdata[equipItem].icon + '`' + equipItem + '` cannot be equipped. Specify a ' + app.icons.items.backpack + ' backpack, ' + app.icons.items.banner + ' banner or badge to equip.');
         }
         else{
             message.reply(`Specify a valid item that can be equipped. \`${message.prefix}equip <item>\`. You can also equip a badge to set it as your display badge.`);
