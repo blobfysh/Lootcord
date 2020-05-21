@@ -33,7 +33,7 @@ module.exports = {
 
                 leaveClan(app, message.author.id);
                 if(app.clan_ranks[scoreRow.clanRank].title == 'Leader'){
-                    app.clans.disbandClan(clanId);
+                    app.clans.disbandClan(scoreRow.clanId);
                 }
 
                 app.clans.addLog(scoreRow.clanId, `${(message.author.username + '#' + message.author.discriminator)} left`);
