@@ -226,11 +226,20 @@ module.exports = {
                     else if(command.toLowerCase() === 'remove'){
                         let item = app.parse.items(args)[0];
 
-                        if(!item){
+                        if(args[0] === 'money'){
+                            if(player === 1){
+                                m.channel.createMessage(`Successfully removed ${app.common.formatNumber(player1Money)} from the trade.`);
+                                player1Money = 0;
+                            }
+                            else if(player === 2 ){
+                                m.channel.createMessage(`Successfully removed ${app.common.formatNumber(player2Money)} from the trade.`);
+                                player2Money = 0;
+                            }
+                        }
+                        else if(!item){
                             return m.channel.createMessage('❌ You need to specify an item.');
                         }
-
-                        if(player === 1){
+                        else if(player === 1){
                             if(!listHasItem(player1Items, item)){
                                 return m.channel.createMessage('❌ You don\'t have that item in the trade.');
                             }
@@ -277,7 +286,7 @@ function refreshWindow(app, player1Member, player1Money, player1Items, player2Me
     const tradeWindow = new app.Embed()
     .setTitle("Trade Window")
     .setColor(2713128)
-    .setDescription('Reminder that handouts are not allowed, **giving** items/money to another player may result in punishment.')
+    .setDescription(`Reminder that handouts are not allowed, **giving** items/money to another player may result in punishment.\n\n**Commands:**\n\`${prefix}add <item> <amount>\`\n\`${prefix}addmoney <amount>\`\n\`${prefix}remove <item/money>\`\n\`${prefix}accept\`\n\`${prefix}cancel\``)
     .addField(log ? player1Member.username : (player1Member.nick || player1Member.username) + `'s Offer`, app.common.formatNumber(player1Money),true)
     .addField(log ? player2Member.username : (player2Member.nick || player2Member.username) + `'s Offer`, app.common.formatNumber(player2Money),true)
     .addBlankField(true)
@@ -288,7 +297,6 @@ function refreshWindow(app, player1Member, player1Money, player1Items, player2Me
     .addField('Value', app.common.formatNumber(getValue(app, player1Money, player1Items)), true)
     .addField('Value', app.common.formatNumber(getValue(app, player2Money, player2Items)), true)
     .addBlankField(true)
-    .setFooter("Commands: "+prefix+"add <item> <amount> | "+prefix+"addmoney <amount> | "+prefix+"accept | "+prefix+"cancel")
 
     return tradeWindow;
 }
