@@ -22,18 +22,11 @@
                         "c4|1"
                     ]
                 },
-                "10": {
-                    "items": [
-                        "gunpowder|1"
-                    ]
-                },
-                "89": {
+                "99": {
                     "items": [
                         "awp|1",
                         "7.62_m61|1",
-                        "m4a1|1",
-                        ".50ae_hp|1",
-                        "desert_eagle|1"
+                        ".50ae_hp|1"
                     ]
                 }
             },
@@ -41,12 +34,15 @@
                 "15": {
                     "items": [
                         "cloth|2",
-                        "stick|1"
+                        "stick|1",
+                        "desert_eagle|1",
+                        "gunpowder|1"
                     ]
                 },
                 "30": {
                     "items": [
-                        "health_pot|1"
+                        "health_pot|1",
+                        "m4a1|1"
                     ]
                 },
                 "55": {

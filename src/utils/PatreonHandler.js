@@ -230,7 +230,7 @@ class PatreonHandler {
             try{
                 let user = await this.app.common.fetchUser(tier3Patrons[i].userId, { cacheIPC: false });
                 
-                patrons[user.username] = {
+                patrons[user.username + '#' + user.discriminator] = {
                     avatar: this.app.common.getAvatar(user)
                 };
             }

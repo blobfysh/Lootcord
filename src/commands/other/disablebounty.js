@@ -7,6 +7,7 @@ module.exports = {
     args: {},
     examples: [],
     ignoreHelp: true,
+    premiumCmd: true,
     requiresAcc: true,
     requiresActive: true,
     guildModsOnly: false,
@@ -14,7 +15,7 @@ module.exports = {
     
     async execute(app, message){
         const userSpawns = await app.mysql.select('spawnChannels', 'userId', message.author.id, true);
-        if(userSpawns.length === 0) return message.reply('❌ You don\'t have any active spawn channels. You can spawn enemies with `setspawnchannel`.');
+        if(userSpawns.length === 0) return message.reply('❌ You don\'t have any active spawn channels. You can spawn enemies with `enablebounty`.');
 
         for(let i = 0; i < userSpawns.length; i++){
             await app.cd.clearCD(userSpawns[i].channelId, 'spawnCD');
