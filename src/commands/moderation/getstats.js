@@ -31,6 +31,7 @@ module.exports = {
             const kofiPatron = await app.cd.getCD(userID, 'patron');
             const patreonTier1Patron = await app.cd.getCD(userID, 'patron1');
             const patreonTier2Patron = await app.cd.getCD(userID, 'patron2');
+            const patreonTier3Patron = await app.cd.getCD(userID, 'patron3');
             const discordAccCreated = codeWrap(new Date(Math.floor((userID / 4194304) + 1420070400000)).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric', timeZone: 'America/New_York'}) + '\n' + new Date(Math.floor((userID / 4194304) + 1420070400000)).toLocaleTimeString('en-US', {timeZone: 'America/New_York'}) + ' (EST)', 'fix')
             const createdString = row ? codeWrap(new Date(row.createdAt).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric', timeZone: 'America/New_York'}) + '\n' + new Date(row.createdAt).toLocaleTimeString('en-US', {timeZone: 'America/New_York'}) + ' (EST)', 'fix') : codeWrap('No Account', 'fix');
             const activeString = row ? codeWrap(new Date(row.lastActive).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric', timeZone: 'America/New_York'}) + '\n' + new Date(row.lastActive).toLocaleTimeString('en-US', {timeZone: 'America/New_York'}) + ' (EST)', 'fix') : codeWrap('Never', 'fix');
@@ -87,6 +88,10 @@ module.exports = {
 
             if(patreonTier2Patron){
                 statEmbed.addField('Patreon Tier', codeWrap('Active - Tier 2 Donator', 'cs'))
+            }
+
+            if(patreonTier3Patron){
+                statEmbed.addField('Patreon Tier', codeWrap('Active - Tier 3 Donator', 'cs'))
             }
 
             message.channel.createMessage(statEmbed);

@@ -30,7 +30,8 @@
   "donatorRoles": {
     "kofi": "",
     "tier1Patreon": "",
-    "tier2Patreon": ""
+    "tier2Patreon": "",
+    "tier3Patreon": ""
   },
   "webhooks": {
     "logs": {

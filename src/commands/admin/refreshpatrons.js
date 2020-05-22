@@ -29,6 +29,10 @@ module.exports = {
                     app.patreonHandler.lostTier2(patrons[i].userId, `\`${patrons[i].userId}\`'s tier 2 donator perks expried.`);
                     removed++;
                 }
+                else if(patrons[i].tier === 3 && !member.roles.includes(app.config.donatorRoles.tier3Patreon)){
+                    app.patreonHandler.lostTier3(patrons[i].userId, `\`${patrons[i].userId}\`'s tier 3 donator perks expried.`);
+                    removed++;
+                }
             }
 
             message.reply('Removed **' + removed + '** expired patrons from DB.');

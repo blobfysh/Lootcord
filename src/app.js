@@ -288,7 +288,14 @@ class Lootcord extends Base {
             }
         }
 
-        // OLD MODS TABLE, cooldown table is now used to ban
+        // refreshes tier 3 patrons
+        const tier3Patrons = await this.query(`SELECT * FROM patrons WHERE tier = 3`); 
+        for(let patron of tier3Patrons){
+            if(patron.userId !== undefined && patron.userId !== null){
+                await this.cache.setNoExpire(`patron3|${patron.userId}`, 'Patron Monthly Tier 3');
+            }
+        }
+        
         const bannedRows = await this.query(`SELECT * FROM banned`); 
         for(let banned of bannedRows){
             if(banned.userId !== undefined && banned.userId !== null){

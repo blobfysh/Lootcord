@@ -23,6 +23,15 @@ class PatreonHandler {
             // gained tier2
             this.gainedTier2(newMember.id);
         }
+
+        if(oldMember.roles.includes(this.app.config.donatorRoles.tier3Patreon) && !newMember.roles.includes(this.app.config.donatorRoles.tier3Patreon)){
+            // lost tier2
+            this.lostTier3(newMember.id, `\`${newMember.id}\`'s tier 3 donator perks expried.`);
+        }
+        else if(!oldMember.roles.includes(this.app.config.donatorRoles.tier3Patreon) && newMember.roles.includes(this.app.config.donatorRoles.tier3Patreon)){
+            // gained tier2
+            this.gainedTier3(newMember.id);
+        }
     }
 
     async checkPatronLeft(member){
@@ -37,6 +46,15 @@ class PatreonHandler {
         }
         else if(await this.app.cd.getCD(member.id, 'patron2')){
             this.lostTier2(member.id, '`' + member.id + '` left support server...');
+
+            const patronEmbed = new this.app.Embed()
+            .setTitle('😦 uh oh...')
+            .setDescription(`Your patreon benefits won't work if you leave the support server!`)
+            .setColor('#f96854')
+            this.app.common.messageUser(member.id, patronEmbed);
+        }
+        else if(await this.app.cd.getCD(member.id, 'patron3')){
+            this.lostTier3(member.id, '`' + member.id + '` left support server...');
 
             const patronEmbed = new this.app.Embed()
             .setTitle('😦 uh oh...')
@@ -81,7 +99,7 @@ class PatreonHandler {
         const patreonLogEmbed = new this.app.Embed()
         .setTitle('New Patron!')
         .addField('User', '```fix\n' + userId + '```', true)
-        .addField('Tier', '```\nTier 2 (Loot Lord)```', true)
+        .addField('Tier', '```\nTier 2 (Loot Hoarder)```', true)
         .setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/708499928586125372/1200px-Patreon_logomark.png')
         .setColor('#f96854')
 
@@ -94,6 +112,37 @@ class PatreonHandler {
         try{
             await this.app.query("INSERT INTO patrons (userId, tier, started) VALUES (?, ?, ?)", [userId, 2, Date.now()]);
             await this.app.cache.setNoExpire(`patron2|${userId}`, 'Patron Monthly Tier 2');
+            await this.addPatronItems(userId);
+
+            await this.app.common.messageUser(userId, patronEmbed, { throwErr: true });
+
+            patreonLogEmbed.setFooter('✅ Success');
+            this.app.messager.messageLogs(patreonLogEmbed);
+        }
+        catch(err){
+            patreonLogEmbed.addField('Error', '```\n' + err + '```')
+            patreonLogEmbed.setFooter('❌ Failed to send message to user.');
+            this.app.messager.messageLogs(patreonLogEmbed);
+        }
+    }
+
+    async gainedTier3(userId){
+        const patreonLogEmbed = new this.app.Embed()
+        .setTitle('New Patron!')
+        .addField('User', '```fix\n' + userId + '```', true)
+        .addField('Tier', '```\nTier 3 (Loot Lord)```', true)
+        .setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/708499928586125372/1200px-Patreon_logomark.png')
+        .setColor('#f96854')
+
+        const patronEmbed = new this.app.Embed()
+        .setTitle('😲 a donator!')
+        .setDescription(`Thank you for helping me create Lootcord!!\n\nYou can view your benefits with the \`patreon\` command!`)
+        .setFooter('💙 blobfysh')
+        .setColor('#f96854')
+        
+        try{
+            await this.app.query("INSERT INTO patrons (userId, tier, started) VALUES (?, ?, ?)", [userId, 3, Date.now()]);
+            await this.app.cache.setNoExpire(`patron3|${userId}`, 'Patron Monthly Tier 3');
             await this.addPatronItems(userId);
 
             await this.app.common.messageUser(userId, patronEmbed, { throwErr: true });
@@ -144,6 +193,24 @@ class PatreonHandler {
         }
     }
 
+    async lostTier3(userId, msg = undefined){
+        try{
+            await this.app.query(`DELETE FROM patrons WHERE userId = ? AND tier = ?`, [userId, 3]);
+            await this.app.cd.clearCD(userId, 'patron3');
+            await this.removePatronItems(userId);
+
+            const patreonLogEmbed = new this.app.Embed()
+            .setTitle('Perks Ended')
+            .setColor(16734296)
+            .setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/708499928586125372/1200px-Patreon_logomark.png')
+            .setDescription(msg)
+            this.app.messager.messageLogs(patreonLogEmbed);
+        }
+        catch(err){
+            console.error(err);
+        }
+    }
+
     
     async addPatronItems(userId){
         await this.app.itm.addItem(userId, 'patron', 1);
@@ -154,14 +221,14 @@ class PatreonHandler {
         await this.app.query(`UPDATE scores SET banner = 'none' WHERE userId = ? AND banner = 'patron'`, [userId]);
     }
 
-    async getTier2Patrons(){
-        const tier2Patrons  = await this.app.query('SELECT * FROM patrons WHERE tier = 2');
+    async getTier3Patrons(){
+        const tier3Patrons  = await this.app.query('SELECT * FROM patrons WHERE tier = 3');
 
         let patrons = {};
 
-        for(let i = 0; i < tier2Patrons.length; i++){
+        for(let i = 0; i < tier3Patrons.length; i++){
             try{
-                let user = await this.app.common.fetchUser(tier2Patrons[i].userId, { cacheIPC: false });
+                let user = await this.app.common.fetchUser(tier3Patrons[i].userId, { cacheIPC: false });
                 
                 patrons[user.username] = {
                     avatar: this.app.common.getAvatar(user)

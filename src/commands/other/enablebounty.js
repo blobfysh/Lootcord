@@ -16,6 +16,7 @@ module.exports = {
         const userSpawns = await app.mysql.select('spawnChannels', 'userId', message.author.id, true);
         if(userSpawns.length > 0 && !app.sets.adminUsers.has(message.author.id) && await app.cd.getCD(message.author.id, 'patron1')) return message.reply('❌ You already have spawns active!\n\nYou are limited to **1** spawn channel. If you would like to disable your active spawns, use `disablebounty`.');
         if(userSpawns.length > 1 && !app.sets.adminUsers.has(message.author.id) && await app.cd.getCD(message.author.id, 'patron2')) return message.reply('❌ You already have spawns active!\n\nYou are limited to **2** spawn channels. If you would like to disable your active spawns, use `disablebounty`.');
+        if(userSpawns.length > 2 && !app.sets.adminUsers.has(message.author.id) && await app.cd.getCD(message.author.id, 'patron3')) return message.reply('❌ You already have spawns active!\n\nYou are limited to **3** spawn channels. If you would like to disable your active spawns, use `disablebounty`.');
 
         const channelSpawns = await app.mysql.select('spawnChannels', 'channelId', message.channel.id, true);
         if(channelSpawns.length > 0) return message.reply('❌ There are already spawns active in this channel.\n\nYou **CAN** call multiple spawns per server, they just have to be in different channels.');
