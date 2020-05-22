@@ -7,6 +7,7 @@ module.exports = {
     args: {},
     examples: [],
     ignoreHelp: false,
+    premiumCmd: true,
     requiresAcc: false,
     requiresActive: false,
     guildModsOnly: false,

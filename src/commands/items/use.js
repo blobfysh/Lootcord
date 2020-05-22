@@ -325,6 +325,7 @@ module.exports = {
 
                     extras.push(app.monsters.pickRandomLoot(monster, 'extras', weightedExtras));
                     extras.push(app.monsters.pickRandomLoot(monster, 'extras', weightedExtras));
+                    extras.push(app.monsters.pickRandomLoot(monster, 'extras', weightedExtras));
 
                     await app.itm.addItem(message.author.id, [bestItem, ...extras]);
                     await app.player.addMoney(message.author.id, monsterRow.money);

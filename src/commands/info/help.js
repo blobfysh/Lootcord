@@ -9,7 +9,7 @@ module.exports = {
         "command": "Command to lookup info for."
     },
     examples: ["help inv"],
-    ignoreHelp: false,
+    ignoreHelp: true,
     requiresAcc: false,
     requiresActive: false,
     guildModsOnly: false,
@@ -42,12 +42,12 @@ module.exports = {
         
         app.commands.forEach(cmd => {
             if(cmd.ignoreHelp) return;
-
+            
             if(categories[cmd.category]){
-                categories[cmd.category].push(cmd.name);
+                categories[cmd.category].push(cmd.premiumCmd ? '✨' + cmd.name : cmd.name);
             }
             else{
-                categories[cmd.category] = [cmd.name];
+                categories[cmd.category] = [cmd.premiumCmd ? '✨' + cmd.name : cmd.name];
             }
         });
 

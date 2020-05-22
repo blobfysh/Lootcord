@@ -32,9 +32,10 @@ module.exports = {
         .setAuthor('Thank you!', message.author.avatarURL)
         .addField('Patron Status', 'active 😃')
         .addField('Active Bounty Channels (' + activeBountyChannels.length + ')', activeBountyChannels.join('\n') || 'None')
+        .addField('How do I claim my weekly reward?', 'Use `' + message.prefix + 'weekly` to claim your care_package every week!')
         .addField('How do I use the bounty system?', 'Spawn bounties in a channel using the `enablebounty` command.'
         + '\n\nTo stop all active bounty spawns use `disablebounty`.'
-        + '\n\nOnce a bounty has spawned, you or anyone in the server can use the `bounty` command to view the bounty!'
+        + '\n\nOnce a bounty has spawned, you or anyone in the server can use the `bounty` command to view the bounty and fight it!'
         + '\n\n*Bounties spawn every 8 - 12 hours, they will then stay until defeated or until their time runs out.*')
         .setColor('#f96854')
         message.channel.createMessage(donateEmb);
