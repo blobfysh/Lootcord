@@ -7,33 +7,7 @@
         "health": 250,
         "minDamage": 40,
         "maxDamage": 60,
-        "minMoney": 30000,
-        "maxMoney": 40000,
-        "xp": 200,
-        "weapon": {
-            "name": "silenced pistol",
-            "icon": "<:L_weapon:601369664492404746>"
-        },
-        "ammo": ".45_ap",
-        "loot": [
-            "awp|1",
-            "7.62_m61|1",
-            ".45_ap|1",
-            "adhesive|1"
-        ],
-        "staysFor": {
-            "seconds": 43200
-        }
-    },
-    "hitman2": {
-        "title": "Assassin",
-        "artist": "Shteebr#0007",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/709144565944418325/Hitman_LootcordV2.png",
-        "pronoun": "he",
-        "health": 250,
-        "minDamage": 40,
-        "maxDamage": 60,
-        "minMoney": 80000,
+        "minMoney": 60000,
         "maxMoney": 150000,
         "xp": 200,
         "weapon": {
@@ -41,37 +15,51 @@
             "icon": "<:L_weapon:601369664492404746>"
         },
         "ammo": ".45_ap",
-        "loot": [
-            "m4a1|1",
-            ".50ae_hp|1",
-            ".45_ap|1",
-            "cloth|2"
-        ],
-        "staysFor": {
-            "seconds": 43200
-        }
-    },
-    "hitman3": {
-        "title": "Assassin",
-        "artist": "Shteebr#0007",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/709144565944418325/Hitman_LootcordV2.png",
-        "pronoun": "he",
-        "health": 250,
-        "minDamage": 40,
-        "maxDamage": 60,
-        "minMoney": 80000,
-        "maxMoney": 150000,
-        "xp": 200,
-        "weapon": {
-            "name": "silenced pistol",
-            "icon": "<:L_weapon:601369664492404746>"
+        "loot": {
+            "main": {
+                "1": {
+                    "items": [
+                        "c4|1"
+                    ]
+                },
+                "10": {
+                    "items": [
+                        "gunpowder|1"
+                    ]
+                },
+                "89": {
+                    "items": [
+                        "awp|1",
+                        "7.62_m61|1",
+                        "m4a1|1",
+                        ".50ae_hp|1",
+                        "desert_eagle|1"
+                    ]
+                }
+            },
+            "extras": {
+                "15": {
+                    "items": [
+                        "cloth|2",
+                        "stick|1"
+                    ]
+                },
+                "30": {
+                    "items": [
+                        "health_pot|1"
+                    ]
+                },
+                "55": {
+                    "items": [
+                        "medkit|1",
+                        ".45_ap|1",
+                        "revolver|1",
+                        "adhesive|1",
+                        "care_package|1"
+                    ]
+                }
+            }
         },
-        "ammo": ".45_ap",
-        "loot": [
-            "desert_eagle|1",
-            "care_package|1",
-            ".45_ap|1"
-        ],
         "staysFor": {
             "seconds": 43200
         }

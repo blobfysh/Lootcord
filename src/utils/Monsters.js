@@ -9,7 +9,7 @@ class Monsters {
         const activeMob = await this.app.cd.getCD(channelId, 'mob');
         if(activeMob) return false;
 
-        let rand = Math.round(Math.random() * (14400 * 1000)) + (28800 * 1000); // Generate random time from 8 - 12 hours
+        let rand = Math.round(Math.random() * (14 * 1000)) + (14 * 1000); //14400 * 1000)) + (28800 Generate random time from 8 - 12 hours
         console.log(`[MONSTERS] Counting down from ${this.app.cd.convertTime(rand)}`);
 
         this.app.cd.setCD(channelId, 'spawnCD', rand, { ignoreQuery: true }, () => {
@@ -73,6 +73,19 @@ class Monsters {
             }
         }
 
+        let loot = [];
+
+        for(let rate of Object.keys(monster.loot.main)){
+            for(let item of monster.loot.main[rate].items){
+                loot.push(item);
+            }
+        }
+        for(let rate of Object.keys(monster.loot.extras)){
+            for(let item of monster.loot.extras[rate].items){
+                loot.push(item);
+            }
+        }
+
         const mobEmbed = new this.app.Embed()
         .setTitle(monster.title)
         .setDescription(`Attack with \`${guildPrefix}use <weapon> bounty\`\n\nYou have \`${remaining}\` to defeat the ${monster.title} before ${monster.pronoun} leaves the server.`)
@@ -80,7 +93,7 @@ class Monsters {
         .addField('Health', `${this.app.player.getHealthIcon(health, monster.health, true)}\n${health} / ${monster.health}`, true)
         .addField('Damage', `${monster.minDamage} - ${monster.maxDamage}`, true)
         .addBlankField()
-        .addField('Loot', this.app.itm.getDisplay(monster.loot).join('\n'), true)
+        .addField('Has a chance of dropping:', this.app.itm.getDisplay(loot.sort(this.app.itm.sortItemsHighLow.bind(this.app))).join('\n'), true)
         .addField('Money', this.app.common.formatNumber(money), true)
         .setFooter('Artist: ' + monster.artist)
         .setImage(monster.image)
@@ -126,6 +139,13 @@ class Monsters {
             await this.app.query(`DELETE FROM spawns WHERE channelId = ?`, [channelId]);
             await this.app.query(`DELETE FROM spawnChannels WHERE channelId = ?`, [channelId]);
         }
+    }
+
+    pickRandomLoot(monster, type, weightedArray){
+        let rand = weightedArray[Math.floor(Math.random() * weightedArray.length)];
+        let rewards = monster.loot[type][rand].items;
+    
+        return rewards[Math.floor(Math.random() * rewards.length)];
     }
     
     async subHealth(channelId, amount){

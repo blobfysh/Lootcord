@@ -319,7 +319,14 @@ module.exports = {
                     await app.cd.clearCD(message.channel.id, 'mobHalf');
                     await app.monsters.onFinished(message.channel.id, false);
 
-                    await app.itm.addItem(message.author.id, monster.loot);
+                    let bestItem = app.monsters.pickRandomLoot(monster, 'main', app.itm.generateWeightedArray(monster.loot.main));
+                    let extras = [];
+                    let weightedExtras = app.itm.generateWeightedArray(monster.loot.extras);
+
+                    extras.push(app.monsters.pickRandomLoot(monster, 'extras', weightedExtras));
+                    extras.push(app.monsters.pickRandomLoot(monster, 'extras', weightedExtras));
+
+                    await app.itm.addItem(message.author.id, [bestItem, ...extras]);
                     await app.player.addMoney(message.author.id, monsterRow.money);
                     await app.player.addPoints(message.author.id, monster.xp);
 
@@ -336,7 +343,7 @@ module.exports = {
                     .setTitle('Loot Received')
                     .setDescription("Money: " + app.common.formatNumber(monsterRow.money) + "\nExperience: `" + monster.xp + "xp`")
                     .setColor(7274496)
-                    .addField("Items", app.itm.getDisplay(monster.loot).join('\n'))
+                    .addField("Items", app.itm.getDisplay([bestItem]) + '\n\n**and...**\n' + app.itm.getDisplay(extras.sort(app.itm.sortItemsHighLow.bind(app))).join('\n'))
 
                     message.channel.createMessage({
                         content: generateAttackMobString(app, message, monsterRow, randDmg, item, ammoUsed, weaponBroke, true), 
