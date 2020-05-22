@@ -22,6 +22,9 @@ Discord Server: https://discord.gg/7XNbdzP<br>
 Commands can be found [here](https://lootcord.com/commands).
 
 ## Self-hosting when?
+
+### I will not help you set up self-hosting, do not message me asking.
+
 Requirements:
 
 - Node.js (>= v10.19.0)
