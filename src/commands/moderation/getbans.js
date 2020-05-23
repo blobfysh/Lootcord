@@ -4,7 +4,9 @@ module.exports = {
     aliases: [''],
     description: "Get a list of all banned players.",
     long: "Get a list of all banned players.",
-    args: {},
+    args: {
+        "page": "Page number."
+    },
     examples: [],
     ignoreHelp: false,
     requiresAcc: false,
@@ -12,12 +14,14 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
+        let page = (app.parse.numbers(message.args)[0] || 1) - 1;
+
         try{
             let bannedList = [];
-            const bans = await app.query(`SELECT * FROM banned`);
+            const bans = await app.query(`SELECT * FROM banned ORDER BY date DESC LIMIT ?, 10`, [page * 10]);
 
             const banMsg = new app.Embed()
-            .setAuthor('Banned Players')
+            .setAuthor(`Banned Players (Page ${page + 1})`)
             .setDescription(app.icons.loading + ' fetching bans...')
             .setColor(720640)
             const botMessage = await message.channel.createMessage(banMsg);
@@ -25,11 +29,11 @@ module.exports = {
             for(let i = 0; i < bans.length; i++){
                 const user = await app.common.fetchUser(bans[i].userId, { cacheIPC: false });
 
-                bannedList.push(`${i + 1}. ${user.username}#${user.discriminator} (${user.id})`);
+                bannedList.push(`${(page * 10) + 1 + i}. ${user.username}#${user.discriminator} (${user.id})`);
             }
 
             setTimeout(() => {
-                banMsg.setDescription('```\n' + (bannedList.join('\n') || 'None') + '```')
+                banMsg.setDescription('Sorted newest to oldest:```\n' + (bannedList.join('\n') || 'None') + '```')
                 botMessage.edit(banMsg);
             }, 1000);
         }
