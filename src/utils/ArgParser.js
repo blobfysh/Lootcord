@@ -4,7 +4,7 @@ class ArgParser {
     constructor(app){
         this.app = app;
         this.badgedata = app.badgedata;
-        this.itemCorrector = new SpellCorrector(Object.keys(this.app.itemdata));
+        this.itemCorrector = new SpellCorrector(Object.keys(this.app.itemdata).filter(item => item.length > 3));
         this.badgeCorrector = new SpellCorrector(Object.keys(this.app.badgedata));
     }
 
