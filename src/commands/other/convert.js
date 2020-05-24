@@ -32,7 +32,7 @@ module.exports = {
         else if(!(await app.player.hasMoney(message.author.id, convertAmnt))){
             return message.reply("❌ You don't have enough money for that conversion!");
         }
-        else if(row.discoinLimit + convertAmnt >= CONVERT_LIMIT){
+        else if(row.discoinLimit + convertAmnt > CONVERT_LIMIT){
             return message.reply(`❌ You are limited to converting ${app.common.formatNumber(CONVERT_LIMIT)} a day.${CONVERT_LIMIT - row.discoinLimit > 0 ? ' You can still convert ' + app.common.formatNumber(CONVERT_LIMIT - row.discoinLimit) + ' today.' : ''}\n\nThis limit helps prevent players from inflating other bot currencies.`);
         }
 

@@ -16,13 +16,16 @@ module.exports = {
     
     async execute(app, message){
         let userID = message.args[0];
-        let messageIn = message.args.slice(1).join(" ");
+        let messageIn = message.args.slice(1).join(" ") || 'No reason provided.';
 
         if(message.channel.id !== app.config.modChannel){
             return message.reply('❌ You must be in the moderator channel to use this command.');
         }
         else if(!userID){
             return message.reply('❌ You forgot to include a user ID.')
+        }
+        else if(await app.cd.getCD(userID, 'banned')){
+            return message.reply('❌ User is already banned.')
         }
         else if(await app.cd.getCD(userID, 'mod')){
             return message.reply("Hey stop trying to ban a moderator!!! >:(");
