@@ -5,9 +5,10 @@ module.exports = {
     description: 'Bans a user without notifying them.',
     long: 'Bans a user without notifying them. Banning will make the bot ignore every message from user.',
     args: {
-        "User ID": "ID of user to ban."
+        "User ID": "ID of user to ban.",
+        "reason": "Reason for ban."
     },
-    examples: ["silentban 168958344361541633"],
+    examples: ["silentban 168958344361541633 cheating"],
     ignoreHelp: false,
     requiresAcc: false,
     requiresActive: false,
@@ -15,6 +16,7 @@ module.exports = {
     
     async execute(app, message){
         let userID = message.args[0];
+        let messageIn = message.args.slice(1).join(" ");
 
         if(message.channel.id !== app.config.modChannel){
             return message.reply('❌ You must be in the moderator channel to use this command.');
