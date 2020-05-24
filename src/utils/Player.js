@@ -321,7 +321,9 @@ INSERT IGNORE INTO scores (
     notify1,
     notify2,
     notify3,
-    prestige)
+    prestige,
+    discoinLimit,
+    bmLimit)
     VALUES (
         ?,
         ?,
@@ -335,7 +337,7 @@ INSERT IGNORE INTO scores (
         ?,
         ?,
         0, 0, 0, 0, 0, 0, 0, '', 'recruit', 'en-us', 
-        0, 5, 5, 0, 0, NOW(), 0, 0, 0, 0
+        0, 5, 5, 0, 0, NOW(), 0, 0, 0, 0, 0, 0
     )
 `
 

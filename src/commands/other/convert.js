@@ -1,4 +1,4 @@
-
+const CONVERT_LIMIT = 1000000;
 
 module.exports = {
     name: 'convert',
@@ -14,6 +14,8 @@ module.exports = {
     levelReq: 3,
     
     async execute(app, message){
+        const row = await app.player.getRow(message.author.id);
+
         let convertAmnt = app.parse.numbers(message.args)[0];
         let currency = message.args[1] || '';
         currency = currency.toUpperCase();
@@ -30,19 +32,24 @@ module.exports = {
         else if(!(await app.player.hasMoney(message.author.id, convertAmnt))){
             return message.reply("❌ You don't have enough money for that conversion!");
         }
+        else if(row.discoinLimit + convertAmnt >= CONVERT_LIMIT){
+            return message.reply(`❌ You are limited to converting ${app.common.formatNumber(CONVERT_LIMIT)} a day.${CONVERT_LIMIT - row.discoinLimit > 0 ? ' You can still convert ' + app.common.formatNumber(CONVERT_LIMIT - row.discoinLimit) + ' today.' : ''}\n\nThis limit helps prevent players from inflating other bot currencies.`);
+        }
 
         try{
             const currencies = await app.discoin.getCurrencies();
+
             if(!currencies.includes(currency)){
                 return message.reply('That isn\'t a currency available on Discoin. Check out the currencies here: https://dash.discoin.zws.im/#/currencies');
             }
-            else if(currency == 'LCN'){
+            else if(currency === 'LCN'){
                 return message.reply('You\'re trying to convert LCN to LCN? Pick a different currency to convert to.');
             }
 
             // valid currency and user has money
 
             await app.player.removeMoney(message.author.id, convertAmnt);
+            await app.query("UPDATE scores SET discoinLimit = discoinLimit + ? WHERE userId = ?", [convertAmnt, message.author.id]);
             const response = await app.discoin.request(message.author.id, convertAmnt, currency);
             
             const embed = new app.Embed()

@@ -16,7 +16,6 @@ module.exports = {
         const gamesRow = await getGamesData(app);
         let buyItem = app.parse.items(message.args)[0];
         let buyAmount = app.parse.numbers(message.args)[0] || 1;
-        //let buyItem = app.parse.items(message.args)[0];
 
         if(buyItem){
             let currency = app.itemdata[buyItem].buy.currency;
@@ -162,13 +161,15 @@ module.exports = {
         }
         else if(shortid.isValid(message.args[0]) && await app.bm.getListingInfo(message.args[0])){
             buyItem = message.args[0];
-
-            let listInfo = await app.bm.getListingInfo(buyItem);
             
             if(await app.cd.getCD(message.author.id, 'tradeban')){
                 return message.reply("❌ You are trade banned and cannot use the black market.");
             }
+            else if((await app.player.getRow(message.author.id)).bmLimit >= 10){
+                return message.reply("❌ You are limited to purchasing **10** black market listings a day. This limit helps prevent a single player from purchasing all items on the market.");
+            }
 
+            const listInfo = await app.bm.getListingInfo(buyItem);
             const botMessage = await message.channel.createMessage(`Purchase ${listInfo.amount}x ${app.itemdata[listInfo.item].icon}\`${listInfo.item}\` for ${app.common.formatNumber(listInfo.price)}?`);
 
             try{
@@ -187,10 +188,14 @@ module.exports = {
                     if(!await app.bm.getListingInfo(listInfo.listingId)){
                         return botMessage.edit('❌ That listing already sold!');
                     }
+                    if((await app.player.getRow(message.author.id)).bmLimit >= 10){
+                        return botMessage.edit("❌ You are limited to purchasing **10** black market listings a day. This limit is to prevent players from purchasing all items on the market.");
+                    }
 
                     app.bm.soldItem(listInfo);
                     await app.player.removeMoney(message.author.id, listInfo.price);
                     await app.itm.addItem(message.author.id, listInfo.item, listInfo.amount);
+                    await app.query("UPDATE scores SET bmLimit = bmLimit + 1 WHERE userId = ?", [message.author.id]);
 
                     const bmLogEmbed = new app.Embed()
                     .setTitle('BM Listing Sold')

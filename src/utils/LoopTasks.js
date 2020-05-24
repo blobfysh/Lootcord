@@ -40,18 +40,21 @@ class LoopTasks {
             const members = await this.app.clans.getMembers(clans[i].clanId);
 
             if(Math.floor(clans[i].money * (members.count * this.app.config.clanInterestRate)) >= 100000){
-                this.app.query(`UPDATE clans SET money = money + 100000 WHERE clanId = ${clans[i].clanId} AND money < 10000000`);
+                await this.app.query(`UPDATE clans SET money = money + 100000 WHERE clanId = ${clans[i].clanId} AND money < 10000000`);
             }
             else{
-                this.app.query(`UPDATE clans SET money = money + FLOOR(money * ${members.count * this.app.config.clanInterestRate}) WHERE clanId = ${clans[i].clanId} AND money < 10000000`);
+                await this.app.query(`UPDATE clans SET money = money + FLOOR(money * ${members.count * this.app.config.clanInterestRate}) WHERE clanId = ${clans[i].clanId} AND money < 10000000`);
             }
         }
 
         // remove old logs
-        this.app.query(`DELETE FROM clan_logs WHERE logDate < NOW() - INTERVAL 30 DAY`);
+        await this.app.query(`DELETE FROM clan_logs WHERE logDate < NOW() - INTERVAL 30 DAY`);
 
         // remove old transactions
-        this.app.query(`DELETE FROM transactions WHERE date < NOW() - INTERVAL 30 DAY`);
+        await this.app.query(`DELETE FROM transactions WHERE date < NOW() - INTERVAL 30 DAY`);
+
+        // reset daily limits
+        await this.app.query(`UPDATE scores SET discoinLimit = 0, bmLimit = 0 WHERE discoinLimit != 0 OR bmLimit != 0`);
 
         // auto-deactivate players who have not played for 14 days
         const InactiveUsers = await this.app.query(`SELECT scores.userId, guildId, lastActive FROM userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 14 DAY`);
@@ -70,7 +73,7 @@ class LoopTasks {
         }
         console.log('[LOOPTASKS] Removed active role from ' + activeRolesRemoved + ' players.');
         
-        this.app.query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 14 DAY`);
+        await this.app.query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 14 DAY`);
     }
 
     async refreshLB(){
