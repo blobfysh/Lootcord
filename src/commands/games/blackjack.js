@@ -40,13 +40,13 @@ module.exports = {
                 return m.author.id === message.author.id
             }, { time: 60000 });
 
-            var deck = initDeck();
-            var playerCards = [];
-            var dealerCards = [];
-            var playerFinal = 0;
-            var dealerFinal = 0;
+            let deck = initDeck();
+            let playerCards = [];
+            let dealerCards = [];
+            let playerFinal = 0;
+            let dealerFinal = 0;
 
-            for(var i = 0; i < 2; i++){
+            for(let i = 0; i < 2; i++){
                 playerCards.push(drawCard(deck));
             }
             dealerCards.push(drawCard(deck));
@@ -67,7 +67,7 @@ module.exports = {
                     if(playerScore.minScore > 21){
                         app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
 
-                        message.channel.createMessage(loserEmbed(app, message, playerCards, dealerCards, 'You busted and lost ' + app.common.formatNumber(gambleAmount), gambleAmount));
+                        message.channel.createMessage(loserEmbed(app, message, playerCards, dealerCards, 'You busted and lost ' + app.common.formatNumber(gambleAmount) + '...', gambleAmount));
                     }
                     else{
                         message.channel.createMessage(genEmbed(app, message, playerCards, dealerCards, gambleAmount));
@@ -97,16 +97,16 @@ module.exports = {
                     }
 
                     if(dealerFinal > 21){
-                        message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, 'The dealer busted! You won ' + app.common.formatNumber(gambleAmount), gambleAmount));
+                        message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, 'The dealer busted! You won ' + app.common.formatNumber(gambleAmount * 2), gambleAmount));
                     }
                     else if(playerFinal > dealerFinal){
-                        message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, 'you won ' + app.common.formatNumber(gambleAmount), gambleAmount));
+                        message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, 'You won ' + app.common.formatNumber(gambleAmount * 2) + '!', gambleAmount));
                     }
                     else if(playerFinal < dealerFinal){
-                        message.channel.createMessage(loserEmbed(app, message, playerCards, dealerCards, 'you lost ' + app.common.formatNumber(gambleAmount), gambleAmount));
+                        message.channel.createMessage(loserEmbed(app, message, playerCards, dealerCards, 'You lost ' + app.common.formatNumber(gambleAmount) + '...', gambleAmount));
                     }
                     else{ // player and dealer tied...
-                        message.channel.createMessage(tieEmbed(app, message, playerCards, dealerCards, `tied with dealer (You lose ${app.common.formatNumber(0)})`, gambleAmount));
+                        message.channel.createMessage(tieEmbed(app, message, playerCards, dealerCards, `Tied with dealer (You lose ${app.common.formatNumber(0)})`, gambleAmount));
                     }
                 }
             });
@@ -123,19 +123,19 @@ module.exports = {
 }
 
 function drawCard(deck){
-    var index = Math.floor(Math.random() * deck.length);
-    var card = deck[index];
+    let index = Math.floor(Math.random() * deck.length);
+    let card = deck[index];
     deck.splice(index, 1); // Removes card from original array
 
     return card;
 }
 
 function initDeck(){
-    var deck = [];
+    let deck = [];
 
-    for(var i = 0; i < suits.length; i++){
-        for(var i2 = 0; i2 < faces.length; i2++){
-            var tmpVal;
+    for(let i = 0; i < suits.length; i++){
+        for(let i2 = 0; i2 < faces.length; i2++){
+            let tmpVal;
 
             if(faces[i2] == 'J' || faces[i2] == 'Q' || faces[i2] == 'K'){
                 tmpVal = 10;
@@ -147,7 +147,7 @@ function initDeck(){
                 tmpVal = parseInt(faces[i2]);
             }
 
-            var card = {face: faces[i2], suit: suits[i], value: tmpVal, display: faces[i2] + suits[i]};
+            let card = {face: faces[i2], suit: suits[i], value: tmpVal, display: faces[i2] + suits[i]};
 
             deck.push(card);
         }
@@ -157,10 +157,10 @@ function initDeck(){
 }
 
 function getScore(playersHand){
-    var score = 0;
-    var minScore = 0; // Used if player has aces...
+    let score = 0;
+    let minScore = 0; // Used if player has aces...
 
-    for(var i = 0; i < playersHand.length; i++){
+    for(let i = 0; i < playersHand.length; i++){
         if(playersHand[i].face == 'A'){
             minScore -= 10;
         }
@@ -173,7 +173,7 @@ function getScore(playersHand){
 }
 
 function hasAce(playersHand){
-    for(var i = 0; i < playersHand.length; i++){
+    for(let i = 0; i < playersHand.length; i++){
         if(playersHand[i].face == 'A'){
             return true;
         }
@@ -188,10 +188,10 @@ function genEmbed(app, message, playerCards, dealerCards, gambleAmount, dealerEm
     playerString = '';
     dealerString = '';
 
-    for(var i = 0; i < playerCards.length; i++){
+    for(let i = 0; i < playerCards.length; i++){
         playerString += playerCards[i].display;
     }
-    for(var i = 0; i < dealerCards.length; i++){
+    for(let i = 0; i < dealerCards.length; i++){
         dealerString += dealerCards[i].display;
     }
 

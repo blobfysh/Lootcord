@@ -19,7 +19,7 @@ module.exports = {
 
             const embed = new app.Embed()
             .setTitle('🛒 Random Black Market Listings')
-            .setDescription('These listings were made by other players!\n\nPurchase one with `buy <Listing ID>` command (ex. `t-buy Jq0cG_YY`)\n\n**Search for items with `bm <item to search>`**' + app.bm.createDisplay(listings))
+            .setDescription('These listings were made by other players!\n\nPurchase one with `' + message.prefix + 'buy <Listing ID>` command (ex. `t-buy Jq0cG_YY`)\n\n**Search for items with `bm <item to search>`**' + app.bm.createDisplay(listings))
             .setColor(13215302)
 
             message.channel.createMessage(embed);
@@ -29,7 +29,7 @@ module.exports = {
 
             const embed = new app.Embed()
             .setTitle('🛒 Black Market Listings for: ' + item)
-            .setDescription('These listings were made by other players!\n\nPurchase one with `buy <Listing ID>` command (ex. `t-buy Jq0cG_YY`)\n\n**Sorted lowest price to highest:**' + app.bm.createDisplay(listings))
+            .setDescription('These listings were made by other players!\n\nPurchase one with `' + message.prefix + 'buy <Listing ID>` command (ex. `t-buy Jq0cG_YY`)\n\n**Sorted lowest price to highest:**' + app.bm.createDisplay(listings))
             .setColor(13215302)
 
             message.channel.createMessage(embed);
