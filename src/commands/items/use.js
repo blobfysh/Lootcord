@@ -765,7 +765,13 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
 
     if(ammoUsed){
         // weapon uses ammo
-        finalStr = `<@${message.author.id}> fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` straight through <@${victim.id}>'s chest using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`! **${damage}** damage dealt!`;
+        switch(itemUsed){
+            case "rpg":
+            case "javelin": finalStr = `<@${message.author.id}> blows <@${victim.id}> to bits using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\` loaded with a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\`! **${damage}** damage dealt!`; break;
+            case "ray_gun":
+            case "rail_cannon": finalStr = `<@${message.author.id}> vaporizes <@${victim.id}> using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\` loaded with ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\`! **${damage}** damage dealt!`; break;
+            default: finalStr = `<@${message.author.id}> fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` straight through <@${victim.id}>'s chest using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`! **${damage}** damage dealt!`;
+        }
     }
     else{
         // melee weapon
@@ -790,7 +796,10 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
     }
 
     if(itemBroke){
-        finalStr += `\n\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[itemUsed].icon}\`${itemUsed}\` broke.`;
+        switch(itemUsed){
+            case "fish": finalStr += `\n\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[itemUsed].icon}\`${itemUsed}\` split!`; break;
+            default: finalStr += `\n\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[itemUsed].icon}\`${itemUsed}\` broke.`;
+        }
     }
 
     return finalStr;
