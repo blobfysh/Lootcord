@@ -14,6 +14,7 @@ const Player           = require('./utils/Player');
 const ArgParser        = require('./utils/ArgParser');
 const Reactor          = require('./utils/Reactor');
 const Discoin          = require('./utils/Discoin');
+const NoFlyList        = require('./utils/NoFlyList');
 const Messager         = require('./utils/Messager');
 const Common           = require('./utils/Common');
 const Leaderboard      = require('./utils/Leaderboard');
@@ -53,6 +54,7 @@ class Lootcord extends Base {
         this.patreonHandler = new PatreonHandler(this);
         this.msgCollector = new MessageCollector(this);
         this.discoin = new Discoin(config);
+        this.noflylist = new NoFlyList(config);
         this.messager = new Messager(this);
         this.cd = new Cooldowns(this);
         this.itm = new Items(this);

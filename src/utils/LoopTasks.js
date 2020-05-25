@@ -74,6 +74,11 @@ class LoopTasks {
         console.log('[LOOPTASKS] Removed active role from ' + activeRolesRemoved + ' players.');
         
         await this.app.query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 14 DAY`);
+    
+        // auto ban users using no fly list
+        if(!this.app.config.debug){
+            await this._refreshBlacklist();
+        }
     }
 
     async refreshLB(){
@@ -161,6 +166,30 @@ class LoopTasks {
         catch(err){
             console.log('[DISCOIN] API error:');
             console.log(err);
+        }
+    }
+
+    async _refreshBlacklist(){
+        try{
+            const list = await this.app.noflylist.getList();
+            let totalBanned = 0;
+
+            for(let i = 0; i < list.length; i++){
+                if(await this.app.cd.getCD(list[i].discordId, 'banned')) continue;
+                let reason = `Automatically banned using the no fly list for reason: ${list[i].reason}`;
+
+                await this.app.query("INSERT INTO banned (userId, reason, date) VALUES (?, ?, ?)", [list[i].discordId, reason, new Date(list[i].dateBlacklisted).getTime()]);
+                await this.app.cache.setNoExpire(`banned|${list[i].discordId}`, 'Banned perma');
+
+                console.log('[LOOPTASKS] Banned user ' + list[i].discordId + ' using no fly list.');
+                totalBanned++;
+            }
+
+            console.log('[LOOPTASKS] Banned ' + totalBanned + ' users using the no fly list.');
+        }
+        catch(err){
+            console.warn('Unable to refresh the global blacklist:');
+            console.warn(err);
         }
     }
 }

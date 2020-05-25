@@ -7,6 +7,7 @@
   "debug":             true,
   "botToken":          "secret_bot_token_here",
   "discoinToken":      "",
+  "nflToken":          "",
   "serverPort":        "5000",
   "serverAuth":        "",
   "encryptionAuth":    "",
