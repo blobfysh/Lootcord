@@ -62,6 +62,7 @@ class MySQL {
 
             // blackmarket listings table
             await this.query(createBlackMarket);
+            await this.query(createBMLogs);
 
             await this.query(transactionsTable);
 
@@ -300,6 +301,20 @@ CREATE TABLE IF NOT EXISTS blackmarket (
     pricePer INT,
     sellerName VARCHAR(255),
     listTime BIGINT,
+    PRIMARY KEY (listingId))
+    ENGINE = InnoDB
+`
+
+const createBMLogs = `
+CREATE TABLE IF NOT EXISTS blackmarket_transactions (
+    listingId VARCHAR(20),
+    sellerId BIGINT,
+    buyerId BIGINT,
+    itemName VARCHAR(255),
+    price INT,
+    quantity INT,
+    pricePer INT,
+    soldDate DATETIME,
     PRIMARY KEY (listingId))
     ENGINE = InnoDB
 `

@@ -193,6 +193,25 @@ module.exports = {
                     }
 
                     app.bm.soldItem(listInfo);
+                    await app.query(`INSERT INTO blackmarket_transactions (
+                        listingId,
+                        sellerId,
+                        buyerId,
+                        itemName,
+                        price,
+                        quantity,
+                        pricePer,
+                        soldDate)
+                        VALUES (
+                            ?, ?, ?, ?, ?, ?, ?, NOW()
+                        )`, [listInfo.listingId, 
+                            listInfo.sellerId, 
+                            message.author.id,
+                            listInfo.item, 
+                            listInfo.price, 
+                            listInfo.amount, 
+                            listInfo.pricePer
+                        ]);
                     await app.player.removeMoney(message.author.id, listInfo.price);
                     await app.itm.addItem(message.author.id, listInfo.item, listInfo.amount);
                     await app.query("UPDATE scores SET bmLimit = bmLimit + 1 WHERE userId = ?", [message.author.id]);
@@ -216,6 +235,7 @@ module.exports = {
                 }
             }
             catch(err){
+                console.log(err);
                 botMessage.edit('You ran out of time.');
             }
         }
