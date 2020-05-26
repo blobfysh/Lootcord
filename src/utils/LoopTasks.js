@@ -74,11 +74,6 @@ class LoopTasks {
         console.log('[LOOPTASKS] Removed active role from ' + activeRolesRemoved + ' players.');
         
         await this.app.query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 14 DAY`);
-    
-        // auto ban users using no fly list
-        if(!this.app.config.debug){
-            await this._refreshBlacklist();
-        }
     }
 
     async refreshLB(){
@@ -123,12 +118,38 @@ class LoopTasks {
     async _handleDiscoinTransactions(){
         try{
             const unhandled = await this.app.discoin.getUnhandled();
+            /* test transaction
+            const unhandled = {
+                data: [
+                    {
+                        "id":"8fd3e69d-c7d3-4a07-95bc-687f588a49c2",
+                        "amount":"100",
+                        "user":"168958344361541633",
+                        "handled":false,
+                        "timestamp":"2020-05-24T19:44:20.586Z",
+                        "payout":950000,
+                        "from":{
+                            "id":"SPN",
+                            "name":"Nova Supernova",
+                            "value":0.187,
+                            "reserve":"53547384.17"
+                        },
+                        "to":{
+                            "id":"LCN",
+                            "name":"Lootcord Lootcoin",
+                            "value":0.8,
+                            "reserve":"67719.17"
+                        }
+                    }
+                ]
+            }
+            */
             let logTransactions = [];
 
             for(let i = 0; i < unhandled.data.length; i++){
                 let transaction = unhandled.data[i];
                 let payout = Math.round(transaction.payout);
-                
+                let refunded = 0;
                 let userRow = await this.app.player.getRow(transaction.user);
                 await this.app.discoin.handle(transaction.id);
     
@@ -139,21 +160,46 @@ class LoopTasks {
                     userRow = await this.app.player.getRow(transaction.user);
                 }
 
-                this.app.player.addMoney(transaction.user, payout);
-    
                 const embed = new this.app.Embed()
                 .setTitle('Conversion Successful')
                 .setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/662369574720765994/spaces2F-LQzahLixLnvmbDfQ1K02Favatar.png')
-                .setDescription(`You received ${this.app.common.formatNumber(payout)} (${transaction.payout} rounded) through Discoin! [Click this to see more details.](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)`)
+                .setDescription(`You received ${this.app.common.formatNumber(payout)} (${transaction.payout} rounded) through Discoin! [Click this to see more details.](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)\n\nKeep in mind there is a daily limit of ${this.app.common.formatNumber(1000000)} on both incoming and outgoing transactions.`)
                 .setColor(13215302)
 
+                if(userRow.discoinLimit + payout > 1000000){
+                    if(userRow.discoinLimit >= 1000000){
+                        // user hit daily limit, refund everything
+                        refunded = payout;
+                        payout = 0;
+                    }
+                    else{
+                        refunded = Math.abs((1000000 - (userRow.discoinLimit + payout)));
+                        payout -= refunded;
+                    }
+
+                    try{
+                        const response = await this.app.discoin.request(transaction.user, refunded, transaction.from.id);
+                    }
+                    catch(err){
+                        console.error(err);
+
+                        // idk discoin not working so just give them all money, this is very unlikely to happen tho since discoin.handle() would error before this
+                        refunded = 0;
+                        payout = Math.round(transaction.payout);
+                    }
+
+                    embed.setDescription(`**Oh no!**\nIt looks like you hit the daily transaction limit of **${this.app.common.formatNumber(1000000)}**\n\nYou still received **${this.app.common.formatNumber(payout)}**, the other **${this.app.common.formatNumber(refunded)}** was automatically sent back to **${transaction.from.id}**.\n\nThis limit helps keep our economy stable!`);
+                }
+
+                await this.app.query("UPDATE scores SET discoinLimit = discoinLimit + ? WHERE userId = ?", [payout, transaction.user]);
+                this.app.player.addMoney(transaction.user, payout);
                 this.app.common.messageUser(transaction.user, embed);
 
                 const logEmbed = new this.app.Embed()
                 .setTitle('Discoin Conversion')
                 .setDescription(`${transaction.from.name}(${transaction.from.id}) to Lootcoin\n\n[Link](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)`)
-                .addField('Lootcoin Payout', this.app.common.formatNumber(payout), true)
-                .addField('User', transaction.user)
+                .addField('Lootcoin Payout', this.app.common.formatNumber(payout) + ' (' + this.app.common.formatNumber(refunded) + ' refunded)', true)
+                .addField('User', '```\n' + transaction.user + '```')
                 .setFooter(`Transaction ID: ${transaction.id}`)
                 .setColor(13215302)
 
@@ -185,7 +231,7 @@ class LoopTasks {
                 totalBanned++;
             }
 
-            console.log('[LOOPTASKS] Banned ' + totalBanned + ' users using the no fly list.');
+            return 'Banned ' + totalBanned + ' users using the no fly list.';
         }
         catch(err){
             console.warn('Unable to refresh the global blacklist:');
