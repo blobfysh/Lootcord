@@ -85,7 +85,7 @@ module.exports = {
                 let itemsArray = [];
 
                 await app.cd.setCD(clanRow.clanId, 'getting_raided', 130 * 1000, { ignoreQuery: true });
-                await app.cd.setCD(clanRow.clanId, 'raided', 3600 * 1000);
+                await app.cd.setCD(clanRow.clanId, 'raided', 3600 * 1000 * 24);
                 await app.cd.setCD(scoreRow.clanId, 'raid', 3600 * 1000);
 
                 await app.clans.removeMoney(clanRow.clanId, moneyStolen);
