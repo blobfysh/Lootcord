@@ -53,7 +53,7 @@ module.exports = {
             for(let key in moneyRows){
                 try{
                     let member = await app.common.fetchMember(message.channel.guild, moneyRows[key].userId);
-                    leaders.push(`${app.player.getBadge(moneyRows[key].badge)} **${(member.nick || member.username) + '#' + member.discriminator}**` + ' - ' + app.common.formatNumber(moneyRows[key].money));
+                    leaders.push(`${app.player.getBadge(moneyRows[key].badge)} **${member.username + '#' + member.discriminator}**` + ' - ' + app.common.formatNumber(moneyRows[key].money));
                 }
                 catch(err){
                     console.log(err);
@@ -62,7 +62,7 @@ module.exports = {
             for(let key in levelRows){
                 try{
                     let member = await app.common.fetchMember(message.channel.guild, levelRows[key].userId);
-                    levelLeaders.push(`${app.player.getBadge(levelRows[key].badge)} **${(member.nick || member.username) + '#' + member.discriminator}**` + ' - Level  ' + levelRows[key].level);
+                    levelLeaders.push(`${app.player.getBadge(levelRows[key].badge)} **${member.username + '#' + member.discriminator}**` + ' - Level  ' + levelRows[key].level);
                 }
                 catch(err){
         
@@ -71,7 +71,7 @@ module.exports = {
             for(let key in killRows){
                 try{
                     let member = await app.common.fetchMember(message.channel.guild, killRows[key].userId);
-                    killLeaders.push(`${app.player.getBadge(killRows[key].badge)} **${(member.nick || member.username) + '#' + member.discriminator}**` + ' - ' + killRows[key].kills + " kills");
+                    killLeaders.push(`${app.player.getBadge(killRows[key].badge)} **${member.username + '#' + member.discriminator}**` + ' - ' + killRows[key].kills + " kills");
                 }
                 catch(err){
                     
