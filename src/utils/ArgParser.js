@@ -107,6 +107,7 @@ class ArgParser {
             case "5.56":
             case "556": itemSearched = "5.56_fmj"; break;
             case "50ae":
+            case ".50ae":
             case ".50": itemSearched = ".50ae_hp"; break;
             case "slug": itemSearched = "12g_slug"; break;
             case "blunder": itemSearched = "blunderbuss"; break;

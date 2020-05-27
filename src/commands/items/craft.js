@@ -63,7 +63,7 @@ module.exports = {
             }
         }
         else{
-            message.reply(`Use \`${message.prefix}help craft\` to see how to use this command!`);
+            message.reply("I don't recognize that item. `" + message.prefix + "craft <item>`");
         }
     },
 }

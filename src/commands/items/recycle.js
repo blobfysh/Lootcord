@@ -69,7 +69,7 @@ module.exports = {
             }
         }
         else{
-            message.reply("I don't recognize that item. `recycle <item>`");
+            message.reply("I don't recognize that item. `" + message.prefix + "recycle <item>`");
         }
     },
 }
