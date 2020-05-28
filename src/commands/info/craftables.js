@@ -59,6 +59,7 @@ module.exports = {
         const craftableEmb = new app.Embed()
         .setTitle('Craftables')
         .setDescription(craftables.length ? ('These are the items you can craft right now:\n\n' + craftables.join('\n')) : 'You cannot craft any items right now!')
+        .setColor(13215302)
 
         message.channel.createMessage(craftableEmb);
     },

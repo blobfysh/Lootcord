@@ -11,6 +11,10 @@ module.exports = {
     guildModsOnly: false,
     
     execute(app, message){
-        message.channel.createMessage("https://discordapp.com/oauth2/authorize?client_id=493316754689359874&permissions=388160&scope=bot");
+        const invite = new app.Embed()
+        .setDescription("You can invite Lootcord using this [link](https://discordapp.com/oauth2/authorize?client_id=493316754689359874&permissions=388160&scope=bot 'Click to invite Lootcord')!")
+        .setColor(13215302)
+
+        message.channel.createMessage(invite);
     },
 }
