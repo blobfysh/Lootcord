@@ -399,7 +399,7 @@ module.exports = {
                         if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
                             sendToKillFeed(app, {tag: monster.title, id: monsterRow.monster}, serverInfo.killChan, message.member, monster.weapon.name, mobDmg, true);
                         }
-                        logKill(app, {tag: monster.title, id: monsterRow.monster}, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, randomItems.items.length !== 0 ? randomItems.amounts : ['Nothing'])
+                        logKill(app, {username: monster.title, discriminator: '0000', id: monsterRow.monster}, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, randomItems.items.length !== 0 ? randomItems.amounts : ['Nothing'])
                     }
                     else{
                         await app.query(`UPDATE scores SET health = health - ${mobDmg} WHERE userId = ${message.author.id}`);
