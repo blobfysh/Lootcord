@@ -256,36 +256,36 @@
             "seconds": 1596
         }
     },
-    "blunderbuss": {
+    "remington_870": {
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
-        "damage": "0 - 25",
+        "damage": "0 - 20",
         "minDmg": 0,
-        "maxDmg": 25,
+        "maxDmg": 20,
         "isAmmo": [],
         "ammo": [
-            "12g_buckshot"
+            "12g_buckshot",
+            "12g_slug"
         ],
         "craftedWith": {
-            "display": "3x wood\n3x steel\n1x screw",
+            "display": "2x pump_body\n2x steel\n1x screw",
             "materials": [
-                "wood|3",
-                "steel|3",
+                "pump_body|2",
+                "steel|2",
                 "screw|1"
             ]
         },
         "recyclesTo": {
-            "display": "1x wood\n1x screw",
+            "display": "1x pump_body",
             "materials": [
-                "wood|1",
-                "screw|1"
+                "pump_body|1"
             ]
         },
         "buy": "",
         "sell": 3709,
-        "desc": "Unreliable makeshift shotgun.",
-        "image": "",
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/716031021816217660/remington.png",
         "icon": "<:rare_weapon:601368020295876608>",
         "breaksOnUse": false,
         "chanceToBreak": 0.5,
@@ -302,7 +302,7 @@
         "minDmg": "",
         "maxDmg": "",
         "isAmmo": [
-            "blunderbuss",
+            "remington_870",
             "spas"
         ],
         "ammo": "",
