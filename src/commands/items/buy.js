@@ -40,7 +40,7 @@ module.exports = {
                         if(!hasMoney){
                             return botMessage.edit("You don't have enough money!");
                         }
-                        if(!hasSpace){
+                        if(!hasSpace && !app.itemdata[buyItem].isBanner){
                             return botMessage.edit("❌ **You don't have enough space in your inventory!** You can clear up space by selling some items.");
                         }
 
