@@ -766,6 +766,7 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
     if(ammoUsed){
         // weapon uses ammo
         switch(itemUsed){
+            case "bat": finalStr = `**ITS A GRAND SLAM!** <@${message.author.id}> fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` directly at <@${victim.id}>'s face using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`. **${damage}** damage dealt!`; break;
             case "rpg":
             case "javelin": finalStr = `<@${message.author.id}> blows <@${victim.id}> to bits using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\` loaded with a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\`! **${damage}** damage dealt!`; break;
             case "ray_gun":
