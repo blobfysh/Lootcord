@@ -102,7 +102,7 @@ module.exports = {
                         app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
                         app.msgCollector.stopCollector(`${user.id}_${message.channel.id}`);
 
-                        message.channel.createMessage('Trade has been cancelled.');
+                        message.channel.createMessage('Trade has been canceled.');
                     }
                     else if(command.toLowerCase() === 'accept'){
                         if(!getValue(app, player2Money, player2Items) && !getValue(app, player1Money, player1Items)) return m.channel.createMessage(`❌ You should add something to the trade!`);

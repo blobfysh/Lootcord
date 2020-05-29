@@ -63,7 +63,7 @@ class Reactor {
                     await botMessage.removeReaction('▶️', message.author.id)
                 }
                 else if(reaction.emoji.name === this.icons.cancel){
-                    reactionListener.stopListening('Cancelled');
+                    reactionListener.stopListening('Canceled');
                     botMessage.delete();
                 }
             }

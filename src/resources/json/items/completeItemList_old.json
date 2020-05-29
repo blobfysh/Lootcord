@@ -1052,7 +1052,7 @@
         "minDmg": "",
         "maxDmg": "",
         "isAmmo": [
-            "blunderbuss",
+            "remington_870",
             "spas"
         ],
         "ammo": "",

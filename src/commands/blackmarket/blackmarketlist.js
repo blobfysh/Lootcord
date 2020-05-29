@@ -110,7 +110,7 @@ module.exports = {
                     if(m.content.toLowerCase() == 'cancel' || m.content.toLowerCase() == 'stop'){
                         app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
 
-                        return message.reply('Listing cancelled.');
+                        return message.reply('Listing canceled.');
                     }
                     else if(newItem && !item){
                         if(!await app.itm.hasItems(message.author.id, newItem, 1)){
