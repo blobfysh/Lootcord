@@ -16,11 +16,9 @@ module.exports = {
         const row = await app.player.getRow(message.author.id);
         let gambleAmount = app.parse.numbers(message.args)[0];
 
-        /*
-        if(message.client.restartLockdown){
-            return message.reply('This command has been disabled to prevent issues causes by a bot update! Should be back soon')
+        if(!gambleAmount && message.args[0] && message.args[0].toLowerCase() === 'all'){
+            gambleAmount = row.money >= 50000 ? 50000 : row.money;
         }
-        */
 
        if(jackpotCD){
             return message.reply(`You recently started a server jackpot! You can create another in \`${jackpotCD}\`.`);

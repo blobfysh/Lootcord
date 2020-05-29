@@ -16,6 +16,10 @@ module.exports = {
         const rouletteCD = await app.cd.getCD(message.author.id, 'roulette');
         let gambleAmount = app.parse.numbers(message.args)[0];
 
+        if(!gambleAmount && message.args[0] && message.args[0].toLowerCase() === 'all'){
+            gambleAmount = row.money >= 1000000 ? 1000000 : row.money;
+        }
+        
         if(rouletteCD){
             return message.reply(`You need to wait  \`${rouletteCD}\`  before using this command again.`);
         }

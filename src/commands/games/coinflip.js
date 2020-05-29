@@ -18,6 +18,10 @@ module.exports = {
         const row = await app.player.getRow(message.author.id);
         const coinflipCD = await app.cd.getCD(message.author.id, 'coinflip');
         let gambleAmount = app.parse.numbers(message.args)[0];
+
+        if(!gambleAmount && message.args[0] && message.args[0].toLowerCase() === 'all'){
+            gambleAmount = row.money >= 1000000 ? 1000000 : row.money;
+        }
         
         if(coinflipCD){
             return message.reply(`You need to wait \`${coinflipCD}\` before flipping another coin.`);
