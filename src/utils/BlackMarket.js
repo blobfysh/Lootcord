@@ -24,7 +24,11 @@ class BlackMarket {
         const userRow = (await this.app.query(`SELECT * FROM scores WHERE userId = ${listingInfo.sellerId}`))[0];
 
         await this.app.query(`DELETE FROM blackmarket WHERE listingId = "${listingInfo.listingId}"`);
-        this.app.player.addMoney(listingInfo.sellerId, listingInfo.price);
+        await this.app.player.addMoney(listingInfo.sellerId, listingInfo.price);
+        await this.app.player.addStat(listingInfo.sellerId, 'bmsales', 1);
+        if(await this.app.player.getStat(listingInfo.sellerId, 'bmsales') >= 10){
+            await app.itm.addBadge(listingInfo.sellerId, 'arms_dealer');
+        }
 
         if(userRow && userRow.notify1){
             const notifyEmb = new this.app.Embed()

@@ -48,6 +48,10 @@ module.exports = {
                 await app.itm.addItem(message.author.id, results.itemAmounts);
                 await app.player.addPoints(message.author.id, results.xp);
 
+                if(item === 'ultra_box' && app.itemdata[bestItem[0]].rarity === 'Ultra'){
+                    await app.itm.addBadge(message.author.id, 'ultra_lucky');
+                }
+
                 const embedInfo = new app.Embed()
                 .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
                 

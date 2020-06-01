@@ -168,6 +168,15 @@ class Player {
     }
 
     /**
+     * Obtain the value of a stat for a given player
+     * @param {*} id ID of user
+     * @param {*} stat Stat to retrieve value of
+     */
+    async getStat(id, stat){
+        return (await this.app.query(`SELECT * FROM stats WHERE userId = ? AND stat = ?`, [id, stat]))[0];
+    }
+
+    /**
      * 
      * @param {string} badge Badge to get icon for
      */
