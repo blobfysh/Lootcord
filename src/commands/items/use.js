@@ -29,7 +29,13 @@ module.exports = {
             const userItems = await app.itm.getItemObject(message.author.id);
             if(amount > 10) amount = 10;
 
-            if(!await app.itm.hasItems(message.author.id, item, amount)){
+            if(!userItems[item]){
+                return message.reply(`❌ You don't have a ${app.itemdata[item].icon}\`${item}\`!`);
+            }
+            else if(item === 'c4' && userItems[item] < 1){
+                return message.reply(`❌ You don't have enough of that item! You have **${userItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\``);
+            }
+            else if(item !== 'c4' && userItems[item] < amount){
                 return message.reply(`❌ You don't have enough of that item! You have **${userItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\``);
             }
 
