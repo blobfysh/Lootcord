@@ -42,6 +42,9 @@ class MySQL {
             // create scores table (main table)
             await this.query(createScoreSQL);
 
+            // create player stats table
+            await this.query(createStatsSQL);
+
             // items table
             await this.query(createItemsSQL);
 
@@ -207,6 +210,15 @@ const createItemsSQL = `
 CREATE TABLE IF NOT EXISTS user_items (
     userId BIGINT,
     item VARCHAR(255))
+    ENGINE = InnoDB
+`
+
+const createStatsSQL = `
+CREATE TABLE IF NOT EXISTS stats (
+    userId BIGINT,
+    stat VARCHAR(255),
+    value INT,
+    PRIMARY KEY(userId, stat))
     ENGINE = InnoDB
 `
 

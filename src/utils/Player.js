@@ -158,6 +158,16 @@ class Player {
     }
 
     /**
+     * Increment a stat of the player by a value.
+     * @param {*} id ID of user
+     * @param {*} stat Stat to increase
+     * @param {*} value Value to increase stat by
+     */
+    async addStat(id, stat, value){
+        await this.app.query(`INSERT INTO stats (userId, stat, value) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE value = value + ?`, [id, stat, value, value]);
+    }
+
+    /**
      * 
      * @param {string} badge Badge to get icon for
      */
