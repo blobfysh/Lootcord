@@ -12,11 +12,7 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
-        const patron1CD = await app.cd.getCD(message.author.id, 'patron1');
-        const patron2CD = await app.cd.getCD(message.author.id, 'patron2');
-        const patron3CD = await app.cd.getCD(message.author.id, 'patron3');
-
-        if(!patron1CD && !patron2CD && !patron3CD){
+        if(!await app.patreonHandler.isPatron(message.author.id)){
             return message.channel.createMessage(`**Help support the development of Lootcord!** Become a patron and get some cool rewards like:
             \n- **Access to the bounty system.** Take down powerful bounties that spawn randomly in a channel of your choice (you can see this in action on the official server).\n- **Reduced global spam cooldown** from 3 seconds to 1 second.\n- An animated ${app.itemdata['patron'].icon}\`patron\` banner to show off your support.\n- A role in the official Discord server.\n- Supporting the development of the bot!
             \nhttps://www.patreon.com/lootcord`);

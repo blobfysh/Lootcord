@@ -79,7 +79,7 @@ class LoopTasks {
     async refreshLB(){
         console.log('[LOOPTASKS] Refreshing global leaderboard...');
         const leaders = await this.app.leaderboard.getLB();
-        const patrons = await this.app.patreonHandler.getTier3Patrons();
+        const patrons = await this.app.patreonHandler.getPatrons(3);
         this.app.cache.setNoExpire('leaderboard', JSON.stringify(leaders));
         this.app.cache.setNoExpire('tier3Patrons', JSON.stringify(patrons));
     }

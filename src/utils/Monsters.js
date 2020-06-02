@@ -21,12 +21,8 @@ class Monsters {
         try{
             const spawnInfo = await this.app.mysql.select('spawnChannels', 'channelId', channelId);
             if(!spawnInfo) throw new Error('No spawn channel.');
-            
-            const patron1CD = await this.app.cd.getCD(spawnInfo.userId, 'patron1');
-            const patron2CD = await this.app.cd.getCD(spawnInfo.userId, 'patron2');
-            const patron3CD = await this.app.cd.getCD(spawnInfo.userId, 'patron3');
 
-            if(!patron1CD && !patron2CD && !patron3CD && !this.app.sets.adminUsers.has(spawnInfo.userId)) throw new Error('User is not a patron.');
+            if(!await this.app.patreonHandler.isPatron(spawnInfo.userId) && !this.app.sets.adminUsers.has(spawnInfo.userId)) throw new Error('User is not a patron.');
 
             const randMoney = Math.floor(Math.random() * (this.mobdata[monster].maxMoney - this.mobdata[monster].minMoney + 1)) + this.mobdata[monster].minMoney;
             

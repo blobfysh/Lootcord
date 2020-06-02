@@ -297,6 +297,14 @@ class Lootcord extends Base {
                 await this.cache.setNoExpire(`patron3|${patron.userId}`, 'Patron Monthly Tier 3');
             }
         }
+
+        // refreshes tier 4 patrons
+        const tier4Patrons = await this.query(`SELECT * FROM patrons WHERE tier = 4`); 
+        for(let patron of tier4Patrons){
+            if(patron.userId !== undefined && patron.userId !== null){
+                await this.cache.setNoExpire(`patron4|${patron.userId}`, 'Patron Monthly Tier 4');
+            }
+        }
         
         const bannedRows = await this.query(`SELECT * FROM banned`); 
         for(let banned of bannedRows){

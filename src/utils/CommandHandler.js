@@ -74,10 +74,10 @@ class CommandHandler {
         if(command.requiresAcc && command.requiresActive && !(await this.app.player.isActive(message.author.id, message.channel.guild.id))) return message.channel.createMessage(`❌ You need to activate before using that command here! Use \`${prefix}activate\` to activate.`);
         
         // check if command is patrons only
-        if(command.patronTier1Only && !await this.app.cd.getCD(message.author.id, 'patron1') && !await this.app.cd.getCD(message.author.id, 'patron2') && !await this.app.cd.getCD(message.author.id, 'patron3') && !this.app.sets.adminUsers.has(message.author.id)){
+        if(command.patronTier1Only && !await this.app.patreonHandler.isPatron(message.author.id) && !this.app.sets.adminUsers.has(message.author.id)){
             return message.channel.createMessage(`❌ \`${command.name}\` is exclusive for patreon donators. Support Lootcord on patreon to get access: https://www.patreon.com/lootcord`);
         }
-        else if(command.patronTier2Only && !await this.app.cd.getCD(message.author.id, 'patron2') && !await this.app.cd.getCD(message.author.id, 'patron3') && !this.app.sets.adminUsers.has(message.author.id)){
+        else if(command.patronTier2Only && !await this.app.patreonHandler.isPatron(message.author.id, 2) && !this.app.sets.adminUsers.has(message.author.id)){
             return message.channel.createMessage(`❌ \`${command.name}\` is exclusive for **Loot Hoarder**+ patreon donators. Support Lootcord on patreon to get access: https://www.patreon.com/lootcord`);
         }
         
