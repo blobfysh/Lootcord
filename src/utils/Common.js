@@ -34,7 +34,7 @@ class Common {
         
         if(!guildInfo){
             console.warn('Creating new guildInfo row');
-            await this.app.query(`INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItemChan, dropItem, randomOnly) VALUES (?, 0, 0, 0, 0, '', 1)`, [guildId]);
+            await this.app.query(`INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItemChan, dropItem, randomOnly) VALUES (?, 0, 0, 0, 0, '', 0)`, [guildId]);
             guildInfo = (await this.app.query(`SELECT * FROM guildInfo WHERE guildId = ?`, [guildId]))[0];
         }
         
