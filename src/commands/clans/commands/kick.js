@@ -7,6 +7,7 @@ module.exports = {
     args: {"@user/discord ID": "User to kick."},
     examples: ["clan kick @blobfysh"],
     requiresClan: true,
+    requiresActive: true,
     minimumRank: 4,
     
     async execute(app, message, args){

@@ -7,6 +7,7 @@ module.exports = {
     args: {"clan": "Name of clan to raid."},
     examples: ["clan raid Mod Squad"],
     requiresClan: true,
+    requiresActive: true,
     minimumRank: 1,
     
     async execute(app, message, args){

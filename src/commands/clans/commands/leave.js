@@ -7,6 +7,7 @@ module.exports = {
     args: {},
     examples: [],
     requiresClan: true,
+    requiresActive: true,
     minimumRank: 0,
     
     async execute(app, message, args){

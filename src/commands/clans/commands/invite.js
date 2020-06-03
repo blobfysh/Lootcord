@@ -8,6 +8,7 @@ module.exports = {
     args: {"@user/discord#tag": "User to invite."},
     examples: ["clan invite @blobfysh"],
     requiresClan: true,
+    requiresActive: true,
     minimumRank: 2,
     
     async execute(app, message, args){

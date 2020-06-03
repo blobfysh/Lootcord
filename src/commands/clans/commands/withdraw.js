@@ -7,6 +7,7 @@ module.exports = {
     args: {"item/money": "Item to withdraw or money to withdraw.", "amount": "Amount of item or money to take out."},
     examples: ["clan withdraw ultra_box 2", "clan withdraw 2000"],
     requiresClan: true,
+    requiresActive: true,
     minimumRank: 2,
     levelReq: 3,
     

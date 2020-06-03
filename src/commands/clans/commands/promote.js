@@ -7,6 +7,7 @@ module.exports = {
     args: {"@user/discord#tag": "User to promote."},
     examples: ["clan promote @blobfysh"],
     requiresClan: true,
+    requiresActive: true,
     minimumRank: 3,
     
     async execute(app, message, args){

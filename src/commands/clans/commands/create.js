@@ -10,6 +10,7 @@ module.exports = {
     args: {"name": "Desired name of your clan."},
     examples: [],
     requiresClan: false,
+    requiresActive: true,
     minimumRank: 0,
     
     async execute(app, message, args){

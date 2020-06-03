@@ -8,6 +8,7 @@ module.exports = {
     args: {"item/money": "Item to deposit or money to deposit.", "amount": "Amount of item or money to deposit."},
     examples: ["clan deposit rpg 1", "clan deposit 3000"],
     requiresClan: true,
+    requiresActive: true,
     minimumRank: 1,
     levelReq: 3,
     
@@ -17,6 +18,11 @@ module.exports = {
         let itemName = app.parse.items(args)[0];
         let isMoney = false;
         if(!itemName && itemAmnt) isMoney = true;
+
+        else if(!itemName && !itemAmnt && args[0] && args[0].toLowerCase() === 'all'){
+            isMoney = true;
+            itemAmnt = scoreRow.money;
+        }
 
 
         if(await app.cd.getCD(message.author.id, 'tradeban')){

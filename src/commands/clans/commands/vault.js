@@ -7,6 +7,7 @@ module.exports = {
     args: {"clan/user": "Clan or user to search, will default to your own clan if none specified."},
     examples: ["clan vault Mod Squad"],
     requiresClan: false,
+    requiresActive: false,
     minimumRank: 0,
     
     async execute(app, message, args){
