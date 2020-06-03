@@ -172,7 +172,6 @@ module.exports = {
             let ultraList = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity === 'Ultra')
 
             const embedInfo = new app.Embed()
-            .setColor('#000')
             .setTitle("Full Items List")
             .addField("Common", commonList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
             .addField("Uncommon", uncommonList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)

@@ -17,7 +17,7 @@ module.exports = {
         const shieldCD = await app.cd.getCD(message.author.id, 'shield');
         const hourlyCD = await app.cd.getCD(message.author.id, 'hourly');
         const dailyCD = await app.cd.getCD(message.author.id, 'daily');
-        const weeklyCD = await app.cd.getCD(message.author.id, 'weekly');
+        const monthlyCD = await app.cd.getCD(message.author.id, 'monthly');
         const triviaCD = await app.cd.getCD(message.author.id, 'trivia');
         const scrambleCD = await app.cd.getCD(message.author.id, 'scramble');
         const voteCD = await app.cd.getCD(message.author.id, 'vote');
@@ -29,19 +29,19 @@ module.exports = {
         const airdropCD = await app.cd.getCD(message.author.id, 'airdrop');
         const xp_potionCD = await app.cd.getCD(message.author.id, 'xp_potion');
                     
-        let hourlyReady = hourlyCD ? hourlyCD : "✅ ready"
-        let dailyReady = dailyCD ? dailyCD : "✅ ready"
-        let weeklyReady = weeklyCD ? weeklyCD : "✅ ready"
-        let triviaReady = triviaCD ? triviaCD : "✅ ready"
-        let scrambleReady = scrambleCD ? scrambleCD : "✅ ready"
-        let attackReady = attackCD ? attackCD : "✅ ready"
-        let healReady = healCD ? healCD : "✅ ready"
-        let voteReady = voteCD ? voteCD : "✅ ready"
-        let blackjackReady = blackjackCD ? blackjackCD : "✅ ready"
-        let slotsReady = slotsCD ? slotsCD : "✅ ready"
-        let rouletteReady = rouletteCD ? rouletteCD : "✅ ready"
-        let coinflipReady = coinflipCD ? coinflipCD : "✅ ready"
-        let jackpotReady = jackpotCD ? jackpotCD : "✅ ready"
+        let hourlyReady = hourlyCD ? '❌ ' + hourlyCD : "✅ ready"
+        let dailyReady = dailyCD ? '❌ ' + dailyCD : "✅ ready"
+        let monthlyReady = monthlyCD ? '❌ ' + monthlyCD : "✅ ready"
+        let triviaReady = triviaCD ? '❌ ' + triviaCD : "✅ ready"
+        let scrambleReady = scrambleCD ? '❌ ' + scrambleCD : "✅ ready"
+        let attackReady = attackCD ? '❌ ' + attackCD : "✅ ready"
+        let healReady = healCD ? '❌ ' + healCD : "✅ ready"
+        let voteReady = voteCD ? '❌ ' + voteCD : "✅ ready"
+        let blackjackReady = blackjackCD ? '❌ ' + blackjackCD : "✅ ready"
+        let slotsReady = slotsCD ? '❌ ' + slotsCD : "✅ ready"
+        let rouletteReady = rouletteCD ? '❌ ' + rouletteCD : "✅ ready"
+        let coinflipReady = coinflipCD ? '❌ ' + coinflipCD : "✅ ready"
+        let jackpotReady = jackpotCD ? '❌ ' + jackpotCD : "✅ ready"
 
         /*
         let giftReady = "✅ ready"
@@ -52,12 +52,11 @@ module.exports = {
         */
 
         const embedLeader = new app.Embed()
-        embedLeader.setThumbnail(message.author.avatarURL)
         embedLeader.setAuthor('Cooldowns', message.author.avatarURL)
         embedLeader.setColor(13215302)
         embedLeader.addField("hourly", "`" + hourlyReady + "`",true)
         embedLeader.addField("daily", "`" + dailyReady + "`", true)
-        embedLeader.addField("weekly", "`" + weeklyReady + "`", true)
+        embedLeader.addField("monthly", "`" + monthlyReady + "`", true)
         embedLeader.addField("trivia", "`" + triviaReady + "`",true)
         embedLeader.addField("scramble", "`" + scrambleReady + "`",true)
         embedLeader.addField("blackjack", "`" + blackjackReady + "`",true)
@@ -66,16 +65,16 @@ module.exports = {
         embedLeader.addField("roulette", "`" + rouletteReady + "`",true)
         embedLeader.addField("vote", "`" + voteReady + "`",true)
         embedLeader.addField("jackpot", "`" + jackpotReady + "`",true)
-        embedLeader.addField("Attack (part of `" + message.prefix + "use`)", "`" + attackReady + "`",true)
-        embedLeader.addField("Heal (part of `" + message.prefix + "use`)", "`" + healReady + "`",true)
+        embedLeader.addField("Attack", "`" + attackReady + "`",true)
+        embedLeader.addField("Heal", "`" + healReady + "`",true)
         if(shieldCD){
-            embedLeader.addField("🛡 Shield", '`' + shieldCD + '`', true)
+            embedLeader.addField("🛡 Shield Active", '`' + shieldCD + '`', true)
         }
         if(airdropCD){
-            embedLeader.addField("claimdrop", '`' + airdropCD + '`', true)
+            embedLeader.addField("claimdrop", '`❌ ' + airdropCD + '`', true)
         }
         if(xp_potionCD){
-            embedLeader.addField("xp_potion", '`' + xp_potionCD + '`', true)
+            embedLeader.addField("xp_potion", '`❌ ' + xp_potionCD + '`', true)
         }
         message.channel.createMessage(embedLeader);
     },

@@ -29,7 +29,7 @@ module.exports = {
         .setAuthor('Thank you!', message.author.avatarURL)
         .addField('Patron Status', 'active 😃')
         .addField('Active Bounty Channels (' + activeBountyChannels.length + ')', activeBountyChannels.join('\n') || 'None')
-        .addField('How do I claim my weekly reward?', 'Use `' + message.prefix + 'weekly` to claim your care_package every week!')
+        .addField('How do I claim my monthly reward?', 'Use `' + message.prefix + 'monthly` to claim your 4x ' + app.itemdata['care_package'].icon + '`care_package`\'s once every month!')
         .addField('How do I use the bounty system?', 'Spawn bounties in a channel using the `enablebounty` command.'
         + '\n\nTo stop all active bounty spawns use `disablebounty`.'
         + '\n\nOnce a bounty has spawned, you or anyone in the server can use the `bounty` command to view the bounty and fight it!'
