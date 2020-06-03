@@ -778,11 +778,14 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
         switch(itemUsed){
             case "bat": finalStr = `**ITS A GRAND SLAM!** <@${message.author.id}> fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` directly at <@${victim.id}>'s face using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`. **${damage}** damage dealt!`; break;
             case "rpg":
-            case "javelin": finalStr = `<@${message.author.id}> blows <@${victim.id}> to bits using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\` loaded with a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\`! **${damage}** damage dealt!`; break;
+            case "javelin": finalStr = `<@${message.author.id}> blew <@${victim.id}> to bits using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\` loaded with a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\`! **${damage}** damage dealt!`; break;
             case "ray_gun":
             case "rail_cannon": finalStr = `<@${message.author.id}> vaporizes <@${victim.id}> using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\` loaded with ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\`! **${damage}** damage dealt!`; break;
             default: finalStr = `<@${message.author.id}> fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` straight through <@${victim.id}>'s chest using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`! **${damage}** damage dealt!`;
         }
+    }
+    else if(itemUsed === 'grenade'){
+        finalStr = `<@${message.author.id}> blew <@${victim.id}> to bits using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`! **${damage}** damage dealt!`;
     }
     else{
         // melee weapon
