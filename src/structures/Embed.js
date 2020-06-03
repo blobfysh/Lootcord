@@ -1,7 +1,8 @@
 class Embed {
     constructor(){
         this.embed = {
-            fields: []
+            fields: [],
+            color: 3092790
         };
     }
 
