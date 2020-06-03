@@ -83,23 +83,19 @@ class Cooldown {
         const duration = endTime - Date.now();
 
         if(options.getEstimate){
+            let oneHour = 1000 * 60 * 60;
+            
             if(duration < 1000 * 60 * 15){
                 return 'very soon';
             }
-            else if(duration < 1000 * 60 * 60){
+            else if(duration < oneHour){
                 return 'within the hour';
             }
-            else if(duration < 1000 * 60 * 60 * 3){
-                return 'in a couple hours';
-            }
-            else if(duration < 1000 * 60 * 60 * 6){
-                return 'in a few hours';
-            }
-            else if(duration < 1000 * 60 * 60 * 12){
-                return 'sometime today';
+            else if(duration < oneHour * 2){
+                return 'in less than 2 hours';
             }
             else{
-                return 'in quite a while';
+                return 'in about ' + Math.floor(duration / oneHour) + ' hours';
             }
         }
 
