@@ -107,7 +107,12 @@ async function startJackpot(app, message, gambleAmount){
         collector.on('collect', async m => {
             if(!await app.player.isActive(m.author.id, m.channel.guild.id)) return m.channel.createMessage(`Your account is not active in this server! Use \`${message.prefix}play\` to activate it here`);
             const userArgs = m.content.slice(message.prefix.length).split(/ +/).slice(1);
+            const userRow = await app.player.getRow(m.author.id);
             let gambleAmnt = app.parse.numbers(userArgs)[0];
+
+            if(!gambleAmnt && userArgs[0] && userArgs[0].toLowerCase() === 'all'){
+                gambleAmnt = userRow.money >= 50000 ? 50000 : userRow.money;
+            }
 
             if(jackpotObj.hasOwnProperty(m.author.id)){
                 return m.channel.createMessage('You already entered this jackpot!');
@@ -118,7 +123,7 @@ async function startJackpot(app, message, gambleAmount){
             else if(!gambleAmnt || gambleAmnt < 100){
                 return m.channel.createMessage('Please enter an amount of at least ' + app.common.formatNumber(100));
             }
-            else if(!await app.player.hasMoney(m.author.id, gambleAmnt)){
+            else if(gambleAmnt > userRow.money){
                 return m.channel.createMessage('You don\'t have that much money!');
             }
             else if(gambleAmnt > 50000){
