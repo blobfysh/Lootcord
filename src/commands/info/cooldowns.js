@@ -29,19 +29,19 @@ module.exports = {
         const airdropCD = await app.cd.getCD(message.author.id, 'airdrop');
         const xp_potionCD = await app.cd.getCD(message.author.id, 'xp_potion');
                     
-        let hourlyReady = hourlyCD ? hourlyCD : "✅ ready"
-        let dailyReady = dailyCD ? dailyCD : "✅ ready"
-        let weeklyReady = weeklyCD ? weeklyCD : "✅ ready"
-        let triviaReady = triviaCD ? triviaCD : "✅ ready"
-        let scrambleReady = scrambleCD ? scrambleCD : "✅ ready"
-        let attackReady = attackCD ? attackCD : "✅ ready"
-        let healReady = healCD ? healCD : "✅ ready"
-        let voteReady = voteCD ? voteCD : "✅ ready"
-        let blackjackReady = blackjackCD ? blackjackCD : "✅ ready"
-        let slotsReady = slotsCD ? slotsCD : "✅ ready"
-        let rouletteReady = rouletteCD ? rouletteCD : "✅ ready"
-        let coinflipReady = coinflipCD ? coinflipCD : "✅ ready"
-        let jackpotReady = jackpotCD ? jackpotCD : "✅ ready"
+        let hourlyReady = hourlyCD ? '❌ ' + hourlyCD : "✅ ready"
+        let dailyReady = dailyCD ? '❌ ' + dailyCD : "✅ ready"
+        let weeklyReady = weeklyCD ? '❌ ' + weeklyCD : "✅ ready"
+        let triviaReady = triviaCD ? '❌ ' + triviaCD : "✅ ready"
+        let scrambleReady = scrambleCD ? '❌ ' + scrambleCD : "✅ ready"
+        let attackReady = attackCD ? '❌ ' + attackCD : "✅ ready"
+        let healReady = healCD ? '❌ ' + healCD : "✅ ready"
+        let voteReady = voteCD ? '❌ ' + voteCD : "✅ ready"
+        let blackjackReady = blackjackCD ? '❌ ' + blackjackCD : "✅ ready"
+        let slotsReady = slotsCD ? '❌ ' + slotsCD : "✅ ready"
+        let rouletteReady = rouletteCD ? '❌ ' + rouletteCD : "✅ ready"
+        let coinflipReady = coinflipCD ? '❌ ' + coinflipCD : "✅ ready"
+        let jackpotReady = jackpotCD ? '❌ ' + jackpotCD : "✅ ready"
 
         /*
         let giftReady = "✅ ready"
@@ -52,7 +52,6 @@ module.exports = {
         */
 
         const embedLeader = new app.Embed()
-        embedLeader.setThumbnail(message.author.avatarURL)
         embedLeader.setAuthor('Cooldowns', message.author.avatarURL)
         embedLeader.setColor(13215302)
         embedLeader.addField("hourly", "`" + hourlyReady + "`",true)
@@ -69,13 +68,13 @@ module.exports = {
         embedLeader.addField("Attack (part of `" + message.prefix + "use`)", "`" + attackReady + "`",true)
         embedLeader.addField("Heal (part of `" + message.prefix + "use`)", "`" + healReady + "`",true)
         if(shieldCD){
-            embedLeader.addField("🛡 Shield", '`' + shieldCD + '`', true)
+            embedLeader.addField("🛡 Shield Active", '`' + shieldCD + '`', true)
         }
         if(airdropCD){
-            embedLeader.addField("claimdrop", '`' + airdropCD + '`', true)
+            embedLeader.addField("claimdrop", '`❌ ' + airdropCD + '`', true)
         }
         if(xp_potionCD){
-            embedLeader.addField("xp_potion", '`' + xp_potionCD + '`', true)
+            embedLeader.addField("xp_potion", '`❌ ' + xp_potionCD + '`', true)
         }
         message.channel.createMessage(embedLeader);
     },
