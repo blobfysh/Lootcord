@@ -71,7 +71,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 3064
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "ak47": {
         "rarity": "Epic",
@@ -111,7 +112,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 3929
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "iron_shield": {
         "rarity": "Epic",
@@ -357,7 +359,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 3683
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "medkit": {
         "rarity": "Epic",
@@ -425,7 +428,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 3425
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "ultra_box": {
         "rarity": "Epic",

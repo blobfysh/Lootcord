@@ -19,7 +19,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 445
-        }
+        },
+        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!"
     },
     "baseball": {
         "rarity": "Common",
@@ -151,7 +152,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 420
-        }
+        },
+        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!"
     },
     "stick": {
         "rarity": "Common",
@@ -175,7 +177,8 @@
             "display": "15 minutes",
             "scoreRow": "_15mCD",
             "seconds": 354
-        }
+        },
+        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!"
     },
     "club": {
         "rarity": "Common",
@@ -197,7 +200,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 458
-        }
+        },
+        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!"
     },
     "fish": {
         "rarity": "Common",
@@ -219,7 +223,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 442
-        }
+        },
+        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!"
     },
     "arrow": {
         "rarity": "Common",
@@ -415,7 +420,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1123
-        }
+        },
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "9mm_fmj": {
         "rarity": "Uncommon",
@@ -501,7 +507,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1244
-        }
+        },
+        "phrase": "**ITS A GRAND SLAM!** {attacker} fires a {ammoIcon}`{ammo}` directly at {victim}'s face using a {weaponIcon}`{weapon}`. **{damage}** damage dealt!"
     },
     "golf_club": {
         "rarity": "Uncommon",
@@ -523,7 +530,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1141
-        }
+        },
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "bow": {
         "rarity": "Uncommon",
@@ -554,7 +562,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1715
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "pills": {
         "rarity": "Uncommon",
@@ -808,7 +817,8 @@
             "display": "45 minutes",
             "scoreRow": "_45mCD",
             "seconds": 2467
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "revolver": {
         "rarity": "Rare",
@@ -845,7 +855,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2721
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "9mm_ps": {
         "rarity": "Rare",
@@ -954,7 +965,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2232
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "spear": {
         "rarity": "Rare",
@@ -976,7 +988,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1568
-        }
+        },
+        "phrase": "{attacker} uses a {weaponIcon}`{weapon}` on {victim} dealing **${damage}** damage!"
     },
     "health_pot": {
         "rarity": "Rare",
@@ -1042,7 +1055,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2732
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "12g_buckshot": {
         "rarity": "Rare",
@@ -1093,7 +1107,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1862
-        }
+        },
+        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "screw": {
         "rarity": "Rare",
@@ -1333,7 +1348,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 3064
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "ak47": {
         "rarity": "Epic",
@@ -1373,7 +1389,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 3929
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "iron_shield": {
         "rarity": "Epic",
@@ -1619,7 +1636,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 3683
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "medkit": {
         "rarity": "Epic",
@@ -1687,7 +1705,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 3425
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "ultra_box": {
         "rarity": "Epic",
@@ -2039,7 +2058,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 4156
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "awp": {
         "rarity": "Legendary",
@@ -2078,7 +2098,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 4920
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "gold_shield": {
         "rarity": "Legendary",
@@ -2140,7 +2161,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 5383
-        }
+        },
+        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!"
     },
     "javelin": {
         "rarity": "Legendary",
@@ -2173,7 +2195,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 5602
-        }
+        },
+        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!"
     },
     "plasma": {
         "rarity": "Legendary",
@@ -2299,7 +2322,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 4800
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "reroll_scroll": {
         "rarity": "Legendary",
@@ -2536,7 +2560,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 6720
-        }
+        },
+        "phrase": "{attacker} vaporizes {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!"
     },
     "ray_gun": {
         "rarity": "Ultra",
@@ -2577,7 +2602,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 6034
-        }
+        },
+        "phrase": "{attacker} vaporizes {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!"
     },
     "c4": {
         "rarity": "Ultra",
@@ -2680,7 +2706,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2700
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "snowball": {
         "rarity": "Limited",
@@ -2702,7 +2729,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2700
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "nutcracker": {
         "rarity": "Limited",
@@ -2724,7 +2752,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2700
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "mittens": {
         "rarity": "Limited",
@@ -2887,7 +2916,8 @@
             "display": "30 minutes",
             "scoreRow": "_30mCD",
             "seconds": 1800
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "carrot": {
         "rarity": "Limited",
@@ -2988,7 +3018,8 @@
             "display": "30 minutes",
             "scoreRow": "_30mCD",
             "seconds": 1800
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "apple": {
         "rarity": "Limited",
@@ -3093,7 +3124,8 @@
             "display": "15 minutes",
             "scoreRow": "_15mCD",
             "seconds": 900
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "scythe": {
         "rarity": "Limited",
@@ -3117,7 +3149,8 @@
             "display": "30 minutes",
             "scoreRow": "_30mCD",
             "seconds": 1800
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "magic_staff": {
         "rarity": "Limited",
@@ -3141,7 +3174,8 @@
             "display": "60 minutes",
             "scoreRow": "_60mCD",
             "seconds": 3600
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "candy_pail": {
         "rarity": "Limited",

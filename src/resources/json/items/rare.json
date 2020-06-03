@@ -58,7 +58,8 @@
             "display": "45 minutes",
             "scoreRow": "_45mCD",
             "seconds": 2467
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "revolver": {
         "rarity": "Rare",
@@ -95,7 +96,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2721
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "9mm_ps": {
         "rarity": "Rare",
@@ -204,7 +206,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2232
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "spear": {
         "rarity": "Rare",
@@ -226,7 +229,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1568
-        }
+        },
+        "phrase": "{attacker} uses a {weaponIcon}`{weapon}` on {victim} dealing **${damage}** damage!"
     },
     "health_pot": {
         "rarity": "Rare",
@@ -292,7 +296,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2732
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "12g_buckshot": {
         "rarity": "Rare",
@@ -343,7 +348,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1862
-        }
+        },
+        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "screw": {
         "rarity": "Rare",

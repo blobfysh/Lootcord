@@ -75,7 +75,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 6720
-        }
+        },
+        "phrase": "{attacker} vaporizes {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!"
     },
     "ray_gun": {
         "rarity": "Ultra",
@@ -116,7 +117,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 6034
-        }
+        },
+        "phrase": "{attacker} vaporizes {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!"
     },
     "c4": {
         "rarity": "Ultra",

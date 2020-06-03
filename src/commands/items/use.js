@@ -770,32 +770,13 @@ function logKill(app, killer, victim, item, ammo, damage, moneyStolen, itemsLost
 }
 
 function generateAttackString(app, message, victim, victimRow, damage, itemUsed, ammoUsed, itemBroke, killed){
-    let weaponRarity = app.itemdata[itemUsed].rarity;
-    let finalStr = "";
-
-    if(ammoUsed){
-        // weapon uses ammo
-        switch(itemUsed){
-            case "bat": finalStr = `**ITS A GRAND SLAM!** <@${message.author.id}> fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` directly at <@${victim.id}>'s face using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`. **${damage}** damage dealt!`; break;
-            case "rpg":
-            case "javelin": finalStr = `<@${message.author.id}> blew <@${victim.id}> to bits using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\` loaded with a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\`! **${damage}** damage dealt!`; break;
-            case "ray_gun":
-            case "rail_cannon": finalStr = `<@${message.author.id}> vaporizes <@${victim.id}> using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\` loaded with ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\`! **${damage}** damage dealt!`; break;
-            default: finalStr = `<@${message.author.id}> fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` straight through <@${victim.id}>'s chest using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`! **${damage}** damage dealt!`;
-        }
-    }
-    else if(itemUsed === 'grenade'){
-        finalStr = `<@${message.author.id}> blew <@${victim.id}> to bits using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`! **${damage}** damage dealt!`;
-    }
-    else{
-        // melee weapon
-        switch(weaponRarity){
-            case "Common": finalStr = `<@${message.author.id}> slapped <@${victim.id}> with a ${app.itemdata[itemUsed].icon}\`${itemUsed}\` dealing **${damage}** damage!`; break;
-            case "Uncommon": finalStr = `<@${message.author.id}> smacks <@${victim.id}> with a ${app.itemdata[itemUsed].icon}\`${itemUsed}\` dealing **${damage}** damage!`; break;
-            case "Rare": finalStr = `<@${message.author.id}> uses a ${app.itemdata[itemUsed].icon}\`${itemUsed}\` on <@${victim.id}> dealing **${damage}** damage!`; break;
-            default: finalStr = `<@${message.author.id}> attacks <@${victim.id}> with a ${app.itemdata[itemUsed].icon}\`${itemUsed}\` dealing **${damage}** damage!`; break;
-        }
-    }
+    let finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
+    .replace('{victim}', `<@${victim.id}>`)
+    .replace('{weaponIcon}', app.itemdata[itemUsed].icon)
+    .replace('{weapon}', itemUsed)
+    .replace('{ammoIcon}', ammoUsed ? app.itemdata[ammoUsed].icon : '')
+    .replace('{ammo}', ammoUsed)
+    .replace('{damage}', damage);
 
     if(killed){
         finalStr += `\n${app.icons.death_skull} **${victim.nick || victim.username} DIED!**`
@@ -820,22 +801,14 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
 }
 
 function generateAttackMobString(app, message, monsterRow, damage, itemUsed, ammoUsed, itemBroke, killed, moneyStolen){
-    const weaponRarity = app.itemdata[itemUsed].rarity;
     const monster = app.mobdata[monsterRow.monster];
-    let finalStr = "";
-
-    if(ammoUsed){
-        // weapon uses ammo
-        finalStr = `<@${message.author.id}> fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` at the **${monster.title}** using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`! **${damage}** damage dealt!`;
-    }
-    else{
-        // melee weapon
-        switch(weaponRarity){
-            case "Common": finalStr = `<@${message.author.id}> slapped the **${monster.title}** with a ${app.itemdata[itemUsed].icon}\`${itemUsed}\` dealing **${damage}** damage!`; break;
-            case "Uncommon": finalStr = `<@${message.author.id}> smacks the **${monster.title}** with a ${app.itemdata[itemUsed].icon}\`${itemUsed}\` dealing **${damage}** damage!`; break;
-            default: finalStr = `<@${message.author.id}> attacks the **${monster.title}** with a ${app.itemdata[itemUsed].icon}\`${itemUsed}\` dealing **${damage}** damage!`; break;
-        }
-    }
+    let finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
+    .replace('{victim}', `the **${monster.title}**`)
+    .replace('{weaponIcon}', app.itemdata[itemUsed].icon)
+    .replace('{weapon}', itemUsed)
+    .replace('{ammoIcon}', ammoUsed ? app.itemdata[ammoUsed].icon : '')
+    .replace('{ammo}', ammoUsed)
+    .replace('{damage}', damage);
 
     if(killed){
         finalStr += `\n${app.icons.death_skull} **The ${monster.title} DIED!**`

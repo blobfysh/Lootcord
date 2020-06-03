@@ -67,7 +67,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2700
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "snowball": {
         "rarity": "Limited",
@@ -89,7 +90,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2700
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "nutcracker": {
         "rarity": "Limited",
@@ -111,7 +113,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2700
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "mittens": {
         "rarity": "Limited",
@@ -274,7 +277,8 @@
             "display": "30 minutes",
             "scoreRow": "_30mCD",
             "seconds": 1800
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "carrot": {
         "rarity": "Limited",
@@ -375,7 +379,8 @@
             "display": "30 minutes",
             "scoreRow": "_30mCD",
             "seconds": 1800
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "apple": {
         "rarity": "Limited",
@@ -480,7 +485,8 @@
             "display": "15 minutes",
             "scoreRow": "_15mCD",
             "seconds": 900
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "scythe": {
         "rarity": "Limited",
@@ -504,7 +510,8 @@
             "display": "30 minutes",
             "scoreRow": "_30mCD",
             "seconds": 1800
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "magic_staff": {
         "rarity": "Limited",
@@ -528,7 +535,8 @@
             "display": "60 minutes",
             "scoreRow": "_60mCD",
             "seconds": 3600
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "candy_pail": {
         "rarity": "Limited",

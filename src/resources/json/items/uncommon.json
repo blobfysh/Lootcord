@@ -53,7 +53,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1123
-        }
+        },
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "9mm_fmj": {
         "rarity": "Uncommon",
@@ -139,7 +140,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1244
-        }
+        },
+        "phrase": "**ITS A GRAND SLAM!** {attacker} fires a {ammoIcon}`{ammo}` directly at {victim}'s face using a {weaponIcon}`{weapon}`. **{damage}** damage dealt!"
     },
     "golf_club": {
         "rarity": "Uncommon",
@@ -161,7 +163,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1141
-        }
+        },
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "bow": {
         "rarity": "Uncommon",
@@ -192,7 +195,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1715
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "pills": {
         "rarity": "Uncommon",

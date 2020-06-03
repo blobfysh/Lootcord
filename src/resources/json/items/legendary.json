@@ -71,7 +71,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 4156
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "awp": {
         "rarity": "Legendary",
@@ -110,7 +111,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 4920
-        }
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
     },
     "gold_shield": {
         "rarity": "Legendary",
@@ -172,7 +174,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 5383
-        }
+        },
+        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!"
     },
     "javelin": {
         "rarity": "Legendary",
@@ -205,7 +208,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 5602
-        }
+        },
+        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!"
     },
     "plasma": {
         "rarity": "Legendary",
@@ -331,7 +335,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 4800
-        }
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
     },
     "reroll_scroll": {
         "rarity": "Legendary",
