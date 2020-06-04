@@ -25,6 +25,9 @@ module.exports = {
         if(!invitedScoreRow){
             return message.reply(`❌ The person you're trying to search doesn't have an account!`);
         }
+        else if(user.id === app.bot.user.id){
+            return message.reply(app.icons.blackjack_dealer_neutral + ' I don\'t join loser clans');
+        }
         else if(invitedScoreRow.clanId !== 0){
             return message.reply('❌ That user is already in a clan!');
         }
