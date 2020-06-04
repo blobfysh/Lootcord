@@ -37,6 +37,7 @@ module.exports = {
             let results = app.itm.openBox(item, amount, row.luck);
             let bestItem = results.items.sort(app.itm.sortItemsHighLow.bind(app));
             let rarityStr = '';
+            let openStr = '';
 
             await app.itm.addItem(message.author.id, results.itemAmounts);
             await app.player.addPoints(message.author.id, results.xp);
@@ -46,7 +47,6 @@ module.exports = {
             }
 
             const embedInfo = new app.Embed()
-            .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
             
             switch(app.itemdata[bestItem[0]].rarity){
                 case 'Ultra': embedInfo.setColor('#EC402C');rarityStr = 'an ***U L T R A*** '; break;
@@ -60,7 +60,7 @@ module.exports = {
             }
             
             if(amount === 1){
-                embedInfo.setTitle('You received ' + rarityStr + results.display.join());
+                embedInfo.setDescription('You received ' + rarityStr + results.display.join());
                 embedInfo.setFooter('⭐ ' + results.xp + ' XP earned!')
 
                 if(app.itemdata[results.itemAmounts[0].split('|')[0]].unboxImage && app.itemdata[results.itemAmounts[0].split('|')[0]].unboxImage !== ""){
@@ -69,6 +69,8 @@ module.exports = {
                 else if(app.itemdata[results.itemAmounts[0].split('|')[0]].image !== ""){
                     embedInfo.setThumbnail(app.itemdata[results.itemAmounts[0].split('|')[0]].image);
                 }
+
+                openStr = 'You open the ' + app.itemdata[item].icon + '`' + item + '` and find:';
             }
             else{
                 if(app.itemdata[bestItem[0]].unboxImage && app.itemdata[bestItem[0]].unboxImage !== ""){
@@ -80,10 +82,11 @@ module.exports = {
                 
                 embedInfo.setFooter('⭐ ' + results.xp + ' XP earned!');
                 embedInfo.setDescription(app.itm.getDisplay(results.itemAmounts).join('\n'));
-                embedInfo.setTitle(amount + " boxes opened.");
+
+                openStr = 'You open ' + amount + 'x ' + app.itemdata[item].icon + '`' + item + '`\'s and find:';
             }
 
-            message.channel.createMessage(embedInfo);
+            message.channel.createMessage({content: '<@' + message.author.id + '>, ' + openStr, embed: embedInfo.embed});
         }
         else{
             return message.reply(`❌ That item cannot be opened.`);

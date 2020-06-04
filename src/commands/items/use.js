@@ -50,6 +50,7 @@ module.exports = {
                 let results = app.itm.openBox(item, amount, row.luck);
                 let bestItem = results.items.sort(app.itm.sortItemsHighLow.bind(app));
                 let rarityStr = '';
+                let openStr = '';
 
                 await app.itm.addItem(message.author.id, results.itemAmounts);
                 await app.player.addPoints(message.author.id, results.xp);
@@ -59,7 +60,6 @@ module.exports = {
                 }
 
                 const embedInfo = new app.Embed()
-                .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
                 
                 switch(app.itemdata[bestItem[0]].rarity){
                     case 'Ultra': embedInfo.setColor('#EC402C');rarityStr = 'an ***U L T R A*** '; break;
@@ -74,7 +74,7 @@ module.exports = {
                 
                 if(amount === 1){
                     console.log(bestItem[0]);
-                    embedInfo.setTitle('You received ' + rarityStr + results.display.join());
+                    embedInfo.setDescription('You received ' + rarityStr + results.display.join());
                     embedInfo.setFooter('⭐ ' + results.xp + ' XP earned!')
 
                     if(app.itemdata[results.itemAmounts[0].split('|')[0]].unboxImage && app.itemdata[results.itemAmounts[0].split('|')[0]].unboxImage !== ""){
@@ -83,6 +83,8 @@ module.exports = {
                     else if(app.itemdata[results.itemAmounts[0].split('|')[0]].image !== ""){
                         embedInfo.setThumbnail(app.itemdata[results.itemAmounts[0].split('|')[0]].image);
                     }
+
+                    openStr = 'You open the ' + app.itemdata[item].icon + '`' + item + '` and find:';
                 }
                 else{
                     if(app.itemdata[bestItem[0]].unboxImage && app.itemdata[bestItem[0]].unboxImage !== ""){
@@ -94,10 +96,11 @@ module.exports = {
                     
                     embedInfo.setFooter('⭐ ' + results.xp + ' XP earned!');
                     embedInfo.setDescription(app.itm.getDisplay(results.itemAmounts).join('\n'));
-                    embedInfo.setTitle(amount + " boxes opened.");
+
+                    openStr = 'You open ' + amount + 'x ' + app.itemdata[item].icon + '`' + item + '`\'s and find:';
                 }
 
-                message.channel.createMessage(embedInfo);
+                message.channel.createMessage({content: '<@' + message.author.id + '>, ' + openStr, embed: embedInfo.embed});
             }
             else if(item === 'supply_signal'){
                 const serverInfo = await app.common.getGuildInfo(message.channel.guild.id);
@@ -193,16 +196,12 @@ module.exports = {
                 if(row.health > 100){
                     await app.query(`UPDATE scores SET health = 100 WHERE userId = ${message.author.id}`);
                 }
-
-                const msgEmbed = new app.Embed()
-                .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
-                .setTitle("Successfully used 📜`reroll_scroll`")
-                .setDescription("Your skills have been reset.")
-                .setColor(14202368)
-                message.channel.createMessage(msgEmbed);
+                
+                message.reply('You read the ' + app.itemdata['reroll_scroll'].icon + '`reroll_scroll` and feel a sense of renewal. Your skills have been reset.');
             }
             else if(item === 'xp_potion'){
                 const xpCD = await app.cd.getCD(message.author.id, 'xp_potion');
+                const xp = app.common.calculateXP(row.points, row.level);
         
                 if(xpCD){
                     return message.reply(`You need to wait \`${xpCD}\` before using another ${app.itemdata['xp_potion'].icon}\`xp_potion\`.`);
@@ -211,13 +210,8 @@ module.exports = {
                 await app.cd.setCD(message.author.id, 'xp_potion', app.config.cooldowns.xp_potion * 1000);
                 await app.itm.removeItem(message.author.id, 'xp_potion', 1);
                 await app.query(`UPDATE scores SET points = points + 75 WHERE userId = '${message.author.id}'`);
-                
-                const msgEmbed = new app.Embed()
-                .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
-                .setTitle("Successfully used `xp_potion`")
-                .setDescription("Gained **75 XP**!")
-                .setColor(14202368)
-                message.channel.createMessage(msgEmbed);
+
+                message.reply('Successfully drank an ' + app.itemdata['xp_potion'].icon + '`xp_potion` and gained **75** XP! You now have **' + (xp.curLvlXp + 75) + ' / ' + xp.neededForLvl + '** XP.');
             }
             else if(item === 'c4'){
                 const clanName = message.args.slice(1);
@@ -495,10 +489,10 @@ module.exports = {
 
                 if(chance <= luck){
                     if(weaponBroke){
-                        return message.channel.createMessage(`🍀<@${target.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[item].icon}\`${item}\` broke.`);
+                        return message.channel.createMessage(`🍀 <@${target.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!\n\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[item].icon}\`${item}\` broke.`);
                     }
                     else{
-                        return message.channel.createMessage(`🍀<@${target.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!`);
+                        return message.channel.createMessage(`🍀 <@${target.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!`);
                     }
                 }
                 
@@ -649,10 +643,10 @@ module.exports = {
 
                 if(chance <= luck){
                     if(weaponBroke){
-                        return message.channel.createMessage(`🍀<@${member.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[item].icon}\`${item}\` broke.`);
+                        return message.channel.createMessage(`🍀 <@${member.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!\n\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[item].icon}\`${item}\` broke.`);
                     }
                     else{
-                        return message.channel.createMessage(`🍀<@${member.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!`);
+                        return message.channel.createMessage(`🍀 <@${member.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!`);
                     }
                 }
 

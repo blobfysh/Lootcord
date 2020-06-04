@@ -58,8 +58,10 @@ module.exports = {
                 }
             }
             catch(err){
-                embedInfo.setFooter('❌ Command timed out.');
-                botMessage.edit(embedInfo);
+                const errorEmbed = new app.Embed()
+                .setColor(16734296)
+                .setDescription('❌ Command timed out.');
+                botMessage.edit(errorEmbed);
             }
         }
         else{

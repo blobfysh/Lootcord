@@ -78,13 +78,13 @@ module.exports = {
                     if(!await app.player.hasMoney(message.author.id, price)){
                         const errorEmbed = new app.Embed()
                         .setColor(16734296)
-                        .setTitle(`❌ You don't have enough money! You currently have ` + app.common.formatNumber(row.money));
+                        .setDescription(`❌ You don't have enough money! You currently have ` + app.common.formatNumber(row.money));
                         botMessage.edit(errorEmbed);
                     }
                     else if(row.used_stats !== (await app.player.getRow(message.author.id)).used_stats){
                         const errorEmbed = new app.Embed()
                         .setColor(16734296)
-                        .setTitle('❌ Error: did your stats change while upgrading?');
+                        .setDescription('❌ Error: did your stats change while upgrading?');
                         botMessage.edit(errorEmbed);
                     }
                     else{
@@ -108,13 +108,13 @@ module.exports = {
                     if(!await app.player.hasMoney(message.author.id, price)){
                         const errorEmbed = new app.Embed()
                         .setColor(16734296)
-                        .setTitle(`❌ You don't have enough money! You currently have ` + app.common.formatNumber(row.money));
+                        .setDescription(`❌ You don't have enough money! You currently have ` + app.common.formatNumber(row.money));
                         botMessage.edit(errorEmbed);
                     }
                     else if(row.used_stats !== (await app.player.getRow(message.author.id)).used_stats){
                         const errorEmbed = new app.Embed()
                         .setColor(16734296)
-                        .setTitle('❌ Error: did your stats change while upgrading?');
+                        .setDescription('❌ Error: did your stats change while upgrading?');
                         botMessage.edit(errorEmbed);
                     }
                     else{
@@ -139,13 +139,13 @@ module.exports = {
                     if(!await app.player.hasMoney(message.author.id, price)){
                         const errorEmbed = new app.Embed()
                         .setColor(16734296)
-                        .setTitle(`❌ You don't have enough money! You currently have ` + app.common.formatNumber(row.money));
+                        .setDescription(`❌ You don't have enough money! You currently have ` + app.common.formatNumber(row.money));
                         botMessage.edit(errorEmbed);
                     }
                     else if(row.used_stats !== (await app.player.getRow(message.author.id)).used_stats){
                         const errorEmbed = new app.Embed()
                         .setColor(16734296)
-                        .setTitle('❌ Error: did your stats change while upgrading?');
+                        .setDescription('❌ Error: did your stats change while upgrading?');
                         botMessage.edit(errorEmbed);
                     }
                     else{
@@ -171,7 +171,7 @@ module.exports = {
             catch(err){
                 const errorEmbed = new app.Embed()
                 .setColor(16734296)
-                .setTitle('❌ Command timed out');
+                .setDescription('❌ Command timed out');
                 botMessage.edit(errorEmbed);
             }
         }

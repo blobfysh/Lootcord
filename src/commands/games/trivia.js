@@ -101,8 +101,10 @@ module.exports = {
             }
         }
         catch(err){
-            embedTrivia.setFooter('You ran out of time!');
-            botMessage.edit(embedTrivia);
+            const errorEmbed = new app.Embed()
+            .setColor(16734296)
+            .setDescription('❌ You ran out of time!');
+            botMessage.edit(errorEmbed);
         }
     },
 }
