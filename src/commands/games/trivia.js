@@ -54,12 +54,12 @@ module.exports = {
         .setColor(16777215)
         .setDescription(`🇦 ${questionA}\n🇧 ${questionB}\n🇨 ${questionC}\n🇩 ${questionD}`)
         .addField("Reward", reward.display)
-        .setFooter('You have 15 seconds to answer.')
+        .setFooter('You have 20 seconds to answer.')
 
         const botMessage = await message.channel.createMessage(embedTrivia);
 
         try{
-            const collected = await app.react.getFirstReaction(message.author.id, botMessage, 15000, ['🇦', '🇧', '🇨', '🇩']);
+            const collected = await app.react.getFirstReaction(message.author.id, botMessage, 20000, ['🇦', '🇧', '🇨', '🇩']);
 
             if(collected === '🇦' && app.trivia_questions[chance].correct_answer == "a"){
                 
