@@ -12,7 +12,7 @@ module.exports = {
     requiresActive: false,
     guildModsOnly: false,
     
-    execute(app, message){
+    async execute(app, message){
         let badgeSearched = app.parse.badges(message.args)[0];
 
         if(badgeSearched){
@@ -23,6 +23,12 @@ module.exports = {
             .setThumbnail(badge.image)
             .setDescription(badge.description)
             .setColor(13215302)
+
+            if(badge.artist !== ""){
+                const artistInfo = await app.common.fetchUser(badge.artist, { cacheIPC: false });
+
+                badgeEmbed.setFooter('Art by ' + artistInfo.username + '#' + artistInfo.discriminator);
+            }
 
             message.channel.createMessage(badgeEmbed);
         }

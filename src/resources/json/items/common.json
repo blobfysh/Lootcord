@@ -20,7 +20,8 @@
         "cooldown": {
             "seconds": 445
         },
-        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!"
+        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": ""
     },
     "baseball": {
         "rarity": "Common",
@@ -42,7 +43,8 @@
         "icon": "<:ammo:601323077569347584>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "item_box": {
         "rarity": "Common",
@@ -130,7 +132,8 @@
                     ".45_ap|1"
                 ]
             }
-        }
+        },
+        "artist": ""
     },
     "fork": {
         "rarity": "Common",
@@ -153,7 +156,8 @@
         "cooldown": {
             "seconds": 420
         },
-        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!"
+        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "221087115893669889"
     },
     "stick": {
         "rarity": "Common",
@@ -178,7 +182,8 @@
             "scoreRow": "_15mCD",
             "seconds": 354
         },
-        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!"
+        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": ""
     },
     "club": {
         "rarity": "Common",
@@ -201,7 +206,8 @@
         "cooldown": {
             "seconds": 458
         },
-        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!"
+        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "221087115893669889"
     },
     "fish": {
         "rarity": "Common",
@@ -224,7 +230,8 @@
         "cooldown": {
             "seconds": 442
         },
-        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!"
+        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "221087115893669889"
     },
     "arrow": {
         "rarity": "Common",
@@ -254,7 +261,8 @@
         "icon": "<:ammo:601323077569347584>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     },
     "wood": {
         "rarity": "Common",
@@ -275,7 +283,8 @@
         "icon": "<:material:601323077359370251>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "wood_bundle": {
         "rarity": "Common",
@@ -306,7 +315,8 @@
         "icon": "<:material:601323077359370251>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "sushi": {
         "rarity": "Common",
@@ -336,7 +346,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 366
-        }
+        },
+        "artist": ""
     },
     "recruit": {
         "rarity": "Common",
@@ -364,6 +375,7 @@
         "icon": "<:banner:601323077581799434>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     }
 }

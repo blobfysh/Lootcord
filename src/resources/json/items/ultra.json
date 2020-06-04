@@ -35,7 +35,8 @@
         "icon": "<:ultra_backpack:601370404375887873>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "rail_cannon": {
         "rarity": "Ultra",
@@ -76,7 +77,8 @@
         "cooldown": {
             "seconds": 6720
         },
-        "phrase": "{attacker} vaporizes {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} vaporizes {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
+        "artist": "221087115893669889"
     },
     "ray_gun": {
         "rarity": "Ultra",
@@ -118,7 +120,8 @@
         "cooldown": {
             "seconds": 6034
         },
-        "phrase": "{attacker} vaporizes {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} vaporizes {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
+        "artist": ""
     },
     "c4": {
         "rarity": "Ultra",
@@ -151,6 +154,7 @@
         "icon": "<:ultra_usable:710781033666052106>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     }
 }

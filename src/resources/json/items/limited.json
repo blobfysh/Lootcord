@@ -20,7 +20,8 @@
         "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "gingerbread": {
         "rarity": "Limited",
@@ -45,7 +46,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1200
-        }
+        },
+        "artist": ""
     },
     "candycane": {
         "rarity": "Limited",
@@ -68,7 +70,8 @@
         "cooldown": {
             "seconds": 2700
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "snowball": {
         "rarity": "Limited",
@@ -91,7 +94,8 @@
         "cooldown": {
             "seconds": 2700
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "nutcracker": {
         "rarity": "Limited",
@@ -114,7 +118,8 @@
         "cooldown": {
             "seconds": 2700
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "mittens": {
         "rarity": "Limited",
@@ -140,7 +145,8 @@
         "icon": "<:limit_shield:698423077377409054>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "coal": {
         "rarity": "Limited",
@@ -161,7 +167,8 @@
         "icon": "<:limit_material:656757111388241920>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "present": {
         "rarity": "Limited",
@@ -210,7 +217,8 @@
                     "candycane|1"
                 ]
             }
-        }
+        },
+        "artist": ""
     },
     "token": {
         "rarity": "Limited",
@@ -230,7 +238,8 @@
         "icon": "<:Lootcoin:698425524606730271>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "easter_egg": {
         "rarity": "Limited",
@@ -253,7 +262,8 @@
         "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "bunny": {
         "rarity": "Limited",
@@ -278,7 +288,8 @@
             "scoreRow": "_30mCD",
             "seconds": 1800
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "carrot": {
         "rarity": "Limited",
@@ -305,7 +316,8 @@
             "display": "20 minutes",
             "scoreRow": "_20mHEALCD",
             "seconds": 1200
-        }
+        },
+        "artist": ""
     },
     "golden_egg": {
         "rarity": "Limited",
@@ -328,7 +340,8 @@
         "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "candy_egg": {
         "rarity": "Limited",
@@ -355,7 +368,8 @@
             "display": "20 minutes",
             "scoreRow": "_20mHEALCD",
             "seconds": 1200
-        }
+        },
+        "artist": ""
     },
     "tnt_egg": {
         "rarity": "Limited",
@@ -380,7 +394,8 @@
             "scoreRow": "_30mCD",
             "seconds": 1800
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "apple": {
         "rarity": "Limited",
@@ -407,7 +422,8 @@
             "display": "10 minutes",
             "scoreRow": "_10mHEALCD",
             "seconds": 600
-        }
+        },
+        "artist": ""
     },
     "pumpkin": {
         "rarity": "Limited",
@@ -434,7 +450,8 @@
             "display": "20 minutes",
             "scoreRow": "_20mHEALCD",
             "seconds": 1200
-        }
+        },
+        "artist": ""
     },
     "candy_bar": {
         "rarity": "Limited",
@@ -461,7 +478,8 @@
             "display": "20 minutes",
             "scoreRow": "_20mHEALCD",
             "seconds": 1200
-        }
+        },
+        "artist": ""
     },
     "spider": {
         "rarity": "Limited",
@@ -486,7 +504,8 @@
             "scoreRow": "_15mCD",
             "seconds": 900
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "scythe": {
         "rarity": "Limited",
@@ -511,7 +530,8 @@
             "scoreRow": "_30mCD",
             "seconds": 1800
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "magic_staff": {
         "rarity": "Limited",
@@ -536,7 +556,8 @@
             "scoreRow": "_60mCD",
             "seconds": 3600
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "candy_pail": {
         "rarity": "Limited",
@@ -584,7 +605,8 @@
                     "pumpkin|1"
                 ]
             }
-        }
+        },
+        "artist": ""
     },
     "rolads_pack": {
         "rarity": "Limited",
@@ -608,7 +630,8 @@
         "icon": "<:limit_backpack:717745253037375629>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "spooky": {
         "rarity": "Limited",
@@ -631,7 +654,8 @@
         "icon": "<:limit_banner:601371062214852619>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "sheriff": {
         "rarity": "Limited",
@@ -654,7 +678,8 @@
         "icon": "<:limit_banner:601371062214852619>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "kofi_king": {
         "rarity": "Limited",
@@ -677,7 +702,8 @@
         "icon": "<:limit_banner:601371062214852619>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "patron": {
         "rarity": "Limited",
@@ -700,6 +726,7 @@
         "icon": "<:limit_banner:601371062214852619>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     }
 }

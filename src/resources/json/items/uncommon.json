@@ -31,7 +31,8 @@
         "icon": "<:U_backpack:601366669595508736>",
         "breaksOnUse": false,
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     },
     "sword": {
         "rarity": "Uncommon",
@@ -54,7 +55,8 @@
         "cooldown": {
             "seconds": 1123
         },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "9mm_fmj": {
         "rarity": "Uncommon",
@@ -82,7 +84,8 @@
         "icon": "<:U_ammo:601366669318815745>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     ".45_fmj": {
         "rarity": "Uncommon",
@@ -110,7 +113,8 @@
         "icon": "<:U_ammo:601366669318815745>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "bat": {
         "rarity": "Uncommon",
@@ -141,7 +145,8 @@
         "cooldown": {
             "seconds": 1244
         },
-        "phrase": "**ITS A GRAND SLAM!** {attacker} fires a {ammoIcon}`{ammo}` directly at {victim}'s face using a {weaponIcon}`{weapon}`. **{damage}** damage dealt!"
+        "phrase": "**ITS A GRAND SLAM!** {attacker} fires a {ammoIcon}`{ammo}` directly at {victim}'s face using a {weaponIcon}`{weapon}`. **{damage}** damage dealt!",
+        "artist": ""
     },
     "golf_club": {
         "rarity": "Uncommon",
@@ -164,7 +169,8 @@
         "cooldown": {
             "seconds": 1141
         },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": "221087115893669889"
     },
     "bow": {
         "rarity": "Uncommon",
@@ -196,7 +202,8 @@
         "cooldown": {
             "seconds": 1715
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "221087115893669889"
     },
     "pills": {
         "rarity": "Uncommon",
@@ -226,7 +233,8 @@
             "display": "10 minutes",
             "scoreRow": "_10mHEALCD",
             "seconds": 967
-        }
+        },
+        "artist": "221087115893669889"
     },
     "steel": {
         "rarity": "Uncommon",
@@ -247,7 +255,8 @@
         "icon": "<:U_material:601366669452902400>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "steel_bundle": {
         "rarity": "Uncommon",
@@ -278,7 +287,8 @@
         "icon": "<:U_material:601366669452902400>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "cloth": {
         "rarity": "Uncommon",
@@ -299,7 +309,8 @@
         "icon": "<:U_material:601366669452902400>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "cloth_bundle": {
         "rarity": "Uncommon",
@@ -330,7 +341,8 @@
         "icon": "<:U_material:601366669452902400>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "pistol_body": {
         "rarity": "Uncommon",
@@ -356,7 +368,8 @@
         "icon": "<:U_material:601366669452902400>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "looter": {
         "rarity": "Uncommon",
@@ -389,6 +402,7 @@
         "breaksOnUse": "",
         "canBeStolen": false,
         "cooldown": "",
-        "shopOrderCode": 3
+        "shopOrderCode": 3,
+        "artist": "221087115893669889"
     }
 }

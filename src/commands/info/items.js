@@ -11,7 +11,7 @@ module.exports = {
     requiresActive: false,
     guildModsOnly: false,
     
-    execute(app, message){
+    async execute(app, message){
         let itemSearched = app.parse.items(message.args)[0];
         let itemChoice = (message.args[0] || '').toLowerCase();
 
@@ -52,6 +52,12 @@ module.exports = {
             }
             else if(itemImg){
                 embedItem.setThumbnail(itemImg)
+            }
+
+            if(app.itemdata[itemSearched].artist !== ""){
+                const artistInfo = await app.common.fetchUser(app.itemdata[itemSearched].artist, { cacheIPC: false });
+
+                embedItem.setFooter('Art by ' + artistInfo.username + '#' + artistInfo.discriminator);
             }
 
             // if item is a box =>
@@ -217,7 +223,6 @@ function editEmbed(app, type, message){
     let ultraList = typeFilter(app, Object.keys(app.itemdata), 'Ultra', type);
 
     const embedInfo = new app.Embed()
-    .setColor('#000')
     .setTitle('Items List - ' + (type == 'weapon' ? 'Weapons' : type == 'item' ? 'Consumables' : type == 'ammo' ? 'Ammunition' : type == 'banner' ? 'Banners' : type == 'backpack' ? 'Backpacks' : 'Materials'))
     if(commonList.length > 0){
         embedInfo.addField("Common", commonList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)

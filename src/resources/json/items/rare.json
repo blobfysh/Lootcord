@@ -18,7 +18,8 @@
         "icon": "<:rare_usable:601368019972653067>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     },
     "glock": {
         "rarity": "Rare",
@@ -59,7 +60,8 @@
             "scoreRow": "_45mCD",
             "seconds": 2467
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "221087115893669889"
     },
     "revolver": {
         "rarity": "Rare",
@@ -97,7 +99,8 @@
         "cooldown": {
             "seconds": 2721
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "221087115893669889"
     },
     "9mm_ps": {
         "rarity": "Rare",
@@ -119,7 +122,8 @@
         "icon": "<:rare_ammo:601368020270448659>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "7.62_fmj": {
         "rarity": "Rare",
@@ -147,7 +151,8 @@
         "icon": "<:rare_ammo:601368020270448659>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "5.56_fmj": {
         "rarity": "Rare",
@@ -175,7 +180,8 @@
         "icon": "<:rare_ammo:601368020270448659>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "crossbow": {
         "rarity": "Rare",
@@ -207,7 +213,8 @@
         "cooldown": {
             "seconds": 2232
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": ""
     },
     "spear": {
         "rarity": "Rare",
@@ -230,7 +237,8 @@
         "cooldown": {
             "seconds": 1568
         },
-        "phrase": "{attacker} uses a {weaponIcon}`{weapon}` on {victim} dealing **${damage}** damage!"
+        "phrase": "{attacker} uses a {weaponIcon}`{weapon}` on {victim} dealing **${damage}** damage!",
+        "artist": ""
     },
     "health_pot": {
         "rarity": "Rare",
@@ -258,7 +266,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1596
-        }
+        },
+        "artist": ""
     },
     "remington_870": {
         "rarity": "Rare",
@@ -297,7 +306,8 @@
         "cooldown": {
             "seconds": 2732
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": ""
     },
     "12g_buckshot": {
         "rarity": "Rare",
@@ -326,7 +336,8 @@
         "icon": "<:rare_ammo:601368020270448659>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "grenade": {
         "rarity": "Rare",
@@ -349,7 +360,8 @@
         "cooldown": {
             "seconds": 1862
         },
-        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": ""
     },
     "screw": {
         "rarity": "Rare",
@@ -370,7 +382,8 @@
         "icon": "<:rare_material:601368020459454465>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "screw_bundle": {
         "rarity": "Rare",
@@ -401,7 +414,8 @@
         "icon": "<:rare_material:601368020459454465>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "smg_body": {
         "rarity": "Rare",
@@ -427,7 +441,8 @@
         "icon": "<:rare_material:601368020459454465>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "pump_body": {
         "rarity": "Rare",
@@ -453,7 +468,8 @@
         "icon": "<:rare_material:601368020459454465>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "killer": {
         "rarity": "Rare",
@@ -484,7 +500,8 @@
         "icon": "<:rare_banner:601368019943424001>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     },
     "elite": {
         "rarity": "Rare",
@@ -515,6 +532,7 @@
         "icon": "<:rare_banner:601368019943424001>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     }
 }

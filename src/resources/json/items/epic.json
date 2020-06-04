@@ -32,7 +32,8 @@
         "icon": "<:E_backpack:601368952387403777>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "thompson": {
         "rarity": "Epic",
@@ -72,7 +73,8 @@
         "cooldown": {
             "seconds": 3064
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "221087115893669889"
     },
     "ak47": {
         "rarity": "Epic",
@@ -113,7 +115,8 @@
         "cooldown": {
             "seconds": 3929
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "221087115893669889"
     },
     "iron_shield": {
         "rarity": "Epic",
@@ -141,7 +144,8 @@
         "icon": "<:E_shield:601368952584798218>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "rocket": {
         "rarity": "Epic",
@@ -176,7 +180,8 @@
         "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "7.62_hp": {
         "rarity": "Epic",
@@ -199,7 +204,8 @@
         "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     ".45_ap": {
         "rarity": "Epic",
@@ -222,7 +228,8 @@
         "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "5.56_m855": {
         "rarity": "Epic",
@@ -245,7 +252,8 @@
         "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     ".44_fmj": {
         "rarity": "Epic",
@@ -273,7 +281,8 @@
         "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "7.62_m80": {
         "rarity": "Epic",
@@ -296,7 +305,8 @@
         "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "12g_slug": {
         "rarity": "Epic",
@@ -320,7 +330,8 @@
         "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "spas": {
         "rarity": "Epic",
@@ -360,7 +371,8 @@
         "cooldown": {
             "seconds": 3683
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": ""
     },
     "medkit": {
         "rarity": "Epic",
@@ -389,7 +401,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2682
-        }
+        },
+        "artist": ""
     },
     "m4a1": {
         "rarity": "Epic",
@@ -429,7 +442,8 @@
         "cooldown": {
             "seconds": 3425
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": ""
     },
     "ultra_box": {
         "rarity": "Epic",
@@ -528,7 +542,8 @@
                     "rail_cannon|1"
                 ]
             }
-        }
+        },
+        "artist": ""
     },
     "care_package": {
         "rarity": "Epic",
@@ -609,7 +624,8 @@
                     "thompson|1"
                 ]
             }
-        }
+        },
+        "artist": ""
     },
     "adhesive": {
         "rarity": "Epic",
@@ -631,7 +647,8 @@
         "icon": "<:E_material:601368952555307028>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "gunpowder": {
         "rarity": "Epic",
@@ -653,7 +670,8 @@
         "icon": "<:E_material:601368952555307028>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "rifle_body": {
         "rarity": "Epic",
@@ -680,7 +698,8 @@
         "icon": "<:E_material:601368952555307028>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "assault_body": {
         "rarity": "Epic",
@@ -707,6 +726,7 @@
         "icon": "<:E_material:601368952555307028>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     }
 }

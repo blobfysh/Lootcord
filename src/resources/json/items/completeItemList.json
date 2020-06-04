@@ -20,7 +20,8 @@
         "cooldown": {
             "seconds": 445
         },
-        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!"
+        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": ""
     },
     "baseball": {
         "rarity": "Common",
@@ -42,7 +43,8 @@
         "icon": "<:ammo:601323077569347584>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "item_box": {
         "rarity": "Common",
@@ -130,7 +132,8 @@
                     ".45_ap|1"
                 ]
             }
-        }
+        },
+        "artist": ""
     },
     "fork": {
         "rarity": "Common",
@@ -153,7 +156,8 @@
         "cooldown": {
             "seconds": 420
         },
-        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!"
+        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "221087115893669889"
     },
     "stick": {
         "rarity": "Common",
@@ -178,7 +182,8 @@
             "scoreRow": "_15mCD",
             "seconds": 354
         },
-        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!"
+        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": ""
     },
     "club": {
         "rarity": "Common",
@@ -201,7 +206,8 @@
         "cooldown": {
             "seconds": 458
         },
-        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!"
+        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "221087115893669889"
     },
     "fish": {
         "rarity": "Common",
@@ -224,7 +230,8 @@
         "cooldown": {
             "seconds": 442
         },
-        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!"
+        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "221087115893669889"
     },
     "arrow": {
         "rarity": "Common",
@@ -254,7 +261,8 @@
         "icon": "<:ammo:601323077569347584>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     },
     "wood": {
         "rarity": "Common",
@@ -275,7 +283,8 @@
         "icon": "<:material:601323077359370251>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "wood_bundle": {
         "rarity": "Common",
@@ -306,7 +315,8 @@
         "icon": "<:material:601323077359370251>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "sushi": {
         "rarity": "Common",
@@ -336,7 +346,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 366
-        }
+        },
+        "artist": ""
     },
     "recruit": {
         "rarity": "Common",
@@ -364,7 +375,8 @@
         "icon": "<:banner:601323077581799434>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     },
     "light_pack": {
         "rarity": "Uncommon",
@@ -398,7 +410,8 @@
         "icon": "<:U_backpack:601366669595508736>",
         "breaksOnUse": false,
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     },
     "sword": {
         "rarity": "Uncommon",
@@ -421,7 +434,8 @@
         "cooldown": {
             "seconds": 1123
         },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "9mm_fmj": {
         "rarity": "Uncommon",
@@ -449,7 +463,8 @@
         "icon": "<:U_ammo:601366669318815745>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     ".45_fmj": {
         "rarity": "Uncommon",
@@ -477,7 +492,8 @@
         "icon": "<:U_ammo:601366669318815745>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "bat": {
         "rarity": "Uncommon",
@@ -508,7 +524,8 @@
         "cooldown": {
             "seconds": 1244
         },
-        "phrase": "**ITS A GRAND SLAM!** {attacker} fires a {ammoIcon}`{ammo}` directly at {victim}'s face using a {weaponIcon}`{weapon}`. **{damage}** damage dealt!"
+        "phrase": "**ITS A GRAND SLAM!** {attacker} fires a {ammoIcon}`{ammo}` directly at {victim}'s face using a {weaponIcon}`{weapon}`. **{damage}** damage dealt!",
+        "artist": ""
     },
     "golf_club": {
         "rarity": "Uncommon",
@@ -531,7 +548,8 @@
         "cooldown": {
             "seconds": 1141
         },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": "221087115893669889"
     },
     "bow": {
         "rarity": "Uncommon",
@@ -563,7 +581,8 @@
         "cooldown": {
             "seconds": 1715
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "221087115893669889"
     },
     "pills": {
         "rarity": "Uncommon",
@@ -593,7 +612,8 @@
             "display": "10 minutes",
             "scoreRow": "_10mHEALCD",
             "seconds": 967
-        }
+        },
+        "artist": "221087115893669889"
     },
     "steel": {
         "rarity": "Uncommon",
@@ -614,7 +634,8 @@
         "icon": "<:U_material:601366669452902400>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "steel_bundle": {
         "rarity": "Uncommon",
@@ -645,7 +666,8 @@
         "icon": "<:U_material:601366669452902400>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "cloth": {
         "rarity": "Uncommon",
@@ -666,7 +688,8 @@
         "icon": "<:U_material:601366669452902400>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "cloth_bundle": {
         "rarity": "Uncommon",
@@ -697,7 +720,8 @@
         "icon": "<:U_material:601366669452902400>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "pistol_body": {
         "rarity": "Uncommon",
@@ -723,7 +747,8 @@
         "icon": "<:U_material:601366669452902400>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "looter": {
         "rarity": "Uncommon",
@@ -756,7 +781,8 @@
         "breaksOnUse": "",
         "canBeStolen": false,
         "cooldown": "",
-        "shopOrderCode": 3
+        "shopOrderCode": 3,
+        "artist": "221087115893669889"
     },
     "xp_potion": {
         "rarity": "Rare",
@@ -777,7 +803,8 @@
         "icon": "<:rare_usable:601368019972653067>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     },
     "glock": {
         "rarity": "Rare",
@@ -818,7 +845,8 @@
             "scoreRow": "_45mCD",
             "seconds": 2467
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "221087115893669889"
     },
     "revolver": {
         "rarity": "Rare",
@@ -856,7 +884,8 @@
         "cooldown": {
             "seconds": 2721
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "221087115893669889"
     },
     "9mm_ps": {
         "rarity": "Rare",
@@ -878,7 +907,8 @@
         "icon": "<:rare_ammo:601368020270448659>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "7.62_fmj": {
         "rarity": "Rare",
@@ -906,7 +936,8 @@
         "icon": "<:rare_ammo:601368020270448659>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "5.56_fmj": {
         "rarity": "Rare",
@@ -934,7 +965,8 @@
         "icon": "<:rare_ammo:601368020270448659>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "crossbow": {
         "rarity": "Rare",
@@ -966,7 +998,8 @@
         "cooldown": {
             "seconds": 2232
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": ""
     },
     "spear": {
         "rarity": "Rare",
@@ -989,7 +1022,8 @@
         "cooldown": {
             "seconds": 1568
         },
-        "phrase": "{attacker} uses a {weaponIcon}`{weapon}` on {victim} dealing **${damage}** damage!"
+        "phrase": "{attacker} uses a {weaponIcon}`{weapon}` on {victim} dealing **${damage}** damage!",
+        "artist": ""
     },
     "health_pot": {
         "rarity": "Rare",
@@ -1017,7 +1051,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1596
-        }
+        },
+        "artist": ""
     },
     "remington_870": {
         "rarity": "Rare",
@@ -1056,7 +1091,8 @@
         "cooldown": {
             "seconds": 2732
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": ""
     },
     "12g_buckshot": {
         "rarity": "Rare",
@@ -1085,7 +1121,8 @@
         "icon": "<:rare_ammo:601368020270448659>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "grenade": {
         "rarity": "Rare",
@@ -1108,7 +1145,8 @@
         "cooldown": {
             "seconds": 1862
         },
-        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": ""
     },
     "screw": {
         "rarity": "Rare",
@@ -1129,7 +1167,8 @@
         "icon": "<:rare_material:601368020459454465>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "screw_bundle": {
         "rarity": "Rare",
@@ -1160,7 +1199,8 @@
         "icon": "<:rare_material:601368020459454465>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "smg_body": {
         "rarity": "Rare",
@@ -1186,7 +1226,8 @@
         "icon": "<:rare_material:601368020459454465>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "pump_body": {
         "rarity": "Rare",
@@ -1212,7 +1253,8 @@
         "icon": "<:rare_material:601368020459454465>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "killer": {
         "rarity": "Rare",
@@ -1243,7 +1285,8 @@
         "icon": "<:rare_banner:601368019943424001>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     },
     "elite": {
         "rarity": "Rare",
@@ -1274,7 +1317,8 @@
         "icon": "<:rare_banner:601368019943424001>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     },
     "canvas_bag": {
         "rarity": "Epic",
@@ -1309,7 +1353,8 @@
         "icon": "<:E_backpack:601368952387403777>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "thompson": {
         "rarity": "Epic",
@@ -1349,7 +1394,8 @@
         "cooldown": {
             "seconds": 3064
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "221087115893669889"
     },
     "ak47": {
         "rarity": "Epic",
@@ -1390,7 +1436,8 @@
         "cooldown": {
             "seconds": 3929
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "221087115893669889"
     },
     "iron_shield": {
         "rarity": "Epic",
@@ -1418,7 +1465,8 @@
         "icon": "<:E_shield:601368952584798218>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "rocket": {
         "rarity": "Epic",
@@ -1453,7 +1501,8 @@
         "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "7.62_hp": {
         "rarity": "Epic",
@@ -1476,7 +1525,8 @@
         "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     ".45_ap": {
         "rarity": "Epic",
@@ -1499,7 +1549,8 @@
         "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "5.56_m855": {
         "rarity": "Epic",
@@ -1522,7 +1573,8 @@
         "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     ".44_fmj": {
         "rarity": "Epic",
@@ -1550,7 +1602,8 @@
         "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "7.62_m80": {
         "rarity": "Epic",
@@ -1573,7 +1626,8 @@
         "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "12g_slug": {
         "rarity": "Epic",
@@ -1597,7 +1651,8 @@
         "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "spas": {
         "rarity": "Epic",
@@ -1637,7 +1692,8 @@
         "cooldown": {
             "seconds": 3683
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": ""
     },
     "medkit": {
         "rarity": "Epic",
@@ -1666,7 +1722,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2682
-        }
+        },
+        "artist": ""
     },
     "m4a1": {
         "rarity": "Epic",
@@ -1706,7 +1763,8 @@
         "cooldown": {
             "seconds": 3425
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": ""
     },
     "ultra_box": {
         "rarity": "Epic",
@@ -1805,7 +1863,8 @@
                     "rail_cannon|1"
                 ]
             }
-        }
+        },
+        "artist": ""
     },
     "care_package": {
         "rarity": "Epic",
@@ -1886,7 +1945,8 @@
                     "thompson|1"
                 ]
             }
-        }
+        },
+        "artist": ""
     },
     "adhesive": {
         "rarity": "Epic",
@@ -1908,7 +1968,8 @@
         "icon": "<:E_material:601368952555307028>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "gunpowder": {
         "rarity": "Epic",
@@ -1930,7 +1991,8 @@
         "icon": "<:E_material:601368952555307028>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "rifle_body": {
         "rarity": "Epic",
@@ -1957,7 +2019,8 @@
         "icon": "<:E_material:601368952555307028>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "assault_body": {
         "rarity": "Epic",
@@ -1984,7 +2047,8 @@
         "icon": "<:E_material:601368952555307028>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "hikers_pack": {
         "rarity": "Legendary",
@@ -2020,7 +2084,8 @@
         "icon": "<:L_backpack:601369664404193300>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "desert_eagle": {
         "rarity": "Legendary",
@@ -2059,7 +2124,8 @@
         "cooldown": {
             "seconds": 4156
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": ""
     },
     "awp": {
         "rarity": "Legendary",
@@ -2099,7 +2165,8 @@
         "cooldown": {
             "seconds": 4920
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "221087115893669889"
     },
     "gold_shield": {
         "rarity": "Legendary",
@@ -2129,7 +2196,8 @@
         "icon": "<:L_shield:601369664479821824>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     },
     "rpg": {
         "rarity": "Legendary",
@@ -2162,7 +2230,8 @@
         "cooldown": {
             "seconds": 5383
         },
-        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
+        "artist": "221087115893669889"
     },
     "javelin": {
         "rarity": "Legendary",
@@ -2196,7 +2265,8 @@
         "cooldown": {
             "seconds": 5602
         },
-        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
+        "artist": "221087115893669889"
     },
     "plasma": {
         "rarity": "Legendary",
@@ -2220,7 +2290,8 @@
         "icon": "<:L_ammo:601369664173637634>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     },
     "7.62_7n23": {
         "rarity": "Legendary",
@@ -2248,7 +2319,8 @@
         "icon": "<:L_ammo:601369664173637634>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "7.62_m61": {
         "rarity": "Legendary",
@@ -2276,7 +2348,8 @@
         "icon": "<:L_ammo:601369664173637634>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     ".50ae_hp": {
         "rarity": "Legendary",
@@ -2299,7 +2372,8 @@
         "icon": "<:L_ammo:601369664173637634>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "peck_seed": {
         "rarity": "Legendary",
@@ -2323,7 +2397,8 @@
         "cooldown": {
             "seconds": 4800
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "reroll_scroll": {
         "rarity": "Legendary",
@@ -2347,7 +2422,8 @@
         "icon": "<:L_usable:601370184200093696>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "fiber_optics": {
         "rarity": "Legendary",
@@ -2369,7 +2445,8 @@
         "icon": "<:L_material:601369664429228043>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "module": {
         "rarity": "Legendary",
@@ -2391,7 +2468,8 @@
         "icon": "<:L_material:601369664429228043>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "supply_signal": {
         "rarity": "Legendary",
@@ -2418,7 +2496,8 @@
         "icon": "<:L_usable:601370184200093696>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "hitman": {
         "rarity": "Legendary",
@@ -2450,7 +2529,8 @@
         "icon": "<:L_banner:601369664504987659>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     },
     "master": {
         "rarity": "Legendary",
@@ -2482,7 +2562,8 @@
         "icon": "<:L_banner:601369664504987659>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": "221087115893669889"
     },
     "cyber_pack": {
         "rarity": "Ultra",
@@ -2520,7 +2601,8 @@
         "icon": "<:ultra_backpack:601370404375887873>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "rail_cannon": {
         "rarity": "Ultra",
@@ -2561,7 +2643,8 @@
         "cooldown": {
             "seconds": 6720
         },
-        "phrase": "{attacker} vaporizes {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} vaporizes {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
+        "artist": "221087115893669889"
     },
     "ray_gun": {
         "rarity": "Ultra",
@@ -2603,7 +2686,8 @@
         "cooldown": {
             "seconds": 6034
         },
-        "phrase": "{attacker} vaporizes {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!"
+        "phrase": "{attacker} vaporizes {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
+        "artist": ""
     },
     "c4": {
         "rarity": "Ultra",
@@ -2636,7 +2720,8 @@
         "icon": "<:ultra_usable:710781033666052106>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "stocking": {
         "rarity": "Limited",
@@ -2659,7 +2744,8 @@
         "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "gingerbread": {
         "rarity": "Limited",
@@ -2684,7 +2770,8 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1200
-        }
+        },
+        "artist": ""
     },
     "candycane": {
         "rarity": "Limited",
@@ -2707,7 +2794,8 @@
         "cooldown": {
             "seconds": 2700
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "snowball": {
         "rarity": "Limited",
@@ -2730,7 +2818,8 @@
         "cooldown": {
             "seconds": 2700
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "nutcracker": {
         "rarity": "Limited",
@@ -2753,7 +2842,8 @@
         "cooldown": {
             "seconds": 2700
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "mittens": {
         "rarity": "Limited",
@@ -2779,7 +2869,8 @@
         "icon": "<:limit_shield:698423077377409054>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "coal": {
         "rarity": "Limited",
@@ -2800,7 +2891,8 @@
         "icon": "<:limit_material:656757111388241920>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "present": {
         "rarity": "Limited",
@@ -2849,7 +2941,8 @@
                     "candycane|1"
                 ]
             }
-        }
+        },
+        "artist": ""
     },
     "token": {
         "rarity": "Limited",
@@ -2869,7 +2962,8 @@
         "icon": "<:Lootcoin:698425524606730271>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "easter_egg": {
         "rarity": "Limited",
@@ -2892,7 +2986,8 @@
         "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "bunny": {
         "rarity": "Limited",
@@ -2917,7 +3012,8 @@
             "scoreRow": "_30mCD",
             "seconds": 1800
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "carrot": {
         "rarity": "Limited",
@@ -2944,7 +3040,8 @@
             "display": "20 minutes",
             "scoreRow": "_20mHEALCD",
             "seconds": 1200
-        }
+        },
+        "artist": ""
     },
     "golden_egg": {
         "rarity": "Limited",
@@ -2967,7 +3064,8 @@
         "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "candy_egg": {
         "rarity": "Limited",
@@ -2994,7 +3092,8 @@
             "display": "20 minutes",
             "scoreRow": "_20mHEALCD",
             "seconds": 1200
-        }
+        },
+        "artist": ""
     },
     "tnt_egg": {
         "rarity": "Limited",
@@ -3019,7 +3118,8 @@
             "scoreRow": "_30mCD",
             "seconds": 1800
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "apple": {
         "rarity": "Limited",
@@ -3046,7 +3146,8 @@
             "display": "10 minutes",
             "scoreRow": "_10mHEALCD",
             "seconds": 600
-        }
+        },
+        "artist": ""
     },
     "pumpkin": {
         "rarity": "Limited",
@@ -3073,7 +3174,8 @@
             "display": "20 minutes",
             "scoreRow": "_20mHEALCD",
             "seconds": 1200
-        }
+        },
+        "artist": ""
     },
     "candy_bar": {
         "rarity": "Limited",
@@ -3100,7 +3202,8 @@
             "display": "20 minutes",
             "scoreRow": "_20mHEALCD",
             "seconds": 1200
-        }
+        },
+        "artist": ""
     },
     "spider": {
         "rarity": "Limited",
@@ -3125,7 +3228,8 @@
             "scoreRow": "_15mCD",
             "seconds": 900
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "scythe": {
         "rarity": "Limited",
@@ -3150,7 +3254,8 @@
             "scoreRow": "_30mCD",
             "seconds": 1800
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "magic_staff": {
         "rarity": "Limited",
@@ -3175,7 +3280,8 @@
             "scoreRow": "_60mCD",
             "seconds": 3600
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!"
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "artist": ""
     },
     "candy_pail": {
         "rarity": "Limited",
@@ -3223,7 +3329,8 @@
                     "pumpkin|1"
                 ]
             }
-        }
+        },
+        "artist": ""
     },
     "rolads_pack": {
         "rarity": "Limited",
@@ -3247,7 +3354,8 @@
         "icon": "<:limit_backpack:717745253037375629>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "spooky": {
         "rarity": "Limited",
@@ -3270,7 +3378,8 @@
         "icon": "<:limit_banner:601371062214852619>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "sheriff": {
         "rarity": "Limited",
@@ -3293,7 +3402,8 @@
         "icon": "<:limit_banner:601371062214852619>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "kofi_king": {
         "rarity": "Limited",
@@ -3316,7 +3426,8 @@
         "icon": "<:limit_banner:601371062214852619>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     },
     "patron": {
         "rarity": "Limited",
@@ -3339,6 +3450,7 @@
         "icon": "<:limit_banner:601371062214852619>",
         "breaksOnUse": "",
         "canBeStolen": false,
-        "cooldown": ""
+        "cooldown": "",
+        "artist": ""
     }
 }
