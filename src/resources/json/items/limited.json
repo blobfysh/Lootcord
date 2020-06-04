@@ -586,6 +586,30 @@
             }
         }
     },
+    "rolads_pack": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": "",
+        "buy": "",
+        "sell": "",
+        "desc": "Equip this backpack to gain **60** item slots! Rolads special backpack.",
+        "image": "",
+        "unboxImage": "",
+        "equippable": true,
+        "type": "backpack",
+        "inv_slots": 60,
+        "icon": "<:limit_backpack:717745253037375629>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": ""
+    },
     "spooky": {
         "rarity": "Limited",
         "isBanner": true,

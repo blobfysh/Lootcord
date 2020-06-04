@@ -32,7 +32,10 @@ module.exports = {
         
         await app.query(`UPDATE guildInfo SET dropItem = '' WHERE guildId = ${message.channel.guild.id}`);
         await app.query(`UPDATE guildInfo SET dropItemChan = 0 WHERE guildId = ${message.channel.guild.id}`);
-        await app.cd.setCD(message.author.id, 'airdrop', app.config.cooldowns.claimdrop * 1000);
+
+        if(await app.patreonHandler.isPatron(message.author.id, 4)) await app.cd.setCD(message.author.id, 'airdrop', Math.floor((app.config.cooldowns.claimdrop * 1000) / 2));
+        else await app.cd.setCD(message.author.id, 'airdrop', app.config.cooldowns.claimdrop * 1000);
+
         await app.itm.addItem(message.author.id, guildRow.dropItem, 1);
 
         message.reply(`You got the ${app.itemdata[guildRow.dropItem].icon}\`${guildRow.dropItem}\`!`);
