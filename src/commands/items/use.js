@@ -485,6 +485,10 @@ module.exports = {
 
                 let target = await pickTarget(app, message, randUsers);
 
+                if(!target){
+                    return message.channel.createMessage('❌ There was an error trying to find someone to attack! Please try again or report this in the support server.');
+                }
+
                 const victimRow = await app.player.getRow(target.id);
                 let chance = Math.floor(Math.random() * 100) + 1; // 1-100
                 let luck = victimRow.luck >= 10 ? 10 : victimRow.luck;
