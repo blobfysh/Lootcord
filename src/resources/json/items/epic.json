@@ -151,7 +151,7 @@
         "rarity": "Epic",
         "isWeap": false,
         "isItem": false,
-        "damage": 75,
+        "damage": 65,
         "minDmg": "",
         "maxDmg": "",
         "isAmmo": [
@@ -160,9 +160,9 @@
         ],
         "ammo": "",
         "craftedWith": {
-            "display": "4x gunpowder\n2x steel",
+            "display": "5x gunpowder\n2x steel",
             "materials": [
-                "gunpowder|4",
+                "gunpowder|5",
                 "steel|2"
             ]
         },
