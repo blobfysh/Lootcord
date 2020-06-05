@@ -6,7 +6,7 @@ class Airdrop {
     }
 
     initAirdrop(guildId){
-        let rand = Math.round(Math.random() * (14400 * 1000)) + (14400 * 1000); // Generate random time from 4 - 8 hours 14400
+        let rand = Math.round(Math.random() * (10 * 1000)) + (120 * 1000); // Generate random time from 4 - 8 hours 14400
         console.log(`[AIRDROP] Counting down from ${this.app.cd.convertTime(rand)}`);
 
         let timeObj = {guild: guildId, started: Date.now(), length: rand, timer: setTimeout(() => {
@@ -21,7 +21,7 @@ class Airdrop {
             const activeRow = await this.app.query(`SELECT * FROM userGuilds WHERE guildId = ${guildId}`);
             
             // less than 5 active players in guild, cancel the airdrop
-            if(Object.keys(activeRow).length < 5){
+            if(Object.keys(activeRow).length < 2){
                 this.app.query(`UPDATE guildInfo SET dropChan = 0 WHERE guildId ='${guildId}'`);
                 this.cancelAirdrop(guildId);
                 return;
@@ -48,14 +48,25 @@ class Airdrop {
             let channelToDrop = dropChan[0].dropChan;
 
             const dropEmbed = new this.app.Embed()
-            .setTitle(`A \`${itemToDrop}\` has arrived`)
-            .setDescription(`Use \`${guildPrefix}claimdrop\` to claim it!`)
+            .setDescription(`**A ${this.app.itemdata[itemToDrop].icon}\`${itemToDrop}\` has arrived!**\n\nUse \`${guildPrefix}claimdrop\` to claim it.`)
             .setImage(this.app.itemdata[itemToDrop].image)
+            .setFooter('You have 2 minutes to claim this drop.')
             .setColor(13215302)
             
             await this.app.bot.createMessage(channelToDrop, dropEmbed);
             await this.app.query(`UPDATE guildInfo SET dropItemChan = '${channelToDrop}' WHERE guildId = ${guildId}`);
             await this.app.query(`UPDATE guildInfo SET dropItem = '${itemToDrop}' WHERE guildId = ${guildId}`);
+
+            setTimeout(async () => {
+                const guildRow = await this.app.common.getGuildInfo(guildId);
+
+                if(guildRow.dropItem !== ''){
+                    await this.app.query(`UPDATE guildInfo SET dropItem = '' WHERE guildId = ${guildId}`);
+                    await this.app.query(`UPDATE guildInfo SET dropItemChan = 0 WHERE guildId = ${guildId}`);
+
+                    await this.app.bot.createMessage(channelToDrop, '**The ' + this.app.itemdata[itemToDrop].icon + '`' + itemToDrop + '` was stolen!** Better luck next time...');
+                }
+            }, 120 * 1000);
 
             this.cancelAirdrop(guildId); // remove timer from timers array
             this.initAirdrop(guildId); // start another airdrop countdown

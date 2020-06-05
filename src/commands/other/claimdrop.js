@@ -20,7 +20,7 @@ module.exports = {
             return message.reply('There is no ' + app.itemdata['care_package'].icon + '`care_package` in this channel.');
         }
         
-        if(guildRow.dropItem == ''){
+        if(guildRow.dropItem === ''){
             return message.reply('There is no lootable ' + app.itemdata['care_package'].icon + '`care_package`.');
         }
         
