@@ -30,7 +30,7 @@ class Player {
         const newPlayer = new this.app.Embed()
         .setTitle('Thanks for joining Lootcord!')
         .setColor(13215302)
-        .setDescription('Make sure to follow the [rules](https://lootcord.com/rules)!\n\nSupport server: https://discord.gg/apKSxuE\n\nFor more on using the bot check this [link](https://github.com/blobfysh/Lootcord/wiki)')
+        .setDescription('Make sure to follow the [rules](https://lootcord.com/rules)!\n\nSupport server: https://discord.gg/apKSxuE\n\nFor more on using the bot check these [guides](https://lootcord.com/guides)')
         .addField("Items Received", this.app.icons.plus + "1x " + this.app.itemdata['item_box'].icon + "`item_box`")
         .addField("Getting Started", `Open your ${this.app.itemdata['item_box'].icon}\`item_box\` by **using** it: \`t-use item_box\`\nYou can see every item you own with the \`inv\` command.\n\nAttack other players by **using** a weapon on them: \`t-use rock @user\`\n\nVarious stats are displayed on your \`profile\`!\n\n**Good luck and HAPPY LOOTING**`)
         .setFooter("This message will only be sent the first time your account is created.")

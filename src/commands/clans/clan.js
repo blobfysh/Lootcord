@@ -3,7 +3,7 @@ module.exports = {
     name: 'clan',
     aliases: ['clans'],
     description: 'The base command for everything to do with clans!',
-    long: 'The base command for all clan commands. For a detailed look at all the clan commands and how clans work check out: https://github.com/blobfysh/Lootcord/wiki/Clans.',
+    long: 'The base command for all clan commands. For a detailed look at all the clan commands and how clans work check out: https://lootcord.com/guides/clans.',
     args: {},
     examples: ["clan info mod squad"],
     ignoreHelp: true,

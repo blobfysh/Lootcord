@@ -53,7 +53,7 @@ module.exports = {
 
         const embed = new app.Embed()
         .setAuthor('Lootcord Commands', message.author.avatarURL)
-        .setDescription('**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'+ message.prefix + 'clan help`, or check this [link](https://github.com/blobfysh/Lootcord/wiki/Clans).')
+        .setDescription('**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'+ message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).')
         .setFooter(`To see more about a command, use ${message.prefix}help <command>`)
         .setColor(13215302)
 
