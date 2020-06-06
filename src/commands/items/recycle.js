@@ -29,7 +29,7 @@ module.exports = {
             .setDescription(app.itm.getDisplay(itemMats).join('\n'))
             .setColor('#4CAD4C')
             .setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/601373249753841665/recycle.png")
-            .setFooter("You will need " + app.itm.getTotalItmCountFromList(itemMats) + " open slots in your inventory to recycle this.")
+            .setFooter("You will need " + (app.itm.getTotalItmCountFromList(itemMats) - sellAmount) + " open slots in your inventory to recycle this.")
             
             const botMessage = await message.channel.createMessage({content: `<@${message.author.id}>`, embed : embedInfo.embed});
 
@@ -44,7 +44,7 @@ module.exports = {
                         return botMessage.edit(embedInfo);
                     } 
                         
-                    if(!await app.itm.hasSpace(message.author.id, app.itm.getTotalItmCountFromList(itemMats))){
+                    if(!await app.itm.hasSpace(message.author.id, app.itm.getTotalItmCountFromList(itemMats) - sellAmount)){
                         embedInfo.setColor(16734296)
                         embedInfo.setTitle('Failed to Recycle!')
                         embedInfo.setDescription(`❌ **You don't have enough space in your inventory!**\nYou can clear up space by selling some items.`);
