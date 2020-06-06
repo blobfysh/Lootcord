@@ -6,7 +6,7 @@ class Airdrop {
     }
 
     initAirdrop(guildId){
-        let rand = Math.round(Math.random() * (10 * 1000)) + (120 * 1000); // Generate random time from 4 - 8 hours 14400
+        let rand = Math.round(Math.random() * (14400 * 1000)) + (14400 * 1000); // Generate random time from 4 - 8 hours 14400
         console.log(`[AIRDROP] Counting down from ${this.app.cd.convertTime(rand)}`);
 
         let timeObj = {guild: guildId, started: Date.now(), length: rand, timer: setTimeout(() => {
@@ -21,7 +21,7 @@ class Airdrop {
             const activeRow = await this.app.query(`SELECT * FROM userGuilds WHERE guildId = ${guildId}`);
             
             // less than 5 active players in guild, cancel the airdrop
-            if(Object.keys(activeRow).length < 2){
+            if(Object.keys(activeRow).length < 5){
                 this.app.query(`UPDATE guildInfo SET dropChan = 0 WHERE guildId ='${guildId}'`);
                 this.cancelAirdrop(guildId);
                 return;

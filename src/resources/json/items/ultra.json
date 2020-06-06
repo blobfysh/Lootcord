@@ -49,15 +49,7 @@
         "ammo": [
             "plasma"
         ],
-        "craftedWith": {
-            "display": "23x module\n3x steel\n2x fiber_optics\n1x screw",
-            "materials": [
-                "module|23",
-                "steel|3",
-                "fiber_optics|2",
-                "screw|1"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": {
             "display": "5x module\n2x fiber_optics",
             "materials": [
@@ -91,16 +83,7 @@
         "ammo": [
             "plasma"
         ],
-        "craftedWith": {
-            "display": "20x module\n3x fiber_optics\n2x steel\n2x adhesive\n1x screw",
-            "materials": [
-                "module|20",
-                "fiber_optics|3",
-                "steel|2",
-                "adhesive|2",
-                "screw|1"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": {
             "display": "1x module\n3x fiber_optics",
             "materials": [
