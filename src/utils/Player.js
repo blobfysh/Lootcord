@@ -242,7 +242,7 @@ class Player {
                     if(guildRow.levelChan !== undefined && guildRow.levelChan !== "" && guildRow.levelChan !== 0){
                         try{
                             await this.app.bot.createMessage(guildRow.levelChan, {
-                                content: `**${message.author.username}** leveled up!\n**Item received:** ${levelItem}`
+                                content: `<@${message.author.id}> leveled up!\n**Item received:** ${levelItem}`
                             }, {
                                 file: lvlUpImage,
                                 name: 'userLvl.jpeg'

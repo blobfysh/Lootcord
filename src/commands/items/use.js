@@ -768,13 +768,20 @@ function logKill(app, killer, victim, item, ammo, damage, moneyStolen, itemsLost
 }
 
 function generateAttackString(app, message, victim, victimRow, damage, itemUsed, ammoUsed, itemBroke, killed){
-    let finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
-    .replace('{victim}', `<@${victim.id}>`)
-    .replace('{weaponIcon}', app.itemdata[itemUsed].icon)
-    .replace('{weapon}', itemUsed)
-    .replace('{ammoIcon}', ammoUsed ? app.itemdata[ammoUsed].icon : '')
-    .replace('{ammo}', ammoUsed)
-    .replace('{damage}', damage);
+    let finalStr;
+
+    if(ammoUsed && itemUsed === 'bat'){
+        finalStr = `**ITS A GRAND SLAM!** <@${message.author.id}> fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` directly at <@${victim.id}>'s face using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`. **${damage}** damage dealt!`
+    }
+    else{
+        finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
+        .replace('{victim}', `<@${victim.id}>`)
+        .replace('{weaponIcon}', app.itemdata[itemUsed].icon)
+        .replace('{weapon}', itemUsed)
+        .replace('{ammoIcon}', ammoUsed ? app.itemdata[ammoUsed].icon : '')
+        .replace('{ammo}', ammoUsed)
+        .replace('{damage}', damage);
+    }
 
     if(killed){
         finalStr += `\n${app.icons.death_skull} **${victim.nick || victim.username} DIED!**`
@@ -800,13 +807,20 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
 
 function generateAttackMobString(app, message, monsterRow, damage, itemUsed, ammoUsed, itemBroke, killed, moneyStolen){
     const monster = app.mobdata[monsterRow.monster];
-    let finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
-    .replace('{victim}', `the **${monster.title}**`)
-    .replace('{weaponIcon}', app.itemdata[itemUsed].icon)
-    .replace('{weapon}', itemUsed)
-    .replace('{ammoIcon}', ammoUsed ? app.itemdata[ammoUsed].icon : '')
-    .replace('{ammo}', ammoUsed)
-    .replace('{damage}', damage);
+    let finalStr;
+
+    if(ammoUsed && itemUsed === 'bat'){
+        finalStr = `**ITS A GRAND SLAM!** <@${message.author.id}> fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` directly at the **${monster.title}**'s face using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`. **${damage}** damage dealt!`
+    }
+    else{
+        finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
+        .replace('{victim}', `the **${monster.title}**`)
+        .replace('{weaponIcon}', app.itemdata[itemUsed].icon)
+        .replace('{weapon}', itemUsed)
+        .replace('{ammoIcon}', ammoUsed ? app.itemdata[ammoUsed].icon : '')
+        .replace('{ammo}', ammoUsed)
+        .replace('{damage}', damage);
+    }
 
     if(killed){
         finalStr += `\n${app.icons.death_skull} **The ${monster.title} DIED!**`

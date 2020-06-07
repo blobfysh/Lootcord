@@ -77,7 +77,7 @@ class Server {
     async _getPatrons(req, res){
         if(this.config.serverAuth !== req.headers.authorization) return res.status(403).send('Unauthorized');
 
-        const patrons = await this.cache.get('tier3Patrons');
+        const patrons = await this.cache.get('patronsCache');
 
         if(!patrons) return res.status(200).send(undefined);
 

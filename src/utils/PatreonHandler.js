@@ -303,7 +303,7 @@ class PatreonHandler {
     }
 
     async getPatrons(minTier){
-        const patronRows  = await this.app.query('SELECT * FROM patrons WHERE tier >= ?', minTier);
+        const patronRows  = await this.app.query('SELECT * FROM patrons WHERE tier >= ?', [minTier]);
 
         let patrons = {};
 

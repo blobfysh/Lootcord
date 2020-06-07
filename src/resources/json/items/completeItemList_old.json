@@ -2471,6 +2471,39 @@
         "cooldown": "",
         "artist": ""
     },
+    "module_bundle": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "5x module",
+            "materials": [
+                "module|5"
+            ]
+        },
+        "recyclesTo": {
+            "display": "5x module",
+            "materials": [
+                "module|5"
+            ]
+        },
+        "buy": "",
+        "sell": 14190,
+        "desc": "Bundle of 5 `module`'s. Good for saving inventory space!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132477627301938/module.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965905288790066/module.png",
+        "icon": "<:L_material:601369664429228043>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": ""
+    },
     "supply_signal": {
         "rarity": "Legendary",
         "isWeap": false,
