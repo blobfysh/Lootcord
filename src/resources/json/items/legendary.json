@@ -346,7 +346,7 @@
         "cooldown": {
             "seconds": 4800
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": ""
     },
     "reroll_scroll": {

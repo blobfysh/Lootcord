@@ -524,7 +524,7 @@
         "cooldown": {
             "seconds": 1244
         },
-        "phrase": "**ITS A GRAND SLAM!** {attacker} fires a {ammoIcon}`{ammo}` directly at {victim}'s face using a {weaponIcon}`{weapon}`. **{damage}** damage dealt!",
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
         "artist": ""
     },
     "golf_club": {

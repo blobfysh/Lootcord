@@ -237,7 +237,7 @@
         "cooldown": {
             "seconds": 1568
         },
-        "phrase": "{attacker} uses a {weaponIcon}`{weapon}` on {victim} dealing **${damage}** damage!",
+        "phrase": "{attacker} uses a {weaponIcon}`{weapon}` on {victim} dealing **{damage}** damage!",
         "artist": ""
     },
     "health_pot": {

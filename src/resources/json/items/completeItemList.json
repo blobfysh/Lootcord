@@ -434,7 +434,7 @@
         "cooldown": {
             "seconds": 1123
         },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": ""
     },
     "9mm_fmj": {
@@ -524,7 +524,7 @@
         "cooldown": {
             "seconds": 1244
         },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": ""
     },
     "golf_club": {
@@ -548,7 +548,7 @@
         "cooldown": {
             "seconds": 1141
         },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "221087115893669889"
     },
     "bow": {
@@ -1022,7 +1022,7 @@
         "cooldown": {
             "seconds": 1568
         },
-        "phrase": "{attacker} uses a {weaponIcon}`{weapon}` on {victim} dealing **${damage}** damage!",
+        "phrase": "{attacker} uses a {weaponIcon}`{weapon}` on {victim} dealing **{damage}** damage!",
         "artist": ""
     },
     "health_pot": {
@@ -2397,7 +2397,7 @@
         "cooldown": {
             "seconds": 4800
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": ""
     },
     "reroll_scroll": {
@@ -2810,7 +2810,7 @@
         "cooldown": {
             "seconds": 2700
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": ""
     },
     "snowball": {
@@ -2834,7 +2834,7 @@
         "cooldown": {
             "seconds": 2700
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": ""
     },
     "nutcracker": {
@@ -2858,7 +2858,7 @@
         "cooldown": {
             "seconds": 2700
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": ""
     },
     "mittens": {
@@ -3028,7 +3028,7 @@
             "scoreRow": "_30mCD",
             "seconds": 1800
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": ""
     },
     "carrot": {
@@ -3134,7 +3134,7 @@
             "scoreRow": "_30mCD",
             "seconds": 1800
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": ""
     },
     "apple": {
@@ -3244,7 +3244,7 @@
             "scoreRow": "_15mCD",
             "seconds": 900
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": ""
     },
     "scythe": {
@@ -3270,7 +3270,7 @@
             "scoreRow": "_30mCD",
             "seconds": 1800
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": ""
     },
     "magic_staff": {
@@ -3296,7 +3296,7 @@
             "scoreRow": "_60mCD",
             "seconds": 3600
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **${damage}** damage!",
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": ""
     },
     "candy_pail": {
