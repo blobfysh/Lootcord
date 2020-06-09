@@ -82,10 +82,9 @@ async function getClanInfo(app, message, clanId){
     
     baseEmbed.addField('Founded', getShortDate(clanRow.clanCreated), true)
     baseEmbed.addBlankField()    
-    baseEmbed.addField(`Bank (Interest Rate: \`${((clanMembers.count * app.config.clanInterestRate) * 100).toFixed(1)}%\`)`, app.common.formatNumber(clanRow.money) + ' / 10,000,000 max')
-    
-    baseEmbed.addField(`Members (${clanMembers.count})`, app.icons.loading + ' Loading members...', true)
+    baseEmbed.addField(`Bank (Interest Rate: \`${((clanMembers.count * app.config.clanInterestRate) * 100).toFixed(1)}%\`)`, app.common.formatNumber(clanRow.money) + ' / 10,000,000 max', true)
     baseEmbed.addField('Member Stats', `${clanPower.kills + ' kills | ' + clanPower.deaths + ' deaths'}\n${app.cd.convertTime(clanPower.playtime)} of total playtime`, true)
+    baseEmbed.addField(`Members (${clanMembers.count})`, app.icons.loading + ' Loading members...')
     
     const loadingMsg = await message.channel.createMessage(baseEmbed);
 
@@ -110,11 +109,9 @@ async function getClanInfo(app, message, clanId){
 
     membersRanksList.sort(function(a, b){return b[1] - a[1]}); // Sort clan members by rank.
 
-    baseEmbed.embed.fields.pop();
-    baseEmbed.embed.fields.pop();
+    baseEmbed.embed.fields.pop(); // remove members field
 
-    baseEmbed.addField(`Members (${clanMembers.count})`, membersRanksList.map(member => member[0]).join('\n'), true)
-    baseEmbed.addField('Member Stats', `${clanPower.kills + ' kills | ' + clanPower.deaths + ' deaths'}\n${app.cd.convertTime(clanPower.playtime)} of total playtime`, true)
+    baseEmbed.addField(`Members (${clanMembers.count})`, membersRanksList.map(member => member[0]).join('\n'))
 
     setTimeout(() => {
         loadingMsg.edit(baseEmbed);
