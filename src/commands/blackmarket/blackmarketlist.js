@@ -52,7 +52,7 @@ module.exports = {
             .setTitle('List an item on the Black Market')
             .addField('Item:', app.itemdata[itemName].icon + '`' + itemName + '`')
             .addField('Quantity:', itemAmnt)
-            .addField('Price:', itemCost)
+            .addField('Price:', app.common.formatNumber(itemCost))
             .setColor(13215302)
 
             let listingFee = Math.floor(itemCost * listing_fee);

@@ -313,7 +313,7 @@ class PatreonHandler {
                 
                 patrons[user.username + '#' + user.discriminator] = {
                     avatar: this.app.common.getAvatar(user),
-                    tier: patronsRows[i].tier
+                    tier: patronRows[i].tier
                 };
             }
             catch(err){
