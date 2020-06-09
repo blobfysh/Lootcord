@@ -50,7 +50,7 @@ class Airdrop {
             const dropEmbed = new this.app.Embed()
             .setDescription(`**A ${this.app.itemdata[itemToDrop].icon}\`${itemToDrop}\` has arrived!**\n\nUse \`${guildPrefix}claimdrop\` to claim it.`)
             .setImage(this.app.itemdata[itemToDrop].image)
-            .setFooter('You have 2 minutes to claim this drop.')
+            .setFooter('You have 10 minutes to claim this drop.')
             .setColor(13215302)
             
             await this.app.bot.createMessage(channelToDrop, dropEmbed);
@@ -66,7 +66,7 @@ class Airdrop {
 
                     await this.app.bot.createMessage(channelToDrop, '**The ' + this.app.itemdata[itemToDrop].icon + '`' + itemToDrop + '` was stolen!** Better luck next time...');
                 }
-            }, 120 * 1000);
+            }, 600 * 1000);
 
             this.cancelAirdrop(guildId); // remove timer from timers array
             this.initAirdrop(guildId); // start another airdrop countdown
