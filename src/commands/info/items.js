@@ -1,3 +1,4 @@
+const { RARITIES } = require('../../resources/constants');
 
 module.exports = {
     name: 'items',
@@ -29,22 +30,10 @@ module.exports = {
             let itemCraftedWith = app.itemdata[itemSearched].craftedWith;
             let itemCooldown = app.itemdata[itemSearched].cooldown;
             let isBound = app.itemdata[itemSearched].canBeStolen;
-            let itemRarityColor = 0;
-
-            switch(itemRarity){
-                case 'Ultra': itemRarityColor = '#EC402C'; break;
-                case 'Legendary': itemRarityColor = 13215302; break
-                case 'Limited': itemRarityColor = '#EA5A2A'; break
-                case 'Epic': itemRarityColor = '#7251E6'; break;
-                case 'Rare': itemRarityColor = '#325AD7'; break;
-                case 'Uncommon': itemRarityColor = '#429642'; break;
-                default:
-                    itemRarityColor = '#818181';
-            }
             
             const embedItem = new app.Embed()
             .setTitle(`${app.itemdata[itemSearched].icon} ${itemSearched}`)
-            .setColor(itemRarityColor)
+            .setColor(RARITIES[itemRarity.toLowerCase()].color)
             if(app.itemdata[itemSearched].isBanner){
                 embedItem.setImage(itemImg);
                 embedItem.setColor(app.itemdata[itemSearched].bannerColor)
@@ -98,7 +87,7 @@ module.exports = {
                 embedItem.setDescription(itemInfo);
             }
 
-            embedItem.addField("***Rarity***", itemRarity)
+            embedItem.addField("Rarity", RARITIES[itemRarity.toLowerCase()].name)
             
             if(itemCooldown !== ""){
                 embedItem.addField("Cooldown", "`" + app.cd.convertTime(itemCooldown.seconds * 1000) + "`", true)

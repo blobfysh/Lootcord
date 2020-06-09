@@ -1,3 +1,4 @@
+const { RARITIES } = require('../../resources/constants');
 
 module.exports = {
     name: 'getinv',
@@ -69,31 +70,31 @@ module.exports = {
 
             // item fields
             if(ultraItemList != ""){
-                embedInfo.addField("Ultra", ultraItemList.join('\n'), true);
+                embedInfo.addField(RARITIES['ultra'].name, ultraItemList.join('\n'), true);
             }
             
             if(legendItemList != ""){
-                embedInfo.addField("Legendary", legendItemList.join('\n'), true);
+                embedInfo.addField(RARITIES['legendary'].name, legendItemList.join('\n'), true);
             }
             
             if(epicItemList != ""){
-                embedInfo.addField("Epic", epicItemList.join('\n'), true);
+                embedInfo.addField(RARITIES['epic'].name, epicItemList.join('\n'), true);
             }
             
             if(rareItemList != ""){
-                embedInfo.addField("Rare", rareItemList.join('\n'), true);
+                embedInfo.addField(RARITIES['rare'].name, rareItemList.join('\n'), true);
             }
             
             if(uncommonItemList != ""){
-                embedInfo.addField("Uncommon", uncommonItemList.join('\n'), true);
+                embedInfo.addField(RARITIES['uncommon'].name, uncommonItemList.join('\n'), true);
             }
             
             if(commonItemList != ""){
-                embedInfo.addField("Common", commonItemList.join('\n'), true);
+                embedInfo.addField(RARITIES['common'].name, commonItemList.join('\n'), true);
             }
             
             if(limitedItemList != ""){
-                embedInfo.addField("Limited", limitedItemList.join('\n'), true);
+                embedInfo.addField(RARITIES['limited'].name, limitedItemList.join('\n'), true);
             }
             
             if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){

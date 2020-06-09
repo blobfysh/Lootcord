@@ -1,4 +1,4 @@
-const VALID_OPTIONS = ['common', 'uncommon', 'rare', 'epic', 'legendary', 'ultra', 'limited'];
+const { RARITIES } = require('../../resources/constants');
 
 module.exports = {
     name: 'sellall',
@@ -15,7 +15,7 @@ module.exports = {
     async execute(app, message){
         let sellItem = message.args[0] || '';
 
-        if(VALID_OPTIONS.includes(sellItem.toLowerCase())){
+        if(Object.keys(RARITIES).includes(sellItem.toLowerCase())){
             let commonTotal = 0;
             let totalAmount = 0;
             
@@ -40,7 +40,11 @@ module.exports = {
                 return message.reply("❌ You don't have any items of that quality.");
             }
 
-            const botMessage = await message.reply(`Sell ${totalAmount}x \`${sellItem.toLowerCase()}\` items for ${app.common.formatNumber(commonTotal)}?`);
+            const sellallEmbed = new app.Embed()
+            .setDescription(`Sell ${totalAmount}x ${RARITIES[sellItem.toLowerCase()].name} items for ${app.common.formatNumber(commonTotal)}?`)
+            .setColor(RARITIES[sellItem.toLowerCase()].color)
+
+            const botMessage = await message.channel.createMessage({content: '<@' + message.author.id + '>', embed: sellallEmbed.embed});
             try{
                 const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
 
@@ -65,10 +69,12 @@ module.exports = {
                         }
                         await app.player.addMoney(message.author.id, parseInt(commonTotal));
 
-                        botMessage.edit(`Successfully sold all ${sellItem.toLowerCase()} items.\n\nYou now have ${app.common.formatNumber(row.money + commonTotal)}.`);
+                        sellallEmbed.setDescription(`Successfully sold all ${RARITIES[sellItem.toLowerCase()].name} quality items.\n\nYou now have ${app.common.formatNumber(row.money + commonTotal)}.`);
+                        botMessage.edit(sellallEmbed);
                     }
                     else{
-                        botMessage.edit('❌ Sellall failed. Your inventory was altered during the sale.');
+                        sellallEmbed.setDescription('❌ Sellall failed. Your inventory was altered during the sale.');
+                        botMessage.edit(sellallEmbed);
                     }
                 }
                 else{
@@ -76,7 +82,8 @@ module.exports = {
                 }
             }
             catch(err){
-                botMessage.edit("You didn't react in time.");
+                sellallEmbed.setDescription('❌ Command timed out.');
+                botMessage.edit(sellallEmbed);
             }
         }
         else if(sellItem == ''){

@@ -1,3 +1,4 @@
+const { RARITIES } = require('../../resources/constants');
 const RANDOM_SELECTION_MINIMUM = 8; // # of active players required for an attack menu to show when using random
 
 module.exports = {
@@ -60,16 +61,16 @@ module.exports = {
                 }
 
                 const embedInfo = new app.Embed()
+                .setColor(RARITIES[app.itemdata[bestItem[0]].rarity.toLowerCase()].color)
                 
                 switch(app.itemdata[bestItem[0]].rarity){
-                    case 'Ultra': embedInfo.setColor('#EC402C');rarityStr = 'an ***U L T R A*** '; break;
-                    case 'Legendary': embedInfo.setColor(13215302);rarityStr = 'a ***LEGENDARY*** '; break
-                    case 'Limited': embedInfo.setColor('#EA5A2A');rarityStr = 'a *Limited* '; break
-                    case 'Epic': embedInfo.setColor('#7251E6');rarityStr = 'an ***EPIC*** '; break;
-                    case 'Rare': embedInfo.setColor('#325AD7');rarityStr = 'a ***Rare*** '; break;
-                    case 'Uncommon': embedInfo.setColor('#429642');rarityStr = 'an *Uncommon* '; break;
-                    default:
-                        embedInfo.setColor('#818181');rarityStr = 'a *Common* ';
+                    case 'Ultra': rarityStr = `an ${RARITIES['ultra'].name} `; break;
+                    case 'Legendary': rarityStr = `a ${RARITIES['legendary'].name} `; break
+                    case 'Limited': rarityStr = `a ${RARITIES['limited'].name} `; break
+                    case 'Epic': rarityStr = `an ${RARITIES['epic'].name} `; break;
+                    case 'Rare': rarityStr = `a ${RARITIES['rare'].name} `; break;
+                    case 'Uncommon': rarityStr = `an ${RARITIES['uncommon'].name} `; break;
+                    default: rarityStr = `a ${RARITIES['common'].name} `;
                 }
                 
                 if(amount === 1){
