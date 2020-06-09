@@ -87,18 +87,6 @@ async function startJackpot(app, message, gambleAmount){
         }, 115000)
 
         setTimeout(() => {
-            message.channel.createMessage(`⏱ **Jackpot ends in... 4**`);
-        }, 116000)
-
-        setTimeout(() => {
-            message.channel.createMessage(`⏱ **Jackpot ends in... 3**`);
-        }, 117000)
-        
-        setTimeout(() => {
-            message.channel.createMessage(`⏱ **Jackpot ends in... 2**`);
-        }, 118000)
-
-        setTimeout(() => {
             message.channel.createMessage(`And the winner is...`);
         }, 119000)
 

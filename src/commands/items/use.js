@@ -532,7 +532,7 @@ module.exports = {
                     .setTitle('Loot Received')
                     .setDescription("Money: " + app.common.formatNumber(moneyStolen) + "\nExperience: `" + xpGained + "xp`")
                     .setColor(7274496)
-                    .addField("Items", randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
+                    .addField("Items (" + randomItems.items.length + ")", randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
                     
                     message.channel.createMessage({
                         content: await generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, true), 
@@ -687,7 +687,7 @@ module.exports = {
                     .setTitle('Loot Received')
                     .setDescription("Money: " + app.common.formatNumber(moneyStolen) + "\nExperience: `" + xpGained + "xp`")
                     .setColor(7274496)
-                    .addField("Items", randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
+                    .addField("Items (" + randomItems.items.length + ")", randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
                     
                     message.channel.createMessage({
                         content: await generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, true), 
