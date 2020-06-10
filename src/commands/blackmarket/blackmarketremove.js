@@ -15,6 +15,7 @@ module.exports = {
     async execute(app, message){
         if(shortid.isValid(message.args[0])){
             const listing = await app.bm.getListingInfo(message.args[0]);
+            const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), await app.player.getRow(message.author.id));
 
             if(!listing){
                 message.reply('I could not find a listing with that ID. You can check your listings and their IDs with `bmlistings`');
@@ -22,8 +23,8 @@ module.exports = {
             else if(listing.sellerId !== message.author.id){
                 message.reply('You do not own that listing! You can check your listings and their IDs with `bmlistings`');
             }
-            else if(!await app.itm.hasSpace(message.author.id, listing.amount)){
-                message.reply('Not enough inventory space');
+            else if(!await app.itm.hasSpace(itemCt, listing.amount)){
+                message.reply(`❌ **You don't have enough space in your inventory!** (You need **${listing.amount}** open slot${listing.amount > 1 ? 's': ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`);
             }
             else{
                 await app.query(`DELETE FROM blackmarket WHERE listingId = '${listing.listingId}'`);

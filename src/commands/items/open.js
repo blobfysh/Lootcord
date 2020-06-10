@@ -22,15 +22,16 @@ module.exports = {
         }
         else if(['item_box', 'ultra_box', 'candy_pail', 'present', 'care_package'].includes(item)){
             const userItems = await app.itm.getItemObject(message.author.id);
+            const itemCt = await app.itm.getItemCount(userItems, row);
             if(amount > 10) amount = 10;
 
-            if(!await app.itm.hasItems(message.author.id, item, amount)){
+            if(!await app.itm.hasItems(userItems, item, amount)){
                 return message.reply(`❌ You don't have enough of that item! You have **${userItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\``);
             }
 
             // open box
-            if(!await app.itm.hasSpace(message.author.id)){
-                return message.reply("❌ **You don't have enough space in your inventory!** You can clear up space by selling some items.");
+            if(!await app.itm.hasSpace(itemCt)){
+                return message.reply(`❌ **You don't have enough space in your inventory!** (You have **${itemCt.open}** open slots)\n\nYou can clear up space by selling some items.`);
             }
 
             await app.itm.removeItem(message.author.id, item, amount);

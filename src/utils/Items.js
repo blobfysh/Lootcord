@@ -57,13 +57,11 @@ class Items {
 
     /**
      * 
-     * @param {*} id ID of user to check.
+     * @param {*} userItems User's item object.
      * @param {*} item   Item to check user has, can be an array ex.(["awp|1","glock|2"])
      * @param {*} amount Amount of item check for.
      */
-    async hasItems(id, item, amount){
-        const userItems = await this.getItemObject(id);
-
+    async hasItems(userItems, item, amount){
         if(Array.isArray(item)){
             if(item.length == 0){
                 return true;
@@ -93,12 +91,10 @@ class Items {
 
     /**
      * 
-     * @param {string} id ID of user to check
+     * @param {*} itemCt Object containing the user's item count.
      * @param {number} amount Amount of items to check if user has space for
      */
-    async hasSpace(id, amount = 0){
-        const itemCt = await this.getItemCount(await this.getItemObject(id), await this.app.player.getRow(id));
-        
+    async hasSpace(itemCt, amount = 0){
         console.log((itemCt.itemCt + parseInt(amount)) + " <= " + itemCt.maxCt);
 
         if((itemCt.itemCt + parseInt(amount)) <= itemCt.maxCt) return true;
@@ -128,6 +124,7 @@ class Items {
         return {
             itemCt: totalItemCt,
             maxCt: (this.app.config.baseInvSlots + userRow.inv_slots),
+            open: Math.max(0, (this.app.config.baseInvSlots + userRow.inv_slots) - totalItemCt),
             capacity: (totalItemCt + " / " + (this.app.config.baseInvSlots + userRow.inv_slots))
         }
     }

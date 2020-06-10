@@ -18,18 +18,20 @@ module.exports = {
             return message.reply(`You need to wait \`${scrambleCD}\` before playing another game of scramble.`);
         }
 
+        const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), await app.player.getRow(message.author.id));
         let option = message.args[0] ? message.args[0].toLowerCase() : undefined;
         let scrambleJSONlength = Object.keys(app.scramble_words).length
         let chance = Math.floor(Math.random() * scrambleJSONlength); //returns value 0 between 32 (1 of 10)
         let scrambleWord = app.scramble_words[chance].word;  //json data word to scramble
         let scrambleDifficulty = app.scramble_words[chance].difficulty;
         let scrambleHint = app.scramble_words[chance].define;
-        if(Math.random() <= .7){
-            scrambleHint = app.scramble_words[chance].hint;
-        }
         let finalWord = scrambleWord.toLowerCase(); //final word to check if user got correct
         let chanceR = Math.random(); //returns 0-9 (10% chance)
         let reward = {};
+
+        if(Math.random() <= .7){
+            scrambleHint = app.scramble_words[chance].hint;
+        }
         
         if(!option || (option !== 'easy' && option !== 'hard')){
             return message.reply(`You need to choose a difficulty \`${message.prefix}scramble easy/hard\`\nEasy: Hint but less reward\nHard: Better reward, no hint`);
@@ -41,7 +43,7 @@ module.exports = {
         if(option === "easy"){
             embedScramble.setDescription("**Hint:** " + scrambleHint + "\nWord: ```fix\n" + (shuffleWordNoDupe(scrambleWord))+"```");
             if(scrambleDifficulty == "hard"){
-                const hasEnough = await app.itm.hasSpace(message.author.id, 2);
+                const hasEnough = await app.itm.hasSpace(itemCt, 2);
 
                 if((chanceR < .5) && hasEnough){
                     reward.display = app.itemdata['item_box'].icon + "`item_box`";
@@ -55,7 +57,7 @@ module.exports = {
                 }
             }
             else if(scrambleDifficulty == "medium"){
-                const hasEnough = await app.itm.hasSpace(message.author.id, 1);
+                const hasEnough = await app.itm.hasSpace(itemCt, 1);
                             
                 if((chanceR < .5) && hasEnough){
                     reward.display = app.itemdata['item_box'].icon + "`item_box`";
@@ -69,7 +71,7 @@ module.exports = {
                 }
             }
             else{
-                const hasEnough = await app.itm.hasSpace(message.author.id, 1);
+                const hasEnough = await app.itm.hasSpace(itemCt, 1);
                             
                 if(hasEnough){
                     reward.display = app.itemdata['item_box'].icon + "`item_box`";
@@ -87,7 +89,7 @@ module.exports = {
             embedScramble.setDescription("Word: ```fix\n" + shuffleWordNoDupe(scrambleWord.toLowerCase())+"```");
             
             if(scrambleDifficulty == "hard"){
-                const hasEnough = await app.itm.hasSpace(message.author.id, 1);
+                const hasEnough = await app.itm.hasSpace(itemCt, 1);
 
                 if((chanceR < .5) && hasEnough){
                     reward.display = app.itemdata['ultra_box'].icon + "`ultra_box`";
@@ -101,7 +103,7 @@ module.exports = {
                 }
             }
             else if(scrambleDifficulty == "medium"){
-                const hasEnough = await app.itm.hasSpace(message.author.id, 2);
+                const hasEnough = await app.itm.hasSpace(itemCt, 2);
 
                 if((chanceR < .5) && hasEnough){
                     reward.display = `2x ${app.itemdata['item_box'].icon}\`item_box\``
@@ -115,7 +117,7 @@ module.exports = {
                 }
             }
             else{
-                const hasEnough = await app.itm.hasSpace(message.author.id, 2);
+                const hasEnough = await app.itm.hasSpace(itemCt, 2);
 
                 if((chanceR < .5) && hasEnough){
                     reward.display = `2x ${app.itemdata['item_box'].icon}\`item_box\``

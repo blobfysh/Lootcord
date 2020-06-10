@@ -17,7 +17,8 @@ module.exports = {
 
         if(equipItem && app.itemdata[equipItem].equippable){
             const userRow = await app.player.getRow(message.author.id);
-            const hasPack = await app.itm.hasItems(message.author.id, equipItem, 1);
+            const userItems = await app.itm.getItemObject(message.author.id);
+            const hasPack = await app.itm.hasItems(userItems, equipItem, 1);
 
             if(hasPack){
                 if(app.itemdata[equipItem].type == "backpack"){
@@ -57,7 +58,7 @@ module.exports = {
                 }
             }
             else{
-                message.reply(`❌ You don't have that item.`);
+                message.reply(`❌ You don't have a ${app.itemdata[equipItem].icon}\`${equipItem}\`.`);
             }
         }
         else if(equipBadge){

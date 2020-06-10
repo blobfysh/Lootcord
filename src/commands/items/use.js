@@ -28,22 +28,23 @@ module.exports = {
         }
         else if(app.itemdata[item].isItem){
             const userItems = await app.itm.getItemObject(message.author.id);
+            const itemCt = await app.itm.getItemCount(userItems, row);
             if(amount > 10) amount = 10;
 
             if(!userItems[item]){
                 return message.reply(`❌ You don't have a ${app.itemdata[item].icon}\`${item}\`!`);
             }
             else if(item === 'c4' && userItems[item] < 1){
-                return message.reply(`❌ You don't have enough of that item! You have **${userItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\``);
+                return message.reply(`❌ You don't have enough of that item! You have **${userItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\`.`);
             }
             else if(item !== 'c4' && userItems[item] < amount){
-                return message.reply(`❌ You don't have enough of that item! You have **${userItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\``);
+                return message.reply(`❌ You don't have enough of that item! You have **${userItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\`.`);
             }
 
             if(['item_box', 'ultra_box', 'candy_pail', 'present', 'care_package'].includes(item)){
                 // open box
-                if(!await app.itm.hasSpace(message.author.id)){
-                    return message.reply("❌ **You don't have enough space in your inventory!** You can clear up space by selling some items.");
+                if(!await app.itm.hasSpace(itemCt)){
+                    return message.reply(`❌ **You don't have enough space in your inventory!** (You have **${itemCt.open}** open slots)\n\nYou can clear up space by selling some items.`);
                 }
 
                 await app.itm.removeItem(message.author.id, item, amount);
@@ -256,8 +257,8 @@ module.exports = {
             const shieldCD = await app.cd.getCD(message.author.id, 'shield');
             // item is a weapon, start checking for member
             
-            if(!await app.itm.hasItems(message.author.id, item, 1)){
-                return message.reply(`❌ You don't have that weapon.`);
+            if(!await app.itm.hasItems(userItems, item, 1)){
+                return message.reply(`❌ You don't have a ${app.itemdata[item].icon}\`${item}\`.`);
             }
             else if(attackCD){
                 return message.reply(`❌ You need to wait \`${attackCD}\` before attacking again.`);

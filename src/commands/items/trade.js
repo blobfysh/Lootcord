@@ -204,7 +204,7 @@ module.exports = {
                             if(listHasItem(player1Items, item)){
                                 return m.channel.createMessage('❌ That item is already in the trade.');
                             }
-                            if(!await app.itm.hasItems(m.author.id, item, amount)){
+                            if(!await app.itm.hasItems(await app.itm.getItemObject(m.author.id), item, amount)){
                                 return m.channel.createMessage('❌ You don\'t have enough of that item.');
                             }
 
@@ -214,7 +214,7 @@ module.exports = {
                             if(listHasItem(player2Items, item)){
                                 return m.channel.createMessage('❌ That item is already in the trade.');
                             }
-                            if(!await app.itm.hasItems(m.author.id, item, amount)){
+                            if(!await app.itm.hasItems(await app.itm.getItemObject(m.author.id), item, amount)){
                                 return m.channel.createMessage('❌ You don\'t have enough of that item.');
                             }
 
@@ -335,11 +335,16 @@ async function tradeItems(app, player1, player1Money, player1Items, player2, pla
     if(!await app.player.hasMoney(player1.id, player1Money)) throw {player: player1, msg: 'does not have the money they wanted to trade.'};
     if(!await app.player.hasMoney(player2.id, player2Money)) throw {player: player2, msg: 'does not have the money they wanted to trade.'};
 
-    if(!await app.itm.hasItems(player1.id, player1Items)) throw {player: player1, msg: 'does not have the items they wanted to trade.'};
-    if(!await app.itm.hasItems(player2.id, player2Items)) throw {player: player2, msg: 'does not have the items they wanted to trade.'};
+    const player1ItemObj = await app.itm.getItemObject(player1.id);
+    const player2ItemObj = await app.itm.getItemObject(player2.id);
+    const player1ItemCt = await app.itm.getItemCount(player1ItemObj, await app.player.getRow(player1.id));
+    const player2ItemCt = await app.itm.getItemCount(player2ItemObj, await app.player.getRow(player2.id));
 
-    if(!await app.itm.hasSpace(player1.id, app.itm.getTotalItmCountFromList(player2Items) - app.itm.getTotalItmCountFromList(player1Items))) throw {player: player1, msg: 'does not have enough space in their inventory.'};
-    if(!await app.itm.hasSpace(player2.id, app.itm.getTotalItmCountFromList(player1Items) - app.itm.getTotalItmCountFromList(player2Items))) throw {player: player2, msg: 'does not have enough space in their inventory.'};
+    if(!await app.itm.hasItems(player1ItemObj, player1Items)) throw {player: player1, msg: 'does not have the items they wanted to trade.'};
+    if(!await app.itm.hasItems(player2ItemObj, player2Items)) throw {player: player2, msg: 'does not have the items they wanted to trade.'};
+
+    if(!await app.itm.hasSpace(player1ItemCt, app.itm.getTotalItmCountFromList(player2Items) - app.itm.getTotalItmCountFromList(player1Items))) throw {player: player1, msg: 'does not have enough space in their inventory.'};
+    if(!await app.itm.hasSpace(player2ItemCt, app.itm.getTotalItmCountFromList(player1Items) - app.itm.getTotalItmCountFromList(player2Items))) throw {player: player2, msg: 'does not have enough space in their inventory.'};
 
     await app.player.removeMoney(player1.id, player1Money);
     await app.player.removeMoney(player2.id, player2Money);

@@ -61,7 +61,6 @@ module.exports = {
                     }
                     
                     if(testTotalItems == totalAmount && testAmount == commonTotal){
-                        //VERIFIED
                         const row = await app.player.getRow(message.author.id);
 
                         for (var i = 0; i < itemsToCheck.length; i++) {

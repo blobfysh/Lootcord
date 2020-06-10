@@ -27,7 +27,9 @@ module.exports = {
         }
         else if(itemName && itemAmnt && itemCost){
             // skip listing process...
-            if(!await app.itm.hasItems(message.author.id, itemName, 1)){
+            const userItems = await app.itm.getItemObject(message.author.id);
+
+            if(!await app.itm.hasItems(userItems, itemName, 1)){
                 return message.reply('You don\'t have that item.');
             }
             else if(!app.itemdata[itemName].canBeStolen){
@@ -36,7 +38,7 @@ module.exports = {
             else if(itemAmnt >= 2147483647){
                 return message.reply('Please enter a lower value.');
             }
-            else if(!await app.itm.hasItems(message.author.id, itemName, itemAmnt)){
+            else if(!await app.itm.hasItems(userItems, itemName, itemAmnt)){
                 return message.reply('You don\'t have enough of that item.'); 
             }
             else if(itemCost >= 2147483647){
@@ -50,8 +52,8 @@ module.exports = {
             }
             const bmEmbed = new app.Embed()
             .setTitle('List an item on the Black Market')
-            .addField('Item:', app.itemdata[itemName].icon + '`' + itemName + '`')
-            .addField('Quantity:', itemAmnt)
+            .addField('Item:', app.itemdata[itemName].icon + '`' + itemName + '`', true)
+            .addField('Quantity:', itemAmnt, true)
             .addField('Price:', app.common.formatNumber(itemCost))
             .setColor(13215302)
 
@@ -65,7 +67,7 @@ module.exports = {
                     if(!await app.player.hasMoney(message.author.id, listingFee)){
                         return botMessage.edit({content: `Listing failed! You can't afford the ${app.common.formatNumber(listingFee)} fee.`, embed: null});
                     }
-                    else if(!await app.itm.hasItems(message.author.id, itemName, itemAmnt)){
+                    else if(!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), itemName, itemAmnt)){
                         return botMessage.edit({content: `Listing failed! You don't have **${itemAmnt}** \`${itemName}\`'s.`, embed: null});
                     }
                     await app.player.removeMoney(message.author.id, listingFee);
@@ -113,7 +115,7 @@ module.exports = {
                         return message.reply('Listing canceled.');
                     }
                     else if(newItem && !item){
-                        if(!await app.itm.hasItems(message.author.id, newItem, 1)){
+                        if(!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), newItem, 1)){
                             return m.channel.createMessage('You don\'t have that item.');
                         }
                         else if(!app.itemdata[newItem].canBeStolen){
@@ -135,7 +137,7 @@ module.exports = {
                         if(newAmnt >= 2147483647){
                             return m.channel.createMessage('Please enter a lower value.');
                         }
-                        else if(!await app.itm.hasItems(message.author.id, item, newAmnt)){
+                        else if(!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), item, newAmnt)){
                             return m.channel.createMessage('You don\'t have enough of that item.'); 
                         }
                         amount = newAmnt;
@@ -174,7 +176,7 @@ module.exports = {
                                 if(!await app.player.hasMoney(message.author.id, listingFee)){
                                     return botMessage.edit({content: `Listing failed! You can't afford the ${app.common.formatNumber(listingFee)} fee.`, embed: null});
                                 }
-                                else if(!await app.itm.hasItems(message.author.id, item, amount)){
+                                else if(!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), item, amount)){
                                     return botMessage.edit({content: `Listing failed! You don't have **${amount}** \`${item}\`'s.`, embed: null});
                                 }
                                 await app.player.removeMoney(message.author.id, listingFee);

@@ -48,13 +48,14 @@ module.exports = {
             return message.reply("❌ I don't recognize that item.");
         }
 
-        const hasItems = await app.itm.hasItems(scoreRow.clanId, itemName, itemAmnt);
         const clanItems = await app.itm.getItemObject(scoreRow.clanId);
+        const hasItems = await app.itm.hasItems(clanItems, itemName, itemAmnt);
 
-        if(!hasItems) return message.reply(`Your clan vault has **${clanItems[itemName] !== undefined ? clanItems[itemName] : 0}** ${app.itemdata[itemName].icon}\`${itemName}\`'s...`);
+        if(!hasItems) return message.reply(`Your clan vault has **${clanItems[itemName] !== undefined ? clanItems[itemName] + 'x' : '0'}** ${app.itemdata[itemName].icon}\`${itemName}\`${!clanItems[itemName] || clanItems[itemName] > 1 ? '\'s' : ''}...`);
 
-        const hasSpace = await app.itm.hasSpace(message.author.id, itemAmnt);
-        if(!hasSpace) return message.reply("❌ **You don't have enough space in your inventory!** You can clear up space by selling some items.");
+        const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), scoreRow);
+        const hasSpace = await app.itm.hasSpace(itemCt, itemAmnt);
+        if(!hasSpace) return message.reply(`❌ **You don't have enough space in your inventory!** (You need **${itemAmnt}** open slot${itemAmnt > 1 ? 's': ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`);
 
         await app.itm.removeItem(scoreRow.clanId, itemName, itemAmnt);
         await app.itm.addItem(message.author.id, itemName, itemAmnt);

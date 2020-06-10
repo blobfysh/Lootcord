@@ -16,11 +16,12 @@ module.exports = {
         let sellItem = app.parse.items(message.args)[0];
 
         if(sellItem){
-            const hasItems = await app.itm.hasItems(message.author.id, sellItem, sellAmount);
+            const userItems = await app.itm.getItemObject(message.author.id);
+            const hasItems = await app.itm.hasItems(userItems, sellItem, sellAmount);
             let itemPrice = app.itemdata[sellItem].sell;
             
             if(!hasItems){
-                return message.reply("❌ You don't have enough of that item!");
+                return message.reply(userItems[sellItem] ? `❌ You don't have enough of that item! You have **${userItems[sellItem]}x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.` : `❌ You don't have a ${app.itemdata[sellItem].icon}\`${sellItem}\`.`);
             }
             
             if(itemPrice !== ""){
@@ -34,7 +35,8 @@ module.exports = {
                     const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
 
                     if(confirmed){
-                        const hasItems = await app.itm.hasItems(message.author.id, sellItem, sellAmount);
+                        const userItems = await app.itm.getItemObject(message.author.id);
+                        const hasItems = await app.itm.hasItems(userItems, sellItem, sellAmount);
 
                         if(hasItems){
                             const row = await app.player.getRow(message.author.id);
@@ -44,7 +46,7 @@ module.exports = {
                             botMessage.edit(`Successfully sold ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(itemPrice * sellAmount)}.\n\nYou now have ${app.common.formatNumber(row.money + (itemPrice * sellAmount))}.`);
                         }
                         else{
-                            botMessage.edit("❌ You don't have enough of that item!");
+                            botMessage.edit(userItems[sellItem] ? `❌ You don't have enough of that item! You have **${userItems[sellItem]}x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.` : `❌ You don't have a ${app.itemdata[sellItem].icon}\`${sellItem}\`.`);
                         }
                     }
                     else{

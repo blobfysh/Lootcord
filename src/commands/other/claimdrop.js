@@ -14,7 +14,8 @@ module.exports = {
     async execute(app, message){
         const guildRow = await app.common.getGuildInfo(message.channel.guild.id);
         const airdropCD = await app.cd.getCD(message.author.id, 'airdrop');
-        const hasEnough = await app.itm.hasSpace(message.author.id, 1);
+        const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), await app.player.getRow(message.author.id));
+        const hasEnough = await app.itm.hasSpace(itemCt, 1);
     
         if(message.channel.id !== guildRow.dropItemChan){
             return message.reply('There is no ' + app.itemdata['care_package'].icon + '`care_package` in this channel.');
@@ -28,7 +29,7 @@ module.exports = {
             return message.reply(`You need to wait \`${airdropCD}\` before claiming another airdrop.`);
         }
         
-        if(!hasEnough) return message.reply("❌ **You don't have enough space in your inventory!** You can clear up space by selling some items.");
+        if(!hasEnough) return message.reply(`❌ **You don't have enough space in your inventory!** (You need **1** open slot, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`);
         
         await app.query(`UPDATE guildInfo SET dropItem = '' WHERE guildId = ${message.channel.guild.id}`);
         await app.query(`UPDATE guildInfo SET dropItemChan = 0 WHERE guildId = ${message.channel.guild.id}`);

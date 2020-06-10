@@ -25,8 +25,7 @@ module.exports = {
             let itemMats = getItemMats(app.itemdata[sellItem].recyclesTo.materials, sellAmount);
 
             const embedInfo = new app.Embed()
-            .setTitle(`Recycle ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for`)
-            .setDescription(app.itm.getDisplay(itemMats).join('\n'))
+            .setDescription(`Recycle **${sellAmount}x** ${app.itemdata[sellItem].icon}\`${sellItem}\` for:\n\n${app.itm.getDisplay(itemMats).join('\n')}`)
             .setColor('#4CAD4C')
             .setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/601373249753841665/recycle.png")
             .setFooter("You will need " + (app.itm.getTotalItmCountFromList(itemMats) - sellAmount) + " open slots in your inventory to recycle this.")
@@ -37,17 +36,22 @@ module.exports = {
                 const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
 
                 if(confirmed){
-                    if(!await app.itm.hasItems(message.author.id, sellItem, sellAmount)){
+                    const userItems = await app.itm.getItemObject(message.author.id);
+                    const itemCt = await app.itm.getItemCount(userItems, await app.player.getRow(message.author.id));
+
+                    if(!await app.itm.hasItems(userItems, sellItem, sellAmount)){
                         embedInfo.setColor(16734296)
-                        embedInfo.setTitle('Failed to Recycle!')
-                        embedInfo.setDescription(`❌ You don't have enough of that item.`);
+                        embedInfo.embed.thumbnail = undefined;
+                        embedInfo.embed.footer = undefined;
+                        embedInfo.setDescription(userItems[sellItem] ? `❌ You don't have enough of that item! You have **${userItems[sellItem]}x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.` : `❌ You don't have a ${app.itemdata[sellItem].icon}\`${sellItem}\`.`);
                         return botMessage.edit(embedInfo);
                     } 
                         
-                    if(!await app.itm.hasSpace(message.author.id, app.itm.getTotalItmCountFromList(itemMats) - sellAmount)){
+                    if(!await app.itm.hasSpace(itemCt, app.itm.getTotalItmCountFromList(itemMats) - sellAmount)){
                         embedInfo.setColor(16734296)
-                        embedInfo.setTitle('Failed to Recycle!')
-                        embedInfo.setDescription(`❌ **You don't have enough space in your inventory!**\nYou can clear up space by selling some items.`);
+                        embedInfo.embed.thumbnail = undefined;
+                        embedInfo.embed.footer = undefined;
+                        embedInfo.setDescription(`❌ **You don't have enough space in your inventory!** (You need **${app.itm.getTotalItmCountFromList(itemMats) - sellAmount}** open slot${app.itm.getTotalItmCountFromList(itemMats) - sellAmount > 1 ? 's': ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`);
                         return botMessage.edit(embedInfo);
                     }
 
@@ -55,8 +59,7 @@ module.exports = {
                     await app.itm.removeItem(message.author.id, sellItem, sellAmount);
 
                     embedInfo.setColor(9043800)
-                    embedInfo.setTitle('Success!')
-                    embedInfo.setDescription(`You recycled ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for:\n${app.itm.getDisplay(itemMats).join('\n')}`)
+                    embedInfo.setDescription(`Successfully recycled **${sellAmount}x** ${app.itemdata[sellItem].icon}\`${sellItem}\` for:\n\n${app.itm.getDisplay(itemMats).join('\n')}`)
                     botMessage.edit(embedInfo);
                 }
                 else{

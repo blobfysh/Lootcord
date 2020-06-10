@@ -118,8 +118,10 @@ module.exports = {
                         return m.channel.createMessage(`❌ Too many items! You can only steal ${itemsToSteal - itemsStolen} more items.`);
                     }
 
-                    else if(!await app.itm.hasItems(clanRow.clanId, item, amount)){
-                        return m.channel.createMessage("❌ Their vault doesn't have enough of that item.");
+                    const clanItems = await app.itm.getItemObject(clanRow.clanId);
+
+                    if(!await app.itm.hasItems(clanItems, item, amount)){
+                        return m.channel.createMessage(`❌ Their vault doesn't have enough of that item. They have **${clanItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\``);
                     }
 
                     await app.itm.removeItem(clanRow.clanId, item, amount);

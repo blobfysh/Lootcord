@@ -64,9 +64,10 @@ module.exports = {
             return message.reply(`Theres not enough power available in the clan! Your vault is currently using **${clanPow.usedPower}** power and only has **${clanPow.currPower}** current power.`);
         }
 
-        const hasItems = await app.itm.hasItems(message.author.id, itemName, itemAmnt);
+        const userItems = await app.itm.getItemObject(message.author.id);
+        const hasItems = await app.itm.hasItems(userItems, itemName, itemAmnt);
         
-        if(!hasItems) return message.reply("❌ You don't have enough of that item!");
+        if(!hasItems) return message.reply(`❌ You don't have enough of that item! You have **${userItems[itemName] || 0}x** ${app.itemdata[itemName].icon}\`${itemName}\``);
 
         await app.itm.removeItem(message.author.id, itemName, itemAmnt);
         await depositItem(app, itemName, itemAmnt, scoreRow.clanId);

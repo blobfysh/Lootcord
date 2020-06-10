@@ -23,8 +23,9 @@ module.exports = {
             return message.reply(`You need to wait \`${hourlyCD}\` before collecting another hourly reward.`);
         }
 
-        const hasEnough = await app.itm.hasSpace(message.author.id, 1);
-        if(!hasEnough) return message.reply(`❌ **You don't have enough space in your inventory!** You can clear up space by selling some items.`);
+        const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), await app.player.getRow(message.author.id));
+        const hasEnough = await app.itm.hasSpace(itemCt, 1);
+        if(!hasEnough) return message.reply(`❌ **You don't have enough space in your inventory!** (You need **1** open slot, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`);
 
         await app.cd.setCD(message.author.id, 'hourly', app.config.cooldowns.hourly * 1000);
         

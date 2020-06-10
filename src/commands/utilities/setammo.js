@@ -25,8 +25,8 @@ module.exports = {
         else if(!app.itemdata[equipItem].isAmmo.length){
             return message.reply("❌ That isn't a type of ammunition.");
         }
-        else if(!await app.itm.hasItems(message.author.id, equipItem, 1)){
-            return message.reply("❌ You don't own that ammo.");
+        else if(!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), equipItem, 1)){
+            return message.reply(`❌ You don't own any ${app.itemdata[equipItem].icon}\`${equipItem}\`.`);
         }
 
         await app.query(`UPDATE scores SET ammo = '${equipItem}' WHERE userId = ${message.author.id}`);

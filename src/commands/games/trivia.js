@@ -31,7 +31,8 @@ module.exports = {
         let chanceR = Math.floor(Math.random() * 10); //returns 0-9 (10% chance)
         let reward = {};
 
-        const hasenough = await app.itm.hasSpace(message.author.id, 2);
+        const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), await app.player.getRow(message.author.id));
+        const hasenough = await app.itm.hasSpace(itemCt, 2);
         if (chanceR <= 0 && hasenough){
             reward.display = app.itemdata['ultra_box'].icon + "`ultra_box`";
             reward.item = "ultra_box";

@@ -34,17 +34,17 @@ module.exports = {
                     const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
 
                     if(confirmed){
-                        const hasSpace = await app.itm.hasSpace(message.author.id, buyAmount);
+                        const row = await app.player.getRow(message.author.id);
+                        const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), row);
+                        const hasSpace = await app.itm.hasSpace(itemCt, buyAmount);
                         const hasMoney = await app.player.hasMoney(message.author.id, itemPrice * buyAmount);
                         
                         if(!hasMoney){
                             return botMessage.edit("You don't have enough money!");
                         }
                         if(!hasSpace && !app.itemdata[buyItem].isBanner){
-                            return botMessage.edit("❌ **You don't have enough space in your inventory!** You can clear up space by selling some items.");
+                            return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${buyAmount}** open slot${buyAmount > 1 ? 's': ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`);
                         }
-
-                        const row = await app.player.getRow(message.author.id);
 
                         await app.player.removeMoney(message.author.id, itemPrice * buyAmount);
                         await app.itm.addItem(message.author.id, buyItem, buyAmount);
@@ -68,14 +68,16 @@ module.exports = {
                     if(confirmed){
                         // if user bought 3 rpgs at 5 tokens each, they would need 3 - 15 = -12 space in their inventory
                         // if they had 20/10 slots at time of purchasing, this would return true because 20 - 12 = 8/10 slots
-                        const hasItems = await app.itm.hasItems(message.author.id, currency, itemPrice * buyAmount);
-                        const hasSpace = await app.itm.hasSpace(message.author.id, buyAmount - (buyAmount * itemPrice));
+                        const userItems = await app.itm.getItemObject(message.author.id);
+                        const itemCt = await app.itm.getItemCount(userItems, await app.player.getRow(message.author.id));
+                        const hasItems = await app.itm.hasItems(userItems, currency, itemPrice * buyAmount);
+                        const hasSpace = await app.itm.hasSpace(itemCt, buyAmount - (buyAmount * itemPrice));
                         
                         if(!hasItems){
                             return botMessage.edit(`You are missing the following items needed to purchase this: ${itemPrice * buyAmount}x ${app.itemdata[currency].icon}\`${currency}\``);
                         }
                         if(!hasSpace){
-                            return botMessage.edit("❌ **You don't have enough space in your inventory!** You can clear up space by selling some items.");
+                            return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${buyAmount - (buyAmount * itemPrice)}** open slot${buyAmount - (buyAmount * itemPrice) > 1 ? 's': ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`);
                         }
 
                         await app.itm.removeItem(message.author.id, currency, itemPrice * buyAmount);
@@ -138,7 +140,7 @@ module.exports = {
                     const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
 
                     if(confirmed){
-                        const hasItems = await app.itm.hasItems(message.author.id, currency, itemPrice);
+                        const hasItems = await app.itm.hasItems(await app.itm.getItemObject(message.author.id), currency, itemPrice);
                         
                         if(!hasItems){
                             return botMessage.edit(`You are missing the following items needed to purchase this: ${itemPrice}x ${app.itemdata[currency].icon}\`${currency}\``);
@@ -176,14 +178,15 @@ module.exports = {
                 const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
 
                 if(confirmed){
-                    const hasSpace = await app.itm.hasSpace(message.author.id, listInfo.amount);
+                    const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), await app.player.getRow(message.author.id));
+                    const hasSpace = await app.itm.hasSpace(itemCt, listInfo.amount);
                     const hasMoney = await app.player.hasMoney(message.author.id, listInfo.price);
                     
                     if(!hasMoney){
                         return botMessage.edit("❌ You don't have enough money!");
                     }
                     if(!hasSpace){
-                        return botMessage.edit("❌ **You don't have enough space in your inventory!** You can clear up space by selling some items.");
+                        return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${listInfo.amount}** open slot${listInfo.amount > 1 ? 's': ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`);
                     }
                     if(!await app.bm.getListingInfo(listInfo.listingId)){
                         return botMessage.edit('❌ That listing already sold!');
