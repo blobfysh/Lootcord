@@ -116,7 +116,7 @@ module.exports = {
             });
             collector.on('end', reason => {
                 if(reason === 'time'){
-                    app.player.addMoney(message.author.id, gambleAmount);
+                    message.reply('**You took too long to make a decision!** Your game of blackjack has expired.');
                 }
             });
         }
@@ -206,6 +206,7 @@ function genEmbed(app, message, playerCards, dealerCards, gambleAmount, dealerEm
     .addBlankField()
     .addField(message.author.username + ` - **${hasAce(playerCards) && playerVal.score <= 21 ? playerVal.score + '/' + playerVal.minScore : playerVal.minScore}**`, playerString)
     .addField(`${dealerEmote} Dealer - **${dealerVal.score > 21 ? dealerVal.minScore : dealerVal.score}**`, dealerString)
+    .setFooter('You have 60 seconds to finish this game.')
     .setColor(13215302)
 
     return embed;
@@ -216,6 +217,7 @@ function winnerEmbed(app, message, playerCards, dealerCards, quote, gambleAmount
 
     embed.setDescription(quote);
     embed.setColor(720640);
+    embed.embed.footer = undefined;
     app.player.addMoney(message.author.id, gambleAmount * 2);
 
     if(gambleAmount * 2 >= 2000000){
@@ -230,6 +232,7 @@ function loserEmbed(app, message, playerCards, dealerCards, quote, gambleAmount)
 
     embed.setDescription(quote);
     embed.setColor(13632027);
+    embed.embed.footer = undefined;
 
     return embed;
 }
@@ -239,6 +242,7 @@ function tieEmbed(app, message, playerCards, dealerCards, quote, gambleAmount){
 
     embed.setDescription(quote);
     embed.setColor(10395294);
+    embed.embed.footer = undefined;
     app.player.addMoney(message.author.id, gambleAmount);
 
     return embed;
