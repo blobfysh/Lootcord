@@ -21,7 +21,7 @@ class LoopTasks {
         
         for(let botList of this.config.botLists){
             try{
-                if(botList.url.includes('top.gg')){
+                if(botList.url.includes('top.gg') || botList.url.includes('botsfordiscord.com')){
                     const result = await axios({
                         method: 'POST',
                         headers: {
@@ -34,7 +34,7 @@ class LoopTasks {
                         url: botList.url,
                     });
                 }
-                else{
+                else if(botList.url.includes('discord.bots.gg')){
                     const result = await axios({
                         method: 'POST',
                         headers: {
@@ -43,6 +43,19 @@ class LoopTasks {
                         },
                         data: {
                             'guildCount': stats.guilds
+                        },
+                        url: botList.url,
+                    });
+                }
+                else if(botList.url.includes('discordbotlist.com')){
+                    const result = await axios({
+                        method: 'POST',
+                        headers: {
+                            'Authorization': botList.token,
+                            'Content-Type': 'application/json'
+                        },
+                        data: {
+                            'guilds': stats.guilds
                         },
                         url: botList.url,
                     });

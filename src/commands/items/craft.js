@@ -25,8 +25,7 @@ module.exports = {
             let itemMats = getItemMats(app.itemdata[craftItem].craftedWith.materials, craftAmount);
 
             const embedInfo = new app.Embed()
-            .setTitle(`Craft ${craftAmount}x ${app.itemdata[craftItem].icon}\`${craftItem}\` for`)
-            .setDescription(app.itm.getDisplay(itemMats).join('\n'))
+            .setDescription(`Craft **${craftAmount}x** ${app.itemdata[craftItem].icon}\`${craftItem}\` for:\n\n${app.itm.getDisplay(itemMats).join('\n')}`)
             .setColor('#818181')
             .setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/601372871301791755/craft.png")
 
@@ -36,20 +35,29 @@ module.exports = {
                 const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
                 
                 if(confirmed){
-                    const hasEnough = await app.itm.hasItems(message.author.id, itemMats);
-                    if(hasEnough){
+                    const userItems = await app.itm.getItemObject(message.author.id);
+
+                    if(await app.itm.hasItems(userItems, itemMats)){
                         await app.itm.removeItem(message.author.id, itemMats);
                         await app.itm.addItem(message.author.id, craftItem, craftAmount);
 
                         embedInfo.setColor(9043800)
-                        embedInfo.setTitle('Success!')
-                        embedInfo.setDescription(`You crafted ${craftAmount}x ${app.itemdata[craftItem].icon}\`${craftItem}\``)
+                        embedInfo.setDescription(`Successfully crafted **${craftAmount}x** ${app.itemdata[craftItem].icon}\`${craftItem}\``)
                         botMessage.edit(embedInfo);
                     }
                     else{
+                        let needed = [];
+
+                        for (var i = 0; i < itemMats.length; i++) {
+                            //do stuff for each item
+                            let itemToCheck = itemMats[i].split("|");
+                            if(!userItems[itemToCheck[0]] || userItems[itemToCheck[0]] < parseInt(itemToCheck[1])){
+                                needed.push(itemMats[i]);
+                            }
+                        }
+
                         embedInfo.setColor(16734296)
-                        embedInfo.setTitle('Failed to Craft!')
-                        embedInfo.setDescription(`You are missing the required materials for this item!`)
+                        embedInfo.setDescription(`You are missing the required materials for this item:\n\n${app.itm.getDisplay(needed).join('\n')}`)
                         botMessage.edit(embedInfo);
                     }
                 }
