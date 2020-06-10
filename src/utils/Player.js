@@ -173,7 +173,9 @@ class Player {
      * @param {*} stat Stat to retrieve value of
      */
     async getStat(id, stat){
-        return (await this.app.query(`SELECT * FROM stats WHERE userId = ? AND stat = ?`, [id, stat]))[0];
+        const stats = (await this.app.query(`SELECT * FROM stats WHERE userId = ? AND stat = ?`, [id, stat]))[0];
+
+        return stats ? stats.value : 0;
     }
 
     /**
