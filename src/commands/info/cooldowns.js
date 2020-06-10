@@ -28,6 +28,7 @@ module.exports = {
         const jackpotCD = await app.cd.getCD(message.author.id, 'jackpot');
         const airdropCD = await app.cd.getCD(message.author.id, 'airdrop');
         const xp_potionCD = await app.cd.getCD(message.author.id, 'xp_potion');
+        const passiveShield = await app.cd.getCD(message.author.id, 'passive_shield');
                     
         let hourlyReady = hourlyCD ? '❌ ' + hourlyCD : "✅ ready"
         let dailyReady = dailyCD ? '❌ ' + dailyCD : "✅ ready"
@@ -69,6 +70,9 @@ module.exports = {
         embedLeader.addField("Heal (part of `" + message.prefix + "use`)", "`" + healReady + "`",true)
         if(shieldCD){
             embedLeader.addField("🛡 Shield Active", '`' + shieldCD + '`', true)
+        }
+        if(passiveShield){
+            embedLeader.addField("🛡 Passive Shield", '`' + passiveShield + '`', true)
         }
         if(airdropCD){
             embedLeader.addField("claimdrop", '`❌ ' + airdropCD + '`', true)

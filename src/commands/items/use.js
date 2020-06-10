@@ -255,6 +255,7 @@ module.exports = {
             const serverInfo = await app.common.getGuildInfo(message.channel.guild.id);
             const attackCD = await app.cd.getCD(message.author.id, 'attack');
             const shieldCD = await app.cd.getCD(message.author.id, 'shield');
+            const passiveShieldCD = await app.cd.getCD(message.author.id, 'passive_shield');
             // item is a weapon, start checking for member
             
             if(!await app.itm.hasItems(userItems, item, 1)){
@@ -294,6 +295,9 @@ module.exports = {
                     return message.reply("❌ You don't have any ammo for that weapon!");
                 }
                 
+                // player attacked, remove passive shield
+                if(passiveShieldCD) await app.cd.clearCD(message.author.id, 'passive_shield');
+
                 if(app.itemdata[item].breaksOnUse === true){
                     await app.itm.removeItem(message.author.id, item, 1);
                 }
@@ -452,6 +456,8 @@ module.exports = {
                     return message.reply("❌ You don't have any ammo for that weapon!");
                 }
 
+                // player attacked, remove passive shield
+                if(passiveShieldCD) await app.cd.clearCD(message.author.id, 'passive_shield');
 
                 if(app.itemdata[item].breaksOnUse === true){
                     await app.itm.removeItem(message.author.id, item, 1);
@@ -515,6 +521,10 @@ module.exports = {
                     await app.query(`UPDATE scores SET kills = kills + 1 WHERE userId = ${message.author.id}`); // add 1 to kills
                     await app.query(`UPDATE scores SET deaths = deaths + 1 WHERE userId = ${target.id}`);
                     await app.query(`UPDATE scores SET health = 100 WHERE userId = ${target.id}`);
+                    
+                    // passive shield, protects same player from being attacked for 24 hours
+                    await app.cd.setCD(target.id, 'passive_shield', app.config.cooldowns.daily * 1000);
+
                     if(victimRow.power >= -3){
                         await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${target.id}`);
                     }
@@ -572,6 +582,7 @@ module.exports = {
                 const victimRow = await app.player.getRow(member.id);
                 const playRow = await app.query(`SELECT * FROM userGuilds WHERE userId ="${member.id}" AND guildId = "${message.channel.guild.id}"`);
                 const victimShield = await app.cd.getCD(member.id, 'shield');
+                const victimPassiveShield = await app.cd.getCD(member.id, 'passive_shield');
                 const victimPeckCD = await app.cd.getCD(member.id, 'peck');
 
                 if(member.id === app.bot.user.id){
@@ -587,13 +598,16 @@ module.exports = {
                     return message.reply("❌ You can't attack members of your own clan!");
                 }
                 else if(!playRow.length){
-                    return message.reply("❌ That user has not activated their account in this server!");
+                    return message.reply(`❌ **${member.nick || member.username}** has not activated their account in this server!`);
                 }
                 else if(victimShield){
-                    return message.reply(`🛡 This person has a shield active!\nThey are untargetable for \`${victimShield}\`.`);
+                    return message.reply(`🛡 **${member.nick || member.username}** has a shield active!\nThey are untargetable for \`${victimShield}\`.`);
+                }
+                else if(victimPassiveShield){
+                    return message.reply(`🛡 **${member.nick || member.username}** was killed recently and has a **passive shield**!\nThey are untargetable for \`${victimPassiveShield}\`.`);
                 }
                 else if(item === 'peck_seed' && victimPeckCD){
-                    return message.reply('That player is already under the effects of a `peck_seed`!');
+                    return message.reply(`**${member.nick || member.username}** is already under the effects of a ${app.itemdata['peck_seed'].icon}\`peck_seed\`!`);
                 }
 
                 let ammoUsed
@@ -613,6 +627,9 @@ module.exports = {
                 catch(err){
                     return message.reply("❌ You don't have any ammo for that weapon!");
                 }
+
+                // player attacked, remove passive shield
+                if(passiveShieldCD) await app.cd.clearCD(message.author.id, 'passive_shield');
 
                 // remove ammo here
                 if(app.itemdata[item].breaksOnUse === true){
@@ -670,6 +687,10 @@ module.exports = {
                     await app.query(`UPDATE scores SET kills = kills + 1 WHERE userId = ${message.author.id}`); // add 1 to kills
                     await app.query(`UPDATE scores SET deaths = deaths + 1 WHERE userId = ${member.id}`);
                     await app.query(`UPDATE scores SET health = 100 WHERE userId = ${member.id}`);
+
+                    // passive shield, protects same player from being attacked for 24 hours
+                    await app.cd.setCD(member.id, 'passive_shield', app.config.cooldowns.daily * 1000);
+
                     if(victimRow.power >= -3){
                         await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${member.id}`);
                     }
@@ -881,10 +902,11 @@ async function getRandomPlayers(app, userId, guild){ // returns a random userId 
     for(var i = 0; i < userRows.length; i++){
         try{
             const hasShield = await app.cd.getCD(userRows[i].userId, 'shield');
+            const passiveShield = await app.cd.getCD(userRows[i].userId, 'passive_shield');
             const userClanId = (await app.query(`SELECT clanId FROM scores WHERE userId ="${userRows[i].userId}"`))[0];
 
             if(userRows[i].userId !== userId){
-                if(!hasShield && (userClan.clanId === 0 || userClan.clanId !== userClanId.clanId)){
+                if(!hasShield && !passiveShield && (userClan.clanId === 0 || userClan.clanId !== userClanId.clanId)){
                     guildUsers.push(userRows[i].userId);
                 }
             }
