@@ -44,9 +44,9 @@ module.exports = {
             reward.amount = 2;
         }
         else{
-            reward.display = app.common.formatNumber(2500);
+            reward.display = app.common.formatNumber(5000);
             reward.item = "money";
-            reward.amount = 2500;
+            reward.amount = 5000;
         }
 
         const embedTrivia = new app.Embed()
