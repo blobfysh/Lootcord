@@ -12,9 +12,16 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
-        if(await app.player.isActive(message.author.id, message.channel.guild.id)){
-            return message.reply('❌ Your account is already active on this server!');
+        const activatedGuilds = await app.query(`SELECT * FROM userGuilds WHERE userId = ?`, [message.author.id]);
+
+        for(let i = 0; i < activatedGuilds.length; i++){
+            if(activatedGuilds[i].guildId === message.channel.guild.id) return message.reply('❌ Your account is already active on this server!');
         }
+
+        const isPatron = await app.patreonHandler.isPatron(message.author.id);
+
+        if(activatedGuilds.length >= 3 && !isPatron) return message.reply('❌ You cannot be active in more than **3** servers at once!\n\nIf you wish to activate in this server, you should use the `deactivate` command in a server you are already activated in.');
+        else if(activatedGuilds.length >= 5) return message.reply('❌ You cannot be active in more than **5** servers at once!\n\nIf you wish to activate in this server, you should use the `deactivate` command in a server you are already activated in.');
 
         await app.cd.clearCD(message.author.id, 'activate');
         await app.cd.setCD(message.author.id, 'activate', 3600 * 1000);
@@ -30,28 +37,5 @@ module.exports = {
         }
 
         return message.reply('✅ Account activated in this server');
-
-        /*
-        // create account for player
-        await app.player.createAccount(message.author.id);
-        
-        // activate account in server
-        await app.player.activate(message.author.id, message.channel.guild.id);
-
-        const embedInfo = new app.Embed()
-        .setTitle(`Thanks for joining LOOTCORD ${message.member.nick || message.member.username}!`)
-        .setColor(14202368)
-        .addField("Items Received","**1x** " + app.itemdata['item_box'].icon + "`item_box`")
-        .setFooter("Open it with t-use item_box")
-        .setImage("https://cdn.discordapp.com/attachments/454163538886524928/525315435382571028/lc_welcome.png")
-
-        message.channel.createMessage(embedInfo);
-        */
-       
-        /*
-        if(Object.keys(config.activeRoleGuilds).includes(message.channel.guild.id)){
-                    refresher.refreshactives(message);
-        }
-        */
     },
 }
