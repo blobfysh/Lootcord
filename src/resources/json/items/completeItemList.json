@@ -2650,10 +2650,10 @@
         ],
         "craftedWith": "",
         "recyclesTo": {
-            "display": "5x module\n2x fiber_optics",
+            "display": "2x fiber_optics\n1x module_bundle",
             "materials": [
-                "module|5",
-                "fiber_optics|2"
+                "fiber_optics|2",
+                "module_bundle|1"
             ]
         },
         "buy": "",
