@@ -362,7 +362,7 @@ class Items {
                 amount = 2;
             }
             else{
-                amount = Math.floor(randArr.length / 5);
+                amount = Math.floor(randArr.length / 4);
             }
         }
 
