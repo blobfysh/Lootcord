@@ -352,9 +352,10 @@ module.exports = {
 
                     const killedReward = new app.Embed()
                     .setTitle('Loot Received')
-                    .setDescription("Money: " + app.common.formatNumber(monsterRow.money) + "\nExperience: `" + monster.xp + "xp`")
                     .setColor(7274496)
+                    .addField('Money', app.common.formatNumber(monsterRow.money))
                     .addField("Items", app.itm.getDisplay([bestItem]) + '\n\n**and...**\n' + app.itm.getDisplay(extras.sort(app.itm.sortItemsHighLow.bind(app))).join('\n'))
+                    .setFooter('⭐ ' + monster.xp + ' XP earned!')
 
                     message.channel.createMessage({
                         content: generateAttackMobString(app, message, monsterRow, randDmg, item, ammoUsed, weaponBroke, true), 
@@ -541,9 +542,10 @@ module.exports = {
                     
                     const killedReward = new app.Embed()
                     .setTitle('Loot Received')
-                    .setDescription("Money: " + app.common.formatNumber(moneyStolen) + "\nExperience: `" + xpGained + "xp`")
                     .setColor(7274496)
+                    .addField('Money', app.common.formatNumber(moneyStolen))
                     .addField("Items (" + randomItems.items.length + ")", randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
+                    .setFooter('⭐ ' + xpGained + ' XP earned!')
                     
                     message.channel.createMessage({
                         content: await generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, true), 
@@ -707,9 +709,10 @@ module.exports = {
                     
                     const killedReward = new app.Embed()
                     .setTitle('Loot Received')
-                    .setDescription("Money: " + app.common.formatNumber(moneyStolen) + "\nExperience: `" + xpGained + "xp`")
                     .setColor(7274496)
+                    .addField('Money', app.common.formatNumber(moneyStolen))
                     .addField("Items (" + randomItems.items.length + ")", randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
+                    .setFooter('⭐ ' + xpGained + ' XP earned!')
                     
                     message.channel.createMessage({
                         content: await generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, true), 
