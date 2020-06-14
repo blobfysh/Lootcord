@@ -87,6 +87,7 @@ class ArgParser {
             case "cyber": itemSearched = "cyber_pack"; break;
             case "signal":
             case "supply": itemSearched = "supply_signal"; break;
+            case "gp":
             case "powder": itemSearched = "gunpowder"; break;
             case "smg": itemSearched = "smg_body"; break;
             case "pump": itemSearched = "pump_body"; break;
@@ -112,6 +113,7 @@ class ArgParser {
             case ".50": itemSearched = ".50ae_hp"; break;
             case "slug": itemSearched = "12g_slug"; break;
             case "870":
+            case "shotty":
             case "shotgun":
             case "remington": itemSearched = "remington_870"; break;
             case "cross": itemSearched = "crossbow"; break;
