@@ -33,6 +33,7 @@ module.exports = {
             const usersItems     = await app.itm.getUserItems(itemObject);
             const itemCt         = await app.itm.getItemCount(itemObject, row);
             const shieldLeft     = await app.cd.getCD(userID, 'shield');
+            const passiveShield  = await app.cd.getCD(userID, 'passive_shield');
 
             let ultraItemList    = usersItems.ultra;
             let legendItemList   = usersItems.legendary;
@@ -53,6 +54,9 @@ module.exports = {
 
             if(shieldLeft){
                 embedInfo.addField("🛡️ Shield", '`' + shieldLeft + '`');
+            }
+            if(passiveShield){
+                embedInfo.addField("🛡️ Passive Shield", '`' + passiveShield + '`');
             }
 
             embedInfo.addField("Health",`${app.player.getHealthIcon(row.health, row.maxHealth, true)}\n${row.health} / ${row.maxHealth}`, true)

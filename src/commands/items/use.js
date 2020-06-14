@@ -126,8 +126,7 @@ module.exports = {
                     }, 27000);
                     setTimeout(() => {
                         const dropEmbed = new app.Embed()
-                        .setTitle(`A \`care_package\` has arrived`)
-                        .setDescription(`Use \`${message.prefix}claimdrop\` to claim it!`)
+                        .setDescription(`**A ${app.itemdata['care_package'].icon}\`care_package\` has arrived!**\n\nUse \`${message.prefix}claimdrop\` to claim it.`)
                         .setImage(app.itemdata['care_package'].image)
                         .setColor(13215302)
                         app.query(`UPDATE guildInfo SET dropItemChan = '${message.channel.id}' WHERE guildId = ${message.channel.guild.id}`);

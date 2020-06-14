@@ -27,7 +27,7 @@ class BlackMarket {
         await this.app.player.addMoney(listingInfo.sellerId, listingInfo.price);
         await this.app.player.addStat(listingInfo.sellerId, 'bmsales', 1);
         if(await this.app.player.getStat(listingInfo.sellerId, 'bmsales') >= 10){
-            await app.itm.addBadge(listingInfo.sellerId, 'arms_dealer');
+            await this.app.itm.addBadge(listingInfo.sellerId, 'arms_dealer');
         }
 
         if(userRow && userRow.notify1){
