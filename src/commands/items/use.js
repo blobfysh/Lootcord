@@ -777,7 +777,7 @@ function logKill(app, killer, victim, item, ammo, damage, moneyStolen, itemsLost
     try{
         const embed = new app.Embed()
         .setTitle('Kill Log')
-        .setColor(16721703)
+        .setColor(2713128)
         .setDescription(`**Weapon**: \`${item}\` - **${damage} damage**\n**Ammo**: ${ammo ? '`' + ammo + '`' : 'Not required'}`)
         .addField('Killer', (killer.username + '#' + killer.discriminator) + ' ID: ```\n' + killer.id + '```')
         .addField('Victim', (victim.username + '#' + victim.discriminator) + ' ID: ```\n' + victim.id + '```')

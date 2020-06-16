@@ -1,3 +1,5 @@
+const max_disparity = 2;
+const flagged_threshold = 20000;
 
 module.exports = {
     name: 'trade',
@@ -117,14 +119,14 @@ module.exports = {
 
                                 if(accepted){
                                     try{
-                                        let player1val = getValue(app, player1Money, player1Items);
-                                        let player2val = getValue(app, player2Money, player2Items);
+                                        let player1Val = getValue(app, player1Money, player1Items);
+                                        let player2Val = getValue(app, player2Money, player2Items);
 
                                         await tradeItems(app, message.member, player1Money, player1Items, user, player2Money, player2Items);
                                         
                                         botMessage.edit('✅ Trade completed!');
 
-                                        tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user);
+                                        tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user, player1Val, player2Val);
                                     }
                                     catch(err){
                                         if(err.player){
@@ -149,14 +151,14 @@ module.exports = {
 
                                 if(accepted){
                                     try{
-                                        let player1val = getValue(app, player1Money, player1Items);
-                                        let player2val = getValue(app, player2Money, player2Items);
+                                        let player1Val = getValue(app, player1Money, player1Items);
+                                        let player2Val = getValue(app, player2Money, player2Items);
 
                                         await tradeItems(app, message.member, player1Money, player1Items, user, player2Money, player2Items);
 
                                         botMessage.edit('✅ Trade completed!');
 
-                                        tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user);
+                                        tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user, player1Val, player2Val);
                                     }
                                     catch(err){
                                         if(err.player){
@@ -359,10 +361,24 @@ async function tradeItems(app, player1, player1Money, player1Items, player2, pla
     await app.itm.addItem(player2.id, player1Items);
 }
 
-function tradeCompleted(app, embed, player1, player2){
+function tradeCompleted(app, embed, player1, player2, player1Val, player2Val){
     try{
-        embed.setTitle('Trade Log')
-        embed.setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/white-heavy-check-mark_2705.png')
+        if(player1Val > player2Val * max_disparity && player1Val - player2Val >= flagged_threshold){
+            embed.setTitle('Trade Log (Flagged)')
+            embed.setColor(16734296)
+            embed.setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/209/triangular-flag-on-post_1f6a9.png')
+        }
+        else if(player2Val > player1Val * max_disparity && player2Val - player1Val >= flagged_threshold){
+            embed.setTitle('Trade Log (Flagged)')
+            embed.setColor(16734296)
+            embed.setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/209/triangular-flag-on-post_1f6a9.png')
+        }
+        else{
+            embed.setTitle('Trade Log')
+            embed.setColor(2713128)
+            embed.setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/white-heavy-check-mark_2705.png')
+        }
+
         embed.setDescription((player1.username + '#' + player1.discriminator) + ' ID: ```\n' + player1.id + '```' + (player2.username + '#' + player2.discriminator) + ' ID: ```\n' + player2.id + '```')
         embed.setTimestamp()
         embed.setFooter('Keep an eye on users that trade low-value for high-value')

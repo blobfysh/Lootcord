@@ -222,13 +222,20 @@ module.exports = {
                     const bmLogEmbed = new app.Embed()
                     .setTitle('BM Listing Sold')
                     .setTimestamp()
-                    .setColor(9043800)
+                    .setColor(2713128)
                     .addField('Buyer', (message.author.username + '#' + message.author.discriminator) + ' ID: ```\n' + message.author.id + '```')
                     .addField('Seller', '```\n' + listInfo.sellerId + '```')
                     .addField('List Duration (how long it was listed)', app.cd.convertTime(Date.now() - listInfo.listTime))
                     .addField('Item Sold', `${listInfo.amount}x \`${listInfo.item}\``, true)
                     .addField('Price', app.common.formatNumber(listInfo.price), true)
                     .setFooter('Make sure listing isn\'t faked to transfer money')
+
+                    if(Date.now() - listInfo.listTime <= 1000 * 300){
+                        bmLogEmbed.setColor(16734296)
+                        bmLogEmbed.setTitle('BM Listing Sold (Flagged)')
+                        bmLogEmbed.setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/209/triangular-flag-on-post_1f6a9.png')
+                    }
+
                     app.messager.messageLogs(bmLogEmbed);
 
                     botMessage.edit(`Successfully bought ${listInfo.amount}x ${app.itemdata[listInfo.item].icon}\`${listInfo.item}\`!`);
