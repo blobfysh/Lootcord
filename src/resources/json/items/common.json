@@ -37,7 +37,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 1883,
+        "sell": 2267,
         "desc": "Use with weapon.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132237868040212/baseball.png",
         "icon": "<:ammo:601323077569347584>",
@@ -58,10 +58,10 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 6566,
+            "amount": 18655,
             "currency": "money"
         },
-        "sell": 776,
+        "sell": 2485,
         "desc": "Use this to get a random item!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/702813593976176699/BagsAndBoxes_77_t.PNG",
         "icon": "<:common_box:601415564564627467>",
@@ -75,7 +75,8 @@
                     "pistol_body|1",
                     "crossbow|1",
                     "gunpowder|1",
-                    "12g_buckshot|1"
+                    "12g_buckshot|1",
+                    ".44_fmj|1"
                 ]
             },
             "15": {
@@ -87,7 +88,6 @@
                     "bow|1",
                     "9mm_fmj|1",
                     ".45_fmj|1",
-                    ".44_fmj|1",
                     "cloth|1"
                 ]
             },
@@ -118,7 +118,6 @@
                 "xp": 50,
                 "items": [
                     "glock|1",
-                    "adhesive|1",
                     "9mm_ps|1"
                 ]
             },
@@ -126,6 +125,7 @@
                 "xp": 80,
                 "items": [
                     "peck_seed|1",
+                    "adhesive|1",
                     "fiber_optics|1",
                     "spas|1",
                     "7.62_fmj|1",

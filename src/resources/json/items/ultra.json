@@ -25,7 +25,7 @@
             ]
         },
         "buy": "",
-        "sell": 66342,
+        "sell": 583263,
         "desc": "Equip this backpack to gain **40** item slots!",
         "image": "",
         "unboxImage": "",
@@ -58,7 +58,7 @@
             ]
         },
         "buy": "",
-        "sell": 129797,
+        "sell": 248305,
         "desc": "Uses electromagnetic force to blast a ball of plasma that vaporizes anything it touches.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132500721008741/rail_cannon.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704968624242163812/rail_cannon.png",
@@ -92,7 +92,7 @@
             ]
         },
         "buy": "",
-        "sell": 115296,
+        "sell": 230599,
         "desc": "A lightweight particle-beam weapon that disintegrates targets on contact.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703173875814498364/ray_gun.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704968626180194335/ray_gun.png",
@@ -131,7 +131,7 @@
             ]
         },
         "buy": "",
-        "sell": 78951,
+        "sell": 544900,
         "desc": "Use this on another clan to temporarily lower their current power by **5** for 1 hour, making them vulnerable to a raid.\n\nThis effect can stack.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/710777441374961694/c4.png",
         "icon": "<:ultra_usable:710781033666052106>",
