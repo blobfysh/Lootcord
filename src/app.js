@@ -25,10 +25,9 @@ const BlackMarket      = require('./utils/BlackMarket');
 const Clans            = require('./utils/Clans');
 const LoopTasks        = require('./utils/LoopTasks');
 const PatreonHandler   = require('./utils/PatreonHandler');
-const voteHandler      = require('./utils/voteHandler');
-const kofiHandler      = require('./utils/kofiHandler');
 
 const events           = fs.readdirSync(__dirname + '/events');
+const ipcEvents        = fs.readdirSync(__dirname + '/ipc');
 const categories       = fs.readdirSync(__dirname + '/commands');
 
 class Lootcord extends Base {
@@ -141,77 +140,9 @@ class Lootcord extends Base {
     }
 
     initIPC(){
-        this.ipc.register('clearCD', (msg) => {
-            this.cd.clearTimers(msg.userId, msg.type);
-        });
-
-        this.ipc.register('reloadItems', (msg) => {
-            console.log('[APP] Reloading items');
-            delete require.cache[require.resolve('./resources/json/items/completeItemList')]
-            this.itemdata = require('./resources/json/items/completeItemList');
-            this.parse = new ArgParser(this); // must reload arg parser so the spell correction can update
-        });
-
-        this.ipc.register('setStatus', (msg) => {
-            this.bot.editStatus(msg.status || 'online', {
-                name: 't-help | ' + msg.content,
-                type: parseInt(msg.type) || 0
-            });
-        });
-
-        this.ipc.register('disableCmd', (msg) => {
-            this.sets.disabledCommands.add(msg.cmd);
-        });
-        this.ipc.register('enableCmd', (msg) => {
-            this.sets.disabledCommands.delete(msg.cmd);
-        });
-
-        this.ipc.register('vote', voteHandler.handle.bind(this));
-        this.ipc.register('donation', kofiHandler.handle.bind(this));
-
-        this.ipc.register('addKofiRole', async (msg) => {
-            const guild = this.bot.guilds.get(msg.guildId);
-            if(guild){
-                const member = await this.common.fetchMember(guild, msg.userId);
-
-                try{
-                    if(member) await member.addRole(this.config.donatorRoles.kofi);
-                }
-                catch(err){
-                    console.warn('Failed adding donator role.');
-                    console.warn(err);
-                }
-            }
-        });
-        this.ipc.register('removeKofiRole', async (msg) => {
-            const guild = this.bot.guilds.get(msg.guildId);
-            if(guild){
-                const member = await this.common.fetchMember(guild, msg.userId);
-
-                try{
-                    if(member) await member.removeRole(this.config.donatorRoles.kofi);
-                }
-                catch(err){
-                    console.warn('Failed removing donator role.');
-                    console.warn(err);
-                }
-            }
-        });
-
-        this.ipc.register('removeActiveRole', async (msg) => {
-            const guild = this.bot.guilds.get(msg.guildId);
-            if(guild){
-                const member = await this.common.fetchMember(guild, msg.userId);
-
-                try{
-                    if(member) await member.removeRole(msg.roleId);
-                }
-                catch(err){
-                    console.warn('Failed removing active role.');
-                    console.warn(err);
-                }
-            }
-        });
+        for(let event of ipcEvents){
+            this.ipc.register(event.replace('.js', ''), require(`./ipc/${event}`).run.bind(this));
+        }
     }
 
     query(sql, args){
