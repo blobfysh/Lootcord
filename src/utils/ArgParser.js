@@ -67,6 +67,7 @@ class ArgParser {
             case "shield": itemSearched = "iron_shield"; break;
             case "peck":
             case "seed": itemSearched = "peck_seed"; break;
+            case "potion":
             case "health_potion":
             case "health": itemSearched = "health_pot"; break;
             case "exp":

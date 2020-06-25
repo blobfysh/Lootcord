@@ -1495,13 +1495,13 @@
         "buy": "",
         "sell": 119850,
         "desc": "Explosive ammunition, use with weapon.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132526012661883/rocket.png",
+        "image": "https://cdn.discordapp.com/attachments/718004634693795890/723432044914278410/r0cket.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965790629363772/rocket.png",
         "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
-        "artist": ""
+        "artist": "380406568497446912"
     },
     "7.62_hp": {
         "rarity": "Epic",
@@ -2253,7 +2253,7 @@
             ]
         },
         "buy": "",
-        "sell": 253039,
+        "sell": 153039,
         "desc": "Target-locking rocket launcher.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132442860584990/javelin.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965900536905729/javelin.png",

@@ -39,7 +39,7 @@ class Clans {
         let kills = 0;
         let deaths = 0;
         let timePlayed = 0;
-        const dateTime = new Date().getTime();
+        const dateTime = Date.now();
 
         const clanRow = (await this.app.query(`SELECT reduction FROM clans WHERE clanId = ${clanId}`))[0];
         const clanItems = await this.app.itm.getUserItems(await this.app.itm.getItemObject(clanId));
