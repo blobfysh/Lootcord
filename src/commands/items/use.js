@@ -511,6 +511,10 @@ module.exports = {
                     let randomItems = await app.itm.getRandomUserItems(target.id);
                     let xpGained = randomItems.items.length * 50;
                     let moneyStolen = Math.floor(victimRow.money * .75);
+
+                    // passive shield, protects same player from being attacked for 24 hours
+                    await app.cd.setCD(target.id, 'passive_shield', app.config.cooldowns.daily * 1000);
+
                     await app.itm.removeItem(target.id, randomItems.amounts);
                     await app.itm.addItem(message.author.id, randomItems.amounts);
                     await app.player.removeMoney(target.id, moneyStolen);
@@ -521,9 +525,6 @@ module.exports = {
                     await app.query(`UPDATE scores SET kills = kills + 1 WHERE userId = ${message.author.id}`); // add 1 to kills
                     await app.query(`UPDATE scores SET deaths = deaths + 1 WHERE userId = ${target.id}`);
                     await app.query(`UPDATE scores SET health = 100 WHERE userId = ${target.id}`);
-                    
-                    // passive shield, protects same player from being attacked for 24 hours
-                    await app.cd.setCD(target.id, 'passive_shield', app.config.cooldowns.daily * 1000);
 
                     if(victimRow.power >= -3){
                         await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${target.id}`);
@@ -678,6 +679,9 @@ module.exports = {
                     let xpGained = randomItems.items.length * 50;
                     let moneyStolen = Math.floor(victimRow.money * .75);
 
+                    // passive shield, protects same player from being attacked for 24 hours
+                    await app.cd.setCD(member.id, 'passive_shield', app.config.cooldowns.daily * 1000);
+
                     await app.itm.removeItem(member.id, randomItems.amounts);
                     await app.itm.addItem(message.author.id, randomItems.amounts);
                     await app.player.removeMoney(member.id, moneyStolen);
@@ -688,9 +692,6 @@ module.exports = {
                     await app.query(`UPDATE scores SET kills = kills + 1 WHERE userId = ${message.author.id}`); // add 1 to kills
                     await app.query(`UPDATE scores SET deaths = deaths + 1 WHERE userId = ${member.id}`);
                     await app.query(`UPDATE scores SET health = 100 WHERE userId = ${member.id}`);
-
-                    // passive shield, protects same player from being attacked for 24 hours
-                    await app.cd.setCD(member.id, 'passive_shield', app.config.cooldowns.daily * 1000);
 
                     if(victimRow.power >= -3){
                         await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${member.id}`);

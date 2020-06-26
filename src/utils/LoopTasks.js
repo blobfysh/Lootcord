@@ -14,6 +14,7 @@ class LoopTasks {
         this.refreshLBJob = new CronJob('0 */6 * * *', this.refreshLB.bind(this), null, false, 'America/New_York');
         this.biHourly = new CronJob('0 */2 * * *', this.biHourlyTasks.bind(this), null, false, 'America/New_York');
         this.hourly = new CronJob('0 * * * *', this.hourlyTasks.bind(this), null, false, 'America/New_York');
+        this.removePatrons = new CronJob('0 0 1 * *', () => {this.app.ipc.broadcast('removePatrons', {})}, null, false, 'America/New_York');
 
         // every 3 minutes
         this.often = new CronJob('*/3 * * * *', this.frequentTasks.bind(this), null, false, 'America/New_York');
@@ -26,6 +27,7 @@ class LoopTasks {
             this.refreshLBJob.start();
             this.biHourly.start();
             this.often.start();
+            this.removePatrons.start();
         }
         
         this.hourly.start();
@@ -111,8 +113,10 @@ class LoopTasks {
 
     async frequentTasks(){
         if(!this.app.config.debug && this.app.clusterID === 0){
-            this._handleDiscoinTransactions();
+            await this._handleDiscoinTransactions();
         }
+
+        await this.app.ipc.broadcast('refreshPatrons', {});
     }
 
     async _handleDiscoinTransactions(){

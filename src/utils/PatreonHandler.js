@@ -4,45 +4,6 @@ class PatreonHandler {
         this.app = app;
     }
 
-    checkPatron(oldMember, newMember){
-        if(oldMember.roles.includes(this.app.config.donatorRoles.tier1Patreon) && !newMember.roles.includes(this.app.config.donatorRoles.tier1Patreon)){
-            // lost tier1
-            this.lostTier1(newMember.id, `\`${newMember.id}\`'s tier 1 donator perks expried.`);
-            console.log('Lost patron level 1');
-        }
-        else if(!oldMember.roles.includes(this.app.config.donatorRoles.tier1Patreon) && newMember.roles.includes(this.app.config.donatorRoles.tier1Patreon)){
-            // gained tier1
-            this.gainedTier1(newMember.id);
-        }
-
-        if(oldMember.roles.includes(this.app.config.donatorRoles.tier2Patreon) && !newMember.roles.includes(this.app.config.donatorRoles.tier2Patreon)){
-            // lost tier2
-            this.lostTier2(newMember.id, `\`${newMember.id}\`'s tier 2 donator perks expried.`);
-        }
-        else if(!oldMember.roles.includes(this.app.config.donatorRoles.tier2Patreon) && newMember.roles.includes(this.app.config.donatorRoles.tier2Patreon)){
-            // gained tier2
-            this.gainedTier2(newMember.id);
-        }
-
-        if(oldMember.roles.includes(this.app.config.donatorRoles.tier3Patreon) && !newMember.roles.includes(this.app.config.donatorRoles.tier3Patreon)){
-            // lost tier3
-            this.lostTier3(newMember.id, `\`${newMember.id}\`'s tier 3 donator perks expried.`);
-        }
-        else if(!oldMember.roles.includes(this.app.config.donatorRoles.tier3Patreon) && newMember.roles.includes(this.app.config.donatorRoles.tier3Patreon)){
-            // gained tier3
-            this.gainedTier3(newMember.id);
-        }
-
-        if(oldMember.roles.includes(this.app.config.donatorRoles.tier4Patreon) && !newMember.roles.includes(this.app.config.donatorRoles.tier4Patreon)){
-            // lost tier4
-            this.lostTier4(newMember.id, `\`${newMember.id}\`'s tier 4 donator perks expried.`);
-        }
-        else if(!oldMember.roles.includes(this.app.config.donatorRoles.tier4Patreon) && newMember.roles.includes(this.app.config.donatorRoles.tier4Patreon)){
-            // gained tier4
-            this.gainedTier4(newMember.id);
-        }
-    }
-
     async checkPatronLeft(member){
         if(await this.app.cd.getCD(member.id, 'patron1')){
             this.lostTier1(member.id, '`' + member.id + '` left support server...');
@@ -321,6 +282,113 @@ class PatreonHandler {
         }
 
         return patrons;
+    }
+
+    async removePatrons(supportGuild){
+        const members = supportGuild.members;
+        const patronRows = (await this.app.query('SELECT * FROM patrons'));
+
+        const tier1 = members.filter(member => member.roles.includes(this.app.config.donatorRoles.tier1Patreon)).map(member => member.id);
+        const tier2 = members.filter(member => member.roles.includes(this.app.config.donatorRoles.tier2Patreon)).map(member => member.id);
+        const tier3 = members.filter(member => member.roles.includes(this.app.config.donatorRoles.tier3Patreon)).map(member => member.id);
+        const tier4 = members.filter(member => member.roles.includes(this.app.config.donatorRoles.tier4Patreon)).map(member => member.id);
+
+        for(let i = 0; i < patronRows.length; i++){
+            if(patronRows[i].tier === 1 && !tier1.includes(patronRows[i].userId)){
+                this.lostTier1(patronRows[i].userId, '`' + patronRows[i].userId + '`\'s tier 1 donator perks expried.');
+            }
+            else if(patronRows[i].tier === 2 && !tier2.includes(patronRows[i].userId)){
+                this.lostTier2(patronRows[i].userId, '`' + patronRows[i].userId + '`\'s tier 2 donator perks expried.');
+            }
+            else if(patronRows[i].tier === 3 && !tier3.includes(patronRows[i].userId)){
+                this.lostTier3(patronRows[i].userId, '`' + patronRows[i].userId + '`\'s tier 3 donator perks expried.');
+            }
+            else if(patronRows[i].tier === 4 && !tier4.includes(patronRows[i].userId)){
+                this.lostTier4(patronRows[i].userId, '`' + patronRows[i].userId + '`\'s tier 4 donator perks expried.');
+            }
+        }
+    }
+
+    async refreshPatrons(supportGuild){
+        const members = supportGuild.members;
+        const patronRows = (await this.app.query('SELECT * FROM patrons'));
+
+        const tier1 = members.filter(member => member.roles.includes(this.app.config.donatorRoles.tier1Patreon)).map(member => member.id);
+        const tier2 = members.filter(member => member.roles.includes(this.app.config.donatorRoles.tier2Patreon)).map(member => member.id);
+        const tier3 = members.filter(member => member.roles.includes(this.app.config.donatorRoles.tier3Patreon)).map(member => member.id);
+        const tier4 = members.filter(member => member.roles.includes(this.app.config.donatorRoles.tier4Patreon)).map(member => member.id);
+
+        for(let i = 0; i < tier1.length; i++){
+            const patronage = patronRows.filter(patron => patron.userId === tier1[i]);
+            
+            if(patronage.length && patronage[0].tier !== 1){
+                switch(patronage[0].tier){
+                    case 1: await this.lostTier1(tier1[i], '`' + tier1[i] + '` patron switched tiers'); break;
+                    case 2: await this.lostTier2(tier1[i], '`' + tier1[i] + '` patron switched tiers'); break;
+                    case 3: await this.lostTier3(tier1[i], '`' + tier1[i] + '` patron switched tiers'); break;
+                    case 4: await this.lostTier4(tier1[i], '`' + tier1[i] + '` patron switched tiers');
+                }
+
+                this.gainedTier1(tier1[i]);
+            }
+            else if(!patronage.length){
+                this.gainedTier1(tier1[i]);
+            }
+        }
+
+        for(let i = 0; i < tier2.length; i++){
+            const patronage = patronRows.filter(patron => patron.userId === tier2[i]);
+            
+            if(patronage.length && patronage[0].tier !== 2){
+                switch(patronage[0].tier){
+                    case 1: await this.lostTier1(tier2[i], '`' + tier2[i] + '` patron switched tiers'); break;
+                    case 2: await this.lostTier2(tier2[i], '`' + tier2[i] + '` patron switched tiers'); break;
+                    case 3: await this.lostTier3(tier2[i], '`' + tier2[i] + '` patron switched tiers'); break;
+                    case 4: await this.lostTier4(tier2[i], '`' + tier2[i] + '` patron switched tiers');
+                }
+
+                this.gainedTier2(tier2[i]);
+            }
+            else if(!patronage.length){
+                this.gainedTier2(tier2[i]);
+            }
+        }
+
+        for(let i = 0; i < tier3.length; i++){
+            const patronage = patronRows.filter(patron => patron.userId === tier3[i]);
+            
+            if(patronage.length && patronage[0].tier !== 3){
+                switch(patronage[0].tier){
+                    case 1: await this.lostTier1(tier3[i], '`' + tier3[i] + '` patron switched tiers'); break;
+                    case 2: await this.lostTier2(tier3[i], '`' + tier3[i] + '` patron switched tiers'); break;
+                    case 3: await this.lostTier3(tier3[i], '`' + tier3[i] + '` patron switched tiers'); break;
+                    case 4: await this.lostTier4(tier3[i], '`' + tier3[i] + '` patron switched tiers');
+                }
+
+                this.gainedTier3(tier3[i]);
+            }
+            else if(!patronage.length){
+                this.gainedTier3(tier3[i]);
+            }
+        }
+
+        for(let i = 0; i < tier4.length; i++){
+            const patronage = patronRows.filter(patron => patron.userId === tier4[i]);
+            
+            if(patronage.length && patronage[0].tier !== 4){
+                switch(patronage[0].tier){
+                    case 1: await this.lostTier1(tier4[i], '`' + tier4[i] + '` patron switched tiers'); break;
+                    case 2: await this.lostTier2(tier4[i], '`' + tier4[i] + '` patron switched tiers'); break;
+                    case 3: await this.lostTier3(tier4[i], '`' + tier4[i] + '` patron switched tiers'); break;
+                    case 4: await this.lostTier4(tier4[i], '`' + tier4[i] + '` patron switched tiers');
+                }
+
+                this.gainedTier4(tier4[i]);
+            }
+            else if(!patronage.length){
+                this.gainedTier4(tier4[i]);
+            }
+        }
     }
 }
 
