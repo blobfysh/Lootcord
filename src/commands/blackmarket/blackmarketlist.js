@@ -15,9 +15,9 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
+        let itemName = app.parse.items(message.args)[0];
         let itemAmnt = app.parse.numbers(message.args)[0];
         let itemCost = app.parse.numbers(message.args)[1];
-        let itemName = app.parse.items(message.args)[0];
 
         if(await app.cd.getCD(message.author.id, 'tradeban')){
             return message.reply("❌ You are trade banned.");

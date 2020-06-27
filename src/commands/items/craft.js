@@ -12,8 +12,8 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
-        let craftAmount = app.parse.numbers(message.args)[0] || 1;
         let craftItem = app.parse.items(message.args)[0];
+        let craftAmount = app.parse.numbers(message.args)[0] || 1;
 
         if(craftItem){
             if(app.itemdata[craftItem].craftedWith == ""){

@@ -192,8 +192,8 @@ module.exports = {
                         message.channel.createMessage(refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix));
                     }
                     else if(command.toLowerCase() === 'add'){
-                        let amount = app.parse.numbers(args)[0] || 1;
                         let item = app.parse.items(args)[0];
+                        let amount = app.parse.numbers(args)[0] || 1;
 
                         if(!item){
                             return m.channel.createMessage('❌ You need to specify an item.');

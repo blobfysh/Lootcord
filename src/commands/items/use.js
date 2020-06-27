@@ -15,9 +15,9 @@ module.exports = {
     
     async execute(app, message){
         const row = await app.player.getRow(message.author.id);
+        let item = app.parse.items(message.args)[0];
         let member = app.parse.members(message, message.args)[0];
         let amount = app.parse.numbers(message.args)[0] || 1;
-        let item = app.parse.items(message.args)[0];
 
         if(!item){
             return message.reply(`❌ You need to specify an item to use! \`${message.prefix}use <item>\`. For more information and examples, type \`${message.prefix}help use\`.`);
@@ -268,7 +268,7 @@ module.exports = {
             }
             
             // check if attacking monster
-            if(Object.keys(app.mobdata).some(monster => message.args.map(arg => arg.toLowerCase()).includes('bounty') || message.args.map(arg => arg.toLowerCase()).includes(app.mobdata[monster].title.toLowerCase()))){
+            if(Object.keys(app.mobdata).some(monster => message.args.map(arg => arg.toLowerCase()).includes('bounty') || message.args.map(arg => arg.toLowerCase()).includes('@bounty') || message.args.map(arg => arg.toLowerCase()).includes(app.mobdata[monster].title.toLowerCase()))){
                 const monsterRow = await app.mysql.select('spawns', 'channelId', message.channel.id);
 
                 if(!monsterRow){
@@ -419,6 +419,9 @@ module.exports = {
             }
 
             // check if attack is random
+            else if(serverInfo.randomOnly === 1 && member){
+                return message.reply(`❌ This server allows only random attacks, specifying a target will not work.`)
+            }
             else if(['rand', 'random'].some(arg => message.args.map(arg => arg.toLowerCase()).includes(arg)) || serverInfo.randomOnly === 1){
                 const randUsers = await getRandomPlayers(app, message.author.id, message.channel.guild);
 

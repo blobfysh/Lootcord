@@ -14,8 +14,8 @@ module.exports = {
     
     async execute(app, message, args){
         const scoreRow = await app.player.getRow(message.author.id);
-        let itemAmnt = app.parse.numbers(args)[0];
         let itemName = app.parse.items(args)[0];
+        let itemAmnt = app.parse.numbers(args)[0];
         let isMoney = false;
         if(!itemName && itemAmnt) isMoney = true;
 

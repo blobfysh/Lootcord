@@ -14,8 +14,8 @@ module.exports = {
     
     async execute(app, message){
         const row = await app.player.getRow(message.author.id);
-        let amount = app.parse.numbers(message.args)[0] || 1;
         let item = app.parse.items(message.args)[0];
+        let amount = app.parse.numbers(message.args)[0] || 1;
 
         if(!item){
             return message.reply(`❌ You need to specify a box to open! \`${message.prefix}open <item>\`.`);

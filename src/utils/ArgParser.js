@@ -1,4 +1,5 @@
 const SpellCorrector = require('../structures/Corrector');
+const ignoredItemCorrections = ['bounty', 'fuck', 'cock']; // don't correct these words into items
 
 class ArgParser {
     constructor(app){
@@ -9,20 +10,18 @@ class ArgParser {
     }
 
     /**
-     * Finds all items from an array of arguments, works for up to 6 items
+     * Finds all items from an array of arguments
      * @param {string[]} args Array of args to find items from
      */
     items(args){
-        args = args.slice(0, 6);
-
         let itemArgs = args.map((arg, i) => {
 
             // check if two args make up item name
             let correctedArgs = this.correctItem(arg + '_' + (args[i + 1]));
             if(this.app.itemdata[correctedArgs]){
                 
-                // remove the next element because we already found an item using it.
-                args.splice(args.indexOf(args[i + 1]), 1);
+                // remove the elements because we already found an item.
+                args.splice(i, 1).splice(i, 1);
     
                 // return the item
                 return correctedArgs
@@ -30,8 +29,10 @@ class ArgParser {
     
             // check if single arg was item
             let correctedArg = this.correctItem(arg);
-            if(this.app.itemdata[correctedArg]) return correctedArg;
-            
+            if(this.app.itemdata[correctedArg]){
+                args.splice(i, 1);
+                return correctedArg;
+            }
             // no item found
             else return undefined;
         });
@@ -47,7 +48,9 @@ class ArgParser {
         let itemSearched = itemName.toLowerCase();
 
         // prevent unnecessary spell corection calls. 
-        if(itemSearched.split('_')[1] == 'undefined') return undefined;
+        if(itemSearched.split('_')[1] === 'undefined' || ignoredItemCorrections.includes(itemSearched)){
+            return undefined;
+        } 
 
         switch(itemSearched){
             case "item_box":
@@ -158,7 +161,6 @@ class ArgParser {
                 numbers.push(Math.floor(Number(arg)));
             }
             else if(arg.endsWith('m') && !isNaN(arg.slice(0, -1)) && Number(arg.slice(0, -1))){
-                arg.charAt()
                 numbers.push(Math.floor(parseFloat(arg) * 1000000))
             }
             else if(arg.endsWith('k') && !isNaN(arg.slice(0, -1)) && Number(arg.slice(0, -1))){

@@ -12,8 +12,8 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
-        let sellAmount = app.parse.numbers(message.args)[0] || 1;
         let sellItem = app.parse.items(message.args)[0];
+        let sellAmount = app.parse.numbers(message.args)[0] || 1;
 
         if(sellItem){
             if(app.itemdata[sellItem].recyclesTo == ""){

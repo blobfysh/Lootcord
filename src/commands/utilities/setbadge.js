@@ -1,3 +1,6 @@
+/*
+    the equip command also works for settings display badges but does not work for badges such as "hitman" where an item already exists with that name
+*/
 
 module.exports = {
     name: 'setbadge',

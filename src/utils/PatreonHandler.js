@@ -295,16 +295,16 @@ class PatreonHandler {
 
         for(let i = 0; i < patronRows.length; i++){
             if(patronRows[i].tier === 1 && !tier1.includes(patronRows[i].userId)){
-                this.lostTier1(patronRows[i].userId, '`' + patronRows[i].userId + '`\'s tier 1 donator perks expried.');
+                this.lostTier1(patronRows[i].userId, '`' + patronRows[i].userId + '`\'s tier 1 pledge was not renewed.');
             }
             else if(patronRows[i].tier === 2 && !tier2.includes(patronRows[i].userId)){
-                this.lostTier2(patronRows[i].userId, '`' + patronRows[i].userId + '`\'s tier 2 donator perks expried.');
+                this.lostTier2(patronRows[i].userId, '`' + patronRows[i].userId + '`\'s tier 2 pledge was not renewed.');
             }
             else if(patronRows[i].tier === 3 && !tier3.includes(patronRows[i].userId)){
-                this.lostTier3(patronRows[i].userId, '`' + patronRows[i].userId + '`\'s tier 3 donator perks expried.');
+                this.lostTier3(patronRows[i].userId, '`' + patronRows[i].userId + '`\'s tier 3 pledge was not renewed.');
             }
             else if(patronRows[i].tier === 4 && !tier4.includes(patronRows[i].userId)){
-                this.lostTier4(patronRows[i].userId, '`' + patronRows[i].userId + '`\'s tier 4 donator perks expried.');
+                this.lostTier4(patronRows[i].userId, '`' + patronRows[i].userId + '`\'s tier 4 pledge was not renewed.');
             }
         }
     }
