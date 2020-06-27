@@ -82,7 +82,7 @@ async function getClanInfo(app, message, clanId){
     
     baseEmbed.addField('Founded', getShortDate(clanRow.clanCreated), true)
     baseEmbed.addBlankField()    
-    baseEmbed.addField(`Bank (Interest Rate: \`${((clanMembers.count * app.config.clanInterestRate) * 100).toFixed(1)}%\`)`, app.common.formatNumber(clanRow.money) + ' / 10,000,000 max', true)
+    baseEmbed.addField(`Bank`, app.common.formatNumber(clanRow.money) + ' / 10,000,000 max', true)
     baseEmbed.addField('Member Stats', `${clanPower.kills + ' kills | ' + clanPower.deaths + ' deaths'}\n${app.cd.convertTime(clanPower.playtime)} of total playtime`, true)
     baseEmbed.addField(`Members (${clanMembers.count})`, app.icons.loading + ' Loading members...')
     

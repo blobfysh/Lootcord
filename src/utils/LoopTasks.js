@@ -35,19 +35,6 @@ class LoopTasks {
 
     async dailyTasks(){
         console.log('[LOOPTASKS] Running daily tasks...');
-        // add clan interest
-        const clans = await this.app.query(`SELECT clanId, money FROM clans`);
-
-        for(let i = 0; i < clans.length; i++){
-            const members = await this.app.clans.getMembers(clans[i].clanId);
-
-            if(Math.floor(clans[i].money * (members.count * this.app.config.clanInterestRate)) >= 100000){
-                await this.app.query(`UPDATE clans SET money = money + 100000 WHERE clanId = ${clans[i].clanId} AND money < 10000000`);
-            }
-            else{
-                await this.app.query(`UPDATE clans SET money = money + FLOOR(money * ${members.count * this.app.config.clanInterestRate}) WHERE clanId = ${clans[i].clanId} AND money < 10000000`);
-            }
-        }
 
         // remove old logs
         await this.app.query(`DELETE FROM clan_logs WHERE logDate < NOW() - INTERVAL 30 DAY`);

@@ -15,7 +15,6 @@
   "modChannel":        "channel_for_moderators_to_use_commands",
   "modRoleID":         "ID_of_role_to_ping_moderators",
   "baseInvSlots":      15,
-  "clanInterestRate":  0.005,
   "adminUsers":        ["168958344361541633"],
   "requiredPerms":     {
     "sendMessages": "Send Messages", 
