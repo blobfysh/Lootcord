@@ -33,6 +33,10 @@ class Clans {
         this.app.query(`DELETE FROM clans WHERE clanId = ${clanId}`);
     }
 
+    getUpkeep(itemCount, memberCount){
+        return (itemCount * 10000) + (memberCount * 10000);
+    }
+
     async getClanData(clanId){
         let currPower = 0;
         let maxPower = 0;

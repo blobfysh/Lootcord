@@ -35,6 +35,23 @@ class LoopTasks {
 
     async dailyTasks(){
         console.log('[LOOPTASKS] Running daily tasks...');
+        // take clan upkeep costs
+        const clans = await this.app.query(`SELECT clanId, money FROM clans`);
+
+        for(let i = 0; i < clans.length; i++){
+            const members = await this.app.clans.getMembers(clans[i].clanId);
+            const clanItems = await this.app.itm.getUserItems(await this.app.itm.getItemObject(clans[i].clanId));
+            const upkeep = this.app.clans.getUpkeep(clanItems.itemCount, members.count);
+
+            if(clans[i].money >= upkeep){
+                await this.app.clans.removeMoney(clans[i].clanId, upkeep);
+            }
+            else if(clanItems.itemCount >= 1){
+                const randomItem = await this.app.itm.getRandomUserItems(clans[i].clanId, 1);
+                await this.app.itm.removeItem(clans[i].clanId, randomItem.items[0], 1);
+                await this.app.clans.addLog(clans[i].clanId, `The vault lost 1x ${randomItem.items[0]} due to cost of upkeep`);
+            }
+        }
 
         // remove old logs
         await this.app.query(`DELETE FROM clan_logs WHERE logDate < NOW() - INTERVAL 30 DAY`);

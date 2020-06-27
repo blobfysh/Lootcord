@@ -50,6 +50,7 @@ async function getClanInfo(app, message, clanId){
     const clanRow = (await app.query(`SELECT * FROM clans WHERE clanId = ${clanId}`))[0];
     const clanMembers = await app.clans.getMembers(clanId);
     const clanPower = await app.clans.getClanData(clanId);
+    const upkeep = app.clans.getUpkeep(clanPower.usedPower, clanMembers.count);
     const raidCD = await app.cd.getCD(clanId, 'raid');
     const raidedCD = await app.cd.getCD(clanId, 'raided');
 
@@ -70,21 +71,28 @@ async function getClanInfo(app, message, clanId){
     }
     
     if(clanRow.reduction > 0){
-        baseEmbed.addField('Clan Power (Used / Current / Max)', 
+        baseEmbed.addField('Clan Power\n(Used / Current / Max)', 
         clanPower.usedPower + ' / 💥 ' + clanPower.currPower + ' / ' + clanPower.maxPower + '\n\n- **' + clanPower.usedPower + '** items in the clan vault, using ' + clanPower.usedPower + ' power.\n- **' + (clanPower.currPower + clanRow.reduction) + '** current cumulative power among members minus 💥 **' + clanRow.reduction + '** power from explosions.\n- **' + clanPower.maxPower + '** maximum possible power (if every member had 5 power).', 
         true)
     }
     else{
-        baseEmbed.addField('Clan Power (Used / Current / Max)', 
+        baseEmbed.addField('Clan Power\n(Used / Current / Max)', 
         clanPower.usedPower + ' / ' + clanPower.currPower + ' / ' + clanPower.maxPower + '\n\n- **' + clanPower.usedPower + '** items in the clan vault, using ' + clanPower.usedPower + ' power.\n- **' + clanPower.currPower + '** current cumulative power among members (5 per member).\n- **' + clanPower.maxPower + '** maximum possible power (if every member had 5 power).', 
         true)
     }
     
-    baseEmbed.addField('Founded', getShortDate(clanRow.clanCreated), true)
+    baseEmbed.addField('Member Stats', `${clanPower.kills + ' kills | ' + clanPower.deaths + ' deaths'}\n${app.cd.convertTime(clanPower.playtime)} of total playtime`, true)
     baseEmbed.addBlankField()    
     baseEmbed.addField(`Bank`, app.common.formatNumber(clanRow.money) + ' / 10,000,000 max', true)
-    baseEmbed.addField('Member Stats', `${clanPower.kills + ' kills | ' + clanPower.deaths + ' deaths'}\n${app.cd.convertTime(clanPower.playtime)} of total playtime`, true)
+
+    if(clanRow.money >= upkeep){
+        baseEmbed.addField(`Daily Upkeep`, app.common.formatNumber(upkeep), true)
+    }
+    else{
+        baseEmbed.addField(`Daily Upkeep`, app.common.formatNumber(upkeep) + `\n\n⚠ Items will be lost from the vault if upkeep is not paid tonight!`, true)
+    }
     baseEmbed.addField(`Members (${clanMembers.count})`, app.icons.loading + ' Loading members...')
+    baseEmbed.setFooter(`Founded on ${getShortDate(clanRow.clanCreated)}`)
     
     const loadingMsg = await message.channel.createMessage(baseEmbed);
 
@@ -122,13 +130,11 @@ function getShortDate(date){
     let convertedTime = new Date(date).toLocaleString('en-US', {
         timeZone: 'America/New_York'
     });
-    convertedTime = new Date(convertedTime);
+    convertedTime = new Date(convertedTime).toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+    });
     
-    let d = convertedTime;
-    let month = d.getMonth() + 1;
-    let day = d.getDate();
-    let year = d.getFullYear();
-    let time = d.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'}).replace(' ', '');
-    
-    return month + '/' + day + '/' + year.toString().slice(2) + ' ' + time + ' EST';
+    return convertedTime;
 }
