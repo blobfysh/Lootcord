@@ -8,16 +8,15 @@
   "1": {
     "title": "Trusted",
     "perms": [
-      "Deposit items into the clan vault.",
-      "Deposit money into the clan bank."
+      "Contribute power to the clan.",
+      "Deposit and withdraw from the clan vault.",
+      "Deposit and withdraw from the clan bank."
     ]
   },
   "2": {
     "title": "Officer",
     "perms": [
       "Invite new members to the clan.",
-      "Deposit and withdraw from the clan vault.",
-      "Deposit and withdraw from the clan bank.",
       "Change the clan status."
     ]
   },

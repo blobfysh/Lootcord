@@ -37,7 +37,7 @@ module.exports = {
             promoteMessage = `Promoting this member will make them the leader of the clan! Are you sure you want to give leadership to ${user.nick || user.username}?`;
         }
         else{
-            promoteMessage = `Promote member to \`${app.clan_ranks[invitedScoreRow.clanRank + 1].title}\`? This rank grants the following permissions:\n\`\`\`${app.clan_ranks[invitedScoreRow.clanRank + 1].perms.join('\n')}\`\`\``;
+            promoteMessage = `Promote member to \`${app.clan_ranks[invitedScoreRow.clanRank + 1].title}\`? This rank grants the following permissions:\n\`\`\`${app.clan_ranks[invitedScoreRow.clanRank + 1].perms.join('\n')}\`\`\`\n**Promoting a member you don't trust is dangerous!**`;
         }
 
         const botMessage = await message.channel.createMessage(promoteMessage);

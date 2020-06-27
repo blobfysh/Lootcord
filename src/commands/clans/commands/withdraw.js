@@ -8,7 +8,7 @@ module.exports = {
     examples: ["clan withdraw ultra_box 2", "clan withdraw 2000"],
     requiresClan: true,
     requiresActive: true,
-    minimumRank: 2,
+    minimumRank: 1,
     levelReq: 3,
     
     async execute(app, message, args){

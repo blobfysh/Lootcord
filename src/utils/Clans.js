@@ -48,9 +48,12 @@ class Clans {
         for(let i = 0; i < memberRows.length; i++){
             kills += memberRows[i].kills;
             deaths += memberRows[i].deaths;
-            currPower += memberRows[i].power;
-            maxPower += memberRows[i].max_power;
             timePlayed += (dateTime - memberRows[i].createdAt);
+
+            if(memberRows[i].clanRank >= 1){
+                currPower += memberRows[i].power;
+                maxPower += memberRows[i].max_power;
+            }
         }
 
         currPower -= clanRow.reduction;

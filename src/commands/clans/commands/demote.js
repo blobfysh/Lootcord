@@ -36,7 +36,7 @@ module.exports = {
             return message.reply('You cannot demote members of equal or higher rank!');
         }
 
-        const botMessage = await message.channel.createMessage(`Demote member to \`${app.clan_ranks[invitedScoreRow.clanRank - 1].title}\`? They will LOSE these permissions:\n\`\`\`${app.clan_ranks[invitedScoreRow.clanRank].perms.join('\n')}\`\`\``);
+        const botMessage = await message.channel.createMessage(`Demote member to \`${app.clan_ranks[invitedScoreRow.clanRank - 1].title}\`? They will **LOSE** these permissions:\n\`\`\`${app.clan_ranks[invitedScoreRow.clanRank].perms.join('\n')}\`\`\``);
 
         try{
             const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
