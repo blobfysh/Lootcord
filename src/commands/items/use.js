@@ -407,9 +407,9 @@ module.exports = {
     
                         // send notifications
                         if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
-                            sendToKillFeed(app, {tag: monster.title, id: monsterRow.monster}, serverInfo.killChan, message.member, monster.weapon.name, mobDmg, true);
+                            sendToKillFeed(app, {username: monster.title, discriminator: '0000', id: monsterRow.monster}, serverInfo.killChan, message.member, monster.weapon.name, mobDmg, randomItems, moneyStolen, true);
                         }
-                        logKill(app, {username: monster.title, discriminator: '0000', id: monsterRow.monster}, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, randomItems.items.length !== 0 ? randomItems.amounts : ['Nothing'])
+                        logKill(app, {username: monster.title, discriminator: '0000', id: monsterRow.monster}, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, randomItems)
                     }
                     else{
                         await app.query(`UPDATE scores SET health = health - ${mobDmg} WHERE userId = ${message.author.id}`);
@@ -558,9 +558,9 @@ module.exports = {
                     // send notifications
                     if(victimRow.notify2) notifyDeathVictim(app, message, target, item, randDmg, randomItems.items.length !== 0 ? randomItems.display : ['You had nothing they could steal!']);
                     if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
-                        sendToKillFeed(app, message.author, serverInfo.killChan, target, item, randDmg);
+                        sendToKillFeed(app, message.author, serverInfo.killChan, target, item, randDmg, randomItems, moneyStolen);
                     }
-                    logKill(app, message.member, target, item, ammoUsed, randDmg, moneyStolen, randomItems.items.length !== 0 ? randomItems.amounts : ['Nothing'])
+                    logKill(app, message.member, target, item, ammoUsed, randDmg, moneyStolen, randomItems)
                 }
                 else{
                     // normal attack
@@ -725,9 +725,9 @@ module.exports = {
                     // send notifications
                     if(victimRow.notify2) notifyDeathVictim(app, message, member, item, randDmg, randomItems.items.length !== 0 ? randomItems.display : ['You had nothing they could steal!']);
                     if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
-                        sendToKillFeed(app, message.author, serverInfo.killChan, member, item, randDmg);
+                        sendToKillFeed(app, message.author, serverInfo.killChan, member, item, randDmg, randomItems, moneyStolen);
                     }
-                    logKill(app, message.member, member, item, ammoUsed, randDmg, moneyStolen, randomItems.items.length !== 0 ? randomItems.amounts : ['Nothing'])
+                    logKill(app, message.member, member, item, ammoUsed, randDmg, moneyStolen, randomItems)
                 }
                 else{
                     // normal attack
@@ -785,7 +785,7 @@ function logKill(app, killer, victim, item, ammo, damage, moneyStolen, itemsLost
         .setDescription(`**Weapon**: \`${item}\` - **${damage} damage**\n**Ammo**: ${ammo ? '`' + ammo + '`' : 'Not required'}`)
         .addField('Killer', (killer.username + '#' + killer.discriminator) + ' ID: ```\n' + killer.id + '```')
         .addField('Victim', (victim.username + '#' + victim.discriminator) + ' ID: ```\n' + victim.id + '```')
-        .addField('Items Stolen', itemsLost[0] !== 'Nothing' ? itemsLost.map(itm => itm.split('|')[1] + 'x `' + itm.split('|')[0] + '`').join('\n') : 'Nothing', true)
+        .addField('Items Stolen', itemsLost.items.length !== 0 ? itemsLost.display.join('\n') : 'Nothing', true)
         .addField('Money Stolen', app.common.formatNumber(moneyStolen), true)
         .setTimestamp()
         
@@ -1035,11 +1035,13 @@ async function notifyDeathVictim(app, message, victim, itemUsed, damage, itemsLo
     }
 }
 
-async function sendToKillFeed(app, killer, channelID, victim, itemName, itemDmg, monster = false){
+async function sendToKillFeed(app, killer, channelID, victim, itemName, itemDmg, itemsStolen, moneyStolen, monster = false){
     const killEmbed = new app.Embed()
-    .setTitle((killer.username + '#' + killer.discriminator) + " 🗡 " + (victim.user.username + victim.user.discriminator) + " 💀")
-    .setDescription(`**Weapon**: ${monster ? app.mobdata[killer.id].weapon.icon : app.itemdata[itemName].icon}\`${itemName}\` - **${itemDmg} damage**`)
-    .setColor(16721703)
+    .setDescription((monster ? killer.username : "<@" + killer.id + ">") + " 🗡 " + ("<@" + victim.user.id + ">") + " 💀")
+    .addField('Weapon Used', `${monster ? app.mobdata[killer.id].weapon.icon : app.itemdata[itemName].icon}\`${itemName}\` - **${itemDmg} damage**`)
+    .addField('Items Stolen', itemsStolen.items.length !== 0 ? itemsStolen.display.join('\n') : 'Nothing', true)
+    .addField('Money Stolen', app.common.formatNumber(moneyStolen), true)
+    .setColor(16734296)
     .setTimestamp()
 
     try{
