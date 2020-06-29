@@ -1,4 +1,3 @@
-const MAX_BANK_STORAGE = 10000000;
 
 module.exports = {
     name: 'deposit',
@@ -34,12 +33,18 @@ module.exports = {
 
         if(isMoney){
             const clanRow = (await app.query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0];
+            const bankLimit = app.clans.getBankLimit((await app.clans.getMembers(scoreRow.clanId)).count);
 
             if(!await app.player.hasMoney(message.author.id, itemAmnt)){
-                return message.reply(`❌ You don't have that much money! You currently have ${app.common.formatNumber(scoreRow.money)}`);
+                return message.reply(`❌ You don't have that much money! You currently have **${app.common.formatNumber(scoreRow.money)}**`);
             }
-            else if(clanRow.money + itemAmnt > MAX_BANK_STORAGE){
-                return message.reply(`Your clan bank is packed! Cannot store more than ${app.common.formatNumber(MAX_BANK_STORAGE)} in bank.`)
+            else if(clanRow.money + itemAmnt > bankLimit){
+                if(bankLimit - clanRow.money <= 0){
+                    return message.reply(`**Your clan bank is packed!**\n\nThe bank cannot hold more than **${app.common.formatNumber(bankLimit)}**. You can increase this amount by inviting more members to the clan.`);
+                }
+                else{
+                    return message.reply(`Your clan can only hold **${app.common.formatNumber(bankLimit - clanRow.money)}** more in the bank. You can increase this by inviting more members to the clan.`);
+                }
             }
 
             await app.player.removeMoney(message.author.id, itemAmnt);

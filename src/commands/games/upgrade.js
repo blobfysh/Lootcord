@@ -15,7 +15,7 @@ module.exports = {
     async execute(app, message){
         const row = await app.player.getRow(message.author.id);
         let upgrOpt = message.args[0] !== undefined ? message.args[0].toLowerCase() : "";
-        let upgrAmnt = app.parse.numbers(message.args)[0] || 1;
+        let upgrAmnt = upgrOptions.includes(upgrOpt) ? app.parse.numbers(message.args)[0] || 1 : 1;
 
         if(row.used_stats + upgrAmnt > 30){
             return message.reply("❌ Upgrading that much would put you over the max (30 skills upgraded, you've upgraded `" + row.used_stats + "` times). You can use a `reroll_scroll` to reset your skills.");

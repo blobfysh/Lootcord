@@ -83,7 +83,7 @@ async function getClanInfo(app, message, clanId){
     
     baseEmbed.addField('Member Stats', `${clanPower.kills + ' kills | ' + clanPower.deaths + ' deaths'}\n${app.cd.convertTime(clanPower.playtime)} of total playtime`, true)
     baseEmbed.addBlankField()    
-    baseEmbed.addField(`Bank`, app.common.formatNumber(clanRow.money) + ' / 10,000,000 max', true)
+    baseEmbed.addField(`Bank`, app.common.formatNumber(clanRow.money) + ' / ' + app.common.formatNumber(app.clans.getBankLimit(clanMembers.count), true) + ' max', true)
 
     if(clanRow.money >= upkeep){
         baseEmbed.addField(`Daily Upkeep`, app.common.formatNumber(upkeep), true)

@@ -37,6 +37,10 @@ class Clans {
         return (itemCount * 10000) + (memberCount * 10000);
     }
 
+    getBankLimit(memberCount){
+        return 5000000 + (memberCount * 1000000);
+    }
+
     async getClanData(clanId){
         let currPower = 0;
         let maxPower = 0;
