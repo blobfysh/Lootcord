@@ -119,7 +119,7 @@ module.exports = {
                 }
 
                 //embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max | Value: " + app.common.formatNumber(usersItems.invValue, true))
-                embedInfo.addField("\u200b", "Inventory space: " + itemCt.capacity + " max | Value: " + app.common.formatNumber(usersItems.invValue) + '');
+                embedInfo.addField("\u200b", "Inventory space: " + itemCt.capacity + " max | Value: " + app.common.formatNumber(usersItems.invValue + userRow.money) + '');
                 
                 await message.channel.createMessage(embedInfo);
             }
