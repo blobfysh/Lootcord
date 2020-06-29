@@ -41,7 +41,7 @@ class LoopTasks {
         for(let i = 0; i < clans.length; i++){
             const members = await this.app.clans.getMembers(clans[i].clanId);
             const clanItems = await this.app.itm.getUserItems(await this.app.itm.getItemObject(clans[i].clanId));
-            const upkeep = this.app.clans.getUpkeep(clanItems.itemCount, members.count);
+            const upkeep = this.app.clans.getUpkeep(clanItems.invValue, members.count);
 
             if(clans[i].money >= upkeep){
                 await this.app.clans.removeMoney(clans[i].clanId, upkeep);

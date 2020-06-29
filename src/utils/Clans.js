@@ -33,8 +33,8 @@ class Clans {
         this.app.query(`DELETE FROM clans WHERE clanId = ${clanId}`);
     }
 
-    getUpkeep(itemCount, memberCount){
-        return (itemCount * 10000) + (memberCount * 10000);
+    getUpkeep(vaultValue, memberCount){
+        return Math.floor(vaultValue * 0.2) + (memberCount * 10000);
     }
 
     getBankLimit(memberCount){
@@ -74,7 +74,8 @@ class Clans {
             memberCount: memberRows.length,
             kills: kills,
             deaths: deaths,
-            playtime: timePlayed
+            playtime: timePlayed,
+            vaultValue: clanItems.invValue
         }
     }
 
