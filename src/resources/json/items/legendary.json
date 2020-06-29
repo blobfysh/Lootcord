@@ -397,61 +397,41 @@
         "cooldown": "",
         "artist": ""
     },
-    "module": {
+    "rocket": {
         "rarity": "Legendary",
         "isWeap": false,
         "isItem": false,
-        "isMaterial": true,
-        "damage": "",
+        "damage": 65,
         "minDmg": "",
         "maxDmg": "",
-        "isAmmo": [],
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 11447,
-        "desc": "A piece of machinery used for various tech.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132477627301938/module.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965905288790066/module.png",
-        "icon": "<:L_material:601369664429228043>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": ""
-    },
-    "module_bundle": {
-        "rarity": "Legendary",
-        "isWeap": false,
-        "isItem": false,
-        "isMaterial": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [],
+        "isAmmo": [
+            "rpg",
+            "javelin"
+        ],
         "ammo": "",
         "craftedWith": {
-            "display": "5x module",
+            "display": "5x gunpowder\n2x steel",
             "materials": [
-                "module|5"
+                "gunpowder|5",
+                "steel|2"
             ]
         },
         "recyclesTo": {
-            "display": "5x module",
+            "display": "2x gunpowder",
             "materials": [
-                "module|5"
+                "gunpowder|2"
             ]
         },
         "buy": "",
-        "sell": 57235,
-        "desc": "Bundle of 5 `module`'s. Good for saving inventory space!",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132477627301938/module.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965905288790066/module.png",
-        "icon": "<:L_material:601369664429228043>",
+        "sell": 119850,
+        "desc": "Explosive ammunition, use with weapon.",
+        "image": "https://cdn.discordapp.com/attachments/718004634693795890/723432044914278410/r0cket.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965790629363772/rocket.png",
+        "icon": "<:L_ammo:601369664173637634>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
-        "artist": ""
+        "artist": "380406568497446912"
     },
     "supply_signal": {
         "rarity": "Legendary",

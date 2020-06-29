@@ -1,4 +1,60 @@
 {
+    "module": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 11447,
+        "desc": "A piece of machinery used for various tech.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132477627301938/module.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965905288790066/module.png",
+        "icon": "<:E_material:601368952555307028>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": ""
+    },
+    "module_bundle": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "5x module",
+            "materials": [
+                "module|5"
+            ]
+        },
+        "recyclesTo": {
+            "display": "5x module",
+            "materials": [
+                "module|5"
+            ]
+        },
+        "buy": "",
+        "sell": 57235,
+        "desc": "Bundle of 5 `module`'s. Good for saving inventory space!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132477627301938/module.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965905288790066/module.png",
+        "icon": "<:E_material:601368952555307028>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": ""
+    },
     "canvas_bag": {
         "rarity": "Epic",
         "isWeap": false,
@@ -142,42 +198,6 @@
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/721060103104757850/shield.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/721060103104757850/shield.png",
         "icon": "<:E_shield:601368952584798218>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "380406568497446912"
-    },
-    "rocket": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": false,
-        "damage": 65,
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [
-            "rpg",
-            "javelin"
-        ],
-        "ammo": "",
-        "craftedWith": {
-            "display": "5x gunpowder\n2x steel",
-            "materials": [
-                "gunpowder|5",
-                "steel|2"
-            ]
-        },
-        "recyclesTo": {
-            "display": "2x gunpowder",
-            "materials": [
-                "gunpowder|2"
-            ]
-        },
-        "buy": "",
-        "sell": 119850,
-        "desc": "Explosive ammunition, use with weapon.",
-        "image": "https://cdn.discordapp.com/attachments/718004634693795890/723432044914278410/r0cket.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704965790629363772/rocket.png",
-        "icon": "<:E_ammo:601368952299323421>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
