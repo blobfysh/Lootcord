@@ -215,7 +215,7 @@ module.exports = {
                 message.reply('Successfully drank an ' + app.itemdata['xp_potion'].icon + '`xp_potion` and gained **75** XP! You now have **' + (xp.curLvlXp + 75) + ' / ' + xp.neededForLvl + '** XP.');
             }
             else if(item === 'c4'){
-                const clanName = message.args.slice(1);
+                const clanName = message.args;
                 if(!clanName.length){
                     return message.reply('You need to specify a clan to use your explosive on! `' + message.prefix + 'use c4 <clan name>`');
                 }

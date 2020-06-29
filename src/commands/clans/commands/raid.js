@@ -70,8 +70,8 @@ module.exports = {
                     return m.author.id === message.author.id
                 }, { time: 120000 });
 
-                raidableEmbed.setDescription(`Raid successful!\n\nChoose up to **${itemsToSteal}** items to steal from their vault.\n\nExample: \`item_box 2\` to steal 2 boxes from the vault. Not sure what items they have? Check with \`clan vault ${clanRow.name}\`.`);
-                raidableEmbed.setFooter('You have 2 minutes to pick the items. | You can type stop to end the raid early.')
+                raidableEmbed.setDescription(`Raid successful!\n\nChoose up to **${itemsToSteal}** items to steal from their vault.\n\nExample: \`${message.prefix}steal item_box 2\` to steal 2 boxes from the vault. Not sure what items they have? Check with \`${message.prefix}clan vault ${clanRow.name}\`.`);
+                raidableEmbed.setFooter(`You have 2 minutes to pick the items. | You can type ${message.prefix}stop to end the raid early.`)
                 raidableEmbed.setColor(8311585);
                 setTimeout(() => {
                     botmsg.edit(raidableEmbed);
@@ -103,37 +103,42 @@ module.exports = {
                 }
 
                 collector.on('collect', async m => {
-                    const userArgs = m.content.split(/ +/);
-                    let item = app.parse.items(userArgs)[0];
-                    let amount = app.parse.numbers(userArgs)[0] || 1;
+                    if(!m.content.toLowerCase().startsWith(message.prefix)) return;
+
+                    const userArgs = m.content.slice(message.prefix.length).split(/ +/);
+                    const command = userArgs[0] || '';
+                    const itemInput = userArgs.slice(1);
+                    let item = app.parse.items(itemInput)[0];
+                    let amount = app.parse.numbers(itemInput)[0] || 1;
                     
-                    if(userArgs[0] && (userArgs[0].toLowerCase() === 'stop' || userArgs[0].toLowerCase() === 'end')){
+                    if(command.toLowerCase() === 'stop' || command.toLowerCase() === 'end'){
                         app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
                         return m.channel.createMessage(`<@${m.author.id}>, -> Ending raid.`);
                     }
-
-                    else if(!item) return;
+                    else if(command.toLowerCase() === 'steal' || command.toLowerCase() === 'take'){
+                        if(!item) return;
                     
-                    else if(amount + itemsStolen > itemsToSteal){
-                        return m.channel.createMessage(`❌ Too many items! You can only steal ${itemsToSteal - itemsStolen} more items.`);
-                    }
+                        else if(amount + itemsStolen > itemsToSteal){
+                            return m.channel.createMessage(`❌ Too many items! You can only steal ${itemsToSteal - itemsStolen} more items.`);
+                        }
 
-                    const clanItems = await app.itm.getItemObject(clanRow.clanId);
+                        const clanItems = await app.itm.getItemObject(clanRow.clanId);
 
-                    if(!await app.itm.hasItems(clanItems, item, amount)){
-                        return m.channel.createMessage(`❌ Their vault doesn't have enough of that item. They have **${clanItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\``);
-                    }
+                        if(!await app.itm.hasItems(clanItems, item, amount)){
+                            return m.channel.createMessage(`❌ Their vault doesn't have enough of that item. They have **${clanItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\``);
+                        }
 
-                    await app.itm.removeItem(clanRow.clanId, item, amount);
-                    await app.itm.addItem(scoreRow.clanId, item, amount);
+                        await app.itm.removeItem(clanRow.clanId, item, amount);
+                        await app.itm.addItem(scoreRow.clanId, item, amount);
 
-                    m.channel.createMessage(`Successfully stole ${amount}x ${app.itemdata[item].icon}\`${item}\`.\n\nYou can steal **${(itemsToSteal - (amount + itemsStolen))}** more items.`);
-                    itemsArray.push(item + '|' + amount);
-                    itemsStolen += amount;
+                        m.channel.createMessage(`Successfully stole ${amount}x ${app.itemdata[item].icon}\`${item}\`.\n\nYou can steal **${(itemsToSteal - (amount + itemsStolen))}** more items.`);
+                        itemsArray.push(item + '|' + amount);
+                        itemsStolen += amount;
 
-                    if(itemsToSteal - itemsStolen <= 0){
-                        m.channel.createMessage(`<@${m.author.id}>, -> Max items stolen. Ending raid.`);
-                        app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                        if(itemsToSteal - itemsStolen <= 0){
+                            m.channel.createMessage(`<@${m.author.id}>, -> Max items stolen. Ending raid.`);
+                            app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                        }
                     }
                 });
                 collector.on('end', async reason => {
