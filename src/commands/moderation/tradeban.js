@@ -8,7 +8,7 @@ module.exports = {
         "User ID": "ID of user to ban.",
         "reason": "Reason for ban."
     },
-    examples: ["tradeban 168958344361541633 trading between alts"],
+    examples: ["tradeban 168958344361541633 Warned 2+ times"],
     ignoreHelp: false,
     requiresAcc: false,
     requiresActive: false,
