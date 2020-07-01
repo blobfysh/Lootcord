@@ -479,7 +479,7 @@ class Items {
         return 0;
     }
 
-    getDisplay(itemList){
+    combineItems(itemList){
         let nameArr = [];
         let amountArr = [];
         let finalArr = [];
@@ -497,9 +497,22 @@ class Items {
                 amountArr.push(item[1]);
             }
         }
-    
+
         for(let i = 0; i < nameArr.length; i++){
-            finalArr.push(amountArr[i] + 'x ' + this.app.itemdata[nameArr[i]].icon + '`' + nameArr[i] + '`');
+            finalArr.push(nameArr[i] + '|' + amountArr[i]);
+        }
+
+        return finalArr;
+    }
+
+    getDisplay(itemList){
+        let combined = this.combineItems(itemList);
+        let finalArr = [];
+    
+        for(let i = 0; i < combined.length; i++){
+            let itemAmnt = combined[i].split('|');
+            
+            finalArr.push(itemAmnt[1] + 'x ' + this.app.itemdata[itemAmnt[0]].icon + '`' + itemAmnt[0] + '`');
         }
     
         return finalArr;

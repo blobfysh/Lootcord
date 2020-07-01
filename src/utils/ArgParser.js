@@ -18,11 +18,10 @@ class ArgParser {
 
             // check if two args make up item name
             let correctedArgs = this.correctItem(arg + '_' + (args[i + 1]));
-            if(this.app.itemdata[correctedArgs]){
-                
+            if(this.app.itemdata[correctedArgs] && !this._isNumber(args[i + 1])){
                 // remove the elements because we already found an item.
-                args.splice(i, 1).splice(i, 1);
-    
+                args.splice(i, 1)
+                args.splice(i, 1);
                 // return the item
                 return correctedArgs
             }
@@ -157,7 +156,7 @@ class ArgParser {
         for(let arg of args){
             arg = arg.replace(/,/g,"");
             
-            if(!isNaN(arg) && Number(arg) && !arg.includes('.')){
+            if(this._isNumber(arg)){
                 numbers.push(Math.floor(Number(arg)));
             }
             else if(arg.endsWith('m') && !isNaN(arg.slice(0, -1)) && Number(arg.slice(0, -1))){
@@ -263,6 +262,13 @@ class ArgParser {
         });
 
         return userArgs.filter(arg => arg !== undefined);
+    }
+
+    _isNumber(arg){
+        if(!isNaN(arg) && Number(arg) && !arg.includes('.')){
+            return true;
+        }
+        else return false;
     }
 }
 
