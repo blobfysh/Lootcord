@@ -14,29 +14,31 @@ class ArgParser {
      * @param {string[]} args Array of args to find items from
      */
     items(args){
-        let itemArgs = args.map((arg, i) => {
+        let itemArgs = [];
 
-            // check if two args make up item name
-            let correctedArgs = this.correctItem(arg + '_' + (args[i + 1]));
-            if(this.app.itemdata[correctedArgs] && !this._isNumber(args[i + 1])){
-                // remove the elements because we already found an item.
-                args.splice(i, 1)
+        for(let i = 0; i < args.length; i++){
+            let correctedArgs = this.correctItem(args[i] + '_' + args[i + 1]);
+
+            if(this.app.itemdata[correctedArgs] && !this._isNumber(args[i]) && !this._isNumber(args[i + 1])){
                 args.splice(i, 1);
-                // return the item
-                return correctedArgs
-            }
-    
-            // check if single arg was item
-            let correctedArg = this.correctItem(arg);
-            if(this.app.itemdata[correctedArg]){
                 args.splice(i, 1);
-                return correctedArg;
+                i -= 1;
+
+                itemArgs.push(correctedArgs);
             }
-            // no item found
-            else return undefined;
-        });
-    
-        return itemArgs.filter(arg => arg !== undefined);
+            else{
+                let correctedArg = this.correctItem(args[i]);
+
+                if(this.app.itemdata[correctedArg]){
+                    args.splice(i, 1);
+                    i -= 1;
+
+                    itemArgs.push(correctedArg);
+                }    
+            }
+        }
+
+        return itemArgs;
     }
 
     /**

@@ -14,7 +14,7 @@ class LoopTasks {
         this.refreshLBJob = new CronJob('0 */6 * * *', this.refreshLB.bind(this), null, false, 'America/New_York');
         this.biHourly = new CronJob('0 */2 * * *', this.biHourlyTasks.bind(this), null, false, 'America/New_York');
         this.hourly = new CronJob('0 * * * *', this.hourlyTasks.bind(this), null, false, 'America/New_York');
-        this.removePatrons = new CronJob('0 0 1 * *', () => {this.app.ipc.broadcast('removePatrons', {})}, null, false, 'America/New_York');
+        this.removePatrons = new CronJob('0 0 2 * *', () => {this.app.ipc.broadcast('removePatrons', {})}, null, false, 'America/New_York');
 
         // every 3 minutes
         this.often = new CronJob('*/3 * * * *', this.frequentTasks.bind(this), null, false, 'America/New_York');
