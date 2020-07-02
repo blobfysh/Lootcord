@@ -21,6 +21,7 @@ module.exports = {
         const triviaCD = await app.cd.getCD(message.author.id, 'trivia');
         const scrambleCD = await app.cd.getCD(message.author.id, 'scramble');
         const voteCD = await app.cd.getCD(message.author.id, 'vote');
+        const vote2CD = await app.cd.getCD(message.author.id, 'vote2');
         const blackjackCD = await app.cd.getCD(message.author.id, 'blackjack');
         const slotsCD = await app.cd.getCD(message.author.id, 'slots');
         const rouletteCD = await app.cd.getCD(message.author.id, 'roulette');
@@ -38,6 +39,7 @@ module.exports = {
         let attackReady = attackCD ? '❌ ' + attackCD : "✅ ready"
         let healReady = healCD ? '❌ ' + healCD : "✅ ready"
         let voteReady = voteCD ? '❌ ' + voteCD : "✅ ready"
+        let vote2Ready = vote2CD ? '❌ ' + vote2CD : "✅ ready"
         let blackjackReady = blackjackCD ? '❌ ' + blackjackCD : "✅ ready"
         let slotsReady = slotsCD ? '❌ ' + slotsCD : "✅ ready"
         let rouletteReady = rouletteCD ? '❌ ' + rouletteCD : "✅ ready"
@@ -65,6 +67,7 @@ module.exports = {
         embedLeader.addField("coinflip", "`" + coinflipReady + "`",true)
         embedLeader.addField("roulette", "`" + rouletteReady + "`",true)
         embedLeader.addField("vote", "`" + voteReady + "`",true)
+        embedLeader.addField("vote2", "`" + vote2Ready + "`",true)
         embedLeader.addField("jackpot", "`" + jackpotReady + "`",true)
         embedLeader.addField("Attack (part of `" + message.prefix + "use`)", "`" + attackReady + "`",true)
         embedLeader.addField("Heal (part of `" + message.prefix + "use`)", "`" + healReady + "`",true)

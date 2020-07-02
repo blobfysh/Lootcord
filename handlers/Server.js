@@ -18,7 +18,8 @@ class Server {
     }
 
     launch(){
-        if(this.config.webhooks.dbl) this.server.post(this.config.webhooks.dbl.path, this._handleDBLVote.bind(this));
+        if(this.config.webhooks.topgg) this.server.post(this.config.webhooks.topgg.path, this._handleTOPGGVote.bind(this));
+        if(this.config.webhooks.discordbotlist) this.server.post(this.config.webhooks.discordbotlist.path, this._handleDBLVote.bind(this));
         if(this.config.webhooks.kofi) this.server.post(this.config.webhooks.kofi.path, this._handlePatron.bind(this));
         this.server.post('/api/searchbm', this._searchBlackMarket.bind(this));
         this.server.post('/api/leaderboard', this._getLeaderboard.bind(this));
@@ -29,13 +30,28 @@ class Server {
         });
     }
 
-    async _handleDBLVote(req, res){
+    async _handleTOPGGVote(req, res){
         if(this.config.serverAuth !== req.headers.authorization) return res.status(403).send('Unauthorized');
         
         if(req.body.user){
             this.sharder.sendTo(0, {
                 _eventName: "vote", 
-                vote: req.body
+                vote: req.body,
+                type: 'topgg'
+            });
+        }
+
+        res.status(200).send('Successfully received vote!');
+    }
+
+    async _handleDBLVote(req, res){
+        if(this.config.serverAuth !== req.headers['X-DBL-Signature']) return res.status(403).send('Unauthorized');
+        
+        if(req.body.user){
+            this.sharder.sendTo(0, {
+                _eventName: "vote", 
+                vote: req.body,
+                type: 'dbl'
             });
         }
 

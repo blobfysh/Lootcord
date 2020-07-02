@@ -1,5 +1,5 @@
-exports.handle = async function({ vote }){
-    const voteCD = await this.cd.getCD(vote.user, 'vote');
+exports.handle = async function({ vote, type }){
+    const voteCD = await this.cd.getCD(vote.user, type === 'topgg' ? 'vote' : 'vote2');
 
     if(voteCD){
         console.log('[VOTE] Received a vote but ignored it due to user having already voted in past 12 hours: ' + vote.user)
@@ -23,7 +23,14 @@ exports.handle = async function({ vote }){
         await this.itm.addItem(vote.user, 'ultra_box', 1);
     }
 
-    await this.cd.setCD(vote.user, 'vote', 43200 * 1000);
+    // add vote cooldown
+    if(type === 'topgg'){
+        await this.cd.setCD(vote.user, 'vote', 43200 * 1000);
+    }
+    else if(type === 'dbl'){
+        await this.cd.setCD(vote.user, 'vote2', 86400 * 1000);
+    }
+
     await this.query(`UPDATE scores SET voteCounter = voteCounter + 1 WHERE userId = ${vote.user}`);
 
     this.common.messageUser(vote.user, {
