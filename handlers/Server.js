@@ -45,12 +45,14 @@ class Server {
     }
 
     async _handleDBLVote(req, res){
-        if(this.config.serverAuth !== req.headers['X-DBL-Signature']) return res.status(403).send('Unauthorized');
+        if(!req.headers['x-dbl-signature'] || this.config.serverAuth !== req.headers['x-dbl-signature'].split(' ')[0]) return res.status(403).send('Unauthorized');
         
-        if(req.body.user){
+        if(req.body.id){
             this.sharder.sendTo(0, {
                 _eventName: "vote", 
-                vote: req.body,
+                vote: {
+                    user: req.body.id
+                },
                 type: 'dbl'
             });
         }
