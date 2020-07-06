@@ -16,8 +16,11 @@ module.exports = {
     async execute(app, message){
         try{
             const row = await app.player.getRow(message.author.id);
+            const xp = app.common.calculateXP(row.points, row.level);
 
-            message.channel.createMessage({content: `Your current level is **${row.level}**`}, { 
+            message.channel.createMessage({
+                content: `Your current level is **${row.level}**\n\nXP: **${xp.curLvlXp} / ${xp.neededForLvl}**`
+            }, { 
                 file: await app.player.getLevelImage(message.author.avatarURL, row.level), 
                 name: 'userLvl.jpeg'
             });

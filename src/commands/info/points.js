@@ -13,7 +13,8 @@ module.exports = {
     
     async execute(app, message){
         const row = await app.player.getRow(message.author.id);
+        const xp = app.common.calculateXP(row.points, row.level);
         
-        message.reply(`You currently have ${row.points} points!`);
+        message.reply('You currently have **' + xp.curLvlXp + ' / ' + xp.neededForLvl + '** XP towards level **' + (row.level + 1) + '**.');
     },
 }
