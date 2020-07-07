@@ -1,14 +1,15 @@
+const { RULES } = require('../../resources/constants');
 
 module.exports = {
     name: 'tradeban',
     aliases: [''],
     description: 'Bans a user from trading.',
-    long: 'Bans a user from being able to use the trade command as well as the black market, clan vaults, and Discoin conversions.',
+    long: 'Bans a user from being able to use the trade command as well as the black market, clan vaults, and Discoin conversions. You must provide one of the following rules:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts',
     args: {
         "User ID": "ID of user to ban.",
-        "reason": "Reason for ban."
+        "rule": "Rule broken."
     },
-    examples: ["tradeban 168958344361541633 Warned 2+ times"],
+    examples: ["tradeban 168958344361541633 5"],
     ignoreHelp: false,
     requiresAcc: false,
     requiresActive: false,
@@ -16,7 +17,7 @@ module.exports = {
     
     async execute(app, message){
         let userID = message.args[0];
-        let messageIn = message.args.slice(1).join(" ");
+        let rule = message.args[1];
 
         if(message.channel.id !== app.config.modChannel){
             return message.reply('❌ You must be in the moderator channel to use this command.');
@@ -24,8 +25,8 @@ module.exports = {
         else if(!userID){
             return message.reply('❌ You forgot to include a user ID.')
         }
-        else if(!messageIn){
-            return message.reply('❌ You must include a reason for tradebanning this user. Specify what rule(s) were broken.');
+        else if(!rule || !Object.keys(RULES).includes(rule)){
+            return message.reply('❌ You need to specify what rule was broken:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts');
         }
         else if(await app.cd.getCD(userID, 'mod')){
             return message.reply("Hey stop trying to ban a moderator!!! >:(");
@@ -34,7 +35,7 @@ module.exports = {
         const warnings = (await app.query(`SELECT * FROM warnings WHERE userId = '${userID}'`));
         const user = await app.common.fetchUser(userID, { cacheIPC: false });
 
-        const botMessage = await message.reply(`**${user.username}#${user.discriminator}** currently has **${warnings.length}** warnings on record. Continue tradeban?`);
+        const botMessage = await message.reply(`**${user.username}#${user.discriminator}** currently has **${warnings.length}** warnings on record. Continue ban for **${RULES[rule].desc}**?`);
 
         try{
             const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
@@ -42,12 +43,12 @@ module.exports = {
             if(confirmed){
                 const banMsg = new app.Embed()
                 .setTitle(`You were banned from trading by ${(message.author.username + '#' + message.author.discriminator)}`)
-                .setDescription("You have been banned from trading for breaking rules. If you wish to challenge this ban, you can appeal at our website.```\n" + messageIn + "```")
+                .setDescription("You have been banned from trading for breaking rules. If you wish to challenge this ban, you can appeal at our website.```\n" + RULES[rule].warn_message + "```")
                 .setColor(16734296)
                 .setFooter("https://lootcord.com/rules | Only moderators can send you messages.")
 
                 try{
-                    await app.query("INSERT INTO tradebanned (userId, reason, date) VALUES (?, ?, ?)", [userID, messageIn, (new Date()).getTime()]);
+                    await app.query("INSERT INTO tradebanned (userId, reason, date) VALUES (?, ?, ?)", [userID, RULES[rule].warn_message, (new Date()).getTime()]);
                     await app.cache.setNoExpire(`tradeban|${userID}`, 'Banned perma');
 
                     await app.common.messageUser(userID, banMsg, { throwErr: true });

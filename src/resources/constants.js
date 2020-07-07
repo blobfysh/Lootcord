@@ -29,6 +29,30 @@ const RARITIES = {
     }
 }
 
+const RULES = {
+    "1": {
+        "desc": "Bug exploitation",
+        "warn_message": "Exploiting bugs to gain an unfair advantage over other players is not allowed, bugs should be reported to the bug-reports channel in the official Lootcord server."
+    },
+    "2": {
+        "desc": "Alt accounts",
+        "warn_message": "Alt abuse violates rule #2, please refrain from using alts to gain an unfair advantage over other players."
+    },
+    "3": {
+        "desc": "Cooldown dodging",
+        "warn_message": "Cooldown dodging/leaving servers to avoid the deactivate cooldown is not allowed (rule #3)."
+    },
+    "4": {
+        "desc": "Kill-farming",
+        "warn_message": "Killing another player and trading items back to avoid loss of items is against rule #4!"
+    },
+    "5": {
+        "desc": "Handouts",
+        "warn_message": "Trading items/money of large value or giving handouts to other players is not allowed (rule #5), please don't give items/money to other players. Thank you."
+    },
+};
+
 module.exports = {
-    RARITIES
+    RARITIES,
+    RULES
 }

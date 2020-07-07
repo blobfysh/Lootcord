@@ -1,25 +1,4 @@
-const rules = {
-    "1": {
-        "desc": "Bug exploitation",
-        "message": "Exploiting bugs to gain an unfair advantage over other players is not allowed, bugs should be reported to the bug-reports channel in the official Lootcord server."
-    },
-    "2": {
-        "desc": "Alt accounts",
-        "message": "Alt abuse violates rule #2, please refrain from using alts to gain an unfair advantage over other players."
-    },
-    "3": {
-        "desc": "Cooldown dodging",
-        "message": "Cooldown dodging/leaving servers to avoid the deactivate cooldown is not allowed (rule #3)."
-    },
-    "4": {
-        "desc": "Kill-farming",
-        "message": "Killing another player and trading items back to avoid loss of items is against rule #4!"
-    },
-    "5": {
-        "desc": "Handouts",
-        "message": "Trading items/money of large value or giving handouts to other players is not allowed (rule #5), please don't give items/money to other players. Thank you."
-    },
-};
+const { RULES } = require('../../resources/constants');
 
 const ordinals = {
     "0": "first",
@@ -54,7 +33,7 @@ module.exports = {
         else if(!userID){
             return message.reply('❌ You forgot to include a user ID.')
         }
-        else if(!rule || !Object.keys(rules).includes(rule)){
+        else if(!rule || !Object.keys(RULES).includes(rule)){
             return message.reply('❌ You need to specify what rule was broken:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts');
         }
         else if(await app.cd.getCD(userID, 'mod')){
@@ -71,7 +50,7 @@ module.exports = {
             return message.reply(`❌ **${user.username}#${user.discriminator}** has already been warned **2**+ times. It is time to \`ban\`, \`tradeban\` or \`tempban\` this user.`)
         }
 
-        const botMessage = await message.reply(`Warn **${user.username}#${user.discriminator}** for **${rules[rule].desc}**? This will be their **${ordinals[warnings.length]}** warning.`);
+        const botMessage = await message.reply(`Warn **${user.username}#${user.discriminator}** for **${RULES[rule].desc}**? This will be their **${ordinals[warnings.length]}** warning.`);
 
         try{
             const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
@@ -79,13 +58,13 @@ module.exports = {
             if(confirmed){
                 const warnMsg = new app.Embed()
                 .setTitle(`You have been warned by ${(message.author.username + '#' + message.author.discriminator)}`)
-                .setDescription("You have been warned for breaking rules. Future offenses will result in a ban.```\n" + rules[rule].message + "```\n" + 
+                .setDescription("You have been warned for breaking rules. Future offenses will result in a ban.```\n" + RULES[rule].warn_message + "```\n" + 
                 (warnings.length === 0 ? "**It looks like this is your first warning, any more than 2 warnings will result in a ban.**" : "**This is your last warning, please don't break the rules again or you will be banned!**"))
                 .setColor(16734296)
                 .setFooter("https://lootcord.com/rules | Only moderators can send you messages.")
 
                 try{
-                    await app.query("INSERT INTO warnings (userId, modId, reason, date) VALUES (?, ?, ?, ?)", [userID, message.author.id, rules[rule].message, (new Date()).getTime()]);
+                    await app.query("INSERT INTO warnings (userId, modId, reason, date) VALUES (?, ?, ?, ?)", [userID, message.author.id, RULES[rule].warn_message, (new Date()).getTime()]);
                     await app.common.messageUser(userID, warnMsg, { throwErr: true });
                     botMessage.edit(`Successfully warned **${user.username}#${user.discriminator}**.`);
                 }
