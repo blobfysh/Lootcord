@@ -37,18 +37,25 @@ class LoopTasks {
         console.log('[LOOPTASKS] Running daily tasks...');
         // take clan upkeep costs
         const clans = await this.app.query(`SELECT clanId, money, reduction FROM clans`);
+        let moneyRemoved = 0;
+        let itemsRemoved = 0;
+        let decayingClans = 0;
 
         for(let i = 0; i < clans.length; i++){
             const clanData = await this.app.clans.getClanData(clans[i]);
-            const upkeep = this.app.clans.getUpkeep(clanData.vaultValue, clanData.memberCount);
+            const upkeep = this.app.clans.getUpkeep(clanData.vaultValue, clans[i].money, clanData.memberCount, clanData.inactiveMemberCount);
 
             if(clans[i].money >= upkeep){
                 await this.app.clans.removeMoney(clans[i].clanId, upkeep);
+                moneyRemoved += upkeep;
+                decayingClans++;
             }
             else if(clanData.usedPower >= 1){
                 const randomItem = await this.app.itm.getRandomUserItems(clans[i].clanId, 1);
                 await this.app.itm.removeItem(clans[i].clanId, randomItem.items[0], 1);
                 await this.app.clans.addLog(clans[i].clanId, `The vault lost 1x ${randomItem.items[0]} due to cost of upkeep`);
+                itemsRemoved++;
+                decayingClans++;
             }
         }
 
@@ -79,6 +86,12 @@ class LoopTasks {
         console.log('[LOOPTASKS] Removed active role from ' + activeRolesRemoved + ' players.');
         
         await this.app.query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 14 DAY`);
+
+        const dailyEmbed = new this.app.Embed()
+        .setTitle('Daily Tasks')
+        .setDescription('Removed ' + this.app.common.formatNumber(moneyRemoved) + ' and **' + itemsRemoved + '** items from **' + decayingClans + '** decaying clans.')
+        .setColor('#ffffff')
+        this.app.messager.messageLogs(dailyEmbed);
     }
 
     async refreshLB(){
@@ -92,10 +105,10 @@ class LoopTasks {
     async biHourlyTasks(){
         console.log('[LOOPTASKS] Running bi-hourly tasks...');
         // add 1 power to all active players every 2 hours
-        await this.app.query(`UPDATE scores SET power = power + 1 WHERE power < max_power AND lastActive > NOW() - INTERVAL 30 DAY;`);
+        await this.app.query(`UPDATE scores SET power = power + 1 WHERE power < max_power AND lastActive > NOW() - INTERVAL 14 DAY;`);
         
-        // remove 1 power for players inactve over a month, down to minimum of 0
-        await this.app.query(`UPDATE scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 30 DAY`);
+        // remove 1 power for players inactve over 2 weeks, down to minimum of 0
+        await this.app.query(`UPDATE scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 14 DAY`);
 
         // clean up cooldown table
         this.app.query(`DELETE FROM cooldown WHERE UNIX_TIMESTAMP() * 1000 > start + length`);

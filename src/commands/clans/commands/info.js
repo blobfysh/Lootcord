@@ -50,7 +50,7 @@ async function getClanInfo(app, message, clanId){
     const clanRow = await app.clans.getRow(clanId);
     const clanMembers = await app.clans.getMembers(clanId);
     const clanPower = await app.clans.getClanData(clanRow);
-    const upkeep = app.clans.getUpkeep(clanPower.vaultValue, clanMembers.count);
+    const upkeep = app.clans.getUpkeep(clanPower.vaultValue, clanRow.money, clanMembers.count, clanPower.inactiveMemberCount);
     const raidCD = await app.cd.getCD(clanId, 'raid');
     const raidedCD = await app.cd.getCD(clanId, 'raided');
 
@@ -85,14 +85,18 @@ async function getClanInfo(app, message, clanId){
     baseEmbed.addBlankField()    
     baseEmbed.addField(`Bank`, app.common.formatNumber(clanRow.money) + ' / ' + app.common.formatNumber(app.clans.getBankLimit(clanMembers.count), true) + ' max', true)
 
-    if(clanRow.money >= upkeep){
-        baseEmbed.addField(`Daily Upkeep`, app.common.formatNumber(upkeep), true)
+    let upkeepStr = app.common.formatNumber(upkeep);
+
+    if(clanRow.money < upkeep){
+        upkeepStr += `\n\n⚠ **This clan is decaying.**\nItems will be lost from the vault if upkeep is not paid tonight!`;
     }
-    else{
-        baseEmbed.addField(`Daily Upkeep`, app.common.formatNumber(upkeep) + `\n\n⚠ Items will be lost from the vault if upkeep is not paid tonight!`, true)
+    else if(clanPower.inactiveMemberCount > Math.floor(clanPower.memberCount / 2)){
+        upkeepStr += `\n\n⚠ **This clan is decaying.**\nThe upkeep is greatly increased because half or more members are inactive!`;
     }
+
+    baseEmbed.addField(`Daily Upkeep`, upkeepStr, true)
     baseEmbed.addField(`Members (${clanMembers.count})`, app.icons.loading + ' Loading members...')
-    baseEmbed.setFooter(`Founded on ${getShortDate(clanRow.clanCreated)}`)
+    baseEmbed.setFooter(`Founded ${getShortDate(clanRow.clanCreated)}`)
     
     const loadingMsg = await message.channel.createMessage(baseEmbed);
 

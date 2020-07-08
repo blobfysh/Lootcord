@@ -41,8 +41,12 @@ class Clans {
         this.app.query(`DELETE FROM clans WHERE clanId = ${clanId}`);
     }
 
-    getUpkeep(vaultValue, memberCount){
-        return Math.floor(vaultValue * 0.2) + (memberCount * 10000);
+    getUpkeep(vaultValue, bank, memberCount, inactiveMembers){
+        const base = Math.floor(vaultValue * 0.1) + (memberCount * 10000);
+
+        if(inactiveMembers > Math.floor(memberCount / 2)) return base + Math.floor(bank / 2);
+
+        return base;
     }
 
     getBankLimit(memberCount){
@@ -69,11 +73,11 @@ class Clans {
             if(memberRows[i].clanRank >= 1){
                 currPower += memberRows[i].power;
                 maxPower += memberRows[i].max_power;
+            }
 
-                // check if member hasn't played in 14+ days
-                if(memberRows[i].lastActive < (Date.now() - 1000 * 60 * 60 * 24 * 14)){
-                    inactiveMembers++;
-                }
+            // check if member hasn't played in 14+ days
+            if(memberRows[i].lastActive < (Date.now() - 1000 * 60 * 60 * 24 * 14)){
+                inactiveMembers++;
             }
         }
 
