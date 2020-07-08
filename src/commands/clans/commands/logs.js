@@ -50,18 +50,16 @@ async function getClanLogs(app, clanId){
     const clanRow = await app.clans.getRow(clanId);
     const logs = await app.query(`SELECT * FROM clan_logs WHERE clanId = ${clanId} ORDER BY logDate DESC LIMIT 10`);
 
-    let display = '';
-    let header = 'Description                            Date              ';
-
-    for(let i = 0; i < logs.length; i++){
-        display += `${logs[i].details.slice(0, 38)}`.padEnd(39, ' ') + `${getShortDate(logs[i].logTime)}\n`;
-    }
-
     const logsEmbed = new app.Embed()
     .setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
-    .setTitle('Logs (Last 10)')
-    .setDescription('Sorted newest to oldest:```' + header + '\n' + '-'.repeat(header.length) + '\n' + display + '```')
+    .setTitle('Logs (Last 10, Newest to Oldest)')
     .setColor(13215302)
+
+    for(let i = 0; i < logs.length; i++){
+        logsEmbed.addField(getShortDate(logs[i].logTime), '```\n' + logs[i].details + '```');
+    }
+
+    if(!logs.length) test.setDescription('😟 there\'s nothing to see here')
 
     return logsEmbed;
 }
