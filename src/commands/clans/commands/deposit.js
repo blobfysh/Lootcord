@@ -32,7 +32,7 @@ module.exports = {
         }
 
         if(isMoney){
-            const clanRow = (await app.query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0];
+            const clanRow = await app.clans.getRow(scoreRow.clanId);
             const bankLimit = app.clans.getBankLimit((await app.clans.getMembers(scoreRow.clanId)).count);
 
             if(!await app.player.hasMoney(message.author.id, itemAmnt)){
@@ -65,7 +65,7 @@ module.exports = {
             return message.reply(`\`${itemName}\`'s are bound to the player, meaning you can't trade them or put them in the clan vault.`);
         }
         else if(!(await app.clans.hasPower(scoreRow.clanId, itemAmnt))){
-            const clanPow = await app.clans.getClanData(scoreRow.clanId);
+            const clanPow = await app.clans.getClanData(await app.clans.getRow(scoreRow.clanId));
             return message.reply(`Theres not enough power available in the clan! Your vault is currently using **${clanPow.usedPower}** power and only has **${clanPow.currPower}** current power.`);
         }
 
@@ -80,7 +80,7 @@ module.exports = {
         app.clans.addLog(scoreRow.clanId, `${(message.author.username + '#' + message.author.discriminator)} deposited ${itemAmnt}x ${itemName}`);
 
         const clanItems = await app.itm.getItemObject(scoreRow.clanId);
-        const clanPow = await app.clans.getClanData(scoreRow.clanId);
+        const clanPow = await app.clans.getClanData(await app.clans.getRow(scoreRow.clanId));
 
         message.reply(`Deposited ${itemAmnt}x ${app.itemdata[itemName].icon}\`${itemName}\` to your clan vault.\n\nThe vault now has **${clanItems[itemName]}x** ${app.itemdata[itemName].icon}\`${itemName}\` and is using **${clanPow.usedPower + '/' + clanPow.currPower}** power.`);
     },

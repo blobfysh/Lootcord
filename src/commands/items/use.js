@@ -229,7 +229,7 @@ module.exports = {
                     return message.reply('❌ You cannot use explosives on your own clan.');
                 }
 
-                const clanPower = await app.clans.getClanData(clanRow.clanId);
+                const clanPower = await app.clans.getClanData(clanRow);
 
                 await app.itm.removeItem(message.author.id, 'c4', 1);
                 await app.query("UPDATE clans SET reduction = reduction + 5 WHERE clanId = ?", [clanRow.clanId]);

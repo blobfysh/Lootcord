@@ -4,6 +4,14 @@ class Clans {
         this.app = app;
     }
 
+    /**
+     * 
+     * @param {string} id ID of clan to get information for
+     */
+    async getRow(id){
+        return (await this.app.query(`SELECT * FROM clans WHERE clanId = ?`, [id]))[0];
+    }
+
     async searchClanRow(search){
         if(!search.match(/^[a-zA-Z0-9 ]+$/)) return undefined;
 
@@ -41,17 +49,17 @@ class Clans {
         return 5000000 + (memberCount * 1000000);
     }
 
-    async getClanData(clanId){
+    async getClanData(clanRow){
         let currPower = 0;
         let maxPower = 0;
         let kills = 0;
         let deaths = 0;
         let timePlayed = 0;
+        let inactiveMembers = 0;
         const dateTime = Date.now();
 
-        const clanRow = (await this.app.query(`SELECT reduction FROM clans WHERE clanId = ${clanId}`))[0];
-        const clanItems = await this.app.itm.getUserItems(await this.app.itm.getItemObject(clanId));
-        const memberRows = (await this.app.query(`SELECT * FROM scores WHERE clanId = ${clanId}`));
+        const clanItems = await this.app.itm.getUserItems(await this.app.itm.getItemObject(clanRow.clanId));
+        const memberRows = (await this.app.query(`SELECT * FROM scores WHERE clanId = ${clanRow.clanId}`));
 
         for(let i = 0; i < memberRows.length; i++){
             kills += memberRows[i].kills;
@@ -61,6 +69,11 @@ class Clans {
             if(memberRows[i].clanRank >= 1){
                 currPower += memberRows[i].power;
                 maxPower += memberRows[i].max_power;
+
+                // check if member hasn't played in 14+ days
+                if(memberRows[i].lastActive < (Date.now() - 1000 * 60 * 60 * 24 * 14)){
+                    inactiveMembers++;
+                }
             }
         }
 
@@ -72,6 +85,7 @@ class Clans {
             explosion: clanRow.reduction,
             maxPower: maxPower,
             memberCount: memberRows.length,
+            inactiveMemberCount: inactiveMembers,
             kills: kills,
             deaths: deaths,
             playtime: timePlayed,
@@ -80,7 +94,7 @@ class Clans {
     }
 
     async hasPower(clanId, amount){
-        const clanPower = (await this.getClanData(clanId));
+        const clanPower = (await this.getClanData(await this.getRow(clanId)));
 
         if((clanPower.currPower - clanPower.usedPower) >= amount){
             return true;
@@ -91,7 +105,7 @@ class Clans {
     }
 
     async hasMoney(clanId, amount){
-        const clan = (await this.app.query(`SELECT * FROM clans WHERE clanId = '${clanId}'`))[0];
+        const clan = await this.getRow(clanId);
 
         if(clan.money >= amount){
             return true;

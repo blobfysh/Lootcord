@@ -47,7 +47,7 @@ module.exports = {
 }
 
 async function getClanLogs(app, clanId){
-    const clanRow = (await app.query(`SELECT * FROM clans WHERE clanId = ${clanId}`))[0];
+    const clanRow = await app.clans.getRow(clanId);
     const logs = await app.query(`SELECT * FROM clan_logs WHERE clanId = ${clanId} ORDER BY logDate DESC LIMIT 10`);
 
     let display = '';

@@ -56,7 +56,7 @@ module.exports = {
             .setColor(13215302)
             .setAuthor(`${userInfo.username}#${userInfo.discriminator}'s Profile`, app.common.getAvatar(userInfo))
             .setDescription(userStatus)
-            .addField('Clan', codeWrap((row.clanId !== 0 ? (await app.query(`SELECT name FROM clans WHERE clanId = ${row.clanId}`))[0].name : 'None'), 'js'), true)
+            .addField('Clan', codeWrap((row.clanId !== 0 ? (await app.clans.getRow(row.clanId)).name : 'None'), 'js'), true)
             .addField('Level', codeWrap(row.level + ` (XP: ${xp.curLvlXp} / ${xp.neededForLvl})`, 'js'), true)
             .addField('Power', codeWrap(row.power + " / " + row.max_power + " Power", 'js'), true)
             .addField('K/D Ratio', codeWrap((row.deaths == 0 ? row.kills+ " Kills\n"+row.deaths+" Deaths ("+row.kills+" K/D)\n" : row.kills+ " Kills\n"+row.deaths+" Deaths ("+(row.kills/ row.deaths).toFixed(2)+" K/D)"), 'fix'))

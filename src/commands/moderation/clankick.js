@@ -36,7 +36,7 @@ module.exports = {
         }
 
         const user = await app.common.fetchUser(userID, { cacheIPC: false });
-        const clanRow = (await app.query(`SELECT * FROM clans WHERE clanId = ${userRow.clanId}`))[0];
+        const clanRow = await app.clans.getRow(userRow.clanId);
 
         if(app.clan_ranks[userRow.clanRank].title == 'Leader'){
             const botMessage = await message.reply(`Kicking **${user.username}#${user.discriminator}** will disband \`${clanRow.name}\`. Continue?`);

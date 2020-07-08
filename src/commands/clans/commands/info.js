@@ -47,9 +47,9 @@ module.exports = {
 }
 
 async function getClanInfo(app, message, clanId){
-    const clanRow = (await app.query(`SELECT * FROM clans WHERE clanId = ${clanId}`))[0];
+    const clanRow = await app.clans.getRow(clanId);
     const clanMembers = await app.clans.getMembers(clanId);
-    const clanPower = await app.clans.getClanData(clanId);
+    const clanPower = await app.clans.getClanData(clanRow);
     const upkeep = app.clans.getUpkeep(clanPower.vaultValue, clanMembers.count);
     const raidCD = await app.cd.getCD(clanId, 'raid');
     const raidedCD = await app.cd.getCD(clanId, 'raided');
