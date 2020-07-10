@@ -38,8 +38,8 @@ module.exports = {
                 return message.reply('That clan just got raided! Let the clan recuperate before raiding them again.');
             }
 
-            const raider = (await app.query(`SELECT * FROM clans WHERE clanId = ${scoreRow.clanId}`))[0];
-            const clanPower = await app.clans.getClanData(clanRow.clanId);
+            const raider = await app.clans.getRow(scoreRow.clanId);
+            const clanPower = await app.clans.getClanData(clanRow);
             const isRaidable = clanPower.usedPower > clanPower.currPower ? true : false;
             const itemsToSteal = clanPower.usedPower - clanPower.currPower;
 

@@ -12,8 +12,9 @@ class ArgParser {
     /**
      * Finds all items from an array of arguments
      * @param {string[]} args Array of args to find items from
+     * @param {number} amount Max amount of items to find
      */
-    items(args){
+    items(args, amount = 1){
         let itemArgs = [];
 
         for(let i = 0; i < args.length; i++){
@@ -36,6 +37,8 @@ class ArgParser {
                     itemArgs.push(correctedArg);
                 }    
             }
+
+            if(itemArgs.length >= amount) break;
         }
 
         return itemArgs;

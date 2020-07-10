@@ -3,16 +3,16 @@ module.exports = {
     name: 'sell',
     aliases: [''],
     description: 'Sell items for money.',
-    long: 'Sell items for money. Check the `shop` to see how much items can be sold for.',
+    long: 'Sell items for money. Check the `shop` to see how much items can be sold for. You can also sell multiple items at once, check the examples to see how.',
     args: {"item": "Item to sell.", "amount": "**OPTIONAL** Amount of item to sell."},
-    examples: ["sell iron_shield 3"],
+    examples: ["sell iron_shield 3", "sell rpg 2 rock 3 ultra 1"],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,
     guildModsOnly: false,
     
     async execute(app, message){
-        let sellItems = app.parse.items(message.args);
+        let sellItems = app.parse.items(message.args, 15);
         let sellAmounts = app.parse.numbers(message.args);
 
         if(sellItems.length > 1){
