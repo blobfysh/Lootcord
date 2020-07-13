@@ -19,7 +19,7 @@ class Clans {
     }
 
     async getMembers(clanId){
-        const users = (await this.app.query(`SELECT * FROM scores WHERE clanId = ${clanId}`));
+        const users = (await this.app.query(`SELECT * FROM scores WHERE clanId = ${clanId} ORDER BY clanRank DESC`));
         
         let memberIds = [];
 

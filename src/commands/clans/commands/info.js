@@ -107,19 +107,17 @@ async function getClanInfo(app, message, clanId){
         const clanUserRow = await app.player.getRow(clanMembers.memberIds[i]);
 
         if(clanUser.id == message.author.id){
-            membersRanksList.push(['** >' + app.clan_ranks[clanUserRow.clanRank].title + ' ' + app.player.getBadge(clanUserRow.badge) + ' ' + (`${clanUser.username}#${clanUser.discriminator}`) + '**', clanUserRow.clanRank]);
+            membersRanksList.push([(i + 1) + '. **' + app.clan_ranks[clanUserRow.clanRank].title + ' ' + app.player.getBadge(clanUserRow.badge) + ' ' + (`${clanUser.username}#${clanUser.discriminator}`) + '**', clanUserRow.clanRank]);
         }
         else{
             if(app.clan_ranks[clanUserRow.clanRank].title == 'Leader'){
-                membersRanksList.push([` - ${app.icons.clan_leader_crown} ` + app.clan_ranks[clanUserRow.clanRank].title + ' ' + app.player.getBadge(clanUserRow.badge) + ' ' + (`${clanUser.username}#${clanUser.discriminator}`), clanUserRow.clanRank]);
+                membersRanksList.push([`${i + 1}. ${app.icons.clan_leader_crown} ` + app.clan_ranks[clanUserRow.clanRank].title + ' ' + app.player.getBadge(clanUserRow.badge) + ' ' + (`${clanUser.username}#${clanUser.discriminator}`), clanUserRow.clanRank]);
             }
             else{
-                membersRanksList.push([' - ' + app.clan_ranks[clanUserRow.clanRank].title + ' ' + app.player.getBadge(clanUserRow.badge) + ' ' + (`${clanUser.username}#${clanUser.discriminator}`), clanUserRow.clanRank]);
+                membersRanksList.push([(i + 1) + '. ' + app.clan_ranks[clanUserRow.clanRank].title + ' ' + app.player.getBadge(clanUserRow.badge) + ' ' + (`${clanUser.username}#${clanUser.discriminator}`), clanUserRow.clanRank]);
             }
         }
     }
-
-    membersRanksList.sort(function(a, b){return b[1] - a[1]}); // Sort clan members by rank.
 
     baseEmbed.embed.fields.pop(); // remove members field
 

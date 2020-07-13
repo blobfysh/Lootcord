@@ -3,9 +3,9 @@ module.exports = {
     name: 'kick',
     aliases: [''],
     description: 'Kick a user from your clan (using mention or user id).',
-    long: 'Kick a user from your clan, you can kick using their user ID if you dont share a server with them.',
+    long: 'Kick a user from your clan. You can kick using a mention, Discord#tag or by using their number from the clan member list.',
     args: {"@user/discord ID": "User to kick."},
-    examples: ["clan kick @blobfysh"],
+    examples: ["clan kick @blobfysh", "clan kick 3"],
     requiresClan: true,
     requiresActive: true,
     minimumRank: 4,
@@ -13,20 +13,20 @@ module.exports = {
     async execute(app, message, args){
         const scoreRow = await app.player.getRow(message.author.id);
         let member = app.parse.members(message, message.args)[0];
+        let number = app.parse.numbers(message.args)[0];
 
-        if(!member){
-            // check args for id
-            if(/^<?@?!?(\d+)>?$/.test(args[0])){
-                let userId = args[0].match(/^<?@?!?(\d+)>?$/)[1];
-                
-                member = {
-                    id: userId,
-                    username: userId
-                }
+        if(!member && number){
+            const members = await app.clans.getMembers(scoreRow.clanId);
+            const memberId = members.memberIds[number - 1];
+
+            if(!memberId){
+                return message.reply('Please specify someone to kick. You can mention someone, use their Discord#tag, type their user ID, or use their number from `' + message.prefix + 'clan info`');
             }
-            else{
-                return message.reply('Please specify someone to kick. You can mention someone, use their Discord#tag, or type their user ID');
-            }
+
+            member = await app.common.fetchUser(memberId, { cacheIPC: false });
+        }
+        else if(!member){
+            return message.reply('Please specify someone to kick. You can mention someone, use their Discord#tag, type their user ID, or use their number from `' + message.prefix + 'clan info`');
         }
 
         const invitedScoreRow = await app.player.getRow(member.id);
@@ -46,6 +46,7 @@ module.exports = {
 
         await app.query(`UPDATE scores SET clanId = 0 WHERE userId = ${member.id}`);
         await app.query(`UPDATE scores SET clanRank = 0 WHERE userId = ${member.id}`);
-        message.reply(`✅ Successfully kicked ${member.username}`);
+
+        message.reply(`✅ Successfully kicked **${member.username}#${member.discriminator}**`);
     },
 }
