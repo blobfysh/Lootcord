@@ -12,6 +12,7 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
+        const isDonor = await app.patreonHandler.isPatron(message.author.id);
         const attackCD = await app.cd.getCD(message.author.id, 'attack');
         const healCD = await app.cd.getCD(message.author.id, 'heal');
         const shieldCD = await app.cd.getCD(message.author.id, 'shield');
@@ -31,21 +32,27 @@ module.exports = {
         const xp_potionCD = await app.cd.getCD(message.author.id, 'xp_potion');
         const passiveShield = await app.cd.getCD(message.author.id, 'passive_shield');
                     
-        let hourlyReady = hourlyCD ? '❌ ' + hourlyCD : "✅ ready"
-        let dailyReady = dailyCD ? '❌ ' + dailyCD : "✅ ready"
-        let weeklyReady = weeklyCD ? '❌ ' + weeklyCD : "✅ ready"
-        let triviaReady = triviaCD ? '❌ ' + triviaCD : "✅ ready"
-        let scrambleReady = scrambleCD ? '❌ ' + scrambleCD : "✅ ready"
-        let attackReady = attackCD ? '❌ ' + attackCD : "✅ ready"
-        let healReady = healCD ? '❌ ' + healCD : "✅ ready"
-        let voteReady = voteCD ? '❌ ' + voteCD : "✅ ready"
-        let vote2Ready = vote2CD ? '❌ ' + vote2CD : "✅ ready"
-        let blackjackReady = blackjackCD ? '❌ ' + blackjackCD : "✅ ready"
-        let slotsReady = slotsCD ? '❌ ' + slotsCD : "✅ ready"
-        let rouletteReady = rouletteCD ? '❌ ' + rouletteCD : "✅ ready"
-        let coinflipReady = coinflipCD ? '❌ ' + coinflipCD : "✅ ready"
-        let jackpotReady = jackpotCD ? '❌ ' + jackpotCD : "✅ ready"
+        let hourlyReady = hourlyCD ? '❌ ' + hourlyCD : "✅ ready";
+        let dailyReady = dailyCD ? '❌ ' + dailyCD : "✅ ready";
+        let weeklyReady = '❌ Patreon only';
+        let triviaReady = triviaCD ? '❌ ' + triviaCD : "✅ ready";
+        let scrambleReady = scrambleCD ? '❌ ' + scrambleCD : "✅ ready";
+        let attackReady = attackCD ? '❌ ' + attackCD : "✅ ready";
+        let healReady = healCD ? '❌ ' + healCD : "✅ ready";
+        let voteReady = voteCD ? '❌ ' + voteCD : "✅ ready";
+        let vote2Ready = vote2CD ? '❌ ' + vote2CD : "✅ ready";
+        let blackjackReady = blackjackCD ? '❌ ' + blackjackCD : "✅ ready";
+        let slotsReady = slotsCD ? '❌ ' + slotsCD : "✅ ready";
+        let rouletteReady = rouletteCD ? '❌ ' + rouletteCD : "✅ ready";
+        let coinflipReady = coinflipCD ? '❌ ' + coinflipCD : "✅ ready";
+        let jackpotReady = jackpotCD ? '❌ ' + jackpotCD : "✅ ready";
 
+        if(isDonor && weeklyCD){
+            weeklyReady = '❌ ' + weeklyCD;
+        }
+        else if(isDonor){
+            weeklyReady = "✅ ready";
+        }
         /*
         let giftReady = "✅ ready"
         if(message.client.sets.eventCooldown.has(message.author.id)){
