@@ -420,7 +420,7 @@ module.exports = {
 
             // check if attack is random
             else if(serverInfo.randomOnly === 1 && member){
-                return message.reply(`❌ This server allows only random attacks, specifying a target will not work.`)
+                return message.reply(`❌ This server allows only random attacks, specifying a target will not work. You can use the item without a mention to attack a random player: \`${message.prefix}use <item>\``)
             }
             else if(['rand', 'random'].some(arg => message.args.map(arg => arg.toLowerCase()).includes(arg)) || serverInfo.randomOnly === 1){
                 const randUsers = await getRandomPlayers(app, message.author.id, message.channel.guild);

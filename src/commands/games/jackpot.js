@@ -17,7 +17,7 @@ module.exports = {
         let gambleAmount = app.parse.numbers(message.args)[0];
 
         if(!gambleAmount && message.args[0] && message.args[0].toLowerCase() === 'all'){
-            gambleAmount = row.money >= 50000 ? 50000 : row.money;
+            gambleAmount = row.money >= 100000 ? 100000 : row.money;
         }
 
        if(jackpotCD){
@@ -32,8 +32,8 @@ module.exports = {
             return message.reply(`You don't have that much money! You currently have ${app.common.formatNumber(row.money)}`);
         }
         
-        if(gambleAmount > 50000){
-            return message.reply(`Woah there high roller, you cannot gamble more than ${app.common.formatNumber(50000)} on jackpot.`);
+        if(gambleAmount > 100000){
+            return message.reply(`Woah there high roller, you cannot gamble more than ${app.common.formatNumber(100000)} on jackpot.`);
         }
         
         const botMessage = await message.reply(`You are about to start a server jackpot with an entry of: ${app.common.formatNumber(gambleAmount)}\nAre you sure?`);
@@ -99,26 +99,38 @@ async function startJackpot(app, message, gambleAmount){
             let gambleAmnt = app.parse.numbers(userArgs)[0];
 
             if(!gambleAmnt && userArgs[0] && userArgs[0].toLowerCase() === 'all'){
-                gambleAmnt = userRow.money >= 50000 ? 50000 : userRow.money;
+                gambleAmnt = userRow.money >= 100000 ? 100000 : userRow.money;
             }
 
-            if(jackpotObj.hasOwnProperty(m.author.id)){
-                return m.channel.createMessage('You already entered this jackpot!');
-            }
-            else if(Object.keys(jackpotObj).length >= 15){
+            if(Object.keys(jackpotObj).length >= 15){
                 return m.channel.createMessage('Sorry, this jackpot is full!')
             }
             else if(!gambleAmnt || gambleAmnt < 100){
                 return m.channel.createMessage('Please enter an amount of at least ' + app.common.formatNumber(100));
             }
             else if(gambleAmnt > userRow.money){
-                return m.channel.createMessage('You don\'t have that much money!');
+                return m.channel.createMessage('❌ You don\'t have that much money!');
             }
-            else if(gambleAmnt > 50000){
-                return m.channel.createMessage('You cannot enter more than ' + app.common.formatNumber(50000) + '!');
+            else if(gambleAmnt > 100000){
+                return m.channel.createMessage('❌ You cannot enter more than ' + app.common.formatNumber(100000) + '!');
+            }
+            else if(jackpotObj.hasOwnProperty(m.author.id) && (gambleAmnt + jackpotObj[m.author.id].amount) > 100000){
+                return m.channel.createMessage('❌ Adding ' + app.common.formatNumber(gambleAmnt) + ' would put your entry over the ' + app.common.formatNumber(100000) + ' entry limit!');
             }
 
-            jackpotObj[m.author.id] = {name: m.author.username, amount: gambleAmnt};
+            if(jackpotObj.hasOwnProperty(m.author.id)){
+                jackpotObj[m.author.id] = {
+                    name: m.author.username, 
+                    amount: gambleAmnt + jackpotObj[m.author.id].amount
+                };
+            }
+            else{
+                jackpotObj[m.author.id] = {
+                    name: m.author.username, 
+                    amount: gambleAmnt
+                };
+            }
+            
             await app.player.removeMoney(m.author.id, gambleAmnt);
             m.channel.createMessage(refreshEmbed(app, jackpotObj, message.prefix));
         });
@@ -161,10 +173,10 @@ function refreshEmbed(app, jackpotObj, prefix){
 
     const jackpotEmbed = new app.Embed()
     .setColor(13215302)
-    .setTitle('JACKPOT - Win it all!')
+    .setTitle('Jackpot - Win it all!')
+    .setDescription('Enter or add to your current bet with `' + prefix + 'join <amount>`.')
     .addField('🎟 Current entrants', '```cs\n' + usersArr.join('\n') + '```')
     .addField('💰 Prize pool', '```fix\n' + app.common.formatNumber(getJackpotTotal(jackpotObj), true) + '```')
-    .setFooter('Use ' + prefix + 'join <amount> to enter!')
     return jackpotEmbed;
 }
 
