@@ -142,10 +142,8 @@ class Common {
         }
 
         try{
-            console.log('[COMMON] Made call to API for member');
-            member = await guild.getRESTMember(id);
-
-            guild.members.add(member, guild, false);
+            console.log('[COMMON] Made call to API for guild members');
+            await guild.fetchAllMembers();
 
             return guild.members.get(id);
         }
