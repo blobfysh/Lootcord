@@ -1,0 +1,163 @@
+{
+    "small_stash": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "2x cloth",
+            "materials": [
+                "cloth|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x cloth",
+            "materials": [
+                "cloth|1"
+            ]
+        },
+        "buy": "",
+        "sell": 12858,
+        "desc": "Equip this storage container to gain **5** item slots!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929258648895529/small_stash.png",
+        "equippable": true,
+        "type": "backpack",
+        "inv_slots": 5,
+        "icon": "<:small_stash:732867510688284702>",
+        "breaksOnUse": false,
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Storage"
+    },
+    "wood_box": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "4x cloth\n1x wood",
+            "materials": [
+                "cloth|4",
+                "wood|1"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x cloth",
+            "materials": [
+                "cloth|1"
+            ]
+        },
+        "buy": "",
+        "sell": 41857,
+        "desc": "Equip this storage container to gain **15** item slots!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930341978898472/wood_box.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930341978898472/wood_box.png",
+        "equippable": true,
+        "type": "backpack",
+        "inv_slots": 15,
+        "icon": "<:wood_box:732867523791552512>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Storage"
+    },
+    "large_wood_box": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "8x cloth\n3x wood",
+            "materials": [
+                "cloth|8",
+                "wood|3"
+            ]
+        },
+        "recyclesTo": {
+            "display": "3x cloth",
+            "materials": [
+                "cloth|3"
+            ]
+        },
+        "buy": "",
+        "sell": 177599,
+        "desc": "Equip this backpack to gain **25** item slots!",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732871989156380772/large_wood_box.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732871989156380772/large_wood_box.png",
+        "equippable": true,
+        "type": "backpack",
+        "inv_slots": 25,
+        "icon": "<:large_wood_box:732871054527168532>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Storage"
+    },
+    "rolads_pack": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": "",
+        "buy": "",
+        "sell": "",
+        "desc": "Equip this backpack to gain **45** item slots! Rolads special backpack.",
+        "image": "",
+        "unboxImage": "",
+        "equippable": true,
+        "type": "backpack",
+        "inv_slots": 45,
+        "icon": "<:limit_backpack:717745253037375629>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "artist": "",
+        "category": "Storage"
+    },
+    "ravens_nest": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": "",
+        "buy": "",
+        "sell": "",
+        "desc": "Equip this backpack to gain **45** item slots!",
+        "image": "",
+        "unboxImage": "",
+        "equippable": true,
+        "type": "backpack",
+        "inv_slots": 45,
+        "icon": "<:limit_backpack:717745253037375629>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "artist": "",
+        "category": "Storage"
+    }
+}

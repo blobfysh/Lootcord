@@ -1,0 +1,124 @@
+{
+    "arrow": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 9,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "bow",
+            "crossbow"
+        ],
+        "ammo": "",
+        "craftedWith": {
+            "display": "1x rock\n1x wood\n1x cloth",
+            "materials": [
+                "rock|1",
+                "wood|1",
+                "cloth|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 928,
+        "desc": "Use with weapon.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928578278260786/arrow.png",
+        "icon": "<:arrow:732852891299086417>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "pistol_bullet": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 21,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "revolver"
+        ],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 6056,
+        "desc": "9x19mm cartridge. Common round used in pistols. Use with weapon.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929397333426246/pistol_bullet.png",
+        "icon": "<:pistol_bullet:732853196724371527>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "12g_buckshot": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 15,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "pump_shotgun"
+        ],
+        "ammo": "",
+        "craftedWith": {
+            "display": "2x gunpowder\n1x metal",
+            "materials": [
+                "gunpowder|2",
+                "metal|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 8134,
+        "desc": "12 Gauge buckshot shell. Used for shotguns.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930056271429632/12g_buckshot.png",
+        "icon": "<:12g_buckshot:732853227552374793>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "rocket": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 65,
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [
+            "rocket_launcher"
+        ],
+        "ammo": "",
+        "craftedWith": {
+            "display": "5x gunpowder\n2x metal",
+            "materials": [
+                "gunpowder|5",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "2x gunpowder",
+            "materials": [
+                "gunpowder|2"
+            ]
+        },
+        "buy": "",
+        "sell": 119850,
+        "desc": "Explosive ammunition, use with weapon.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930781508403280/rocket.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930781508403280/rocket.png",
+        "icon": "<:rocket_basic:732853217049837569>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    }
+}

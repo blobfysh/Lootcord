@@ -19,15 +19,15 @@ const fs           = require('fs');
 
 const previousList = require('./completeItemList');
 
-const common       = require('./common');
-const uncommon     = require('./uncommon');
-const rare         = require('./rare');
-const epic         = require('./epic');
-const legendary    = require('./legendary');
-const ultra        = require('./ultra');
-const limited      = require('./limited');
+const weapons      = require('./weapons');
+const items        = require('./items');
+const ammo         = require('./ammo');
+const materials    = require('./materials');
+const storage      = require('./storage');
+const banners      = require('./banners');
+const other        = require('./other');
 
-const combined     = { ...common, ...uncommon, ...rare, ...epic, ...legendary, ...ultra, ...limited };
+const combined     = { ...weapons, ...items, ...ammo, ...materials, ...storage, ...banners, ...other };
 
 let itemsLost = {};
 let itemsGained= {};

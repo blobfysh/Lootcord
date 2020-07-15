@@ -1,0 +1,641 @@
+{
+    "crate": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 18655,
+            "currency": "money"
+        },
+        "sell": 2485,
+        "desc": "Use this to get a random item!",
+        "image": "https://rustlabs.com/img/screenshots/crate.png",
+        "icon": "<:common_box:601415564564627467>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "2": {
+                "xp": 50,
+                "items": [
+                    "revolver|1",
+                    "pump_shotgun|1",
+                    "tech_trash|1",
+                    "12g_buckshot|1",
+                    "pistol_bullet|1",
+                    "gunpowder|1"
+                ]
+            },
+            "8": {
+                "xp": 40,
+                "items": [
+                    "crossbow|1",
+                    "metal_spring|1",
+                    "f1_grenade|1",
+                    "medical_syringe|1"
+                ]
+            },
+            "15": {
+                "xp": 35,
+                "items": [
+                    "metal_pipe|1",
+                    "bow|1",
+                    "arrow|1",
+                    "cloth|1",
+                    "semi_body|1"
+                ]
+            },
+            "25": {
+                "xp": 25,
+                "items": [
+                    "bandage|1",
+                    "salvaged_sword|1",
+                    "pickaxe|1"
+                ]
+            },
+            "50": {
+                "xp": 10,
+                "items": [
+                    "bone_knife|1",
+                    "rock|1",
+                    "salvaged_cleaver|1",
+                    "wooden_spear|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "bandage": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 10,
+        "healMax": 19,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 7712,
+            "currency": "money"
+        },
+        "sell": 2982,
+        "desc": "Restores `10 - 19` HP!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929515080384592/bandage.png",
+        "icon": "<:bandage:732858488652431480>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 967
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "medical_syringe": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 20,
+        "healMax": 28,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 19476,
+            "currency": "money"
+        },
+        "sell": 9652,
+        "desc": "Restores `20-28` HP!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929964889997343/medical_syringe.png",
+        "icon": "<:medical_syringe:732858500631494727>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1596
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "military_crate": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 105143,
+            "currency": "money"
+        },
+        "sell": 17989,
+        "desc": "This box drops an item of at least Rare quality, or potentially an Ultra item.",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732863212281921576/military_crate.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732863212281921576/military_crate.png",
+        "icon": "<:epic_box:601415582126178304>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "100": {
+                "xp": 80,
+                "items": [
+                    "revolver|1",
+                    "bandage|1",
+                    "pump_shotgun|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "supply_drop": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 73773,
+        "desc": "A supply drop that may infrequently land in your server after requesting them.\nCan only be looted by the first person to claim it.\nHas a high chance of containing legendary items.",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732863473775673354/supply_drop.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732863473775673354/supply_drop.png",
+        "icon": "<:epic_box:601415582126178304>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "100": {
+                "xp": 200,
+                "items": [
+                    "c4|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "supply_signal": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "1x tech_trash\n2x metal",
+            "materials": [
+                "tech_trash|1",
+                "metal|2"
+            ]
+        },
+        "buy": "",
+        "sell": 70258,
+        "desc": "A signal used to call in an immediate airdrop. Be careful though, the airdrop can still be stolen by other players the same way a real airdrop can.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930866858295403/supply_signal.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930866858295403/supply_signal.png",
+        "icon": "<:supply_signal:732853749181055027>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item"
+    },
+    "c4": {
+        "rarity": "Ultra",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "10x gunpowder\n2x tech_trash",
+            "materials": [
+                "gunpowder|10",
+                "tech_trash|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "4x gunpowder",
+            "materials": [
+                "gunpowder|4"
+            ]
+        },
+        "buy": "",
+        "sell": 544900,
+        "desc": "Use this on another clan to temporarily lower their current power by **5** for 1 hour, making them vulnerable to a raid.\n\nThis effect can stack.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930980725260348/c4.png",
+        "icon": "<:c4:732853863396147252>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item"
+    },
+    "stocking": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "givesMoneyOnUse": true,
+        "itemMin": 500,
+        "itemMax": 2000,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 1954,
+        "desc": "Has a chance to contain `500 - 2,000` Lootcoin\n**Christmas event item**",
+        "image": "",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item"
+    },
+    "gingerbread": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 20,
+        "healMax": 25,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 553,
+        "desc": "Eat this to heal `20-25` HP!\n**Christmas event item**",
+        "image": "",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1200
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "mittens": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isShield": true,
+        "shieldInfo": {
+            "display": "30 minutes",
+            "shieldRow": "mittenShieldTime",
+            "seconds": 1800
+        },
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 1010,
+        "desc": "Wear these cozy gloves to shield yourself for 30 minutes!\n**Christmas event item**",
+        "image": "",
+        "icon": "<:limit_shield:698423077377409054>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item"
+    },
+    "present": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": {
+            "display": "4x coal",
+            "materials": [
+                "coal|4"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 693,
+        "desc": "Unwrap it to see what's inside!\n**Christmas event item**",
+        "image": "",
+        "icon": "<:limit_box:698423594203611176>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "5": {
+                "xp": 75,
+                "items": [
+                    "nutcracker|1"
+                ]
+            },
+            "25": {
+                "xp": 25,
+                "items": [
+                    "mittens|1",
+                    "snowball|1",
+                    "coal|1"
+                ]
+            },
+            "70": {
+                "xp": 20,
+                "items": [
+                    "stocking|1",
+                    "gingerbread|1",
+                    "candycane|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "easter_egg": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "givesMoneyOnUse": true,
+        "itemMin": 300,
+        "itemMax": 1500,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 415,
+        "desc": "Has a chance to contain `300 - 1,500` Lootcoin!\n**Easter event item**",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562550734944731157/easter_egg.png",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item"
+    },
+    "carrot": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 17,
+        "healMax": 25,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 544,
+        "desc": "Eat this healthy carrot to heal `17-25` HP!\n**Easter event item**",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703180605147447296/carrot.png",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "20 minutes",
+            "scoreRow": "_20mHEALCD",
+            "seconds": 1200
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "golden_egg": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "givesMoneyOnUse": true,
+        "itemMin": 5000,
+        "itemMax": 20000,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 7661,
+        "desc": "This rare golden easter egg has a chance to contain `5,000 - 20,000` Lootcoin.\n**Easter event item**",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562529404434120704/golden_egg.png",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item"
+    },
+    "candy_egg": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 22,
+        "healMax": 30,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 551,
+        "desc": "Delicious chocolate candy eggs that heal `22-30` HP when you eat them!\n**Easter event item**",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562550732574818309/candy_egg.png",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "20 minutes",
+            "scoreRow": "_20mHEALCD",
+            "seconds": 1200
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "apple": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 9,
+        "healMax": 13,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 549,
+        "desc": "Someone seriously gave you an apple... You can eat it to gain `9-13` HP.\n**Halloween event item**",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703180591780331520/apple.png",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "10 minutes",
+            "scoreRow": "_10mHEALCD",
+            "seconds": 600
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "pumpkin": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 15,
+        "healMax": 30,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 1624,
+        "desc": "A pumpkin! You could make a jack-o'-lantern... Or you could just eat it to gain `15-30` HP.\n**Halloween event item**",
+        "image": "",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "20 minutes",
+            "scoreRow": "_20mHEALCD",
+            "seconds": 1200
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "candy_bar": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 13,
+        "healMax": 28,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 1387,
+        "desc": "A king-sized candy bar! Heals `13-28` HP.\n**Halloween event item**",
+        "image": "",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "20 minutes",
+            "scoreRow": "_20mHEALCD",
+            "seconds": 1200
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "candy_pail": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 1267,
+        "desc": "A trick-or-treat pail. It could contain some cool Halloween items!",
+        "image": "",
+        "icon": "<:limit_box:698423594203611176>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "5": {
+                "xp": 75,
+                "items": [
+                    "magic_staff|1"
+                ]
+            },
+            "20": {
+                "xp": 40,
+                "items": [
+                    "scythe|1"
+                ]
+            },
+            "35": {
+                "xp": 25,
+                "items": [
+                    "apple|1",
+                    "spider|1"
+                ]
+            },
+            "40": {
+                "xp": 20,
+                "items": [
+                    "candy_bar|1",
+                    "pumpkin|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item"
+    }
+}

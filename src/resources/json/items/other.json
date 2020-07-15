@@ -1,0 +1,24 @@
+{
+    "token": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 968,
+        "desc": "Limited event currency that can be used to buy event-only items!\nCheck the `store` to see what can be purchased",
+        "image": "",
+        "icon": "<:Lootcoin:698425524606730271>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "artist": "",
+        "category": ""
+    }
+}

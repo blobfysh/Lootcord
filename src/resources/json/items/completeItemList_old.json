@@ -46,7 +46,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "3": {
+            "2": {
                 "xp": 50,
                 "items": [
                     "revolver|1",
@@ -57,7 +57,7 @@
                     "gunpowder|1"
                 ]
             },
-            "7": {
+            "8": {
                 "xp": 40,
                 "items": [
                     "crossbow|1",
@@ -1228,7 +1228,9 @@
         "damage": 65,
         "minDmg": "",
         "maxDmg": "",
-        "isAmmo": [],
+        "isAmmo": [
+            "rocket_launcher"
+        ],
         "ammo": "",
         "craftedWith": {
             "display": "5x gunpowder\n2x metal",

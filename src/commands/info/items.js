@@ -159,100 +159,29 @@ module.exports = {
             message.channel.createMessage(embedItem);
         }
         else if(!itemChoice){
-            let commonList = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity === 'Common')
-            let uncommonList = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity === 'Uncommon')
-            let rareList = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity === 'Rare')
-            let epicList = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity === 'Epic')
-            let legendList = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity === 'Legendary')
-            let ultraList = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity === 'Ultra')
+            let weapons = typeFilter(app, Object.keys(app.itemdata), 'weapon');
+            let items = typeFilter(app, Object.keys(app.itemdata), 'item');
+            let ammo = typeFilter(app, Object.keys(app.itemdata), 'ammo');
+            let material = typeFilter(app, Object.keys(app.itemdata), 'material');
+            let storage = typeFilter(app, Object.keys(app.itemdata), 'backpack');
+            let banners = typeFilter(app, Object.keys(app.itemdata), 'banner');
 
             const embedInfo = new app.Embed()
             .setTitle("Full Items List")
-            .addField("Common", commonList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField("Uncommon", uncommonList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField("Rare", rareList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField("Epic", epicList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField("Legendary", legendList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField("Ultra", ultraList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField("Weapons", weapons.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField("Items", items.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField("Ammo", ammo.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField("Materials", material.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField("Storage Containers", storage.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField("Banners", banners.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
             .setFooter(`Use ${message.prefix}item <item> to retrieve more information!`)
-            .setDescription(`You can also type \`${message.prefix}item <type>\` to see specific items. Types include:\n\`usable\`, \`weapons\`, \`ammo\`, \`banner\`, \`backpack\`, \`material\``)
-            
+
             message.channel.createMessage(embedInfo);
         }
-        else if(itemChoice.startsWith('weapon')){
-            message.channel.createMessage(editEmbed(app, 'weapon', message));
-        }
-        else if(itemChoice === 'items' || itemChoice.startsWith('consumable') || itemChoice.startsWith('usable')){
-            message.channel.createMessage(editEmbed(app, 'item', message));
-        }
-        else if(itemChoice === 'ammo' || itemChoice === 'ammunition'){
-            message.channel.createMessage(editEmbed(app, 'ammo', message));
-        }
-        else if(itemChoice.startsWith('banner')){
-            message.channel.createMessage(editEmbed(app, 'banner', message));
-        }
-        else if(itemChoice.startsWith('backpack')){
-            message.channel.createMessage(editEmbed(app, 'backpack', message));
-        }
-        else if(itemChoice.startsWith('material')){
-            message.channel.createMessage(editEmbed(app, 'material', message));
-        }
         else{
-            message.reply(`That item isn't in my database! Use \`${message.prefix}items\` to see a full list!`);
+            message.reply(`I don't recognize that item. Use \`${message.prefix}items\` to see a full list!`);
         }
     },
-}
-
-function editEmbed(app, type, message){
-    let commonList = typeFilter(app, Object.keys(app.itemdata), 'Common', type);
-    let uncommonList = typeFilter(app, Object.keys(app.itemdata), 'Uncommon', type);
-    let rareList = typeFilter(app, Object.keys(app.itemdata), 'Rare', type);
-    let epicList = typeFilter(app, Object.keys(app.itemdata), 'Epic', type);
-    let legendList = typeFilter(app, Object.keys(app.itemdata), 'Legendary', type);
-    let ultraList = typeFilter(app, Object.keys(app.itemdata), 'Ultra', type);
-
-    const embedInfo = new app.Embed()
-    .setTitle('Items List - ' + (type == 'weapon' ? 'Weapons' : type == 'item' ? 'Consumables' : type == 'ammo' ? 'Ammunition' : type == 'banner' ? 'Banners' : type == 'backpack' ? 'Backpacks' : 'Materials'))
-    if(commonList.length > 0){
-        embedInfo.addField("Common", commonList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-    }
-    if(uncommonList.length > 0){
-        embedInfo.addField("Uncommon", uncommonList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-    }
-    if(rareList.length > 0){
-        embedInfo.addField("Rare", rareList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-    }
-    if(epicList.length > 0){
-        embedInfo.addField("Epic", epicList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-    }
-    if(legendList.length > 0){
-        embedInfo.addField("Legendary", legendList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-    }
-    if(ultraList.length > 0){
-        embedInfo.addField("Ultra", ultraList.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-    }
-    else{
-        embedInfo.addBlankField(true)
-    }
-    if(commonList.length <= 0){
-        embedInfo.addBlankField(true)
-    }
-    if(uncommonList.length <= 0){
-        embedInfo.addBlankField(true)
-    }
-    if(rareList.length <= 0){
-        embedInfo.addBlankField(true)
-    }
-    if(epicList.length <= 0){
-        embedInfo.addBlankField(true)
-    }
-    if(legendList.length <= 0){
-        embedInfo.addBlankField(true)
-    }
-    embedInfo.setDescription(`You can also type \`${message.prefix}items <type>\` to see specific items. Types include:\n\`usable\`, \`weapons\`, \`ammo\`, \`banner\`, \`backpack\`, \`material\``)
-    embedInfo.setFooter(`Use ${message.prefix}item <item> to retrieve more information!`)
-
-    return embedInfo
 }
 
 function getRarityValue(item){
@@ -271,9 +200,9 @@ function getRarityValue(item){
     return rarityVal;
 }
 
-function typeFilter(app, items, rarity, type){
+function typeFilter(app, items, type){
     return items.filter(item => {
-        return app.itemdata[item].rarity === rarity &&
+        return app.itemdata[item].rarity !== 'Limited' &&
         ((type === 'banner' && app.itemdata[item].isBanner) ||
         (type === 'item' && app.itemdata[item].isItem) ||
         (type === 'ammo' && app.itemdata[item].isAmmo.length >= 1) ||
