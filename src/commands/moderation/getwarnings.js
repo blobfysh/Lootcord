@@ -27,7 +27,7 @@ module.exports = {
             const userInfo   = await app.common.fetchUser(userID, { cacheIPC: false });
 
             const warnings = new app.Embed()
-            .setColor(13215302)
+            .setColor(13451564)
             .setAuthor(`${userInfo.username}#${userInfo.discriminator}`)
             .setTitle('Warnings')
             .setThumbnail(app.common.getAvatar(userInfo))

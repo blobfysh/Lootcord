@@ -128,7 +128,7 @@ module.exports = {
                         const dropEmbed = new app.Embed()
                         .setDescription(`**A ${app.itemdata['care_package'].icon}\`care_package\` has arrived!**\n\nUse \`${message.prefix}claimdrop\` to claim it.`)
                         .setImage(app.itemdata['care_package'].image)
-                        .setColor(13215302)
+                        .setColor(13451564)
                         app.query(`UPDATE guildInfo SET dropItemChan = '${message.channel.id}' WHERE guildId = ${message.channel.guild.id}`);
                         app.query(`UPDATE guildInfo SET dropItem = 'care_package' WHERE guildId = ${message.channel.guild.id}`);
                         
@@ -962,7 +962,7 @@ async function pickTarget(app, message, selection){
             1. ${app.player.getBadge(userdata.user1.badge)} **${(selection.members[0]).username + '#' + (selection.members[0]).discriminator}** ${app.icons.health.full} ${userdata.user1.health} - ${app.common.formatNumber(userdata.user1.money)} - ${(await app.itm.getItemCount(await app.itm.getItemObject(selection.users[0]), userdata.user1)).itemCt} items\n
             2. ${app.player.getBadge(userdata.user2.badge)} **${(selection.members[1]).username + '#' + (selection.members[1]).discriminator}** ${app.icons.health.full} ${userdata.user2.health} - ${app.common.formatNumber(userdata.user2.money)} - ${(await app.itm.getItemCount(await app.itm.getItemObject(selection.users[1]), userdata.user2)).itemCt} items\n
             3. ${app.player.getBadge(userdata.user3.badge)} **${(selection.members[2]).username + '#' + (selection.members[2]).discriminator}** ${app.icons.health.full} ${userdata.user3.health} - ${app.common.formatNumber(userdata.user3.money)} - ${(await app.itm.getItemCount(await app.itm.getItemObject(selection.users[2]), userdata.user3)).itemCt} items`)
-            .setColor(13215302)
+            .setColor(13451564)
             .setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
 
             const botMessage = await message.channel.createMessage(atkEmbed);

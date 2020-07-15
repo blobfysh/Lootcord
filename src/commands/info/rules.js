@@ -19,7 +19,7 @@ module.exports = {
         3. **Do not leave servers after attacking someone to deactivate your account and avoid counterattacks.** This is known as cooldown dodging, and is automatically reported to moderators on offense.\n
         4. **No kill-farming.** Killing someone then trading items back to the other person in order to gain kill count without consequences.\n
         5. **No handouts.** Giving another player free items/money whether it be through trading, the black market, clans, or kills is not allowed. Doing so will result in a warning or trade ban.`)
-        .setColor(13215302)
+        .setColor(13451564)
         .setFooter("Rules subject to change.")
 
         message.channel.createMessage(ruleInfo);

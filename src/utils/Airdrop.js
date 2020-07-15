@@ -51,7 +51,7 @@ class Airdrop {
             .setDescription(`**A ${this.app.itemdata[itemToDrop].icon}\`${itemToDrop}\` has arrived!**\n\nUse \`${guildPrefix}claimdrop\` to claim it.`)
             .setImage(this.app.itemdata[itemToDrop].image)
             .setFooter('You have 5 minutes to claim this drop.')
-            .setColor(13215302)
+            .setColor(13451564)
             
             await this.app.bot.createMessage(channelToDrop, dropEmbed);
             await this.app.query(`UPDATE guildInfo SET dropItemChan = '${channelToDrop}' WHERE guildId = ${guildId}`);

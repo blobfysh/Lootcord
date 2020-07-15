@@ -17,7 +17,7 @@ const RARITIES = {
     },
     "legendary": {
         "name": "***LEGENDARY***",
-        "color": 13215302
+        "color": 13451564
     },
     "ultra": {
         "name": "***U L T R A***",

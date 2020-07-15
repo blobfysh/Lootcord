@@ -58,7 +58,7 @@ module.exports = {
             .addField('📥 LCN', app.common.formatNumber(convertAmnt), true)
             .addField(`📤 ${currency}`, response.data.payout.toFixed(2), true)
             .setFooter(`Transaction ID: ${response.data.id}`)
-            .setColor(13215302)
+            .setColor(13451564)
 
             message.channel.createMessage(embed);
             
@@ -66,7 +66,7 @@ module.exports = {
             const logEmbed = new app.Embed()
             .setAuthor('Discoin Conversion')
             .setTitle(`${message.author.username} : ${message.author.id}`)
-            .setColor(13215302)
+            .setColor(13451564)
             .setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/662369574720765994/spaces2F-LQzahLixLnvmbDfQ1K02Favatar.png')
             .setDescription(`${response.data.from.name} to ${response.data.to.name}`)
             .addField('📥 LCN in:', convertAmnt, true)

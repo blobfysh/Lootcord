@@ -34,7 +34,7 @@ async function generatePages(app, allItems, prefix, itemsPerPage){
         const pageEmbed = new app.Embed()
         .setTitle('Item Shop')
         .setDescription('Use `' + prefix + 'buy <item>` to purchase.\n\nCan\'t find the item you want? Try searching the black market: `' + prefix + 'bm <item>`.')
-        .setColor(13215302)
+        .setColor(13451564)
 
         for(let item of filteredItems){
             let itemBuyCurr = app.itemdata[item].buy.currency;
@@ -63,7 +63,7 @@ async function getHomePage(app, prefix){
     firstEmbed.setTitle(`Item Shop`);
     firstEmbed.setDescription('Use `' + prefix + 'buy <item>` to purchase.');
     firstEmbed.setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/602129484900204545/shopping-cart.png");
-    firstEmbed.setColor(13215302);
+    firstEmbed.setColor(13451564);
 
     for(let gameRow of gameRows){
         if(gameRow !== null){

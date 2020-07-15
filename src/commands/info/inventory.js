@@ -56,7 +56,8 @@ module.exports = {
 
                 const embedInfo = new app.Embed()
                 .setTitle(`${isActive ? app.icons.accounts.active : app.icons.accounts.inactive} ${member.username + '#' + member.discriminator}'s Inventory`)
-
+                .setColor(13451564)
+                
                 if(userRow.banner !== 'none'){
                     embedInfo.setImage(app.itemdata[userRow.banner].image);
                     embedInfo.setColor(app.itemdata[userRow.banner].bannerColor);

@@ -59,7 +59,7 @@ async function getVaultInfo(app, clanId){
     let limitedItemList  = clanItems.limited;
 
     const embedInfo = new app.Embed()
-    .setColor(13215302)
+    .setColor(13451564)
     .setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
     .setTitle('Vault')
     

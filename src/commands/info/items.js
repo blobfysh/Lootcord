@@ -33,7 +33,7 @@ module.exports = {
             
             const embedItem = new app.Embed()
             .setTitle(`${app.itemdata[itemSearched].icon} ${itemSearched}`)
-            .setColor(0)
+            .setColor(13451564)
             if(app.itemdata[itemSearched].isBanner){
                 embedItem.setImage(itemImg);
                 embedItem.setColor(app.itemdata[itemSearched].bannerColor)
@@ -166,6 +166,7 @@ module.exports = {
             let banners = typeFilter(app, Object.keys(app.itemdata), 'banner');
 
             const embedInfo = new app.Embed()
+            .setColor(13451564)
             .setTitle("Full Items List")
             .addField("Weapons", weapons.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
             .addField("Items", items.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)

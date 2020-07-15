@@ -25,7 +25,7 @@ module.exports = {
             if(cmd.aliases.length && cmd.aliases[0].length) embed.addField("Aliases", cmd.aliases.map(alias => '`' + alias + '`').join(', '))
             embed.addField("Usage", '`' + getUsage(message.prefix, cmd) + '`')
             if(Object.keys(cmd.args).length) embed.addField("Options", getOptions(cmd))
-            embed.setColor(13215302)
+            embed.setColor(13451564)
 
             return message.channel.createMessage(embed);
         }
@@ -40,7 +40,7 @@ module.exports = {
 
         const helpEmbed = new app.Embed()
         .setTitle('Clan help')
-        .setColor(13215302)
+        .setColor(13451564)
         .setDescription('Check out this page for specific help: [Clans Guide](https://lootcord.com/guides/clans)\nTo use a clan command: `clan <command>`')
         .addField('Information', commands.join('\n'))
         .setFooter('To see more about a clan command, use t-clan help <command>')

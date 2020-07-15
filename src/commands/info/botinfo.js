@@ -18,7 +18,7 @@ module.exports = {
 
         const embedInfo = new app.Embed()
         embedInfo.setTitle(`Lootcord Update Info`)
-        embedInfo.setColor(13215302)
+        embedInfo.setColor(13451564)
         embedInfo.setThumbnail(app.bot.user.avatarURL)
         embedInfo.setDescription('Read [here](https://lootcord.com/blog) for update details')
         embedInfo.addField("Shard ID", codeWrap(message.channel.guild.shard.id.toString(), 'js'), true)

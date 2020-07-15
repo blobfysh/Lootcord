@@ -80,7 +80,7 @@ module.exports = {
 
             const embedLeader = new app.Embed() 
             .setTitle(`Server Leaderboard`)
-            .setColor(13215302)
+            .setColor(13451564)
             .addField("Money", leaders.length ? leaders.join('\n') : 'Noone?!')
             .addField("Level", levelLeaders.length ? levelLeaders.join('\n') : 'Noone :(')
             .addField("Kills", killLeaders.length ? killLeaders.join('\n') : 'Where is everyone?!')
