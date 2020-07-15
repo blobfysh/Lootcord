@@ -25,9 +25,8 @@ const ammo         = require('./ammo');
 const materials    = require('./materials');
 const storage      = require('./storage');
 const banners      = require('./banners');
-const other        = require('./other');
 
-const combined     = { ...weapons, ...items, ...ammo, ...materials, ...storage, ...banners, ...other };
+const combined     = { ...weapons, ...items, ...ammo, ...materials, ...storage, ...banners };
 
 let itemsLost = {};
 let itemsGained= {};

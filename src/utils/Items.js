@@ -101,18 +101,14 @@ class Items {
         else return false;
     }
 
-    async getItemCount(userItems, userRow, options = { cntTokens: false, cntBanners: false }){
-        options.cntTokens = options.cntTokens == null ? false : options.cntTokens;
+    async getItemCount(userItems, userRow, options = { cntBanners: false }){
         options.cntBanners = options.cntBanners == null ? false : options.cntBanners;
 
         let totalItemCt = 0;
 
         Object.keys(this.app.itemdata).forEach(key => {
             if(userItems[key] > 0){
-                if(key == 'token' && options.cntTokens){
-                    totalItemCt += userItems[key];
-                }
-                else if(this.app.itemdata[key].isBanner && options.cntBanners){
+                if(this.app.itemdata[key].isBanner && options.cntBanners){
                     totalItemCt += userItems[key];
                 }
                 else if(key !== 'token' && !this.app.itemdata[key].isBanner){
