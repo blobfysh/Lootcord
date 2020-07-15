@@ -13,40 +13,17 @@
         "buy": "",
         "sell": 466,
         "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132515275374662/rock.png",
-        "icon": "<:melee:601323077745246219>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928582963167292/rock.png",
+        "icon": "<:rock:732851749710462997>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
             "seconds": 445
         },
-        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": ""
     },
-    "baseball": {
-        "rarity": "Common",
-        "isWeap": false,
-        "isItem": false,
-        "damage": 12,
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [
-            "bat"
-        ],
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 2267,
-        "desc": "Use with weapon.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132237868040212/baseball.png",
-        "icon": "<:ammo:601323077569347584>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": ""
-    },
-    "item_box": {
+    "crate": {
         "rarity": "Common",
         "isWeap": false,
         "isItem": true,
@@ -63,79 +40,25 @@
         },
         "sell": 2485,
         "desc": "Use this to get a random item!",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/702813593976176699/BagsAndBoxes_77_t.PNG",
+        "image": "https://rustlabs.com/img/screenshots/crate.png",
         "icon": "<:common_box:601415564564627467>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "3": {
+            "100": {
                 "xp": 50,
                 "items": [
-                    "pistol_body|1",
+                    "semi_body|1",
                     "crossbow|1",
                     "gunpowder|1",
-                    "12g_buckshot|1",
-                    ".44_fmj|1"
-                ]
-            },
-            "15": {
-                "xp": 30,
-                "items": [
-                    "health_pot|1",
-                    "screw|1",
-                    "xp_potion|1",
-                    "bow|1",
-                    "9mm_fmj|1",
-                    ".45_fmj|1",
-                    "cloth|1"
-                ]
-            },
-            "35": {
-                "xp": 15,
-                "items": [
-                    "bat|1",
-                    "golf_club|1",
-                    "pills|1",
-                    "steel|1",
-                    "sword|1",
-                    "baseball|1",
-                    "spear|1",
-                    "grenade|1"
-                ]
-            },
-            "45": {
-                "xp": 10,
-                "items": [
-                    "club|1",
-                    "fish|1",
-                    "fork|1",
-                    "rock|1",
-                    "stick|1"
-                ]
-            },
-            "1.5": {
-                "xp": 50,
-                "items": [
-                    "glock|1",
-                    "9mm_ps|1"
-                ]
-            },
-            "0.5": {
-                "xp": 80,
-                "items": [
-                    "peck_seed|1",
-                    "adhesive|1",
-                    "fiber_optics|1",
-                    "spas|1",
-                    "7.62_fmj|1",
-                    ".45_ap|1"
+                    "12g_buckshot|1"
                 ]
             }
         },
         "artist": ""
     },
-    "fork": {
+    "bone_knife": {
         "rarity": "Common",
         "isWeap": true,
         "isItem": false,
@@ -149,17 +72,17 @@
         "buy": "",
         "sell": 379,
         "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132371695829012/fork.png",
-        "icon": "<:melee:601323077745246219>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928579285024818/bone_knife.png",
+        "icon": "<:bone_knife:732852965676679200>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
             "seconds": 420
         },
-        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "221087115893669889"
+        "phrase": "{attacker} sliced {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": ""
     },
-    "stick": {
+    "wooden_spear": {
         "rarity": "Common",
         "isWeap": true,
         "isItem": false,
@@ -173,19 +96,17 @@
         "buy": "",
         "sell": 340,
         "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132581960614038/stick.png",
-        "icon": "<:melee:601323077745246219>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928724160217118/wooden_spear.png",
+        "icon": "<:wooden_spear:732852914862817321>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "display": "15 minutes",
-            "scoreRow": "_15mCD",
             "seconds": 354
         },
-        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "phrase": "{attacker} stabbed {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": ""
     },
-    "club": {
+    "salvaged_cleaver": {
         "rarity": "Common",
         "isWeap": true,
         "isItem": false,
@@ -199,39 +120,15 @@
         "buy": "",
         "sell": 532,
         "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132324581343292/club.png",
-        "icon": "<:melee:601323077745246219>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928718321745990/salvaged_cleaver.png",
+        "icon": "<:salvaged_cleaver:732852862870356048>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
             "seconds": 458
         },
-        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "221087115893669889"
-    },
-    "fish": {
-        "rarity": "Common",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "5 - 11",
-        "minDmg": 5,
-        "maxDmg": 11,
-        "isAmmo": [],
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 441,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132363680514088/fish.png",
-        "icon": "<:melee:601323077745246219>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 442
-        },
-        "phrase": "{attacker} slapped {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "221087115893669889"
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": ""
     },
     "arrow": {
         "rarity": "Common",
@@ -246,10 +143,10 @@
         ],
         "ammo": "",
         "craftedWith": {
-            "display": "1x rock\n1x stick\n1x cloth",
+            "display": "1x rock\n1x wood\n1x cloth",
             "materials": [
                 "rock|1",
-                "stick|1",
+                "wood|1",
                 "cloth|1"
             ]
         },
@@ -257,12 +154,12 @@
         "buy": "",
         "sell": 928,
         "desc": "Use with weapon.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132222970134568/arrow.png",
-        "icon": "<:ammo:601323077569347584>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928578278260786/arrow.png",
+        "icon": "<:arrow:732852891299086417>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
-        "artist": "221087115893669889"
+        "artist": ""
     },
     "wood": {
         "rarity": "Common",
@@ -279,8 +176,8 @@
         "buy": "",
         "sell": 169,
         "desc": "Basic resource used for crafting many items.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132629041545268/wood.png",
-        "icon": "<:material:601323077359370251>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928720301457488/wood.png",
+        "icon": "<:wood:732851777078034474>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -311,42 +208,11 @@
         "buy": "",
         "sell": 845,
         "desc": "Bundle of 5 `wood`. Good for saving inventory space!",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132629041545268/wood.png",
-        "icon": "<:material:601323077359370251>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928720301457488/wood.png",
+        "icon": "<:wood:732851777078034474>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
-        "artist": ""
-    },
-    "sushi": {
-        "rarity": "Common",
-        "isWeap": false,
-        "isItem": true,
-        "isHeal": true,
-        "healMin": 5,
-        "healMax": 9,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [],
-        "ammo": "",
-        "craftedWith": {
-            "display": "2x fish",
-            "materials": [
-                "fish|2"
-            ]
-        },
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 781,
-        "desc": "Use this to restore `5-9` HP!",
-        "image": "",
-        "icon": "<:usable:601323078038847488>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 366
-        },
         "artist": ""
     },
     "recruit": {
@@ -361,9 +227,9 @@
         "isAmmo": [],
         "ammo": "",
         "craftedWith": {
-            "display": "1x module",
+            "display": "1x tech_trash",
             "materials": [
-                "module|1"
+                "tech_trash|1"
             ]
         },
         "recyclesTo": [],

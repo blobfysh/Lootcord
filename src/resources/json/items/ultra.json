@@ -1,111 +1,4 @@
 {
-    "cyber_pack": {
-        "rarity": "Ultra",
-        "isWeap": false,
-        "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [],
-        "ammo": "",
-        "craftedWith": {
-            "display": "5x adhesive\n2x fiber_optics\n1x screw\n1x steel",
-            "materials": [
-                "adhesive|5",
-                "fiber_optics|2",
-                "screw|1",
-                "steel|1"
-            ]
-        },
-        "recyclesTo": {
-            "display": "2x adhesive\n1x fiber_optics",
-            "materials": [
-                "adhesive|2",
-                "fiber_optics|1"
-            ]
-        },
-        "buy": "",
-        "sell": 583263,
-        "desc": "Equip this backpack to gain **40** item slots!",
-        "image": "",
-        "unboxImage": "",
-        "equippable": true,
-        "type": "backpack",
-        "inv_slots": 40,
-        "icon": "<:ultra_backpack:601370404375887873>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": ""
-    },
-    "rail_cannon": {
-        "rarity": "Ultra",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "20 - 60",
-        "minDmg": 20,
-        "maxDmg": 60,
-        "isAmmo": [],
-        "ammo": [
-            "plasma"
-        ],
-        "craftedWith": "",
-        "recyclesTo": {
-            "display": "2x fiber_optics\n1x module_bundle",
-            "materials": [
-                "fiber_optics|2",
-                "module_bundle|1"
-            ]
-        },
-        "buy": "",
-        "sell": 248305,
-        "desc": "Uses electromagnetic force to blast a ball of plasma that vaporizes anything it touches.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132500721008741/rail_cannon.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704968624242163812/rail_cannon.png",
-        "icon": "<:ultra_weapon:601370404069572634>",
-        "breaksOnUse": false,
-        "chanceToBreak": 0.15,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 6720
-        },
-        "phrase": "{attacker} vaporizes {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
-        "artist": "221087115893669889"
-    },
-    "ray_gun": {
-        "rarity": "Ultra",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "0 - 30",
-        "minDmg": 0,
-        "maxDmg": 30,
-        "isAmmo": [],
-        "ammo": [
-            "plasma"
-        ],
-        "craftedWith": "",
-        "recyclesTo": {
-            "display": "1x module\n3x fiber_optics",
-            "materials": [
-                "module|1",
-                "fiber_optics|3"
-            ]
-        },
-        "buy": "",
-        "sell": 230599,
-        "desc": "A lightweight particle-beam weapon that disintegrates targets on contact.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703173875814498364/ray_gun.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/704968626180194335/ray_gun.png",
-        "icon": "<:ultra_weapon:601370404069572634>",
-        "breaksOnUse": false,
-        "chanceToBreak": 0.13,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 6034
-        },
-        "phrase": "{attacker} vaporizes {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
-        "artist": ""
-    },
     "c4": {
         "rarity": "Ultra",
         "isWeap": false,
@@ -116,25 +9,23 @@
         "isAmmo": [],
         "ammo": "",
         "craftedWith": {
-            "display": "10x gunpowder\n2x fiber_optics\n2x module",
+            "display": "10x gunpowder\n2x tech_trash",
             "materials": [
                 "gunpowder|10",
-                "fiber_optics|2",
-                "module|2"
+                "tech_trash|2"
             ]
         },
         "recyclesTo": {
-            "display": "4x gunpowder\n1x fiber_optics",
+            "display": "4x gunpowder",
             "materials": [
-                "gunpowder|4",
-                "fiber_optics|1"
+                "gunpowder|4"
             ]
         },
         "buy": "",
         "sell": 544900,
         "desc": "Use this on another clan to temporarily lower their current power by **5** for 1 hour, making them vulnerable to a raid.\n\nThis effect can stack.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/710777441374961694/c4.png",
-        "icon": "<:ultra_usable:710781033666052106>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930980725260348/c4.png",
+        "icon": "<:c4:732853863396147252>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",

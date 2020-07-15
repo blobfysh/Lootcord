@@ -1,5 +1,5 @@
 {
-    "steel": {
+    "metal": {
         "rarity": "Rare",
         "isWeap": false,
         "isItem": false,
@@ -14,14 +14,14 @@
         "buy": "",
         "sell": 4409,
         "desc": "A cheap but strong material used to craft items.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132568744230972/steel.png",
-        "icon": "<:rare_material:601368020459454465>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929785310740521/metal.png",
+        "icon": "<:metal_fragments:732853274465796157>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": ""
     },
-    "steel_bundle": {
+    "metal_bundle": {
         "rarity": "Rare",
         "isWeap": false,
         "isItem": false,
@@ -32,50 +32,28 @@
         "isAmmo": [],
         "ammo": "",
         "craftedWith": {
-            "display": "5x steel",
+            "display": "5x metal",
             "materials": [
-                "steel|5"
+                "metal|5"
             ]
         },
         "recyclesTo": {
-            "display": "5x steel",
+            "display": "5x metal",
             "materials": [
-                "steel|5"
+                "metal|5"
             ]
         },
         "buy": "",
         "sell": 22045,
-        "desc": "Bundle of 5 `steel`. Good for saving inventory space!",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132568744230972/steel.png",
-        "icon": "<:rare_material:601368020459454465>",
+        "desc": "Bundle of 5 `metal`. Good for saving inventory space!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929785310740521/metal.png",
+        "icon": "<:metal_fragments:732853274465796157>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": ""
     },
-    "xp_potion": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": true,
-        "xpAmt": 75,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [],
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 6916,
-        "desc": "Use this to instantly gain `75` xp!",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132643046326332/xp_potion.png",
-        "icon": "<:rare_usable:601368019972653067>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "221087115893669889"
-    },
-    "glock": {
+    "revolver": {
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
@@ -84,28 +62,26 @@
         "maxDmg": 9,
         "isAmmo": [],
         "ammo": [
-            "9mm_ps",
-            "9mm_fmj"
+            "pistol_bullet"
         ],
         "craftedWith": {
-            "display": "1x pistol_body\n1x screw\n2x steel",
+            "display": "1x semi_body\n2x metal",
             "materials": [
-                "pistol_body|1",
-                "screw|1",
-                "steel|2"
+                "semi_body|1",
+                "metal|2"
             ]
         },
         "recyclesTo": {
-            "display": "1x pistol_body",
+            "display": "1x semi_body",
             "materials": [
-                "pistol_body|1"
+                "semi_body|1"
             ]
         },
         "buy": "",
         "sell": 6037,
         "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/704970451511672842/glock.png",
-        "icon": "<:rare_weapon:601368020295876608>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929789962354778/revolver.png",
+        "icon": "<:revolver:732853148426960936>",
         "breaksOnUse": false,
         "chanceToBreak": 0.3,
         "canBeStolen": true,
@@ -115,9 +91,9 @@
             "seconds": 2467
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
-        "artist": "221087115893669889"
+        "artist": ""
     },
-    "revolver": {
+    "semi_pistol": {
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
@@ -126,27 +102,26 @@
         "maxDmg": 10,
         "isAmmo": [],
         "ammo": [
-            ".44_fmj"
+            "pistol_bullet"
         ],
         "craftedWith": {
-            "display": "2x pistol_body\n2x screw\n2x steel",
+            "display": "2x semi_body\n2x metal",
             "materials": [
-                "pistol_body|2",
-                "screw|2",
-                "steel|2"
+                "semi_body|2",
+                "metal|2"
             ]
         },
         "recyclesTo": {
-            "display": "1x pistol_body",
+            "display": "1x semi_body",
             "materials": [
-                "pistol_body|1"
+                "semi_body|1"
             ]
         },
         "buy": "",
         "sell": 7156,
         "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132507469512785/revolver.png",
-        "icon": "<:rare_weapon:601368020295876608>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929807179972748/semi_pistol.png",
+        "icon": "<:semi_pistol:732853166864990211>",
         "breaksOnUse": false,
         "chanceToBreak": 0.35,
         "canBeStolen": true,
@@ -154,87 +129,6 @@
             "seconds": 2721
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
-        "artist": "221087115893669889"
-    },
-    "9mm_ps": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
-        "damage": 29,
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [
-            "glock"
-        ],
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 8623,
-        "desc": "9x19mm PS cartridge. Use with weapon.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703158490218102834/9mm_ps.png",
-        "icon": "<:rare_ammo:601368020270448659>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": ""
-    },
-    "7.62_fmj": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
-        "damage": 26,
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [
-            "ak47"
-        ],
-        "ammo": "",
-        "craftedWith": {
-            "display": "2x gunpowder\n1x steel",
-            "materials": [
-                "gunpowder|2",
-                "steel|1"
-            ]
-        },
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 11586,
-        "desc": "7.62x39mm full metal jacket ammo for 7.62 caliber rifles.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703158571843452988/7.62_fmj.png",
-        "icon": "<:rare_ammo:601368020270448659>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": ""
-    },
-    "5.56_fmj": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
-        "damage": 39,
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [
-            "m4a1"
-        ],
-        "ammo": "",
-        "craftedWith": {
-            "display": "2x gunpowder\n1x steel",
-            "materials": [
-                "gunpowder|2",
-                "steel|1"
-            ]
-        },
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 7426,
-        "desc": "Full metal jacket 5.56x45mm NATO cartridge.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703158613262467112/5.56_fmj.png",
-        "icon": "<:rare_ammo:601368020270448659>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
         "artist": ""
     },
     "crossbow": {
@@ -250,17 +144,17 @@
         ],
         "craftedWith": "",
         "recyclesTo": {
-            "display": "1x wood\n1x steel",
+            "display": "1x wood\n1x metal",
             "materials": [
                 "wood|1",
-                "steel|1"
+                "metal|1"
             ]
         },
         "buy": "",
         "sell": 3662,
         "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132334244757534/crossbow.png",
-        "icon": "<:rare_weapon:601368020295876608>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929913145000016/crossbow.png",
+        "icon": "<:crossbow:732862499019423774>",
         "breaksOnUse": false,
         "chanceToBreak": 0.35,
         "canBeStolen": true,
@@ -270,31 +164,7 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": ""
     },
-    "spear": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "15 - 25",
-        "minDmg": 15,
-        "maxDmg": 25,
-        "isAmmo": [],
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 3177,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132556156993536/spear.png",
-        "icon": "<:rare_melee:601368020325236756>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 1568
-        },
-        "phrase": "{attacker} uses a {weaponIcon}`{weapon}` on {victim} dealing **{damage}** damage!",
-        "artist": ""
-    },
-    "health_pot": {
+    "medical_syringe": {
         "rarity": "Rare",
         "isWeap": false,
         "isItem": true,
@@ -314,8 +184,8 @@
         },
         "sell": 9652,
         "desc": "Restores `20-28` HP!",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703132421737938954/health_pot.png",
-        "icon": "<:rare_usable:601368019972653067>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929964889997343/medical_syringe.png",
+        "icon": "<:medical_syringe:732858500631494727>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
@@ -323,7 +193,7 @@
         },
         "artist": ""
     },
-    "remington_870": {
+    "pump_shotgun": {
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
@@ -332,35 +202,32 @@
         "maxDmg": 20,
         "isAmmo": [],
         "ammo": [
-            "12g_buckshot",
-            "12g_slug"
+            "12g_buckshot"
         ],
         "craftedWith": {
-            "display": "2x pump_body\n2x steel\n1x screw",
+            "display": "5x metal",
             "materials": [
-                "pump_body|2",
-                "steel|2",
-                "screw|1"
+                "metal|5"
             ]
         },
         "recyclesTo": {
-            "display": "1x pump_body",
+            "display": "1x metal",
             "materials": [
-                "pump_body|1"
+                "metal|1"
             ]
         },
         "buy": "",
         "sell": 15419,
         "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/716031021816217660/remington.png",
-        "icon": "<:rare_weapon:601368020295876608>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930012034105394/pump_shotgun.png",
+        "icon": "<:pump_shotgun:732853454254374913>",
         "breaksOnUse": false,
         "chanceToBreak": 0.5,
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2732
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "phrase": "{attacker} blasts a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": ""
     },
     "12g_buckshot": {
@@ -371,29 +238,28 @@
         "minDmg": "",
         "maxDmg": "",
         "isAmmo": [
-            "remington_870",
-            "spas"
+            "pump_shotgun"
         ],
         "ammo": "",
         "craftedWith": {
-            "display": "2x gunpowder\n1x steel",
+            "display": "2x gunpowder\n1x metal",
             "materials": [
                 "gunpowder|2",
-                "steel|1"
+                "metal|1"
             ]
         },
         "recyclesTo": [],
         "buy": "",
         "sell": 8134,
         "desc": "12 Gauge buckshot shell. Used for shotguns.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703143376505143426/12g_buck.png",
-        "icon": "<:rare_ammo:601368020270448659>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930056271429632/12g_buckshot.png",
+        "icon": "<:12g_buckshot:732853227552374793>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": ""
     },
-    "grenade": {
+    "f1_grenade": {
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
@@ -407,8 +273,8 @@
         "buy": "",
         "sell": 4278,
         "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703142864669900850/grenade.png",
-        "icon": "<:rare_melee:601368020325236756>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930107852980234/f1_grenade.png",
+        "icon": "<:f1_grenade:732853499435679819>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
@@ -429,43 +295,16 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": {
-            "display": "2x module",
+            "display": "1x metal",
             "materials": [
-                "module|2"
+                "metal|1"
             ]
         },
         "buy": "",
         "sell": 17189,
         "desc": "Parts used to craft smaller automatic weapons.",
-        "image": "",
-        "icon": "<:rare_material:601368020459454465>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": ""
-    },
-    "pump_body": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
-        "isMaterial": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [],
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": {
-            "display": "2x module",
-            "materials": [
-                "module|2"
-            ]
-        },
-        "buy": "",
-        "sell": 12749,
-        "desc": "Parts used to craft shotguns.",
-        "image": "",
-        "icon": "<:rare_material:601368020459454465>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930115603922965/smg_body.png",
+        "icon": "<:smg_body:732853543752695809>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -482,12 +321,7 @@
         "maxDmg": "",
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": {
-            "display": "5x module",
-            "materials": [
-                "module|5"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": {
             "amount": 126731,
@@ -514,12 +348,7 @@
         "maxDmg": "",
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": {
-            "display": "7x module",
-            "materials": [
-                "module|7"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": {
             "amount": 90817,
