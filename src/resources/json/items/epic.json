@@ -33,15 +33,15 @@
         "isAmmo": [],
         "ammo": "",
         "craftedWith": {
-            "display": "5x module",
+            "display": "5x tech_trash",
             "materials": [
-                "module|5"
+                "tech_trash|5"
             ]
         },
         "recyclesTo": {
-            "display": "5x module",
+            "display": "5x tech_trash",
             "materials": [
-                "module|5"
+                "tech_trash|5"
             ]
         },
         "buy": "",
@@ -50,6 +50,52 @@
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930339156131979/tech_trash.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930339156131979/tech_trash.png",
         "icon": "<:tech_trash:732853324377751635>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": ""
+    },
+    "metal_pipe": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 11447,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732952040933949481/metal_pipe.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732952040933949481/metal_pipe.png",
+        "icon": "<:metal_pipe:732853612711247923>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": ""
+    },
+    "metal_spring": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 11447,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732952060219097158/metal_spring.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732952060219097158/metal_spring.png",
+        "icon": "<:metal_spring:732853622873784360>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",

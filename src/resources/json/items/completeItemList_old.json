@@ -46,13 +46,51 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "100": {
+            "3": {
                 "xp": 50,
                 "items": [
-                    "semi_body|1",
+                    "revolver|1",
+                    "pump_shotgun|1",
+                    "tech_trash|1",
+                    "12g_buckshot|1",
+                    "pistol_bullet|1",
+                    "gunpowder|1"
+                ]
+            },
+            "7": {
+                "xp": 40,
+                "items": [
                     "crossbow|1",
-                    "gunpowder|1",
-                    "12g_buckshot|1"
+                    "metal_spring|1",
+                    "f1_grenade|1",
+                    "medical_syringe|1"
+                ]
+            },
+            "15": {
+                "xp": 35,
+                "items": [
+                    "metal_pipe|1",
+                    "bow|1",
+                    "arrow|1",
+                    "cloth|1",
+                    "semi_body|1"
+                ]
+            },
+            "25": {
+                "xp": 25,
+                "items": [
+                    "bandage|1",
+                    "salvaged_sword|1",
+                    "pickaxe|1"
+                ]
+            },
+            "50": {
+                "xp": 10,
+                "items": [
+                    "bone_knife|1",
+                    "rock|1",
+                    "salvaged_cleaver|1",
+                    "wooden_spear|1"
                 ]
             }
         },
@@ -227,9 +265,9 @@
         "isAmmo": [],
         "ammo": "",
         "craftedWith": {
-            "display": "1x module",
+            "display": "1x tech_trash",
             "materials": [
-                "module|1"
+                "tech_trash|1"
             ]
         },
         "recyclesTo": [],
@@ -503,12 +541,7 @@
         "maxDmg": "",
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": {
-            "display": "3x module",
-            "materials": [
-                "module|3"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": {
             "amount": 43370,
@@ -592,16 +625,16 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-            "display": "1x semi_body\n2x metal",
+            "display": "2x metal_pipe\n2x metal",
             "materials": [
-                "semi_body|1",
+                "metal_pipe|2",
                 "metal|2"
             ]
         },
         "recyclesTo": {
-            "display": "1x semi_body",
+            "display": "1x metal_pipe",
             "materials": [
-                "semi_body|1"
+                "metal_pipe|1"
             ]
         },
         "buy": "",
@@ -632,10 +665,10 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-            "display": "2x semi_body\n2x metal",
+            "display": "2x semi_body\n1x metal",
             "materials": [
                 "semi_body|2",
-                "metal|2"
+                "metal|1"
             ]
         },
         "recyclesTo": {
@@ -732,9 +765,11 @@
             "12g_buckshot"
         ],
         "craftedWith": {
-            "display": "5x metal",
+            "display": "1x metal_spring\n2x metal_pipe\n2x metal",
             "materials": [
-                "metal|5"
+                "metal_spring|1",
+                "metal_pipe|2",
+                "metal|2"
             ]
         },
         "recyclesTo": {
@@ -848,12 +883,7 @@
         "maxDmg": "",
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": {
-            "display": "5x module",
-            "materials": [
-                "module|5"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": {
             "amount": 126731,
@@ -880,12 +910,7 @@
         "maxDmg": "",
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": {
-            "display": "7x module",
-            "materials": [
-                "module|7"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": {
             "amount": 90817,
@@ -935,15 +960,15 @@
         "isAmmo": [],
         "ammo": "",
         "craftedWith": {
-            "display": "5x module",
+            "display": "5x tech_trash",
             "materials": [
-                "module|5"
+                "tech_trash|5"
             ]
         },
         "recyclesTo": {
-            "display": "5x module",
+            "display": "5x tech_trash",
             "materials": [
-                "module|5"
+                "tech_trash|5"
             ]
         },
         "buy": "",
@@ -952,6 +977,52 @@
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930339156131979/tech_trash.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930339156131979/tech_trash.png",
         "icon": "<:tech_trash:732853324377751635>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": ""
+    },
+    "metal_pipe": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 11447,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732952040933949481/metal_pipe.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732952040933949481/metal_pipe.png",
+        "icon": "<:metal_pipe:732853612711247923>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": ""
+    },
+    "metal_spring": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 11447,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732952060219097158/metal_spring.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732952060219097158/metal_spring.png",
+        "icon": "<:metal_spring:732853622873784360>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -1222,12 +1293,7 @@
         "maxDmg": "",
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": {
-            "display": "10x module",
-            "materials": [
-                "module|10"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": {
             "amount": 410015,
@@ -1255,12 +1321,7 @@
         "maxDmg": "",
         "isAmmo": [],
         "ammo": "",
-        "craftedWith": {
-            "display": "25x module",
-            "materials": [
-                "module|25"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": {
             "amount": 1348700,

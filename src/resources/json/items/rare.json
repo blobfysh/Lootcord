@@ -65,16 +65,16 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-            "display": "1x semi_body\n2x metal",
+            "display": "2x metal_pipe\n2x metal",
             "materials": [
-                "semi_body|1",
+                "metal_pipe|2",
                 "metal|2"
             ]
         },
         "recyclesTo": {
-            "display": "1x semi_body",
+            "display": "1x metal_pipe",
             "materials": [
-                "semi_body|1"
+                "metal_pipe|1"
             ]
         },
         "buy": "",
@@ -105,10 +105,10 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-            "display": "2x semi_body\n2x metal",
+            "display": "2x semi_body\n1x metal",
             "materials": [
                 "semi_body|2",
-                "metal|2"
+                "metal|1"
             ]
         },
         "recyclesTo": {
@@ -205,9 +205,11 @@
             "12g_buckshot"
         ],
         "craftedWith": {
-            "display": "5x metal",
+            "display": "1x metal_spring\n2x metal_pipe\n2x metal",
             "materials": [
-                "metal|5"
+                "metal_spring|1",
+                "metal_pipe|2",
+                "metal|2"
             ]
         },
         "recyclesTo": {
