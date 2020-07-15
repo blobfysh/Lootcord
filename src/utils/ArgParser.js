@@ -18,9 +18,11 @@ class ArgParser {
         let itemArgs = [];
 
         for(let i = 0; i < args.length; i++){
-            let correctedArgs = this.correctItem(args[i] + '_' + args[i + 1]);
+            let correctedArgs = this.correctItem(args[i] + '_' + args[i + 1] + '_' + args[i + 2]);
 
-            if(this.app.itemdata[correctedArgs] && !this._isNumber(args[i]) && !this._isNumber(args[i + 1])){
+            // check if 3 args makes up item
+            if(this.app.itemdata[correctedArgs] && !this._isNumber(args[i]) && !this._isNumber(args[i + 1]) && !this._isNumber(args[i + 2])){
+                args.splice(i, 1);
                 args.splice(i, 1);
                 args.splice(i, 1);
                 i -= 1;
@@ -28,14 +30,27 @@ class ArgParser {
                 itemArgs.push(correctedArgs);
             }
             else{
-                let correctedArg = this.correctItem(args[i]);
+                // check if 2 args makes up item
+                correctedArgs = this.correctItem(args[i] + '_' + args[i + 1]);
 
-                if(this.app.itemdata[correctedArg]){
+                if(this.app.itemdata[correctedArgs] && !this._isNumber(args[i]) && !this._isNumber(args[i + 1])){
+                    args.splice(i, 1);
                     args.splice(i, 1);
                     i -= 1;
-
-                    itemArgs.push(correctedArg);
-                }    
+    
+                    itemArgs.push(correctedArgs);
+                }
+                else{
+                    // check if 1 arg makes up item
+                    let correctedArg = this.correctItem(args[i]);
+    
+                    if(this.app.itemdata[correctedArg]){
+                        args.splice(i, 1);
+                        i -= 1;
+    
+                        itemArgs.push(correctedArg);
+                    }    
+                }
             }
 
             if(itemArgs.length >= amount) break;
@@ -50,9 +65,10 @@ class ArgParser {
      */
     correctItem(itemName = ''){
         let itemSearched = itemName.toLowerCase();
+        let itemParts = itemSearched.split('_');
 
         // prevent unnecessary spell corection calls. 
-        if(itemSearched.split('_')[1] === 'undefined' || ignoredItemCorrections.includes(itemSearched)){
+        if(itemParts[itemParts.length - 1] === 'undefined' || ignoredItemCorrections.includes(itemSearched)){
             return undefined;
         } 
 
