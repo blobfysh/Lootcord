@@ -23,7 +23,7 @@ module.exports = {
             let itemSellPrice = app.itemdata[itemSearched].sell;
             let itemAmmo = app.itemdata[itemSearched].ammo;
             let itemAmmoFor = app.itemdata[itemSearched].isAmmo;
-            let itemRarity = app.itemdata[itemSearched].rarity;
+            let itemCategory = app.itemdata[itemSearched].category;
             let itemInfo = app.itemdata[itemSearched].desc;
             let itemImg = app.itemdata[itemSearched].image;
             let itemRecyclesTo = app.itemdata[itemSearched].recyclesTo;
@@ -33,11 +33,10 @@ module.exports = {
             
             const embedItem = new app.Embed()
             .setTitle(`${app.itemdata[itemSearched].icon} ${itemSearched}`)
-            .setColor(RARITIES[itemRarity.toLowerCase()].color)
+            .setColor(0)
             if(app.itemdata[itemSearched].isBanner){
                 embedItem.setImage(itemImg);
                 embedItem.setColor(app.itemdata[itemSearched].bannerColor)
-                embedItem.addField('Type', 'Banner');
             }
             else if(itemImg){
                 embedItem.setThumbnail(itemImg)
@@ -87,7 +86,7 @@ module.exports = {
                 embedItem.setDescription(itemInfo);
             }
 
-            embedItem.addField("Rarity", RARITIES[itemRarity.toLowerCase()].name)
+            embedItem.addField("Type", itemCategory === 'Storage' ? 'Storage Container' : itemCategory)
             
             if(itemCooldown !== ""){
                 embedItem.addField("Cooldown", "`" + app.cd.convertTime(itemCooldown.seconds * 1000) + "`", true)

@@ -22,39 +22,6 @@
         "artist": "",
         "category": "Material"
     },
-    "wood_bundle": {
-        "rarity": "Common",
-        "isWeap": false,
-        "isItem": false,
-        "isMaterial": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [],
-        "ammo": "",
-        "craftedWith": {
-            "display": "5x wood",
-            "materials": [
-                "wood|5"
-            ]
-        },
-        "recyclesTo": {
-            "display": "5x wood",
-            "materials": [
-                "wood|5"
-            ]
-        },
-        "buy": "",
-        "sell": 845,
-        "desc": "Bundle of 5 `wood`. Good for saving inventory space!",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928720301457488/wood.png",
-        "icon": "<:wood:732851777078034474>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Material"
-    },
     "cloth": {
         "rarity": "Uncommon",
         "isWeap": false,
@@ -70,39 +37,6 @@
         "buy": "",
         "sell": 8976,
         "desc": "Fibrous material used for crafting items such as clothing.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928581264605286/cloth.png",
-        "icon": "<:cloth:732853261110870058>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Material"
-    },
-    "cloth_bundle": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
-        "isMaterial": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [],
-        "ammo": "",
-        "craftedWith": {
-            "display": "5x cloth",
-            "materials": [
-                "cloth|5"
-            ]
-        },
-        "recyclesTo": {
-            "display": "5x cloth",
-            "materials": [
-                "cloth|5"
-            ]
-        },
-        "buy": "",
-        "sell": 44880,
-        "desc": "Bundle of 5 `cloth`. Good for saving inventory space!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928581264605286/cloth.png",
         "icon": "<:cloth:732853261110870058>",
         "breaksOnUse": "",
@@ -162,39 +96,6 @@
         "artist": "",
         "category": "Material"
     },
-    "metal_bundle": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
-        "isMaterial": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [],
-        "ammo": "",
-        "craftedWith": {
-            "display": "5x metal",
-            "materials": [
-                "metal|5"
-            ]
-        },
-        "recyclesTo": {
-            "display": "5x metal",
-            "materials": [
-                "metal|5"
-            ]
-        },
-        "buy": "",
-        "sell": 22045,
-        "desc": "Bundle of 5 `metal`. Good for saving inventory space!",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929785310740521/metal.png",
-        "icon": "<:metal_fragments:732853274465796157>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Material"
-    },
     "smg_body": {
         "rarity": "Rare",
         "isWeap": false,
@@ -238,40 +139,6 @@
         "buy": "",
         "sell": 11447,
         "desc": "A piece of machinery used for various tech.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930339156131979/tech_trash.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930339156131979/tech_trash.png",
-        "icon": "<:tech_trash:732853324377751635>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Material"
-    },
-    "tech_trash_bundle": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": false,
-        "isMaterial": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "isAmmo": [],
-        "ammo": "",
-        "craftedWith": {
-            "display": "5x tech_trash",
-            "materials": [
-                "tech_trash|5"
-            ]
-        },
-        "recyclesTo": {
-            "display": "5x tech_trash",
-            "materials": [
-                "tech_trash|5"
-            ]
-        },
-        "buy": "",
-        "sell": 57235,
-        "desc": "Bundle of 5 `tech_trash`. Good for saving inventory space!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930339156131979/tech_trash.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930339156131979/tech_trash.png",
         "icon": "<:tech_trash:732853324377751635>",

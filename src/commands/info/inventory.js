@@ -46,14 +46,13 @@ module.exports = {
                 const shieldLeft     = await app.cd.getCD(member.id, 'shield');
                 const passiveShield  = await app.cd.getCD(member.id, 'passive_shield');
 
-                let ultraItemList    = usersItems.ultra;
-                let legendItemList   = usersItems.legendary;
-                let epicItemList     = usersItems.epic;
-                let rareItemList     = usersItems.rare;
-                let uncommonItemList = usersItems.uncommon;
-                let commonItemList   = usersItems.common;
-                let limitedItemList  = usersItems.limited;
-                let backpack         = userRow.backpack;
+                let weaponList = usersItems.weapons;
+                let itemList = usersItems.usables;
+                let ammoList = usersItems.ammo;
+                let materialList = usersItems.materials;
+                let storageList = usersItems.storage;
+                let limitedItemList = usersItems.limited;
+                let backpack = userRow.backpack;
 
                 const embedInfo = new app.Embed()
                 .setTitle(`${isActive ? app.icons.accounts.active : app.icons.accounts.inactive} ${member.username + '#' + member.discriminator}'s Inventory`)
@@ -74,8 +73,6 @@ module.exports = {
                 
                 embedInfo.addField("Money", app.common.formatNumber(userRow.money), true)
 
-                //embedInfo.addField('Level ' + userRow.level, `\`${xp.needed} xp until level ${userRow.level + 1}\``, true)
-
                 if(backpack === 'none'){
                     embedInfo.addField('Backpack', 'None', true)
                 }
@@ -86,39 +83,30 @@ module.exports = {
                 embedInfo.addField('\u200b', '__**Items**__')
 
                 // item fields
-                if(ultraItemList != ""){
-                    embedInfo.addField(RARITIES['ultra'].name, ultraItemList.join('\n'), true);
+                if(weaponList.length){
+                    embedInfo.addField('Weapons', weaponList.join('\n'), true);
                 }
                 
-                if(legendItemList != ""){
-                    embedInfo.addField(RARITIES['legendary'].name, legendItemList.join('\n'), true);
+                if(itemList.length){
+                    embedInfo.addField('Items', itemList.join('\n'), true);
                 }
                 
-                if(epicItemList != ""){
-                    embedInfo.addField(RARITIES['epic'].name, epicItemList.join('\n'), true);
+                if(ammoList.length){
+                    embedInfo.addField('Ammo', ammoList.join('\n'), true);
                 }
                 
-                if(rareItemList != ""){
-                    embedInfo.addField(RARITIES['rare'].name, rareItemList.join('\n'), true);
+                if(materialList.length){
+                    embedInfo.addField('Materials', materialList.join('\n'), true);
                 }
                 
-                if(uncommonItemList != ""){
-                    embedInfo.addField(RARITIES['uncommon'].name, uncommonItemList.join('\n'), true);
+                if(storageList.length){
+                    embedInfo.addField('Storage Containers', storageList.join('\n'), true);
                 }
                 
-                if(commonItemList != ""){
-                    embedInfo.addField(RARITIES['common'].name, commonItemList.join('\n'), true);
-                }
-                
-                if(limitedItemList != ""){
-                    embedInfo.addField(RARITIES['limited'].name, limitedItemList.join('\n'), true);
-                }
-                
-                if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){
+                if(!weaponList.length && !itemList.length && !ammoList.length && !materialList.length && !storageList.length && !limitedItemList.length){
                     embedInfo.addField('This inventory is empty! :(', "\u200b");
                 }
 
-                //embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max | Value: " + app.common.formatNumber(usersItems.invValue, true))
                 embedInfo.addField("\u200b", "Inventory space: " + itemCt.capacity + " max | Value: " + app.common.formatNumber(usersItems.invValue + userRow.money) + '');
                 
                 await message.channel.createMessage(embedInfo);

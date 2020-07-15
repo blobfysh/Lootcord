@@ -155,13 +155,12 @@ class Items {
         options.countBanners = options.countBanners == null ? false : options.countBanners;
         options.countLimited = options.countLimited == null ? true : options.countLimited;
         
-        let commonItems   = [];
-        let uncommonItems = [];
-        let rareItems     = [];
-        let epicItems     = [];
-        let legendItems   = [];
-        let ultraItems    = [];
-        let limitedItems  = [];
+        let weapons = [];
+        let usables = [];
+        let ammo = [];
+        let materials = [];
+        let storage = [];
+        let banners = [];
         let invValue      = 0;
         let itemCount     = 0;
 
@@ -186,46 +185,41 @@ class Items {
 
         for(let key of filteredItems){
             if(items[key] >= 1){
+                let itemInfo = this.app.itemdata[key];
 
-                switch(this.app.itemdata[key].rarity){
-                    case "Common": commonItems.push(key); break;
-                    case "Uncommon": uncommonItems.push(key); break;
-                    case "Rare": rareItems.push(key); break;
-                    case "Epic": epicItems.push(key); break;
-                    case "Legendary": legendItems.push(key); break;
-                    case "Ultra": ultraItems.push(key); break;
-                    case "Limited": limitedItems.push(key); break;
-                }
+                if(itemInfo.category === 'Weapon') weapons.push(key);
+                else if(itemInfo.category === 'Item') usables.push(key);
+                else if(itemInfo.category === 'Ammo') ammo.push(key);
+                else if(itemInfo.category === 'Material') materials.push(key);
+                else if(itemInfo.category === 'Storage') storage.push(key);
+                else if(itemInfo.category === 'Banner') banners.push(key);
     
                 invValue += this.app.itemdata[key].sell * items[key];
                 itemCount+= items[key];
             }
         }
         
-        commonItems.sort();
-        uncommonItems.sort();
-        rareItems.sort();
-        epicItems.sort();
-        legendItems.sort();
-        ultraItems.sort();
-        limitedItems.sort();
+        weapons.sort();
+        usables.sort();
+        ammo.sort();
+        materials.sort();
+        storage.sort();
+        banners.sort();
 
-        commonItems = commonItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        uncommonItems = uncommonItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        rareItems = rareItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        epicItems = epicItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        legendItems = legendItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        ultraItems = ultraItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        limitedItems = limitedItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        weapons = weapons.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        usables = usables.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        ammo = ammo.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        materials = materials.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        storage = storage.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        banners = banners.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
 
         return {
-            common: commonItems,
-            uncommon: uncommonItems,
-            rare: rareItems,
-            epic: epicItems,
-            legendary: legendItems,
-            ultra: ultraItems,
-            limited: limitedItems,
+            weapons,
+            usables,
+            ammo,
+            materials,
+            storage,
+            banners,
             invValue: invValue,
             itemCount: itemCount
         }
