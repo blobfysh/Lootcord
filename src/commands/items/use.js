@@ -6,7 +6,7 @@ module.exports = {
     description: 'Use items on yourself or use weapons to attack others!',
     long: 'Use an item on yourself or attack another user with a weapon. If you\'re opening a box, you can specify an amount to open.',
     args: {"item": "Item to use.", "@user": "User to attack item with."},
-    examples: ["use ak47 @blobfysh","use medkit","use rock random", "use item_box 4"],
+    examples: ["use assault rifle @blobfysh","use medkit","use rock random", "use crate 4"],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: true,
@@ -88,11 +88,11 @@ module.exports = {
                     }, 27000);
                     setTimeout(() => {
                         const dropEmbed = new app.Embed()
-                        .setDescription(`**A ${app.itemdata['care_package'].icon}\`care_package\` has arrived!**\n\nUse \`${message.prefix}claimdrop\` to claim it.`)
-                        .setImage(app.itemdata['care_package'].image)
+                        .setDescription(`**A ${app.itemdata['supply_drop'].icon}\`supply_drop\` has arrived!**\n\nUse \`${message.prefix}claimdrop\` to claim it.`)
+                        .setImage(app.itemdata['supply_drop'].image)
                         .setColor(13451564)
                         app.query(`UPDATE guildInfo SET dropItemChan = '${message.channel.id}' WHERE guildId = ${message.channel.guild.id}`);
-                        app.query(`UPDATE guildInfo SET dropItem = 'care_package' WHERE guildId = ${message.channel.guild.id}`);
+                        app.query(`UPDATE guildInfo SET dropItem = 'supply_drop' WHERE guildId = ${message.channel.guild.id}`);
                         
                         message.channel.createMessage(dropEmbed);
                     }, 30000);
