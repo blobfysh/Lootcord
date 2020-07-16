@@ -17,12 +17,10 @@ module.exports = {
         let itemChoice = (message.args[0] || '').toLowerCase();
 
         if(itemSearched){
-            let itemDamage = app.itemdata[itemSearched].damage;
             let itemBuyCurr = app.itemdata[itemSearched].buy.currency;
             let itemBuyPrice = app.itemdata[itemSearched].buy.amount;
             let itemSellPrice = app.itemdata[itemSearched].sell;
             let itemAmmo = app.itemdata[itemSearched].ammo;
-            let itemAmmoFor = app.itemdata[itemSearched].isAmmo;
             let itemCategory = app.itemdata[itemSearched].category;
             let itemInfo = app.itemdata[itemSearched].desc;
             let itemImg = app.itemdata[itemSearched].image;
@@ -51,32 +49,14 @@ module.exports = {
             // if item is a box =>
             if(app.itemdata[itemSearched].rates !== undefined){
                 let possibleItems = [];
+
                 Object.keys(app.itemdata[itemSearched].rates).forEach(rate => {
                     for(var i = 0; i < app.itemdata[itemSearched].rates[rate].items.length; i++){
                         possibleItems.push(app.itemdata[itemSearched].rates[rate].items[i].split('|')[0]);
                     }
                 });
-                possibleItems.sort((a, b) => {
-                    let aRarity = getRarityValue(app.itemdata[a]);
-                    let bRarity = getRarityValue(app.itemdata[b]);
-        
-                    if(aRarity < bRarity) return -1;
-        
-                    else if(aRarity > bRarity) return 1;
-        
-                    else if(aRarity === bRarity){
-                        if(a < b) return -1;
-                        
-                        else if(a > b) return 1;
-        
-                        return 0
-                    }
-        
-                    return 0;
-                });
                 
-                
-                itemInfo += '\n\n**Possible items:** ' + possibleItems.map(item => app.itemdata[item].icon + '`' + item + '`').join(', ')
+                itemInfo += '\n\n**Possible items:** ' + possibleItems.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join(', ')
             }
 
             if(!isBound){
@@ -95,16 +75,22 @@ module.exports = {
                 embedItem.addField("Chance to break", "`" + (app.itemdata[itemSearched].chanceToBreak * 100) + "%`", true)
             }
 
-            if(itemDamage !== ""){
-                embedItem.addField(app.itemdata[itemSearched].isWeap ? "Base Damage" : "Damage", itemDamage, true)
+            if(app.itemdata[itemSearched].isWeap){
+                if(app.itemdata[itemSearched].ammo !== ""){
+                    embedItem.addField("Damage", app.itemdata[itemSearched].ammo.sort().map(ammo => {
+                        return app.itemdata[ammo].icon + '`' + ammo + '` ' + (app.itemdata[ammo].damage + app.itemdata[itemSearched].minDmg) + ' - ' + (app.itemdata[ammo].damage + app.itemdata[itemSearched].maxDmg)
+                    }).join('\n'));
+                }
+                else{
+                    embedItem.addField("Damage", app.itemdata[itemSearched].minDmg + ' - ' + app.itemdata[itemSearched].maxDmg, true)
+                }
             }
 
-            if(itemAmmo !== "" && itemAmmo !== "N/A"){
-                embedItem.addField("Ammunition Used", itemAmmo.map(ammo => app.itemdata[ammo].icon + '`' + ammo + '`').join('\n'), true)
-            }
+            if(app.itemdata[itemSearched].category === 'Ammo'){
+                let ammoFor = Object.keys(app.itemdata).filter(item => app.itemdata[item].ammo !== "" && app.itemdata[item].ammo.includes(itemSearched));
 
-            if(itemAmmoFor.length >= 1){
-                embedItem.addField("Ammo for:", itemAmmoFor.map(weapon => app.itemdata[weapon].icon + '`' + weapon + '`').join('\n'), true)
+                embedItem.addField("Damage", app.itemdata[itemSearched].damage, true);
+                embedItem.addField("Ammo for:", ammoFor.map(weapon => app.itemdata[weapon].icon + '`' + weapon + '`').join('\n'), true)
             }
 
             if(itemBuyCurr !== undefined && itemBuyCurr == "money"){
@@ -158,12 +144,12 @@ module.exports = {
             message.channel.createMessage(embedItem);
         }
         else if(!itemChoice){
-            let weapons = typeFilter(app, Object.keys(app.itemdata), 'weapon');
-            let items = typeFilter(app, Object.keys(app.itemdata), 'item');
-            let ammo = typeFilter(app, Object.keys(app.itemdata), 'ammo');
-            let material = typeFilter(app, Object.keys(app.itemdata), 'material');
-            let storage = typeFilter(app, Object.keys(app.itemdata), 'backpack');
-            let banners = typeFilter(app, Object.keys(app.itemdata), 'banner');
+            let weapons = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Weapon');
+            let items = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Item');
+            let ammo = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Ammo');
+            let material = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Material');
+            let storage = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Storage');
+            let banners = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Banner');
 
             const embedInfo = new app.Embed()
             .setColor(13451564)
@@ -182,32 +168,4 @@ module.exports = {
             message.reply(`I don't recognize that item. Use \`${message.prefix}items\` to see a full list!`);
         }
     },
-}
-
-function getRarityValue(item){
-    let rarityVal;
-
-    switch(item.rarity){
-        case "Common": rarityVal = 0; break;
-        case "Uncommon": rarityVal = 1; break;
-        case "Rare": rarityVal = 2; break;
-        case "Epic": rarityVal = 3; break;
-        case "Legendary": rarityVal = 4; break;
-        case "Ultra": rarityVal = 5; break;
-        default: rarityVal = 6;
-    }
-
-    return rarityVal;
-}
-
-function typeFilter(app, items, type){
-    return items.filter(item => {
-        return app.itemdata[item].rarity !== 'Limited' &&
-        ((type === 'banner' && app.itemdata[item].isBanner) ||
-        (type === 'item' && app.itemdata[item].isItem) ||
-        (type === 'ammo' && app.itemdata[item].isAmmo.length >= 1) ||
-        (type === 'weapon' && app.itemdata[item].isWeap) ||
-        (type === 'backpack' && app.itemdata[item].type === 'backpack') ||
-        (type === 'material' && app.itemdata[item].isMaterial))
-    });
 }

@@ -22,7 +22,7 @@ module.exports = {
         else if(!equipItem){
             return message.reply("❌ I don't recognize that item.");
         }
-        else if(!app.itemdata[equipItem].isAmmo.length){
+        else if(app.itemdata[equipItem].category !== 'Ammo'){
             return message.reply("❌ That isn't a type of ammunition.");
         }
         else if(!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), equipItem, 1)){
