@@ -1,4 +1,4 @@
-const { RARITIES } = require('../../../resources/constants');
+const { ITEM_TYPES } = require('../../../resources/constants');
 
 module.exports = {
     name: 'vault',
@@ -50,13 +50,11 @@ async function getVaultInfo(app, clanId){
     const clanRow = await app.clans.getRow(clanId);
     const clanItems = await app.itm.getUserItems(await app.itm.getItemObject(clanId));
 
-    let ultraItemList    = clanItems.ultra;
-    let legendItemList   = clanItems.legendary;
-    let epicItemList     = clanItems.epic;
-    let rareItemList     = clanItems.rare;
-    let uncommonItemList = clanItems.uncommon;
-    let commonItemList   = clanItems.common;
-    let limitedItemList  = clanItems.limited;
+    let weaponList = clanItems.weapons;
+    let itemList = clanItems.usables;
+    let ammoList = clanItems.ammo;
+    let materialList = clanItems.materials;
+    let storageList = clanItems.storage;
 
     const embedInfo = new app.Embed()
     .setColor(13451564)
@@ -67,36 +65,29 @@ async function getVaultInfo(app, clanId){
         embedInfo.setThumbnail(clanRow.iconURL)
     }
 
-    if(ultraItemList != ""){
-        embedInfo.addField(RARITIES['ultra'].name, ultraItemList.join('\n'), true);
+    // item fields
+    if(weaponList.length){
+        embedInfo.addField(ITEM_TYPES['weapons'].name, weaponList.join('\n'), true);
     }
     
-    if(legendItemList != ""){
-        embedInfo.addField(RARITIES['legendary'].name, legendItemList.join('\n'), true);
+    if(itemList.length){
+        embedInfo.addField(ITEM_TYPES['items'].name, itemList.join('\n'), true);
     }
     
-    if(epicItemList != ""){
-        embedInfo.addField(RARITIES['epic'].name, epicItemList.join('\n'), true);
+    if(ammoList.length){
+        embedInfo.addField(ITEM_TYPES['ammo'].name, ammoList.join('\n'), true);
     }
     
-    if(rareItemList != ""){
-        embedInfo.addField(RARITIES['rare'].name, rareItemList.join('\n'), true);
+    if(materialList.length){
+        embedInfo.addField(ITEM_TYPES['materials'].name, materialList.join('\n'), true);
     }
     
-    if(uncommonItemList != ""){
-        embedInfo.addField(RARITIES['uncommon'].name, uncommonItemList.join('\n'), true);
+    if(storageList.length){
+        embedInfo.addField(ITEM_TYPES['storage'].name, storageList.join('\n'), true);
     }
-    
-    if(commonItemList != ""){
-        embedInfo.addField(RARITIES['common'].name, commonItemList.join('\n'), true);
-    }
-    
-    if(limitedItemList != ""){
-        embedInfo.addField(RARITIES['limited'].name, limitedItemList.join('\n'), true);
-    }
-    
-    if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){
-        embedInfo.addField('The vault is empty!', "\u200b");
+
+    if(!weaponList.length && !itemList.length && !ammoList.length && !materialList.length && !storageList.length){
+        embedInfo.addField('This vault is empty!', "\u200b");
     }
 
     embedInfo.addField("\u200b", `Power (slots) used: ${clanItems.itemCount} | Vault value: ${app.common.formatNumber(clanItems.invValue)}`)

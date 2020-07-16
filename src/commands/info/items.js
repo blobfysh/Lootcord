@@ -1,4 +1,4 @@
-const { RARITIES } = require('../../resources/constants');
+const { ITEM_TYPES } = require('../../resources/constants');
 
 module.exports = {
     name: 'items',
@@ -154,12 +154,12 @@ module.exports = {
             const embedInfo = new app.Embed()
             .setColor(13451564)
             .setTitle("Full Items List")
-            .addField("Weapons", weapons.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField("Items", items.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField("Ammo", ammo.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField("Materials", material.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField("Storage Containers", storage.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField("Banners", banners.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField(ITEM_TYPES['weapons'].name, weapons.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField(ITEM_TYPES['items'].name, items.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField(ITEM_TYPES['ammo'].name, ammo.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField(ITEM_TYPES['materials'].name, material.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField(ITEM_TYPES['storage'].name, storage.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField(ITEM_TYPES['banners'].name, banners.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
             .setFooter(`Use ${message.prefix}item <item> to retrieve more information!`)
 
             message.channel.createMessage(embedInfo);

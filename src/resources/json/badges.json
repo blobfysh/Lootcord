@@ -46,11 +46,5 @@
         "description": "Sell 10 items on the black market.",
         "image": "https://cdn.discordapp.com/attachments/542248243313246208/716861466782728323/detective_1f575.png",
         "artist": ""
-    },
-    "ultra_lucky": {
-        "icon": "🍀",
-        "description": "Get an ultra quality item from opening an `ultra_box`.",
-        "image": "https://cdn.discordapp.com/attachments/542248243313246208/716861852100984842/four-leaf-clover_1f340.png",
-        "artist": ""
     }
 }

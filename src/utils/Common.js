@@ -1,3 +1,4 @@
+const indefinite = require('indefinite');
 
 class Common {
     constructor(app){
@@ -39,6 +40,14 @@ class Common {
         }
         
         return guildInfo;
+    }
+
+    /**
+     * Returns indefinite article for a word/item
+     * @param {string} word Word to get indefinite article of
+     */
+    getA(word){
+        return indefinite(word, { articleOnly: true });
     }
     
     calculateXP(playerXP, playerLVL){

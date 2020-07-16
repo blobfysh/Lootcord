@@ -375,7 +375,7 @@ class Items {
         for(let item of amountResults){
             let split = item.split('|');
 
-            display.push(`${split[1]}x ${this.app.itemdata[split[0]].icon}\`${split[0]}\``);
+            display.push(`**${split[1]}x** ${this.app.itemdata[split[0]].icon}\`${split[0]}\``);
         }
 
         return {
@@ -502,7 +502,7 @@ class Items {
         for(let i = 0; i < combined.length; i++){
             let itemAmnt = combined[i].split('|');
             
-            finalArr.push(itemAmnt[1] + 'x ' + this.app.itemdata[itemAmnt[0]].icon + '`' + itemAmnt[0] + '`');
+            finalArr.push('**' + itemAmnt[1] + 'x** ' + this.app.itemdata[itemAmnt[0]].icon + '`' + itemAmnt[0] + '`');
         }
     
         return finalArr;

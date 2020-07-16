@@ -82,19 +82,3 @@ async function getHomePage(app, prefix){
     
     return firstEmbed;
 }
-
-function getRarityValue(item){
-    let rarityVal;
-
-    switch(item.rarity){
-        case "Common": rarityVal = 0; break;
-        case "Uncommon": rarityVal = 1; break;
-        case "Rare": rarityVal = 2; break;
-        case "Epic": rarityVal = 3; break;
-        case "Legendary": rarityVal = 4; break;
-        case "Ultra": rarityVal = 5; break;
-        default: rarityVal = 6;
-    }
-
-    return rarityVal;
-}

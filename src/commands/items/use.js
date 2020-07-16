@@ -1,4 +1,3 @@
-const { RARITIES } = require('../../resources/constants');
 const RANDOM_SELECTION_MINIMUM = 8; // # of active players required for an attack menu to show when using random
 
 module.exports = {
@@ -51,58 +50,21 @@ module.exports = {
 
                 let results = app.itm.openBox(item, amount, row.luck);
                 let bestItem = results.items.sort(app.itm.sortItemsHighLow.bind(app));
-                let rarityStr = '';
                 let openStr = '';
 
                 await app.itm.addItem(message.author.id, results.itemAmounts);
                 await app.player.addPoints(message.author.id, results.xp);
-
-                if(item === 'ultra_box' && app.itemdata[bestItem[0]].rarity === 'Ultra'){
-                    await app.itm.addBadge(message.author.id, 'ultra_lucky');
-                }
-
-                const embedInfo = new app.Embed()
-                .setColor(RARITIES[app.itemdata[bestItem[0]].rarity.toLowerCase()].color)
-                
-                switch(app.itemdata[bestItem[0]].rarity){
-                    case 'Ultra': rarityStr = `an ${RARITIES['ultra'].name} `; break;
-                    case 'Legendary': rarityStr = `a ${RARITIES['legendary'].name} `; break
-                    case 'Limited': rarityStr = `a ${RARITIES['limited'].name} `; break
-                    case 'Epic': rarityStr = `an ${RARITIES['epic'].name} `; break;
-                    case 'Rare': rarityStr = `a ${RARITIES['rare'].name} `; break;
-                    case 'Uncommon': rarityStr = `an ${RARITIES['uncommon'].name} `; break;
-                    default: rarityStr = `a ${RARITIES['common'].name} `;
-                }
                 
                 if(amount === 1){
                     console.log(bestItem[0]);
-                    embedInfo.setDescription('You received ' + rarityStr + results.display.join());
-                    embedInfo.setFooter('⭐ ' + results.xp + ' XP earned!')
 
-                    if(app.itemdata[results.itemAmounts[0].split('|')[0]].unboxImage && app.itemdata[results.itemAmounts[0].split('|')[0]].unboxImage !== ""){
-                        embedInfo.setThumbnail(app.itemdata[results.itemAmounts[0].split('|')[0]].unboxImage);
-                    }
-                    else if(app.itemdata[results.itemAmounts[0].split('|')[0]].image !== ""){
-                        embedInfo.setThumbnail(app.itemdata[results.itemAmounts[0].split('|')[0]].image);
-                    }
-
-                    openStr = 'You open the ' + app.itemdata[item].icon + '`' + item + '` and find:';
+                    openStr = 'You open the ' + app.itemdata[item].icon + '`' + item + '` and find... **' + app.common.getA(bestItem[0]) + ' ' + app.itemdata[bestItem[0]].icon + '`' + bestItem[0] + '` and `⭐ ' + results.xp + ' XP`!**';
                 }
                 else{
-                    if(app.itemdata[bestItem[0]].unboxImage && app.itemdata[bestItem[0]].unboxImage !== ""){
-                        embedInfo.setThumbnail(app.itemdata[bestItem[0]].unboxImage);
-                    }
-                    else if(app.itemdata[bestItem[0]].image !== ""){
-                        embedInfo.setThumbnail(app.itemdata[bestItem[0]].image);
-                    }
-                    
-                    embedInfo.setFooter('⭐ ' + results.xp + ' XP earned!');
-                    embedInfo.setDescription(app.itm.getDisplay(results.itemAmounts).join('\n'));
-
-                    openStr = 'You open ' + amount + 'x ' + app.itemdata[item].icon + '`' + item + '`\'s and find:';
+                    openStr = 'You open **' + amount + 'x** ' + app.itemdata[item].icon + '`' + item + '`\'s and find:\n\n' + app.itm.getDisplay(results.itemAmounts).join('\n') + '\n\n...and `⭐ ' + results.xp + ' XP`!';
                 }
 
-                message.channel.createMessage({content: '<@' + message.author.id + '>, ' + openStr, embed: embedInfo.embed});
+                message.channel.createMessage('<@' + message.author.id + '>, ' + openStr);
             }
             else if(item === 'supply_signal'){
                 const serverInfo = await app.common.getGuildInfo(message.channel.guild.id);

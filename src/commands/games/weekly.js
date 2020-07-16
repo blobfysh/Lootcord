@@ -30,7 +30,7 @@ module.exports = {
 
         await app.cd.setCD(message.author.id, 'weekly', app.config.cooldowns.daily * 1000 * 7);
 
-        await app.itm.addItem(message.author.id, 'care_package', 1);
-        message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{ez}', app.icons.blackjack_dealer_neutral).replace('{icon}', app.itemdata['care_package'].icon).replace('{item}', '`care_package`'));
+        await app.itm.addItem(message.author.id, 'supply_drop', 1);
+        message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{ez}', app.icons.blackjack_dealer_neutral).replace('{icon}', app.itemdata['supply_drop'].icon).replace('{item}', '`supply_drop`'));
     },
 }

@@ -1,4 +1,4 @@
-const { RARITIES } = require('../../resources/constants');
+const { ITEM_TYPES } = require('../../resources/constants');
 
 module.exports = {
     name: 'inventory',
@@ -51,7 +51,6 @@ module.exports = {
                 let ammoList = usersItems.ammo;
                 let materialList = usersItems.materials;
                 let storageList = usersItems.storage;
-                let limitedItemList = usersItems.limited;
                 let backpack = userRow.backpack;
 
                 const embedInfo = new app.Embed()
@@ -75,36 +74,36 @@ module.exports = {
                 embedInfo.addField("Money", app.common.formatNumber(userRow.money), true)
 
                 if(backpack === 'none'){
-                    embedInfo.addField('Backpack', 'None', true)
+                    embedInfo.addField('Storage Container', 'None', true)
                 }
                 else{
-                    embedInfo.addField('Backpack', app.itemdata[backpack].icon + '`' + backpack + '`', true)
+                    embedInfo.addField('Storage Container', app.itemdata[backpack].icon + '`' + backpack + '`', true)
                 }
                 
-                embedInfo.addField('\u200b', '__**Items**__')
+                embedInfo.addBlankField();
 
                 // item fields
                 if(weaponList.length){
-                    embedInfo.addField('Weapons', weaponList.join('\n'), true);
+                    embedInfo.addField(ITEM_TYPES['weapons'].name, weaponList.join('\n'), true);
                 }
                 
                 if(itemList.length){
-                    embedInfo.addField('Items', itemList.join('\n'), true);
+                    embedInfo.addField(ITEM_TYPES['items'].name, itemList.join('\n'), true);
                 }
                 
                 if(ammoList.length){
-                    embedInfo.addField('Ammo', ammoList.join('\n'), true);
+                    embedInfo.addField(ITEM_TYPES['ammo'].name, ammoList.join('\n'), true);
                 }
                 
                 if(materialList.length){
-                    embedInfo.addField('Materials', materialList.join('\n'), true);
+                    embedInfo.addField(ITEM_TYPES['materials'].name, materialList.join('\n'), true);
                 }
                 
                 if(storageList.length){
-                    embedInfo.addField('Storage Containers', storageList.join('\n'), true);
+                    embedInfo.addField(ITEM_TYPES['storage'].name, storageList.join('\n'), true);
                 }
                 
-                if(!weaponList.length && !itemList.length && !ammoList.length && !materialList.length && !storageList.length && !limitedItemList.length){
+                if(!weaponList.length && !itemList.length && !ammoList.length && !materialList.length && !storageList.length){
                     embedInfo.addField('This inventory is empty! :(', "\u200b");
                 }
 

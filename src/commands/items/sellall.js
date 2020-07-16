@@ -1,4 +1,4 @@
-const { RARITIES } = require('../../resources/constants');
+const { ITEM_TYPES } = require('../../resources/constants');
 
 module.exports = {
     name: 'sellall',
@@ -15,17 +15,16 @@ module.exports = {
     async execute(app, message){
         let sellItem = message.args[0] || '';
 
-        if(Object.keys(RARITIES).includes(sellItem.toLowerCase())){
+        if(Object.keys(ITEM_TYPES).includes(sellItem.toLowerCase())){
             let commonTotal = 0;
             let totalAmount = 0;
             
-            // filter items by rarity and exclude banners
             let itemsToCheck = Object.keys(app.itemdata).filter(item => {
-                return app.itemdata[item].rarity.toLowerCase() === sellItem.toLowerCase() && !app.itemdata[item].isBanner
+                return app.itemdata[item].category === ITEM_TYPES[sellItem.toLowerCase()].type
             });
 
             if(itemsToCheck.length < 1){
-                return message.reply(`You need to enter a valid type to sell! \`${message.prefix}sellall <rarity>\``);
+                return message.reply(`You need to enter a valid type to sell! \`${message.prefix}sellall <type>\``);
             }
             
             const itemRow = await app.itm.getItemObject(message.author.id);
@@ -37,14 +36,10 @@ module.exports = {
                 }
             }
             if(totalAmount <= 0){
-                return message.reply("❌ You don't have any items of that quality.");
+                return message.reply(`❌ You don't have any **${ITEM_TYPES[sellItem.toLowerCase()].type}** items.`);
             }
 
-            const sellallEmbed = new app.Embed()
-            .setDescription(`Sell ${totalAmount}x ${RARITIES[sellItem.toLowerCase()].name} items for ${app.common.formatNumber(commonTotal)}?`)
-            .setColor(RARITIES[sellItem.toLowerCase()].color)
-
-            const botMessage = await message.channel.createMessage({content: '<@' + message.author.id + '>', embed: sellallEmbed.embed});
+            const botMessage = await message.reply(`Sell **${totalAmount}x** items (category: \`${ITEM_TYPES[sellItem.toLowerCase()].name}\`) for ${app.common.formatNumber(commonTotal)}?`)
             try{
                 const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
 
@@ -68,12 +63,10 @@ module.exports = {
                         }
                         await app.player.addMoney(message.author.id, parseInt(commonTotal));
 
-                        sellallEmbed.setDescription(`Successfully sold all ${RARITIES[sellItem.toLowerCase()].name} quality items.\n\nYou now have ${app.common.formatNumber(row.money + commonTotal)}.`);
-                        botMessage.edit(sellallEmbed);
+                        botMessage.edit(`Successfully sold all ${ITEM_TYPES[sellItem.toLowerCase()].name}.\n\nYou now have ${app.common.formatNumber(row.money + commonTotal)}.`);
                     }
                     else{
-                        sellallEmbed.setDescription('❌ Sellall failed. Your inventory was altered during the sale.');
-                        botMessage.edit(sellallEmbed);
+                        botMessage.edit('❌ Sellall failed. Your inventory was altered during the sale.');
                     }
                 }
                 else{
@@ -81,8 +74,7 @@ module.exports = {
                 }
             }
             catch(err){
-                sellallEmbed.setDescription('❌ Command timed out.');
-                botMessage.edit(sellallEmbed);
+                botMessage.edit('❌ Command timed out.');
             }
         }
         else if(sellItem == ''){
@@ -91,7 +83,7 @@ module.exports = {
 
             // filter out limited items and banners
             let itemsToCheck = Object.keys(app.itemdata).filter(item => {
-                return app.itemdata[item].rarity !== 'Limited' && !app.itemdata[item].isBanner
+                return app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category !== 'Banner'
             });
 
             const itemRow = await app.itm.getItemObject(message.author.id);

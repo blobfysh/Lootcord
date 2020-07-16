@@ -33,12 +33,12 @@ module.exports = {
         await app.cd.setCD(message.author.id, 'daily', app.config.cooldowns.daily * 1000);
 
         if(message.channel.guild.id === app.config.supportGuildID){
-            await app.itm.addItem(message.author.id, 'ultra_box', 2);
-            message.reply(OFFICIAL_QUOTES[Math.floor(Math.random() * OFFICIAL_QUOTES.length)].replace('{icon}', app.itemdata['ultra_box'].icon).replace('{item}', '`ultra_box`'));
+            await app.itm.addItem(message.author.id, 'military_crate', 2);
+            message.reply(OFFICIAL_QUOTES[Math.floor(Math.random() * OFFICIAL_QUOTES.length)].replace('{icon}', app.itemdata['military_crate'].icon).replace('{item}', '`military_crate`'));
         }
         else{
-            await app.itm.addItem(message.author.id, 'ultra_box', 1);
-            message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata['ultra_box'].icon).replace('{item}', '`ultra_box`'));
+            await app.itm.addItem(message.author.id, 'military_crate', 1);
+            message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata['military_crate'].icon).replace('{item}', '`military_crate`'));
         }
     },
 }

@@ -34,13 +34,13 @@ module.exports = {
         const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), await app.player.getRow(message.author.id));
         const hasenough = await app.itm.hasSpace(itemCt, 2);
         if (chanceR <= 0 && hasenough){
-            reward.display = app.itemdata['ultra_box'].icon + "`ultra_box`";
-            reward.item = "ultra_box";
+            reward.display = app.itemdata['military_crate'].icon + "`military_crate`";
+            reward.item = "military_crate";
             reward.amount = 1;
         }
         else if (chanceR >= 5 && hasenough){
-            reward.display = "2x " + app.itemdata['item_box'].icon + "`item_box`";
-            reward.item = "item_box";
+            reward.display = "2x " + app.itemdata['crate'].icon + "`crate`";
+            reward.item = "crate";
             reward.amount = 2;
         }
         else{

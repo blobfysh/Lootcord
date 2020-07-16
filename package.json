@@ -18,6 +18,7 @@
     "eris-reactions": "^0.1.2",
     "eris-sharder": "^1.10.0",
     "express": "^4.17.1",
+    "indefinite": "^2.3.2",
     "jimp": "^0.9.6",
     "js-levenshtein": "^1.1.6",
     "mysql": "^2.18.1",

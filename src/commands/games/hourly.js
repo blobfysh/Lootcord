@@ -35,12 +35,12 @@ module.exports = {
         let chance = Math.floor(Math.random() * 100) + luck;
         
         if(chance >= 100){
-            await app.itm.addItem(message.author.id, 'ultra_box', 1);
-            message.reply("🍀 **How lucky!** You earned a free " + app.itemdata['ultra_box'].icon + "`ultra_box`!");
+            await app.itm.addItem(message.author.id, 'military_crate', 1);
+            message.reply("🍀 **How lucky!** You earned a free " + app.itemdata['military_crate'].icon + "`military_crate`!");
         }
         else{
-            await app.itm.addItem(message.author.id, 'item_box', 1);
-            message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata['item_box'].icon).replace('{item}', '`item_box`'));
+            await app.itm.addItem(message.author.id, 'crate', 1);
+            message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata['crate'].icon).replace('{item}', '`crate`'));
         }
     },
 }

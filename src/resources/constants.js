@@ -29,6 +29,33 @@ const RARITIES = {
     }
 }
 
+const ITEM_TYPES = {
+    "weapons": {
+        "name": "Weapons",
+        "type": "Weapon"
+    },
+    "items": {
+        "name": "Items",
+        "type": "Item"
+    },
+    "ammo": {
+        "name": "Ammo",
+        "type": "Ammo"
+    },
+    "materials": {
+        "name": "Materials",
+        "type": "Material"
+    },
+    "storage": {
+        "name": "Storage Containers",
+        "type": "Storage"
+    },
+    "banners": {
+        "name": "Banners",
+        "type": "Banner"
+    }
+}
+
 const RULES = {
     "1": {
         "desc": "Bug exploitation",
@@ -54,5 +81,6 @@ const RULES = {
 
 module.exports = {
     RARITIES,
+    ITEM_TYPES,
     RULES
 }

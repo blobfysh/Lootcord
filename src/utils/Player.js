@@ -199,8 +199,7 @@ class Player {
         try{
             let xp = this.app.common.calculateXP(row.points, row.level);
 
-            if(row.points >= xp.totalNeeded) {
-
+            if(row.points >= xp.totalNeeded){
                 console.log(row.points + ' is greater than ' + xp.totalNeeded)
                 let levelItem = "";
 
@@ -211,16 +210,16 @@ class Player {
                     await this.app.itm.addItem(message.author.id, 'supply_signal', 1);
                 }
                 else if((row.level + 1) > 10){
-                    levelItem = `2x ${this.app.itemdata['ultra_box'].icon}\`ultra_box\``;
-                    await this.app.itm.addItem(message.author.id, 'ultra_box', 2);
+                    levelItem = `2x ${this.app.itemdata['military_crate'].icon}\`military_crate\``;
+                    await this.app.itm.addItem(message.author.id, 'military_crate', 2);
                 }
                 else if((row.level + 1) > 5){
-                    levelItem = `${this.app.itemdata['ultra_box'].icon}\`ultra_box\``;
-                    await this.app.itm.addItem(message.author.id, 'ultra_box', 1);
+                    levelItem = `${this.app.itemdata['military_crate'].icon}\`military_crate\``;
+                    await this.app.itm.addItem(message.author.id, 'military_crate', 1);
                 }
                 else{
-                    levelItem = `1x ${this.app.itemdata['item_box'].icon}\`item_box\``;
-                    await this.app.itm.addItem(message.author.id, 'item_box', 1);
+                    levelItem = `1x ${this.app.itemdata['crate'].icon}\`crate\``;
+                    await this.app.itm.addItem(message.author.id, 'crate', 1);
                 }
 
                 if(row.level + 1 >= 5){
@@ -276,7 +275,6 @@ class Player {
     }
 
     async getLevelImage(playerImage, level){
-        //const smallFont = await Jimp.loadFont('./src/resources/fonts/Quicksand_Light25.fnt');
         const image = await Jimp.read('./src/resources/images/LvlUp2.png');
         const avatar = await Jimp.read(playerImage);
         const largeFont = await Jimp.loadFont('./src/resources/fonts/BebasNeueWhite.fnt');
@@ -288,14 +286,6 @@ class Player {
             text: "LVL " + level,
             alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER
         }, 108, 128);
-        
-        /* Old lvl image showing users name
-        image.print(smallFont, 0, 0, {
-            text: name.substring(0, 13),
-            alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
-            alignmentY: Jimp.VERTICAL_ALIGN_TOP
-        }, 164, 144);
-        */
 
         image.composite(avatar, 22, 16);
 
