@@ -9,7 +9,7 @@ class Monsters {
         const activeMob = await this.app.cd.getCD(channelId, 'mob');
         if(activeMob) return false;
 
-        let rand = Math.round(Math.random() * (14400 * 1000)) + (28800 * 1000); // Generate random time from 8 - 12 hours
+        let rand = Math.round(Math.random() * (14 * 1000)) + (28 * 1000); // Generate random time from 8 - 12 hours
         console.log(`[MONSTERS] Counting down from ${this.app.cd.convertTime(rand)}`);
 
         this.app.cd.setCD(channelId, 'spawnCD', rand, { ignoreQuery: true }, () => {
@@ -51,7 +51,6 @@ class Monsters {
     async genMobEmbed(channelId, monster, health, money){
         const spawnInfo = await this.app.mysql.select('spawns', 'channelId', channelId);
         const remaining = await this.app.cd.getCD(channelId, 'mob');
-        const artistInfo = await this.app.common.fetchUser(monster.artist, { cacheIPC: false });
 
         
         let guildPrefix = await this.app.cache.get(`prefix|${spawnInfo.guildId}`);
@@ -93,7 +92,6 @@ class Monsters {
         .addBlankField()
         .addField('Has a chance of dropping:', this.app.itm.getDisplay(loot.sort(this.app.itm.sortItemsHighLow.bind(this.app))).join('\n'), true)
         .addField('Money', this.app.common.formatNumber(money), true)
-        .setFooter('Art by ' + artistInfo.username + '#' + artistInfo.discriminator)
         .setImage(monster.image)
 
         return mobEmbed;

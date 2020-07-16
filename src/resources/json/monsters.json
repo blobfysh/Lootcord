@@ -1,63 +1,187 @@
 {
-    "hitman1": {
-        "title": "Assassin",
-        "artist": "221087115893669889",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/709144565944418325/Hitman_LootcordV2.png",
+    "bandit": {
+        "title": "Bandit",
+        "artist": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/733189662444879942/bandit.png",
         "pronoun": "he",
-        "health": 250,
-        "minDamage": 40,
-        "maxDamage": 60,
-        "minMoney": 60000,
-        "maxMoney": 150000,
-        "xp": 200,
+        "health": 175,
+        "minDamage": 24,
+        "maxDamage": 43,
+        "minMoney": 20000,
+        "maxMoney": 70000,
+        "xp": 70,
         "weapon": {
-            "name": "silenced pistol",
+            "name": "semi_rifle",
             "icon": "<:L_weapon:601369664492404746>"
         },
-        "ammo": ".45_ap",
+        "ammo": "rifle_bullet",
         "loot": {
             "main": {
-                "1": {
+                "100": {
                     "items": [
                         "c4|1"
-                    ]
-                },
-                "99": {
-                    "items": [
-                        "awp|1",
-                        "7.62_m61|1",
-                        ".50ae_hp|1"
                     ]
                 }
             },
             "extras": {
-                "15": {
+                "100": {
                     "items": [
                         "cloth|2",
-                        "stick|1",
-                        "desert_eagle|1",
                         "gunpowder|1"
-                    ]
-                },
-                "30": {
-                    "items": [
-                        "health_pot|1",
-                        "m4a1|1"
-                    ]
-                },
-                "55": {
-                    "items": [
-                        "medkit|1",
-                        ".45_ap|1",
-                        "revolver|1",
-                        "adhesive|1",
-                        "care_package|1"
                     ]
                 }
             }
         },
         "staysFor": {
-            "seconds": 43200
+            "seconds": 600
+        }
+    },
+    "scientist": {
+        "title": "Scientist",
+        "artist": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/733189674033741844/scientist.png",
+        "pronoun": "he",
+        "health": 140,
+        "minDamage": 32,
+        "maxDamage": 46,
+        "minMoney": 30000,
+        "maxMoney": 70000,
+        "xp": 70,
+        "weapon": {
+            "name": "semi_pistol",
+            "icon": "<:L_weapon:601369664492404746>"
+        },
+        "ammo": "pistol_bullet",
+        "loot": {
+            "main": {
+                "100": {
+                    "items": [
+                        "c4|1"
+                    ]
+                }
+            },
+            "extras": {
+                "100": {
+                    "items": [
+                        "cloth|2",
+                        "gunpowder|1"
+                    ]
+                }
+            }
+        },
+        "staysFor": {
+            "seconds": 600
+        }
+    },
+    "heavy_scientist": {
+        "title": "Heavy Scientist",
+        "artist": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/733189668614701056/heavy_scientist.png",
+        "pronoun": "he",
+        "health": 140,
+        "minDamage": 32,
+        "maxDamage": 46,
+        "minMoney": 30000,
+        "maxMoney": 70000,
+        "xp": 70,
+        "weapon": {
+            "name": "semi_pistol",
+            "icon": "<:L_weapon:601369664492404746>"
+        },
+        "ammo": "pistol_bullet",
+        "loot": {
+            "main": {
+                "100": {
+                    "items": [
+                        "c4|1"
+                    ]
+                }
+            },
+            "extras": {
+                "100": {
+                    "items": [
+                        "cloth|2",
+                        "gunpowder|1"
+                    ]
+                }
+            }
+        },
+        "staysFor": {
+            "seconds": 600
+        }
+    },
+    "patrol_helicopter": {
+        "title": "Patrol Helicopter",
+        "artist": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/733189671047266385/patrol_helicopter.png",
+        "pronoun": "it",
+        "health": 320,
+        "minDamage": 45,
+        "maxDamage": 64,
+        "minMoney": 130000,
+        "maxMoney": 170000,
+        "xp": 70,
+        "weapon": {
+            "name": "semi_pistol",
+            "icon": "<:L_weapon:601369664492404746>"
+        },
+        "ammo": "pistol_bullet",
+        "loot": {
+            "main": {
+                "100": {
+                    "items": [
+                        "c4|1"
+                    ]
+                }
+            },
+            "extras": {
+                "100": {
+                    "items": [
+                        "cloth|2",
+                        "gunpowder|1"
+                    ]
+                }
+            }
+        },
+        "staysFor": {
+            "seconds": 600
+        }
+    },
+    "bradley": {
+        "title": "Bradley",
+        "artist": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/733189666110701598/bradley.png",
+        "pronoun": "it",
+        "health": 410,
+        "minDamage": 47,
+        "maxDamage": 72,
+        "minMoney": 230000,
+        "maxMoney": 320000,
+        "xp": 70,
+        "weapon": {
+            "name": "semi_pistol",
+            "icon": "<:L_weapon:601369664492404746>"
+        },
+        "ammo": "pistol_bullet",
+        "loot": {
+            "main": {
+                "100": {
+                    "items": [
+                        "c4|1"
+                    ]
+                }
+            },
+            "extras": {
+                "100": {
+                    "items": [
+                        "cloth|2",
+                        "gunpowder|1"
+                    ]
+                }
+            }
+        },
+        "staysFor": {
+            "seconds": 600
         }
     }
 }
