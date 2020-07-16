@@ -26,7 +26,6 @@
                 "items": [
                     "metal_spring|1",
                     "pump_shotgun|1",
-                    "tech_trash|1",
                     "revolver|1",
                     "12g_buckshot|1",
                     "pistol_bullet|1",
@@ -38,7 +37,9 @@
                 "items": [
                     "crossbow|1",
                     "f1_grenade|1",
-                    "medical_syringe|1"
+                    "medical_syringe|1",
+                    "semi_body|1",
+                    "waterpipe_shotgun|1"
                 ]
             },
             "15": {
@@ -47,8 +48,7 @@
                     "metal_pipe|1",
                     "bow|1",
                     "arrow|1",
-                    "cloth|1",
-                    "semi_body|1"
+                    "cloth|1"
                 ]
             },
             "25": {
@@ -56,7 +56,8 @@
                 "items": [
                     "bandage|1",
                     "salvaged_sword|1",
-                    "pickaxe|1"
+                    "pickaxe|1",
+                    "mace|1"
                 ]
             },
             "50": {
@@ -65,7 +66,8 @@
                     "bone_knife|1",
                     "rock|1",
                     "salvaged_cleaver|1",
-                    "wooden_spear|1"
+                    "wooden_spear|1",
+                    "machete|1"
                 ]
             }
         },
@@ -90,7 +92,7 @@
             "currency": "money"
         },
         "sell": 2982,
-        "desc": "Use this to restore `10 - 19` health.",
+        "desc": "Use this to restore **10 - 19** health.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929515080384592/bandage.png",
         "icon": "<:bandage:732858488652431480>",
         "breaksOnUse": "",
@@ -119,13 +121,42 @@
             "currency": "money"
         },
         "sell": 9652,
-        "desc": "Use this to restore `20 - 28` health.",
+        "desc": "Use this to restore **20 - 28** health.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929964889997343/medical_syringe.png",
         "icon": "<:medical_syringe:732858500631494727>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1596
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "large_medkit": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 50,
+        "healMax": 60,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 52666,
+            "currency": "money"
+        },
+        "sell": 21254,
+        "desc": "Use this to restore **50 - 60** health.",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733220182331359313/large_medkit.png",
+        "icon": "<:large_medkit:732858516838154261>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 2682
         },
         "artist": "",
         "category": "Item"

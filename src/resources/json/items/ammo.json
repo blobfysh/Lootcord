@@ -8,7 +8,6 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-            "display": "1x rock\n1x wood\n1x cloth",
             "materials": [
                 "rock|1",
                 "wood|1",
@@ -35,7 +34,12 @@
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
-        "craftedWith": "",
+        "craftedWith": {
+            "materials": [
+                "gunpowder|2",
+                "metal|2"
+            ]
+        },
         "recyclesTo": [],
         "buy": "",
         "sell": 6056,
@@ -56,7 +60,12 @@
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
-        "craftedWith": "",
+        "craftedWith": {
+            "materials": [
+                "gunpowder|3",
+                "metal|2"
+            ]
+        },
         "recyclesTo": [],
         "buy": "",
         "sell": 6056,
@@ -78,7 +87,6 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-            "display": "2x gunpowder\n1x metal",
             "materials": [
                 "gunpowder|2",
                 "metal|1"
@@ -105,10 +113,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-            "display": "4x gunpowder\n1x metal",
             "materials": [
                 "gunpowder|4",
-                "metal|1"
+                "metal|2"
             ]
         },
         "recyclesTo": [],
@@ -132,9 +139,8 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-            "display": "5x gunpowder\n2x metal",
             "materials": [
-                "gunpowder|5",
+                "gunpowder|6",
                 "metal|2"
             ]
         },

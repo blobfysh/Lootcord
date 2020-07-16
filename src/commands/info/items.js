@@ -128,10 +128,10 @@ module.exports = {
             if(itemCraftedWith !== "" || itemRecyclesTo.materials !== undefined || craftItems.length || recycledFrom.length) embedItem.addBlankField();
 
             if(itemCraftedWith !== ""){
-                embedItem.addField("🔩 Craft Ingredients:", itemCraftedWith.display.split('\n').map(component =>  component.split(' ')[0] + ' ' + app.itemdata[component.split(' ')[1]].icon + '`' + component.split(' ')[1] + '`').join('\n'), true)
+                embedItem.addField("🔩 Craft Ingredients:", app.itm.getDisplay(itemCraftedWith.materials.sort()).join('\n'), true)
             }
             if(itemRecyclesTo.materials !== undefined){
-                embedItem.addField("♻ Recycles into:", itemRecyclesTo.display.split('\n').map(item =>  item.split(' ')[0] + ' ' + app.itemdata[item.split(' ')[1]].icon + '`' + item.split(' ')[1] + '`').join('\n'), true)
+                embedItem.addField("♻ Recycles into:", app.itm.getDisplay(itemRecyclesTo.materials.sort()).join('\n'), true)
             }
 
             if(craftItems.length){

@@ -119,6 +119,33 @@
         "artist": "",
         "category": "Material"
     },
+    "rifle_body": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "2x metal",
+            "materials": [
+                "metal|2"
+            ]
+        },
+        "buy": "",
+        "sell": 37499,
+        "desc": "Parts used to craft high damage rifles.",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733244384061030470/rifle_body.png",
+        "icon": "<:rifle_body:732853600610549841>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Material"
+    },
     "tech_trash": {
         "rarity": "Epic",
         "isWeap": false,
@@ -177,7 +204,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 11447,
+        "sell": 20726,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/732952060219097158/metal_spring.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732952060219097158/metal_spring.png",

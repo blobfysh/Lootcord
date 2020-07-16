@@ -1,5 +1,210 @@
 {
-    "rock": {
+    "12g_buckshot": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 15,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "materials": [
+                "gunpowder|2",
+                "metal|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 8134,
+        "desc": "12 Gauge buckshot shell.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930056271429632/12g_buckshot.png",
+        "icon": "<:12g_buckshot:732853227552374793>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "12g_slug": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 33,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "materials": [
+                "gunpowder|4",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 36120,
+        "desc": "12 Gauge slug shell. Used for shotguns.",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733052371680362626/12g_slug.png",
+        "icon": "<:12g_slug:732853235404111882>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "apple": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 9,
+        "healMax": 13,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 549,
+        "desc": "Someone seriously gave you an apple... You can eat it to gain `9-13` HP.\n**Halloween event item**",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703180591780331520/apple.png",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "10 minutes",
+            "scoreRow": "_10mHEALCD",
+            "seconds": 600
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "arrow": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 9,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "materials": [
+                "rock|1",
+                "wood|1",
+                "cloth|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 928,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928578278260786/arrow.png",
+        "icon": "<:arrow:732852891299086417>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "assault_rifle": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 34,
+        "maxDmg": 45,
+        "ammo": [
+            "rifle_bullet"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "1x rifle_body\n1x metal_spring",
+            "materials": [
+                "rifle_body|1",
+                "metal_spring|1"
+            ]
+        },
+        "buy": "",
+        "sell": 42571,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733253825418231868/ak-47.png",
+        "icon": "<:ak47:732853644323586108>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.23,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 4561
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "bandage": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 10,
+        "healMax": 19,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 7712,
+            "currency": "money"
+        },
+        "sell": 2982,
+        "desc": "Use this to restore **10 - 19** health.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929515080384592/bandage.png",
+        "icon": "<:bandage:732858488652431480>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 967
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "bolt_rifle": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 54,
+        "maxDmg": 59,
+        "ammo": [
+            "rifle_bullet"
+        ],
+        "craftedWith": {
+            "materials": [
+                "rifle_body|3",
+                "metal_spring|1",
+                "metal|1"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x rifle_body",
+            "materials": [
+                "rifle_body|1"
+            ]
+        },
+        "buy": "",
+        "sell": 56621,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733262499440492544/bolt_rifle.png",
+        "icon": "<:bolt_rifle:732853656801771613>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.26,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 5226
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "bone_knife": {
         "rarity": "Common",
         "isWeap": true,
         "isItem": false,
@@ -12,42 +217,1428 @@
         "buy": "",
         "sell": 466,
         "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928582963167292/rock.png",
-        "icon": "<:rock:732851749710462997>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 445
-        },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "bone_knife": {
-        "rarity": "Common",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "4 - 9",
-        "minDmg": 4,
-        "maxDmg": 9,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 379,
-        "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928579285024818/bone_knife.png",
         "icon": "<:bone_knife:732852965676679200>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 420
+            "seconds": 445
         },
         "phrase": "{attacker} sliced {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
         "category": "Weapon"
     },
-    "wooden_spear": {
+    "bow": {
+        "rarity": "Uncommon",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "0 - 9",
+        "minDmg": 0,
+        "maxDmg": 9,
+        "ammo": [
+            "arrow"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "1x wood\n1x cloth",
+            "materials": [
+                "wood|1",
+                "cloth|1"
+            ]
+        },
+        "buy": "",
+        "sell": 3356,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929491059605544/hunting_bow.png",
+        "icon": "<:hunting_bow:732853948758753280>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.5,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1715
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "bunny": {
+        "rarity": "Limited",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "10 - 25",
+        "minDmg": 10,
+        "maxDmg": 25,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 501,
+        "desc": "Send this rabid bunny to chomp your foes...  🐰\n**Easter event item**",
+        "image": "",
+        "icon": "<:limit_melee:698423086747353168>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "30 minutes",
+            "scoreRow": "_30mCD",
+            "seconds": 1800
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "c4": {
+        "rarity": "Ultra",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "display": "10x gunpowder\n2x tech_trash",
+            "materials": [
+                "gunpowder|10",
+                "tech_trash|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "4x gunpowder",
+            "materials": [
+                "gunpowder|4"
+            ]
+        },
+        "buy": "",
+        "sell": 544900,
+        "desc": "Use this on another clan to temporarily lower their current power by **5** for 1 hour, making them vulnerable to a raid.\n\nThis effect can stack.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930980725260348/c4.png",
+        "icon": "<:c4:732853863396147252>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item"
+    },
+    "candy_bar": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 13,
+        "healMax": 28,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 1387,
+        "desc": "A king-sized candy bar! Heals `13-28` HP.\n**Halloween event item**",
+        "image": "",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "20 minutes",
+            "scoreRow": "_20mHEALCD",
+            "seconds": 1200
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "candy_egg": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 22,
+        "healMax": 30,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 551,
+        "desc": "Delicious chocolate candy eggs that heal `22-30` HP when you eat them!\n**Easter event item**",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562550732574818309/candy_egg.png",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "20 minutes",
+            "scoreRow": "_20mHEALCD",
+            "seconds": 1200
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "candy_pail": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 1267,
+        "desc": "A trick-or-treat pail. It could contain some cool Halloween items!",
+        "image": "",
+        "icon": "<:limit_box:698423594203611176>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "5": {
+                "xp": 75,
+                "items": [
+                    "magic_staff|1"
+                ]
+            },
+            "20": {
+                "xp": 40,
+                "items": [
+                    "scythe|1"
+                ]
+            },
+            "35": {
+                "xp": 25,
+                "items": [
+                    "apple|1",
+                    "spider|1"
+                ]
+            },
+            "40": {
+                "xp": 20,
+                "items": [
+                    "candy_bar|1",
+                    "pumpkin|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "candycane": {
+        "rarity": "Limited",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "3 - 15",
+        "minDmg": 3,
+        "maxDmg": 15,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 834,
+        "desc": "Sharpened for maximum efficiency\n**Christmas event item**",
+        "image": "",
+        "icon": "<:limit_melee:698423086747353168>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 2700
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "carrot": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 17,
+        "healMax": 25,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 544,
+        "desc": "Eat this healthy carrot to heal `17-25` HP!\n**Easter event item**",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703180605147447296/carrot.png",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "20 minutes",
+            "scoreRow": "_20mHEALCD",
+            "seconds": 1200
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "cloth": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 8976,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928581264605286/cloth.png",
+        "icon": "<:cloth:732853261110870058>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Material"
+    },
+    "coal": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 234,
+        "desc": "You were on the naughty list!\n**Christmas event item**",
+        "image": "",
+        "icon": "<:limit_material:656757111388241920>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Material"
+    },
+    "crate": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 18655,
+            "currency": "money"
+        },
+        "sell": 2485,
+        "desc": "Open this to get a random item!",
+        "image": "https://rustlabs.com/img/screenshots/crate.png",
+        "icon": "<:box_icon:733020122222034994>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "2": {
+                "xp": 50,
+                "items": [
+                    "metal_spring|1",
+                    "pump_shotgun|1",
+                    "revolver|1",
+                    "12g_buckshot|1",
+                    "pistol_bullet|1",
+                    "gunpowder|1"
+                ]
+            },
+            "8": {
+                "xp": 40,
+                "items": [
+                    "crossbow|1",
+                    "f1_grenade|1",
+                    "medical_syringe|1",
+                    "semi_body|1",
+                    "waterpipe_shotgun|1"
+                ]
+            },
+            "15": {
+                "xp": 35,
+                "items": [
+                    "metal_pipe|1",
+                    "bow|1",
+                    "arrow|1",
+                    "cloth|1"
+                ]
+            },
+            "25": {
+                "xp": 25,
+                "items": [
+                    "bandage|1",
+                    "salvaged_sword|1",
+                    "pickaxe|1",
+                    "mace|1"
+                ]
+            },
+            "50": {
+                "xp": 10,
+                "items": [
+                    "bone_knife|1",
+                    "rock|1",
+                    "salvaged_cleaver|1",
+                    "wooden_spear|1",
+                    "machete|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "crossbow": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 6,
+        "maxDmg": 24,
+        "ammo": [
+            "arrow"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "1x wood\n1x metal",
+            "materials": [
+                "wood|1",
+                "metal|1"
+            ]
+        },
+        "buy": "",
+        "sell": 3662,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929913145000016/crossbow.png",
+        "icon": "<:crossbow:732862499019423774>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.35,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 2232
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "custom_smg": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 11,
+        "maxDmg": 25,
+        "ammo": [
+            "pistol_bullet"
+        ],
+        "craftedWith": {
+            "display": "2x smg_body\n1x metal_spring",
+            "materials": [
+                "smg_body|2",
+                "metal_spring|1"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x smg_body",
+            "materials": [
+                "smg_body|1"
+            ]
+        },
+        "buy": "",
+        "sell": 17252,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733250239665799188/custom_smg.png",
+        "icon": "<:custom_smg:732853477025513525>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.38,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 2884
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "easter_egg": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "givesMoneyOnUse": true,
+        "itemMin": 300,
+        "itemMax": 1500,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 415,
+        "desc": "Has a chance to contain `300 - 1,500` Lootcoin!\n**Easter event item**",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562550734944731157/easter_egg.png",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item"
+    },
+    "elite": {
+        "rarity": "Rare",
+        "isBanner": true,
+        "bannerColor": "#737373",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 90817,
+            "currency": "money"
+        },
+        "sell": 13119,
+        "desc": "Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/697679342821572639/elite_banner.png",
+        "equippable": true,
+        "icon": "<:banner_icon:733020121856999526>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "artist": "221087115893669889",
+        "category": "Banner"
+    },
+    "f1_grenade": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 19,
+        "maxDmg": 30,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 4278,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930107852980234/f1_grenade.png",
+        "icon": "<:f1_grenade:732853499435679819>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1862
+        },
+        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "gingerbread": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 20,
+        "healMax": 25,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 553,
+        "desc": "Eat this to heal `20-25` HP!\n**Christmas event item**",
+        "image": "",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1200
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "golden_egg": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "givesMoneyOnUse": true,
+        "itemMin": 5000,
+        "itemMax": 20000,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 7661,
+        "desc": "This rare golden easter egg has a chance to contain `5,000 - 20,000` Lootcoin.\n**Easter event item**",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562529404434120704/golden_egg.png",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item"
+    },
+    "gunpowder": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 36627,
+        "desc": "Makes things go boom. Useful for crafting ammunition.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930625966702622/gunpowder.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930625966702622/gunpowder.png",
+        "icon": "<:gunpowder:732863772602925056>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Material"
+    },
+    "hitman": {
+        "rarity": "Legendary",
+        "isBanner": true,
+        "bannerColor": 16761204,
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 410015,
+            "currency": "money"
+        },
+        "sell": 29075,
+        "desc": "For only the best. Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971878873923599/pixelbnner4HITMAN.png",
+        "unboxImage": "",
+        "equippable": true,
+        "icon": "<:banner_icon:733020121856999526>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "artist": "221087115893669889",
+        "category": "Banner"
+    },
+    "killer": {
+        "rarity": "Rare",
+        "isBanner": true,
+        "bannerColor": 16734464,
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 126731,
+            "currency": "money"
+        },
+        "sell": 13735,
+        "desc": "Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971821483261953/pixelbnner3stronk.png",
+        "equippable": true,
+        "icon": "<:banner_icon:733020121856999526>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "artist": "221087115893669889",
+        "category": "Banner"
+    },
+    "kofi_king": {
+        "rarity": "Limited",
+        "isBanner": true,
+        "bannerColor": "#FF6C4E",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": "",
+        "desc": "Get this banner by donating on [Ko-fi](https://ko-fi.com/blobfysh)! Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/697675528039039016/kofikingv2.png",
+        "equippable": true,
+        "icon": "<:limit_banner:601371062214852619>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "artist": "",
+        "category": "Banner"
+    },
+    "large_medkit": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 50,
+        "healMax": 60,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 52666,
+            "currency": "money"
+        },
+        "sell": 21254,
+        "desc": "Use this to restore **50 - 60** health.",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733220182331359313/large_medkit.png",
+        "icon": "<:large_medkit:732858516838154261>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 2682
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "large_wood_box": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "display": "8x cloth\n3x wood",
+            "materials": [
+                "cloth|8",
+                "wood|3"
+            ]
+        },
+        "recyclesTo": {
+            "display": "3x cloth",
+            "materials": [
+                "cloth|3"
+            ]
+        },
+        "buy": "",
+        "sell": 177599,
+        "desc": "Equip this storage box to gain **25** item slots!",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732871989156380772/large_wood_box.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732871989156380772/large_wood_box.png",
+        "equippable": true,
+        "type": "backpack",
+        "inv_slots": 25,
+        "icon": "<:large_wood_box:732871054527168532>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Storage"
+    },
+    "looter": {
+        "rarity": "Uncommon",
+        "isBanner": true,
+        "bannerColor": 16761856,
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 43370,
+            "currency": "money"
+        },
+        "sell": 1659,
+        "desc": "Inventory banner that can only be bought. Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971770098843668/pixelbnner2good-Recovered.png",
+        "equippable": true,
+        "unboxable": false,
+        "icon": "<:banner_icon:733020121856999526>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "shopOrderCode": 3,
+        "artist": "221087115893669889",
+        "category": "Banner"
+    },
+    "m249": {
+        "rarity": "Ultra",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "59 - 78",
+        "minDmg": 47,
+        "maxDmg": 72,
+        "ammo": [
+            "rifle_bullet"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "2x metal_spring\n1x rifle_body",
+            "materials": [
+                "metal_spring|2",
+                "rifle_body|1"
+            ]
+        },
+        "buy": "",
+        "sell": 248305,
+        "desc": "Military light machine gun that can only drop from the Patrol Helicopter and Bradley.",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733246776793890897/m249.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/733246776793890897/m249.png",
+        "icon": "<:m249:732853728146882675>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.08,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 6720
+        },
+        "phrase": "{attacker} mows down {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "mace": {
+        "rarity": "Uncommon",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "20 - 26",
+        "minDmg": 20,
+        "maxDmg": 26,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 4153,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733224396386467860/mace.png",
+        "icon": "<:mace:732853133528793179>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 2043
+        },
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "machete": {
+        "rarity": "Uncommon",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "15 - 23",
+        "minDmg": 15,
+        "maxDmg": 23,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 3177,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733224398630289438/machete.png",
+        "icon": "<:machete:733224537226870855>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1463
+        },
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "magic_staff": {
+        "rarity": "Limited",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "70 - 90",
+        "minDmg": 70,
+        "maxDmg": 90,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 24583,
+        "desc": "**Halloween event item**",
+        "image": "",
+        "icon": "<:limit_melee:698423086747353168>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "60 minutes",
+            "scoreRow": "_60mCD",
+            "seconds": 3600
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "master": {
+        "rarity": "Legendary",
+        "isBanner": true,
+        "bannerColor": "#FFFF43",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 1348700,
+            "currency": "money"
+        },
+        "sell": 192977,
+        "desc": "Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/697679345715773480/master_banner.png",
+        "unboxImage": "",
+        "equippable": true,
+        "icon": "<:banner_icon:733020121856999526>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "artist": "221087115893669889",
+        "category": "Banner"
+    },
+    "medical_syringe": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 20,
+        "healMax": 28,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 19476,
+            "currency": "money"
+        },
+        "sell": 9652,
+        "desc": "Use this to restore **20 - 28** health.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929964889997343/medical_syringe.png",
+        "icon": "<:medical_syringe:732858500631494727>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1596
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "metal": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 4409,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929785310740521/metal.png",
+        "icon": "<:metal_fragments:732853274465796157>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Material"
+    },
+    "metal_pipe": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 11447,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732952040933949481/metal_pipe.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732952040933949481/metal_pipe.png",
+        "icon": "<:metal_pipe:732853612711247923>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Material"
+    },
+    "metal_spring": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 20726,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732952060219097158/metal_spring.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732952060219097158/metal_spring.png",
+        "icon": "<:metal_spring:732853622873784360>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Material"
+    },
+    "military_crate": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 105143,
+            "currency": "money"
+        },
+        "sell": 17989,
+        "desc": "A rare crate that may contain some high tier weapons.",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732863212281921576/military_crate.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732863212281921576/military_crate.png",
+        "icon": "<:box_icon:733020122222034994>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "100": {
+                "xp": 80,
+                "items": [
+                    "revolver|1",
+                    "bandage|1",
+                    "pump_shotgun|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "mittens": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isShield": true,
+        "shieldInfo": {
+            "display": "30 minutes",
+            "shieldRow": "mittenShieldTime",
+            "seconds": 1800
+        },
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 1010,
+        "desc": "Wear these cozy gloves to shield yourself for 30 minutes!\n**Christmas event item**",
+        "image": "",
+        "icon": "<:limit_shield:698423077377409054>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item"
+    },
+    "nutcracker": {
+        "rarity": "Limited",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "30 - 65",
+        "minDmg": 30,
+        "maxDmg": 65,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 16487,
+        "desc": "Send the nutcracker to bite your enemies\n**Christmas event item**",
+        "image": "",
+        "icon": "<:limit_melee:698423086747353168>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 2700
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "patron": {
+        "rarity": "Limited",
+        "isBanner": true,
+        "bannerColor": "#f96854",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": "",
+        "desc": "Exclusive banner for [patrons](https://www.patreon.com/lootcord)! Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/708570527177900062/patron_banner.gif",
+        "equippable": true,
+        "icon": "<:limit_banner:601371062214852619>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "artist": "",
+        "category": "Banner"
+    },
+    "pickaxe": {
+        "rarity": "Uncommon",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "12 - 21",
+        "minDmg": 12,
+        "maxDmg": 21,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 1909,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929395303645234/pickaxe.png",
+        "icon": "<:pickaxe:732860149936553985>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1141
+        },
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "pistol_bullet": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 15,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "materials": [
+                "gunpowder|2",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 6056,
+        "desc": "9x19mm cartridge, also known as 9mm.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929397333426246/pistol_bullet.png",
+        "icon": "<:pistol_bullet:732853196724371527>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "present": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "display": "4x coal",
+            "materials": [
+                "coal|4"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 693,
+        "desc": "Unwrap it to see what's inside!\n**Christmas event item**",
+        "image": "",
+        "icon": "<:limit_box:698423594203611176>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "5": {
+                "xp": 75,
+                "items": [
+                    "nutcracker|1"
+                ]
+            },
+            "25": {
+                "xp": 25,
+                "items": [
+                    "mittens|1",
+                    "snowball|1",
+                    "coal|1"
+                ]
+            },
+            "70": {
+                "xp": 20,
+                "items": [
+                    "stocking|1",
+                    "gingerbread|1",
+                    "candycane|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "pump_shotgun": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 10,
+        "maxDmg": 25,
+        "ammo": [
+            "12g_buckshot",
+            "12g_slug"
+        ],
+        "craftedWith": {
+            "display": "1x metal_spring\n2x metal_pipe\n2x metal",
+            "materials": [
+                "metal_spring|1",
+                "metal_pipe|2",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x metal",
+            "materials": [
+                "metal|1"
+            ]
+        },
+        "buy": "",
+        "sell": 24263,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930012034105394/pump_shotgun.png",
+        "icon": "<:pump_shotgun:732853454254374913>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.4,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 3432
+        },
+        "phrase": "{attacker} blasts a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "pumpkin": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 15,
+        "healMax": 30,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 1624,
+        "desc": "A pumpkin! You could make a jack-o'-lantern... Or you could just eat it to gain `15-30` HP.\n**Halloween event item**",
+        "image": "",
+        "icon": "<:limit_usable:698423067965390849>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "20 minutes",
+            "scoreRow": "_20mHEALCD",
+            "seconds": 1200
+        },
+        "artist": "",
+        "category": "Item"
+    },
+    "ravens_nest": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": "",
+        "buy": "",
+        "sell": "",
+        "desc": "Equip this backpack to gain **45** item slots!",
+        "image": "",
+        "unboxImage": "",
+        "equippable": true,
+        "type": "backpack",
+        "inv_slots": 45,
+        "icon": "<:limit_backpack:717745253037375629>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "artist": "",
+        "category": "Storage"
+    },
+    "recruit": {
+        "rarity": "Common",
+        "isBanner": true,
+        "bannerColor": 720640,
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "display": "1x tech_trash",
+            "materials": [
+                "tech_trash|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 378,
+        "desc": "Given when you create an account! Equip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971708585050133/pixelbnner.png",
+        "equippable": true,
+        "icon": "<:banner_icon:733020121856999526>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "artist": "221087115893669889",
+        "category": "Banner"
+    },
+    "revolver": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 0,
+        "maxDmg": 4,
+        "ammo": [
+            "pistol_bullet"
+        ],
+        "craftedWith": {
+            "display": "2x metal_pipe\n2x metal",
+            "materials": [
+                "metal_pipe|2",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x metal_pipe",
+            "materials": [
+                "metal_pipe|1"
+            ]
+        },
+        "buy": "",
+        "sell": 6037,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929789962354778/revolver.png",
+        "icon": "<:revolver:732853148426960936>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.3,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 2467
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "rifle_body": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "2x metal",
+            "materials": [
+                "metal|2"
+            ]
+        },
+        "buy": "",
+        "sell": 37499,
+        "desc": "Parts used to craft high damage rifles.",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733244384061030470/rifle_body.png",
+        "icon": "<:rifle_body:732853600610549841>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Material"
+    },
+    "rifle_bullet": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 25,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "materials": [
+                "gunpowder|3",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 6056,
+        "desc": "5.56 rifle ammunition.",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733051137774583810/rifle_bullet.png",
+        "icon": "<:rifle_bullet:732853207029514260>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "rock": {
         "rarity": "Common",
         "isWeap": true,
         "isItem": false,
@@ -60,16 +1651,105 @@
         "buy": "",
         "sell": 340,
         "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928724160217118/wooden_spear.png",
-        "icon": "<:wooden_spear:732852914862817321>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928582963167292/rock.png",
+        "icon": "<:rock:732851749710462997>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
             "seconds": 354
         },
-        "phrase": "{attacker} stabbed {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
         "category": "Weapon"
+    },
+    "rocket": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 65,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "materials": [
+                "gunpowder|6",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "2x gunpowder",
+            "materials": [
+                "gunpowder|2"
+            ]
+        },
+        "buy": "",
+        "sell": 119850,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930781508403280/rocket.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930781508403280/rocket.png",
+        "icon": "<:rocket_basic:732853217049837569>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "rocket_launcher": {
+        "rarity": "Legendary",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 0,
+        "maxDmg": 60,
+        "ammo": [
+            "rocket"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "2x metal_pipe",
+            "materials": [
+                "metal_pipe|2"
+            ]
+        },
+        "buy": "",
+        "sell": 79330,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930783240519712/rocket_launcher.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930783240519712/rocket_launcher.png",
+        "icon": "<:rocket_launcher:732853816675926066>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.15,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 5383
+        },
+        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "rolads_pack": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": "",
+        "buy": "",
+        "sell": "",
+        "desc": "Equip this backpack to gain **45** item slots! Rolads special backpack.",
+        "image": "",
+        "unboxImage": "",
+        "equippable": true,
+        "type": "backpack",
+        "inv_slots": 45,
+        "icon": "<:limit_backpack:717745253037375629>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "artist": "",
+        "category": "Storage"
     },
     "salvaged_cleaver": {
         "rarity": "Common",
@@ -119,101 +1799,58 @@
         "artist": "",
         "category": "Weapon"
     },
-    "pickaxe": {
-        "rarity": "Uncommon",
+    "scythe": {
+        "rarity": "Limited",
         "isWeap": true,
         "isItem": false,
-        "damage": "12 - 21",
-        "minDmg": 12,
-        "maxDmg": 21,
+        "damage": "35 - 40",
+        "minDmg": 35,
+        "maxDmg": 40,
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 1909,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929395303645234/pickaxe.png",
-        "icon": "<:pickaxe:732860149936553985>",
+        "sell": 8020,
+        "desc": "It's meant for reaping crops, but I think we all know what you'll be using it for.\n**Halloween event item**",
+        "image": "",
+        "icon": "<:limit_melee:698423086747353168>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 1141
+            "display": "30 minutes",
+            "scoreRow": "_30mCD",
+            "seconds": 1800
         },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
         "category": "Weapon"
     },
-    "bow": {
+    "semi_body": {
         "rarity": "Uncommon",
-        "isWeap": true,
+        "isWeap": false,
         "isItem": false,
-        "damage": "0 - 9",
-        "minDmg": 0,
-        "maxDmg": 9,
-        "ammo": [
-            "arrow"
-        ],
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
         "craftedWith": "",
         "recyclesTo": {
-            "display": "1x wood\n1x cloth",
+            "display": "1x metal",
             "materials": [
-                "wood|1",
-                "cloth|1"
+                "metal|1"
             ]
         },
         "buy": "",
-        "sell": 3356,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929491059605544/hunting_bow.png",
-        "icon": "<:hunting_bow:732853948758753280>",
-        "breaksOnUse": false,
-        "chanceToBreak": 0.5,
+        "sell": 8701,
+        "desc": "Parts used to craft semi-auto pistols and rifles.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929662354980925/semi_body.png",
+        "icon": "<:semi_body:732853533325525074>",
+        "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": {
-            "seconds": 1715
-        },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "cooldown": "",
         "artist": "",
-        "category": "Weapon"
-    },
-    "revolver": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
-        "minDmg": 0,
-        "maxDmg": 4,
-        "ammo": [
-            "pistol_bullet"
-        ],
-        "craftedWith": {
-            "display": "2x metal_pipe\n2x metal",
-            "materials": [
-                "metal_pipe|2",
-                "metal|2"
-            ]
-        },
-        "recyclesTo": {
-            "display": "1x metal_pipe",
-            "materials": [
-                "metal_pipe|1"
-            ]
-        },
-        "buy": "",
-        "sell": 6037,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929789962354778/revolver.png",
-        "icon": "<:revolver:732853148426960936>",
-        "breaksOnUse": false,
-        "chanceToBreak": 0.3,
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "45 minutes",
-            "scoreRow": "_45mCD",
-            "seconds": 2467
-        },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
-        "artist": "",
-        "category": "Weapon"
+        "category": "Material"
     },
     "semi_pistol": {
         "rarity": "Rare",
@@ -243,7 +1880,7 @@
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929807179972748/semi_pistol.png",
         "icon": "<:semi_pistol:732853166864990211>",
         "breaksOnUse": false,
-        "chanceToBreak": 0.35,
+        "chanceToBreak": 0.34,
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2721
@@ -252,56 +1889,112 @@
         "artist": "",
         "category": "Weapon"
     },
-    "crossbow": {
+    "semi_rifle": {
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
-        "minDmg": 6,
-        "maxDmg": 24,
+        "minDmg": 5,
+        "maxDmg": 17,
         "ammo": [
-            "arrow"
+            "rifle_bullet"
         ],
-        "craftedWith": "",
-        "recyclesTo": {
-            "display": "1x wood\n1x metal",
+        "craftedWith": {
+            "display": "3x semi_body\n1x metal_spring\n1x metal",
             "materials": [
-                "wood|1",
+                "semi_body|3",
+                "metal_spring|1",
                 "metal|1"
             ]
         },
+        "recyclesTo": {
+            "display": "1x semi_body",
+            "materials": [
+                "semi_body|1"
+            ]
+        },
         "buy": "",
-        "sell": 3662,
+        "sell": 21037,
         "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929913145000016/crossbow.png",
-        "icon": "<:crossbow:732862499019423774>",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733248648275558400/semi_rifle.png",
+        "icon": "<:semi_rifle:733248789674066033>",
         "breaksOnUse": false,
         "chanceToBreak": 0.35,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 2232
+            "seconds": 3929
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Weapon"
     },
-    "pump_shotgun": {
-        "rarity": "Rare",
-        "isWeap": true,
+    "sheriff": {
+        "rarity": "Limited",
+        "isBanner": true,
+        "bannerColor": 10833201,
+        "isWeap": false,
         "isItem": false,
-        "minDmg": 0,
-        "maxDmg": 20,
-        "ammo": [
-            "12g_buckshot",
-            "12g_slug"
-        ],
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 24842,
+        "desc": "Only the best.",
+        "image": "https://cdn.discordapp.com/attachments/542248243313246208/682025810798051418/sheriff_bar.png",
+        "equippable": true,
+        "icon": "<:limit_banner:601371062214852619>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "artist": "",
+        "category": "Banner"
+    },
+    "small_stash": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
         "craftedWith": {
-            "display": "1x metal_spring\n2x metal_pipe\n2x metal",
+            "display": "2x cloth",
             "materials": [
-                "metal_spring|1",
-                "metal_pipe|2",
-                "metal|2"
+                "cloth|2"
             ]
         },
+        "recyclesTo": {
+            "display": "1x cloth",
+            "materials": [
+                "cloth|1"
+            ]
+        },
+        "buy": "",
+        "sell": 12858,
+        "desc": "Equip this storage box to gain **5** item slots!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929258648895529/small_stash.png",
+        "equippable": true,
+        "type": "backpack",
+        "inv_slots": 5,
+        "icon": "<:small_stash:732867510688284702>",
+        "breaksOnUse": false,
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Storage"
+    },
+    "smg_body": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
         "recyclesTo": {
             "display": "1x metal",
             "materials": [
@@ -309,98 +2002,15 @@
             ]
         },
         "buy": "",
-        "sell": 15419,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930012034105394/pump_shotgun.png",
-        "icon": "<:pump_shotgun:732853454254374913>",
-        "breaksOnUse": false,
-        "chanceToBreak": 0.5,
+        "sell": 17189,
+        "desc": "Parts used to craft smaller automatic weapons.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930115603922965/smg_body.png",
+        "icon": "<:smg_body:732853543752695809>",
+        "breaksOnUse": "",
         "canBeStolen": true,
-        "cooldown": {
-            "seconds": 2732
-        },
-        "phrase": "{attacker} blasts a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "cooldown": "",
         "artist": "",
-        "category": "Weapon"
-    },
-    "f1_grenade": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
-        "minDmg": 19,
-        "maxDmg": 30,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 4278,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930107852980234/f1_grenade.png",
-        "icon": "<:f1_grenade:732853499435679819>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 1862
-        },
-        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "rocket_launcher": {
-        "rarity": "Legendary",
-        "isWeap": true,
-        "isItem": false,
-        "minDmg": 0,
-        "maxDmg": 60,
-        "ammo": [
-            "rocket"
-        ],
-        "craftedWith": "",
-        "recyclesTo": {
-            "display": "4x metal",
-            "materials": [
-                "metal|4"
-            ]
-        },
-        "buy": "",
-        "sell": 79330,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930783240519712/rocket_launcher.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930783240519712/rocket_launcher.png",
-        "icon": "<:rocket_launcher:732853816675926066>",
-        "breaksOnUse": false,
-        "chanceToBreak": 0.15,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 5383
-        },
-        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "candycane": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "3 - 15",
-        "minDmg": 3,
-        "maxDmg": 15,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 834,
-        "desc": "Sharpened for maximum efficiency\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 2700
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
+        "category": "Material"
     },
     "snowball": {
         "rarity": "Limited",
@@ -421,82 +2031,6 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2700
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "nutcracker": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "30 - 65",
-        "minDmg": 30,
-        "maxDmg": 65,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 16487,
-        "desc": "Send the nutcracker to bite your enemies\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 2700
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "bunny": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "10 - 25",
-        "minDmg": 10,
-        "maxDmg": 25,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 501,
-        "desc": "Send this rabid bunny to chomp your foes...  🐰\n**Easter event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "30 minutes",
-            "scoreRow": "_30mCD",
-            "seconds": 1800
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "tnt_egg": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "50 - 75",
-        "minDmg": 50,
-        "maxDmg": 75,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 8600,
-        "desc": "Do not be fooled, this egg has enough gunpowder in it to destroy a small house. Throw it at an enemy to unleash its deadly force.\n**Easter event item**",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562525958121455663/tnt_egg.png",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "30 minutes",
-            "scoreRow": "_30mCD",
-            "seconds": 1800
         },
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
@@ -528,221 +2062,51 @@
         "artist": "",
         "category": "Weapon"
     },
-    "scythe": {
+    "spooky": {
         "rarity": "Limited",
-        "isWeap": true,
+        "isBanner": true,
+        "bannerColor": 15626817,
+        "isWeap": false,
         "isItem": false,
-        "damage": "35 - 40",
-        "minDmg": 35,
-        "maxDmg": 40,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 8020,
-        "desc": "It's meant for reaping crops, but I think we all know what you'll be using it for.\n**Halloween event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "30 minutes",
-            "scoreRow": "_30mCD",
-            "seconds": 1800
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "sell": 2359,
+        "desc": "Very spooky banner...\nEquip this to give your inventory a fresh new look!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/631885680175480852/batbanner.png",
+        "equippable": true,
+        "icon": "<:limit_banner:601371062214852619>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
         "artist": "",
-        "category": "Weapon"
+        "category": "Banner"
     },
-    "magic_staff": {
+    "stocking": {
         "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "70 - 90",
-        "minDmg": 70,
-        "maxDmg": 90,
+        "isWeap": false,
+        "isItem": true,
+        "givesMoneyOnUse": true,
+        "itemMin": 500,
+        "itemMax": 2000,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 24583,
-        "desc": "**Halloween event item**",
+        "sell": 1954,
+        "desc": "Has a chance to contain `500 - 2,000` Lootcoin\n**Christmas event item**",
         "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "60 minutes",
-            "scoreRow": "_60mCD",
-            "seconds": 3600
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "crate": {
-        "rarity": "Common",
-        "isWeap": false,
-        "isItem": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": {
-            "amount": 18655,
-            "currency": "money"
-        },
-        "sell": 2485,
-        "desc": "Open this to get a random item!",
-        "image": "https://rustlabs.com/img/screenshots/crate.png",
-        "icon": "<:box_icon:733020122222034994>",
+        "icon": "<:limit_usable:698423067965390849>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
-        "rates": {
-            "2": {
-                "xp": 50,
-                "items": [
-                    "metal_spring|1",
-                    "pump_shotgun|1",
-                    "tech_trash|1",
-                    "revolver|1",
-                    "12g_buckshot|1",
-                    "pistol_bullet|1",
-                    "gunpowder|1"
-                ]
-            },
-            "8": {
-                "xp": 40,
-                "items": [
-                    "crossbow|1",
-                    "f1_grenade|1",
-                    "medical_syringe|1"
-                ]
-            },
-            "15": {
-                "xp": 35,
-                "items": [
-                    "metal_pipe|1",
-                    "bow|1",
-                    "arrow|1",
-                    "cloth|1",
-                    "semi_body|1"
-                ]
-            },
-            "25": {
-                "xp": 25,
-                "items": [
-                    "bandage|1",
-                    "salvaged_sword|1",
-                    "pickaxe|1"
-                ]
-            },
-            "50": {
-                "xp": 10,
-                "items": [
-                    "bone_knife|1",
-                    "rock|1",
-                    "salvaged_cleaver|1",
-                    "wooden_spear|1"
-                ]
-            }
-        },
-        "artist": "",
-        "category": "Item"
-    },
-    "bandage": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": true,
-        "isHeal": true,
-        "healMin": 10,
-        "healMax": 19,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": {
-            "amount": 7712,
-            "currency": "money"
-        },
-        "sell": 2982,
-        "desc": "Use this to restore `10 - 19` health.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929515080384592/bandage.png",
-        "icon": "<:bandage:732858488652431480>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 967
-        },
-        "artist": "",
-        "category": "Item"
-    },
-    "medical_syringe": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": true,
-        "isHeal": true,
-        "healMin": 20,
-        "healMax": 28,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": {
-            "amount": 19476,
-            "currency": "money"
-        },
-        "sell": 9652,
-        "desc": "Use this to restore `20 - 28` health.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929964889997343/medical_syringe.png",
-        "icon": "<:medical_syringe:732858500631494727>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 1596
-        },
-        "artist": "",
-        "category": "Item"
-    },
-    "military_crate": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": {
-            "amount": 105143,
-            "currency": "money"
-        },
-        "sell": 17989,
-        "desc": "A rare crate that may contain some high tier weapons.",
-        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732863212281921576/military_crate.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732863212281921576/military_crate.png",
-        "icon": "<:box_icon:733020122222034994>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "rates": {
-            "100": {
-                "xp": 80,
-                "items": [
-                    "revolver|1",
-                    "bandage|1",
-                    "pump_shotgun|1"
-                ]
-            }
-        },
         "artist": "",
         "category": "Item"
     },
@@ -804,679 +2168,6 @@
         "artist": "",
         "category": "Item"
     },
-    "c4": {
-        "rarity": "Ultra",
-        "isWeap": false,
-        "isItem": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": {
-            "display": "10x gunpowder\n2x tech_trash",
-            "materials": [
-                "gunpowder|10",
-                "tech_trash|2"
-            ]
-        },
-        "recyclesTo": {
-            "display": "4x gunpowder",
-            "materials": [
-                "gunpowder|4"
-            ]
-        },
-        "buy": "",
-        "sell": 544900,
-        "desc": "Use this on another clan to temporarily lower their current power by **5** for 1 hour, making them vulnerable to a raid.\n\nThis effect can stack.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930980725260348/c4.png",
-        "icon": "<:c4:732853863396147252>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Item"
-    },
-    "stocking": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "givesMoneyOnUse": true,
-        "itemMin": 500,
-        "itemMax": 2000,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 1954,
-        "desc": "Has a chance to contain `500 - 2,000` Lootcoin\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_usable:698423067965390849>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Item"
-    },
-    "gingerbread": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "isHeal": true,
-        "healMin": 20,
-        "healMax": 25,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 553,
-        "desc": "Eat this to heal `20-25` HP!\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_usable:698423067965390849>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 1200
-        },
-        "artist": "",
-        "category": "Item"
-    },
-    "mittens": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "isShield": true,
-        "shieldInfo": {
-            "display": "30 minutes",
-            "shieldRow": "mittenShieldTime",
-            "seconds": 1800
-        },
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 1010,
-        "desc": "Wear these cozy gloves to shield yourself for 30 minutes!\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_shield:698423077377409054>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Item"
-    },
-    "present": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": {
-            "display": "4x coal",
-            "materials": [
-                "coal|4"
-            ]
-        },
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 693,
-        "desc": "Unwrap it to see what's inside!\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_box:698423594203611176>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "rates": {
-            "5": {
-                "xp": 75,
-                "items": [
-                    "nutcracker|1"
-                ]
-            },
-            "25": {
-                "xp": 25,
-                "items": [
-                    "mittens|1",
-                    "snowball|1",
-                    "coal|1"
-                ]
-            },
-            "70": {
-                "xp": 20,
-                "items": [
-                    "stocking|1",
-                    "gingerbread|1",
-                    "candycane|1"
-                ]
-            }
-        },
-        "artist": "",
-        "category": "Item"
-    },
-    "easter_egg": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "givesMoneyOnUse": true,
-        "itemMin": 300,
-        "itemMax": 1500,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 415,
-        "desc": "Has a chance to contain `300 - 1,500` Lootcoin!\n**Easter event item**",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562550734944731157/easter_egg.png",
-        "icon": "<:limit_usable:698423067965390849>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Item"
-    },
-    "carrot": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "isHeal": true,
-        "healMin": 17,
-        "healMax": 25,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 544,
-        "desc": "Eat this healthy carrot to heal `17-25` HP!\n**Easter event item**",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703180605147447296/carrot.png",
-        "icon": "<:limit_usable:698423067965390849>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "20 minutes",
-            "scoreRow": "_20mHEALCD",
-            "seconds": 1200
-        },
-        "artist": "",
-        "category": "Item"
-    },
-    "golden_egg": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "givesMoneyOnUse": true,
-        "itemMin": 5000,
-        "itemMax": 20000,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 7661,
-        "desc": "This rare golden easter egg has a chance to contain `5,000 - 20,000` Lootcoin.\n**Easter event item**",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562529404434120704/golden_egg.png",
-        "icon": "<:limit_usable:698423067965390849>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Item"
-    },
-    "candy_egg": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "isHeal": true,
-        "healMin": 22,
-        "healMax": 30,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 551,
-        "desc": "Delicious chocolate candy eggs that heal `22-30` HP when you eat them!\n**Easter event item**",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562550732574818309/candy_egg.png",
-        "icon": "<:limit_usable:698423067965390849>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "20 minutes",
-            "scoreRow": "_20mHEALCD",
-            "seconds": 1200
-        },
-        "artist": "",
-        "category": "Item"
-    },
-    "apple": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "isHeal": true,
-        "healMin": 9,
-        "healMax": 13,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 549,
-        "desc": "Someone seriously gave you an apple... You can eat it to gain `9-13` HP.\n**Halloween event item**",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703180591780331520/apple.png",
-        "icon": "<:limit_usable:698423067965390849>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "10 minutes",
-            "scoreRow": "_10mHEALCD",
-            "seconds": 600
-        },
-        "artist": "",
-        "category": "Item"
-    },
-    "pumpkin": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "isHeal": true,
-        "healMin": 15,
-        "healMax": 30,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 1624,
-        "desc": "A pumpkin! You could make a jack-o'-lantern... Or you could just eat it to gain `15-30` HP.\n**Halloween event item**",
-        "image": "",
-        "icon": "<:limit_usable:698423067965390849>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "20 minutes",
-            "scoreRow": "_20mHEALCD",
-            "seconds": 1200
-        },
-        "artist": "",
-        "category": "Item"
-    },
-    "candy_bar": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "isHeal": true,
-        "healMin": 13,
-        "healMax": 28,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 1387,
-        "desc": "A king-sized candy bar! Heals `13-28` HP.\n**Halloween event item**",
-        "image": "",
-        "icon": "<:limit_usable:698423067965390849>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "20 minutes",
-            "scoreRow": "_20mHEALCD",
-            "seconds": 1200
-        },
-        "artist": "",
-        "category": "Item"
-    },
-    "candy_pail": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 1267,
-        "desc": "A trick-or-treat pail. It could contain some cool Halloween items!",
-        "image": "",
-        "icon": "<:limit_box:698423594203611176>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "rates": {
-            "5": {
-                "xp": 75,
-                "items": [
-                    "magic_staff|1"
-                ]
-            },
-            "20": {
-                "xp": 40,
-                "items": [
-                    "scythe|1"
-                ]
-            },
-            "35": {
-                "xp": 25,
-                "items": [
-                    "apple|1",
-                    "spider|1"
-                ]
-            },
-            "40": {
-                "xp": 20,
-                "items": [
-                    "candy_bar|1",
-                    "pumpkin|1"
-                ]
-            }
-        },
-        "artist": "",
-        "category": "Item"
-    },
-    "arrow": {
-        "rarity": "Common",
-        "isWeap": false,
-        "isItem": false,
-        "damage": 9,
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": {
-            "display": "1x rock\n1x wood\n1x cloth",
-            "materials": [
-                "rock|1",
-                "wood|1",
-                "cloth|1"
-            ]
-        },
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 928,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928578278260786/arrow.png",
-        "icon": "<:arrow:732852891299086417>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Ammo"
-    },
-    "pistol_bullet": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
-        "damage": 15,
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 6056,
-        "desc": "9x19mm cartridge, also known as 9mm.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929397333426246/pistol_bullet.png",
-        "icon": "<:pistol_bullet:732853196724371527>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Ammo"
-    },
-    "rifle_bullet": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
-        "damage": 25,
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 6056,
-        "desc": "5.56 rifle ammunition.",
-        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733051137774583810/rifle_bullet.png",
-        "icon": "<:rifle_bullet:732853207029514260>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Ammo"
-    },
-    "12g_buckshot": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
-        "damage": 15,
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": {
-            "display": "2x gunpowder\n1x metal",
-            "materials": [
-                "gunpowder|2",
-                "metal|1"
-            ]
-        },
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 8134,
-        "desc": "12 Gauge buckshot shell.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930056271429632/12g_buckshot.png",
-        "icon": "<:12g_buckshot:732853227552374793>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Ammo"
-    },
-    "12g_slug": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
-        "damage": 33,
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": {
-            "display": "4x gunpowder\n1x metal",
-            "materials": [
-                "gunpowder|4",
-                "metal|1"
-            ]
-        },
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 36120,
-        "desc": "12 Gauge slug shell. Used for shotguns.",
-        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733052371680362626/12g_slug.png",
-        "icon": "<:12g_slug:732853235404111882>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Ammo"
-    },
-    "rocket": {
-        "rarity": "Legendary",
-        "isWeap": false,
-        "isItem": false,
-        "damage": 65,
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": {
-            "display": "5x gunpowder\n2x metal",
-            "materials": [
-                "gunpowder|5",
-                "metal|2"
-            ]
-        },
-        "recyclesTo": {
-            "display": "2x gunpowder",
-            "materials": [
-                "gunpowder|2"
-            ]
-        },
-        "buy": "",
-        "sell": 119850,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930781508403280/rocket.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930781508403280/rocket.png",
-        "icon": "<:rocket_basic:732853217049837569>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Ammo"
-    },
-    "wood": {
-        "rarity": "Common",
-        "isWeap": false,
-        "isItem": false,
-        "isMaterial": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 169,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928720301457488/wood.png",
-        "icon": "<:wood:732851777078034474>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Material"
-    },
-    "cloth": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
-        "isMaterial": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 8976,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928581264605286/cloth.png",
-        "icon": "<:cloth:732853261110870058>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Material"
-    },
-    "semi_body": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
-        "isMaterial": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": {
-            "display": "1x metal",
-            "materials": [
-                "metal|1"
-            ]
-        },
-        "buy": "",
-        "sell": 8701,
-        "desc": "Parts used to craft semi-auto pistols and rifles.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929662354980925/semi_body.png",
-        "icon": "<:semi_body:732853533325525074>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Material"
-    },
-    "metal": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
-        "isMaterial": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 4409,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929785310740521/metal.png",
-        "icon": "<:metal_fragments:732853274465796157>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Material"
-    },
-    "smg_body": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
-        "isMaterial": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": {
-            "display": "1x metal",
-            "materials": [
-                "metal|1"
-            ]
-        },
-        "buy": "",
-        "sell": 17189,
-        "desc": "Parts used to craft smaller automatic weapons.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930115603922965/smg_body.png",
-        "icon": "<:smg_body:732853543752695809>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Material"
-    },
     "tech_trash": {
         "rarity": "Epic",
         "isWeap": false,
@@ -1500,130 +2191,129 @@
         "artist": "",
         "category": "Material"
     },
-    "metal_pipe": {
-        "rarity": "Epic",
-        "isWeap": false,
+    "thompson": {
+        "rarity": "Rare",
+        "isWeap": true,
         "isItem": false,
-        "isMaterial": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 11447,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732952040933949481/metal_pipe.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732952040933949481/metal_pipe.png",
-        "icon": "<:metal_pipe:732853612711247923>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Material"
-    },
-    "metal_spring": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": false,
-        "isMaterial": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 11447,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732952060219097158/metal_spring.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732952060219097158/metal_spring.png",
-        "icon": "<:metal_spring:732853622873784360>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Material"
-    },
-    "gunpowder": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": false,
-        "isMaterial": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 36627,
-        "desc": "Makes things go boom. Useful for crafting ammunition.",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930625966702622/gunpowder.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930625966702622/gunpowder.png",
-        "icon": "<:gunpowder:732863772602925056>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Material"
-    },
-    "coal": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": false,
-        "isMaterial": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 234,
-        "desc": "You were on the naughty list!\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_material:656757111388241920>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Material"
-    },
-    "small_stash": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
+        "minDmg": 17,
+        "maxDmg": 28,
+        "ammo": [
+            "pistol_bullet"
+        ],
         "craftedWith": {
-            "display": "2x cloth",
             "materials": [
-                "cloth|2"
+                "smg_body|1",
+                "metal_spring|1",
+                "metal|1"
             ]
         },
         "recyclesTo": {
-            "display": "1x cloth",
+            "display": "1x smg_body",
             "materials": [
-                "cloth|1"
+                "smg_body|1"
             ]
         },
         "buy": "",
-        "sell": 12858,
-        "desc": "Equip this storage box to gain **5** item slots!",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929258648895529/small_stash.png",
-        "equippable": true,
-        "type": "backpack",
-        "inv_slots": 5,
-        "icon": "<:small_stash:732867510688284702>",
+        "sell": 19736,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/733261093731958794/thompson.png",
+        "icon": "<:thompson:732853783067099177>",
         "breaksOnUse": false,
+        "chanceToBreak": 0.41,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 3167
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "tnt_egg": {
+        "rarity": "Limited",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "50 - 75",
+        "minDmg": 50,
+        "maxDmg": 75,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 8600,
+        "desc": "Do not be fooled, this egg has enough gunpowder in it to destroy a small house. Throw it at an enemy to unleash its deadly force.\n**Easter event item**",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562525958121455663/tnt_egg.png",
+        "icon": "<:limit_melee:698423086747353168>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "30 minutes",
+            "scoreRow": "_30mCD",
+            "seconds": 1800
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "waterpipe_shotgun": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 0,
+        "maxDmg": 20,
+        "ammo": [
+            "12g_buckshot",
+            "12g_slug"
+        ],
+        "craftedWith": {
+            "display": "1x metal_pipe\n1x metal\n1x wood",
+            "materials": [
+                "metal_pipe|1",
+                "metal|1",
+                "wood|1"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x metal",
+            "materials": [
+                "metal|1"
+            ]
+        },
+        "buy": "",
+        "sell": 15419,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/733222004924350484/waterpipe_shotgun.png",
+        "icon": "<:waterpipe_shotgun:733221981142515742>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.76,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 2732
+        },
+        "phrase": "{attacker} blasts a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "wood": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 169,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928720301457488/wood.png",
+        "icon": "<:wood:732851777078034474>",
+        "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Storage"
+        "category": "Material"
     },
     "wood_box": {
         "rarity": "Epic",
@@ -1661,354 +2351,28 @@
         "artist": "",
         "category": "Storage"
     },
-    "large_wood_box": {
-        "rarity": "Legendary",
-        "isWeap": false,
-        "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": {
-            "display": "8x cloth\n3x wood",
-            "materials": [
-                "cloth|8",
-                "wood|3"
-            ]
-        },
-        "recyclesTo": {
-            "display": "3x cloth",
-            "materials": [
-                "cloth|3"
-            ]
-        },
-        "buy": "",
-        "sell": 177599,
-        "desc": "Equip this storage box to gain **25** item slots!",
-        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732871989156380772/large_wood_box.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732871989156380772/large_wood_box.png",
-        "equippable": true,
-        "type": "backpack",
-        "inv_slots": 25,
-        "icon": "<:large_wood_box:732871054527168532>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Storage"
-    },
-    "rolads_pack": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": "",
-        "buy": "",
-        "sell": "",
-        "desc": "Equip this backpack to gain **45** item slots! Rolads special backpack.",
-        "image": "",
-        "unboxImage": "",
-        "equippable": true,
-        "type": "backpack",
-        "inv_slots": 45,
-        "icon": "<:limit_backpack:717745253037375629>",
-        "breaksOnUse": "",
-        "canBeStolen": false,
-        "cooldown": "",
-        "artist": "",
-        "category": "Storage"
-    },
-    "ravens_nest": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": "",
-        "buy": "",
-        "sell": "",
-        "desc": "Equip this backpack to gain **45** item slots!",
-        "image": "",
-        "unboxImage": "",
-        "equippable": true,
-        "type": "backpack",
-        "inv_slots": 45,
-        "icon": "<:limit_backpack:717745253037375629>",
-        "breaksOnUse": "",
-        "canBeStolen": false,
-        "cooldown": "",
-        "artist": "",
-        "category": "Storage"
-    },
-    "recruit": {
+    "wooden_spear": {
         "rarity": "Common",
-        "isBanner": true,
-        "bannerColor": 720640,
-        "isWeap": false,
+        "isWeap": true,
         "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": {
-            "display": "1x tech_trash",
-            "materials": [
-                "tech_trash|1"
-            ]
-        },
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 378,
-        "desc": "Given when you create an account! Equip this to give your inventory a fresh new look!",
-        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971708585050133/pixelbnner.png",
-        "equippable": true,
-        "icon": "<:banner_icon:733020121856999526>",
-        "breaksOnUse": "",
-        "canBeStolen": false,
-        "cooldown": "",
-        "artist": "221087115893669889",
-        "category": "Banner"
-    },
-    "looter": {
-        "rarity": "Uncommon",
-        "isBanner": true,
-        "bannerColor": 16761856,
-        "isWeap": false,
-        "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": {
-            "amount": 43370,
-            "currency": "money"
-        },
-        "sell": 1659,
-        "desc": "Inventory banner that can only be bought. Equip this to give your inventory a fresh new look!",
-        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971770098843668/pixelbnner2good-Recovered.png",
-        "equippable": true,
-        "unboxable": false,
-        "icon": "<:banner_icon:733020121856999526>",
-        "breaksOnUse": "",
-        "canBeStolen": false,
-        "cooldown": "",
-        "shopOrderCode": 3,
-        "artist": "221087115893669889",
-        "category": "Banner"
-    },
-    "killer": {
-        "rarity": "Rare",
-        "isBanner": true,
-        "bannerColor": 16734464,
-        "isWeap": false,
-        "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": {
-            "amount": 126731,
-            "currency": "money"
-        },
-        "sell": 13735,
-        "desc": "Equip this to give your inventory a fresh new look!",
-        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971821483261953/pixelbnner3stronk.png",
-        "equippable": true,
-        "icon": "<:banner_icon:733020121856999526>",
-        "breaksOnUse": "",
-        "canBeStolen": false,
-        "cooldown": "",
-        "artist": "221087115893669889",
-        "category": "Banner"
-    },
-    "elite": {
-        "rarity": "Rare",
-        "isBanner": true,
-        "bannerColor": "#737373",
-        "isWeap": false,
-        "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": {
-            "amount": 90817,
-            "currency": "money"
-        },
-        "sell": 13119,
-        "desc": "Equip this to give your inventory a fresh new look!",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/697679342821572639/elite_banner.png",
-        "equippable": true,
-        "icon": "<:banner_icon:733020121856999526>",
-        "breaksOnUse": "",
-        "canBeStolen": false,
-        "cooldown": "",
-        "artist": "221087115893669889",
-        "category": "Banner"
-    },
-    "hitman": {
-        "rarity": "Legendary",
-        "isBanner": true,
-        "bannerColor": 16761204,
-        "isWeap": false,
-        "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": {
-            "amount": 410015,
-            "currency": "money"
-        },
-        "sell": 29075,
-        "desc": "For only the best. Equip this to give your inventory a fresh new look!",
-        "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971878873923599/pixelbnner4HITMAN.png",
-        "unboxImage": "",
-        "equippable": true,
-        "icon": "<:banner_icon:733020121856999526>",
-        "breaksOnUse": "",
-        "canBeStolen": false,
-        "cooldown": "",
-        "artist": "221087115893669889",
-        "category": "Banner"
-    },
-    "master": {
-        "rarity": "Legendary",
-        "isBanner": true,
-        "bannerColor": "#FFFF43",
-        "isWeap": false,
-        "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": {
-            "amount": 1348700,
-            "currency": "money"
-        },
-        "sell": 192977,
-        "desc": "Equip this to give your inventory a fresh new look!",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/697679345715773480/master_banner.png",
-        "unboxImage": "",
-        "equippable": true,
-        "icon": "<:banner_icon:733020121856999526>",
-        "breaksOnUse": "",
-        "canBeStolen": false,
-        "cooldown": "",
-        "artist": "221087115893669889",
-        "category": "Banner"
-    },
-    "spooky": {
-        "rarity": "Limited",
-        "isBanner": true,
-        "bannerColor": 15626817,
-        "isWeap": false,
-        "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
+        "damage": "4 - 9",
+        "minDmg": 4,
+        "maxDmg": 9,
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 2359,
-        "desc": "Very spooky banner...\nEquip this to give your inventory a fresh new look!",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/631885680175480852/batbanner.png",
-        "equippable": true,
-        "icon": "<:limit_banner:601371062214852619>",
-        "breaksOnUse": "",
-        "canBeStolen": false,
-        "cooldown": "",
+        "sell": 379,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928724160217118/wooden_spear.png",
+        "icon": "<:wooden_spear:732852914862817321>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 420
+        },
+        "phrase": "{attacker} stabbed {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Banner"
-    },
-    "sheriff": {
-        "rarity": "Limited",
-        "isBanner": true,
-        "bannerColor": 10833201,
-        "isWeap": false,
-        "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 24842,
-        "desc": "Only the best.",
-        "image": "https://cdn.discordapp.com/attachments/542248243313246208/682025810798051418/sheriff_bar.png",
-        "equippable": true,
-        "icon": "<:limit_banner:601371062214852619>",
-        "breaksOnUse": "",
-        "canBeStolen": false,
-        "cooldown": "",
-        "artist": "",
-        "category": "Banner"
-    },
-    "kofi_king": {
-        "rarity": "Limited",
-        "isBanner": true,
-        "bannerColor": "#FF6C4E",
-        "isWeap": false,
-        "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": "",
-        "desc": "Get this banner by donating on [Ko-fi](https://ko-fi.com/blobfysh)! Equip this to give your inventory a fresh new look!",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/697675528039039016/kofikingv2.png",
-        "equippable": true,
-        "icon": "<:limit_banner:601371062214852619>",
-        "breaksOnUse": "",
-        "canBeStolen": false,
-        "cooldown": "",
-        "artist": "",
-        "category": "Banner"
-    },
-    "patron": {
-        "rarity": "Limited",
-        "isBanner": true,
-        "bannerColor": "#f96854",
-        "isWeap": false,
-        "isItem": false,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": "",
-        "desc": "Exclusive banner for [patrons](https://www.patreon.com/lootcord)! Equip this to give your inventory a fresh new look!",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/708570527177900062/patron_banner.gif",
-        "equippable": true,
-        "icon": "<:limit_banner:601371062214852619>",
-        "breaksOnUse": "",
-        "canBeStolen": false,
-        "cooldown": "",
-        "artist": "",
-        "category": "Banner"
+        "category": "Weapon"
     }
 }

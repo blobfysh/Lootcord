@@ -26,7 +26,12 @@ const materials    = require('./materials');
 const storage      = require('./storage');
 const banners      = require('./banners');
 
-const combined     = { ...weapons, ...items, ...ammo, ...materials, ...storage, ...banners };
+const combinedTmp  = { ...weapons, ...items, ...ammo, ...materials, ...storage, ...banners };
+let combined = {};
+
+for(let key of Object.keys(combinedTmp).sort()){
+    combined[key] = combinedTmp[key];
+}
 
 let itemsLost = {};
 let itemsGained= {};
