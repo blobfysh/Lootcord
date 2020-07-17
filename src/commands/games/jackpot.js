@@ -4,7 +4,7 @@ module.exports = {
     aliases: [''],
     description: 'Start a jackpot prize pool that other users can enter for a chance to win it all!',
     long: 'Start a server jackpot that lasts 2 minutes! Other players can join the jackpot with the join command. The more you put into the pot, the higher your chance of winning it all.',
-    args: {"amount": "Amount of money to gamble."},
+    args: {"amount": "Amount of Lootcoin to gamble."},
     examples: ["jackpot 1000"],
     ignoreHelp: false,
     requiresAcc: true,
@@ -29,7 +29,7 @@ module.exports = {
         }
 
         if(!await app.player.hasMoney(message.author.id, gambleAmount)){
-            return message.reply(`You don't have that much money! You currently have ${app.common.formatNumber(row.money)}`);
+            return message.reply(`❌ You don't have that much Lootcoin! You currently have ${app.common.formatNumber(row.money)}`);
         }
         
         if(gambleAmount > 100000){
@@ -109,7 +109,7 @@ async function startJackpot(app, message, gambleAmount){
                 return m.channel.createMessage('Please enter an amount of at least ' + app.common.formatNumber(100));
             }
             else if(gambleAmnt > userRow.money){
-                return m.channel.createMessage('❌ You don\'t have that much money!');
+                return m.channel.createMessage('❌ You don\'t have that much Lootcoin! You currently have ' + app.common.formatNumber(userRow.money));
             }
             else if(gambleAmnt > 100000){
                 return m.channel.createMessage('❌ You cannot enter more than ' + app.common.formatNumber(100000) + '!');

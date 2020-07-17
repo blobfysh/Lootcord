@@ -5,8 +5,8 @@ module.exports = {
     name: 'coinflip',
     aliases: ['cf'],
     description: 'Flip a coin for a chance to win!',
-    long: 'Gamble your money for a 50% chance of winning 2x what you bet!',
-    args: {"amount": "Amount of money to gamble."},
+    long: 'Gamble your Lootcoin for a 50% chance of winning 2x what you bet!',
+    args: {"amount": "Amount of Lootcoin to gamble."},
     examples: ["cf 1000"],
     ignoreHelp: false,
     requiresAcc: true,
@@ -32,7 +32,7 @@ module.exports = {
         }
 
         if(gambleAmount > row.money){
-            return message.reply(`You don't have that much money! You currently have ${app.common.formatNumber(row.money)}`);
+            return message.reply(`You don't have that much Lootcoin! You currently have ${app.common.formatNumber(row.money)}`);
         }
         
         if(gambleAmount > 1000000){

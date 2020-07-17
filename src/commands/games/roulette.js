@@ -4,7 +4,7 @@ module.exports = {
     aliases: [''],
     description: 'Play a game of Russian roulette.',
     long: 'Play a game of Russian roulette.\nIf you survive, you win **1.2x** what you bet.\nIf you lose, you\'ll be shot for **20 - 50** damage (depending on your bet) and lose your bet amount.',
-    args: {"amount": "Amount of money to gamble."},
+    args: {"amount": "Amount of Lootcoin to gamble."},
     examples: ["roulette 1000"],
     ignoreHelp: false,
     requiresAcc: true,
@@ -33,7 +33,7 @@ module.exports = {
         }
 
         if(gambleAmount > row.money){
-            return message.reply(`You don't have that much money! You currently have ${app.common.formatNumber(row.money)}`);
+            return message.reply(`You don't have that much Lootcoin! You currently have ${app.common.formatNumber(row.money)}`);
         }
         
         if(gambleAmount > 1000000){

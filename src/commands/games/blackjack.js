@@ -6,7 +6,7 @@ module.exports = {
     aliases: ['bj'],
     description: 'Play a game of blackjack, get a higher total than the dealer without busting and you win!',
     long: 'Play a game of blackjack. Type hit to draw a random card from the deck or type stand to stop drawing cards and see if the dealer gets closer to 21 than you. Whoever gets closer to 21 without going over, wins!',
-    args: {"amount": "Amount of money to gamble."},
+    args: {"amount": "Amount of Lootcoin to gamble."},
     examples: ["blackjack 1000"],
     ignoreHelp: false,
     requiresAcc: true,
@@ -31,7 +31,7 @@ module.exports = {
         }
 
         if(gambleAmount > row.money){
-            return message.reply(`You don't have that much money! You currently have ${app.common.formatNumber(row.money)}`);
+            return message.reply(`You don't have that much Lootcoin! You currently have ${app.common.formatNumber(row.money)}`);
         }
         
         if(gambleAmount > 1000000){

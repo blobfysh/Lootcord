@@ -3,9 +3,9 @@ module.exports = {
     name: 'unequip',
     aliases: [''],
     description: 'Unequip an item.',
-    long: 'Unequip your current backback, armor, or banner. Can also unequip your shield, but will give you an hour attack cooldown for doing so.',
-    args: {"item/shield/banner": "Item to unequip."},
-    examples: ["unequip light_pack", "unequip banner", "unequip shield", "unequip backpack"],
+    long: 'Unequip your current storage container or banner. You can also unequip your shield, but you will receive a 1 hour attack cooldown for doing so.',
+    args: {"item/armor/banner": "Item to unequip."},
+    examples: ["unequip wood_box", "unequip banner", "unequip armor", "unequip storage"],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,
@@ -16,7 +16,7 @@ module.exports = {
         let equipitem = app.parse.items(message.args)[0];
         let equipBadge = app.parse.badges(message.args)[0];
 
-        if(userRow.backpack === equipitem || message.args[0] === "backpack"){
+        if(userRow.backpack === equipitem || message.args[0] === "storage"){
             if(userRow.backpack !== "none"){
                 await app.query(`UPDATE scores SET backpack = 'none' WHERE userId = ${message.author.id}`);
                 await app.query(`UPDATE scores SET inv_slots = inv_slots - ${app.itemdata[userRow.backpack].inv_slots} WHERE userId = ${message.author.id}`);
@@ -47,38 +47,25 @@ module.exports = {
             return message.reply(`✅ Successfully unequipped your display badge!`);
         }
 
-        else if((equipitem && app.itemdata[equipitem].isShield) || message.args[0]  === 'shield'){
+        else if((equipitem && app.itemdata[equipitem].isShield) || message.args[0]  === 'shield' || message.args[0] === 'armor'){
             const shieldCD = await app.cd.getCD(message.author.id, 'shield');
             if(!shieldCD){
-                return message.reply("❌ You don't have a shield equipped!");
+                return message.reply("❌ You don't have any armor equipped!");
             }
 
             const attackCD = await app.cd.getCD(message.author.id, 'attack');
             if(attackCD){
-                return message.reply(`❌ You cannot unequip your shield while you have an attack cooldown! \`${attackCD}\``);
+                return message.reply(`❌ You cannot unequip your armor while you have an attack cooldown! \`${attackCD}\``);
             }
 
             await app.cd.setCD(message.author.id, 'attack', 3600 * 1000); // 1 hour attack cooldown
             await app.cd.clearCD(message.author.id, 'shield');
             
-            message.reply(`✅ Successfully unequipped your ${app.icons.items.shield}shield, you have also been given a \`60 minute\` cooldown from attacking other players.`);
+            message.reply(`✅ Successfully unequipped your armor, you have also been given a \`60 minute\` cooldown from attacking other players.`);
         }
 
         else{
-            message.reply("Specify a " + app.icons.items.backpack + "backpack, " + app.icons.items.banner + "banner, " + app.icons.items.shield + "shield, or badge to unequip. `" + message.prefix + "unequip <item/badge>`");
+            message.reply("Specify a storage container, banner, armor, or badge to unequip. `" + message.prefix + "unequip <item/badge>`");
         }
     },
 }
-/*
-else if(userRow.armor === equipitem || equipitem === "armor"){
-    if(userRow.armor !== "none"){
-        query(`UPDATE scores SET armor = 'none' WHERE userId = ${message.author.id}`);
-        methods.additem(message.author.id, userRow.armor, 1);
-
-        message.reply(lang.unequip[2].replace('{-1}', itemdata[userRow.armor].icon).replace('{0}', userRow.armor));
-    }
-    else{
-        message.reply(lang.unequip[3]);
-    }
-}
-*/

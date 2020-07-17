@@ -5,7 +5,7 @@ module.exports = {
     name: 'trade',
     aliases: [''],
     description: 'Trade items and money with another player.',
-    long: 'Lvl Required: 3+\nStart a trade with another user. Trade commands include:\n\n`add <item> <amount>` - Item to add to trade\n`remove <item>` - Remove item from trade\n`addmoney <amount>` - Amount of money to add\n`accept`\n`cancel`',
+    long: 'Lvl Required: 3+\nStart a trade with another user. Trade commands include:\n\n`add <item> <amount>` - Item to add to trade\n`remove <item>` - Remove item from trade\n`addmoney <amount>` - Amount of Lootcoin to add\n`accept`\n`cancel`',
     args: {"@user": "User to trade with."},
     examples: ["trade @blobfysh"],
     ignoreHelp: false,
@@ -176,10 +176,11 @@ module.exports = {
                         }
                     }
                     else if(command.toLowerCase() === 'addmoney'){
+                        const row = await app.player.getRow(m.author.id);
                         let amount = app.parse.numbers(args)[0];
-
-                        if(!await app.player.hasMoney(m.author.id, amount)){
-                            return m.channel.createMessage(`❌ You don't have that much money.`);
+                        
+                        if(row.money < amount){
+                            return m.channel.createMessage(`❌ You don't have that much Lootcoin. You currently have **${app.common.formatNumber(row.money)}**`);
                         }
 
                         if(player === 1){

@@ -5,7 +5,7 @@ module.exports = {
     description: 'Opens a specified box.',
     long: 'Opens a specified box. You can also open boxes with the use command.',
     args: {"item": "Box to open.", "amount": "Amount to open."},
-    examples: ["open item_box 10","open supply drop"],
+    examples: ["open crate 10","open supply drop"],
     ignoreHelp: true,
     requiresAcc: true,
     requiresActive: true,

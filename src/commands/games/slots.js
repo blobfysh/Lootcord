@@ -2,9 +2,9 @@
 module.exports = {
     name: 'slots',
     aliases: ['slot'],
-    description: 'Put some money in the slot machine!',
+    description: 'Put some Lootcoin in the slot machine!',
     long: 'Play a game of slots.\n\n<:UnboxCommon:526248905676029968><:UnboxCommon:526248905676029968> - **0.8x** multiplier\n<:UnboxRare:526248948579434496><:UnboxRare:526248948579434496> - **1.5x** multiplier\n<:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402> - **3x** multiplier\n<:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368> - **5x** multiplier\n<:UnboxCommon:526248905676029968><:UnboxCommon:526248905676029968><:UnboxCommon:526248905676029968> - **2x** multiplier\n<:UnboxRare:526248948579434496><:UnboxRare:526248948579434496><:UnboxRare:526248948579434496> - **3x** multiplier\n<:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402> - **6x** multiplier\n<:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368> - **10x** multiplier',
-    args: {"amount": "Amount of money to gamble."},
+    args: {"amount": "Amount of Lootcoin to gamble."},
     examples: ["slots 1000"],
     ignoreHelp: false,
     requiresAcc: true,
@@ -29,7 +29,7 @@ module.exports = {
         }
 
         if(gambleAmount > row.money){
-            return message.reply(`You don't have that much money! You currently have ${app.common.formatNumber(row.money)}`);
+            return message.reply(`You don't have that much Lootcoin! You currently have ${app.common.formatNumber(row.money)}`);
         }
         
         if(gambleAmount > 1000000){
