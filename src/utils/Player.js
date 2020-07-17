@@ -149,6 +149,40 @@ class Player {
     }
 
     /**
+     * Checks if players has the amount specified
+     * @param {string} id ID of player to check
+     * @param {number} amount Amount of scrap to check
+     */
+    async hasScrap(id, amount){
+        let row = await this.getRow(id);
+        
+        if(row.scrap >= amount){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    /**
+     * 
+     * @param {string} id ID of player to remove from
+     * @param {number} amount Scrap to remove
+     */
+    async removeScrap(id, amount){
+        await this.app.query(`UPDATE scores SET scrap = scrap - ${parseInt(amount)} WHERE userId = ${id}`);
+    }
+
+    /**
+     * 
+     * @param {*} id ID of user to add money to.
+     * @param {*} amount Amount of scrap to add.
+     */
+    async addScrap(id, amount){
+        await this.app.query(`UPDATE scores SET scrap = scrap + ${parseInt(amount)} WHERE userId = ${id}`);
+    }
+
+    /**
      * 
      * @param {*} id ID of user to add xp to.
      * @param {*} amount Amount of xp to add.
@@ -305,6 +339,7 @@ INSERT IGNORE INTO scores (
     userId,
     createdAt,
     money,
+    scrap,
     level,
     health,
     maxHealth,
@@ -339,6 +374,7 @@ INSERT IGNORE INTO scores (
         ?,
         ?,
         ?,
+        0,
         ?,
         ?,
         ?,

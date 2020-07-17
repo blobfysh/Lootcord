@@ -1,28 +1,4 @@
 {
-    "wooden_spear": {
-        "rarity": "Common",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "4 - 9",
-        "minDmg": 4,
-        "maxDmg": 9,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 379,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928724160217118/wooden_spear.png",
-        "icon": "<:wooden_spear:732852914862817321>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 420
-        },
-        "phrase": "{attacker} stabbed {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
     "m249": {
         "rarity": "Ultra",
         "isWeap": true,
@@ -55,175 +31,7 @@
         },
         "phrase": "{attacker} mows down {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
-    },
-    "bone_knife": {
-        "rarity": "Common",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "5 - 10",
-        "minDmg": 5,
-        "maxDmg": 10,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 466,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928579285024818/bone_knife.png",
-        "icon": "<:bone_knife:732852965676679200>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 445
-        },
-        "phrase": "{attacker} sliced {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "rock": {
-        "rarity": "Common",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "3 - 6",
-        "minDmg": 3,
-        "maxDmg": 6,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 340,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928582963167292/rock.png",
-        "icon": "<:rock:732851749710462997>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 354
-        },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "salvaged_cleaver": {
-        "rarity": "Common",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "6 - 11",
-        "minDmg": 6,
-        "maxDmg": 11,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 532,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928718321745990/salvaged_cleaver.png",
-        "icon": "<:salvaged_cleaver:732852862870356048>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 458
-        },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "salvaged_sword": {
-        "rarity": "Uncommon",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "10 - 20",
-        "minDmg": 10,
-        "maxDmg": 20,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 1953,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929293193314454/salvaged_sword.png",
-        "icon": "<:salvaged_sword:732853386667622440>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 1123
-        },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "machete": {
-        "rarity": "Uncommon",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "15 - 23",
-        "minDmg": 15,
-        "maxDmg": 23,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 3177,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733224398630289438/machete.png",
-        "icon": "<:machete:733224537226870855>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 1463
-        },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "mace": {
-        "rarity": "Uncommon",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "20 - 26",
-        "minDmg": 20,
-        "maxDmg": 26,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 4153,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733224396386467860/mace.png",
-        "icon": "<:mace:732853133528793179>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 2043
-        },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "pickaxe": {
-        "rarity": "Uncommon",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "12 - 21",
-        "minDmg": 12,
-        "maxDmg": 21,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 1909,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929395303645234/pickaxe.png",
-        "icon": "<:pickaxe:732860149936553985>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 1141
-        },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "bow": {
         "rarity": "Uncommon",
@@ -256,7 +64,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "revolver": {
         "rarity": "Rare",
@@ -293,7 +101,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "thompson": {
         "rarity": "Rare",
@@ -330,7 +138,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "mp5": {
         "rarity": "Rare",
@@ -367,7 +175,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "custom_smg": {
         "rarity": "Rare",
@@ -404,7 +212,42 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
+    },
+    "python": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 31,
+        "maxDmg": 33,
+        "ammo": [
+            "pistol_bullet"
+        ],
+        "craftedWith": {
+            "materials": [
+                "metal_spring|1",
+                "metal_pipe|2"
+            ]
+        },
+        "recyclesTo": {
+            "materials": [
+                "metal_pipe|1"
+            ]
+        },
+        "buy": "",
+        "sell": 25157,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733575765198766110/python.png",
+        "icon": "<:python:732853440371359814>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.59,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 4123
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Ranged"
     },
     "bolt_rifle": {
         "rarity": "Rare",
@@ -441,7 +284,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "semi_rifle": {
         "rarity": "Rare",
@@ -479,7 +322,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "semi_pistol": {
         "rarity": "Rare",
@@ -516,7 +359,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "crossbow": {
         "rarity": "Rare",
@@ -548,7 +391,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "pump_shotgun": {
         "rarity": "Rare",
@@ -587,7 +430,7 @@
         },
         "phrase": "{attacker} blasts a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "assault_rifle": {
         "rarity": "Rare",
@@ -619,7 +462,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "waterpipe_shotgun": {
         "rarity": "Rare",
@@ -658,30 +501,7 @@
         },
         "phrase": "{attacker} blasts a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
-    },
-    "f1_grenade": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
-        "minDmg": 19,
-        "maxDmg": 30,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 4278,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930107852980234/f1_grenade.png",
-        "icon": "<:f1_grenade:732853499435679819>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 1862
-        },
-        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
-        "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "rocket_launcher": {
         "rarity": "Legendary",
@@ -713,208 +533,6 @@
         },
         "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
-    },
-    "candycane": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "3 - 15",
-        "minDmg": 3,
-        "maxDmg": 15,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 834,
-        "desc": "Sharpened for maximum efficiency\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 2700
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "snowball": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "20 - 45",
-        "minDmg": 20,
-        "maxDmg": 45,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 8253,
-        "desc": "Tightly packed snowball\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 2700
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "nutcracker": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "30 - 65",
-        "minDmg": 30,
-        "maxDmg": 65,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 16487,
-        "desc": "Send the nutcracker to bite your enemies\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 2700
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "bunny": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "10 - 25",
-        "minDmg": 10,
-        "maxDmg": 25,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 501,
-        "desc": "Send this rabid bunny to chomp your foes...  🐰\n**Easter event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "30 minutes",
-            "scoreRow": "_30mCD",
-            "seconds": 1800
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "tnt_egg": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "50 - 75",
-        "minDmg": 50,
-        "maxDmg": 75,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 8600,
-        "desc": "Do not be fooled, this egg has enough gunpowder in it to destroy a small house. Throw it at an enemy to unleash its deadly force.\n**Easter event item**",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562525958121455663/tnt_egg.png",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "30 minutes",
-            "scoreRow": "_30mCD",
-            "seconds": 1800
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "spider": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "20 - 30",
-        "minDmg": 20,
-        "maxDmg": 30,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 2638,
-        "desc": "A real spider. Toss it at someone to make them scream!\n**Halloween event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "15 minutes",
-            "scoreRow": "_15mCD",
-            "seconds": 900
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "scythe": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "35 - 40",
-        "minDmg": 35,
-        "maxDmg": 40,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 8020,
-        "desc": "It's meant for reaping crops, but I think we all know what you'll be using it for.\n**Halloween event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "30 minutes",
-            "scoreRow": "_30mCD",
-            "seconds": 1800
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
-    },
-    "magic_staff": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "70 - 90",
-        "minDmg": 70,
-        "maxDmg": 90,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 24583,
-        "desc": "**Halloween event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "60 minutes",
-            "scoreRow": "_60mCD",
-            "seconds": 3600
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     }
 }

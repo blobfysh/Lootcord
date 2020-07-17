@@ -245,6 +245,7 @@ CREATE TABLE IF NOT EXISTS scores (
     ammo VARCHAR(255),
     badge VARCHAR(255),
     money BIGINT, 
+    scrap BIGINT,
     points BIGINT,
     kills INT,
     deaths INT,

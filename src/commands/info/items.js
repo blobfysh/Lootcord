@@ -93,8 +93,8 @@ module.exports = {
                 embedItem.addField("Ammo for:", ammoFor.map(weapon => app.itemdata[weapon].icon + '`' + weapon + '`').join('\n'), true)
             }
 
-            if(itemBuyCurr !== undefined && itemBuyCurr == "money"){
-                embedItem.addField("Buy", app.common.formatNumber(itemBuyPrice), true);
+            if(itemBuyCurr !== undefined && (itemBuyCurr === "money" || itemBuyCurr === "scrap")){
+                embedItem.addField("Buy", app.common.formatNumber(itemBuyPrice, false, itemBuyCurr === "scrap" ? true : false), true);
             }
             else if(itemBuyCurr !== undefined){
                 embedItem.addField("Buy", itemBuyPrice + "x " + app.itemdata[itemBuyCurr].icon + "`" + itemBuyCurr + "`", true);
@@ -144,7 +144,8 @@ module.exports = {
             message.channel.createMessage(embedItem);
         }
         else if(!itemChoice){
-            let weapons = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Weapon');
+            let meleeWeapons = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Melee');
+            let rangedWeapons = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Ranged');
             let items = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Item');
             let ammo = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Ammo');
             let material = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Material');
@@ -154,7 +155,8 @@ module.exports = {
             const embedInfo = new app.Embed()
             .setColor(13451564)
             .setTitle("Full Items List")
-            .addField(ITEM_TYPES['weapons'].name, weapons.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField(ITEM_TYPES['ranged'].name, rangedWeapons.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField(ITEM_TYPES['melee'].name, meleeWeapons.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
             .addField(ITEM_TYPES['items'].name, items.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
             .addField(ITEM_TYPES['ammo'].name, ammo.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
             .addField(ITEM_TYPES['materials'].name, material.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)

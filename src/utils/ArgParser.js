@@ -167,6 +167,10 @@ class ArgParser {
             case "body": itemSearched = "rifle_body"; break;
             case "tech":
             case "trash": itemSearched = "tech_trash"; break;
+            case "hazzy":
+            case "hazmat":
+            case "radsuit":
+            case "rad_suit": itemSearched = "hazmat_suit"; break;
 
             default:
                 // try using spell correction to find the item name

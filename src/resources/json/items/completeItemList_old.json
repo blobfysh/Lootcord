@@ -136,7 +136,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "bandage": {
         "rarity": "Uncommon",
@@ -153,7 +153,7 @@
         "recyclesTo": [],
         "buy": {
             "amount": 7712,
-            "currency": "money"
+            "currency": "scrap"
         },
         "sell": 2982,
         "desc": "Use this to restore **10 - 19** health.",
@@ -202,7 +202,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "bone_knife": {
         "rarity": "Common",
@@ -226,7 +226,7 @@
         },
         "phrase": "{attacker} sliced {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "bow": {
         "rarity": "Uncommon",
@@ -259,7 +259,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "bunny": {
         "rarity": "Limited",
@@ -285,7 +285,7 @@
         },
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "c4": {
         "rarity": "Ultra",
@@ -446,7 +446,7 @@
         },
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "carrot": {
         "rarity": "Limited",
@@ -532,12 +532,12 @@
         "recyclesTo": [],
         "buy": {
             "amount": 18655,
-            "currency": "money"
+            "currency": "scrap"
         },
         "sell": 2485,
         "desc": "Open this to get a random item!",
-        "image": "https://rustlabs.com/img/screenshots/crate.png",
-        "icon": "<:box_icon:733020122222034994>",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/733744349636198470/crate_icon.png",
+        "icon": "<:crate_icon:733737806287077427>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -625,7 +625,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "custom_smg": {
         "rarity": "Rare",
@@ -662,7 +662,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "easter_egg": {
         "rarity": "Limited",
@@ -736,7 +736,7 @@
         },
         "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "gingerbread": {
         "rarity": "Limited",
@@ -810,6 +810,34 @@
         "cooldown": "",
         "artist": "",
         "category": "Material"
+    },
+    "hazmat_suit": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": true,
+        "isShield": true,
+        "shieldInfo": {
+            "seconds": 7200
+        },
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 102692,
+            "currency": "scrap"
+        },
+        "sell": 14293,
+        "desc": "Use this armor to shield you from attacks for 2 hours.",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/733566895583920178/hazmat_suit.png",
+        "icon": "<:hazmat_suit:733566843637334026>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item"
     },
     "hitman": {
         "rarity": "Legendary",
@@ -905,7 +933,7 @@
         "recyclesTo": [],
         "buy": {
             "amount": 52666,
-            "currency": "money"
+            "currency": "scrap"
         },
         "sell": 21254,
         "desc": "Use this to restore **50 - 60** health.",
@@ -1016,7 +1044,7 @@
         },
         "phrase": "{attacker} mows down {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "mace": {
         "rarity": "Uncommon",
@@ -1040,7 +1068,7 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "machete": {
         "rarity": "Uncommon",
@@ -1064,7 +1092,7 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "magic_staff": {
         "rarity": "Limited",
@@ -1090,7 +1118,7 @@
         },
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "master": {
         "rarity": "Legendary",
@@ -1135,7 +1163,7 @@
         "recyclesTo": [],
         "buy": {
             "amount": 19476,
-            "currency": "money"
+            "currency": "scrap"
         },
         "sell": 9652,
         "desc": "Use this to restore **20 - 28** health.",
@@ -1229,13 +1257,12 @@
         "recyclesTo": [],
         "buy": {
             "amount": 105143,
-            "currency": "money"
+            "currency": "scrap"
         },
         "sell": 17989,
         "desc": "A rare crate that may contain some high tier weapons.",
-        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732863212281921576/military_crate.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732863212281921576/military_crate.png",
-        "icon": "<:box_icon:733020122222034994>",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733720054574743684/military_crate_icon_SMALL.png",
+        "icon": "<:military_crate:733720192114491394>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -1359,7 +1386,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "nutcracker": {
         "rarity": "Limited",
@@ -1383,7 +1410,7 @@
         },
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "patron": {
         "rarity": "Limited",
@@ -1431,7 +1458,7 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "pistol_bullet": {
         "rarity": "Uncommon",
@@ -1546,7 +1573,7 @@
         },
         "phrase": "{attacker} blasts a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "pumpkin": {
         "rarity": "Limited",
@@ -1575,6 +1602,41 @@
         },
         "artist": "",
         "category": "Item"
+    },
+    "python": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 31,
+        "maxDmg": 33,
+        "ammo": [
+            "pistol_bullet"
+        ],
+        "craftedWith": {
+            "materials": [
+                "metal_spring|1",
+                "metal_pipe|2"
+            ]
+        },
+        "recyclesTo": {
+            "materials": [
+                "metal_pipe|1"
+            ]
+        },
+        "buy": "",
+        "sell": 25157,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733575765198766110/python.png",
+        "icon": "<:python:732853440371359814>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.59,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 4123
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Ranged"
     },
     "ravens_nest": {
         "rarity": "Limited",
@@ -1665,7 +1727,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "rifle_body": {
         "rarity": "Rare",
@@ -1742,7 +1804,7 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "rocket": {
         "rarity": "Legendary",
@@ -1806,7 +1868,7 @@
         },
         "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "rolads_pack": {
         "rarity": "Limited",
@@ -1855,7 +1917,7 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "salvaged_sword": {
         "rarity": "Uncommon",
@@ -1879,7 +1941,7 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "scythe": {
         "rarity": "Limited",
@@ -1905,7 +1967,7 @@
         },
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "semi_body": {
         "rarity": "Uncommon",
@@ -1969,7 +2031,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "semi_rifle": {
         "rarity": "Rare",
@@ -2007,7 +2069,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "sheriff": {
         "rarity": "Limited",
@@ -2116,7 +2178,7 @@
         },
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "spider": {
         "rarity": "Limited",
@@ -2142,7 +2204,7 @@
         },
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "spooky": {
         "rarity": "Limited",
@@ -2205,9 +2267,8 @@
         "buy": "",
         "sell": 73773,
         "desc": "High tier loot container dropped from a plane.\nCan only be looted by the first person to claim it.",
-        "image": "https://cdn.discordapp.com/attachments/732785161661317224/732863473775673354/supply_drop.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732863473775673354/supply_drop.png",
-        "icon": "<:box_icon:733020122222034994>",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/733738547840024576/supply_drop_icon.png",
+        "icon": "<:supply_drop_icon:733732983252582420>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -2323,7 +2384,7 @@
         ],
         "craftedWith": {
             "materials": [
-                "smg_body|1",
+                "smg_body|2",
                 "metal_spring|1",
                 "metal|1"
             ]
@@ -2347,7 +2408,7 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "tnt_egg": {
         "rarity": "Limited",
@@ -2373,7 +2434,7 @@
         },
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     },
     "waterpipe_shotgun": {
         "rarity": "Rare",
@@ -2412,7 +2473,7 @@
         },
         "phrase": "{attacker} blasts a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Ranged"
     },
     "wood": {
         "rarity": "Common",
@@ -2494,6 +2555,6 @@
         },
         "phrase": "{attacker} stabbed {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Weapon"
+        "category": "Melee"
     }
 }

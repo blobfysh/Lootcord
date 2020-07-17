@@ -1,7 +1,7 @@
 
 module.exports = {
-    name: 'money',
-    aliases: ['cash', 'balance', 'bal'],
+    name: 'balance',
+    aliases: ['cash', 'money', 'bal'],
     description: 'Displays your current balance.',
     long: 'Displays your current balance.',
     args: {},
@@ -14,6 +14,6 @@ module.exports = {
     async execute(app, message){
         const row = await app.player.getRow(message.author.id);
 
-        message.reply(`You currently have ${app.common.formatNumber(row.money)}.`);
+        message.reply(`You currently have:\n\nLootcoin: ${app.common.formatNumber(row.money)}\nScrap: ${app.common.formatNumber(row.scrap, false, true)}`);
     },
 }

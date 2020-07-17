@@ -151,7 +151,8 @@ class Items {
         options.countBanners = options.countBanners == null ? false : options.countBanners;
         options.countLimited = options.countLimited == null ? true : options.countLimited;
         
-        let weapons = [];
+        let ranged = [];
+        let melee = [];
         let usables = [];
         let ammo = [];
         let materials = [];
@@ -183,7 +184,8 @@ class Items {
             if(items[key] >= 1){
                 let itemInfo = this.app.itemdata[key];
 
-                if(itemInfo.category === 'Weapon') weapons.push(key);
+                if(itemInfo.category === 'Ranged') ranged.push(key);
+                else if(itemInfo.category === 'Melee') melee.push(key);
                 else if(itemInfo.category === 'Item') usables.push(key);
                 else if(itemInfo.category === 'Ammo') ammo.push(key);
                 else if(itemInfo.category === 'Material') materials.push(key);
@@ -195,14 +197,16 @@ class Items {
             }
         }
         
-        weapons.sort();
+        ranged.sort();
+        melee.sort();
         usables.sort();
         ammo.sort();
         materials.sort();
         storage.sort();
         banners.sort();
 
-        weapons = weapons.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        ranged = ranged.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        melee = melee.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
         usables = usables.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
         ammo = ammo.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
         materials = materials.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
@@ -210,7 +214,8 @@ class Items {
         banners = banners.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
 
         return {
-            weapons,
+            ranged,
+            melee,
             usables,
             ammo,
             materials,

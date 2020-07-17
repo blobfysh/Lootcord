@@ -50,12 +50,6 @@ async function getVaultInfo(app, clanId){
     const clanRow = await app.clans.getRow(clanId);
     const clanItems = await app.itm.getUserItems(await app.itm.getItemObject(clanId));
 
-    let weaponList = clanItems.weapons;
-    let itemList = clanItems.usables;
-    let ammoList = clanItems.ammo;
-    let materialList = clanItems.materials;
-    let storageList = clanItems.storage;
-
     const embedInfo = new app.Embed()
     .setColor(13451564)
     .setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
@@ -66,27 +60,31 @@ async function getVaultInfo(app, clanId){
     }
 
     // item fields
-    if(weaponList.length){
-        embedInfo.addField(ITEM_TYPES['weapons'].name, weaponList.join('\n'), true);
-    }
-    
-    if(itemList.length){
-        embedInfo.addField(ITEM_TYPES['items'].name, itemList.join('\n'), true);
-    }
-    
-    if(ammoList.length){
-        embedInfo.addField(ITEM_TYPES['ammo'].name, ammoList.join('\n'), true);
-    }
-    
-    if(materialList.length){
-        embedInfo.addField(ITEM_TYPES['materials'].name, materialList.join('\n'), true);
-    }
-    
-    if(storageList.length){
-        embedInfo.addField(ITEM_TYPES['storage'].name, storageList.join('\n'), true);
+    if(clanItems.ranged.length){
+        embedInfo.addField(ITEM_TYPES['ranged'].name, clanItems.ranged.join('\n'), true);
     }
 
-    if(!weaponList.length && !itemList.length && !ammoList.length && !materialList.length && !storageList.length){
+    if(clanItems.melee.length){
+        embedInfo.addField(ITEM_TYPES['melee'].name, clanItems.melee.join('\n'), true);
+    }
+    
+    if(clanItems.usables.length){
+        embedInfo.addField(ITEM_TYPES['items'].name, clanItems.usables.join('\n'), true);
+    }
+    
+    if(clanItems.ammo.length){
+        embedInfo.addField(ITEM_TYPES['ammo'].name, clanItems.ammo.join('\n'), true);
+    }
+    
+    if(clanItems.materials.length){
+        embedInfo.addField(ITEM_TYPES['materials'].name, clanItems.materials.join('\n'), true);
+    }
+    
+    if(clanItems.storage.length){
+        embedInfo.addField(ITEM_TYPES['storage'].name, clanItems.storage.join('\n'), true);
+    }
+    
+    if(!clanItems.ranged.length && !clanItems.melee.length && !clanItems.usables.length && !clanItems.ammo.length && !clanItems.materials.length && !clanItems.storage.length){
         embedInfo.addField('This vault is empty!', "\u200b");
     }
 

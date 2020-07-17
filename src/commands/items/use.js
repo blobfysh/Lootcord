@@ -230,7 +230,7 @@ module.exports = {
             }
             
             // check if attacking monster
-            if(Object.keys(app.mobdata).some(monster => message.args.map(arg => arg.toLowerCase()).includes('bounty') || message.args.map(arg => arg.toLowerCase()).includes('@bounty') || message.args.map(arg => arg.toLowerCase()).includes(app.mobdata[monster].title.toLowerCase()))){
+            if(Object.keys(app.mobdata).some(monster => message.args.map(arg => arg.toLowerCase()).includes('bounty') || message.args.map(arg => arg.toLowerCase()).includes('@bounty') || message.args.map(arg => arg.toLowerCase()).join(' ').includes(app.mobdata[monster].title.toLowerCase()))){
                 const monsterRow = await app.mysql.select('spawns', 'channelId', message.channel.id);
 
                 if(!monsterRow){

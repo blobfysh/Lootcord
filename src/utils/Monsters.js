@@ -86,7 +86,7 @@ class Monsters {
         const mobEmbed = new this.app.Embed()
         .setTitle(monster.title)
         .setDescription(`Attack with \`${guildPrefix}use <weapon> bounty\`\n\nYou have \`${remaining}\` to defeat ${monster.mentioned} before ${monster.pronoun} leaves the server.${monster.special !== '' ? '\n\n**Special:** ' + monster.special : ''}`)
-        .setColor(16734296)
+        .setColor(13451564)
         .addField('Health', `${this.app.player.getHealthIcon(health, monster.health, true)}\n${health} / ${monster.health}`, true)
         .addField('Damage', `${monster.weapon.icon}\`${monster.weapon.name}\` ${monster.minDamage} - ${monster.maxDamage}`, true)
         .addBlankField()
@@ -101,7 +101,7 @@ class Monsters {
         const mobEmbed = new this.app.Embed()
         .setTitle(`The bounty left...`)
         .setDescription(`Nobody defeated ${monster.mentioned}!`)
-        .setColor(16734296)
+        .setColor(13451564)
         .setImage(monster.image)
 
         return mobEmbed;

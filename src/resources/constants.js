@@ -30,9 +30,13 @@ const RARITIES = {
 }
 
 const ITEM_TYPES = {
-    "weapons": {
-        "name": "Weapons",
-        "type": "Weapon"
+    "melee": {
+        "name": "Melee Weapons",
+        "type": "Melee"
+    },
+    "ranged": {
+        "name": "Ranged Weapons",
+        "type": "Ranged"
     },
     "items": {
         "name": "Items",

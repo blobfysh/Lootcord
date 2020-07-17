@@ -19,14 +19,15 @@ const fs           = require('fs');
 
 const previousList = require('./completeItemList');
 
-const weapons      = require('./weapons');
+const ranged       = require('./ranged');
+const melee        = require('./melee');
 const items        = require('./items');
 const ammo         = require('./ammo');
 const materials    = require('./materials');
 const storage      = require('./storage');
 const banners      = require('./banners');
 
-const combinedTmp  = { ...weapons, ...items, ...ammo, ...materials, ...storage, ...banners };
+const combinedTmp  = { ...ranged, ...melee, ...items, ...ammo, ...materials, ...storage, ...banners };
 let combined = {};
 
 for(let key of Object.keys(combinedTmp).sort()){

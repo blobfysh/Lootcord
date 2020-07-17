@@ -6,12 +6,12 @@ class Common {
         this.icons = app.icons;
     }
 
-    formatNumber(number, noEmoji = false){
+    formatNumber(number, noEmoji = false, scrap = false){
         if(noEmoji){
             return (parseInt(number)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
         }
         else{
-            return this.icons.money + " " + (parseInt(number)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+            return (scrap ? this.icons.scrap : this.icons.money) + " " + (parseInt(number)).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
         }
     }
 

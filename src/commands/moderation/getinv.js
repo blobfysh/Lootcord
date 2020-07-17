@@ -1,4 +1,4 @@
-const { RARITIES } = require('../../resources/constants');
+const { ITEM_TYPES } = require('../../resources/constants');
 
 module.exports = {
     name: 'getinv',
@@ -35,22 +35,9 @@ module.exports = {
             const shieldLeft     = await app.cd.getCD(userID, 'shield');
             const passiveShield  = await app.cd.getCD(userID, 'passive_shield');
 
-            let ultraItemList    = usersItems.ultra;
-            let legendItemList   = usersItems.legendary;
-            let epicItemList     = usersItems.epic;
-            let rareItemList     = usersItems.rare;
-            let uncommonItemList = usersItems.uncommon;
-            let commonItemList   = usersItems.common;
-            let limitedItemList  = usersItems.limited;
-            let backpack         = row.backpack;
-
             const embedInfo = new app.Embed()
             .setTitle(`${userInfo.username}#${userInfo.discriminator}'s Inventory`)
-
-            if(row.banner !== 'none'){
-                embedInfo.setImage(app.itemdata[row.banner].image);
-                embedInfo.setColor(app.itemdata[row.banner].bannerColor);
-            }
+            .setColor(13451564)
 
             if(shieldLeft){
                 embedInfo.addField("🛡️ Shield", '`' + shieldLeft + '`');
@@ -61,47 +48,43 @@ module.exports = {
 
             embedInfo.addField("Health",`${app.player.getHealthIcon(row.health, row.maxHealth, true)}\n${row.health} / ${row.maxHealth}`, true)
             
-            embedInfo.addField("Money", app.common.formatNumber(row.money), true)
+            embedInfo.addField("Money", app.common.formatNumber(row.money) + '\n' + app.common.formatNumber(row.scrap, false, true), true)
 
-            if(backpack === 'none'){
-                embedInfo.addField('Backpack', 'None', true)
+            if(row.backpack === 'none'){
+                embedInfo.addField('Storage Container', 'None', true)
             }
             else{
-                embedInfo.addField('Backpack', app.itemdata[backpack].icon + '`' + backpack + '`', true)
+                embedInfo.addField('Storage Container', app.itemdata[row.backpack].icon + '`' + row.backpack + '`', true)
             }
-            
-            embedInfo.addField('\u200b', '__**Items**__')
 
+            embedInfo.addBlankField();
+            
             // item fields
-            if(ultraItemList != ""){
-                embedInfo.addField(RARITIES['ultra'].name, ultraItemList.join('\n'), true);
+            if(usersItems.ranged.length){
+                embedInfo.addField(ITEM_TYPES['ranged'].name, usersItems.ranged.join('\n'), true);
+            }
+
+            if(usersItems.melee.length){
+                embedInfo.addField(ITEM_TYPES['melee'].name, usersItems.melee.join('\n'), true);
             }
             
-            if(legendItemList != ""){
-                embedInfo.addField(RARITIES['legendary'].name, legendItemList.join('\n'), true);
+            if(usersItems.usables.length){
+                embedInfo.addField(ITEM_TYPES['items'].name, usersItems.usables.join('\n'), true);
             }
             
-            if(epicItemList != ""){
-                embedInfo.addField(RARITIES['epic'].name, epicItemList.join('\n'), true);
+            if(usersItems.ammo.length){
+                embedInfo.addField(ITEM_TYPES['ammo'].name, usersItems.ammo.join('\n'), true);
             }
             
-            if(rareItemList != ""){
-                embedInfo.addField(RARITIES['rare'].name, rareItemList.join('\n'), true);
+            if(usersItems.materials.length){
+                embedInfo.addField(ITEM_TYPES['materials'].name, usersItems.materials.join('\n'), true);
             }
             
-            if(uncommonItemList != ""){
-                embedInfo.addField(RARITIES['uncommon'].name, uncommonItemList.join('\n'), true);
+            if(usersItems.storage.length){
+                embedInfo.addField(ITEM_TYPES['storage'].name, usersItems.storage.join('\n'), true);
             }
             
-            if(commonItemList != ""){
-                embedInfo.addField(RARITIES['common'].name, commonItemList.join('\n'), true);
-            }
-            
-            if(limitedItemList != ""){
-                embedInfo.addField(RARITIES['limited'].name, limitedItemList.join('\n'), true);
-            }
-            
-            if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){
+            if(!usersItems.ranged.length && !usersItems.melee.length && !usersItems.usables.length && !usersItems.ammo.length && !usersItems.materials.length && !usersItems.storage.length){
                 embedInfo.addField('This inventory is empty! :(', "\u200b");
             }
 

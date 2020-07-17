@@ -27,7 +27,7 @@ module.exports = {
             
             if(buyAmount > 20) buyAmount = 20;
 
-            if(currency == 'money'){
+            if(currency === 'money'){
                 const botMessage = await message.channel.createMessage(`Purchase ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\` for ${app.common.formatNumber(itemPrice * buyAmount)}?`);
 
                 try{
@@ -47,6 +47,38 @@ module.exports = {
                         }
 
                         await app.player.removeMoney(message.author.id, itemPrice * buyAmount);
+                        await app.itm.addItem(message.author.id, buyItem, buyAmount);
+
+                        botMessage.edit(`Successfully bought ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\`!\n\nYou now have ${app.common.formatNumber(row.money - (itemPrice * buyAmount))}.`);
+                    }
+                    else{
+                        botMessage.delete();
+                    }
+                }
+                catch(err){
+                    botMessage.edit('You ran out of time.');
+                }
+            }
+            else if(currency === 'scrap'){
+                const botMessage = await message.channel.createMessage(`Purchase ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\` for ${app.common.formatNumber(itemPrice * buyAmount, false, true)}?`);
+
+                try{
+                    const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
+
+                    if(confirmed){
+                        const row = await app.player.getRow(message.author.id);
+                        const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), row);
+                        const hasSpace = await app.itm.hasSpace(itemCt, buyAmount);
+                        const hasMoney = await app.player.hasScrap(message.author.id, itemPrice * buyAmount);
+                        
+                        if(!hasMoney){
+                            return botMessage.edit("You don't have enough scrap!");
+                        }
+                        if(!hasSpace && !app.itemdata[buyItem].isBanner){
+                            return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${buyAmount}** open slot${buyAmount > 1 ? 's': ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`);
+                        }
+
+                        await app.player.removeScrap(message.author.id, itemPrice * buyAmount);
                         await app.itm.addItem(message.author.id, buyItem, buyAmount);
 
                         botMessage.edit(`Successfully bought ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\`!\n\nYou now have ${app.common.formatNumber(row.money - (itemPrice * buyAmount))}.`);
@@ -93,6 +125,9 @@ module.exports = {
                     botMessage.edit('You ran out of time.');
                 }
             }
+        }
+        else if(message.args.map(arg => arg.toLowerCase()).includes('scrap')){
+            // buy sdcrap
         }
         else if(gamesRow[message.args[0]] !== undefined){
             // code for buying game here
