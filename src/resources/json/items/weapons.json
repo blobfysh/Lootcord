@@ -306,7 +306,7 @@
         ],
         "craftedWith": {
             "materials": [
-                "smg_body|1",
+                "smg_body|2",
                 "metal_spring|1",
                 "metal|1"
             ]
@@ -327,6 +327,43 @@
         "canBeStolen": true,
         "cooldown": {
             "seconds": 3167
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Weapon"
+    },
+    "mp5": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 21,
+        "maxDmg": 30,
+        "ammo": [
+            "pistol_bullet"
+        ],
+        "craftedWith": {
+            "materials": [
+                "smg_body|4",
+                "metal_spring|2",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": {
+            "materials": [
+                "smg_body|1",
+                "metal_spring|1"
+            ]
+        },
+        "buy": "",
+        "sell": 32573,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733325647857844274/mp5.png",
+        "icon": "<:mp5:732853715966623794>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.12,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 3984
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",

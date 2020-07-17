@@ -85,10 +85,10 @@ class Monsters {
 
         const mobEmbed = new this.app.Embed()
         .setTitle(monster.title)
-        .setDescription(`Attack with \`${guildPrefix}use <weapon> bounty\`\n\nYou have \`${remaining}\` to defeat the ${monster.title} before ${monster.pronoun} leaves the server.`)
+        .setDescription(`Attack with \`${guildPrefix}use <weapon> bounty\`\n\nYou have \`${remaining}\` to defeat ${monster.mentioned} before ${monster.pronoun} leaves the server.${monster.special !== '' ? '\n\n**Special:** ' + monster.special : ''}`)
         .setColor(16734296)
         .addField('Health', `${this.app.player.getHealthIcon(health, monster.health, true)}\n${health} / ${monster.health}`, true)
-        .addField('Damage', `${monster.minDamage} - ${monster.maxDamage}`, true)
+        .addField('Damage', `${monster.weapon.icon}\`${monster.weapon.name}\` ${monster.minDamage} - ${monster.maxDamage}`, true)
         .addBlankField()
         .addField('Has a chance of dropping:', this.app.itm.getDisplay(loot.sort(this.app.itm.sortItemsHighLow.bind(this.app))).join('\n'), true)
         .addField('Money', this.app.common.formatNumber(money), true)
@@ -100,7 +100,7 @@ class Monsters {
     mobLeftEmbed(monster){
         const mobEmbed = new this.app.Embed()
         .setTitle(`The bounty left...`)
-        .setDescription(`Nobody defeated the ${monster.title}!`)
+        .setDescription(`Nobody defeated ${monster.mentioned}!`)
         .setColor(16734296)
         .setImage(monster.image)
 

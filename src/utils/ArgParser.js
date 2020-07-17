@@ -80,6 +80,7 @@ class ArgParser {
             case "item": itemSearched = "crate"; break;
             case "rifle":
             case "ak":
+            case "assault":
             case "ak47":
             case "ak-47": itemSearched = "assault_rifle"; break;
             case "med":
@@ -89,6 +90,8 @@ class ArgParser {
             case "drop":
             case "airdrop":
             case "supply": itemSearched = "supply_drop"; break;
+            case "pipy":
+            case "pipey":
             case "waterpipe": itemSearched = "waterpipe_shotgun"; break;
             case "shotgun":
             case "pump":
@@ -117,6 +120,7 @@ class ArgParser {
             case "spear": itemSearched = "wooden_spear"; break;
             case "metal_frags":
             case "metal_frag":
+            case "frags":
             case "metal_fragments": itemSearched = "metal"; break;
             case "salvaged":
             case "cleaver": itemSearched = "salvaged_cleaver"; break;
@@ -125,10 +129,13 @@ class ArgParser {
             case "timed_explosive": itemSearched = "c4"; break;
             case "bolty":
             case "sniper":
+            case "bolt":
             case "bolt_action": itemSearched = "bolt_rifle"; break;
             case "revy":
             case "revo":
             case "revvy": itemSearched = "revolver"; break;
+            case "mili":
+            case "milli":
             case "mili_crate":
             case "milli_crate": itemSearched = "military_crate"; break;
             case "55":

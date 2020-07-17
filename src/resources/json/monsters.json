@@ -1,33 +1,64 @@
 {
     "bandit": {
         "title": "Bandit",
+        "mentioned": "the **Bandit**",
         "artist": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/733189662444879942/bandit.png",
         "pronoun": "he",
-        "health": 175,
+        "special": "",
+        "health": 150,
         "minDamage": 24,
         "maxDamage": 43,
         "minMoney": 20000,
         "maxMoney": 70000,
         "xp": 70,
         "weapon": {
-            "name": "semi_rifle",
-            "icon": "<:L_weapon:601369664492404746>"
+            "name": "assault_rifle",
+            "icon": "<:ak47:732853644323586108>"
         },
         "ammo": "rifle_bullet",
         "loot": {
             "main": {
-                "100": {
+                "25": {
                     "items": [
-                        "c4|1"
+                        "assault_rifle|1"
+                    ]
+                },
+                "70": {
+                    "items": [
+                        "semi_rifle|1",
+                        "thompson|1",
+                        "custom_smg|1"
+                    ]
+                },
+                "5": {
+                    "items": [
+                        "rocket_launcher|1"
                     ]
                 }
             },
             "extras": {
-                "100": {
+                "70": {
                     "items": [
-                        "cloth|2",
-                        "gunpowder|1"
+                        "cloth|1",
+                        "pickaxe|1",
+                        "medical_syringe|1"
+                    ]
+                },
+                "25": {
+                    "items": [
+                        "f1_grenade|1",
+                        "12g_buckshot|1",
+                        "rifle_bullet|1",
+                        "pistol_bullet|1",
+                        "12g_slug|1",
+                        "large_medkit|1"
+                    ]
+                },
+                "5": {
+                    "items": [
+                        "semi_rifle|1",
+                        "custom_smg|1"
                     ]
                 }
             }
@@ -38,33 +69,62 @@
     },
     "scientist": {
         "title": "Scientist",
+        "mentioned": "the **Scientist**",
         "artist": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/733189674033741844/scientist.png",
         "pronoun": "he",
-        "health": 140,
-        "minDamage": 32,
-        "maxDamage": 46,
+        "special": "",
+        "health": 100,
+        "minDamage": 26,
+        "maxDamage": 36,
         "minMoney": 30000,
         "maxMoney": 70000,
-        "xp": 70,
+        "xp": 50,
         "weapon": {
-            "name": "semi_pistol",
-            "icon": "<:L_weapon:601369664492404746>"
+            "name": "mp5",
+            "icon": "<:mp5:732853715966623794>"
         },
         "ammo": "pistol_bullet",
         "loot": {
             "main": {
-                "100": {
+                "25": {
                     "items": [
-                        "c4|1"
+                        "custom_smg|1",
+                        "semi_rifle|1",
+                        "thompson|1"
+                    ]
+                },
+                "70": {
+                    "items": [
+                        "semi_pistol|1",
+                        "revolver|1"
+                    ]
+                },
+                "5": {
+                    "items": [
+                        "mp5|1"
                     ]
                 }
             },
             "extras": {
-                "100": {
+                "70": {
                     "items": [
-                        "cloth|2",
-                        "gunpowder|1"
+                        "cloth|1",
+                        "wood|1",
+                        "semi_body|1",
+                        "pickaxe|1"
+                    ]
+                },
+                "25": {
+                    "items": [
+                        "f1_grenade|1",
+                        "12g_buckshot|1"
+                    ]
+                },
+                "5": {
+                    "items": [
+                        "rifle_bullet|1",
+                        "pistol_bullet|1"
                     ]
                 }
             }
@@ -75,33 +135,59 @@
     },
     "heavy_scientist": {
         "title": "Heavy Scientist",
+        "mentioned": "the **Heavy Scientist**",
         "artist": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/733189668614701056/heavy_scientist.png",
         "pronoun": "he",
-        "health": 140,
+        "special": "",
+        "health": 185,
         "minDamage": 32,
         "maxDamage": 46,
         "minMoney": 30000,
         "maxMoney": 70000,
         "xp": 70,
         "weapon": {
-            "name": "semi_pistol",
-            "icon": "<:L_weapon:601369664492404746>"
+            "name": "m249",
+            "icon": "<:m249:732853728146882675>"
         },
-        "ammo": "pistol_bullet",
+        "ammo": "rifle_bullet",
         "loot": {
             "main": {
-                "100": {
+                "30": {
                     "items": [
-                        "c4|1"
+                        "mp5|1",
+                        "assault_rifle|1"
+                    ]
+                },
+                "70": {
+                    "items": [
+                        "pump_shotgun|1",
+                        "thompson|1",
+                        "custom_smg|1"
                     ]
                 }
             },
             "extras": {
-                "100": {
+                "70": {
                     "items": [
-                        "cloth|2",
-                        "gunpowder|1"
+                        "cloth|1",
+                        "semi_body|1",
+                        "12g_slug|1",
+                        "pickaxe|1"
+                    ]
+                },
+                "25": {
+                    "items": [
+                        "f1_grenade|1",
+                        "12g_buckshot",
+                        "rifle_bullet|1",
+                        "pistol_bullet|1",
+                        "semi_rifle|1"
+                    ]
+                },
+                "5": {
+                    "items": [
+                        "custom_smg|1"
                     ]
                 }
             }
@@ -112,33 +198,46 @@
     },
     "patrol_helicopter": {
         "title": "Patrol Helicopter",
+        "mentioned": "the **Patrol Helicopter**",
         "artist": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/733189671047266385/patrol_helicopter.png",
         "pronoun": "it",
-        "health": 320,
+        "special": "Immune to melee weapons!",
+        "health": 415,
         "minDamage": 45,
         "maxDamage": 64,
         "minMoney": 130000,
         "maxMoney": 170000,
-        "xp": 70,
+        "xp": 170,
         "weapon": {
-            "name": "semi_pistol",
-            "icon": "<:L_weapon:601369664492404746>"
+            "name": "m249",
+            "icon": "<:m249:732853728146882675>"
         },
-        "ammo": "pistol_bullet",
+        "ammo": "rifle_bullet",
         "loot": {
             "main": {
-                "100": {
+                "35": {
                     "items": [
+                        "m249|1",
                         "c4|1"
+                    ]
+                },
+                "65": {
+                    "items": [
+                        "rocket|1"
                     ]
                 }
             },
             "extras": {
                 "100": {
                     "items": [
-                        "cloth|2",
-                        "gunpowder|1"
+                        "assault_rifle|1",
+                        "thompson|1",
+                        "rifle_bullet|1",
+                        "large_medkit|1",
+                        "rocket_launcher|1",
+                        "gunpowder|1",
+                        "tech_trash|1"
                     ]
                 }
             }
@@ -149,33 +248,55 @@
     },
     "bradley": {
         "title": "Bradley",
+        "mentioned": "**Bradley**",
         "artist": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/733189666110701598/bradley.png",
         "pronoun": "it",
-        "health": 410,
+        "special": "",
+        "health": 610,
         "minDamage": 47,
         "maxDamage": 72,
         "minMoney": 230000,
         "maxMoney": 320000,
-        "xp": 70,
+        "xp": 215,
         "weapon": {
-            "name": "semi_pistol",
-            "icon": "<:L_weapon:601369664492404746>"
+            "name": "large-caliber cannon",
+            "icon": "<:rocket_launcher:732853816675926066>"
         },
-        "ammo": "pistol_bullet",
+        "ammo": "rocket",
         "loot": {
             "main": {
-                "100": {
+                "55": {
                     "items": [
+                        "m249|1",
                         "c4|1"
+                    ]
+                },
+                "45": {
+                    "items": [
+                        "rocket|1"
                     ]
                 }
             },
             "extras": {
-                "100": {
+                "60": {
                     "items": [
-                        "cloth|2",
+                        "large_medkit|1",
+                        "rifle_bullet|1",
+                        "thompson|1",
                         "gunpowder|1"
+                    ]
+                },
+                "30": {
+                    "items": [
+                        "bolt_rifle|1",
+                        "assault_rifle|1",
+                        "rocket_launcher|1"
+                    ]
+                },
+                "10": {
+                    "items": [
+                        "supply_signal|1"
                     ]
                 }
             }

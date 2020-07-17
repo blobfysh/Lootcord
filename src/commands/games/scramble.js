@@ -43,12 +43,12 @@ module.exports = {
         if(option === "easy"){
             embedScramble.setDescription("**Hint:** " + scrambleHint + "\nWord: ```fix\n" + (shuffleWordNoDupe(scrambleWord))+"```");
             if(scrambleDifficulty == "hard"){
-                const hasEnough = await app.itm.hasSpace(itemCt, 2);
+                const hasEnough = await app.itm.hasSpace(itemCt, 1);
 
                 if((chanceR < .5) && hasEnough){
                     reward.display = app.itemdata['crate'].icon + "`crate`";
                     reward.item = "crate";
-                    reward.amount = 2;
+                    reward.amount = 1;
                 }
                 else{
                     reward.display = app.common.formatNumber(2750);
@@ -103,12 +103,12 @@ module.exports = {
                 }
             }
             else if(scrambleDifficulty == "medium"){
-                const hasEnough = await app.itm.hasSpace(itemCt, 2);
+                const hasEnough = await app.itm.hasSpace(itemCt, 1);
 
                 if((chanceR < .5) && hasEnough){
-                    reward.display = `2x ${app.itemdata['crate'].icon}\`crate\``
+                    reward.display = `1x ${app.itemdata['crate'].icon}\`crate\``
                     reward.item = "crate";
-                    reward.amount = 2;
+                    reward.amount = 1;
                 }
                 else{
                     reward.display = app.common.formatNumber(4600);
@@ -117,12 +117,12 @@ module.exports = {
                 }
             }
             else{
-                const hasEnough = await app.itm.hasSpace(itemCt, 2);
+                const hasEnough = await app.itm.hasSpace(itemCt, 1);
 
                 if((chanceR < .5) && hasEnough){
-                    reward.display = `2x ${app.itemdata['crate'].icon}\`crate\``
+                    reward.display = `1x ${app.itemdata['crate'].icon}\`crate\``
                     reward.item = "crate";
-                    reward.amount = 2;
+                    reward.amount = 1;
                 }
                 else{
                     reward.display = app.common.formatNumber(3750);

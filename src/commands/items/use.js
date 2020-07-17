@@ -251,6 +251,7 @@ module.exports = {
                         bonusDamage = app.itemdata[ammoUsed].damage;
                         await app.itm.removeItem(message.author.id, ammoUsed, 1);
                     }
+                    else if(!ammoUsed && monster.title === 'Patrol Helicopter') return message.reply("❌ The Patrol Helicopter is immune to melee weapons!");
                 }
                 catch(err){
                     return message.reply("❌ You don't have any ammo for that weapon!");
@@ -360,7 +361,7 @@ module.exports = {
                         .setTitle(`Loot Lost`)
                         .setDescription("Money: " + app.common.formatNumber(moneyStolen))
                         .setColor(7274496)
-                        .addField("Items", randomItems.items.length !== 0 ? randomItems.display.join('\n') : `The ${monster.title} did not find anything on you!`)
+                        .addField("Items", randomItems.items.length !== 0 ? randomItems.display.join('\n') : `${monster.mentioned.charAt(0).toUpperCase()} did not find anything on you!`)
 
                         message.channel.createMessage({
                             content: generateMobAttack(app, message, monsterRow, row, mobDmg, monster.weapon, monster.ammo, true),
@@ -798,34 +799,27 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
 
 function generateAttackMobString(app, message, monsterRow, damage, itemUsed, ammoUsed, itemBroke, killed, moneyStolen){
     const monster = app.mobdata[monsterRow.monster];
-    let finalStr;
-
-    if(ammoUsed && itemUsed === 'bat'){
-        finalStr = `**ITS A GRAND SLAM!** <@${message.author.id}> fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` directly at the **${monster.title}**'s face using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`. **${damage}** damage dealt!`
-    }
-    else{
-        finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
-        .replace('{victim}', `the **${monster.title}**`)
-        .replace('{weaponIcon}', app.itemdata[itemUsed].icon)
-        .replace('{weapon}', itemUsed)
-        .replace('{ammoIcon}', ammoUsed ? app.itemdata[ammoUsed].icon : '')
-        .replace('{ammo}', ammoUsed)
-        .replace('{damage}', damage);
-    }
-
+    let finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
+    .replace('{victim}', monster.mentioned)
+    .replace('{weaponIcon}', app.itemdata[itemUsed].icon)
+    .replace('{weapon}', itemUsed)
+    .replace('{ammoIcon}', ammoUsed ? app.itemdata[ammoUsed].icon : '')
+    .replace('{ammo}', ammoUsed)
+    .replace('{damage}', damage);
+    
     if(killed){
-        finalStr += `\n${app.icons.death_skull} **The ${monster.title} DIED!**`
+        finalStr += `\n${app.icons.death_skull} ${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} DIED!`
     }
     else{
-        finalStr += `\nThe **${monster.title}** is left with ${app.icons.health.full} **${monsterRow.health - damage}** health.`;
+        finalStr += `\n${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} is left with ${app.icons.health.full} **${monsterRow.health - damage}** health.`;
     }
 
     if(itemUsed == 'peck_seed'){
-        finalStr += `\nThe **${monster.title}** resisted the effects of the ${app.itemdata[itemUsed].icon}\`${itemUsed}\`!`;
+        finalStr += `\n${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} resisted the effects of the ${app.itemdata[itemUsed].icon}\`${itemUsed}\`!`;
     }
 
     if(moneyStolen){
-        finalStr += `\n\n**${message.member.nick || message.member.username}** dealt **${Math.floor((damage / monsterRow.health).toFixed(2) * 100)}%** of the **${monster.title}**'s current health and managed to steal **${app.common.formatNumber(moneyStolen)}**.`;
+        finalStr += `\n\n**${message.member.nick || message.member.username}** dealt **${Math.floor((damage / monsterRow.health).toFixed(2) * 100)}%** of ${monster.mentioned}'s current health and managed to steal **${app.common.formatNumber(moneyStolen)}**.`;
     }
 
     if(itemBroke && moneyStolen){
@@ -844,11 +838,11 @@ function generateMobAttack(app, message, monsterRow, playerRow, damage, itemUsed
 
     if(ammoUsed){
         // weapon uses ammo
-        finalStr = `The **${monster.title}** fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` straight at <@${message.author.id}> using a ${itemUsed.icon}\`${itemUsed.name}\`! **${damage}** damage dealt!`;
+        finalStr = `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` straight at <@${message.author.id}> using a ${itemUsed.icon}\`${itemUsed.name}\`! **${damage}** damage dealt!`;
     }
     else{
         // melee weapon
-        finalStr = `The **${monster.title}** smashes <@${message.author.id}> with a ${itemUsed.icon}\`${itemUsed.name}\` dealing **${damage}** damage!`;
+        finalStr = `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} smashes <@${message.author.id}> with a ${itemUsed.icon}\`${itemUsed.name}\` dealing **${damage}** damage!`;
     }
 
     if(killed){

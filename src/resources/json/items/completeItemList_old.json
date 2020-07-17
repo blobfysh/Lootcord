@@ -1206,7 +1206,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 11447,
+        "sell": 20726,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/732952060219097158/metal_spring.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732952060219097158/metal_spring.png",
@@ -1240,12 +1240,57 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "100": {
-                "xp": 80,
+            "2": {
+                "xp": 50,
                 "items": [
-                    "revolver|1",
+                    "12g_slug|1",
+                    "rifle_bullet|1",
+                    "tech_trash|1",
+                    "large_medkit|1",
+                    "semi_pistol|1",
+                    "metal_spring|1",
+                    "custom_smg|1"
+                ]
+            },
+            "32": {
+                "xp": 35,
+                "items": [
+                    "semi_body|1",
+                    "bow|1",
+                    "medical_syringe|1",
+                    "waterpipe_shotgun|1",
+                    "arrow|1"
+                ]
+            },
+            "59": {
+                "xp": 20,
+                "items": [
+                    "f1_grenade|1",
                     "bandage|1",
-                    "pump_shotgun|1"
+                    "mace|1",
+                    "machete|1"
+                ]
+            },
+            "6.5": {
+                "xp": 40,
+                "items": [
+                    "cloth|1",
+                    "revolver|1",
+                    "pistol_bullet|1",
+                    "gunpowder|1",
+                    "pump_shotgun|1",
+                    "crossbow|1",
+                    "metal_pipe|1",
+                    "12g_buckshot|1"
+                ]
+            },
+            "0.5": {
+                "xp": 70,
+                "items": [
+                    "thompson|1",
+                    "semi_rifle|1",
+                    "supply_signal|1",
+                    "assault_rifle|1"
                 ]
             }
         },
@@ -1278,6 +1323,43 @@
         "cooldown": "",
         "artist": "",
         "category": "Item"
+    },
+    "mp5": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 21,
+        "maxDmg": 30,
+        "ammo": [
+            "pistol_bullet"
+        ],
+        "craftedWith": {
+            "materials": [
+                "smg_body|4",
+                "metal_spring|2",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": {
+            "materials": [
+                "smg_body|1",
+                "metal_spring|1"
+            ]
+        },
+        "buy": "",
+        "sell": 32573,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733325647857844274/mp5.png",
+        "icon": "<:mp5:732853715966623794>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.12,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 3984
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Weapon"
     },
     "nutcracker": {
         "rarity": "Limited",
@@ -2130,8 +2212,47 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "100": {
-                "xp": 200,
+            "1": {
+                "xp": 140,
+                "items": [
+                    "rocket|1",
+                    "assault_rifle|1",
+                    "bolt_rifle|1"
+                ]
+            },
+            "28": {
+                "xp": 90,
+                "items": [
+                    "semi_pistol|1",
+                    "rifle_bullet|1",
+                    "custom_smg|1",
+                    "pump_shotgun|1",
+                    "gunpowder|1",
+                    "semi_rifle|1",
+                    "large_medkit|1"
+                ]
+            },
+            "66": {
+                "xp": 75,
+                "items": [
+                    "tech_trash|1",
+                    "small_stash|1",
+                    "rifle_body|1",
+                    "pistol_bullet|1",
+                    "12g_buckshot|1",
+                    "metal_spring|1"
+                ]
+            },
+            "4.5": {
+                "xp": 110,
+                "items": [
+                    "12g_slug|1",
+                    "thompson|1",
+                    "rocket_launcher|1"
+                ]
+            },
+            "0.5": {
+                "xp": 150,
                 "items": [
                     "c4|1"
                 ]
