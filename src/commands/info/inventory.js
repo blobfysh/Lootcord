@@ -43,15 +43,16 @@ module.exports = {
                 const itemObject     = await app.itm.getItemObject(member.id);
                 const usersItems     = await app.itm.getUserItems(itemObject);
                 const itemCt         = await app.itm.getItemCount(itemObject, userRow);
-                const shieldLeft     = await app.cd.getCD(member.id, 'shield');
+                const armorLeft      = await app.cd.getCD(member.id, 'shield');
+                const armor          = await app.player.getArmor(message.author.id);
                 const passiveShield  = await app.cd.getCD(member.id, 'passive_shield');
 
                 const embedInfo = new app.Embed()
                 .setTitle(`${isActive ? app.icons.accounts.active : app.icons.accounts.inactive} ${member.username + '#' + member.discriminator}'s Inventory`)
                 .setColor(13451564)
 
-                if(shieldLeft){
-                    embedInfo.addField("🛡️ Shield", '`' + shieldLeft + '`');
+                if(armorLeft){
+                    embedInfo.addField(armor ? 'Armor' : '🛡️ Armor', armor ? app.itemdata[armor].icon + '`' + armorLeft + '`' : '`' + armorLeft + '`');
                 }
                 if(passiveShield){
                     embedInfo.addField("🛡️ Passive Shield", '`' + passiveShield + '`');

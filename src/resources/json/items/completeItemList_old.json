@@ -1602,12 +1602,7 @@
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
-        "craftedWith": {
-            "level": 1,
-            "materials": [
-                "coal|4"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
         "sell": 693,

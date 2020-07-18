@@ -1,5 +1,5 @@
 const SpellCorrector = require('../structures/Corrector');
-const ignoredItemCorrections = ['bounty', 'fuck', 'cock']; // don't correct these words into items
+const ignoredItemCorrections = ['bounty', 'fuck', 'cock', 'armor']; // don't correct these words into items
 
 class ArgParser {
     constructor(app){

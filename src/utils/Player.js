@@ -226,6 +226,20 @@ class Player {
     }
 
     /**
+     * Get the armor user is wearing.
+     * @param {*} id ID of user
+     */
+    async getArmor(id){
+        const armor = await this.app.cache.get(`shield|${id}`);
+
+        if(this.app.itemdata[armor]){
+            return armor;
+        }
+
+        return undefined;
+    }
+
+    /**
      * 
      * @param {*} message Message of player to check level up for.
      */

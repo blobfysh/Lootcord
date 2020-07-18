@@ -80,13 +80,3 @@ module.exports = {
         }
     },
 }
-
-/* maybe one day i will add armor
-else if(userRow.armor == "none" && itemdata[equipitem].type == "armor"){
-    await app.query(`UPDATE scores SET armor = '${equipitem}' WHERE userId = ${message.author.id}`);
-    //add armor defense % to sql table somewhere?
-    methods.removeitem(message.author.id, equipitem, 1);
-
-    message.reply(lang.equip[1].replace('{-1}', itemdata[equipitem].icon).replace('{0}', equipitem));
-}
-*/

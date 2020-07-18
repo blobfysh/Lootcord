@@ -12,10 +12,10 @@ class Cooldown {
      * @param {string} userId User to give cooldown, does not have to be a user ID.
      * @param {string} type Type of cooldown
      * @param {number} time Time in milliseconds cooldown lasts
-     * @param {{ignoreQuery: boolean}} options ignoreQuery is only used when bot starting up to prevent multiple table entries
+     * @param {{ignoreQuery: boolean, armor: string}} options ignoreQuery is only used when bot starting up to prevent multiple table entries
      * @param {function()} callback Callback to run when finished
      */
-    async setCD(userId, type, time, options = { ignoreQuery: false }, callback = undefined){
+    async setCD(userId, type, time, options = { ignoreQuery: false, armor: undefined }, callback = undefined){
         let key = `${type}|${userId}`;
         options.ignoreQuery = options.ignoreQuery || false;
 
@@ -24,7 +24,7 @@ class Cooldown {
         let seconds = Math.round(time / 1000);
 
         // this is where the cooldown is actually set
-        await this.app.cache.set(key, 'Set at ' + (new Date().toLocaleString('en-US', {timeZone: 'America/New_York'})), seconds);
+        await this.app.cache.set(key, options.armor ? options.armor : 'Set at ' + (new Date().toLocaleString('en-US', {timeZone: 'America/New_York'})), seconds);
         
         // add cooldown to cooldown table for persistence (if server were to shut down, this table would be used to set cooldowns for all players)
         if(!options.ignoreQuery) await this.app.mysql.query(`INSERT INTO cooldown (userId, type, start, length) VALUES (?, ?, ?, ?)`, [userId, type, new Date().getTime(), time]);

@@ -15,7 +15,6 @@ module.exports = {
         const isDonor = await app.patreonHandler.isPatron(message.author.id);
         const attackCD = await app.cd.getCD(message.author.id, 'attack');
         const healCD = await app.cd.getCD(message.author.id, 'heal');
-        const shieldCD = await app.cd.getCD(message.author.id, 'shield');
         const hourlyCD = await app.cd.getCD(message.author.id, 'hourly');
         const dailyCD = await app.cd.getCD(message.author.id, 'daily');
         const weeklyCD = await app.cd.getCD(message.author.id, 'weekly');
@@ -30,6 +29,8 @@ module.exports = {
         const jackpotCD = await app.cd.getCD(message.author.id, 'jackpot');
         const airdropCD = await app.cd.getCD(message.author.id, 'airdrop');
         const xp_potionCD = await app.cd.getCD(message.author.id, 'xp_potion');
+        const armorCD = await app.cd.getCD(message.author.id, 'shield');
+        const armor = await app.player.getArmor(message.author.id);
         const passiveShield = await app.cd.getCD(message.author.id, 'passive_shield');
                     
         let hourlyReady = hourlyCD ? '❌ ' + hourlyCD : "✅ ready";
@@ -78,8 +79,8 @@ module.exports = {
         embedLeader.addField("jackpot", "`" + jackpotReady + "`",true)
         embedLeader.addField("Attack (part of `" + message.prefix + "use`)", "`" + attackReady + "`",true)
         embedLeader.addField("Heal (part of `" + message.prefix + "use`)", "`" + healReady + "`",true)
-        if(shieldCD){
-            embedLeader.addField("🛡 Armor Active", '`' + shieldCD + '`', true)
+        if(armorCD){
+            embedLeader.addField(armor ? 'Armor Active' : '🛡 Armor Active', armor ? app.itemdata[armor].icon + '`' + armorCD + '`' : '`' + armorCD + '`', true)
         }
         if(passiveShield){
             embedLeader.addField("🛡 Passive Shield", '`' + passiveShield + '` [?](https://lootcord.com/faq#what-is-a-passive-shield \'A passive shield is a 24 hour attack shield given to you when you are killed. This shield will automatically be removed if you decide to attack someone.\')', true)

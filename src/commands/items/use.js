@@ -99,16 +99,17 @@ module.exports = {
                 });
             }
             else if(app.itemdata[item].isShield){
-                const shieldCD = await app.cd.getCD(message.author.id, 'shield');
+                const armorCD = await app.cd.getCD(message.author.id, 'shield');
+                const armor = await app.player.getArmor(message.author.id);
 
-                if(shieldCD){
-                    return message.reply(`Your current armor is still active for \`${shieldCD}\`!`);
+                if(armorCD){
+                    return message.reply(`Your ${armor ? app.itemdata[armor].icon + '`' + armor + '`' : 'current armor'} is still active for \`${armorCD}\`!`);
                 }
 
                 await app.itm.removeItem(message.author.id, item, 1);
-                await app.cd.setCD(message.author.id, 'shield', app.itemdata[item].shieldInfo.seconds * 1000);
+                await app.cd.setCD(message.author.id, 'shield', app.itemdata[item].shieldInfo.seconds * 1000, { armor: item });
 
-                message.reply(`You wear the ${app.itemdata[item].icon}\`${item}\`. You are now protected from attacks for \`${app.cd.convertTime(app.itemdata[item].shieldInfo.seconds * 1000)}\``);
+                message.reply(`You put on the ${app.itemdata[item].icon}\`${item}\`. You are now protected from attacks for \`${app.cd.convertTime(app.itemdata[item].shieldInfo.seconds * 1000)}\``);
             }
             else if(app.itemdata[item].isHeal){
                 const healCD = await app.cd.getCD(message.author.id, 'heal');
@@ -215,7 +216,8 @@ module.exports = {
             const userItems = await app.itm.getItemObject(message.author.id);
             const serverInfo = await app.common.getGuildInfo(message.channel.guild.id);
             const attackCD = await app.cd.getCD(message.author.id, 'attack');
-            const shieldCD = await app.cd.getCD(message.author.id, 'shield');
+            const armorCD = await app.cd.getCD(message.author.id, 'shield');
+            const armor = await app.player.getArmor(message.author.id);
             const passiveShieldCD = await app.cd.getCD(message.author.id, 'passive_shield');
             // item is a weapon, start checking for member
             
@@ -225,8 +227,8 @@ module.exports = {
             else if(attackCD){
                 return message.reply(`❌ You need to wait \`${attackCD}\` before attacking again.`);
             }
-            else if(shieldCD){
-                return message.reply(`❌ You can't attack while you have a shield active! \`${shieldCD}\` remaining.`);
+            else if(armorCD){
+                return message.reply(`❌ You can't attack while wearing armor! ${armor ? app.itemdata[armor].icon : ''}\`${armorCD}\` remaining.`);
             }
             
             // check if attacking monster
@@ -554,7 +556,8 @@ module.exports = {
             else{
                 const victimRow = await app.player.getRow(member.id);
                 const playRow = await app.query(`SELECT * FROM userGuilds WHERE userId ="${member.id}" AND guildId = "${message.channel.guild.id}"`);
-                const victimShield = await app.cd.getCD(member.id, 'shield');
+                const victimArmorCD = await app.cd.getCD(member.id, 'shield');
+                const victimArmor = await app.player.getArmor(member.id);
                 const victimPassiveShield = await app.cd.getCD(member.id, 'passive_shield');
                 const victimPeckCD = await app.cd.getCD(member.id, 'peck');
 
@@ -573,8 +576,8 @@ module.exports = {
                 else if(!playRow.length){
                     return message.reply(`❌ **${member.nick || member.username}** has not activated their account in this server!`);
                 }
-                else if(victimShield){
-                    return message.reply(`🛡 **${member.nick || member.username}** has a shield active!\nThey are untargetable for \`${victimShield}\`.`);
+                else if(victimArmorCD){
+                    return message.reply(`🛡 **${member.nick || member.username}** ${victimArmor ? 'is wearing armor (' + app.itemdata[victimArmor].icon + '`' + victimArmor + '`).' : 'is wearing armor!'}\nThey are untargetable for \`${victimArmorCD}\`.`);
                 }
                 else if(victimPassiveShield){
                     return message.reply(`🛡 **${member.nick || member.username}** was killed recently and has a **passive shield**!\nThey are untargetable for \`${victimPassiveShield}\`.`);
