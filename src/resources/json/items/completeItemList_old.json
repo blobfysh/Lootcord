@@ -1099,7 +1099,7 @@
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/734000982392045628/m92_pistol.png",
         "icon": "<:m92_pistol:732853706294558720>",
         "breaksOnUse": false,
-        "chanceToBreak": 0.28,
+        "chanceToBreak": 0.27,
         "canBeStolen": true,
         "cooldown": {
             "seconds": 3042
@@ -1338,7 +1338,8 @@
                     "large_medkit|1",
                     "semi_pistol|1",
                     "metal_spring|1",
-                    "custom_smg|1"
+                    "custom_smg|1",
+                    "python|1"
                 ]
             },
             "32": {
@@ -2241,6 +2242,38 @@
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
         "category": "Melee"
+    },
+    "spas-12": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 35,
+        "maxDmg": 46,
+        "ammo": [
+            "12g_buckshot",
+            "12g_slug"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": [
+                "metal_spring|1",
+                "metal_pipe|1"
+            ]
+        },
+        "buy": "",
+        "sell": 43621,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/734033475807477780/spas-12.png",
+        "icon": "<:spas12:732854036595736646>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.22,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 4362
+        },
+        "phrase": "{attacker} blasts a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Ranged"
     },
     "spider": {
         "rarity": "Limited",

@@ -325,7 +325,7 @@
         "maxMoney": 320000,
         "xp": 215,
         "weapon": {
-            "name": "large-caliber cannon",
+            "name": "rocket_launcher",
             "icon": "<:rocket_launcher:732853816675926066>"
         },
         "ammo": "rocket",

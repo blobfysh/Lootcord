@@ -91,7 +91,7 @@ class Monsters {
         .addField('Damage', `${monster.weapon.icon}\`${monster.weapon.name}\` ${monster.minDamage} - ${monster.maxDamage}`, true)
         .addBlankField()
         .addField('Has a chance of dropping:', this.app.itm.getDisplay(loot.sort(this.app.itm.sortItemsHighLow.bind(this.app))).join('\n'), true)
-        .addField('Money', this.app.common.formatNumber(money), true)
+        .addField('Balance', this.app.common.formatNumber(money), true)
         .setImage(monster.image)
 
         return mobEmbed;

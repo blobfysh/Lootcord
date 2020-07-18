@@ -315,7 +315,7 @@ module.exports = {
                     const killedReward = new app.Embed()
                     .setTitle('Loot Received')
                     .setColor(7274496)
-                    .addField('Money', app.common.formatNumber(monsterRow.money))
+                    .addField('Lootcoin Stolen', app.common.formatNumber(monsterRow.money))
                     .addField("Items", app.itm.getDisplay([bestItem]) + '\n\n**and...**\n' + app.itm.getDisplay(extras.sort(app.itm.sortItemsHighLow.bind(app))).join('\n'))
                     .setFooter('⭐ ' + monster.xp + ' XP earned!')
 
@@ -344,9 +344,11 @@ module.exports = {
                         // player was killed
                         let randomItems = await app.itm.getRandomUserItems(message.author.id);
                         let moneyStolen = Math.floor((row.money + mobMoneyStolen) * .75);
+                        let scrapStolen = Math.floor(row.scrap * .5);
                         
                         await app.itm.removeItem(message.author.id, randomItems.amounts);
                         await app.player.removeMoney(message.author.id, moneyStolen);
+                        await app.player.removeScrap(message.author.id, scrapStolen);
 
                         await app.query(`UPDATE scores SET deaths = deaths + 1 WHERE userId = ${message.author.id}`);
                         await app.query(`UPDATE scores SET health = 100 WHERE userId = ${message.author.id}`);
@@ -358,10 +360,10 @@ module.exports = {
                         }
                         
                         const killedReward = new app.Embed()
-                        .setTitle(`Loot Lost`)
-                        .setDescription("Money: " + app.common.formatNumber(moneyStolen))
+                        .setTitle('Loot Lost')
                         .setColor(7274496)
-                        .addField("Items", randomItems.items.length !== 0 ? randomItems.display.join('\n') : `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} did not find anything on you!`)
+                        .addField('Balance', app.common.formatNumber(moneyStolen) + '\n' + app.common.formatNumber(scrapStolen, false, true))
+                        .addField("Items (" + randomItems.items.length + ")", randomItems.items.length !== 0 ? randomItems.display.join('\n') : `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} did not find anything on you!`)
 
                         message.channel.createMessage({
                             content: generateMobAttack(app, message, monsterRow, row, mobDmg, monster.weapon, monster.ammo, true),
@@ -370,9 +372,9 @@ module.exports = {
     
                         // send notifications
                         if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
-                            sendToKillFeed(app, {username: monster.title, discriminator: '0000', id: monsterRow.monster}, serverInfo.killChan, message.member, monster.weapon.name, mobDmg, randomItems, moneyStolen, true);
+                            sendToKillFeed(app, {username: monster.title, discriminator: '0000', id: monsterRow.monster}, serverInfo.killChan, message.member, monster.weapon.name, mobDmg, randomItems, moneyStolen, scrapStolen, true);
                         }
-                        logKill(app, {username: monster.title, discriminator: '0000', id: monsterRow.monster}, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, randomItems)
+                        logKill(app, {username: monster.title, discriminator: '0000', id: monsterRow.monster}, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, scrapStolen, randomItems)
                     }
                     else{
                         await app.query(`UPDATE scores SET health = health - ${mobDmg} WHERE userId = ${message.author.id}`);
@@ -477,6 +479,7 @@ module.exports = {
                     let randomItems = await app.itm.getRandomUserItems(target.id);
                     let xpGained = randomItems.items.length * 50;
                     let moneyStolen = Math.floor(victimRow.money * .75);
+                    let scrapStolen = Math.floor(victimRow.scrap * .5);
 
                     // passive shield, protects same player from being attacked for 24 hours
                     await app.cd.setCD(target.id, 'passive_shield', app.config.cooldowns.daily * 1000);
@@ -485,6 +488,8 @@ module.exports = {
                     await app.itm.addItem(message.author.id, randomItems.amounts);
                     await app.player.removeMoney(target.id, moneyStolen);
                     await app.player.addMoney(message.author.id, moneyStolen);
+                    await app.player.removeScrap(target.id, scrapStolen);
+                    await app.player.addScrap(message.author.id, scrapStolen);
 
                     await app.player.addPoints(message.author.id, xpGained); // 50 xp for each item stolen
 
@@ -509,7 +514,7 @@ module.exports = {
                     const killedReward = new app.Embed()
                     .setTitle('Loot Received')
                     .setColor(7274496)
-                    .addField('Money', app.common.formatNumber(moneyStolen))
+                    .addField('Balance Stolen', app.common.formatNumber(moneyStolen) + '\n' + app.common.formatNumber(scrapStolen, false, true))
                     .addField("Items (" + randomItems.items.length + ")", randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
                     .setFooter('⭐ ' + xpGained + ' XP earned!')
                     
@@ -521,9 +526,9 @@ module.exports = {
                     // send notifications
                     if(victimRow.notify2) notifyDeathVictim(app, message, target, item, randDmg, randomItems.items.length !== 0 ? randomItems.display : ['You had nothing they could steal!']);
                     if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
-                        sendToKillFeed(app, message.author, serverInfo.killChan, target, item, randDmg, randomItems, moneyStolen);
+                        sendToKillFeed(app, message.author, serverInfo.killChan, target, item, randDmg, randomItems, moneyStolen, scrapStolen);
                     }
-                    logKill(app, message.member, target, item, ammoUsed, randDmg, moneyStolen, randomItems)
+                    logKill(app, message.member, target, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems)
                 }
                 else{
                     // normal attack
@@ -644,6 +649,7 @@ module.exports = {
                     let randomItems = await app.itm.getRandomUserItems(member.id);
                     let xpGained = randomItems.items.length * 50;
                     let moneyStolen = Math.floor(victimRow.money * .75);
+                    let scrapStolen = Math.floor(victimRow.scrap * .5);
 
                     // passive shield, protects same player from being attacked for 24 hours
                     await app.cd.setCD(member.id, 'passive_shield', app.config.cooldowns.daily * 1000);
@@ -652,6 +658,8 @@ module.exports = {
                     await app.itm.addItem(message.author.id, randomItems.amounts);
                     await app.player.removeMoney(member.id, moneyStolen);
                     await app.player.addMoney(message.author.id, moneyStolen);
+                    await app.player.removeScrap(member.id, scrapStolen);
+                    await app.player.addScrap(message.author.id, scrapStolen);
 
                     await app.player.addPoints(message.author.id, xpGained); // 50 xp for each item stolen
 
@@ -676,7 +684,7 @@ module.exports = {
                     const killedReward = new app.Embed()
                     .setTitle('Loot Received')
                     .setColor(7274496)
-                    .addField('Money', app.common.formatNumber(moneyStolen))
+                    .addField('Balance Stolen', app.common.formatNumber(moneyStolen) + '\n' + app.common.formatNumber(scrapStolen, false, true))
                     .addField("Items (" + randomItems.items.length + ")", randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
                     .setFooter('⭐ ' + xpGained + ' XP earned!')
                     
@@ -688,9 +696,9 @@ module.exports = {
                     // send notifications
                     if(victimRow.notify2) notifyDeathVictim(app, message, member, item, randDmg, randomItems.items.length !== 0 ? randomItems.display : ['You had nothing they could steal!']);
                     if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
-                        sendToKillFeed(app, message.author, serverInfo.killChan, member, item, randDmg, randomItems, moneyStolen);
+                        sendToKillFeed(app, message.author, serverInfo.killChan, member, item, randDmg, randomItems, moneyStolen, scrapStolen);
                     }
-                    logKill(app, message.member, member, item, ammoUsed, randDmg, moneyStolen, randomItems)
+                    logKill(app, message.member, member, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems)
                 }
                 else{
                     // normal attack
@@ -740,7 +748,7 @@ function getAmmo(app, item, row, userItems){
     }
 }
 
-function logKill(app, killer, victim, item, ammo, damage, moneyStolen, itemsLost){
+function logKill(app, killer, victim, item, ammo, damage, moneyStolen, scrapStolen, itemsLost){
     try{
         const embed = new app.Embed()
         .setTitle('Kill Log')
@@ -749,7 +757,7 @@ function logKill(app, killer, victim, item, ammo, damage, moneyStolen, itemsLost
         .addField('Killer', (killer.username + '#' + killer.discriminator) + ' ID: ```\n' + killer.id + '```')
         .addField('Victim', (victim.username + '#' + victim.discriminator) + ' ID: ```\n' + victim.id + '```')
         .addField('Items Stolen', itemsLost.items.length !== 0 ? itemsLost.display.join('\n') : 'Nothing', true)
-        .addField('Money Stolen', app.common.formatNumber(moneyStolen), true)
+        .addField('Balance Stolen', app.common.formatNumber(moneyStolen) + '\n' + app.common.formatNumber(scrapStolen, false, true), true)
         .setTimestamp()
         
         app.messager.messageLogs(embed);
@@ -991,12 +999,12 @@ async function notifyDeathVictim(app, message, victim, itemUsed, damage, itemsLo
     }
 }
 
-async function sendToKillFeed(app, killer, channelID, victim, itemName, itemDmg, itemsStolen, moneyStolen, monster = false){
+async function sendToKillFeed(app, killer, channelID, victim, itemName, itemDmg, itemsStolen, moneyStolen, scrapStolen, monster = false){
     const killEmbed = new app.Embed()
     .setDescription((monster ? killer.username : "<@" + killer.id + ">") + " 🗡 " + ("<@" + victim.user.id + ">") + " 💀")
     .addField('Weapon Used', `${monster ? app.mobdata[killer.id].weapon.icon : app.itemdata[itemName].icon}\`${itemName}\` - **${itemDmg} damage**`)
     .addField('Items Stolen', itemsStolen.items.length !== 0 ? itemsStolen.display.join('\n') : 'Nothing', true)
-    .addField('Money Stolen', app.common.formatNumber(moneyStolen), true)
+    .addField('Balance Stolen', app.common.formatNumber(moneyStolen) + '\n' + app.common.formatNumber(scrapStolen, false, true), true)
     .setColor(16734296)
     .setTimestamp()
 

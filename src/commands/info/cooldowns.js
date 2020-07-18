@@ -82,7 +82,7 @@ module.exports = {
             embedLeader.addField("🛡 Armor Active", '`' + shieldCD + '`', true)
         }
         if(passiveShield){
-            embedLeader.addField("🛡 Passive Shield", '`' + passiveShield + '` [?](https://lootcord.com/faq#what-is-a-passive-shield)', true)
+            embedLeader.addField("🛡 Passive Shield", '`' + passiveShield + '` [?](https://lootcord.com/faq#what-is-a-passive-shield \'A passive shield is a 24 hour attack shield given to you when you are killed. This shield will automatically be removed if you decide to attack someone.\')', true)
         }
         if(airdropCD){
             embedLeader.addField("claimdrop", '`❌ ' + airdropCD + '`', true)
