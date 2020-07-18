@@ -70,7 +70,7 @@ module.exports = {
                         const hasSpace = await app.itm.hasSpace(itemCt, buyAmount);
                         
                         if(row.scrap < itemPrice * buyAmount){
-                            return botMessage.edit("You don't have enough Scrap for that purchase! You only have **" + app.common.formatNumber(row.scrap) + "**.");
+                            return botMessage.edit("You don't have enough Scrap for that purchase! You only have **" + app.common.formatNumber(row.scrap, false, true) + "**.");
                         }
                         if(!hasSpace && !app.itemdata[buyItem].isBanner){
                             return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${buyAmount}** open slot${buyAmount > 1 ? 's': ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`);

@@ -10,7 +10,7 @@ class Airdrop {
         console.log(`[AIRDROP] Counting down from ${this.app.cd.convertTime(rand)}`);
 
         let timeObj = {guild: guildId, started: Date.now(), length: rand, timer: setTimeout(() => {
-            this.callAirdrop(guildId, 'care_package');
+            this.callAirdrop(guildId, 'supply_drop');
         }, rand)};
     
         this.timers.push(timeObj);

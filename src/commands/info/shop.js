@@ -72,7 +72,7 @@ async function getHomePage(app, prefix){
 
     const firstEmbed = new app.Embed()
     firstEmbed.setTitle(`Welcome to the Outpost!`);
-    firstEmbed.setDescription('Use `' + prefix + 'buy <item>` to purchase.\n\nWe\'ll pay you Scrap for your Lootcoin! (`' + prefix + 'buy scrap <amount>`)');
+    firstEmbed.setDescription('Use `' + prefix + 'buy <item>` to purchase.\n\nWe\'ll sell you Scrap for your Lootcoin! (`' + prefix + 'buy scrap <amount>`)');
     firstEmbed.setImage("https://cdn.discordapp.com/attachments/497302646521069570/733741460868038706/outpost_shop_small.png");
     firstEmbed.setColor(13451564);
     //firstEmbed.addField(app.icons.scrap + ' Scrap', 'Price: ' + app.common.formatNumber(Math.floor(exchangeRate * 1000)))

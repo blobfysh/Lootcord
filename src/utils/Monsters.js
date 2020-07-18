@@ -37,7 +37,7 @@ class Monsters {
 
             const mobEmbed = await this.genMobEmbed(channelId, this.mobdata[monster], this.mobdata[monster].health, randMoney);
 
-            await this.app.bot.createMessage(channelId, {content: 'A bounty has arrived...', embed: mobEmbed.embed});
+            await this.app.bot.createMessage(channelId, {content: 'An enemy has spawned...', embed: mobEmbed.embed});
         }
         catch(err){
             await this.app.query(`DELETE FROM spawnChannels WHERE channelId = ?`, [channelId]);
@@ -85,7 +85,7 @@ class Monsters {
 
         const mobEmbed = new this.app.Embed()
         .setTitle(monster.title)
-        .setDescription(`Attack with \`${guildPrefix}use <weapon> bounty\`\n\nYou have \`${remaining}\` to defeat ${monster.mentioned} before ${monster.pronoun} leaves the server.${monster.special !== '' ? '\n\n**Special:** ' + monster.special : ''}`)
+        .setDescription(`Attack with \`${guildPrefix}use <weapon> ${monster.title.toLowerCase()}\`\n\nYou have \`${remaining}\` to defeat ${monster.mentioned} before ${monster.pronoun} leaves the server.${monster.special !== '' ? '\n\n**Special:** ' + monster.special : ''}`)
         .setColor(13451564)
         .addField('Health', `${this.app.player.getHealthIcon(health, monster.health, true)}\n${health} / ${monster.health}`, true)
         .addField('Damage', `${monster.weapon.icon}\`${monster.weapon.name}\` ${monster.minDamage} - ${monster.maxDamage}`, true)
@@ -99,10 +99,10 @@ class Monsters {
 
     mobLeftEmbed(monster){
         const mobEmbed = new this.app.Embed()
-        .setTitle(`The bounty left...`)
+        .setTitle(`${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} left...`)
         .setDescription(`Nobody defeated ${monster.mentioned}!`)
         .setColor(13451564)
-        .setImage(monster.image)
+        .setImage(monster.leftImage)
 
         return mobEmbed;
     }

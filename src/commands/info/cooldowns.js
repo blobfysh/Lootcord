@@ -79,10 +79,10 @@ module.exports = {
         embedLeader.addField("Attack (part of `" + message.prefix + "use`)", "`" + attackReady + "`",true)
         embedLeader.addField("Heal (part of `" + message.prefix + "use`)", "`" + healReady + "`",true)
         if(shieldCD){
-            embedLeader.addField("🛡 Shield Active", '`' + shieldCD + '`', true)
+            embedLeader.addField("🛡 Armor Active", '`' + shieldCD + '`', true)
         }
         if(passiveShield){
-            embedLeader.addField("🛡 Passive Shield", '`' + passiveShield + '`', true)
+            embedLeader.addField("🛡 Passive Shield", '`' + passiveShield + '` [?](https://lootcord.com/faq#what-is-a-passive-shield)', true)
         }
         if(airdropCD){
             embedLeader.addField("claimdrop", '`❌ ' + airdropCD + '`', true)

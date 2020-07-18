@@ -137,6 +137,8 @@ class ArgParser {
             case "mili":
             case "milli":
             case "mili_crate":
+            case "milly":
+            case "milly_crate":
             case "milli_crate": itemSearched = "military_crate"; break;
             case "55":
             case "556":
@@ -170,6 +172,7 @@ class ArgParser {
             case "hazzy":
             case "hazmat":
             case "radsuit":
+            case "haz":
             case "rad_suit": itemSearched = "hazmat_suit"; break;
 
             default:

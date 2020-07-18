@@ -102,13 +102,13 @@ module.exports = {
                 const shieldCD = await app.cd.getCD(message.author.id, 'shield');
 
                 if(shieldCD){
-                    return message.reply(`Your current shield is still active for \`${shieldCD}\`!`);
+                    return message.reply(`Your current armor is still active for \`${shieldCD}\`!`);
                 }
 
                 await app.itm.removeItem(message.author.id, item, 1);
                 await app.cd.setCD(message.author.id, 'shield', app.itemdata[item].shieldInfo.seconds * 1000);
 
-                message.reply(`Successfully activated ${app.itemdata[item].icon}\`${item}\`, you are now protected from attacks for \`${app.cd.convertTime(app.itemdata[item].shieldInfo.seconds * 1000)}\``);
+                message.reply(`You wear the ${app.itemdata[item].icon}\`${item}\`. You are now protected from attacks for \`${app.cd.convertTime(app.itemdata[item].shieldInfo.seconds * 1000)}\``);
             }
             else if(app.itemdata[item].isHeal){
                 const healCD = await app.cd.getCD(message.author.id, 'heal');
@@ -361,7 +361,7 @@ module.exports = {
                         .setTitle(`Loot Lost`)
                         .setDescription("Money: " + app.common.formatNumber(moneyStolen))
                         .setColor(7274496)
-                        .addField("Items", randomItems.items.length !== 0 ? randomItems.display.join('\n') : `${monster.mentioned.charAt(0).toUpperCase()} did not find anything on you!`)
+                        .addField("Items", randomItems.items.length !== 0 ? randomItems.display.join('\n') : `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} did not find anything on you!`)
 
                         message.channel.createMessage({
                             content: generateMobAttack(app, message, monsterRow, row, mobDmg, monster.weapon, monster.ammo, true),
