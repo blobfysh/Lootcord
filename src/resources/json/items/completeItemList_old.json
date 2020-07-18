@@ -198,7 +198,7 @@
         "chanceToBreak": 0.26,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 5226
+            "seconds": 5626
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
@@ -705,7 +705,7 @@
             "currency": "money"
         },
         "sell": 13119,
-        "desc": "Equip this to give your inventory a fresh new look!",
+        "desc": "Equip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/697679342821572639/elite_banner.png",
         "equippable": true,
         "icon": "<:banner_icon:733020121856999526>",
@@ -856,7 +856,7 @@
             "currency": "money"
         },
         "sell": 29075,
-        "desc": "For only the best. Equip this to give your inventory a fresh new look!",
+        "desc": "For only the best. Equip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971878873923599/pixelbnner4HITMAN.png",
         "unboxImage": "",
         "equippable": true,
@@ -884,7 +884,7 @@
             "currency": "money"
         },
         "sell": 13735,
-        "desc": "Equip this to give your inventory a fresh new look!",
+        "desc": "Equip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971821483261953/pixelbnner3stronk.png",
         "equippable": true,
         "icon": "<:banner_icon:733020121856999526>",
@@ -908,7 +908,7 @@
         "recyclesTo": [],
         "buy": "",
         "sell": "",
-        "desc": "Get this banner by donating on [Ko-fi](https://ko-fi.com/blobfysh)! Equip this to give your inventory a fresh new look!",
+        "desc": "Get this banner by donating on [Ko-fi](https://ko-fi.com/blobfysh)! Equip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/697675528039039016/kofikingv2.png",
         "equippable": true,
         "icon": "<:limit_banner:601371062214852619>",
@@ -1000,7 +1000,7 @@
             "currency": "money"
         },
         "sell": 1659,
-        "desc": "Inventory banner that can only be bought. Equip this to give your inventory a fresh new look!",
+        "desc": "Inventory banner that can only be bought. Equip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971770098843668/pixelbnner2good-Recovered.png",
         "equippable": true,
         "unboxable": false,
@@ -1011,6 +1011,38 @@
         "shopOrderCode": 3,
         "artist": "221087115893669889",
         "category": "Banner"
+    },
+    "lr-300": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 30,
+        "maxDmg": 38,
+        "ammo": [
+            "rifle_bullet"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "1x rifle_body\n1x metal_spring",
+            "materials": [
+                "rifle_body|1",
+                "metal_spring|1"
+            ]
+        },
+        "buy": "",
+        "sell": 45623,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733991382821109790/lr-300.png",
+        "icon": "<:lr300:732853687222927400>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.15,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 4247
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Ranged"
     },
     "m249": {
         "rarity": "Ultra",
@@ -1043,6 +1075,36 @@
             "seconds": 6720
         },
         "phrase": "{attacker} mows down {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Ranged"
+    },
+    "m92_pistol": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 13,
+        "maxDmg": 20,
+        "ammo": [
+            "pistol_bullet"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": [
+                "metal|1"
+            ]
+        },
+        "buy": "",
+        "sell": 18157,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/734000982392045628/m92_pistol.png",
+        "icon": "<:m92_pistol:732853706294558720>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.28,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 3042
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged"
     },
@@ -1137,7 +1199,7 @@
             "currency": "money"
         },
         "sell": 192977,
-        "desc": "Equip this to give your inventory a fresh new look!",
+        "desc": "Equip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/697679345715773480/master_banner.png",
         "unboxImage": "",
         "equippable": true,
@@ -1426,7 +1488,7 @@
         "recyclesTo": [],
         "buy": "",
         "sell": "",
-        "desc": "Exclusive banner for [patrons](https://www.patreon.com/lootcord)! Equip this to give your inventory a fresh new look!",
+        "desc": "Exclusive banner for [patrons](https://www.patreon.com/lootcord)! Equip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/708570527177900062/patron_banner.gif",
         "equippable": true,
         "icon": "<:limit_banner:601371062214852619>",
@@ -1682,7 +1744,7 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 378,
-        "desc": "Given when you create an account! Equip this to give your inventory a fresh new look!",
+        "desc": "Given when you create an account! Equip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971708585050133/pixelbnner.png",
         "equippable": true,
         "icon": "<:banner_icon:733020121856999526>",
@@ -2220,7 +2282,7 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 2359,
-        "desc": "Very spooky banner...\nEquip this to give your inventory a fresh new look!",
+        "desc": "Very spooky banner...\nEquip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/631885680175480852/batbanner.png",
         "equippable": true,
         "icon": "<:limit_banner:601371062214852619>",

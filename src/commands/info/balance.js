@@ -1,7 +1,7 @@
 
 module.exports = {
     name: 'balance',
-    aliases: ['cash', 'money', 'bal'],
+    aliases: ['cash', 'money', 'bal', 'lootcoin', 'scrap'],
     description: 'Displays your current balance.',
     long: 'Displays your current balance.',
     args: {},

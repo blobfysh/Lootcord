@@ -28,7 +28,7 @@ module.exports = {
             if(buyAmount > 20) buyAmount = 20;
 
             if(currency === 'money'){
-                const botMessage = await message.channel.createMessage(`Purchase ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\` for ${app.common.formatNumber(itemPrice * buyAmount)}?`);
+                const botMessage = await message.channel.createMessage(`Purchase ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\` for **${app.common.formatNumber(itemPrice * buyAmount)}** Scrap?`);
 
                 try{
                     const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
@@ -59,7 +59,7 @@ module.exports = {
                 }
             }
             else if(currency === 'scrap'){
-                const botMessage = await message.channel.createMessage(`Purchase ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\` for ${app.common.formatNumber(itemPrice * buyAmount, false, true)}?`);
+                const botMessage = await message.channel.createMessage(`Purchase ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\` for **${app.common.formatNumber(itemPrice * buyAmount, false, true)}** Scrap?`);
 
                 try{
                     const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
@@ -234,18 +234,18 @@ module.exports = {
             }
 
             const listInfo = await app.bm.getListingInfo(buyItem);
-            const botMessage = await message.channel.createMessage(`Purchase ${listInfo.amount}x ${app.itemdata[listInfo.item].icon}\`${listInfo.item}\` for ${app.common.formatNumber(listInfo.price)}?`);
+            const botMessage = await message.channel.createMessage(`Purchase ${listInfo.amount}x ${app.itemdata[listInfo.item].icon}\`${listInfo.item}\` for **${app.common.formatNumber(listInfo.price, false, true)}** Scrap?`);
 
             try{
                 const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
 
                 if(confirmed){
-                    const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), await app.player.getRow(message.author.id));
+                    const row = await app.player.getRow(message.author.id);
+                    const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), row);
                     const hasSpace = await app.itm.hasSpace(itemCt, listInfo.amount);
-                    const hasMoney = await app.player.hasMoney(message.author.id, listInfo.price);
                     
-                    if(!hasMoney){
-                        return botMessage.edit("❌ You don't have enough money!");
+                    if(row.scrap < listInfo.price){
+                        return botMessage.edit("❌ You don't have enough Scrap! You only have **" + app.common.formatNumber(row.scrap, false, true) + "**");
                     }
                     if(!hasSpace){
                         return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${listInfo.amount}** open slot${listInfo.amount > 1 ? 's': ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`);
@@ -253,7 +253,7 @@ module.exports = {
                     if(!await app.bm.getListingInfo(listInfo.listingId)){
                         return botMessage.edit('❌ That listing already sold!');
                     }
-                    if((await app.player.getRow(message.author.id)).bmLimit >= 10){
+                    if(row.bmLimit >= 10){
                         return botMessage.edit("❌ You are limited to purchasing **10** black market listings a day. This limit is to prevent players from purchasing all items on the market.");
                     }
 
@@ -277,7 +277,7 @@ module.exports = {
                             listInfo.amount, 
                             listInfo.pricePer
                         ]);
-                    await app.player.removeMoney(message.author.id, listInfo.price);
+                    await app.player.removeScrap(message.author.id, listInfo.price);
                     await app.itm.addItem(message.author.id, listInfo.item, listInfo.amount);
                     await app.query("UPDATE scores SET bmLimit = bmLimit + 1 WHERE userId = ?", [message.author.id]);
 
@@ -289,7 +289,7 @@ module.exports = {
                     .addField('Seller', '```\n' + listInfo.sellerId + '```')
                     .addField('List Duration (how long it was listed)', app.cd.convertTime(Date.now() - listInfo.listTime))
                     .addField('Item Sold', `${listInfo.amount}x \`${listInfo.item}\``, true)
-                    .addField('Price', app.common.formatNumber(listInfo.price), true)
+                    .addField('Price', app.common.formatNumber(listInfo.price, false, true), true)
                     .setFooter('Make sure listing isn\'t faked to transfer money')
 
                     if(Date.now() - listInfo.listTime <= 1000 * 300){

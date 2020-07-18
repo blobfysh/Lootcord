@@ -198,7 +198,7 @@
         "chanceToBreak": 0.26,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 5226
+            "seconds": 5626
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
@@ -1012,6 +1012,38 @@
         "artist": "221087115893669889",
         "category": "Banner"
     },
+    "lr-300": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 30,
+        "maxDmg": 38,
+        "ammo": [
+            "rifle_bullet"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "1x rifle_body\n1x metal_spring",
+            "materials": [
+                "rifle_body|1",
+                "metal_spring|1"
+            ]
+        },
+        "buy": "",
+        "sell": 45623,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733991382821109790/lr-300.png",
+        "icon": "<:lr300:732853687222927400>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.15,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 4247
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Ranged"
+    },
     "m249": {
         "rarity": "Ultra",
         "isWeap": true,
@@ -1043,6 +1075,36 @@
             "seconds": 6720
         },
         "phrase": "{attacker} mows down {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Ranged"
+    },
+    "m92_pistol": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 13,
+        "maxDmg": 20,
+        "ammo": [
+            "pistol_bullet"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": [
+                "metal|1"
+            ]
+        },
+        "buy": "",
+        "sell": 18157,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/734000982392045628/m92_pistol.png",
+        "icon": "<:m92_pistol:732853706294558720>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.27,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 3042
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged"
     },

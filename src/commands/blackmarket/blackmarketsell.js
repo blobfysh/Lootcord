@@ -44,33 +44,38 @@ module.exports = {
             else if(itemCost >= 2147483647){
                 return message.reply('Please enter a lower price o.o');
             }
-            else if(itemCost < 100){
-                return message.reply('Please enter a higher price! Minimum ' + app.common.formatNumber(100));
+            else if(itemCost < 10){
+                return message.reply('Please enter a higher price! Minimum **' + app.common.formatNumber(10, false, true) + '** Scrap');
             }
+            /*
             else if(itemCost <= (app.itemdata[itemName].sell * itemAmnt)){
                 return message.reply('You can `sell` that for more money! You should list for more money, or sell them to the bot instead.');
             }
+            */
+
             const bmEmbed = new app.Embed()
             .setTitle('List an item on the Black Market')
             .addField('Item:', app.itemdata[itemName].icon + '`' + itemName + '`', true)
             .addField('Quantity:', itemAmnt, true)
-            .addField('Price:', app.common.formatNumber(itemCost))
+            .addField('Price:', '**' + app.common.formatNumber(itemCost, false, true) + '** Scrap')
             .setColor(13451564)
 
             let listingFee = Math.floor(itemCost * listing_fee);
-            const botMessage = await message.channel.createMessage({content: '<@' + message.author.id + '>, This will cost ' + app.common.formatNumber(listingFee) + ' ('+ listing_fee * 100 + '%) to list. Are you sure?', embed: bmEmbed.embed});
+            const botMessage = await message.channel.createMessage({content: '<@' + message.author.id + '>, This will cost **' + app.common.formatNumber(listingFee, false, true) + '** ('+ listing_fee * 100 + '%) to list. Are you sure?', embed: bmEmbed.embed});
 
             try{
                 const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
 
                 if(confirmed){
-                    if(!await app.player.hasMoney(message.author.id, listingFee)){
-                        return botMessage.edit({content: `Listing failed! You can't afford the ${app.common.formatNumber(listingFee)} fee.`, embed: null});
+                    const row = await app.player.getRow(message.author.id);
+
+                    if(row.scrap < listingFee){
+                        return botMessage.edit({content: `Listing failed! You can't afford the **${app.common.formatNumber(listingFee, false, true)}** fee. You only have **${app.common.formatNumber(row.scrap, false, true)}**`, embed: null});
                     }
                     else if(!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), itemName, itemAmnt)){
                         return botMessage.edit({content: `Listing failed! You don't have **${itemAmnt}** \`${itemName}\`'s.`, embed: null});
                     }
-                    await app.player.removeMoney(message.author.id, listingFee);
+                    await app.player.removeScrap(message.author.id, listingFee);
                     await app.itm.removeItem(message.author.id, itemName, itemAmnt);
 
                     let listingId = await listItem(app, message, itemName, itemAmnt, itemCost);
@@ -82,7 +87,7 @@ module.exports = {
                 }
             }
             catch(e){
-                botMessage.edit('❌ You didn\'t react in time!');
+                botMessage.edit({content: '❌ You didn\'t react in time!', embed: null});
             }
         }
         else{
@@ -142,7 +147,7 @@ module.exports = {
                         }
                         amount = newAmnt;
                         bmEmbed.addField('Quantity:', amount, true);
-                        bmEmbed.setDescription('Enter the price for all **' + amount + '**:')
+                        bmEmbed.setDescription('Enter the price in **Scrap** for all **' + amount + '**:')
                         botMessage = await message.channel.createMessage(bmEmbed);
                         return;
                     }
@@ -156,30 +161,33 @@ module.exports = {
                         if(newCost >= 2147483647){
                             return m.channel.createMessage('Please enter a lower value.');
                         }
-                        else if(newCost < 100){
-                            return m.channel.createMessage('Please enter a higher price! Minimum ' + app.common.formatNumber(100));
+                        else if(newCost < 10){
+                            return m.channel.createMessage('Please enter a higher price! Minimum **' + app.common.formatNumber(10, false, true) + '** Scrap');
                         }
+                        /*
                         else if(newCost <= (app.itemdata[item].sell * amount)){
                             return m.channel.createMessage('You can `sell` that for more money! You should list for more money, or sell them using the sell command instead.');
                         }
+                        */
 
                         price = newCost;
                         listingFee = Math.floor(price * listing_fee);
-                        bmEmbed.addField('Price:', app.common.formatNumber(price));
-                        bmEmbed.setDescription(`List **${amount}x** \`${item}\` for ${app.common.formatNumber(price)}?`);
-                        botMessage = await message.channel.createMessage({content: '<@' + message.author.id + '>, This will cost ' + app.common.formatNumber(listingFee) + ' to list. Are you sure?', embed: bmEmbed.embed});
+                        bmEmbed.addField('Price:', app.common.formatNumber(price, false, true));
+                        bmEmbed.setDescription(`List **${amount}x** \`${item}\` for ${app.common.formatNumber(price, false, true)}?`);
+                        botMessage = await message.channel.createMessage({content: '<@' + message.author.id + '>, This will cost ' + app.common.formatNumber(listingFee,false, true) + ' to list. Are you sure?', embed: bmEmbed.embed});
                         app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
                         try{
                             const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
     
                             if(confirmed){
-                                if(!await app.player.hasMoney(message.author.id, listingFee)){
-                                    return botMessage.edit({content: `Listing failed! You can't afford the ${app.common.formatNumber(listingFee)} fee.`, embed: null});
+                                const row = await app.player.getRow(message.author.id);
+                                if(row.scrap < listingFee){
+                                    return botMessage.edit({content: `Listing failed! You can't afford the **${app.common.formatNumber(listingFee, false, true)}** fee. You only have **${app.common.formatNumber(row.scrap, false, true)}**`, embed: null});
                                 }
                                 else if(!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), item, amount)){
                                     return botMessage.edit({content: `Listing failed! You don't have **${amount}** \`${item}\`'s.`, embed: null});
                                 }
-                                await app.player.removeMoney(message.author.id, listingFee);
+                                await app.player.removeScrap(message.author.id, listingFee);
                                 await app.itm.removeItem(message.author.id, item, amount);
     
                                 let listingId = await listItem(app, message, item, amount, price);
@@ -191,14 +199,13 @@ module.exports = {
                             }
                         }
                         catch(e){
-                            botMessage.edit('❌ You didn\'t react in time!');
+                            botMessage.edit({content: '❌ You didn\'t react in time!', embed: null});
                         }
                     }
                 });
                 collector.on('end', reason => {
                     if(reason === 'time'){
-                        bmEmbed.setFooter('❌ Command timed out.');
-                        botMessage.edit(bmEmbed);
+                        botMessage.edit({content: '❌ Command timed out.', embed: null});
                     }
                 });
             }
