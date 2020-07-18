@@ -128,7 +128,7 @@ module.exports = {
             if(itemCraftedWith !== "" || itemRecyclesTo.materials !== undefined || craftItems.length || recycledFrom.length) embedItem.addBlankField();
 
             if(itemCraftedWith !== ""){
-                embedItem.addField("🔩 Craft Ingredients:", app.itm.getDisplay(itemCraftedWith.materials.sort()).join('\n'), true)
+                embedItem.addField("🔩 Crafted with:", "⭐ __Level **" + itemCraftedWith.level + '**+__\n\n' + app.itm.getDisplay(itemCraftedWith.materials.sort()).join('\n'), true)
             }
             if(itemRecyclesTo.materials !== undefined){
                 embedItem.addField("♻ Recycles into:", app.itm.getDisplay(itemRecyclesTo.materials.sort()).join('\n'), true)

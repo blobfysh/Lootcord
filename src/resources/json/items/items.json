@@ -10,7 +10,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 18655,
+            "amount": 186,
             "currency": "scrap"
         },
         "sell": 2485,
@@ -88,7 +88,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 7712,
+            "amount": 77,
             "currency": "scrap"
         },
         "sell": 2982,
@@ -117,7 +117,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 19476,
+            "amount": 194,
             "currency": "scrap"
         },
         "sell": 9652,
@@ -146,7 +146,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 52666,
+            "amount": 526,
             "currency": "scrap"
         },
         "sell": 21254,
@@ -172,7 +172,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 105143,
+            "amount": 1051,
             "currency": "scrap"
         },
         "sell": 17989,
@@ -346,7 +346,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-            "display": "10x gunpowder\n2x tech_trash",
+            "level": 10,
             "materials": [
                 "gunpowder|10",
                 "tech_trash|2"
@@ -384,7 +384,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 102692,
+            "amount": 1026,
             "currency": "scrap"
         },
         "sell": 14293,
@@ -482,12 +482,7 @@
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
-        "craftedWith": {
-            "display": "4x coal",
-            "materials": [
-                "coal|4"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
         "sell": 693,

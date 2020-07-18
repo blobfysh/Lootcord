@@ -7,6 +7,7 @@
         "minDmg": 47,
         "maxDmg": 72,
         "ammo": [
+            "hv_rifle_bullet",
             "rifle_bullet"
         ],
         "craftedWith": "",
@@ -43,7 +44,13 @@
         "ammo": [
             "arrow"
         ],
-        "craftedWith": "",
+        "craftedWith": {
+            "level": 2,
+            "materials": [
+                "wood|3",
+                "cloth|1"
+            ]
+        },
         "recyclesTo": {
             "display": "1x wood\n1x cloth",
             "materials": [
@@ -76,14 +83,13 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-            "display": "2x metal_pipe\n2x metal",
+            "level": 3,
             "materials": [
                 "metal_pipe|2",
                 "metal|2"
             ]
         },
         "recyclesTo": {
-            "display": "1x metal_pipe",
             "materials": [
                 "metal_pipe|1"
             ]
@@ -113,6 +119,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
+            "level": 6,
             "materials": [
                 "smg_body|2",
                 "metal_spring|1",
@@ -150,6 +157,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
+            "level": 7,
             "materials": [
                 "smg_body|4",
                 "metal_spring|2",
@@ -187,14 +195,13 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-            "display": "2x smg_body\n1x metal_spring",
+            "level": 5,
             "materials": [
                 "smg_body|2",
                 "metal_spring|1"
             ]
         },
         "recyclesTo": {
-            "display": "1x smg_body",
             "materials": [
                 "smg_body|1"
             ]
@@ -224,6 +231,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
+            "level": 6,
             "materials": [
                 "metal_spring|1",
                 "metal_pipe|2"
@@ -286,9 +294,11 @@
         "minDmg": 54,
         "maxDmg": 59,
         "ammo": [
+            "hv_rifle_bullet",
             "rifle_bullet"
         ],
         "craftedWith": {
+            "level": 9,
             "materials": [
                 "rifle_body|3",
                 "metal_spring|1",
@@ -296,7 +306,6 @@
             ]
         },
         "recyclesTo": {
-            "display": "1x rifle_body",
             "materials": [
                 "rifle_body|1"
             ]
@@ -323,10 +332,11 @@
         "minDmg": 5,
         "maxDmg": 17,
         "ammo": [
+            "hv_rifle_bullet",
             "rifle_bullet"
         ],
         "craftedWith": {
-            "display": "3x semi_body\n1x metal_spring\n1x metal",
+            "level": 6,
             "materials": [
                 "semi_body|3",
                 "metal_spring|1",
@@ -364,14 +374,13 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-            "display": "2x semi_body\n1x metal",
+            "level": 4,
             "materials": [
                 "semi_body|2",
                 "metal|1"
             ]
         },
         "recyclesTo": {
-            "display": "1x semi_body",
             "materials": [
                 "semi_body|1"
             ]
@@ -430,11 +439,11 @@
         "minDmg": 10,
         "maxDmg": 25,
         "ammo": [
-            "12g_buckshot",
-            "12g_slug"
+            "12g_slug",
+            "12g_buckshot"
         ],
         "craftedWith": {
-            "display": "1x metal_spring\n2x metal_pipe\n2x metal",
+            "level": 6,
             "materials": [
                 "metal_spring|1",
                 "metal_pipe|2",
@@ -442,7 +451,6 @@
             ]
         },
         "recyclesTo": {
-            "display": "1x metal",
             "materials": [
                 "metal|1"
             ]
@@ -469,8 +477,8 @@
         "minDmg": 35,
         "maxDmg": 46,
         "ammo": [
-            "12g_buckshot",
-            "12g_slug"
+            "12g_slug",
+            "12g_buckshot"
         ],
         "craftedWith": "",
         "recyclesTo": {
@@ -501,6 +509,7 @@
         "minDmg": 30,
         "maxDmg": 38,
         "ammo": [
+            "hv_rifle_bullet",
             "rifle_bullet"
         ],
         "craftedWith": "",
@@ -533,6 +542,7 @@
         "minDmg": 34,
         "maxDmg": 45,
         "ammo": [
+            "hv_rifle_bullet",
             "rifle_bullet"
         ],
         "craftedWith": "",
@@ -565,11 +575,11 @@
         "minDmg": 0,
         "maxDmg": 20,
         "ammo": [
-            "12g_buckshot",
-            "12g_slug"
+            "12g_slug",
+            "12g_buckshot"
         ],
         "craftedWith": {
-            "display": "1x metal_pipe\n1x metal\n1x wood",
+            "level": 3,
             "materials": [
                 "metal_pipe|1",
                 "metal|1",

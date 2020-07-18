@@ -10,7 +10,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-            "display": "1x tech_trash",
+            "level": 1,
             "materials": [
                 "tech_trash|1"
             ]

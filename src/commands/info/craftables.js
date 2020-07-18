@@ -12,8 +12,9 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
+        const row = await app.player.getRow(message.author.id);
         const items = await app.itm.getItemObject(message.author.id);
-        const craftableItems = Object.keys(app.itemdata).filter(item => app.itemdata[item].craftedWith !== "");
+        const craftableItems = Object.keys(app.itemdata).filter(item => app.itemdata[item].craftedWith !== "" && app.itemdata[item].craftedWith.level <= row.level);
         let craftables = [];
 
         for(let i = 0; i < craftableItems.length; i++){
@@ -58,7 +59,9 @@ module.exports = {
 
         const craftableEmb = new app.Embed()
         .setTitle('Craftables')
-        .setDescription(craftables.length ? ('These are the items you can craft right now:\n\n' + craftables.join('\n')) : 'You cannot craft any items right now!')
+        .setDescription('Items you are a high enough level to craft:\n\n' + (craftableItems.map(item => app.itemdata[item].icon + '`' + item + 
+        '` (Level ' + app.itemdata[item].craftedWith.level + '+)').join('\n') || 'Nothing, you should level up more!') + '\n\n' + 
+        (craftables.length ? ('These are the items you can craft right now:\n\n' + craftables.join('\n')) : 'You don\'t have the materials to craft anything right now!'))
         .setColor(13451564)
 
         message.channel.createMessage(craftableEmb);

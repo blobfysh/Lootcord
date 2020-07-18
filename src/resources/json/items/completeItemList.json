@@ -8,6 +8,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+            "level": 4,
             "materials": [
                 "gunpowder|2",
                 "metal|1"
@@ -34,6 +35,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+            "level": 7,
             "materials": [
                 "gunpowder|4",
                 "metal|2"
@@ -88,6 +90,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+            "level": 2,
             "materials": [
                 "rock|1",
                 "wood|1",
@@ -113,6 +116,7 @@
         "minDmg": 34,
         "maxDmg": 45,
         "ammo": [
+            "hv_rifle_bullet",
             "rifle_bullet"
         ],
         "craftedWith": "",
@@ -152,7 +156,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 7712,
+            "amount": 77,
             "currency": "scrap"
         },
         "sell": 2982,
@@ -174,9 +178,11 @@
         "minDmg": 54,
         "maxDmg": 59,
         "ammo": [
+            "hv_rifle_bullet",
             "rifle_bullet"
         ],
         "craftedWith": {
+            "level": 9,
             "materials": [
                 "rifle_body|3",
                 "metal_spring|1",
@@ -184,7 +190,6 @@
             ]
         },
         "recyclesTo": {
-            "display": "1x rifle_body",
             "materials": [
                 "rifle_body|1"
             ]
@@ -238,7 +243,13 @@
         "ammo": [
             "arrow"
         ],
-        "craftedWith": "",
+        "craftedWith": {
+            "level": 2,
+            "materials": [
+                "wood|3",
+                "cloth|1"
+            ]
+        },
         "recyclesTo": {
             "display": "1x wood\n1x cloth",
             "materials": [
@@ -296,7 +307,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-            "display": "10x gunpowder\n2x tech_trash",
+            "level": 10,
             "materials": [
                 "gunpowder|10",
                 "tech_trash|2"
@@ -531,7 +542,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 18655,
+            "amount": 186,
             "currency": "scrap"
         },
         "sell": 2485,
@@ -637,14 +648,13 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-            "display": "2x smg_body\n1x metal_spring",
+            "level": 5,
             "materials": [
                 "smg_body|2",
                 "metal_spring|1"
             ]
         },
         "recyclesTo": {
-            "display": "1x smg_body",
             "materials": [
                 "smg_body|1"
             ]
@@ -826,7 +836,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 102692,
+            "amount": 1026,
             "currency": "scrap"
         },
         "sell": 14293,
@@ -866,6 +876,37 @@
         "cooldown": "",
         "artist": "221087115893669889",
         "category": "Banner"
+    },
+    "hv_rifle_bullet": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 34,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 8,
+            "materials": [
+                "gunpowder|5",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": {
+            "materials": [
+                "gunpowder|1"
+            ]
+        },
+        "buy": "",
+        "sell": 20823,
+        "desc": "High velocity 5.56 rifle ammunition.",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/734096778466558002/hv_rifle_bullet.png",
+        "icon": "<:hv_rifle_bullet:734096749395705956>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
     },
     "killer": {
         "rarity": "Rare",
@@ -932,7 +973,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 52666,
+            "amount": 526,
             "currency": "scrap"
         },
         "sell": 21254,
@@ -956,26 +997,26 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-            "display": "8x cloth\n3x wood",
+            "level": 9,
             "materials": [
                 "cloth|8",
-                "wood|3"
+                "wood|3",
+                "metal|3"
             ]
         },
         "recyclesTo": {
-            "display": "3x cloth",
             "materials": [
                 "cloth|3"
             ]
         },
         "buy": "",
         "sell": 177599,
-        "desc": "Equip this storage box to gain **25** item slots!",
+        "desc": "Equip this storage box to gain **40** item slots!",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/732871989156380772/large_wood_box.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732871989156380772/large_wood_box.png",
         "equippable": true,
         "type": "backpack",
-        "inv_slots": 25,
+        "inv_slots": 40,
         "icon": "<:large_wood_box:732871054527168532>",
         "breaksOnUse": "",
         "canBeStolen": true,
@@ -1019,6 +1060,7 @@
         "minDmg": 30,
         "maxDmg": 38,
         "ammo": [
+            "hv_rifle_bullet",
             "rifle_bullet"
         ],
         "craftedWith": "",
@@ -1052,6 +1094,7 @@
         "minDmg": 47,
         "maxDmg": 72,
         "ammo": [
+            "hv_rifle_bullet",
             "rifle_bullet"
         ],
         "craftedWith": "",
@@ -1224,7 +1267,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 19476,
+            "amount": 194,
             "currency": "scrap"
         },
         "sell": 9652,
@@ -1318,7 +1361,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 105143,
+            "amount": 1051,
             "currency": "scrap"
         },
         "sell": 17989,
@@ -1424,6 +1467,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
+            "level": 7,
             "materials": [
                 "smg_body|4",
                 "metal_spring|2",
@@ -1532,6 +1576,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+            "level": 4,
             "materials": [
                 "gunpowder|2",
                 "metal|2"
@@ -1557,12 +1602,7 @@
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
-        "craftedWith": {
-            "display": "4x coal",
-            "materials": [
-                "coal|4"
-            ]
-        },
+        "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
         "sell": 693,
@@ -1606,11 +1646,11 @@
         "minDmg": 10,
         "maxDmg": 25,
         "ammo": [
-            "12g_buckshot",
-            "12g_slug"
+            "12g_slug",
+            "12g_buckshot"
         ],
         "craftedWith": {
-            "display": "1x metal_spring\n2x metal_pipe\n2x metal",
+            "level": 6,
             "materials": [
                 "metal_spring|1",
                 "metal_pipe|2",
@@ -1618,7 +1658,6 @@
             ]
         },
         "recyclesTo": {
-            "display": "1x metal",
             "materials": [
                 "metal|1"
             ]
@@ -1676,6 +1715,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
+            "level": 6,
             "materials": [
                 "metal_spring|1",
                 "metal_pipe|2"
@@ -1737,7 +1777,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-            "display": "1x tech_trash",
+            "level": 1,
             "materials": [
                 "tech_trash|1"
             ]
@@ -1765,14 +1805,13 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-            "display": "2x metal_pipe\n2x metal",
+            "level": 3,
             "materials": [
                 "metal_pipe|2",
                 "metal|2"
             ]
         },
         "recyclesTo": {
-            "display": "1x metal_pipe",
             "materials": [
                 "metal_pipe|1"
             ]
@@ -1828,6 +1867,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+            "level": 4,
             "materials": [
                 "gunpowder|3",
                 "metal|2"
@@ -1878,6 +1918,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+            "level": 10,
             "materials": [
                 "gunpowder|6",
                 "metal|2"
@@ -2069,14 +2110,13 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-            "display": "2x semi_body\n1x metal",
+            "level": 4,
             "materials": [
                 "semi_body|2",
                 "metal|1"
             ]
         },
         "recyclesTo": {
-            "display": "1x semi_body",
             "materials": [
                 "semi_body|1"
             ]
@@ -2103,10 +2143,11 @@
         "minDmg": 5,
         "maxDmg": 17,
         "ammo": [
+            "hv_rifle_bullet",
             "rifle_bullet"
         ],
         "craftedWith": {
-            "display": "3x semi_body\n1x metal_spring\n1x metal",
+            "level": 6,
             "materials": [
                 "semi_body|3",
                 "metal_spring|1",
@@ -2167,24 +2208,23 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-            "display": "2x cloth",
+            "level": 3,
             "materials": [
                 "cloth|2"
             ]
         },
         "recyclesTo": {
-            "display": "1x cloth",
             "materials": [
                 "cloth|1"
             ]
         },
         "buy": "",
         "sell": 12858,
-        "desc": "Equip this storage box to gain **5** item slots!",
+        "desc": "Equip this storage box to gain **10** item slots!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929258648895529/small_stash.png",
         "equippable": true,
         "type": "backpack",
-        "inv_slots": 5,
+        "inv_slots": 10,
         "icon": "<:small_stash:732867510688284702>",
         "breaksOnUse": false,
         "canBeStolen": true,
@@ -2250,8 +2290,8 @@
         "minDmg": 35,
         "maxDmg": 46,
         "ammo": [
-            "12g_buckshot",
-            "12g_slug"
+            "12g_slug",
+            "12g_buckshot"
         ],
         "craftedWith": "",
         "recyclesTo": {
@@ -2478,6 +2518,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
+            "level": 6,
             "materials": [
                 "smg_body|2",
                 "metal_spring|1",
@@ -2538,11 +2579,11 @@
         "minDmg": 0,
         "maxDmg": 20,
         "ammo": [
-            "12g_buckshot",
-            "12g_slug"
+            "12g_slug",
+            "12g_buckshot"
         ],
         "craftedWith": {
-            "display": "1x metal_pipe\n1x metal\n1x wood",
+            "level": 3,
             "materials": [
                 "metal_pipe|1",
                 "metal|1",
@@ -2601,26 +2642,25 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-            "display": "4x cloth\n1x wood",
+            "level": 6,
             "materials": [
                 "cloth|4",
                 "wood|1"
             ]
         },
         "recyclesTo": {
-            "display": "1x cloth",
             "materials": [
                 "cloth|1"
             ]
         },
         "buy": "",
         "sell": 41857,
-        "desc": "Equip this storage box to gain **15** item slots!",
+        "desc": "Equip this storage box to gain **20** item slots!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930341978898472/wood_box.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930341978898472/wood_box.png",
         "equippable": true,
         "type": "backpack",
-        "inv_slots": 15,
+        "inv_slots": 20,
         "icon": "<:wood_box:732867523791552512>",
         "breaksOnUse": "",
         "canBeStolen": true,

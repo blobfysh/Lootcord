@@ -8,24 +8,23 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-            "display": "2x cloth",
+            "level": 3,
             "materials": [
                 "cloth|2"
             ]
         },
         "recyclesTo": {
-            "display": "1x cloth",
             "materials": [
                 "cloth|1"
             ]
         },
         "buy": "",
         "sell": 12858,
-        "desc": "Equip this storage box to gain **5** item slots!",
+        "desc": "Equip this storage box to gain **10** item slots!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929258648895529/small_stash.png",
         "equippable": true,
         "type": "backpack",
-        "inv_slots": 5,
+        "inv_slots": 10,
         "icon": "<:small_stash:732867510688284702>",
         "breaksOnUse": false,
         "canBeStolen": true,
@@ -42,26 +41,25 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-            "display": "4x cloth\n1x wood",
+            "level": 6,
             "materials": [
                 "cloth|4",
                 "wood|1"
             ]
         },
         "recyclesTo": {
-            "display": "1x cloth",
             "materials": [
                 "cloth|1"
             ]
         },
         "buy": "",
         "sell": 41857,
-        "desc": "Equip this storage box to gain **15** item slots!",
+        "desc": "Equip this storage box to gain **20** item slots!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930341978898472/wood_box.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930341978898472/wood_box.png",
         "equippable": true,
         "type": "backpack",
-        "inv_slots": 15,
+        "inv_slots": 20,
         "icon": "<:wood_box:732867523791552512>",
         "breaksOnUse": "",
         "canBeStolen": true,
@@ -78,26 +76,26 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-            "display": "8x cloth\n3x wood",
+            "level": 9,
             "materials": [
                 "cloth|8",
-                "wood|3"
+                "wood|3",
+                "metal|3"
             ]
         },
         "recyclesTo": {
-            "display": "3x cloth",
             "materials": [
                 "cloth|3"
             ]
         },
         "buy": "",
         "sell": 177599,
-        "desc": "Equip this storage box to gain **25** item slots!",
+        "desc": "Equip this storage box to gain **40** item slots!",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/732871989156380772/large_wood_box.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732871989156380772/large_wood_box.png",
         "equippable": true,
         "type": "backpack",
-        "inv_slots": 25,
+        "inv_slots": 40,
         "icon": "<:large_wood_box:732871054527168532>",
         "breaksOnUse": "",
         "canBeStolen": true,

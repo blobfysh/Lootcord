@@ -235,6 +235,7 @@ class Player {
 
             if(row.points >= xp.totalNeeded){
                 console.log(row.points + ' is greater than ' + xp.totalNeeded)
+                const craftables = Object.keys(this.app.itemdata).filter(item => this.app.itemdata[item].craftedWith !== "" && this.app.itemdata[item].craftedWith.level === row.level + 1);
                 let levelItem = "";
 
                 await this.app.query(`UPDATE scores SET points = points + 1, level = level + 1 WHERE userId = ${message.author.id}`);
@@ -277,7 +278,7 @@ class Player {
                     if(guildRow.levelChan !== undefined && guildRow.levelChan !== "" && guildRow.levelChan !== 0){
                         try{
                             await this.app.bot.createMessage(guildRow.levelChan, {
-                                content: `<@${message.author.id}> leveled up!\n**Item received:** ${levelItem}`
+                                content: `<@${message.author.id}> leveled up!\n**Reward:** ${levelItem}${craftables.length ? '\n\nYou can now craft the following items:\n' + craftables.map(item => this.app.itemdata[item].icon + '`' + item + '`').join(', ') : ''}`
                             }, {
                                 file: lvlUpImage,
                                 name: 'userLvl.jpeg'
@@ -290,7 +291,7 @@ class Player {
                     }
                     else{
                         message.channel.createMessage({
-                            content: `<@${message.author.id}> level up!\n**Item received:** ${levelItem}`
+                            content: `<@${message.author.id}> level up!\n**Reward:** ${levelItem}${craftables.length ? '\n\nYou can now craft the following items:\n' + craftables.map(item => this.app.itemdata[item].icon + '`' + item + '`').join(', ') : ''}`
                         }, {
                             file: lvlUpImage,
                             name: 'userLvl.jpeg'

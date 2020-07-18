@@ -73,7 +73,7 @@ module.exports = {
             message.reply(`✅ Successfully made ${app.badgedata[equipBadge].icon}\`${equipBadge}\` your display badge!`);
         }
         else if(equipItem && !app.itemdata[equipItem].equippable){
-            return message.reply(app.itemdata[equipItem].icon + '`' + equipItem + '` cannot be equipped. Specify a ' + app.icons.items.backpack + ' backpack, ' + app.icons.items.banner + ' banner or badge to equip.');
+            return message.reply(app.itemdata[equipItem].icon + '`' + equipItem + '` cannot be equipped. Specify a storage container, banner or badge to equip.');
         }
         else{
             message.reply(`Specify a valid item that can be equipped. \`${message.prefix}equip <item>\`. You can also equip a badge to set it as your display badge.`);
