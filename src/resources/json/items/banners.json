@@ -42,7 +42,7 @@
         "recyclesTo": [],
         "buy": {
             "amount": 43370,
-            "currency": "money"
+            "currency": "scrap"
         },
         "sell": 1659,
         "desc": "Inventory banner that can only be bought. Equip this to give your profile a fresh new look!",
@@ -71,7 +71,7 @@
         "recyclesTo": [],
         "buy": {
             "amount": 126731,
-            "currency": "money"
+            "currency": "scrap"
         },
         "sell": 13735,
         "desc": "Equip this to give your profile a fresh new look!",
@@ -98,7 +98,7 @@
         "recyclesTo": [],
         "buy": {
             "amount": 90817,
-            "currency": "money"
+            "currency": "scrap"
         },
         "sell": 13119,
         "desc": "Equip this to give your profile a fresh new look!",
@@ -125,7 +125,7 @@
         "recyclesTo": [],
         "buy": {
             "amount": 410015,
-            "currency": "money"
+            "currency": "scrap"
         },
         "sell": 29075,
         "desc": "For only the best. Equip this to give your profile a fresh new look!",
@@ -153,7 +153,7 @@
         "recyclesTo": [],
         "buy": {
             "amount": 1348700,
-            "currency": "money"
+            "currency": "scrap"
         },
         "sell": 192977,
         "desc": "Equip this to give your profile a fresh new look!",

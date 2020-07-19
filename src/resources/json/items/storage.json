@@ -26,8 +26,8 @@
         "type": "backpack",
         "inv_slots": 10,
         "icon": "<:small_stash:732867510688284702>",
-        "breaksOnUse": false,
-        "canBeStolen": true,
+        "breaksOnUse": "",
+        "canBeStolen": false,
         "cooldown": "",
         "artist": "",
         "category": "Storage"
@@ -62,7 +62,7 @@
         "inv_slots": 20,
         "icon": "<:wood_box:732867523791552512>",
         "breaksOnUse": "",
-        "canBeStolen": true,
+        "canBeStolen": false,
         "cooldown": "",
         "artist": "",
         "category": "Storage"
@@ -99,7 +99,7 @@
         "inv_slots": 40,
         "icon": "<:large_wood_box:732871054527168532>",
         "breaksOnUse": "",
-        "canBeStolen": true,
+        "canBeStolen": false,
         "cooldown": "",
         "artist": "",
         "category": "Storage"

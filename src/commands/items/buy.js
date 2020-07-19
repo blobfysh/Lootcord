@@ -125,10 +125,10 @@ module.exports = {
             }
         }
         else if(message.args.map(arg => arg.toLowerCase()).includes('scrap')){
-            if(buyAmount > 1000) buyAmount = 1000;
+            if(buyAmount > 1000000) buyAmount = 1000000;
 
             const exchangeRate = await app.cache.get('scrapExchangeRate');
-            const scrapPrice = Math.floor(exchangeRate * 100) * buyAmount;
+            const scrapPrice = Math.floor(exchangeRate * buyAmount);
 
             const botMessage = await message.channel.createMessage(`Trade **${app.common.formatNumber(scrapPrice)}** Lootcoin for **${app.common.formatNumber(buyAmount, false, true)}** Scrap?`);
 
@@ -145,7 +145,7 @@ module.exports = {
                     await app.player.removeMoney(message.author.id, scrapPrice);
                     await app.player.addScrap(message.author.id, buyAmount);
 
-                    botMessage.edit(`Successfully traded **${app.common.formatNumber(scrapPrice)}** Lootcoin for **${app.common.formatNumber(buyAmount, false, true)}** Scrap.\n\nYou now have ${app.common.formatNumber(row.money - scrapPrice)}.`);
+                    botMessage.edit(`Successfully traded **${app.common.formatNumber(scrapPrice)}** Lootcoin for **${app.common.formatNumber(buyAmount, false, true)}** Scrap.\n\nYou now have **${app.common.formatNumber(row.money - scrapPrice)}** Lootcoin and **${app.common.formatNumber(row.scrap + buyAmount, false, true)}** Scrap`);
                 }
                 else{
                     botMessage.delete();
@@ -234,7 +234,7 @@ module.exports = {
             }
 
             const listInfo = await app.bm.getListingInfo(buyItem);
-            const botMessage = await message.channel.createMessage(`Purchase ${listInfo.amount}x ${app.itemdata[listInfo.item].icon}\`${listInfo.item}\` for **${app.common.formatNumber(listInfo.price, false, true)}** Scrap?`);
+            const botMessage = await message.channel.createMessage(`Purchase ${listInfo.amount}x ${app.itemdata[listInfo.item].icon}\`${listInfo.item}\` for **${app.common.formatNumber(listInfo.price)}** Lootcoin?`);
 
             try{
                 const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
@@ -244,8 +244,8 @@ module.exports = {
                     const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), row);
                     const hasSpace = await app.itm.hasSpace(itemCt, listInfo.amount);
                     
-                    if(row.scrap < listInfo.price){
-                        return botMessage.edit("❌ You don't have enough Scrap! You only have **" + app.common.formatNumber(row.scrap, false, true) + "**");
+                    if(row.money < listInfo.price){
+                        return botMessage.edit("❌ You don't have enough Lootcoin! You only have **" + app.common.formatNumber(row.money) + "**");
                     }
                     if(!hasSpace){
                         return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${listInfo.amount}** open slot${listInfo.amount > 1 ? 's': ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`);
@@ -277,7 +277,7 @@ module.exports = {
                             listInfo.amount, 
                             listInfo.pricePer
                         ]);
-                    await app.player.removeScrap(message.author.id, listInfo.price);
+                    await app.player.removeMoney(message.author.id, listInfo.price);
                     await app.itm.addItem(message.author.id, listInfo.item, listInfo.amount);
                     await app.query("UPDATE scores SET bmLimit = bmLimit + 1 WHERE userId = ?", [message.author.id]);
 
@@ -289,7 +289,7 @@ module.exports = {
                     .addField('Seller', '```\n' + listInfo.sellerId + '```')
                     .addField('List Duration (how long it was listed)', app.cd.convertTime(Date.now() - listInfo.listTime))
                     .addField('Item Sold', `${listInfo.amount}x \`${listInfo.item}\``, true)
-                    .addField('Price', app.common.formatNumber(listInfo.price, false, true), true)
+                    .addField('Price', app.common.formatNumber(listInfo.price), true)
                     .setFooter('Make sure listing isn\'t faked to transfer money')
 
                     if(Date.now() - listInfo.listTime <= 1000 * 300){

@@ -2,9 +2,9 @@
 module.exports = {
     name: 'slots',
     aliases: ['slot'],
-    description: 'Put some Lootcoin in the slot machine!',
+    description: 'Put some Scrap in the slot machine!',
     long: 'Play a game of slots.\n\n💵 💵 - **0.8x** multiplier\n💸 💸 - **1.5x** multiplier\n💰 💰 - **3x** multiplier\n💎 💎 - **5x** multiplier\n💵 💵 💵 - **2x** multiplier\n💸 💸 💸 - **3x** multiplier\n💰 💰 💰 - **6x** multiplier\n💎 💎 💎 - **10x** multiplier',
-    args: {"amount": "Amount of Lootcoin to gamble."},
+    args: {"amount": "Amount of Scrap to gamble."},
     examples: ["slots 1000"],
     ignoreHelp: false,
     requiresAcc: true,
@@ -17,7 +17,7 @@ module.exports = {
         let gambleAmount = app.parse.numbers(message.args)[0];
         
         if(!gambleAmount && message.args[0] && message.args[0].toLowerCase() === 'all'){
-            gambleAmount = row.money >= 1000000 ? 1000000 : row.money;
+            gambleAmount = row.scrap >= 1000000 ? 1000000 : row.scrap;
         }
         
         if(slotsCD){
@@ -25,18 +25,18 @@ module.exports = {
         }
 
         if(!gambleAmount || gambleAmount < 100){
-            return message.reply(`Please specify an amount of at least ${app.common.formatNumber(100)} to gamble!`);
+            return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100, false, true)}** to gamble!`);
         }
 
-        if(gambleAmount > row.money){
-            return message.reply(`You don't have that much Lootcoin! You currently have ${app.common.formatNumber(row.money)}`);
+        if(gambleAmount > row.scrap){
+            return message.reply(`You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can buy more Scrap from the Outpost! (\`${message.prefix}shop\`)`);
         }
         
         if(gambleAmount > 1000000){
-            return message.reply(`You cannot gamble more than ${app.common.formatNumber(1000000)}`);
+            return message.reply(`You cannot gamble more than **${app.common.formatNumber(1000000, false, true)}**`);
         }
         
-        await app.player.removeMoney(message.author.id, gambleAmount);
+        await app.player.removeScrap(message.author.id, gambleAmount);
         let mainRowGif = app.icons.slots_midrow_gif;
         let topRowGif = app.icons.slots_botrow_gif;
         let botRowGif = app.icons.slots_toprow_gif;
@@ -110,8 +110,9 @@ module.exports = {
                 rewardMltp = 5.00;
             }
         }
+
         winnings = Math.floor(gambleAmount * rewardMltp);
-        await app.player.addMoney(message.author.id, winnings);
+        await app.player.addScrap(message.author.id, winnings);
 
         if(winnings >= 2000000){
             await app.itm.addBadge(message.author.id, 'gambler');
@@ -135,7 +136,7 @@ module.exports = {
         let slots3 = "";
         if(rewardMltp !== 0.00){
             slots3 = "⬛" + col['1'][0] + " " + col['2'][0] + " " + col['3'][0] + "⬛\n" +
-                        "▶" + col['1'][1] + " " + col['2'][1] + " " + col['3'][1] + `◀ You won **${app.common.formatNumber(winnings)}**! (${rewardMltp.toFixed(2)}x)\n` +
+                        "▶" + col['1'][1] + " " + col['2'][1] + " " + col['3'][1] + `◀ You won **${app.common.formatNumber(winnings, false, true)}** Scrap! (${rewardMltp.toFixed(2)}x)\n` +
                         "⬛" + col['1'][2] + " " + col['2'][2] + " " + col['3'][2] + "⬛";
         }
         else{

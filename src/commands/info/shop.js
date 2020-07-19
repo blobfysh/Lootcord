@@ -70,7 +70,7 @@ async function getHomePage(app, prefix){
     firstEmbed.setDescription('Use `' + prefix + 'buy <item>` to purchase.\n\nWe\'ll sell you Scrap for your Lootcoin! (`' + prefix + 'buy scrap <amount>`)');
     firstEmbed.setImage("https://cdn.discordapp.com/attachments/497302646521069570/733741460868038706/outpost_shop_small.png");
     firstEmbed.setColor(13451564);
-    firstEmbed.addField('Scrap Exchange', '**' + app.common.formatNumber(Math.floor(exchangeRate * 100)) + '** Lootcoin → ' + app.icons.scrap + ' **1** Scrap')
+    firstEmbed.addField('Scrap Exchange', '**' + app.common.formatNumber(Math.floor(exchangeRate * 100)) + '** Lootcoin → ' + app.icons.scrap + ' **100** Scrap')
 
     for(let gameRow of gameRows){
         if(gameRow !== null){

@@ -10,8 +10,8 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 186,
-            "currency": "scrap"
+            "amount": 18655,
+            "currency": "money"
         },
         "sell": 2485,
         "desc": "Open this to get a random item!",
@@ -90,8 +90,8 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 77,
-            "currency": "scrap"
+            "amount": 7712,
+            "currency": "money"
         },
         "sell": 2982,
         "desc": "Use this to restore **10 - 19** health.",
@@ -119,8 +119,8 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 194,
-            "currency": "scrap"
+            "amount": 19476,
+            "currency": "money"
         },
         "sell": 9652,
         "desc": "Use this to restore **20 - 28** health.",
@@ -148,8 +148,8 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 526,
-            "currency": "scrap"
+            "amount": 52666,
+            "currency": "money"
         },
         "sell": 21254,
         "desc": "Use this to restore **50 - 60** health.",
@@ -174,8 +174,8 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 1051,
-            "currency": "scrap"
+            "amount": 105143,
+            "currency": "money"
         },
         "sell": 17989,
         "desc": "A rare crate that may contain some high tier weapons.",
@@ -386,8 +386,8 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": {
-            "amount": 1026,
-            "currency": "scrap"
+            "amount": 102692,
+            "currency": "money"
         },
         "sell": 14293,
         "desc": "Use this armor to shield you from attacks for 2 hours.",
