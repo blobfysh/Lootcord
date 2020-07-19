@@ -63,7 +63,7 @@ module.exports = {
                 embedInfo.addField("Money", app.common.formatNumber(userRow.money) + '\n' + app.common.formatNumber(userRow.scrap, false, true), true)
 
                 if(userRow.backpack === 'none'){
-                    embedInfo.addField('Storage Container', 'None', true)
+                    embedInfo.addField('Storage Container', 'None equipped', true)
                 }
                 else{
                     embedInfo.addField('Storage Container', app.itemdata[userRow.backpack].icon + '`' + userRow.backpack + '`', true)

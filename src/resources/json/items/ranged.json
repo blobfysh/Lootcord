@@ -85,13 +85,13 @@
         "craftedWith": {
             "level": 3,
             "materials": [
-                "metal_pipe|2",
+                "metal_pipe|1",
                 "metal|2"
             ]
         },
         "recyclesTo": {
             "materials": [
-                "metal_pipe|1"
+                "metal|1"
             ]
         },
         "buy": "",
@@ -190,7 +190,7 @@
         "isWeap": true,
         "isItem": false,
         "minDmg": 11,
-        "maxDmg": 25,
+        "maxDmg": 21,
         "ammo": [
             "pistol_bullet"
         ],
@@ -409,9 +409,14 @@
         "ammo": [
             "arrow"
         ],
-        "craftedWith": "",
+        "craftedWith": {
+            "level": 3,
+            "materials": [
+                "wood|2",
+                "metal|2"
+            ]
+        },
         "recyclesTo": {
-            "display": "1x wood\n1x metal",
             "materials": [
                 "wood|1",
                 "metal|1"
@@ -436,8 +441,8 @@
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
-        "minDmg": 10,
-        "maxDmg": 25,
+        "minDmg": 15,
+        "maxDmg": 27,
         "ammo": [
             "12g_slug",
             "12g_buckshot"
@@ -474,7 +479,7 @@
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
-        "minDmg": 35,
+        "minDmg": 30,
         "maxDmg": 46,
         "ammo": [
             "12g_slug",
@@ -545,9 +550,15 @@
             "hv_rifle_bullet",
             "rifle_bullet"
         ],
-        "craftedWith": "",
+        "craftedWith": {
+            "level": 9,
+            "materials": [
+                "rifle_body|2",
+                "metal_spring|1",
+                "metal|1"
+            ]
+        },
         "recyclesTo": {
-            "display": "1x rifle_body\n1x metal_spring",
             "materials": [
                 "rifle_body|1",
                 "metal_spring|1"
@@ -564,7 +575,7 @@
         "cooldown": {
             "seconds": 4561
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "phrase": "{attacker} sprays down {victim} using an {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged"
     },

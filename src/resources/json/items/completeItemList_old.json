@@ -68,9 +68,9 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 549,
-        "desc": "Someone seriously gave you an apple... You can eat it to gain `9-13` HP.\n**Halloween event item**",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703180591780331520/apple.png",
-        "icon": "<:limit_usable:698423067965390849>",
+        "desc": "Someone seriously gave you an apple... You can eat it to gain **9 - 13** health.\n**Halloween event item.**",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/734408429711523870/apple.png",
+        "icon": "<:apple_icon:734408335188819989>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
@@ -119,9 +119,15 @@
             "hv_rifle_bullet",
             "rifle_bullet"
         ],
-        "craftedWith": "",
+        "craftedWith": {
+            "level": 9,
+            "materials": [
+                "rifle_body|2",
+                "metal_spring|1",
+                "metal|1"
+            ]
+        },
         "recyclesTo": {
-            "display": "1x rifle_body\n1x metal_spring",
             "materials": [
                 "rifle_body|1",
                 "metal_spring|1"
@@ -138,7 +144,7 @@
         "cooldown": {
             "seconds": 4561
         },
-        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "phrase": "{attacker} sprays down {victim} using an {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged"
     },
@@ -272,32 +278,6 @@
         "artist": "",
         "category": "Ranged"
     },
-    "bunny": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "10 - 25",
-        "minDmg": 10,
-        "maxDmg": 25,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 501,
-        "desc": "Send this rabid bunny to chomp your foes...  🐰\n**Easter event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "30 minutes",
-            "scoreRow": "_30mCD",
-            "seconds": 1800
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Melee"
-    },
     "c4": {
         "rarity": "Ultra",
         "isWeap": false,
@@ -345,37 +325,9 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 1387,
-        "desc": "A king-sized candy bar! Heals `13-28` HP.\n**Halloween event item**",
-        "image": "",
-        "icon": "<:limit_usable:698423067965390849>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "20 minutes",
-            "scoreRow": "_20mHEALCD",
-            "seconds": 1200
-        },
-        "artist": "",
-        "category": "Item"
-    },
-    "candy_egg": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "isHeal": true,
-        "healMin": 22,
-        "healMax": 30,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 551,
-        "desc": "Delicious chocolate candy eggs that heal `22-30` HP when you eat them!\n**Easter event item**",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562550732574818309/candy_egg.png",
-        "icon": "<:limit_usable:698423067965390849>",
+        "desc": "A king-sized candy bar! Heals **13 - 28** HP.\n**Halloween event item.**",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/734408436682326037/chocolate_bar.png",
+        "icon": "<:candy_bar:734408335108997181>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
@@ -399,34 +351,22 @@
         "buy": "",
         "sell": 1267,
         "desc": "A trick-or-treat pail. It could contain some cool Halloween items!",
-        "image": "",
-        "icon": "<:limit_box:698423594203611176>",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/734408433222025286/candy_pail.png",
+        "icon": "<:candy_pail:734408335377432586>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "5": {
-                "xp": 75,
-                "items": [
-                    "magic_staff|1"
-                ]
-            },
             "20": {
-                "xp": 40,
+                "xp": 30,
                 "items": [
-                    "scythe|1"
+                    "sickle|1"
                 ]
             },
-            "35": {
-                "xp": 25,
-                "items": [
-                    "apple|1",
-                    "spider|1"
-                ]
-            },
-            "40": {
+            "80": {
                 "xp": 20,
                 "items": [
+                    "apple|1",
                     "candy_bar|1",
                     "pumpkin|1"
                 ]
@@ -447,9 +387,9 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 834,
-        "desc": "Sharpened for maximum efficiency\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
+        "desc": "**Christmas event item.**",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/734409574198542336/candycane.png",
+        "icon": "<:candycane:734409532884779149>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
@@ -458,34 +398,6 @@
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
         "category": "Melee"
-    },
-    "carrot": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "isHeal": true,
-        "healMin": 17,
-        "healMax": 25,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 544,
-        "desc": "Eat this healthy carrot to heal `17-25` HP!\n**Easter event item**",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/703180605147447296/carrot.png",
-        "icon": "<:limit_usable:698423067965390849>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "20 minutes",
-            "scoreRow": "_20mHEALCD",
-            "seconds": 1200
-        },
-        "artist": "",
-        "category": "Item"
     },
     "cloth": {
         "rarity": "Uncommon",
@@ -522,9 +434,9 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 234,
-        "desc": "You were on the naughty list!\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_material:656757111388241920>",
+        "desc": "You were on the naughty list!\n**Christmas event item.**",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/734411876376641596/coal.png",
+        "icon": "<:coal:734411831145136168>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -561,7 +473,8 @@
                     "revolver|1",
                     "12g_buckshot|1",
                     "pistol_bullet|1",
-                    "gunpowder|1"
+                    "gunpowder|1",
+                    "smg_body|1"
                 ]
             },
             "8": {
@@ -570,7 +483,6 @@
                     "crossbow|1",
                     "f1_grenade|1",
                     "medical_syringe|1",
-                    "semi_body|1",
                     "waterpipe_shotgun|1"
                 ]
             },
@@ -580,7 +492,9 @@
                     "metal_pipe|1",
                     "bow|1",
                     "arrow|1",
-                    "cloth|1"
+                    "cloth|1",
+                    "semi_body|1",
+                    "wood|1"
                 ]
             },
             "25": {
@@ -615,9 +529,14 @@
         "ammo": [
             "arrow"
         ],
-        "craftedWith": "",
+        "craftedWith": {
+            "level": 3,
+            "materials": [
+                "wood|2",
+                "metal|2"
+            ]
+        },
         "recyclesTo": {
-            "display": "1x wood\n1x metal",
             "materials": [
                 "wood|1",
                 "metal|1"
@@ -643,7 +562,7 @@
         "isWeap": true,
         "isItem": false,
         "minDmg": 11,
-        "maxDmg": 25,
+        "maxDmg": 21,
         "ammo": [
             "pistol_bullet"
         ],
@@ -673,30 +592,6 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged"
-    },
-    "easter_egg": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "givesMoneyOnUse": true,
-        "itemMin": 300,
-        "itemMax": 1500,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 415,
-        "desc": "Has a chance to contain `300 - 1,500` Lootcoin!\n**Easter event item**",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562550734944731157/easter_egg.png",
-        "icon": "<:limit_usable:698423067965390849>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Item"
     },
     "elite": {
         "rarity": "Rare",
@@ -763,38 +658,14 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 553,
-        "desc": "Eat this to heal `20-25` HP!\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_usable:698423067965390849>",
+        "desc": "Eat this to restore **20 - 25** health!\n**Christmas event item.**",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/734406139906752563/gingerbread.png",
+        "icon": "<:gingerbread:734406166334930975>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
             "seconds": 1200
         },
-        "artist": "",
-        "category": "Item"
-    },
-    "golden_egg": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "givesMoneyOnUse": true,
-        "itemMin": 5000,
-        "itemMax": 20000,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 7661,
-        "desc": "This rare golden easter egg has a chance to contain `5,000 - 20,000` Lootcoin.\n**Easter event item**",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562529404434120704/golden_egg.png",
-        "icon": "<:limit_usable:698423067965390849>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
         "artist": "",
         "category": "Item"
     },
@@ -999,14 +870,15 @@
         "craftedWith": {
             "level": 9,
             "materials": [
-                "cloth|8",
+                "cloth|5",
                 "wood|3",
                 "metal|3"
             ]
         },
         "recyclesTo": {
             "materials": [
-                "cloth|3"
+                "cloth|2",
+                "wood|1"
             ]
         },
         "buy": "",
@@ -1196,32 +1068,6 @@
             "seconds": 1463
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Melee"
-    },
-    "magic_staff": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "70 - 90",
-        "minDmg": 70,
-        "maxDmg": 90,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 24583,
-        "desc": "**Halloween event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "60 minutes",
-            "scoreRow": "_60mCD",
-            "seconds": 3600
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
         "category": "Melee"
     },
@@ -1430,33 +1276,6 @@
         "artist": "",
         "category": "Item"
     },
-    "mittens": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "isShield": true,
-        "shieldInfo": {
-            "display": "30 minutes",
-            "shieldRow": "mittenShieldTime",
-            "seconds": 1800
-        },
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 1010,
-        "desc": "Wear these cozy gloves to shield yourself for 30 minutes!\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_shield:698423077377409054>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Item"
-    },
     "mp5": {
         "rarity": "Rare",
         "isWeap": true,
@@ -1494,30 +1313,6 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged"
-    },
-    "nutcracker": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "30 - 65",
-        "minDmg": 30,
-        "maxDmg": 65,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 16487,
-        "desc": "Send the nutcracker to bite your enemies\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 2700
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Melee"
     },
     "patron": {
         "rarity": "Limited",
@@ -1606,25 +1401,23 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 693,
-        "desc": "Unwrap it to see what's inside!\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_box:698423594203611176>",
+        "desc": "Unwrap it to see what's inside!\n**Christmas event item.**",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/734406635895914526/present.png",
+        "icon": "<:present:734406695119487009>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "5": {
-                "xp": 75,
+            "10": {
+                "xp": 15,
                 "items": [
-                    "nutcracker|1"
+                    "coal|1"
                 ]
             },
-            "25": {
-                "xp": 25,
+            "20": {
+                "xp": 30,
                 "items": [
-                    "mittens|1",
-                    "snowball|1",
-                    "coal|1"
+                    "snowball|1"
                 ]
             },
             "70": {
@@ -1643,8 +1436,8 @@
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
-        "minDmg": 10,
-        "maxDmg": 25,
+        "minDmg": 15,
+        "maxDmg": 27,
         "ammo": [
             "12g_slug",
             "12g_buckshot"
@@ -1692,9 +1485,9 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 1624,
-        "desc": "A pumpkin! You could make a jack-o'-lantern... Or you could just eat it to gain `15-30` HP.\n**Halloween event item**",
-        "image": "",
-        "icon": "<:limit_usable:698423067965390849>",
+        "desc": "A pumpkin! You could make a jack-o'-lantern... Or you could just eat it to gain **15 - 30** health.\n**Halloween event item.**",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/734408439295639653/pumpkin.png",
+        "icon": "<:pumpkin:734408377756549141>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
@@ -1807,13 +1600,13 @@
         "craftedWith": {
             "level": 3,
             "materials": [
-                "metal_pipe|2",
+                "metal_pipe|1",
                 "metal|2"
             ]
         },
         "recyclesTo": {
             "materials": [
-                "metal_pipe|1"
+                "metal|1"
             ]
         },
         "buy": "",
@@ -1867,7 +1660,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-            "level": 4,
+            "level": 5,
             "materials": [
                 "gunpowder|3",
                 "metal|2"
@@ -1875,7 +1668,7 @@
         },
         "recyclesTo": [],
         "buy": "",
-        "sell": 6056,
+        "sell": 10036,
         "desc": "5.56 rifle ammunition.",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733051137774583810/rifle_bullet.png",
         "icon": "<:rifle_bullet:732853207029514260>",
@@ -2047,32 +1840,6 @@
         "artist": "",
         "category": "Melee"
     },
-    "scythe": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "35 - 40",
-        "minDmg": 35,
-        "maxDmg": 40,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 8020,
-        "desc": "It's meant for reaping crops, but I think we all know what you'll be using it for.\n**Halloween event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "30 minutes",
-            "scoreRow": "_30mCD",
-            "seconds": 1800
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Melee"
-    },
     "semi_body": {
         "rarity": "Uncommon",
         "isWeap": false,
@@ -2199,6 +1966,32 @@
         "artist": "",
         "category": "Banner"
     },
+    "sickle": {
+        "rarity": "Limited",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "35 - 40",
+        "minDmg": 35,
+        "maxDmg": 40,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 8020,
+        "desc": "**Halloween event item.**",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/734410707658997770/sickle.png",
+        "icon": "<:sickle:734410650461405285>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "display": "30 minutes",
+            "scoreRow": "_30mCD",
+            "seconds": 1800
+        },
+        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Melee"
+    },
     "small_stash": {
         "rarity": "Uncommon",
         "isWeap": false,
@@ -2271,15 +2064,15 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 8253,
-        "desc": "Tightly packed snowball\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
+        "desc": "**Christmas event item.**",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/734410040190042152/snowball.png",
+        "icon": "<:snowball:734410017373159475>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
             "seconds": 2700
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "phrase": "{attacker} hurls a {weaponIcon}`{weapon}` at {victim} dealing **{damage}** damage!",
         "artist": "",
         "category": "Melee"
     },
@@ -2287,7 +2080,7 @@
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
-        "minDmg": 35,
+        "minDmg": 30,
         "maxDmg": 46,
         "ammo": [
             "12g_slug",
@@ -2314,32 +2107,6 @@
         "phrase": "{attacker} blasts a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged"
-    },
-    "spider": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "20 - 30",
-        "minDmg": 20,
-        "maxDmg": 30,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 2638,
-        "desc": "A real spider. Toss it at someone to make them scream!\n**Halloween event item**",
-        "image": "",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "15 minutes",
-            "scoreRow": "_15mCD",
-            "seconds": 900
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Melee"
     },
     "spooky": {
         "rarity": "Limited",
@@ -2380,9 +2147,9 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 1954,
-        "desc": "Has a chance to contain `500 - 2,000` Lootcoin\n**Christmas event item**",
-        "image": "",
-        "icon": "<:limit_usable:698423067965390849>",
+        "desc": "Has a chance to contain `500 - 2,000` Lootcoin\n**Christmas event item.**",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/734405933098074142/stocking.png",
+        "icon": "<:stocking:734405868296208394>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -2444,7 +2211,8 @@
                 "items": [
                     "12g_slug|1",
                     "thompson|1",
-                    "rocket_launcher|1"
+                    "rocket_launcher|1",
+                    "hv_rifle_bullet|1"
                 ]
             },
             "0.5": {
@@ -2545,32 +2313,6 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged"
-    },
-    "tnt_egg": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
-        "damage": "50 - 75",
-        "minDmg": 50,
-        "maxDmg": 75,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 8600,
-        "desc": "Do not be fooled, this egg has enough gunpowder in it to destroy a small house. Throw it at an enemy to unleash its deadly force.\n**Easter event item**",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/562525958121455663/tnt_egg.png",
-        "icon": "<:limit_melee:698423086747353168>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "display": "30 minutes",
-            "scoreRow": "_30mCD",
-            "seconds": 1800
-        },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
-        "artist": "",
-        "category": "Melee"
     },
     "waterpipe_shotgun": {
         "rarity": "Rare",

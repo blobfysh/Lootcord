@@ -78,14 +78,15 @@
         "craftedWith": {
             "level": 9,
             "materials": [
-                "cloth|8",
+                "cloth|5",
                 "wood|3",
                 "metal|3"
             ]
         },
         "recyclesTo": {
             "materials": [
-                "cloth|3"
+                "cloth|2",
+                "wood|1"
             ]
         },
         "buy": "",

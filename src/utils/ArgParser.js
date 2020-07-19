@@ -90,6 +90,7 @@ class ArgParser {
             case "drop":
             case "airdrop":
             case "supply": itemSearched = "supply_drop"; break;
+            case "signal": itemSearched = "supply_signal"; break;
             case "pipy":
             case "pipey":
             case "waterpipe": itemSearched = "waterpipe_shotgun"; break;
@@ -186,6 +187,12 @@ class ArgParser {
             case "hv_rifle":
             case "high_velocity_bullet":
             case "hv_ammo": itemSearched = "hv_rifle_bullet"; break;
+            case "candy":
+            case "chocolate":
+            case "chocolate_bar": itemSearched = "candy_bar"; break;
+            case "snow": itemSearched = "snowball"; break;
+            case "pail":
+            case "candy_bucket": itemSearched = "candy_pail"; break;
 
             default:
                 // try using spell correction to find the item name

@@ -59,9 +59,9 @@ module.exports = {
 
         const craftableEmb = new app.Embed()
         .setTitle('Craftables')
-        .setDescription('Items you are a high enough level to craft:\n\n' + (craftableItems.map(item => app.itemdata[item].icon + '`' + item + 
+        .setDescription('**Items you are a high enough level to craft:**\n\n' + (craftableItems.map(item => app.itemdata[item].icon + '`' + item + 
         '` (Level ' + app.itemdata[item].craftedWith.level + '+)').join('\n') || 'Nothing, you should level up more!') + '\n\n' + 
-        (craftables.length ? ('These are the items you can craft right now:\n\n' + craftables.join('\n')) : 'You don\'t have the materials to craft anything right now!'))
+        '**These are the items you can craft right now:**\n\n' + (craftables.length ? craftables.join('\n') : 'You don\'t have the materials to craft anything right now!'))
         .setColor(13451564)
 
         message.channel.createMessage(craftableEmb);

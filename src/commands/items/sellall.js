@@ -139,7 +139,7 @@ module.exports = {
             }
         }
         else{
-            message.reply('You need to enter a valid item rarity to sell! Ex. `sellall epic`');
+            message.reply('You need to enter a valid item type to sell! Ex. `sellall ranged`');
         }
     },
 }
