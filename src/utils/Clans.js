@@ -41,8 +41,8 @@ class Clans {
         this.app.query(`DELETE FROM clans WHERE clanId = ${clanId}`);
     }
 
-    getUpkeep(vaultValue, bank, memberCount, inactiveMembers){
-        const base = Math.floor(vaultValue * 0.1) + (memberCount * 10000);
+    getUpkeep(bank, memberCount, inactiveMembers){
+        const base = (memberCount * 10000);
 
         if(inactiveMembers > Math.floor(memberCount / 2)) return base + Math.floor(bank / 2);
 
@@ -50,7 +50,7 @@ class Clans {
     }
 
     getBankLimit(memberCount){
-        return 5000000 + (memberCount * 1000000);
+        return (memberCount * 1000000);
     }
 
     async getClanData(clanRow){
