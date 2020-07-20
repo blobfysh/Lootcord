@@ -13,7 +13,7 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
-        const gamesRow = await getGamesData(app);
+        const shopItems = await getShopData(app);
         let buyItem = app.parse.items(message.args)[0];
         let buyAmount = app.parse.numbers(message.args)[0] || 1;
 
@@ -28,7 +28,7 @@ module.exports = {
             if(buyAmount > 20) buyAmount = 20;
 
             if(currency === 'money'){
-                const botMessage = await message.channel.createMessage(`Purchase ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\` for **${app.common.formatNumber(itemPrice * buyAmount)}** Scrap?`);
+                const botMessage = await message.channel.createMessage(`Purchase ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\` for **${app.common.formatNumber(itemPrice * buyAmount)}** Lootcoin?`);
 
                 try{
                     const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
@@ -156,36 +156,62 @@ module.exports = {
                 botMessage.edit('You ran out of time.');
             }
         }
-        else if(gamesRow[message.args[0]] !== undefined){
+        else if(shopItems[message.args[0]] !== undefined){
             // code for buying game here
             buyItem = message.args[0];
-            let gameAmount = gamesRow[buyItem].gameAmount;
-            let currency = gamesRow[buyItem].gameCurrency;
-            let itemPrice = gamesRow[buyItem].gamePrice;
-            let gameName = gamesRow[buyItem].gameDisplay;
+            let itemAmount = shopItems[buyItem].itemAmount;
+            let currency = shopItems[buyItem].itemCurrency;
+            let itemPrice = shopItems[buyItem].itemPrice;
+            let itemName = shopItems[buyItem].itemDisplay;
             buyAmount = 1;
 
-            if(gameAmount <= 0){
-                return message.reply("That game is sold out! 😞");
+            if(itemAmount <= 0){
+                return message.reply("That item is sold out! 😞");
             }
 
-            if(currency == 'money'){
-                const botMessage = await message.channel.createMessage(`Purchase \`${gameName}\` for ${app.common.formatNumber(itemPrice)}?`);
+            if(currency === 'money'){
+                const botMessage = await message.channel.createMessage(`Purchase \`${itemName}\` for ${app.common.formatNumber(itemPrice)}?`);
 
                 try{
                     const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
 
                     if(confirmed){
-                        const hasMoney = await app.player.hasMoney(message.author.id, itemPrice * buyAmount);
+                        const row = await app.player.getRow(message.author.id);
                         
-                        if(!hasMoney){
-                            return botMessage.edit("You don't have enough money!");
+                        if(row.money < itemPrice){
+                            return botMessage.edit("You don't have enough Lootcoin for that purchase! You only have **" + app.common.formatNumber(row.money) + "**.");
                         }
 
                         await app.player.removeMoney(message.author.id, itemPrice);
 
-                        boughtGame(app, message.author, gamesRow[buyItem]);
-                        botMessage.edit(`Successfully bought ${gameName}!`);
+                        boughtGame(app, message.author, shopItems[buyItem]);
+                        botMessage.edit(`Successfully bought ${itemName}!`);
+                    }
+                    else{
+                        botMessage.delete();
+                    }
+                }
+                catch(err){
+                    botMessage.edit('You ran out of time.');
+                }
+            }
+            else if(currency === 'scrap'){
+                const botMessage = await message.channel.createMessage(`Purchase \`${itemName}\` for ${app.common.formatNumber(itemPrice, false, true)}?`);
+
+                try{
+                    const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
+
+                    if(confirmed){
+                        const row = await app.player.getRow(message.author.id);
+                        
+                        if(row.scrap < itemPrice){
+                            return botMessage.edit("You don't have enough Scrap for that purchase! You only have **" + app.common.formatNumber(row.scrap, false, true) + "**.");
+                        }
+
+                        await app.player.removeScrap(message.author.id, itemPrice);
+
+                        boughtGame(app, message.author, shopItems[buyItem]);
+                        botMessage.edit(`Successfully bought ${itemName}!`);
                     }
                     else{
                         botMessage.delete();
@@ -196,7 +222,7 @@ module.exports = {
                 }
             }
             else{
-                const botMessage = await message.channel.createMessage(`Purchase \`${gameName}\` for ${itemPrice}x ${app.itemdata[currency].icon}\`${currency}\`?`);
+                const botMessage = await message.channel.createMessage(`Purchase \`${itemName}\` for ${itemPrice}x ${app.itemdata[currency].icon}\`${currency}\`?`);
 
                 try{
                     const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
@@ -210,8 +236,8 @@ module.exports = {
 
                         await app.itm.removeItem(message.author.id, currency, itemPrice);
 
-                        boughtGame(app, message.author, gamesRow[buyItem]);
-                        botMessage.edit(`Successfully bought ${gameName}!`);
+                        boughtGame(app, message.author, shopItems[buyItem]);
+                        botMessage.edit(`Successfully bought ${itemName}!`);
                     }
                     else{
                         botMessage.delete();
@@ -317,13 +343,17 @@ module.exports = {
     },
 }
 
-async function boughtGame(app, user, game){
-    app.query(`UPDATE gamesData SET gameAmount = gameAmount - 1 WHERE gameName = '${game.gameName}'`);
+async function boughtGame(app, user, itemRow){
+    app.query(`UPDATE shopData SET itemAmount = itemAmount - 1 WHERE itemName = '${itemRow.itemName}'`);
+
+    if(itemRow.item && itemRow.item !== ''){
+        return app.itm.addItem(user.id, itemRow.item, 1);
+    }
 
     try{
         const buyerEmbed = new app.Embed()
         .setTitle("✅ Game Purchased!")
-        .setDescription("The moderators have received confirmation that you purchased a game and will respond with your key soon.")
+        .setDescription("The moderators have received confirmation that you purchased a game the shop and will respond with your key soon.")
         .setFooter('Please do not message asking "Where is my code?" unless at least 12 hours have passed. We have the right to cancel this purchase if we suspect you of cheating.')
         .setTimestamp()
 
@@ -337,27 +367,29 @@ async function boughtGame(app, user, game){
 
     const soldEmbed = new app.Embed()
     .setTitle('✅ Game Purchased')
-    .addField('Game Sold', game.gameDisplay)
+    .addField('Game Sold', itemRow.itemDisplay)
     .addField('Buyer', `${user.username}#${user.discriminator} ID: \`\`\`\n${user.id}\`\`\``)
     
     app.messager.messageMods(soldEmbed);
-    console.warn('A game (' + game.gameName + ') was sold to id: ' + user.id);
+    console.warn('A game (' + itemRow.itemName + ') was sold to id: ' + user.id);
 }
 
-async function getGamesData(app){
-    const gameRows = await app.query(`SELECT * FROM gamesData`);
-    let gameCount = 0;
-    let gameData = {};
-    for(let gameRow of gameRows){
-        if(gameRow !== null){
-            gameData[gameRow.gameName] = gameRow;
-            gameCount += 1;
+async function getShopData(app){
+    const itemRows = await app.query(`SELECT * FROM shopData`);
+    let itemCount = 0;
+    let itemData = {};
+
+    for(let itemRow of itemRows){
+        if(itemRow !== null){
+            itemData[itemRow.itemName] = itemRow;
+            itemCount += 1;
         }
     }
-    if(gameCount == 0){
+
+    if(itemCount === 0){
         return false;
     }
     else{
-        return gameData;
+        return itemData;
     }
 }

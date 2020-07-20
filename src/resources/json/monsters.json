@@ -63,7 +63,7 @@
             }
         },
         "staysFor": {
-            "seconds": 600
+            "seconds": 7200
         }
     },
     "m92_scientist": {
@@ -125,7 +125,7 @@
             }
         },
         "staysFor": {
-            "seconds": 600
+            "seconds": 7200
         }
     },
     "scientist": {
@@ -192,7 +192,7 @@
             }
         },
         "staysFor": {
-            "seconds": 600
+            "seconds": 7200
         }
     },
     "heavy_scientist": {
@@ -256,7 +256,7 @@
             }
         },
         "staysFor": {
-            "seconds": 600
+            "seconds": 7200
         }
     },
     "patrol_helicopter": {
@@ -307,7 +307,7 @@
             }
         },
         "staysFor": {
-            "seconds": 600
+            "seconds": 7200
         }
     },
     "bradley": {
@@ -367,7 +367,7 @@
             }
         },
         "staysFor": {
-            "seconds": 600
+            "seconds": 7200
         }
     }
 }

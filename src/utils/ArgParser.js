@@ -87,6 +87,7 @@ class ArgParser {
             case "med_syringe":
             case "syringe": itemSearched = "medical_syringe"; break;
             case "medkit": itemSearched = "large_medkit"; break;
+            case "large_box": itemSearched = "large_wood_box"; break;
             case "drop":
             case "airdrop":
             case "supply": itemSearched = "supply_drop"; break;

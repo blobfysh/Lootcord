@@ -27,18 +27,6 @@ class MySQL {
 
     async createDB(){
         try{
-            /* remove drop statements before production
-                    
-            await this.query(`DROP TABLE scores`);
-            await this.query(`DROP TABLE items`);
-            await this.query(`DROP TABLE cooldowns`);
-            await this.query(`DROP TABLE userGuilds`);
-            await this.query(`DROP TABLE guildPrefix`);
-            await this.query(`DROP TABLE guildInfo`);
-            await this.query(`DROP TABLE banned`);
-            await this.query(`DROP TABLE gamesData`);
-            */
-            
             // create scores table (main table)
             await this.query(createScoreSQL);
 
@@ -92,7 +80,7 @@ class MySQL {
 
             await this.query('CREATE TABLE IF NOT EXISTS warnings (userId bigint, modId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB');
 
-            await this.query('CREATE TABLE IF NOT EXISTS gamesData (gameName VARCHAR(255), gameAmount INT, gamePrice INT, gameCurrency VARCHAR(255), gameDisplay VARCHAR(255)) ENGINE = InnoDB');
+            await this.query('CREATE TABLE IF NOT EXISTS shopData (itemName VARCHAR(255), itemAmount INT, itemPrice INT, itemCurrency VARCHAR(255), itemDisplay VARCHAR(255), item VARCHAR(255)) ENGINE = InnoDB');
 
             return 'Success';
         }

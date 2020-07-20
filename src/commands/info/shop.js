@@ -62,7 +62,7 @@ async function generatePages(app, allItems, prefix, itemsPerPage){
 
 // checks if any steam keys are for sale
 async function getHomePage(app, prefix){
-    const gameRows = await app.query(`SELECT * FROM gamesData`);
+    const shopRows = await app.query(`SELECT * FROM shopData`);
     const exchangeRate = await app.cache.get('scrapExchangeRate');
 
     const firstEmbed = new app.Embed()
@@ -72,13 +72,18 @@ async function getHomePage(app, prefix){
     firstEmbed.setColor(13451564);
     firstEmbed.addField('Scrap Exchange', '**' + app.common.formatNumber(Math.floor(exchangeRate * 100)) + '** Lootcoin → ' + app.icons.scrap + ' **100** Scrap')
 
-    for(let gameRow of gameRows){
-        if(gameRow !== null){
-            if(gameRow.gameCurrency == "money"){
-                firstEmbed.addField(gameRow.gameDisplay,"Price: " + app.common.formatNumber(gameRow.gamePrice) + " | **" + gameRow.gameAmount + "** left! Use `" + prefix + "buy " + gameRow.gameName + "` to purchase!");
+    for(let shopRow of shopRows){
+        let display = app.itemdata[shopRow.item] ? app.itemdata[shopRow.item].icon + ' ' + shopRow.itemDisplay : shopRow.itemDisplay;
+
+        if(shopRow !== null){
+            if(shopRow.itemCurrency === "money"){
+                firstEmbed.addField(display, "Price: " + app.common.formatNumber(shopRow.itemPrice) + " | **" + shopRow.itemAmount + "** left! Use `" + prefix + "buy " + shopRow.itemName + "` to purchase!");
+            }
+            else if(shopRow.itemCurrency === "scrap"){
+                firstEmbed.addField(display, "Price: " + app.common.formatNumber(shopRow.itemPrice, false, true) + " | **" + shopRow.itemAmount + "** left! Use `" + prefix + "buy " + shopRow.itemName + "` to purchase!");
             }
             else{
-                firstEmbed.addField(gameRow.gameDisplay,"Price: " + gameRow.gamePrice + "x " + app.itemdata[gameRow.gameCurrency].icon + "`" + gameRow.gameCurrency + "` | **" + gameRow.gameAmount + "** left! Use `" + prefix + "buy " + gameRow.gameName + "` to purchase!");
+                firstEmbed.addField(display, "Price: " + shopRow.itemPrice + "x " + app.itemdata[shopRow.itemCurrency].icon + "`" + shopRow.itemCurrency + "` | **" + shopRow.itemAmount + "** left! Use `" + prefix + "buy " + shopRow.itemName + "` to purchase!");
             }
         }
     }
