@@ -51,11 +51,29 @@ module.exports = {
             }
         });
 
+        const date = new Date();
+        const converted = new Date(date.toLocaleString('en-US', {
+            timeZone: 'America/New_York'
+        }));
+        const todaysMonth = converted.getMonth();
+        converted.setDate(converted.getDate() + 10);
+
         const embed = new app.Embed()
         .setAuthor('Lootcord Commands', message.author.avatarURL)
         .setDescription('**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'+ message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).')
         .setFooter(`To see more about a command, use ${message.prefix}help <command>`)
         .setColor(13451564)
+
+        if(todaysMonth !== converted.getMonth()){
+            const daysUntilWipe = 10 - converted.getDate();
+
+            if(daysUntilWipe <= 1){
+                embed.setDescription('⚠️ **WIPE HYPE** Levels will be wiped **tomorrow**! This will clear your crafting recipes.\n\n**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'+ message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).')
+            }
+            else{
+                embed.setDescription('⚠️ **WIPE HYPE** Levels will be wiped in **' + daysUntilWipe + '** days! This will clear your crafting recipes.\n\n**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'+ message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).')
+            }
+        }
 
         const categoriesArr = Object.keys(categories);
 

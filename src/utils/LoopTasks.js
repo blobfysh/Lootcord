@@ -15,6 +15,7 @@ class LoopTasks {
         this.biHourly = new CronJob('0 */2 * * *', this.biHourlyTasks.bind(this), null, false, 'America/New_York');
         this.hourly = new CronJob('0 * * * *', this.hourlyTasks.bind(this), null, false, 'America/New_York');
         this.removePatrons = new CronJob('0 0 2 * *', () => {this.app.ipc.broadcast('removePatrons', {})}, null, false, 'America/New_York');
+        this.firstOfMonth = new CronJob('0 0 1 * *', this.monthlyTasks.bind(this), null, false, 'America/New_York');
 
         // every 3 minutes
         this.often = new CronJob('*/3 * * * *', this.frequentTasks.bind(this), null, false, 'America/New_York');
@@ -28,9 +29,14 @@ class LoopTasks {
             this.biHourly.start();
             this.often.start();
             this.removePatrons.start();
+            this.firstOfMonth.start();
         }
         
         this.hourly.start();
+    }
+
+    async monthlyTasks(){
+        await this.app.query(`UPDATE scores SET points = 0, level = 1`);
     }
 
     async dailyTasks(){
