@@ -20,6 +20,9 @@ module.exports = {
         if(!args.length){
             return message.reply('Please specify a clan tag.');
         }
+        else if(Math.floor((message.author.id / 4194304) + 1420070400000) > Date.now() - (30 * 24 * 60 * 60 * 1000)){
+            return message.reply(`❌ Your Discord account must be at least 30 days old to create a clan! This helps us prevent alt abuse. 😭`);
+        }
         else if(scoreRow.clanId !== 0){
             return message.reply('❌ You are already in a clan!');
         }

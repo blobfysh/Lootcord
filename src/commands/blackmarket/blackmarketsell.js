@@ -22,6 +22,9 @@ module.exports = {
         if(await app.cd.getCD(message.author.id, 'tradeban')){
             return message.reply("❌ You are trade banned.");
         }
+        else if(Math.floor((message.author.id / 4194304) + 1420070400000) > Date.now() - (30 * 24 * 60 * 60 * 1000)){
+            return message.reply(`❌ Your Discord account must be at least 30 days old to use the black market! This helps us prevent alt abuse. 😭`);
+        }
         else if((await app.query(`SELECT * FROM blackmarket WHERE sellerId = ${message.author.id}`)).length >= max_listings){
             return message.reply("❌ You have " + max_listings + " listings on the market already! Remove some or wait for them to sell.");
         }

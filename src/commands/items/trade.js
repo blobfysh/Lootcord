@@ -1,5 +1,5 @@
 const max_disparity = 2;
-const flagged_threshold = 20000;
+const flagged_threshold = 75000;
 
 module.exports = {
     name: 'trade',
@@ -41,6 +41,12 @@ module.exports = {
         }
         else if(await app.cd.getCD(user.id, 'banned')){
             return message.reply(`❌ **${user.nick || user.username}** is banned.`);
+        }
+        else if(Math.floor((message.author.id / 4194304) + 1420070400000) > Date.now() - (30 * 24 * 60 * 60 * 1000)){
+            return message.reply(`❌ Your Discord account must be at least 30 days old to trade! This helps us prevent alt abuse. 😭`);
+        }
+        else if(Math.floor((user.id / 4194304) + 1420070400000) > Date.now() - (30 * 24 * 60 * 60 * 1000)){
+            return message.reply(`❌ **${user.nick || user.username}**'s Discord account must be at least 30 days old to trade! This helps us prevent alt abuse. 😭`);
         }
         else if(!await app.player.isActive(user.id, message.channel.guild.id)){
             return message.reply(`❌ **${user.nick || user.username}** has not activated their account in this server.`);

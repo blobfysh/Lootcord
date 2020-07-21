@@ -255,6 +255,9 @@ module.exports = {
             if(await app.cd.getCD(message.author.id, 'tradeban')){
                 return message.reply("❌ You are trade banned and cannot use the black market.");
             }
+            else if(Math.floor((message.author.id / 4194304) + 1420070400000) > Date.now() - (30 * 24 * 60 * 60 * 1000)){
+                return message.reply(`❌ Your Discord account must be at least 30 days old to use the black market! This helps us prevent alt abuse. 😭`);
+            }
             else if((await app.player.getRow(message.author.id)).bmLimit >= 10){
                 return message.reply("❌ You are limited to purchasing **10** black market listings a day. This limit helps prevent a single player from purchasing all items on the market.");
             }
