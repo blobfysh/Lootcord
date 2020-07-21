@@ -1,7 +1,7 @@
 {
     "elitist": {
         "icon": "🥇",
-        "description": "Reach #1 on the global leaderboard in any category.",
+        "description": "Reach #1 on the global leaderboard in any category. For the level category, you must be #1 5 days after the level wipe.",
         "image": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/236/first-place-medal_1f947.png",
         "artist": ""
     },
@@ -25,13 +25,13 @@
     },
     "loot_fiend": {
         "icon": "🔹",
-        "description": "Reach level 25.",
+        "description": "Reach level 10.",
         "image": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/236/small-blue-diamond_1f539.png",
         "artist": ""
     },
     "loot_legend": {
         "icon": "💠",
-        "description": "Reach level 100.",
+        "description": "Reach level 20.",
         "image": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/236/diamond-shape-with-a-dot-inside_1f4a0.png",
         "artist": ""
     },

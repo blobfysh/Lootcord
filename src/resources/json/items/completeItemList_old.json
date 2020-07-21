@@ -144,7 +144,7 @@
         "cooldown": {
             "seconds": 4561
         },
-        "phrase": "{attacker} sprays down {victim} using an {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
+        "phrase": "{attacker} sprays down {victim} using an {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`'s! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged"
     },
@@ -608,7 +608,7 @@
             "amount": 90817,
             "currency": "scrap"
         },
-        "sell": 13119,
+        "sell": "",
         "desc": "Equip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/697679342821572639/elite_banner.png",
         "equippable": true,
@@ -735,7 +735,7 @@
             "amount": 410015,
             "currency": "scrap"
         },
-        "sell": 29075,
+        "sell": "",
         "desc": "For only the best. Equip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971878873923599/pixelbnner4HITMAN.png",
         "unboxImage": "",
@@ -794,7 +794,7 @@
             "amount": 126731,
             "currency": "scrap"
         },
-        "sell": 13735,
+        "sell": "",
         "desc": "Equip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971821483261953/pixelbnner3stronk.png",
         "equippable": true,
@@ -911,7 +911,7 @@
             "amount": 43370,
             "currency": "scrap"
         },
-        "sell": 1659,
+        "sell": "",
         "desc": "Inventory banner that can only be bought. Equip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/501120454136692737/501971770098843668/pixelbnner2good-Recovered.png",
         "equippable": true,
@@ -988,7 +988,7 @@
         "cooldown": {
             "seconds": 6720
         },
-        "phrase": "{attacker} mows down {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
+        "phrase": "{attacker} mows down {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`'s! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged"
     },
@@ -1086,7 +1086,7 @@
             "amount": 1348700,
             "currency": "scrap"
         },
-        "sell": 192977,
+        "sell": "",
         "desc": "Equip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/697679345715773480/master_banner.png",
         "unboxImage": "",
@@ -1230,12 +1230,6 @@
                     "python|1"
                 ]
             },
-            "9": {
-                "xp": 40,
-                "items": [
-                    "gunpowder|1"
-                ]
-            },
             "28": {
                 "xp": 35,
                 "items": [
@@ -1263,7 +1257,8 @@
                     "pistol_bullet|1",
                     "pump_shotgun|1",
                     "crossbow|1",
-                    "12g_buckshot|1"
+                    "12g_buckshot|1",
+                    "gunpowder|1"
                 ]
             },
             "0.5": {
@@ -2124,7 +2119,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 2359,
+        "sell": "",
         "desc": "Very spooky banner...\nEquip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/631885680175480852/batbanner.png",
         "equippable": true,

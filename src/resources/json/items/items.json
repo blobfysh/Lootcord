@@ -186,7 +186,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "54": {
+            "56": {
                 "xp": 20,
                 "items": [
                     "f1_grenade|1",
@@ -195,7 +195,7 @@
                     "machete|1"
                 ]
             },
-            "28": {
+            "34": {
                 "xp": 35,
                 "items": [
                     "semi_body|1",
@@ -205,13 +205,7 @@
                     "arrow|1"
                 ]
             },
-            "9": {
-                "xp": 40,
-                "items": [
-                    "gunpowder|1"
-                ]
-            },
-            "6.5": {
+            "7.5": {
                 "xp": 40,
                 "items": [
                     "cloth|1",
@@ -219,7 +213,8 @@
                     "pistol_bullet|1",
                     "pump_shotgun|1",
                     "crossbow|1",
-                    "12g_buckshot|1"
+                    "12g_buckshot|1",
+                    "gunpowder|1"
                 ]
             },
             "2": {

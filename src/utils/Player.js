@@ -274,10 +274,10 @@ class Player {
                 if(row.level + 1 >= 5){
                     await this.app.itm.addBadge(message.author.id, 'loot_goblin');
                 }
-                if(row.level + 1 >= 25){
+                if(row.level + 1 >= 10){
                     await this.app.itm.addBadge(message.author.id, 'loot_fiend');
                 }
-                if(row.level + 1 >= 100){
+                if(row.level + 1 >= 20){
                     await this.app.itm.addBadge(message.author.id, 'loot_legend');
                 }
 

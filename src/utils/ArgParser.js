@@ -44,10 +44,10 @@ class ArgParser {
                     // check if 1 arg makes up item
                     let correctedArg = this.correctItem(args[i]);
     
-                    if(this.app.itemdata[correctedArg]){
+                    if(this.app.itemdata[correctedArg] && !this._isNumber(args[i])){
                         args.splice(i, 1);
                         i -= 1;
-    
+
                         itemArgs.push(correctedArg);
                     }    
                 }
@@ -152,7 +152,6 @@ class ArgParser {
             case "9mm":
             case "9mil":
             case "9mill":
-            case "9m":
             case "9x19":
             case "bullet":
             case "ammo":
