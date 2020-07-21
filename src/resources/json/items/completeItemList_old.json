@@ -1293,9 +1293,9 @@
         "craftedWith": {
             "level": 7,
             "materials": [
-                "smg_body|4",
+                "smg_body|2",
                 "metal_spring|2",
-                "metal|2"
+                "metal|1"
             ]
         },
         "recyclesTo": {
@@ -2185,10 +2185,11 @@
                 "items": [
                     "rocket|1",
                     "assault_rifle|1",
-                    "bolt_rifle|1"
+                    "bolt_rifle|1",
+                    "spas-12|1"
                 ]
             },
-            "28": {
+            "34": {
                 "xp": 90,
                 "items": [
                     "semi_pistol|1",
@@ -2201,7 +2202,7 @@
                     "large_medkit|1"
                 ]
             },
-            "66": {
+            "60": {
                 "xp": 75,
                 "items": [
                     "tech_trash|1",

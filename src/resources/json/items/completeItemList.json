@@ -252,15 +252,13 @@
         "craftedWith": {
             "level": 2,
             "materials": [
-                "wood|3",
+                "wood|2",
                 "cloth|1"
             ]
         },
         "recyclesTo": {
-            "display": "1x wood\n1x cloth",
             "materials": [
-                "wood|1",
-                "cloth|1"
+                "wood|1"
             ]
         },
         "buy": "",
@@ -1293,9 +1291,9 @@
         "craftedWith": {
             "level": 7,
             "materials": [
-                "smg_body|4",
+                "smg_body|2",
                 "metal_spring|2",
-                "metal|2"
+                "metal|1"
             ]
         },
         "recyclesTo": {
@@ -2185,7 +2183,8 @@
                 "items": [
                     "rocket|1",
                     "assault_rifle|1",
-                    "bolt_rifle|1"
+                    "bolt_rifle|1",
+                    "spas-12|1"
                 ]
             },
             "34": {

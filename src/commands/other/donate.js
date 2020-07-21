@@ -19,21 +19,21 @@ module.exports = {
         }
 
         const spawnsInfo = await app.mysql.select('spawnChannels', 'userId', message.author.id, true);
-        let activeBountyChannels = [];
+        let activeSpawnChannels = [];
 
         for(let i = 0; i < spawnsInfo.length; i++){
-            activeBountyChannels.push(`${i + 1}. <#${spawnsInfo[i].channelId}>`);
+            activeSpawnChannels.push(`${i + 1}. <#${spawnsInfo[i].channelId}>`);
         }
 
         const donateEmb = new app.Embed()
         .setAuthor('Thank you!', message.author.avatarURL)
         .addField('Patron Status', 'active 😃')
-        .addField('Active Bounty Channels (' + activeBountyChannels.length + ')', activeBountyChannels.join('\n') || 'None')
-        .addField('How do I claim my weekly reward?', 'Use `' + message.prefix + 'weekly` to claim your ' + app.itemdata['care_package'].icon + '`care_package` every week!')
-        .addField('How do I use the bounty system?', 'Spawn bounties in a channel using the `enablebounty` command.'
-        + '\n\nTo stop all active bounty spawns use `disablebounty`.'
-        + '\n\nOnce a bounty has spawned, you or anyone in the server can use the `bounty` command to view the bounty and fight it!'
-        + '\n\n*Bounties spawn every 8 - 12 hours, they will then stay until defeated or until their time runs out.*')
+        .addField('Active Enemy Spawn Channels (' + activeSpawnChannels.length + ')', activeSpawnChannels.join('\n') || 'None')
+        .addField('How do I claim my weekly reward?', 'Use `' + message.prefix + 'weekly` to claim your ' + app.itemdata['supply_drop'].icon + '`supply_drop` every week!')
+        .addField('How do I use the enemy spawn system?', 'Spawn enemies in a channel using the `enablespawns` command.'
+        + '\n\nTo stop all active enemy spawns use `disablespawns`.'
+        + '\n\nOnce an enemy has spawned, you or anyone in the server can use the `enemy` command to view the enemy and fight it!'
+        + '\n\n*Enemies spawn every 8 - 12 hours, they will then stay until defeated or until their time runs out.*')
         .setColor('#f96854')
         message.channel.createMessage(donateEmb);
     },

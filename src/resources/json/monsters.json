@@ -12,7 +12,7 @@
         "maxDamage": 38,
         "minMoney": 17000,
         "maxMoney": 40000,
-        "xp": 50,
+        "xp": 80,
         "weapon": {
             "name": "lr-300",
             "icon": "<:lr300:732853687222927400>"
@@ -20,14 +20,14 @@
         "ammo": "rifle_bullet",
         "loot": {
             "main": {
-                "25": {
+                "30": {
                     "items": [
                         "custom_smg|1",
                         "semi_rifle|1",
                         "thompson|1"
                     ]
                 },
-                "70": {
+                "65": {
                     "items": [
                         "semi_pistol|1",
                         "revolver|1"
@@ -77,9 +77,9 @@
         "health": 100,
         "minDamage": 19,
         "maxDamage": 23,
-        "minMoney": 10000,
+        "minMoney": 12000,
         "maxMoney": 23000,
-        "xp": 50,
+        "xp": 70,
         "weapon": {
             "name": "m92_pistol",
             "icon": "<:m92_pistol:732853706294558720>"
@@ -87,14 +87,14 @@
         "ammo": "pistol_bullet",
         "loot": {
             "main": {
-                "30": {
+                "40": {
                     "items": [
                         "custom_smg|1",
                         "semi_rifle|1",
                         "m92_pistol|1"
                     ]
                 },
-                "70": {
+                "60": {
                     "items": [
                         "semi_pistol|1",
                         "revolver|1"
@@ -139,9 +139,9 @@
         "health": 100,
         "minDamage": 26,
         "maxDamage": 36,
-        "minMoney": 18000,
-        "maxMoney": 25000,
-        "xp": 50,
+        "minMoney": 22000,
+        "maxMoney": 40000,
+        "xp": 85,
         "weapon": {
             "name": "mp5",
             "icon": "<:mp5:732853715966623794>"
@@ -219,7 +219,8 @@
                 "30": {
                     "items": [
                         "mp5|1",
-                        "assault_rifle|1"
+                        "assault_rifle|1",
+                        "spas-12|1"
                     ]
                 },
                 "70": {
@@ -270,9 +271,9 @@
         "health": 415,
         "minDamage": 45,
         "maxDamage": 64,
-        "minMoney": 130000,
-        "maxMoney": 170000,
-        "xp": 170,
+        "minMoney": 140000,
+        "maxMoney": 175000,
+        "xp": 230,
         "weapon": {
             "name": "m249",
             "icon": "<:m249:732853728146882675>"
@@ -323,7 +324,7 @@
         "maxDamage": 72,
         "minMoney": 230000,
         "maxMoney": 320000,
-        "xp": 215,
+        "xp": 240,
         "weapon": {
             "name": "rocket_launcher",
             "icon": "<:rocket_launcher:732853816675926066>"
@@ -344,7 +345,7 @@
                 }
             },
             "extras": {
-                "60": {
+                "50": {
                     "items": [
                         "large_medkit|1",
                         "rifle_bullet|1",
@@ -352,14 +353,14 @@
                         "gunpowder|1"
                     ]
                 },
-                "30": {
+                "35": {
                     "items": [
                         "bolt_rifle|1",
                         "assault_rifle|1",
                         "rocket_launcher|1"
                     ]
                 },
-                "10": {
+                "15": {
                     "items": [
                         "supply_signal|1"
                     ]
