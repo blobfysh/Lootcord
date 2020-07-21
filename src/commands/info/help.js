@@ -71,7 +71,7 @@ module.exports = {
                 embed.setDescription('⚠️ **WIPE HYPE** Levels will be wiped **tomorrow**! This will clear your crafting recipes.\n\n**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'+ message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).')
             }
             else{
-                embed.setDescription('⚠️ **WIPE HYPE** Levels will be wiped in **' + daysUntilWipe + '** days! This will clear your crafting recipes.\n\n**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'+ message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).')
+                embed.setDescription('⚠️ **WIPE HYPE** The monthly level wipe will happen in **' + daysUntilWipe + '** days! This will clear your crafting recipes.\n\n**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'+ message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).')
             }
         }
 

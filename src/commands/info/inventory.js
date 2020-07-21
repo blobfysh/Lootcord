@@ -44,7 +44,7 @@ module.exports = {
                 const usersItems     = await app.itm.getUserItems(itemObject);
                 const itemCt         = await app.itm.getItemCount(itemObject, userRow);
                 const armorLeft      = await app.cd.getCD(member.id, 'shield');
-                const armor          = await app.player.getArmor(message.author.id);
+                const armor          = await app.player.getArmor(member.id);
                 const passiveShield  = await app.cd.getCD(member.id, 'passive_shield');
 
                 const embedInfo = new app.Embed()

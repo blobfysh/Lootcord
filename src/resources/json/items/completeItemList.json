@@ -474,7 +474,8 @@
                     "12g_buckshot|1",
                     "pistol_bullet|1",
                     "gunpowder|1",
-                    "smg_body|1"
+                    "smg_body|1",
+                    "hazmat_suit|1"
                 ]
             },
             "8": {
@@ -1231,7 +1232,13 @@
                     "python|1"
                 ]
             },
-            "32": {
+            "9": {
+                "xp": 40,
+                "items": [
+                    "gunpowder|1"
+                ]
+            },
+            "28": {
                 "xp": 35,
                 "items": [
                     "semi_body|1",
@@ -1241,7 +1248,7 @@
                     "arrow|1"
                 ]
             },
-            "59": {
+            "54": {
                 "xp": 20,
                 "items": [
                     "f1_grenade|1",
@@ -1256,10 +1263,8 @@
                     "cloth|1",
                     "revolver|1",
                     "pistol_bullet|1",
-                    "gunpowder|1",
                     "pump_shotgun|1",
                     "crossbow|1",
-                    "metal_pipe|1",
                     "12g_buckshot|1"
                 ]
             },
@@ -1916,7 +1921,7 @@
         "craftedWith": {
             "level": 6,
             "materials": [
-                "semi_body|3",
+                "semi_body|2",
                 "metal_spring|1",
                 "metal|1"
             ]
@@ -2183,19 +2188,20 @@
                     "bolt_rifle|1"
                 ]
             },
-            "28": {
+            "34": {
                 "xp": 90,
                 "items": [
                     "semi_pistol|1",
                     "rifle_bullet|1",
                     "custom_smg|1",
+                    "m92_pistol|1",
                     "pump_shotgun|1",
                     "gunpowder|1",
                     "semi_rifle|1",
                     "large_medkit|1"
                 ]
             },
-            "66": {
+            "60": {
                 "xp": 75,
                 "items": [
                     "tech_trash|1",

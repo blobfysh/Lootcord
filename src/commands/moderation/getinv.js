@@ -32,15 +32,16 @@ module.exports = {
             const itemObject     = await app.itm.getItemObject(userID);
             const usersItems     = await app.itm.getUserItems(itemObject);
             const itemCt         = await app.itm.getItemCount(itemObject, row);
-            const shieldLeft     = await app.cd.getCD(userID, 'shield');
+            const armorLeft      = await app.cd.getCD(userID, 'shield');
+            const armor          = await app.player.getArmor(userID);
             const passiveShield  = await app.cd.getCD(userID, 'passive_shield');
 
             const embedInfo = new app.Embed()
             .setTitle(`${userInfo.username}#${userInfo.discriminator}'s Inventory`)
             .setColor(13451564)
 
-            if(shieldLeft){
-                embedInfo.addField("🛡️ Shield", '`' + shieldLeft + '`');
+            if(armorLeft){
+                embedInfo.addField(armor ? 'Armor' : '🛡️ Armor', armor ? app.itemdata[armor].icon + '`' + armorLeft + '`' : '`' + armorLeft + '`');
             }
             if(passiveShield){
                 embedInfo.addField("🛡️ Passive Shield", '`' + passiveShield + '`');
@@ -51,7 +52,7 @@ module.exports = {
             embedInfo.addField("Money", app.common.formatNumber(row.money) + '\n' + app.common.formatNumber(row.scrap, false, true), true)
 
             if(row.backpack === 'none'){
-                embedInfo.addField('Storage Container', 'None', true)
+                embedInfo.addField('Storage Container', 'None equipped', true)
             }
             else{
                 embedInfo.addField('Storage Container', app.itemdata[row.backpack].icon + '`' + row.backpack + '`', true)

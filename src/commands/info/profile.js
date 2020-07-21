@@ -39,10 +39,10 @@ module.exports = {
             const badges     = await app.itm.getBadges(member.id);
             const xp         = app.common.calculateXP(userRow.points, userRow.level);
             
-            let bannerIcon   = app.itemdata[userRow.banner] !== undefined ? app.itemdata[userRow.banner].icon : ''
+            let bannerIcon   = app.itemdata[userRow.banner] !== undefined ? app.itemdata[userRow.banner].icon : '';
             let bannersList  = '**Equipped:** ' + bannerIcon + '`' + userRow.banner + '`\n' + userItems.banners.join('\n');
             let userStatus   = 'Change your status with the `setstatus` command!';
-            let badgeList    = ''
+            let badgeList    = '';
 
             if(userRow.status !== ''){
                 userStatus = userRow.status;

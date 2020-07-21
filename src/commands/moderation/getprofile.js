@@ -28,12 +28,12 @@ module.exports = {
             }
 
             const userInfo   = await app.common.fetchUser(userID, { cacheIPC: false });
-            const banners    = await app.itm.getUserItems(await app.itm.getItemObject(userID), { onlyBanners: true });
+            const userItems    = await app.itm.getUserItems(await app.itm.getItemObject(userID), { onlyBanners: true });
             const badges     = await app.itm.getBadges(userID);
             const xp         = app.common.calculateXP(row.points, row.level);
 
-            let bannerIcon   = app.itemdata[row.banner] !== undefined ? app.itemdata[row.banner].icon : ''
-            let bannersList  = 'Equipped: ' + bannerIcon + '`' + row.banner + '`\n' + banners.ultra.concat(banners.legendary, banners.epic, banners.rare, banners.uncommon, banners.common, banners.limited).join('\n');
+            let bannerIcon   = app.itemdata[row.banner] !== undefined ? app.itemdata[row.banner].icon : '';
+            let bannersList  = '**Equipped:** ' + bannerIcon + '`' + row.banner + '`\n' + userItems.banners.join('\n');
             let userStatus   = 'Change your status with the `setstatus` command!';
             let badgeList    = '';
             
@@ -67,6 +67,11 @@ module.exports = {
             .addField('Badges', badgeList, true)
             .addField('Preferred Ammo', app.itemdata[row.ammo] ? app.itemdata[row.ammo].icon + '`' + row.ammo + '`' : 'Not set', true)
             .setFooter("🌟 Skills upgraded " + row.used_stats + " times")
+
+            if(row.banner !== 'none'){
+                profileEmbed.setImage(app.itemdata[row.banner].image);
+                profileEmbed.setColor(app.itemdata[row.banner].bannerColor);
+            }
 
             message.channel.createMessage(profileEmbed);
         }

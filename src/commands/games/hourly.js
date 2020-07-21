@@ -1,7 +1,7 @@
 const QUOTES = [
     'Oh look, I found this {icon}{item} for you!', 
     'Here\'s a free {icon}{item}!',
-    'Here\'s your hourly {icon}{item}!'
+    'Here\'s your {icon}{item}!'
 ];
 
 module.exports = {
