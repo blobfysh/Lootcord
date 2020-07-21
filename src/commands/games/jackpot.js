@@ -169,7 +169,7 @@ function refreshEmbed(app, jackpotObj, prefix){
         usersArr[i] = (i + 1) + '.' + usersArr[i];
     }
 
-    usersArr.unshift(('Player').padEnd(22) + 'Bet'.padEnd(15) + 'Chance');
+    usersArr.unshift(('Player').padEnd(22) + 'Bet (Lootcoin)'.padEnd(15) + 'Chance');
 
     const jackpotEmbed = new app.Embed()
     .setColor(13451564)

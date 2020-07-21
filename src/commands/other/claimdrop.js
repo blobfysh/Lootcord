@@ -2,7 +2,7 @@
 module.exports = {
     name: 'claimdrop',
     aliases: [''],
-    description: "Claim a `care_package` drop.",
+    description: "Claim a supply_drop.",
     long: "Claim the airdrop in this channel (if there is any).",
     args: {},
     examples: [],
@@ -15,7 +15,7 @@ module.exports = {
         setTimeout(async () => {
             const guildRow = await app.common.getGuildInfo(message.channel.guild.id);
             if(message.channel.id !== guildRow.dropItemChan || guildRow.dropItem === ''){
-                return message.reply('There is no ' + app.itemdata['care_package'].icon + '`care_package` in this channel.');
+                return message.reply('There is no ' + app.itemdata['supply_drop'].icon + '`supply_drop` in this channel.');
             }
             
             const airdropCD = await app.cd.getCD(message.author.id, 'airdrop');
@@ -30,7 +30,7 @@ module.exports = {
             
             const guildRow2 = await app.common.getGuildInfo(message.channel.guild.id);
             if(message.channel.id !== guildRow2.dropItemChan || guildRow2.dropItem === ''){
-                return message.reply('There is no ' + app.itemdata['care_package'].icon + '`care_package` in this channel.');
+                return message.reply('There is no ' + app.itemdata['supply_drop'].icon + '`supply_drop` in this channel.');
             }
 
             await app.query(`UPDATE guildInfo SET dropItem = '' WHERE guildId = ${message.channel.guild.id}`);

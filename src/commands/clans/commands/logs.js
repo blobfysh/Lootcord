@@ -59,7 +59,7 @@ async function getClanLogs(app, clanId){
         logsEmbed.addField(getShortDate(logs[i].logTime), '```\n' + logs[i].details + '```');
     }
 
-    if(!logs.length) test.setDescription('😟 there\'s nothing to see here')
+    if(!logs.length) logsEmbed.setDescription('😟 there\'s nothing to see here')
 
     return logsEmbed;
 }

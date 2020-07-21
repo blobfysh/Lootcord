@@ -348,15 +348,15 @@
                 "50": {
                     "items": [
                         "large_medkit|1",
-                        "rifle_bullet|1",
+                        "hv_rifle_bullet|1",
                         "thompson|1",
+                        "assault_rifle|1",
                         "gunpowder|1"
                     ]
                 },
                 "35": {
                     "items": [
                         "bolt_rifle|1",
-                        "assault_rifle|1",
                         "rocket_launcher|1"
                     ]
                 },
