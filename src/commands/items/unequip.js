@@ -25,7 +25,7 @@ module.exports = {
                 message.reply(`✅ Successfully unequipped ${app.itemdata[userRow.backpack].icon}\`${userRow.backpack}\`.\nYour carry capacity is now **${app.config.baseInvSlots + (userRow.inv_slots - app.itemdata[userRow.backpack].inv_slots)}** items.`);
             }
             else{
-                message.reply(`❌ You don't have a backpack equipped! You can check what backpacks you own in your \`inventory\`.`);
+                message.reply(`❌ You don't have a storage container equipped! You can check what containers you own in your \`inventory\`.`);
             }
         }
 

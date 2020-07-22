@@ -29,15 +29,5 @@
   "accounts": {
     "active": "<:active_in_this_server:601375984347774977>",
     "inactive": "<:not_active_in_this_server:601375984804954142>"
-  },
-  "items": {
-    "weapon": "<:weapon:601323077422284811>",
-    "usable": "<:usable:601323078038847488>",
-    "shield": "<:Cshield:601323077548113921>",
-    "melee": "<:melee:601323077745246219>",
-    "material": "<:material:601323077359370251>",
-    "banner": "<:banner:601323077581799434>",
-    "backpack": "<:backpack:601323077594382346>",
-    "ammo": "<:ammo:601323077569347584>"
   }
 }
