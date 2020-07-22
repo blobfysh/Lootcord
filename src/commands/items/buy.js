@@ -125,6 +125,12 @@ module.exports = {
             }
         }
         else if(message.args.map(arg => arg.toLowerCase()).includes('scrap')){
+            const row = await app.player.getRow(message.author.id);
+
+            if(message.args[1] && message.args[1].toLowerCase() === 'all'){
+                buyAmount = row.money;
+            }
+
             if(buyAmount > 1000000) buyAmount = 1000000;
 
             const exchangeRate = await app.cache.get('scrapExchangeRate');
