@@ -28,11 +28,29 @@ class Player {
         await this.app.itm.addItem(id, 'crate', 1);
         
         const newPlayer = new this.app.Embed()
-        .setTitle('Thanks for joining Lootcord!')
+        .setTitle('Thanks for playing Lootcord!')
         .setColor(13451564)
-        .setDescription('Make sure to follow the [rules](https://lootcord.com/rules)!\n\nSupport server: https://discord.gg/apKSxuE\n\nFor more on using the bot check these [guides](https://lootcord.com/guides)')
-        .addField("Items Received", this.app.icons.plus + "1x " + this.app.itemdata['crate'].icon + "`crate`")
-        .addField("Getting Started", `Open your ${this.app.itemdata['crate'].icon}\`crate\` by **using** it: \`t-use crate\`\nYou can see every item you own with the \`inv\` command.\n\nAttack other players by **using** a weapon on them: \`t-use rock @user\`\n\nVarious stats are displayed on your \`profile\`!\n\n**Good luck and HAPPY LOOTING**`)
+        .setThumbnail(this.app.bot.user.avatarURL)
+        .setDescription(`Here's a list of commands you'll use the most:\n
+        \`inv\` - View your items, health, money, and currently equipped storage container.
+        \`profile\` - View various statistic about yourself or another player.
+        \`use\` - Uses an item on yourself or attacks another player with said item.
+        \`items\` - View a full list of items. Specify an item to see specific information about it.
+        \`buy\` - Purchase items, you can also specify an amount to purchase.
+        \`sell\` - Sell your items for Lootcoin.
+        \`leaderboard\` - View the best players in your server or globally.
+        \`mysettings\` - Manage your settings such as notifications.
+        \`hourly\` - Claim a ${this.app.itemdata['crate'].icon}\`crate\` every hour.
+        \`daily\` - Claim a ${this.app.itemdata['military_crate'].icon}\`military_crate\` every day.
+        \`cooldowns\` - View all your command cooldowns.
+        
+        You can also use \`t-help <command>\` to see detailed command information and examples.
+        
+        ⚠️ **ALT ACCOUNTS ARE NOT ALLOWED**, make sure to follow these [rules](https://lootcord.com/rules)!
+        Check out the [faq](https://lootcord.com/rules) and these [guides](https://lootcord.com/guides) if you are confused!
+        
+        Join the [support server](https://discord.gg/apKSxuE) if you need more help!`)
+        .addField('Items Received', `1x ${this.app.itemdata['crate'].icon}\`crate\`\nOpen it by __using__ it: \`t-use crate\`\n\nOnce you get a weapon, you can attack another player by __using__ a weapon on them: \`t-use rock @user\``)
         .setFooter("This message will only be sent the first time your account is created.")
         this.app.common.messageUser(id, newPlayer)
     }
