@@ -26,7 +26,7 @@ module.exports = {
         let scrambleDifficulty = app.scramble_words[chance].difficulty;
         let scrambleHint = app.scramble_words[chance].define;
         let finalWord = scrambleWord.toLowerCase(); //final word to check if user got correct
-        let chanceR = Math.random(); //returns 0-9 (10% chance)
+        let chanceR = Math.random();
         let reward = {};
 
         if(Math.random() <= .7){
@@ -45,7 +45,7 @@ module.exports = {
             if(scrambleDifficulty == "hard"){
                 const hasEnough = await app.itm.hasSpace(itemCt, 1);
 
-                if((chanceR < .5) && hasEnough){
+                if((chanceR < .9) && hasEnough){
                     reward.display = app.itemdata['crate'].icon + "`crate`";
                     reward.item = "crate";
                     reward.amount = 1;
@@ -59,7 +59,7 @@ module.exports = {
             else if(scrambleDifficulty == "medium"){
                 const hasEnough = await app.itm.hasSpace(itemCt, 1);
                             
-                if((chanceR < .5) && hasEnough){
+                if((chanceR < .9) && hasEnough){
                     reward.display = app.itemdata['crate'].icon + "`crate`";
                     reward.item = "crate";
                     reward.amount = 1;
@@ -91,7 +91,7 @@ module.exports = {
             if(scrambleDifficulty == "hard"){
                 const hasEnough = await app.itm.hasSpace(itemCt, 1);
 
-                if((chanceR < .5) && hasEnough){
+                if((chanceR < .9) && hasEnough){
                     reward.display = app.itemdata['military_crate'].icon + "`military_crate`";
                     reward.item = "military_crate";
                     reward.amount = 1;
@@ -105,7 +105,7 @@ module.exports = {
             else if(scrambleDifficulty == "medium"){
                 const hasEnough = await app.itm.hasSpace(itemCt, 1);
 
-                if((chanceR < .5) && hasEnough){
+                if((chanceR < .9) && hasEnough){
                     reward.display = `1x ${app.itemdata['crate'].icon}\`crate\``
                     reward.item = "crate";
                     reward.amount = 1;
@@ -119,7 +119,7 @@ module.exports = {
             else{
                 const hasEnough = await app.itm.hasSpace(itemCt, 1);
 
-                if((chanceR < .5) && hasEnough){
+                if((chanceR < .9) && hasEnough){
                     reward.display = `1x ${app.itemdata['crate'].icon}\`crate\``
                     reward.item = "crate";
                     reward.amount = 1;

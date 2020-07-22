@@ -140,9 +140,9 @@ module.exports = {
                         "⬛" + col['1'][2] + " " + col['2'][2] + " " + col['3'][2] + "⬛";
         }
         else{
-            slots3 = "⬛" + col['1'][0] + col['2'][0] + col['3'][0] + "⬛\n" +
-                        "▶" + col['1'][1] + col['2'][1] + col['3'][1] + `◀ You lost!\n` +
-                        "⬛" + col['1'][2] + col['2'][2] + col['3'][2] + `⬛ Better luck next time.`;
+            slots3 = "⬛" + col['1'][0] + " " + col['2'][0] + " " + col['3'][0] + "⬛\n" +
+                        "▶" + col['1'][1] + " " + col['2'][1] + " " + col['3'][1] + `◀ You lost!\n` +
+                        "⬛" + col['1'][2] + " " + col['2'][2] + " " + col['3'][2] + `⬛ Better luck next time.`;
         }
 
         slotEmbed.setDescription(slots1);

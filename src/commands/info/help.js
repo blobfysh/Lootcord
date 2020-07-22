@@ -2,7 +2,7 @@ const tips = require('../../resources/json/tips');
 
 module.exports = {
     name: 'help',
-    aliases: [''],
+    aliases: ['commands'],
     description: 'helpception',
     long: 'helpception',
     args: {

@@ -21,7 +21,7 @@ module.exports = {
 
         await app.query(`UPDATE guildInfo SET dropChan = ${message.channel.id} WHERE guildId = ${message.channel.guild.id}`);
         
-        message.reply("✅ Now requesting for `care_package`'s to be sent to this channel!");
+        message.reply("✅ Now requesting for " + app.itemdata['supply_drop'].icon + "`supply_drop`'s to be sent to this channel!");
 
         if(guildRow.dropChan == 0){
             app.airdrop.initAirdrop(message.channel.guild.id);
