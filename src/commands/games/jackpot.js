@@ -28,7 +28,7 @@ module.exports = {
             return message.reply(`Please specify an amount of at least ${app.common.formatNumber(100, false, true)} to gamble!`);
         }
 
-        if(!await app.player.hasMoney(message.author.id, gambleAmount)){
+        if(gambleAmount > row.scrap){
             return message.reply(`❌ You don't have that much Scrap! You currently have ${app.common.formatNumber(row.scrap, false, true)}`);
         }
         
@@ -40,8 +40,9 @@ module.exports = {
 
         try{
             const result = await app.react.getConfirmation(message.author.id, botMessage, 15000);
+            const row = await app.player.getRow(message.author.id);
 
-            if(result && await app.player.hasMoney(message.author.id, gambleAmount)){
+            if(result && gambleAmount <= row.scrap){
                 startJackpot(app, message, gambleAmount);
             }
             else{
@@ -67,7 +68,7 @@ async function startJackpot(app, message, gambleAmount){
         message.channel.createMessage('**A jackpot has started! A winner will be chosen in `2 minutes`**');
         message.channel.createMessage(refreshEmbed(app, jackpotObj, message.prefix));
 
-        await app.player.removeMoney(message.author.id, gambleAmount);
+        await app.player.removeScrap(message.author.id, gambleAmount);
         await app.cd.setCD(message.author.id, 'jackpot', app.config.cooldowns.jackpot * 1000);
 
         setTimeout(() => {
@@ -108,7 +109,7 @@ async function startJackpot(app, message, gambleAmount){
             else if(!gambleAmnt || gambleAmnt < 100){
                 return m.channel.createMessage('Please enter an amount of at least ' + app.common.formatNumber(100, false, true));
             }
-            else if(gambleAmnt > userRow.money){
+            else if(gambleAmnt > userRow.scrap){
                 return m.channel.createMessage('❌ You don\'t have that much Scrap! You currently have ' + app.common.formatNumber(userRow.scrap, false, true));
             }
             else if(gambleAmnt > 100000){
@@ -131,7 +132,7 @@ async function startJackpot(app, message, gambleAmount){
                 };
             }
             
-            await app.player.removeMoney(m.author.id, gambleAmnt);
+            await app.player.removeScrap(m.author.id, gambleAmnt);
             m.channel.createMessage(refreshEmbed(app, jackpotObj, message.prefix));
         });
 
