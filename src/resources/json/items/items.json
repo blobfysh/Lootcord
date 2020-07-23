@@ -51,16 +51,17 @@
                     "arrow|1",
                     "cloth|1",
                     "semi_body|1",
-                    "wood|1"
+                    "wood|1",
+                    "longsword|1"
                 ]
             },
             "25": {
                 "xp": 25,
                 "items": [
                     "bandage|1",
+                    "mace|1",
                     "salvaged_sword|1",
-                    "pickaxe|1",
-                    "mace|1"
+                    "pickaxe|1"
                 ]
             },
             "50": {
@@ -193,7 +194,8 @@
                     "bandage|1",
                     "mace|1",
                     "machete|1",
-                    "salvaged_sword|1"
+                    "salvaged_sword|1",
+                    "longsword|1"
                 ]
             },
             "34": {

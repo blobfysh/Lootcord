@@ -621,7 +621,7 @@
         "isWeap": true,
         "isItem": false,
         "minDmg": 0,
-        "maxDmg": 60,
+        "maxDmg": 40,
         "ammo": [
             "rocket"
         ],

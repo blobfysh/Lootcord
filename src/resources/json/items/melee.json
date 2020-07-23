@@ -214,6 +214,29 @@
         "artist": "",
         "category": "Melee"
     },
+    "longsword": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 24,
+        "maxDmg": 31,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 4583,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/735634596007379044/longsword.png",
+        "icon": "<:longsword:735634543779774465>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 2162
+        },
+        "phrase": "{attacker} swings at {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Melee"
+    },
     "candycane": {
         "rarity": "Limited",
         "isWeap": true,

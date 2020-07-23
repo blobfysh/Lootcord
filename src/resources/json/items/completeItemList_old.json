@@ -493,16 +493,17 @@
                     "arrow|1",
                     "cloth|1",
                     "semi_body|1",
-                    "wood|1"
+                    "wood|1",
+                    "longsword|1"
                 ]
             },
             "25": {
                 "xp": 25,
                 "items": [
                     "bandage|1",
+                    "mace|1",
                     "salvaged_sword|1",
-                    "pickaxe|1",
-                    "mace|1"
+                    "pickaxe|1"
                 ]
             },
             "50": {
@@ -895,6 +896,29 @@
         "artist": "",
         "category": "Storage"
     },
+    "longsword": {
+        "rarity": "Rare",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 24,
+        "maxDmg": 31,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 4583,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/735634596007379044/longsword.png",
+        "icon": "<:longsword:735634543779774465>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 2162
+        },
+        "phrase": "{attacker} swings at {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Melee"
+    },
     "looter": {
         "rarity": "Uncommon",
         "isBanner": true,
@@ -1246,7 +1270,8 @@
                     "f1_grenade|1",
                     "bandage|1",
                     "mace|1",
-                    "machete|1"
+                    "machete|1",
+                    "salvaged_sword|1"
                 ]
             },
             "7.5": {
@@ -1704,7 +1729,7 @@
         "rarity": "Legendary",
         "isWeap": false,
         "isItem": false,
-        "damage": 65,
+        "damage": 85,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -1738,7 +1763,7 @@
         "isWeap": true,
         "isItem": false,
         "minDmg": 0,
-        "maxDmg": 60,
+        "maxDmg": 40,
         "ammo": [
             "rocket"
         ],

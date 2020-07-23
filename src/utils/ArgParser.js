@@ -85,6 +85,7 @@ class ArgParser {
             case "ak-47": itemSearched = "assault_rifle"; break;
             case "med":
             case "med_syringe":
+            case "medical":
             case "syringe": itemSearched = "medical_syringe"; break;
             case "medkit": itemSearched = "large_medkit"; break;
             case "large_box": itemSearched = "large_wood_box"; break;

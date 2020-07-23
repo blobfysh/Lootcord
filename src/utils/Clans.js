@@ -42,7 +42,7 @@ class Clans {
     }
 
     getUpkeep(bank, memberCount, inactiveMembers){
-        const base = (memberCount * 10000);
+        const base = (memberCount * 5000);
 
         if(inactiveMembers > Math.floor(memberCount / 2)) return base + Math.floor(bank / 2);
 
