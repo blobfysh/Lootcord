@@ -1,3 +1,4 @@
+const ITEMS_PER_PAGE = 9;
 
 module.exports = {
     name: 'blackmarket',
@@ -15,24 +16,47 @@ module.exports = {
         let item = app.parse.items(message.args)[0];
 
         if(!item){
-            const listings = await app.query(`SELECT * FROM blackmarket ORDER BY RAND() LIMIT 10`);
+            const listings = await app.query(`SELECT * FROM blackmarket ORDER BY RAND() LIMIT 9`);
 
             const embed = new app.Embed()
             .setTitle('🛒 Random Black Market Listings')
-            .setDescription('These listings were made by other players!\n\nPurchase one with `' + message.prefix + 'buy <Listing ID>` command (ex. `t-buy Jq0cG_YY`)\n\n**Search for items with `bm <item to search>`**' + app.bm.createDisplay(listings))
+            .setDescription('These listings were made by other players!\n\nPurchase one with `' + message.prefix + 'buy <Listing ID>` command (ex. `t-buy Jq0cG_YY`)\n\n**Search for items with `bm <item to search>`**')
             .setColor(13451564)
+
+            app.bm.displayListings(embed, listings);
 
             message.channel.createMessage(embed);
         }
         else{
-            const listings = await app.query(`SELECT * FROM blackmarket WHERE itemName LIKE ? ORDER BY pricePer ASC LIMIT 25`, ['%' + item + '%']);
+            const listings = await app.query(`SELECT * FROM blackmarket WHERE itemName LIKE ? ORDER BY pricePer ASC LIMIT 18`, ['%' + item + '%']);
 
-            const embed = new app.Embed()
-            .setTitle('🛒 Black Market Listings for: ' + item)
-            .setDescription('These listings were made by other players!\n\nPurchase one with `' + message.prefix + 'buy <Listing ID>` command (ex. `t-buy Jq0cG_YY`)\n\n**Sorted lowest price to highest:**' + app.bm.createDisplay(listings))
-            .setColor(13451564)
+            if(listings.length <= 9){
+                return message.channel.createMessage(generatePages(app, message, listings, item)[0]);
+            }
 
-            message.channel.createMessage(embed);
+            app.react.paginate(message, generatePages(app, message, listings, item), 30000);
         }
     },
+}
+
+function generatePages(app, message, listings, item){
+    let maxPage = Math.ceil(listings.length / ITEMS_PER_PAGE) || 1;
+    let pages = [];
+
+    for(let i = 1; i < maxPage + 1; i++){
+        let indexFirst = (ITEMS_PER_PAGE * i) - ITEMS_PER_PAGE;
+        let indexLast = (ITEMS_PER_PAGE * i) - 1;
+        let selectedListings = listings.slice(indexFirst, indexLast);
+        
+        const pageEmbed = new app.Embed()
+        .setTitle('Black Market Listings for: ' + app.itemdata[item].icon + item)
+        .setDescription('These listings were made by other players!\n\nPurchase one with `' + message.prefix + 'buy <Listing ID>` command (ex. `t-buy Jq0cG_YY`)\n\n**Sorted lowest price to highest:**')
+        .setColor(13451564)
+
+        app.bm.displayListings(pageEmbed, selectedListings);
+
+        pages.push(pageEmbed);
+    }
+
+    return pages;
 }
