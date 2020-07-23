@@ -243,9 +243,9 @@
         "rarity": "Uncommon",
         "isWeap": true,
         "isItem": false,
-        "damage": "0 - 9",
+        "damage": "0 - 7",
         "minDmg": 0,
-        "maxDmg": 9,
+        "maxDmg": 7,
         "ammo": [
             "arrow"
         ],
@@ -525,7 +525,7 @@
         "isWeap": true,
         "isItem": false,
         "minDmg": 6,
-        "maxDmg": 24,
+        "maxDmg": 21,
         "ammo": [
             "arrow"
         ],
