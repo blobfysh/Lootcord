@@ -38,7 +38,7 @@ module.exports = {
             reward.item = "military_crate";
             reward.amount = 1;
         }
-        else if (chanceR >= 9 && hasEnough){
+        else if (hasEnough){
             reward.display = "1x " + app.itemdata['crate'].icon + "`crate`";
             reward.item = "crate";
             reward.amount = 1;
