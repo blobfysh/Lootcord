@@ -503,7 +503,7 @@
                     "bandage|1",
                     "mace|1",
                     "salvaged_sword|1",
-                    "pickaxe|1"
+                    "salvaged_cleaver|1"
                 ]
             },
             "50": {
@@ -511,7 +511,7 @@
                 "items": [
                     "bone_knife|1",
                     "rock|1",
-                    "salvaged_cleaver|1",
+                    "pickaxe|1",
                     "wooden_spear|1",
                     "machete|1"
                 ]
@@ -1272,6 +1272,7 @@
                     "mace|1",
                     "machete|1",
                     "salvaged_sword|1",
+                    "salvaged_cleaver|1",
                     "longsword|1"
                 ]
             },
