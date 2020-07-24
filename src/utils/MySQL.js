@@ -264,7 +264,8 @@ CREATE TABLE IF NOT EXISTS cooldown (
     userId BIGINT,
     type VARCHAR(255),
     start BIGINT,
-    length BIGINT)
+    length BIGINT,
+    info VARCHAR(255))
     ENGINE = InnoDB
 `
 

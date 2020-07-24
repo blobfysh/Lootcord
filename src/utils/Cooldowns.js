@@ -27,7 +27,7 @@ class Cooldown {
         await this.app.cache.set(key, options.armor ? options.armor : 'Set at ' + (new Date().toLocaleString('en-US', {timeZone: 'America/New_York'})), seconds);
         
         // add cooldown to cooldown table for persistence (if server were to shut down, this table would be used to set cooldowns for all players)
-        if(!options.ignoreQuery) await this.app.mysql.query(`INSERT INTO cooldown (userId, type, start, length) VALUES (?, ?, ?, ?)`, [userId, type, new Date().getTime(), time]);
+        if(!options.ignoreQuery) await this.app.mysql.query(`INSERT INTO cooldown (userId, type, start, length, info) VALUES (?, ?, ?, ?, ?)`, [userId, type, new Date().getTime(), time, options.armor ? options.armor : '']);
 
         let timeObj = {
             userId: userId, 

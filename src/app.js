@@ -177,6 +177,11 @@ class Lootcord extends Base {
 
                         continue;
                     }
+                    else if(cdInfo.type === 'shield'){
+                        await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true, armor: cdInfo.info }, callback);
+
+                        continue;
+                    }
                     
                     await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true }, callback);
                     
