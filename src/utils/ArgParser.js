@@ -128,6 +128,7 @@ class ArgParser {
             case "frags":
             case "metal_fragments": itemSearched = "metal"; break;
             case "salvaged":
+            case "salvage":
             case "cleaver": itemSearched = "salvaged_cleaver"; break;
             case "sword": itemSearched = "salvaged_sword"; break;
             case "knife": itemSearched = "bone_knife"; break;

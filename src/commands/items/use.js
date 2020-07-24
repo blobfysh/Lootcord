@@ -109,7 +109,7 @@ module.exports = {
                 await app.itm.removeItem(message.author.id, item, 1);
                 await app.cd.setCD(message.author.id, 'shield', app.itemdata[item].shieldInfo.seconds * 1000, { armor: item });
 
-                message.reply(`You put on the ${app.itemdata[item].icon}\`${item}\`. You are now protected from attacks for \`${app.cd.convertTime(app.itemdata[item].shieldInfo.seconds * 1000)}\``);
+                message.reply(`You put on the ${app.itemdata[item].icon}\`${item}\`. You now take **${Math.floor(app.itemdata[item].shieldInfo.protection * 100)}%** less damage from attacks for \`${app.cd.convertTime(app.itemdata[item].shieldInfo.seconds * 1000)}\``);
             }
             else if(app.itemdata[item].isHeal){
                 const healCD = await app.cd.getCD(message.author.id, 'heal');
@@ -227,9 +227,6 @@ module.exports = {
             else if(attackCD){
                 return message.reply(`❌ You need to wait \`${attackCD}\` before attacking again.`);
             }
-            else if(armorCD){
-                return message.reply(`❌ You can't attack while wearing armor! ${armor ? app.itemdata[armor].icon : ''}\`${armorCD}\` remaining.`);
-            }
             
             // check if attacking monster
             if(Object.keys(app.mobdata).some(monster => message.args.map(arg => arg.toLowerCase()).includes('bounty') || message.args.map(arg => arg.toLowerCase()).includes('@bounty') || message.args.map(arg => arg.toLowerCase()).join(' ').includes(app.mobdata[monster].title.toLowerCase()))){
@@ -340,7 +337,12 @@ module.exports = {
                     });
 
                     // mob attacks player
-                    let mobDmg = Math.floor(Math.random() * (monster.maxDamage - monster.minDamage + 1)) + monster.minDamage;
+                    let baseDmg = Math.floor(Math.random() * (monster.maxDamage - monster.minDamage + 1)) + monster.minDamage;
+                    let mobDmg = baseDmg;
+
+                    if(armorCD){
+                        mobDmg -= Math.floor(baseDmg * app.itemdata[armor].shieldInfo.protection);
+                    }
 
                     if(row.health - mobDmg <= 0){
                         // player was killed
@@ -368,7 +370,7 @@ module.exports = {
                         .addField("Items (" + randomItems.items.length + ")", randomItems.items.length !== 0 ? randomItems.display.join('\n') : `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} did not find anything on you!`)
 
                         message.channel.createMessage({
-                            content: generateMobAttack(app, message, monsterRow, row, mobDmg, monster.weapon, monster.ammo, true),
+                            content: generateMobAttack(app, message, monsterRow, row, mobDmg, monster.weapon, monster.ammo, true, armor, baseDmg),
                             embed: killedReward.embed
                         });
     
@@ -380,7 +382,7 @@ module.exports = {
                     }
                     else{
                         await app.query(`UPDATE scores SET health = health - ${mobDmg} WHERE userId = ${message.author.id}`);
-                        message.channel.createMessage(generateMobAttack(app, message, monsterRow, row, mobDmg, monster.weapon, monster.ammo, false));
+                        message.channel.createMessage(generateMobAttack(app, message, monsterRow, row, mobDmg, monster.weapon, monster.ammo, false, armor, baseDmg));
                     }
                 }
             }
@@ -453,7 +455,8 @@ module.exports = {
 
                 await app.cd.setCD(message.author.id, 'attack', app.itemdata[item].cooldown.seconds * 1000);
 
-                let randDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage);
+                let baseDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage);
+                let randDmg = baseDmg;
 
                 let target = await pickTarget(app, message, randUsers);
 
@@ -462,8 +465,14 @@ module.exports = {
                 }
 
                 const victimRow = await app.player.getRow(target.id);
+                const victimArmorCD = await app.cd.getCD(target.id, 'shield');
+                const victimArmor = await app.player.getArmor(target.id);
                 let chance = Math.floor(Math.random() * 100) + 1; // 1-100
                 let luck = victimRow.luck >= 10 ? 10 : victimRow.luck;
+
+                if(victimArmorCD){
+                    randDmg -= Math.floor(baseDmg * app.itemdata[victimArmor].shieldInfo.protection);
+                }
 
                 if(chance <= luck){
                     if(weaponBroke){
@@ -473,8 +482,6 @@ module.exports = {
                         return message.channel.createMessage(`🍀 <@${target.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!`);
                     }
                 }
-                
-                // not lucky, continue attack
                 else if(victimRow.health - randDmg <= 0){
                     // player was killed
                     
@@ -521,7 +528,7 @@ module.exports = {
                     .setFooter('⭐ ' + xpGained + ' XP earned!')
                     
                     message.channel.createMessage({
-                        content: await generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, true), 
+                        content: await generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, true, victimArmor, baseDmg), 
                         embed: killedReward.embed
                     });
 
@@ -537,11 +544,11 @@ module.exports = {
                     if(item === "peck_seed"){
                         await app.cd.setCD(target.id, 'peck', app.config.cooldowns.peck_seed * 1000);
                         
-                        message.channel.createMessage(generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, false));
+                        message.channel.createMessage(generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg));
                     }
                     else{
                 
-                        message.channel.createMessage(generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, false));
+                        message.channel.createMessage(generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg));
                     }
 
                     await app.query(`UPDATE scores SET health = health - ${randDmg} WHERE userId = ${target.id}`);
@@ -575,9 +582,6 @@ module.exports = {
                 }
                 else if(!playRow.length){
                     return message.reply(`❌ **${member.nick || member.username}** has not activated their account in this server!`);
-                }
-                else if(victimArmorCD){
-                    return message.reply(`🛡 **${member.nick || member.username}** ${victimArmor ? 'is wearing armor (' + app.itemdata[victimArmor].icon + '`' + victimArmor + '`).' : 'is wearing armor!'}\nThey are untargetable for \`${victimArmorCD}\`.`);
                 }
                 else if(victimPassiveShield){
                     return message.reply(`🛡 **${member.nick || member.username}** was killed recently and has a **passive shield**!\nThey are untargetable for \`${victimPassiveShield}\`.`);
@@ -632,9 +636,14 @@ module.exports = {
 
                 await app.cd.setCD(message.author.id, 'attack', app.itemdata[item].cooldown.seconds * 1000);
 
-                let randDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage);
+                let baseDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage);
+                let randDmg = baseDmg;
                 let chance = Math.floor(Math.random() * 100) + 1; // 1-100
                 let luck = victimRow.luck >= 10 ? 10 : victimRow.luck;
+
+                if(victimArmorCD){
+                    randDmg -= Math.floor(baseDmg * app.itemdata[victimArmor].shieldInfo.protection);
+                }
 
                 if(chance <= luck){
                     if(weaponBroke){
@@ -644,8 +653,6 @@ module.exports = {
                         return message.channel.createMessage(`🍀 <@${member.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!`);
                     }
                 }
-
-                // not lucky, continue attack
                 else if(victimRow.health - randDmg <= 0){
                     // player was killed
                     
@@ -692,7 +699,7 @@ module.exports = {
                     .setFooter('⭐ ' + xpGained + ' XP earned!')
                     
                     message.channel.createMessage({
-                        content: await generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, true), 
+                        content: await generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, true, victimArmor, baseDmg), 
                         embed: killedReward.embed
                     });
 
@@ -708,11 +715,12 @@ module.exports = {
                     if(item === "peck_seed"){
                         await app.cd.setCD(member.id, 'peck', app.config.cooldowns.peck_seed * 1000);
                         
-                        message.channel.createMessage(generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, false));
+                        message.channel.createMessage(generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg));
                     }
                     else{
-                
-                        message.channel.createMessage(generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, false));
+                        console.log(victimArmor);
+                        console.log(baseDmg);
+                        message.channel.createMessage(generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg));
                     }
 
                     await app.query(`UPDATE scores SET health = health - ${randDmg} WHERE userId = ${member.id}`);
@@ -770,20 +778,17 @@ function logKill(app, killer, victim, item, ammo, damage, moneyStolen, scrapStol
     }
 }
 
-function generateAttackString(app, message, victim, victimRow, damage, itemUsed, ammoUsed, itemBroke, killed){
-    let finalStr;
+function generateAttackString(app, message, victim, victimRow, damage, itemUsed, ammoUsed, itemBroke, killed, armor, baseDamage){
+    let finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
+    .replace('{victim}', `<@${victim.id}>`)
+    .replace('{weaponIcon}', app.itemdata[itemUsed].icon)
+    .replace('{weapon}', itemUsed)
+    .replace('{ammoIcon}', ammoUsed ? app.itemdata[ammoUsed].icon : '')
+    .replace('{ammo}', ammoUsed)
+    .replace('{damage}', damage);
 
-    if(ammoUsed && itemUsed === 'bat'){
-        finalStr = `**ITS A GRAND SLAM!** <@${message.author.id}> fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` directly at <@${victim.id}>'s face using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`. **${damage}** damage dealt!`
-    }
-    else{
-        finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
-        .replace('{victim}', `<@${victim.id}>`)
-        .replace('{weaponIcon}', app.itemdata[itemUsed].icon)
-        .replace('{weapon}', itemUsed)
-        .replace('{ammoIcon}', ammoUsed ? app.itemdata[ammoUsed].icon : '')
-        .replace('{ammo}', ammoUsed)
-        .replace('{damage}', damage);
+    if(armor){
+        finalStr += `\n**${victim.nick || victim.username}**'s ${app.itemdata[armor].icon}\`${armor}\` absorbed **${baseDamage - damage}** (${Math.floor(app.itemdata[armor].shieldInfo.protection * 100)}%) damage!`;
     }
 
     if(killed){
@@ -843,7 +848,7 @@ function generateAttackMobString(app, message, monsterRow, damage, itemUsed, amm
     return finalStr;
 }
 
-function generateMobAttack(app, message, monsterRow, playerRow, damage, itemUsed, ammoUsed, killed){
+function generateMobAttack(app, message, monsterRow, playerRow, damage, itemUsed, ammoUsed, killed, armor, baseDamage){
     const monster = app.mobdata[monsterRow.monster];
     let finalStr = "";
 
@@ -854,6 +859,10 @@ function generateMobAttack(app, message, monsterRow, playerRow, damage, itemUsed
     else{
         // melee weapon
         finalStr = `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} smashes <@${message.author.id}> with a ${itemUsed.icon}\`${itemUsed.name}\` dealing **${damage}** damage!`;
+    }
+
+    if(armor){
+        finalStr += `\n**${message.member.nick || message.member.username}**'s ${app.itemdata[armor].icon}\`${armor}\` absorbed **${baseDamage - damage}** (${Math.floor(app.itemdata[armor].shieldInfo.protection * 100)}%) damage!`;
     }
 
     if(killed){
@@ -874,12 +883,11 @@ async function getRandomPlayers(app, userId, guild){ // returns a random userId 
     
     for(var i = 0; i < userRows.length; i++){
         try{
-            const hasShield = await app.cd.getCD(userRows[i].userId, 'shield');
             const passiveShield = await app.cd.getCD(userRows[i].userId, 'passive_shield');
             const userClanId = (await app.query(`SELECT clanId FROM scores WHERE userId ="${userRows[i].userId}"`))[0];
 
             if(userRows[i].userId !== userId){
-                if(!hasShield && !passiveShield && (userClan.clanId === 0 || userClan.clanId !== userClanId.clanId)){
+                if(!passiveShield && (userClan.clanId === 0 || userClan.clanId !== userClanId.clanId)){
                     guildUsers.push(userRows[i].userId);
                 }
             }

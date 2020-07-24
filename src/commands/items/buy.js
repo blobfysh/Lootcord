@@ -132,6 +132,10 @@ module.exports = {
             }
 
             if(buyAmount > 1000000) buyAmount = 1000000;
+            
+            if(buyAmount <= 100){
+                return message.reply(`❌ Please specify an amount of at least **${app.common.formatNumber(100)}** to convert!`);
+            }
 
             const exchangeRate = await app.cache.get('scrapExchangeRate');
             const scrapPrice = Math.floor(exchangeRate * buyAmount);

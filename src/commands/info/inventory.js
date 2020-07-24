@@ -52,7 +52,7 @@ module.exports = {
                 .setColor(13451564)
 
                 if(armorLeft){
-                    embedInfo.addField(armor ? 'Armor' : '🛡️ Armor', armor ? app.itemdata[armor].icon + '`' + armorLeft + '`' : '`' + armorLeft + '`');
+                    embedInfo.addField(armor ? 'Armor' : '🛡️ Armor', armor ? app.itemdata[armor].icon + '`' + armor + '` (`' + armorLeft + '`)' : '`' + armorLeft + '`');
                 }
                 if(passiveShield){
                     embedInfo.addField("🛡️ Passive Shield", '`' + passiveShield + '` [?](https://lootcord.com/faq#what-is-a-passive-shield \'A passive shield is a 24 hour attack shield given to you when you are killed.\n\nThis shield will automatically be removed if you decide to attack someone.\')');

@@ -384,7 +384,8 @@
         "isItem": true,
         "isShield": true,
         "shieldInfo": {
-            "seconds": 7200
+            "seconds": 7200,
+            "protection": 0.35
         },
         "damage": "",
         "minDmg": "",
@@ -397,7 +398,7 @@
             "currency": "money"
         },
         "sell": 14293,
-        "desc": "Use this armor to shield you from attacks for 2 hours.",
+        "desc": "Use this armor to reduce damage taken from attacks by **35%** for **2 hours**.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/733566895583920178/hazmat_suit.png",
         "icon": "<:hazmat_suit:733566843637334026>",
         "breaksOnUse": "",

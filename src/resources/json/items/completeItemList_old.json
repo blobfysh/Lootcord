@@ -698,7 +698,8 @@
         "isItem": true,
         "isShield": true,
         "shieldInfo": {
-            "seconds": 7200
+            "seconds": 7200,
+            "protection": 0.35
         },
         "damage": "",
         "minDmg": "",
@@ -711,7 +712,7 @@
             "currency": "money"
         },
         "sell": 14293,
-        "desc": "Use this armor to shield you from attacks for 2 hours.",
+        "desc": "Use this armor to reduce damage taken from attacks by **35%** for **2 hours**.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/733566895583920178/hazmat_suit.png",
         "icon": "<:hazmat_suit:733566843637334026>",
         "breaksOnUse": "",
@@ -1066,7 +1067,7 @@
         "cooldown": {
             "seconds": 2043
         },
-        "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "phrase": "{attacker} whacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
         "category": "Melee"
     },
@@ -1492,7 +1493,7 @@
         "cooldown": {
             "seconds": 3432
         },
-        "phrase": "{attacker} blasts a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "phrase": "{attacker} blasts {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged"
     },
@@ -2130,7 +2131,7 @@
         "cooldown": {
             "seconds": 4662
         },
-        "phrase": "{attacker} blasts a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "phrase": "{attacker} blasts {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged"
     },
@@ -2332,7 +2333,7 @@
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/733261093731958794/thompson.png",
         "icon": "<:thompson:732853783067099177>",
         "breaksOnUse": false,
-        "chanceToBreak": 0.41,
+        "chanceToBreak": 0.35,
         "canBeStolen": true,
         "cooldown": {
             "seconds": 3167
@@ -2376,7 +2377,7 @@
         "cooldown": {
             "seconds": 2732
         },
-        "phrase": "{attacker} blasts a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "phrase": "{attacker} blasts {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged"
     },
