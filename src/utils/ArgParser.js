@@ -99,6 +99,7 @@ class ArgParser {
             case "shotgun":
             case "pump":
             case "shotty":
+            case "pumpie":
             case "pumpy": itemSearched = "pump_shotgun"; break;
             case "gp":
             case "boom":
@@ -116,6 +117,7 @@ class ArgParser {
             case "launcher": itemSearched = "rocket_launcher"; break;
             case "tommy":
             case "thommy": itemSearched = "thompson"; break;
+            case "crossie":
             case "crossy": itemSearched = "crossbow"; break;
             case "pick": itemSearched = "pickaxe"; break;
             case "f1":

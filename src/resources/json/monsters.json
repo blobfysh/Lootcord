@@ -8,8 +8,8 @@
         "pronoun": "he",
         "special": "",
         "health": 100,
-        "minDamage": 29,
-        "maxDamage": 38,
+        "minDamage": 21,
+        "maxDamage": 30,
         "minMoney": 17000,
         "maxMoney": 40000,
         "xp": 80,
@@ -137,8 +137,8 @@
         "pronoun": "he",
         "special": "",
         "health": 100,
-        "minDamage": 26,
-        "maxDamage": 36,
+        "minDamage": 27,
+        "maxDamage": 33,
         "minMoney": 22000,
         "maxMoney": 40000,
         "xp": 85,
@@ -149,14 +149,14 @@
         "ammo": "pistol_bullet",
         "loot": {
             "main": {
-                "25": {
+                "35": {
                     "items": [
                         "custom_smg|1",
                         "semi_rifle|1",
                         "thompson|1"
                     ]
                 },
-                "70": {
+                "60": {
                     "items": [
                         "semi_pistol|1",
                         "revolver|1"

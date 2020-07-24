@@ -218,7 +218,8 @@
                     "pump_shotgun|1",
                     "crossbow|1",
                     "12g_buckshot|1",
-                    "gunpowder|1"
+                    "gunpowder|1",
+                    "rifle_body|1"
                 ]
             },
             "2": {

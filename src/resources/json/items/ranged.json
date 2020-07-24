@@ -98,10 +98,10 @@
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929789962354778/revolver.png",
         "icon": "<:revolver:732853148426960936>",
         "breaksOnUse": false,
-        "chanceToBreak": 0.3,
+        "chanceToBreak": 0.34,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 2467
+            "seconds": 1835
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
@@ -136,7 +136,7 @@
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/733261093731958794/thompson.png",
         "icon": "<:thompson:732853783067099177>",
         "breaksOnUse": false,
-        "chanceToBreak": 0.41,
+        "chanceToBreak": 0.35,
         "canBeStolen": true,
         "cooldown": {
             "seconds": 3167
@@ -279,7 +279,7 @@
         "chanceToBreak": 0.27,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 3042
+            "seconds": 2742
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
@@ -389,10 +389,10 @@
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929807179972748/semi_pistol.png",
         "icon": "<:semi_pistol:732853166864990211>",
         "breaksOnUse": false,
-        "chanceToBreak": 0.34,
+        "chanceToBreak": 0.3,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 2721
+            "seconds": 2155
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
