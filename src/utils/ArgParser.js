@@ -176,6 +176,7 @@ class ArgParser {
             case "tech":
             case "trash": itemSearched = "tech_trash"; break;
             case "hazzy":
+            case "hazzie":
             case "hazmat":
             case "radsuit":
             case "haz":

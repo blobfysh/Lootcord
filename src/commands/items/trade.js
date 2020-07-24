@@ -54,8 +54,8 @@ module.exports = {
         else if(victimRow.level < this.levelReq){
             return message.reply(`❌ **${user.nick || user.username}** is not level 3. The target player must be at least level 3.`);
         }
-        else if(await app.cd.getCD(user.id, 'peck')){
-            return message.reply(`**${user.nick || user.username}** is under the effects of ${app.itemdata['peck_seed'].icon}\`peck_seed\``);
+        else if(await app.cd.getCD(user.id, 'blinded')){
+            return message.reply(`❌ **${user.nick || user.username}** is blinded by a ${app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`!`);
         }
 
         const botMessage = await message.channel.createMessage(`<@${user.id}>, **${message.member.nick || message.member.username}** would like to trade with you!`);

@@ -541,8 +541,8 @@ module.exports = {
                 }
                 else{
                     // normal attack
-                    if(item === "peck_seed"){
-                        await app.cd.setCD(target.id, 'peck', app.config.cooldowns.peck_seed * 1000);
+                    if(ammoUsed === "40mm_smoke_grenade"){
+                        await app.cd.setCD(target.id, 'blinded', 7200 * 1000);
                         
                         message.channel.createMessage(generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg));
                     }
@@ -566,7 +566,7 @@ module.exports = {
                 const victimArmorCD = await app.cd.getCD(member.id, 'shield');
                 const victimArmor = await app.player.getArmor(member.id);
                 const victimPassiveShield = await app.cd.getCD(member.id, 'passive_shield');
-                const victimPeckCD = await app.cd.getCD(member.id, 'peck');
+                const victimBlindedCD = await app.cd.getCD(member.id, 'blinded');
 
                 if(member.id === app.bot.user.id){
                     return message.channel.createMessage("ow...");
@@ -586,9 +586,6 @@ module.exports = {
                 else if(victimPassiveShield){
                     return message.reply(`🛡 **${member.nick || member.username}** was killed recently and has a **passive shield**!\nThey are untargetable for \`${victimPassiveShield}\`.`);
                 }
-                else if(item === 'peck_seed' && victimPeckCD){
-                    return message.reply(`**${member.nick || member.username}** is already under the effects of a ${app.itemdata['peck_seed'].icon}\`peck_seed\`!`);
-                }
 
                 let ammoUsed
                 let bonusDamage = 0;
@@ -600,6 +597,10 @@ module.exports = {
                     ammoUsed = getAmmo(app, item, row, userItems);
 
                     if(ammoUsed){
+                        if(ammoUsed === '40mm_smoke_grenade' && victimBlindedCD){
+                            return message.reply(`❌ **${member.nick || member.username}** is already blinded by a ${app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`!`);
+                        }
+
                         bonusDamage = app.itemdata[ammoUsed].damage;
                         await app.itm.removeItem(message.author.id, ammoUsed, 1);
                     }
@@ -712,8 +713,8 @@ module.exports = {
                 }
                 else{
                     // normal attack
-                    if(item === "peck_seed"){
-                        await app.cd.setCD(member.id, 'peck', app.config.cooldowns.peck_seed * 1000);
+                    if(ammoUsed === "40mm_smoke_grenade"){
+                        await app.cd.setCD(member.id, 'blinded', 7200 * 1000);
                         
                         message.channel.createMessage(generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg));
                     }
@@ -799,8 +800,8 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
         else finalStr += `\n**${victim.nick || victim.username}** is left with ${app.player.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage}** health.`;
     }
 
-    if(itemUsed == 'peck_seed'){
-        finalStr += `\n**${victim.nick || victim.username}** was turned into a chicken and cannot use any commands for **2** hours!`;
+    if(ammoUsed === '40mm_smoke_grenade'){
+        finalStr += `\n**${victim.nick || victim.username}** is blinded by the smoke and cannot use any commands for **2** hours!`;
     }
 
     if(itemBroke){
@@ -830,8 +831,8 @@ function generateAttackMobString(app, message, monsterRow, damage, itemUsed, amm
         finalStr += `\n${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} is left with ${app.icons.health.full} **${monsterRow.health - damage}** health.`;
     }
 
-    if(itemUsed == 'peck_seed'){
-        finalStr += `\n${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} resisted the effects of the ${app.itemdata[itemUsed].icon}\`${itemUsed}\`!`;
+    if(ammoUsed === '40mm_smoke_grenade'){
+        finalStr += `\n${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} resisted the effects of the ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\`!`;
     }
 
     if(moneyStolen){

@@ -52,7 +52,6 @@
     "roulette": 180,
     "slots": 180,
     "jackpot": 300,
-    "peck_seed": 7200,
     "xp_potion": 180,
     "claimdrop": 21600
   }
