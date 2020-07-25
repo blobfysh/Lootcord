@@ -272,6 +272,55 @@
         "artist": "",
         "category": "Ranged"
     },
+    "bone_arrow": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 18,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 4,
+            "materials": [
+                "wood|1",
+                "bone_fragments|2"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 2036,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736661914079330394/bone_arrow.png",
+        "icon": "<:bone_arrow:736661877685485578>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "bone_fragments": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 525,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736661917283778570/bone_fragments.png",
+        "icon": "<:bone_fragments:736661799956381716>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Material"
+    },
     "bone_knife": {
         "rarity": "Common",
         "isWeap": true,
@@ -281,7 +330,11 @@
         "maxDmg": 10,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": [
+                "bone_fragments|1"
+            ]
+        },
         "buy": "",
         "sell": 466,
         "desc": "",
@@ -304,6 +357,7 @@
         "minDmg": 0,
         "maxDmg": 7,
         "ammo": [
+            "bone_arrow",
             "arrow"
         ],
         "craftedWith": {
@@ -584,6 +638,7 @@
         "minDmg": 6,
         "maxDmg": 21,
         "ammo": [
+            "bone_arrow",
             "arrow"
         ],
         "craftedWith": {
@@ -2015,7 +2070,7 @@
             ]
         },
         "buy": "",
-        "sell": 8701,
+        "sell": 4701,
         "desc": "Parts used to craft semi-auto pistols and rifles.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929662354980925/semi_body.png",
         "icon": "<:semi_body:732853533325525074>",
@@ -2325,7 +2380,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 73773,
+        "sell": 33773,
         "desc": "High tier loot container dropped from a plane.\nCan only be looted by the first person to claim it.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/733738547840024576/supply_drop_icon.png",
         "icon": "<:supply_drop_icon:733732983252582420>",
@@ -2402,7 +2457,7 @@
             ]
         },
         "buy": "",
-        "sell": 70258,
+        "sell": 30258,
         "desc": "Use this signal to call in an airdrop.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930866858295403/supply_signal.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930866858295403/supply_signal.png",

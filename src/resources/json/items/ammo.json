@@ -27,6 +27,33 @@
         "artist": "",
         "category": "Ammo"
     },
+    "bone_arrow": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 18,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 4,
+            "materials": [
+                "wood|1",
+                "bone_fragments|2"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 2036,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736661914079330394/bone_arrow.png",
+        "icon": "<:bone_arrow:736661877685485578>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
     "pistol_bullet": {
         "rarity": "Uncommon",
         "isWeap": false,

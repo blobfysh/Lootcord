@@ -42,6 +42,7 @@
         "minDmg": 0,
         "maxDmg": 7,
         "ammo": [
+            "bone_arrow",
             "arrow"
         ],
         "craftedWith": {
@@ -405,6 +406,7 @@
         "minDmg": 6,
         "maxDmg": 21,
         "ammo": [
+            "bone_arrow",
             "arrow"
         ],
         "craftedWith": {

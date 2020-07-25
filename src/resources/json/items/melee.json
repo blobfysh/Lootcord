@@ -32,7 +32,11 @@
         "maxDmg": 10,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": [
+                "bone_fragments|1"
+            ]
+        },
         "buy": "",
         "sell": 466,
         "desc": "",

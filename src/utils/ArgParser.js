@@ -210,6 +210,10 @@ class ArgParser {
             case "40mm_smoke":
             case "smoke": itemSearched = "40mm_smoke_grenade"; break;
             case "full_metal": itemSearched = "metal_armor"; break;
+            case "bones":
+            case "bone":
+            case "bone_frags":
+            case "bone_frag": itemSearched = "bone_fragments"; break;
 
             default:
                 // try using spell correction to find the item name
