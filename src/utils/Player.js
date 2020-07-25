@@ -1,4 +1,5 @@
 const Jimp = require('jimp');
+const oldPlayers = require('../resources/json/og_players');
 
 class Player {
     constructor(app){
@@ -52,7 +53,11 @@ class Player {
         Join the [support server](https://discord.gg/apKSxuE) if you need more help!`)
         .addField('Items Received', `1x ${this.app.itemdata['crate'].icon}\`crate\`\nOpen it by __using__ it: \`t-use crate\`\n\nOnce you get a weapon, you can attack another player by __using__ a weapon on them: \`t-use rock @user\``)
         .setFooter("This message will only be sent the first time your account is created.")
-        this.app.common.messageUser(id, newPlayer)
+        this.app.common.messageUser(id, newPlayer);
+
+        if(oldPlayers.includes(id)){
+            this.app.itm.addBadge(id, 'og_looter');
+        }
     }
 
     /**

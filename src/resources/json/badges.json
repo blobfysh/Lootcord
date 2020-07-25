@@ -46,5 +46,11 @@
         "description": "Sell 10 items on the black market.",
         "image": "https://cdn.discordapp.com/attachments/542248243313246208/716861466782728323/detective_1f575.png",
         "artist": ""
+    },
+    "og_looter": {
+        "icon": "<:og_lootcord:736435639179804788>",
+        "description": "Played Lootcord before the August 1st Rust update.",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736435600990666862/og_lootcord.png",
+        "artist": ""
     }
 }
