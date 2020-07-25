@@ -198,5 +198,57 @@
         "cooldown": "",
         "artist": "",
         "category": "Ammo"
+    },
+    "40mm_smoke_grenade": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 5,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "1x gunpowder",
+            "materials": [
+                "gunpowder|1"
+            ]
+        },
+        "buy": "",
+        "sell": 69262,
+        "desc": "Releases smoke upon impact, blinding the enemy and preventing any use of commands for **2 hours**.",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736367317037875221/40mm_smoke_grenade.png",
+        "icon": "<:40mm_smoke_grenade:736367271940849674>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "40mm_he_grenade": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 82,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "2x gunpowder",
+            "materials": [
+                "gunpowder|2"
+            ]
+        },
+        "buy": "",
+        "sell": 95421,
+        "desc": "High explosive ammunition for grenade launchers.",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736369883683487754/40mm_he_grenade.png",
+        "icon": "<:40mm_he_grenade:736369860824793090>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
     }
 }

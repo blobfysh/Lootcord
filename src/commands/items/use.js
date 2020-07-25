@@ -392,7 +392,7 @@ module.exports = {
                 return message.reply(`❌ This server allows only random attacks, specifying a target will not work. You can use the item without a mention to attack a random player: \`${message.prefix}use <item>\``)
             }
             else if(['rand', 'random'].some(arg => message.args.map(arg => arg.toLowerCase()).includes(arg)) || serverInfo.randomOnly === 1){
-                const randUsers = await getRandomPlayers(app, message.author.id, message.channel.guild);
+                const randUsers = await getRandomPlayers(app, message.author.id, message.channel.guild, item);
 
                 if(randUsers.users[0] === undefined){
                     return message.reply("❌ There aren't any players you can attack in this server!");
@@ -876,7 +876,7 @@ function generateMobAttack(app, message, monsterRow, playerRow, damage, itemUsed
     return finalStr;
 }
 
-async function getRandomPlayers(app, userId, guild){ // returns a random userId from the attackers guild
+async function getRandomPlayers(app, userId, guild, item = ''){ // returns a random userId from the attackers guild
     const userRows = await app.query(`SELECT * FROM userGuilds WHERE guildId ="${guild.id}" ORDER BY LOWER(userId)`);
     const userClan = await app.player.getRow(userId);
     let guildUsers = [];
@@ -886,9 +886,14 @@ async function getRandomPlayers(app, userId, guild){ // returns a random userId 
         try{
             const passiveShield = await app.cd.getCD(userRows[i].userId, 'passive_shield');
             const userClanId = (await app.query(`SELECT clanId FROM scores WHERE userId ="${userRows[i].userId}"`))[0];
+            let blinded = false;
+
+            if(item === 'grenade_launcher'){
+                blinded = await app.cd.getCD(userRows[i].userId, 'blinded');
+            }
 
             if(userRows[i].userId !== userId){
-                if(!passiveShield && (userClan.clanId === 0 || userClan.clanId !== userClanId.clanId)){
+                if(!blinded && !passiveShield && (userClan.clanId === 0 || userClan.clanId !== userClanId.clanId)){
                     guildUsers.push(userRows[i].userId);
                 }
             }

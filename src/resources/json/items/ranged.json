@@ -647,5 +647,37 @@
         "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged"
+    },
+    "grenade_launcher": {
+        "rarity": "Legendary",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 0,
+        "maxDmg": 25,
+        "ammo": [
+            "40mm_he_grenade",
+            "40mm_smoke_grenade"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": [
+                "metal_pipe|2",
+                "metal|1"
+            ]
+        },
+        "buy": "",
+        "sell": 68427,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736367319944659065/grenade_launcher.png",
+        "icon": "<:grenade_launcher:736367190282076232>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.13,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 4957
+        },
+        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Ranged"
     }
 }

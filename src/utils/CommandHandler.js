@@ -44,13 +44,13 @@ class CommandHandler {
 
         // check if user is under effects of 40mm_smoke_grenade
         if(blindedCD && command.category !== "admin" && command.category !== "moderation"){
-            const embedChicken = new this.app.Embed()
+            const smokedEmbed = new this.app.Embed()
             .setAuthor((message.author.username + '#' + message.author.discriminator), message.author.avatarURL)
-            .setTitle('`you try to type a command but your insatiable appetite for seeds keeps you preoccupied`')
+            .setDescription(`❌ You are blinded by a ${this.app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`!`)
             .setColor(16734296)
-            .setFooter(`Your appetite will calm in ${blindedCD}.`)
+            .setFooter(`The smoke will clear in ${blindedCD}.`)
 
-            return message.channel.createMessage(embedChicken);
+            return message.channel.createMessage(smokedEmbed);
         }
 
         // chcek if user is admin before running admin command

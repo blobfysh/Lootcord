@@ -199,6 +199,15 @@ class ArgParser {
             case "snow": itemSearched = "snowball"; break;
             case "pail":
             case "candy_bucket": itemSearched = "candy_pail"; break;
+            case "gl": itemSearched = "grenade_launcher"; break;
+            case "40mm":
+            case "he":
+            case "he_grenade":
+            case "40mm_grenade":
+            case "explosive_grenade": itemSearched = "40mm_he_grenade"; break;
+            case "smoke_grenade":
+            case "40mm_smoke":
+            case "smoke": itemSearched = "40mm_smoke_grenade"; break;
 
             default:
                 // try using spell correction to find the item name
