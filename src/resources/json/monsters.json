@@ -216,14 +216,21 @@
         "ammo": "rifle_bullet",
         "loot": {
             "main": {
+                "15": {
+                    "items": [
+                        "40mm_he_grenade|1"
+                    ]
+                },
                 "30": {
                     "items": [
                         "mp5|1",
                         "assault_rifle|1",
-                        "spas-12|1"
+                        "spas-12|1",
+                        "grenade_launcher|1",
+                        "40mm_smoke_grenade|1"
                     ]
                 },
-                "70": {
+                "55": {
                     "items": [
                         "pump_shotgun|1",
                         "thompson|1",

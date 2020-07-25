@@ -87,6 +87,7 @@ class ArgParser {
             case "med_syringe":
             case "medical":
             case "syringe": itemSearched = "medical_syringe"; break;
+            case "large_med":
             case "medkit": itemSearched = "large_medkit"; break;
             case "large_box": itemSearched = "large_wood_box"; break;
             case "drop":
@@ -208,6 +209,7 @@ class ArgParser {
             case "smoke_grenade":
             case "40mm_smoke":
             case "smoke": itemSearched = "40mm_smoke_grenade"; break;
+            case "full_metal": itemSearched = "metal_armor"; break;
 
             default:
                 // try using spell correction to find the item name

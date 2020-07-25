@@ -95,7 +95,7 @@
             ]
         },
         "buy": "",
-        "sell": 69262,
+        "sell": 65262,
         "desc": "Releases smoke upon impact, blinding the enemy and preventing any use of commands for **2 hours**.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/736367317037875221/40mm_smoke_grenade.png",
         "icon": "<:40mm_smoke_grenade:736367271940849674>",
@@ -211,7 +211,12 @@
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
-        "craftedWith": "",
+        "craftedWith": {
+            "level": 2,
+            "materials": [
+                "cloth|2"
+            ]
+        },
         "recyclesTo": [],
         "buy": {
             "amount": 7712,
@@ -789,7 +794,13 @@
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
-        "craftedWith": "",
+        "craftedWith": {
+            "level": 5,
+            "materials": [
+                "cloth|4",
+                "metal|2"
+            ]
+        },
         "recyclesTo": [],
         "buy": {
             "amount": 102692,
@@ -797,7 +808,7 @@
         },
         "sell": 14293,
         "desc": "Use this armor to reduce damage taken from attacks by **35%** for **2 hours**.",
-        "image": "https://cdn.discordapp.com/attachments/732785297363959902/733566895583920178/hazmat_suit.png",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736424250017316964/hazmat_suit_ingame.png",
         "icon": "<:hazmat_suit:733566843637334026>",
         "breaksOnUse": "",
         "canBeStolen": true,
@@ -926,7 +937,13 @@
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
-        "craftedWith": "",
+        "craftedWith": {
+            "level": 6,
+            "materials": [
+                "bandage|2",
+                "medical_syringe|2"
+            ]
+        },
         "recyclesTo": [],
         "buy": {
             "amount": 52666,
@@ -1258,6 +1275,35 @@
         "artist": "",
         "category": "Material"
     },
+    "metal_armor": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": true,
+        "isShield": true,
+        "shieldInfo": {
+            "seconds": 28800,
+            "protection": 0.5
+        },
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 206140,
+            "currency": "money"
+        },
+        "sell": 42153,
+        "desc": "Use this armor to reduce damage taken from attacks by **50%** for **8 hours**.",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736424258573434880/metal_armor_ingame.png",
+        "icon": "<:metal_armor:736402922295919215>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item"
+    },
     "metal_pipe": {
         "rarity": "Epic",
         "isWeap": false,
@@ -1371,7 +1417,8 @@
                     "crossbow|1",
                     "12g_buckshot|1",
                     "gunpowder|1",
-                    "rifle_body|1"
+                    "rifle_body|1",
+                    "hazmat_suit|1"
                 ]
             },
             "0.5": {
@@ -2325,7 +2372,8 @@
                     "12g_slug|1",
                     "thompson|1",
                     "rocket_launcher|1",
-                    "hv_rifle_bullet|1"
+                    "hv_rifle_bullet|1",
+                    "metal_armor|1"
                 ]
             },
             "0.5": {
