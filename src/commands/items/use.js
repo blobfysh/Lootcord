@@ -786,10 +786,10 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
     .replace('{weapon}', itemUsed)
     .replace('{ammoIcon}', ammoUsed ? app.itemdata[ammoUsed].icon : '')
     .replace('{ammo}', ammoUsed)
-    .replace('{damage}', damage);
+    .replace('{damage}', baseDamage);
 
     if(armor){
-        finalStr += `\n**${victim.nick || victim.username}**'s ${app.itemdata[armor].icon}\`${armor}\` absorbed **${baseDamage - damage}** (${Math.floor(app.itemdata[armor].shieldInfo.protection * 100)}%) damage!`;
+        finalStr += `\n**${victim.nick || victim.username}**'s ${app.itemdata[armor].icon}\`${armor}\` absorbed **${baseDamage - damage}** (${Math.floor(app.itemdata[armor].shieldInfo.protection * 100)}%) damage, lowering the total damage dealt to **${damage}**!`;
     }
 
     if(killed){
@@ -855,15 +855,15 @@ function generateMobAttack(app, message, monsterRow, playerRow, damage, itemUsed
 
     if(ammoUsed){
         // weapon uses ammo
-        finalStr = `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` straight at <@${message.author.id}> using a ${itemUsed.icon}\`${itemUsed.name}\`! **${damage}** damage dealt!`;
+        finalStr = `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` straight at <@${message.author.id}> using a ${itemUsed.icon}\`${itemUsed.name}\`! **${baseDamage}** damage dealt!`;
     }
     else{
         // melee weapon
-        finalStr = `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} smashes <@${message.author.id}> with a ${itemUsed.icon}\`${itemUsed.name}\` dealing **${damage}** damage!`;
+        finalStr = `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} smashes <@${message.author.id}> with a ${itemUsed.icon}\`${itemUsed.name}\` dealing **${baseDamage}** damage!`;
     }
 
     if(armor){
-        finalStr += `\n**${message.member.nick || message.member.username}**'s ${app.itemdata[armor].icon}\`${armor}\` absorbed **${baseDamage - damage}** (${Math.floor(app.itemdata[armor].shieldInfo.protection * 100)}%) damage!`;
+        finalStr += `\n**${message.member.nick || message.member.username}**'s ${app.itemdata[armor].icon}\`${armor}\` absorbed **${baseDamage - damage}** (${Math.floor(app.itemdata[armor].shieldInfo.protection * 100)}%) damage, lowering the total damage dealt to **${damage}**!`;
     }
 
     if(killed){
