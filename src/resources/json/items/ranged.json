@@ -94,7 +94,7 @@
             ]
         },
         "buy": "",
-        "sell": 6037,
+        "sell": 4037,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929789962354778/revolver.png",
         "icon": "<:revolver:732853148426960936>",
@@ -170,7 +170,7 @@
             ]
         },
         "buy": "",
-        "sell": 32573,
+        "sell": 52573,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733325647857844274/mp5.png",
         "icon": "<:mp5:732853715966623794>",
@@ -224,7 +224,7 @@
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
-        "minDmg": 31,
+        "minDmg": 25,
         "maxDmg": 33,
         "ammo": [
             "pistol_bullet"
@@ -242,7 +242,7 @@
             ]
         },
         "buy": "",
-        "sell": 25157,
+        "sell": 17157,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733575765198766110/python.png",
         "icon": "<:python:732853440371359814>",
@@ -310,7 +310,7 @@
             ]
         },
         "buy": "",
-        "sell": 56621,
+        "sell": 96621,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733262499440492544/bolt_rifle.png",
         "icon": "<:bolt_rifle:732853656801771613>",
@@ -493,7 +493,7 @@
             ]
         },
         "buy": "",
-        "sell": 43621,
+        "sell": 53621,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/734033475807477780/spas-12.png",
         "icon": "<:spas12:732854036595736646>",
@@ -526,7 +526,7 @@
             ]
         },
         "buy": "",
-        "sell": 45623,
+        "sell": 65623,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733991382821109790/lr-300.png",
         "icon": "<:lr300:732853687222927400>",
@@ -565,7 +565,7 @@
             ]
         },
         "buy": "",
-        "sell": 42571,
+        "sell": 82571,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733253825418231868/ak-47.png",
         "icon": "<:ak47:732853644323586108>",
@@ -604,7 +604,7 @@
             ]
         },
         "buy": "",
-        "sell": 15419,
+        "sell": 5419,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/733222004924350484/waterpipe_shotgun.png",
         "icon": "<:waterpipe_shotgun:733221981142515742>",
@@ -635,7 +635,7 @@
             ]
         },
         "buy": "",
-        "sell": 79330,
+        "sell": 112330,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930783240519712/rocket_launcher.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930783240519712/rocket_launcher.png",
@@ -668,7 +668,7 @@
             ]
         },
         "buy": "",
-        "sell": 68427,
+        "sell": 108427,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/736367319944659065/grenade_launcher.png",
         "icon": "<:grenade_launcher:736367190282076232>",
