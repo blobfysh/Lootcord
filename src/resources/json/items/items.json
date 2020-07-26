@@ -270,7 +270,7 @@
                     "semi_pistol|1",
                     "metal_spring|1",
                     "custom_smg|1",
-                    "python|1"
+                    "m92_pistol|1"
                 ]
             },
             "0.5": {
@@ -387,6 +387,7 @@
                     "large_medkit|1",
                     "assault_rifle|1",
                     "python|1",
+                    "m92_pistol|1",
                     "spas-12|1",
                     "custom_smg|1"
                 ]
