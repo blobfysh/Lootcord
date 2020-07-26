@@ -40,7 +40,7 @@ module.exports = {
                 return message.reply(`❌ You don't have enough of that item! You have **${userItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\`.`);
             }
 
-            if(['crate', 'military_crate', 'candy_pail', 'present', 'supply_drop'].includes(item)){
+            if(['crate', 'military_crate', 'candy_pail', 'present', 'supply_drop', 'elite_crate'].includes(item)){
                 // open box
                 if(!await app.itm.hasSpace(itemCt)){
                     return message.reply(`❌ **You don't have enough space in your inventory!** (You have **${itemCt.open}** open slots)\n\nYou can clear up space by selling some items.`);

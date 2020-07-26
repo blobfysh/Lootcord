@@ -732,6 +732,59 @@
         "artist": "221087115893669889",
         "category": "Banner"
     },
+    "elite_crate": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 82414,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736690885491818537/elite_crate.png",
+        "icon": "<:elite_crate:736690805045067836>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "5": {
+                "xp": 90,
+                "items": [
+                    "c4|1"
+                ]
+            },
+            "25": {
+                "xp": 75,
+                "items": [
+                    "rocket_launcher|1",
+                    "bolt_rifle|1",
+                    "rocket|1",
+                    "40mm_he_grenade|1",
+                    "40mm_smoke_grenade|1"
+                ]
+            },
+            "70": {
+                "xp": 50,
+                "items": [
+                    "12g_slug|1",
+                    "thompson|1",
+                    "hv_rifle_bullet|1",
+                    "metal_armor|1",
+                    "large_medkit|1",
+                    "assault_rifle|1",
+                    "python|1",
+                    "spas-12|1",
+                    "custom_smg|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item"
+    },
     "f1_grenade": {
         "rarity": "Rare",
         "isWeap": true,

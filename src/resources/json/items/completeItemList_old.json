@@ -2380,7 +2380,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 73773,
+        "sell": 33773,
         "desc": "High tier loot container dropped from a plane.\nCan only be looted by the first person to claim it.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/733738547840024576/supply_drop_icon.png",
         "icon": "<:supply_drop_icon:733732983252582420>",
@@ -2457,7 +2457,7 @@
             ]
         },
         "buy": "",
-        "sell": 70258,
+        "sell": 30258,
         "desc": "Use this signal to call in an airdrop.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930866858295403/supply_signal.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930866858295403/supply_signal.png",

@@ -19,7 +19,7 @@ module.exports = {
         if(!item){
             return message.reply(`❌ You need to specify a box to open! \`${message.prefix}open <item>\`.`);
         }
-        else if(['crate', 'military_crate', 'candy_pail', 'present', 'supply_drop'].includes(item)){
+        else if(['crate', 'military_crate', 'candy_pail', 'present', 'supply_drop', 'elite_crate'].includes(item)){
             const userItems = await app.itm.getItemObject(message.author.id);
             const itemCt = await app.itm.getItemCount(userItems, row);
             if(amount > 10) amount = 10;

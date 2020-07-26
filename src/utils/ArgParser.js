@@ -214,6 +214,7 @@ class ArgParser {
             case "bone":
             case "bone_frags":
             case "bone_frag": itemSearched = "bone_fragments"; break;
+            case "elite": itemSearched = "elite_crate"; break;
 
             default:
                 // try using spell correction to find the item name
