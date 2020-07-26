@@ -7,6 +7,9 @@ src/resources/json/trivia_questions.json
 # Scramble json to prevent cheating
 src/resources/json/scramble_words.json
 
+# OG Looters
+src/resources/json/og_players.json
+
 # Data file
 *.sqlite
 
