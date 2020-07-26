@@ -284,7 +284,11 @@ class Player {
 
                 await this.app.query(`UPDATE scores SET points = points + 1, level = level + 1 WHERE userId = ${message.author.id}`);
 
-                if((row.level + 1) > 15){
+                if((row.level + 1) % 5 === 0 && row.level + 1 >= 10){
+                    levelItem = `${this.app.itemdata['elite_crate'].icon}\`elite_crate\``;
+                    await this.app.itm.addItem(message.author.id, 'elite_crate', 1);
+                }
+                else if((row.level + 1) > 15){
                     levelItem = `${this.app.itemdata['supply_signal'].icon}\`supply_signal\``;
                     await this.app.itm.addItem(message.author.id, 'supply_signal', 1);
                 }
