@@ -112,6 +112,32 @@
         "artist": "",
         "category": "Item"
     },
+    "reroll_scroll": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "isAmmo": [],
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": {
+            "amount": 106638,
+            "currency": "money"
+        },
+        "sell": 11601,
+        "desc": "Use this to reset your skills! Resetting your skills will also reset the cost to purchase skills with the `upgrade` command.",
+        "image": "",
+        "unboxImage": "",
+        "icon": "<:reroll_scroll:737034981582307469>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item"
+    },
     "medical_syringe": {
         "rarity": "Rare",
         "isWeap": false,
