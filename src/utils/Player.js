@@ -1,5 +1,12 @@
 const Jimp = require('jimp');
-const oldPlayers = require('../resources/json/og_players');
+let oldPlayers;
+
+try{
+    oldPlayers = require('../resources/json/og_looters');
+}
+catch(err){
+    oldPlayers = [];
+}
 
 class Player {
     constructor(app){
@@ -56,7 +63,7 @@ class Player {
         this.app.common.messageUser(id, newPlayer);
 
         if(oldPlayers.includes(id)){
-            this.app.itm.addBadge(id, 'og_looter');
+            await this.app.itm.addBadge(id, 'og_looter');
         }
     }
 
