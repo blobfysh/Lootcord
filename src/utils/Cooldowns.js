@@ -56,7 +56,7 @@ class Cooldown {
                 typeof callback === 'function' && callback();
 
                 this.clearTimers(userId, type);
-            }, seconds * 1000)
+            }, (seconds * 1000) - 1000)
         };
 
         // adding to timers array allows me to cancel the timer in the future (ex. player unequips shield, need to be able to cancel shield timeOut)
@@ -103,21 +103,20 @@ class Cooldown {
     }
 
     async clearTimers(userId, type){
-        this.timers.forEach(obj => {
-            if(obj.userId == userId && obj.type == type){
+        for(let i = 0; i < this.timers.length; i++){
+            if(this.timers[i].userId == userId && this.timers[i].type == type){
                 console.log('Clearing timers for ' + userId + ' | ' + type);
-                bt.clearTimeout(obj.timer);
+                bt.clearTimeout(this.timers[i].timer);
+                await this.app.cache.del(`${type}|${userId}`); // delete key from cache, this is what actually stops the cooldown shown in commands
 
-                this.timers.splice(this.timers.indexOf(obj), 1);
+                this.timers.splice(i, 1);
             }
-        });
+        }
     }
 
     async clearCD(userId, type){
-        let key = `${type}|${userId}`;
         await this.app.mysql.query(`DELETE FROM cooldown WHERE userId = '${userId}' AND type = '${type}'`);
         await this.app.ipc.broadcast('clearCD', { userId: userId, type: type }); // sends message to all shards to clear cooldown timers (stops the setTimeout from running)
-        await this.app.cache.del(key); // delete key from cache, this is what actually stops the cooldown shown in commands
     }
 
     convertTime(ms){
