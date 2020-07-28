@@ -399,7 +399,9 @@
                     "bolt_rifle|1",
                     "rocket|1",
                     "40mm_he_grenade|1",
-                    "40mm_smoke_grenade|1"
+                    "40mm_smoke_grenade|1",
+                    "mp5|1",
+                    "lr-300|1"
                 ]
             },
             "5": {

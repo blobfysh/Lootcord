@@ -764,7 +764,9 @@
                     "bolt_rifle|1",
                     "rocket|1",
                     "40mm_he_grenade|1",
-                    "40mm_smoke_grenade|1"
+                    "40mm_smoke_grenade|1",
+                    "mp5|1",
+                    "lr-300|1"
                 ]
             },
             "70": {
@@ -1425,7 +1427,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 11447,
+        "sell": 5447,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/732952040933949481/metal_pipe.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732952040933949481/metal_pipe.png",

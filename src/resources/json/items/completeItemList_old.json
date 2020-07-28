@@ -777,6 +777,7 @@
                     "large_medkit|1",
                     "assault_rifle|1",
                     "python|1",
+                    "m92_pistol|1",
                     "spas-12|1",
                     "custom_smg|1"
                 ]
@@ -1424,7 +1425,7 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 11447,
+        "sell": 5447,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/732952040933949481/metal_pipe.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/732952040933949481/metal_pipe.png",
@@ -1490,7 +1491,7 @@
                     "semi_pistol|1",
                     "metal_spring|1",
                     "custom_smg|1",
-                    "python|1"
+                    "m92_pistol|1"
                 ]
             },
             "34": {
