@@ -185,7 +185,10 @@ module.exports = {
                         const row = await app.player.getRow(m.author.id);
                         let amount = app.parse.numbers(args)[0];
                         
-                        if(row.money < amount){
+                        if(!amount){
+                            return m.channel.createMessage(`❌ You should specify an amount of Lootcoin. You currently have **${app.common.formatNumber(row.money)}**`);
+                        }
+                        else if(row.money < amount){
                             return m.channel.createMessage(`❌ You don't have that much Lootcoin. You currently have **${app.common.formatNumber(row.money)}**`);
                         }
 
