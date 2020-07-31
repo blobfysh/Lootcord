@@ -1083,6 +1083,7 @@
         "craftedWith": {
             "level": 9,
             "materials": [
+                "wood_box|1",
                 "cloth|5",
                 "wood|3",
                 "metal|3"
@@ -2683,6 +2684,7 @@
         "craftedWith": {
             "level": 6,
             "materials": [
+                "small_stash|1",
                 "cloth|4",
                 "wood|1"
             ]
