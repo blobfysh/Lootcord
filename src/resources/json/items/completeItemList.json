@@ -343,7 +343,7 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 445
+            "seconds": 545
         },
         "phrase": "{attacker} sliced {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
@@ -1651,7 +1651,7 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 458
+            "seconds": 558
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
@@ -1992,7 +1992,7 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 354
+            "seconds": 454
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
@@ -2727,7 +2727,7 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 420
+            "seconds": 520
         },
         "phrase": "{attacker} stabbed {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
