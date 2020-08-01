@@ -131,7 +131,7 @@
         "artist": "",
         "category": "Storage"
     },
-    "ravens_nest": {
+    "neros_crate": {
         "rarity": "Limited",
         "isWeap": false,
         "isItem": false,
@@ -149,7 +149,7 @@
         "equippable": true,
         "type": "backpack",
         "inv_slots": 45,
-        "icon": "<:limit_backpack:717745253037375629>",
+        "icon": "<:neros_crate:738935263471861891>",
         "breaksOnUse": "",
         "canBeStolen": false,
         "cooldown": "",

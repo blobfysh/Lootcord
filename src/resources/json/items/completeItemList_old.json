@@ -1083,6 +1083,7 @@
         "craftedWith": {
             "level": 9,
             "materials": [
+                "wood_box|1",
                 "cloth|5",
                 "wood|3",
                 "metal|3"
@@ -1821,7 +1822,7 @@
         "equippable": true,
         "type": "backpack",
         "inv_slots": 45,
-        "icon": "<:limit_backpack:717745253037375629>",
+        "icon": "<:neros_crate:738935263471861891>",
         "breaksOnUse": "",
         "canBeStolen": false,
         "cooldown": "",
@@ -2683,6 +2684,7 @@
         "craftedWith": {
             "level": 6,
             "materials": [
+                "small_stash|1",
                 "cloth|4",
                 "wood|1"
             ]
