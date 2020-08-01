@@ -7,8 +7,8 @@ const QUOTES = [
 module.exports = {
     name: 'hourly',
     aliases: ['hour'],
-    description: 'Receive a free item_box every hour!',
-    long: 'Use this command to receive a free item_box every hour.',
+    description: 'Receive a free crate every hour!',
+    long: 'Use this command to receive a free crate every hour.',
     args: {},
     examples: [],
     ignoreHelp: false,

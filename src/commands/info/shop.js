@@ -4,7 +4,7 @@ module.exports = {
     name: 'shop',
     aliases: ['store','market', 'outpost'],
     description: 'Shows all items that can be bought.',
-    long: 'Visit the Outpost and see what items can be bought. Occasionally, steam keys may be displayed for sale on the home page.',
+    long: 'Visit the Outpost and see what items can be bought. The homepage sales may change so be sure to check often!',
     args: {},
     examples: [],
     ignoreHelp: false,
