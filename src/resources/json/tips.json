@@ -2,7 +2,7 @@
 	"You can see what an item can be crafted into with the `item` command.",
 	"Your max health can be increased with the `upgrade` command.",
 	"Have more than 5 active players in your server? Call in supply drops with the `setdropchannel` command.",
-	"Clan leaders can kick members using their number from member list. This is handy if the member you're trying to kick doesn't share a server with you.",
+	"Clan leaders can kick members using their number from the clan member list. This is handy if the member you're trying to kick doesn't share a server with you.",
 	"Storage containers increase your max inventory slots, and can be equipped with `equip <container>`.",
 	"There are various statistics shown on your `profile`!",
 	"You can check what banners you own on your `profile`.",
