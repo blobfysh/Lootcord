@@ -320,6 +320,10 @@ class PatreonHandler {
 
         for(let i = 0; i < tier1.length; i++){
             const patronage = patronRows.filter(patron => patron.userId === tier1[i]);
+            const account = await this.app.player.getRow(tier1[i]);
+            if(!account) {
+                continue;
+            }
             
             if(patronage.length && patronage[0].tier !== 1){
                 switch(patronage[0].tier){
@@ -338,6 +342,10 @@ class PatreonHandler {
 
         for(let i = 0; i < tier2.length; i++){
             const patronage = patronRows.filter(patron => patron.userId === tier2[i]);
+            const account = await this.app.player.getRow(tier2[i]);
+            if(!account) {
+                continue;
+            }
             
             if(patronage.length && patronage[0].tier !== 2){
                 switch(patronage[0].tier){
@@ -356,6 +364,10 @@ class PatreonHandler {
 
         for(let i = 0; i < tier3.length; i++){
             const patronage = patronRows.filter(patron => patron.userId === tier3[i]);
+            const account = await this.app.player.getRow(tier3[i]);
+            if(!account) {
+                continue;
+            }
             
             if(patronage.length && patronage[0].tier !== 3){
                 switch(patronage[0].tier){
@@ -374,6 +386,10 @@ class PatreonHandler {
 
         for(let i = 0; i < tier4.length; i++){
             const patronage = patronRows.filter(patron => patron.userId === tier4[i]);
+            const account = await this.app.player.getRow(tier4[i]);
+            if(!account) {
+                continue;
+            }
             
             if(patronage.length && patronage[0].tier !== 4){
                 switch(patronage[0].tier){
