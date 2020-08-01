@@ -1,5 +1,4 @@
 [
-	"You can unequip your armor with `unequip armor`. Be careful though, you won't be able to attack for `60 minutes`.",
 	"You can see what an item can be crafted into with the `item` command.",
 	"Your max health can be increased with the `upgrade` command.",
 	"Have more than 5 active players in your server? Call in supply drops with the `setdropchannel` command.",

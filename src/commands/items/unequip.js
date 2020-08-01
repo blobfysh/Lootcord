@@ -3,9 +3,9 @@ module.exports = {
     name: 'unequip',
     aliases: [''],
     description: 'Unequip an item.',
-    long: 'Unequip your current storage container or banner. You can also unequip your armor, but you will receive a 1 hour attack cooldown for doing so.',
-    args: {"item/armor/banner": "Item to unequip."},
-    examples: ["unequip wood_box", "unequip banner", "unequip armor", "unequip storage"],
+    long: 'Unequip your current storage container or banner.',
+    args: {"item/banner": "Item to unequip."},
+    examples: ["unequip wood_box", "unequip banner", "unequip storage"],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,
@@ -47,26 +47,8 @@ module.exports = {
             return message.reply(`✅ Successfully unequipped your display badge!`);
         }
 
-        else if((equipitem && app.itemdata[equipitem].isShield) || message.args[0]  === 'shield' || message.args[0] === 'armor'){
-            const armorCD = await app.cd.getCD(message.author.id, 'shield');
-            if(!armorCD){
-                return message.reply("❌ You don't have any armor equipped!");
-            }
-
-            const armor = await app.player.getArmor(message.author.id);
-            const attackCD = await app.cd.getCD(message.author.id, 'attack');
-            if(attackCD){
-                return message.reply(`❌ You cannot unequip your ${armor ? app.itemdata[armor].icon + '`' + armor + '`' : 'armor'} while you have an attack cooldown! \`${attackCD}\``);
-            }
-
-            await app.cd.setCD(message.author.id, 'attack', 3600 * 1000); // 1 hour attack cooldown
-            await app.cd.clearCD(message.author.id, 'shield');
-            
-            message.reply(`✅ Successfully unequipped your ${armor ? app.itemdata[armor].icon + '`' + armor + '`' : 'armor'}, you have also been given a \`60 minute\` cooldown from attacking other players.`);
-        }
-
         else{
-            message.reply("Specify a storage container, banner, armor, or badge to unequip. `" + message.prefix + "unequip <item/badge>`");
+            message.reply("Specify a storage container, banner, or badge to unequip. `" + message.prefix + "unequip <item/badge>`");
         }
     },
 }
