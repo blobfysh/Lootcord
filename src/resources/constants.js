@@ -81,6 +81,10 @@ const RULES = {
         "desc": "Handouts",
         "warn_message": "Trading items/money of large value or giving handouts to other players is not allowed (rule #5), please don't give items/money to other players. Thank you."
     },
+    "6": {
+        "desc": "False reports",
+        "warn_message": "Please do not spam or use the report command without valid reason as this distracts the moderation team from real reports (rule #6). Thank you."
+    },
 };
 
 module.exports = {

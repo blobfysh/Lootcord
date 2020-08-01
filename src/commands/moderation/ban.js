@@ -4,7 +4,7 @@ module.exports = {
     name: 'ban',
     aliases: [''],
     description: 'Bans a user.',
-    long: 'Bans a user and sends them a message containing the reason. Banning will make the bot ignore every message from user. You must provide one of the following rules:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts',
+    long: 'Bans a user and sends them a message containing the reason. Banning will make the bot ignore every message from user. You must provide one of the following rules:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts\n**6** - False reports',
     args: {
         "User ID": "ID of user to ban.",
         "rule": "Rule broken."
@@ -26,7 +26,7 @@ module.exports = {
             return message.reply('❌ You forgot to include a user ID.')
         }
         else if(!rule || !Object.keys(RULES).includes(rule)){
-            return message.reply('❌ You need to specify what rule was broken:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts');
+            return message.reply('❌ You need to specify what rule was broken:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts\n**6** - False reports');
         }
         else if(await app.cd.getCD(userID, 'banned')){
             return message.reply('❌ User is already banned.')
