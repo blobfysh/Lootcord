@@ -55,6 +55,7 @@ class Cooldown {
 
                 typeof callback === 'function' && callback();
 
+                this.app.cache.del(key);
                 this.clearTimers(userId, type);
             }, (seconds * 1000) - 1000)
         };
@@ -107,7 +108,6 @@ class Cooldown {
             if(this.timers[i].userId == userId && this.timers[i].type == type){
                 console.log('Clearing timers for ' + userId + ' | ' + type);
                 bt.clearTimeout(this.timers[i].timer);
-                await this.app.cache.del(`${type}|${userId}`); // delete key from cache, this is what actually stops the cooldown shown in commands
 
                 this.timers.splice(i, 1);
             }
@@ -117,6 +117,7 @@ class Cooldown {
     async clearCD(userId, type){
         await this.app.mysql.query(`DELETE FROM cooldown WHERE userId = '${userId}' AND type = '${type}'`);
         await this.app.ipc.broadcast('clearCD', { userId: userId, type: type }); // sends message to all shards to clear cooldown timers (stops the setTimeout from running)
+        await this.app.cache.del(`${type}|${userId}`); // delete key from cache, this is what actually stops the cooldown shown in commands
     }
 
     convertTime(ms){
