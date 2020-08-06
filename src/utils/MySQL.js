@@ -76,6 +76,8 @@ class MySQL {
 
             await this.query('CREATE TABLE IF NOT EXISTS banned (userId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB');
 
+            await this.query('CREATE TABLE IF NOT EXISTS bannedguilds (guildId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB');
+
             await this.query('CREATE TABLE IF NOT EXISTS tradebanned (userId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB');
 
             await this.query('CREATE TABLE IF NOT EXISTS warnings (userId bigint, modId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB');

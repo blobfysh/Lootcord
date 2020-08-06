@@ -252,6 +252,15 @@ class Lootcord extends Base {
             }
         }
 
+        const bannedGuildRows = await this.query(`SELECT * FROM bannedguilds`); 
+        for(let banned of bannedGuildRows){
+            if(banned.guildId !== undefined && banned.guildId !== null){
+                if(await this.cd.getCD(banned.guildId, 'guildbanned')) continue;
+                
+                await this.cache.setNoExpire(`guildbanned|${banned.guildId}`, 'Banned perma');
+            }
+        }
+
         // refreshes the list of tradebanned users on startup
         const tradeBannedRows = await this.query(`SELECT * FROM tradebanned`); 
         for(let banned of tradeBannedRows){

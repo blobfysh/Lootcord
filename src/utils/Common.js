@@ -15,6 +15,19 @@ class Common {
         }
     }
 
+    shuffleArr(array){
+        let i, r, i3;
+
+        for(i = array.length - 1; i > 0; i--){
+            r = Math.floor(Math.random() * (i + 1));
+            i3 = array[i];
+            array[i] = array[r];
+            array[r] = i3;
+        }
+        
+        return array;
+    }
+
     getShortDate(date){
         let convertedTime = new Date(date).toLocaleString('en-US', {
             timeZone: 'America/New_York'
@@ -77,6 +90,47 @@ class Common {
             neededForLvl: Math.floor(50*(playerLVL**1.7)),
             totalNeeded: xpNeededTotal
         }
+    }
+
+    /**
+     * Retrieve guild information using ID
+     * @param {string} id ID of guild to fetch
+     */
+    async fetchGuild(id){
+        let guild = this.app.bot.guilds.get(id);
+        
+        if(guild){
+            console.log('[COMMON] Found guild in cache');
+            return guild;
+        }
+
+        try{
+            let timeoutId;
+            let IPCguild;
+            const maxTime = new Promise((resolve, reject) => {
+                timeoutId = setTimeout(() => {
+                    reject(new Error('no IPC guild found.'));
+                }, 2000);
+            });
+
+            // will try searching IPC for 2 seconds
+            try{
+                IPCguild = await Promise.race([maxTime, this.app.ipc.fetchGuild(id)]);
+            }
+            finally{
+                clearTimeout(timeoutId);
+            }
+
+            if(IPCguild){
+                console.log('[COMMON] Found guild using IPC');
+                return IPCguild;
+            }
+        }
+        catch(err){
+            console.warn(err);
+        }
+
+        return undefined;
     }
 
     /**

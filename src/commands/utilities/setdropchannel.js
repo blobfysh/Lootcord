@@ -26,5 +26,15 @@ module.exports = {
         if(guildRow.dropChan == 0){
             app.airdrop.initAirdrop(message.channel.guild.id);
         }
+
+        const logEmbed = new app.Embed()
+        .setTitle('Drop Channel Created')
+        .setThumbnail(message.author.avatarURL)
+        .addField(`User`, `${(message.author.username + '#' + message.author.discriminator)} ID: \`\`\`\n${message.author.id}\`\`\``)
+        .addField(`Channel`, `${message.channel.name} ID: \`\`\`\n${message.channel.id}\`\`\``)
+        .addField(`Server`, `${message.channel.guild.name} ID: \`\`\`\n${message.channel.guild.id}\`\`\``)
+        .setColor('#8C8C8C')
+        .setFooter('Make sure guild is not for farming drops')
+        app.messager.messageLogs(logEmbed);
     },
 }
