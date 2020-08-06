@@ -19,7 +19,8 @@ module.exports = {
         3. **Do not leave servers after attacking someone to deactivate your account and avoid counterattacks.** This is known as cooldown dodging, and is automatically reported to moderators on offense.\n
         4. **No kill-farming.** Killing someone then trading items back to the other person in order to gain kill count without consequences.\n
         5. **No handouts.** Giving another player free items/money whether it be through trading, the black market, clans, or kills is not allowed. Doing so will result in a warning or trade ban.\n
-        6. **Do not report without reason.** The report command should only be used when you have evidence that someone is breaking these rules. Spamming the report command may result in a temporary or permanent ban.`)
+        6. **Do not report without reason.** The report command should only be used when you have evidence that someone is breaking these rules. Spamming the report command may result in a temporary or permanent ban.\n
+        7. **Do not farm airdrops.** Creating fake servers just for claiming as many airdrops as possible may result in you and the server being banned from using the bot.`)
         .setColor(13451564)
         .setFooter("Rules subject to change.")
 

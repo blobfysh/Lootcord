@@ -85,6 +85,10 @@ const RULES = {
         "desc": "False reports",
         "warn_message": "Please do not spam or use the report command without valid reason as this distracts the moderation team from real reports (rule #6). Thank you."
     },
+    "7": {
+        "desc": "Airdrop Farming",
+        "warn_message": "Please do not create fake servers for the purpose of claiming airdrops (rule #7). Thank you."
+    }
 };
 
 module.exports = {
