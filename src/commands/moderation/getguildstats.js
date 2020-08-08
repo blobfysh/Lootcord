@@ -1,3 +1,4 @@
+const Eris = require('eris');
 
 module.exports = {
     name: 'getguildstats',
@@ -42,8 +43,8 @@ module.exports = {
             const activeRows = await app.query(`SELECT * FROM userGuilds WHERE guildId = ?`, [guildID]);
             const guildCreated = codeWrap(new Date(Math.floor((guildID / 4194304) + 1420070400000)).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric', timeZone: 'America/New_York'}) + '\n' + new Date(Math.floor((guildID / 4194304) + 1420070400000)).toLocaleTimeString('en-US', {timeZone: 'America/New_York'}) + ' (EST)', 'fix')
             const joinedGuild = codeWrap(new Date(guildInfo.joinedAt).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric', timeZone: 'America/New_York'}) + '\n' + new Date(guildInfo.joinedAt).toLocaleTimeString('en-US', {timeZone: 'America/New_York'}) + ' (EST)', 'fix')
-            const cachedChannels = guildInfo.channels instanceof Map ? guildInfo.channels : new Map(Object.entries(guildInfo.channels));
-            const cachedMembers = guildInfo.members instanceof Map ? guildInfo.members : new Map(Object.entries(guildInfo.members));
+            const cachedChannels = guildInfo.channels instanceof Map ? guildInfo.channels : createCollection(guildInfo.channels);
+            const cachedMembers = guildInfo.members instanceof Map ? guildInfo.members : createCollection(guildInfo.members);
             const owner = await app.common.fetchUser(guildInfo.ownerID, { cacheIPC: false });
             
             const killFeedChan = cachedChannels.get(guildRow.killChan) ? cachedChannels.get(guildRow.killChan).name + ' (ID: `' + guildRow.killChan + '`)' : 'None set';
@@ -64,7 +65,7 @@ module.exports = {
             **Levelling Channel**: ${levelChan}
             **Airdrops**: ${airdropChan}
             **Attack Mode**: ${attackMode}`)
-            .addField(`Channels - ${cachedChannels.size}`, cachedChannels.filter(chan => chan.type !== 4).map(chan => getChannelType(app.icons, chan) + ' ' + chan.name + ' (ID: `' + chan.id + '`)').slice(0, 10).join('\n') || 'None')
+            .addField(`Channels - ${cachedChannels.size}`, cachedChannels.filter(chan => chan.type !== 4).map(chan => getChannelType(app.icons, chan, guildID) + ' ' + chan.name + ' (ID: `' + chan.id + '`)').slice(0, 10).join('\n') || 'None')
             .addField(`Cached Members - ${cachedMembers.size}`, codeWrap(cachedMembers.filter(user => !user.user.bot).map(user => user.user.username + '#' + user.user.discriminator + ' (' + user.user.id + ')').slice(0, 15).join('\n') || 'None (cached bots are not shown)', ''))
             .addField(`Activated Players - ${activeRows.length}`, codeWrap(activeRows.map(row => row.userId).slice(0, 15).join('\n') || 'None', ''))
 
@@ -73,13 +74,14 @@ module.exports = {
             message.channel.createMessage(statEmbed);
         }
         catch(err){
+            console.log(err);
             message.reply('Error:```' + err + '```');
         }
     },
 }
 
-function getChannelType(icons, chan){
-    const permissions = chan.permissionOverwrites instanceof Map ? chan.permissionOverwrites.get(chan.guild.id) : new Map(chan.permissionOverwrites).get(chan.guild.id);
+function getChannelType(icons, chan, guildID){
+    const permissions = chan.permissionOverwrites instanceof Map ? chan.permissionOverwrites.get(guildID) : new Map(Object.entries(chan.permissionOverwrites)).get(guildID);
 
     if(chan.type === 0 && permissions && permissions.deny & 1 << 10){
         return icons.locked_text_channel;
@@ -97,4 +99,14 @@ function getChannelType(icons, chan){
 
 function codeWrap(input, code){
     return '```' + code + '\n' + input + '```';
+}
+
+function createCollection(object){
+    const collection = new Eris.Collection();
+
+    for(const item of Object.keys(object)){
+        collection.set(item, object[item]);
+    }
+
+    return collection;
 }
