@@ -19,6 +19,9 @@
   "slots_rare_icon": "💸",
   "slots_epic_icon": "💰",
   "slots_legendary_icon": "💎",
+  "text_channel": "<:text_channel:741087747120300133>",
+  "locked_text_channel": "<:locked_text_channel:741087747212836865>",
+  "voice_channel": "<:voice_channel:741087747661365269>",
   "health": {
     "full": "<:heart_full:708361975922556990>",
     "empty": "<:heart_empty_new:708362448121495644>",
