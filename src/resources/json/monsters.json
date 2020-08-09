@@ -203,7 +203,7 @@
         "leftImage": "https://cdn.discordapp.com/attachments/732785161661317224/733788489635725322/m249_heavy_scientist_left.png",
         "pronoun": "he",
         "special": "",
-        "health": 185,
+        "health": 200,
         "minDamage": 32,
         "maxDamage": 46,
         "minMoney": 30000,
@@ -232,7 +232,6 @@
                 },
                 "55": {
                     "items": [
-                        "pump_shotgun|1",
                         "thompson|1",
                         "custom_smg|1"
                     ]
@@ -258,7 +257,8 @@
                 },
                 "5": {
                     "items": [
-                        "custom_smg|1"
+                        "custom_smg|1",
+                        "pump_shotgun|1"
                     ]
                 }
             }
@@ -275,7 +275,7 @@
         "leftImage": "https://cdn.discordapp.com/attachments/497302646521069570/734003529563373579/patrol_helicopter.png",
         "pronoun": "it",
         "special": "Immune to melee weapons!",
-        "health": 415,
+        "health": 400,
         "minDamage": 45,
         "maxDamage": 64,
         "minMoney": 140000,
@@ -288,27 +288,38 @@
         "ammo": "rifle_bullet",
         "loot": {
             "main": {
-                "35": {
+                "40": {
                     "items": [
                         "m249|1",
                         "c4|1"
                     ]
                 },
-                "65": {
+                "60": {
                     "items": [
                         "rocket|1"
                     ]
                 }
             },
             "extras": {
-                "100": {
+                "75": {
                     "items": [
                         "assault_rifle|1",
                         "thompson|1",
                         "rifle_bullet|1",
                         "large_medkit|1",
                         "rocket_launcher|1",
-                        "tech_trash|1"
+                        "tech_trash|1",
+                        "medical_syringe|2"
+                    ]
+                },
+                "15": {
+                    "items": [
+                        "hv_rifle_bullet|1"
+                    ]
+                },
+                "10": {
+                    "items": [
+                        "rocket|1"
                     ]
                 }
             }
@@ -325,7 +336,7 @@
         "leftImage": "https://cdn.discordapp.com/attachments/732785161661317224/733788474804535428/bradley_left.png",
         "pronoun": "it",
         "special": "",
-        "health": 610,
+        "health": 600,
         "minDamage": 47,
         "maxDamage": 72,
         "minMoney": 230000,
@@ -368,7 +379,8 @@
                 },
                 "15": {
                     "items": [
-                        "supply_signal|1"
+                        "supply_signal|1",
+                        "rocket|1"
                     ]
                 }
             }
