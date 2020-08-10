@@ -1,7 +1,7 @@
 const QUOTES = [
-    'Oh look, I found this {icon}{item} for you!\n\nWant more? Try the `hourly`, `vote` commands.', 
-    'Here\'s a free {icon}{item}!\n\nWant more? Try the `hourly`, `vote` commands.', 
-    'You earned a free {icon}{item}!\n\nWant more? Try the `hourly`, `vote` commands.'
+    '**Oh look, I found this {icon}{item} for you!** Open it to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `hourly`, `vote` commands.', 
+    '**Here\'s a free {icon}{item}!** Open it to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `hourly`, `vote` commands.', 
+    '**You earned a free {icon}{item}!** Open it to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `hourly`, `vote` commands.'
 ];
 const OFFICIAL_QUOTES = [
     'You gained **2x** {icon}{item} for playing in the official Lootcord server! 😎'
@@ -38,7 +38,7 @@ module.exports = {
         }
         else{
             await app.itm.addItem(message.author.id, 'military_crate', 1);
-            message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata['military_crate'].icon).replace('{item}', '`military_crate`'));
+            message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata['military_crate'].icon).replace('{item}', '`military_crate`').replace('{prefix}', message.prefix));
         }
     },
 }

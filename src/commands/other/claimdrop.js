@@ -41,7 +41,7 @@ module.exports = {
 
             await app.itm.addItem(message.author.id, guildRow.dropItem, 1);
 
-            message.reply(`You got the ${app.itemdata[guildRow.dropItem].icon}\`${guildRow.dropItem}\`!`);
+            message.reply(`**You got the ${app.itemdata[guildRow.dropItem].icon}\`${guildRow.dropItem}\`!** Open it to see what\'s inside: \`${message.prefix}use ${guildRow.dropItem}\``);
         }, Math.floor(Math.random() * 1000) + 1);
     },
 }
