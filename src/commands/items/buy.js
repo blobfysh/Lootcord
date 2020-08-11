@@ -79,7 +79,7 @@ module.exports = {
                         await app.player.removeScrap(message.author.id, itemPrice * buyAmount);
                         await app.itm.addItem(message.author.id, buyItem, buyAmount);
 
-                        botMessage.edit(`Successfully bought ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\`!\n\nYou now have ${app.common.formatNumber(row.scrap - (itemPrice * buyAmount))}.`);
+                        botMessage.edit(`Successfully bought ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\`!\n\nYou now have ${app.common.formatNumber(row.scrap - (itemPrice * buyAmount), false, true)}.`);
                     }
                     else{
                         botMessage.delete();
