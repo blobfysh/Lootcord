@@ -53,13 +53,13 @@ async function getClanLogs(app, clanId){
     const logsEmbed = new app.Embed()
     .setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
     .setTitle('Logs (Last 10, Newest to Oldest)')
-    .setColor(13215302)
+    .setColor(13451564)
 
     for(let i = 0; i < logs.length; i++){
         logsEmbed.addField(getShortDate(logs[i].logTime), '```\n' + logs[i].details + '```');
     }
 
-    if(!logs.length) test.setDescription('😟 there\'s nothing to see here')
+    if(!logs.length) logsEmbed.setDescription('😟 there\'s nothing to see here')
 
     return logsEmbed;
 }

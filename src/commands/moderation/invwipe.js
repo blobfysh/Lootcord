@@ -48,7 +48,7 @@ module.exports = {
                 await app.query(`INSERT INTO wiped_data (wipeId, userId, item) SELECT ?, userId, item FROM user_items WHERE userId = ?`, [wipeId, userID]);
                 
                 await app.query(`DELETE FROM user_items WHERE userId = ?`, [userID]);
-                await app.query(`UPDATE scores SET money = 100 WHERE userId = ?`, [userID]);
+                await app.query(`UPDATE scores SET money = 100, scrap = 0 WHERE userId = ?`, [userID]);
         
                 const invWipeMsg = new app.Embed()
                 .setTitle("Inventory Wiped")

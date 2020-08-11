@@ -19,15 +19,20 @@ const fs           = require('fs');
 
 const previousList = require('./completeItemList');
 
-const common       = require('./common');
-const uncommon     = require('./uncommon');
-const rare         = require('./rare');
-const epic         = require('./epic');
-const legendary    = require('./legendary');
-const ultra        = require('./ultra');
-const limited      = require('./limited');
+const ranged       = require('./ranged');
+const melee        = require('./melee');
+const items        = require('./items');
+const ammo         = require('./ammo');
+const materials    = require('./materials');
+const storage      = require('./storage');
+const banners      = require('./banners');
 
-const combined     = { ...common, ...uncommon, ...rare, ...epic, ...legendary, ...ultra, ...limited };
+const combinedTmp  = { ...ranged, ...melee, ...items, ...ammo, ...materials, ...storage, ...banners };
+let combined = {};
+
+for(let key of Object.keys(combinedTmp).sort()){
+    combined[key] = combinedTmp[key];
+}
 
 let itemsLost = {};
 let itemsGained= {};

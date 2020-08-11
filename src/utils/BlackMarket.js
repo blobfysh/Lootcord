@@ -42,18 +42,14 @@ class BlackMarket {
         }
     }
 
-    createDisplay(searchResults){
-        let display = '';
-        let header = 'Item               Price (Lootcoin)         Listing ID'
-        for(var i = 0; i < searchResults.length; i++){
-            display += (`${searchResults[i].quantity}x ${searchResults[i].itemName}`.padEnd(19, ' ') + `${this.app.common.formatNumber(searchResults[i].price, true)}`.padEnd(25, ' ') + `${searchResults[i].listingId}\n`)
+    displayListings(embed, listings){
+        for(let i = 0; i < listings.length; i++){
+            embed.addField(this.app.itemdata[listings[i].itemName].icon + '`' + listings[i].itemName + '`', 
+            '```\n' + 'Price: ' + this.app.common.formatNumber(listings[i].price, true) + '\nQuantity: ' + listings[i].quantity + '\nID: ' + listings[i].listingId + '```',
+            true);
         }
 
-        if(!display.length){
-            display = '\nNothing was found...'
-        }
-
-        return '```' + header + '\n' + '-'.repeat(header.length) + '\n' + display + '```'
+        if(!listings.length) embed.setDescription('There are no listings for that item...');
     }
 }
 

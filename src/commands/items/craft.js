@@ -3,21 +3,25 @@ module.exports = {
     name: 'craft',
     aliases: [''],
     description: 'Craft new items!',
-    long: 'Use components from `recycling` to craft items such as:\n`rail_cannon`\n`ray_gun`\n`ultra_box`.',
+    long: 'Use components from recycling to craft items such as:\n`semi_pistol`\n`wood_box`\n`rifle_bullet`.',
     args: {"item": "Item to craft.", "amount": "**OPTIONAL** Amount of items to craft."},
-    examples: ["craft rail_cannon 2"],
+    examples: ["craft c4 2"],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,
     guildModsOnly: false,
     
     async execute(app, message){
+        const row = await app.player.getRow(message.author.id);
         let craftItem = app.parse.items(message.args)[0];
         let craftAmount = app.parse.numbers(message.args)[0] || 1;
 
         if(craftItem){
-            if(app.itemdata[craftItem].craftedWith == ""){
-                return message.reply('That item cannot be crafted!');
+            if(app.itemdata[craftItem].craftedWith === ""){
+                return message.reply(app.itemdata[craftItem].icon + '`' + craftItem + '` cannot be crafted!');
+            }
+            else if(app.itemdata[craftItem].craftedWith.level > row.level){
+                return message.reply('❌ You must be at least level **' + app.itemdata[craftItem].craftedWith.level + '** to craft a ' + app.itemdata[craftItem].icon + '`' + craftItem + '`. You are only level **' + row.level + '**.')
             }
             
             if(craftAmount > 20) craftAmount = 20;

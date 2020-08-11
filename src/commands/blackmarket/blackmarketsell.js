@@ -22,6 +22,9 @@ module.exports = {
         if(await app.cd.getCD(message.author.id, 'tradeban')){
             return message.reply("❌ You are trade banned.");
         }
+        else if(Math.floor((message.author.id / 4194304) + 1420070400000) > Date.now() - (30 * 24 * 60 * 60 * 1000)){
+            return message.reply(`❌ Your Discord account must be at least 30 days old to use the black market! This helps us prevent alt abuse. 😭`);
+        }
         else if((await app.query(`SELECT * FROM blackmarket WHERE sellerId = ${message.author.id}`)).length >= max_listings){
             return message.reply("❌ You have " + max_listings + " listings on the market already! Remove some or wait for them to sell.");
         }
@@ -45,27 +48,30 @@ module.exports = {
                 return message.reply('Please enter a lower price o.o');
             }
             else if(itemCost < 100){
-                return message.reply('Please enter a higher price! Minimum ' + app.common.formatNumber(100));
+                return message.reply('Please enter a higher price! Minimum **' + app.common.formatNumber(100) + '** Lootcoin');
             }
             else if(itemCost <= (app.itemdata[itemName].sell * itemAmnt)){
                 return message.reply('You can `sell` that for more money! You should list for more money, or sell them to the bot instead.');
             }
+
             const bmEmbed = new app.Embed()
             .setTitle('List an item on the Black Market')
             .addField('Item:', app.itemdata[itemName].icon + '`' + itemName + '`', true)
             .addField('Quantity:', itemAmnt, true)
-            .addField('Price:', app.common.formatNumber(itemCost))
-            .setColor(13215302)
+            .addField('Price:', '**' + app.common.formatNumber(itemCost) + '** Lootcoin')
+            .setColor(13451564)
 
             let listingFee = Math.floor(itemCost * listing_fee);
-            const botMessage = await message.channel.createMessage({content: '<@' + message.author.id + '>, This will cost ' + app.common.formatNumber(listingFee) + ' ('+ listing_fee * 100 + '%) to list. Are you sure?', embed: bmEmbed.embed});
+            const botMessage = await message.channel.createMessage({content: '<@' + message.author.id + '>, This will cost **' + app.common.formatNumber(listingFee) + '** ('+ listing_fee * 100 + '%) to list. Are you sure?', embed: bmEmbed.embed});
 
             try{
                 const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
 
                 if(confirmed){
-                    if(!await app.player.hasMoney(message.author.id, listingFee)){
-                        return botMessage.edit({content: `Listing failed! You can't afford the ${app.common.formatNumber(listingFee)} fee.`, embed: null});
+                    const row = await app.player.getRow(message.author.id);
+
+                    if(row.money < listingFee){
+                        return botMessage.edit({content: `Listing failed! You can't afford the **${app.common.formatNumber(listingFee)}** fee. You only have **${app.common.formatNumber(row.money)}**`, embed: null});
                     }
                     else if(!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), itemName, itemAmnt)){
                         return botMessage.edit({content: `Listing failed! You don't have **${itemAmnt}** \`${itemName}\`'s.`, embed: null});
@@ -82,7 +88,7 @@ module.exports = {
                 }
             }
             catch(e){
-                botMessage.edit('❌ You didn\'t react in time!');
+                botMessage.edit({content: '❌ You didn\'t react in time!', embed: null});
             }
         }
         else{
@@ -94,7 +100,7 @@ module.exports = {
             .setTitle('List an item on the Black Market')
             .setDescription('Enter the name of the item you would like to list:')
             .setFooter('Type cancel to stop the command.')
-            .setColor(13215302)
+            .setColor(13451564)
 
             try{
                 app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
@@ -142,7 +148,7 @@ module.exports = {
                         }
                         amount = newAmnt;
                         bmEmbed.addField('Quantity:', amount, true);
-                        bmEmbed.setDescription('Enter the price for all **' + amount + '**:')
+                        bmEmbed.setDescription('Enter the price in **Lootcoin** for all **' + amount + '**:')
                         botMessage = await message.channel.createMessage(bmEmbed);
                         return;
                     }
@@ -157,7 +163,7 @@ module.exports = {
                             return m.channel.createMessage('Please enter a lower value.');
                         }
                         else if(newCost < 100){
-                            return m.channel.createMessage('Please enter a higher price! Minimum ' + app.common.formatNumber(100));
+                            return m.channel.createMessage('Please enter a higher price! Minimum **' + app.common.formatNumber(100) + '** Lootcoin');
                         }
                         else if(newCost <= (app.itemdata[item].sell * amount)){
                             return m.channel.createMessage('You can `sell` that for more money! You should list for more money, or sell them using the sell command instead.');
@@ -173,8 +179,9 @@ module.exports = {
                             const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
     
                             if(confirmed){
-                                if(!await app.player.hasMoney(message.author.id, listingFee)){
-                                    return botMessage.edit({content: `Listing failed! You can't afford the ${app.common.formatNumber(listingFee)} fee.`, embed: null});
+                                const row = await app.player.getRow(message.author.id);
+                                if(row.money < listingFee){
+                                    return botMessage.edit({content: `Listing failed! You can't afford the **${app.common.formatNumber(listingFee)}** fee. You only have **${app.common.formatNumber(row.money)}**`, embed: null});
                                 }
                                 else if(!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), item, amount)){
                                     return botMessage.edit({content: `Listing failed! You don't have **${amount}** \`${item}\`'s.`, embed: null});
@@ -191,14 +198,13 @@ module.exports = {
                             }
                         }
                         catch(e){
-                            botMessage.edit('❌ You didn\'t react in time!');
+                            botMessage.edit({content: '❌ You didn\'t react in time!', embed: null});
                         }
                     }
                 });
                 collector.on('end', reason => {
                     if(reason === 'time'){
-                        bmEmbed.setFooter('❌ Command timed out.');
-                        botMessage.edit(bmEmbed);
+                        botMessage.edit({content: '❌ Command timed out.', embed: null});
                     }
                 });
             }

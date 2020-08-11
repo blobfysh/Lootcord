@@ -12,10 +12,10 @@ class Cooldown {
      * @param {string} userId User to give cooldown, does not have to be a user ID.
      * @param {string} type Type of cooldown
      * @param {number} time Time in milliseconds cooldown lasts
-     * @param {{ignoreQuery: boolean}} options ignoreQuery is only used when bot starting up to prevent multiple table entries
+     * @param {{ignoreQuery: boolean, armor: string}} options ignoreQuery is only used when bot starting up to prevent multiple table entries
      * @param {function()} callback Callback to run when finished
      */
-    async setCD(userId, type, time, options = { ignoreQuery: false }, callback = undefined){
+    async setCD(userId, type, time, options = { ignoreQuery: false, armor: undefined }, callback = undefined){
         let key = `${type}|${userId}`;
         options.ignoreQuery = options.ignoreQuery || false;
 
@@ -24,10 +24,10 @@ class Cooldown {
         let seconds = Math.round(time / 1000);
 
         // this is where the cooldown is actually set
-        await this.app.cache.set(key, 'Set at ' + (new Date().toLocaleString('en-US', {timeZone: 'America/New_York'})), seconds);
+        await this.app.cache.set(key, options.armor ? options.armor : 'Set at ' + (new Date().toLocaleString('en-US', {timeZone: 'America/New_York'})), seconds);
         
         // add cooldown to cooldown table for persistence (if server were to shut down, this table would be used to set cooldowns for all players)
-        if(!options.ignoreQuery) await this.app.mysql.query(`INSERT INTO cooldown (userId, type, start, length) VALUES (?, ?, ?, ?)`, [userId, type, new Date().getTime(), time]);
+        if(!options.ignoreQuery) await this.app.mysql.query(`INSERT INTO cooldown (userId, type, start, length, info) VALUES (?, ?, ?, ?, ?)`, [userId, type, new Date().getTime(), time, options.armor ? options.armor : '']);
 
         let timeObj = {
             userId: userId, 
@@ -55,8 +55,9 @@ class Cooldown {
 
                 typeof callback === 'function' && callback();
 
+                this.app.cache.del(key);
                 this.clearTimers(userId, type);
-            }, seconds * 1000)
+            }, (seconds * 1000) - 1000)
         };
 
         // adding to timers array allows me to cancel the timer in the future (ex. player unequips shield, need to be able to cancel shield timeOut)
@@ -103,21 +104,20 @@ class Cooldown {
     }
 
     async clearTimers(userId, type){
-        this.timers.forEach(obj => {
-            if(obj.userId == userId && obj.type == type){
+        for(let i = 0; i < this.timers.length; i++){
+            if(this.timers[i].userId == userId && this.timers[i].type == type){
                 console.log('Clearing timers for ' + userId + ' | ' + type);
-                bt.clearTimeout(obj.timer);
+                bt.clearTimeout(this.timers[i].timer);
 
-                this.timers.splice(this.timers.indexOf(obj), 1);
+                this.timers.splice(i, 1);
             }
-        });
+        }
     }
 
     async clearCD(userId, type){
-        let key = `${type}|${userId}`;
         await this.app.mysql.query(`DELETE FROM cooldown WHERE userId = '${userId}' AND type = '${type}'`);
         await this.app.ipc.broadcast('clearCD', { userId: userId, type: type }); // sends message to all shards to clear cooldown timers (stops the setTimeout from running)
-        await this.app.cache.del(key); // delete key from cache, this is what actually stops the cooldown shown in commands
+        await this.app.cache.del(`${type}|${userId}`); // delete key from cache, this is what actually stops the cooldown shown in commands
     }
 
     convertTime(ms){

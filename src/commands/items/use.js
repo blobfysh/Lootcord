@@ -1,4 +1,3 @@
-const { RARITIES } = require('../../resources/constants');
 const RANDOM_SELECTION_MINIMUM = 8; // # of active players required for an attack menu to show when using random
 
 module.exports = {
@@ -7,7 +6,7 @@ module.exports = {
     description: 'Use items on yourself or use weapons to attack others!',
     long: 'Use an item on yourself or attack another user with a weapon. If you\'re opening a box, you can specify an amount to open.',
     args: {"item": "Item to use.", "@user": "User to attack item with."},
-    examples: ["use ak47 @blobfysh","use medkit","use rock random", "use item_box 4"],
+    examples: ["use assault rifle @blobfysh","use medkit","use rock random", "use crate 4"],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: true,
@@ -41,7 +40,7 @@ module.exports = {
                 return message.reply(`❌ You don't have enough of that item! You have **${userItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\`.`);
             }
 
-            if(['item_box', 'ultra_box', 'candy_pail', 'present', 'care_package'].includes(item)){
+            if(['crate', 'military_crate', 'candy_pail', 'present', 'supply_drop', 'elite_crate'].includes(item)){
                 // open box
                 if(!await app.itm.hasSpace(itemCt)){
                     return message.reply(`❌ **You don't have enough space in your inventory!** (You have **${itemCt.open}** open slots)\n\nYou can clear up space by selling some items.`);
@@ -51,58 +50,21 @@ module.exports = {
 
                 let results = app.itm.openBox(item, amount, row.luck);
                 let bestItem = results.items.sort(app.itm.sortItemsHighLow.bind(app));
-                let rarityStr = '';
                 let openStr = '';
 
                 await app.itm.addItem(message.author.id, results.itemAmounts);
                 await app.player.addPoints(message.author.id, results.xp);
-
-                if(item === 'ultra_box' && app.itemdata[bestItem[0]].rarity === 'Ultra'){
-                    await app.itm.addBadge(message.author.id, 'ultra_lucky');
-                }
-
-                const embedInfo = new app.Embed()
-                .setColor(RARITIES[app.itemdata[bestItem[0]].rarity.toLowerCase()].color)
-                
-                switch(app.itemdata[bestItem[0]].rarity){
-                    case 'Ultra': rarityStr = `an ${RARITIES['ultra'].name} `; break;
-                    case 'Legendary': rarityStr = `a ${RARITIES['legendary'].name} `; break
-                    case 'Limited': rarityStr = `a ${RARITIES['limited'].name} `; break
-                    case 'Epic': rarityStr = `an ${RARITIES['epic'].name} `; break;
-                    case 'Rare': rarityStr = `a ${RARITIES['rare'].name} `; break;
-                    case 'Uncommon': rarityStr = `an ${RARITIES['uncommon'].name} `; break;
-                    default: rarityStr = `a ${RARITIES['common'].name} `;
-                }
                 
                 if(amount === 1){
                     console.log(bestItem[0]);
-                    embedInfo.setDescription('You received ' + rarityStr + results.display.join());
-                    embedInfo.setFooter('⭐ ' + results.xp + ' XP earned!')
 
-                    if(app.itemdata[results.itemAmounts[0].split('|')[0]].unboxImage && app.itemdata[results.itemAmounts[0].split('|')[0]].unboxImage !== ""){
-                        embedInfo.setThumbnail(app.itemdata[results.itemAmounts[0].split('|')[0]].unboxImage);
-                    }
-                    else if(app.itemdata[results.itemAmounts[0].split('|')[0]].image !== ""){
-                        embedInfo.setThumbnail(app.itemdata[results.itemAmounts[0].split('|')[0]].image);
-                    }
-
-                    openStr = 'You open the ' + app.itemdata[item].icon + '`' + item + '` and find:';
+                    openStr = 'You open the ' + app.itemdata[item].icon + '`' + item + '` and find... **' + app.common.getA(bestItem[0]) + ' ' + app.itemdata[bestItem[0]].icon + '`' + bestItem[0] + '` and `⭐ ' + results.xp + ' XP`!**';
                 }
                 else{
-                    if(app.itemdata[bestItem[0]].unboxImage && app.itemdata[bestItem[0]].unboxImage !== ""){
-                        embedInfo.setThumbnail(app.itemdata[bestItem[0]].unboxImage);
-                    }
-                    else if(app.itemdata[bestItem[0]].image !== ""){
-                        embedInfo.setThumbnail(app.itemdata[bestItem[0]].image);
-                    }
-                    
-                    embedInfo.setFooter('⭐ ' + results.xp + ' XP earned!');
-                    embedInfo.setDescription(app.itm.getDisplay(results.itemAmounts).join('\n'));
-
-                    openStr = 'You open ' + amount + 'x ' + app.itemdata[item].icon + '`' + item + '`\'s and find:';
+                    openStr = 'You open **' + amount + 'x** ' + app.itemdata[item].icon + '`' + item + '`\'s and find:\n\n' + app.itm.getDisplay(results.itemAmounts).join('\n') + '\n\n...and `⭐ ' + results.xp + ' XP`!';
                 }
 
-                message.channel.createMessage({content: '<@' + message.author.id + '>, ' + openStr, embed: embedInfo.embed});
+                message.channel.createMessage('<@' + message.author.id + '>, ' + openStr);
             }
             else if(item === 'supply_signal'){
                 const serverInfo = await app.common.getGuildInfo(message.channel.guild.id);
@@ -126,27 +88,28 @@ module.exports = {
                     }, 27000);
                     setTimeout(() => {
                         const dropEmbed = new app.Embed()
-                        .setDescription(`**A ${app.itemdata['care_package'].icon}\`care_package\` has arrived!**\n\nUse \`${message.prefix}claimdrop\` to claim it.`)
-                        .setImage(app.itemdata['care_package'].image)
-                        .setColor(13215302)
+                        .setDescription(`**A ${app.itemdata['supply_drop'].icon}\`supply_drop\` has arrived!**\n\nUse \`${message.prefix}claimdrop\` to claim it.`)
+                        .setImage(app.itemdata['supply_drop'].image)
+                        .setColor(13451564)
                         app.query(`UPDATE guildInfo SET dropItemChan = '${message.channel.id}' WHERE guildId = ${message.channel.guild.id}`);
-                        app.query(`UPDATE guildInfo SET dropItem = 'care_package' WHERE guildId = ${message.channel.guild.id}`);
+                        app.query(`UPDATE guildInfo SET dropItem = 'supply_drop' WHERE guildId = ${message.channel.guild.id}`);
                         
                         message.channel.createMessage(dropEmbed);
                     }, 30000);
                 });
             }
             else if(app.itemdata[item].isShield){
-                const shieldCD = await app.cd.getCD(message.author.id, 'shield');
+                const armorCD = await app.cd.getCD(message.author.id, 'shield');
+                const armor = await app.player.getArmor(message.author.id);
 
-                if(shieldCD){
-                    return message.reply(`Your current shield is still active for \`${shieldCD}\`!`);
+                if(armorCD){
+                    return message.reply(`Your ${armor ? app.itemdata[armor].icon + '`' + armor + '`' : 'current armor'} is still active for \`${armorCD}\`!`);
                 }
 
                 await app.itm.removeItem(message.author.id, item, 1);
-                await app.cd.setCD(message.author.id, 'shield', app.itemdata[item].shieldInfo.seconds * 1000);
+                await app.cd.setCD(message.author.id, 'shield', app.itemdata[item].shieldInfo.seconds * 1000, { armor: item });
 
-                message.reply(`Successfully activated ${app.itemdata[item].icon}\`${item}\`, you are now protected from attacks for \`${app.cd.convertTime(app.itemdata[item].shieldInfo.seconds * 1000)}\``);
+                message.reply(`You put on the ${app.itemdata[item].icon}\`${item}\`. You now take **${Math.floor(app.itemdata[item].shieldInfo.protection * 100)}%** less damage from attacks for \`${app.cd.convertTime(app.itemdata[item].shieldInfo.seconds * 1000)}\``);
             }
             else if(app.itemdata[item].isHeal){
                 const healCD = await app.cd.getCD(message.author.id, 'heal');
@@ -253,7 +216,8 @@ module.exports = {
             const userItems = await app.itm.getItemObject(message.author.id);
             const serverInfo = await app.common.getGuildInfo(message.channel.guild.id);
             const attackCD = await app.cd.getCD(message.author.id, 'attack');
-            const shieldCD = await app.cd.getCD(message.author.id, 'shield');
+            const armorCD = await app.cd.getCD(message.author.id, 'shield');
+            const armor = await app.player.getArmor(message.author.id);
             const passiveShieldCD = await app.cd.getCD(message.author.id, 'passive_shield');
             // item is a weapon, start checking for member
             
@@ -263,12 +227,9 @@ module.exports = {
             else if(attackCD){
                 return message.reply(`❌ You need to wait \`${attackCD}\` before attacking again.`);
             }
-            else if(shieldCD){
-                return message.reply(`❌ You can't attack while you have a shield active! \`${shieldCD}\` remaining.`);
-            }
             
             // check if attacking monster
-            if(Object.keys(app.mobdata).some(monster => message.args.map(arg => arg.toLowerCase()).includes('bounty') || message.args.map(arg => arg.toLowerCase()).includes('@bounty') || message.args.map(arg => arg.toLowerCase()).includes(app.mobdata[monster].title.toLowerCase()))){
+            if(message.args.map(arg => arg.toLowerCase()).some(arg => ['@spawn', 'spawn', '@enemy', 'enemy', '@bounty', 'bounty'].includes(arg)) || Object.keys(app.mobdata).some(monster => message.args.map(arg => arg.toLowerCase()).join(' ').includes(app.mobdata[monster].title.toLowerCase()))){
                 const monsterRow = await app.mysql.select('spawns', 'channelId', message.channel.id);
 
                 if(!monsterRow){
@@ -289,6 +250,7 @@ module.exports = {
                         bonusDamage = app.itemdata[ammoUsed].damage;
                         await app.itm.removeItem(message.author.id, ammoUsed, 1);
                     }
+                    else if(!ammoUsed && monster.title === 'Patrol Helicopter') return message.reply("❌ The Patrol Helicopter is immune to melee weapons!");
                 }
                 catch(err){
                     return message.reply("❌ You don't have any ammo for that weapon!");
@@ -352,7 +314,7 @@ module.exports = {
                     const killedReward = new app.Embed()
                     .setTitle('Loot Received')
                     .setColor(7274496)
-                    .addField('Money', app.common.formatNumber(monsterRow.money))
+                    .addField('Lootcoin Stolen', app.common.formatNumber(monsterRow.money))
                     .addField("Items", app.itm.getDisplay([bestItem]) + '\n\n**and...**\n' + app.itm.getDisplay(extras.sort(app.itm.sortItemsHighLow.bind(app))).join('\n'))
                     .setFooter('⭐ ' + monster.xp + ' XP earned!')
 
@@ -375,15 +337,22 @@ module.exports = {
                     });
 
                     // mob attacks player
-                    let mobDmg = Math.floor(Math.random() * (monster.maxDamage - monster.minDamage + 1)) + monster.minDamage;
+                    let baseDmg = Math.floor(Math.random() * (monster.maxDamage - monster.minDamage + 1)) + monster.minDamage;
+                    let mobDmg = baseDmg;
+
+                    if(armorCD){
+                        mobDmg -= Math.floor(baseDmg * app.itemdata[armor].shieldInfo.protection);
+                    }
 
                     if(row.health - mobDmg <= 0){
                         // player was killed
                         let randomItems = await app.itm.getRandomUserItems(message.author.id);
                         let moneyStolen = Math.floor((row.money + mobMoneyStolen) * .75);
+                        let scrapStolen = Math.floor(row.scrap * .5);
                         
                         await app.itm.removeItem(message.author.id, randomItems.amounts);
                         await app.player.removeMoney(message.author.id, moneyStolen);
+                        await app.player.removeScrap(message.author.id, scrapStolen);
 
                         await app.query(`UPDATE scores SET deaths = deaths + 1 WHERE userId = ${message.author.id}`);
                         await app.query(`UPDATE scores SET health = 100 WHERE userId = ${message.author.id}`);
@@ -395,25 +364,25 @@ module.exports = {
                         }
                         
                         const killedReward = new app.Embed()
-                        .setTitle(`Loot Lost`)
-                        .setDescription("Money: " + app.common.formatNumber(moneyStolen))
+                        .setTitle('Loot Lost')
                         .setColor(7274496)
-                        .addField("Items", randomItems.items.length !== 0 ? randomItems.display.join('\n') : `The ${monster.title} did not find anything on you!`)
+                        .addField('Balance', app.common.formatNumber(moneyStolen) + '\n' + app.common.formatNumber(scrapStolen, false, true))
+                        .addField("Items (" + randomItems.items.length + ")", randomItems.items.length !== 0 ? randomItems.display.join('\n') : `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} did not find anything on you!`)
 
                         message.channel.createMessage({
-                            content: generateMobAttack(app, message, monsterRow, row, mobDmg, monster.weapon, monster.ammo, true),
+                            content: generateMobAttack(app, message, monsterRow, row, mobDmg, monster.weapon, monster.ammo, true, armor, baseDmg),
                             embed: killedReward.embed
                         });
     
                         // send notifications
                         if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
-                            sendToKillFeed(app, {username: monster.title, discriminator: '0000', id: monsterRow.monster}, serverInfo.killChan, message.member, monster.weapon.name, mobDmg, randomItems, moneyStolen, true);
+                            sendToKillFeed(app, {username: monster.title, discriminator: '0000', id: monsterRow.monster}, serverInfo.killChan, message.member, monster.weapon.name, mobDmg, randomItems, moneyStolen, scrapStolen, true);
                         }
-                        logKill(app, {username: monster.title, discriminator: '0000', id: monsterRow.monster}, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, randomItems)
+                        logKill(app, {username: monster.title, discriminator: '0000', id: monsterRow.monster}, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, scrapStolen, randomItems)
                     }
                     else{
                         await app.query(`UPDATE scores SET health = health - ${mobDmg} WHERE userId = ${message.author.id}`);
-                        message.channel.createMessage(generateMobAttack(app, message, monsterRow, row, mobDmg, monster.weapon, monster.ammo, false));
+                        message.channel.createMessage(generateMobAttack(app, message, monsterRow, row, mobDmg, monster.weapon, monster.ammo, false, armor, baseDmg));
                     }
                 }
             }
@@ -423,7 +392,7 @@ module.exports = {
                 return message.reply(`❌ This server allows only random attacks, specifying a target will not work. You can use the item without a mention to attack a random player: \`${message.prefix}use <item>\``)
             }
             else if(['rand', 'random'].some(arg => message.args.map(arg => arg.toLowerCase()).includes(arg)) || serverInfo.randomOnly === 1){
-                const randUsers = await getRandomPlayers(app, message.author.id, message.channel.guild);
+                const randUsers = await getRandomPlayers(app, message.author.id, message.channel.guild, item);
 
                 if(randUsers.users[0] === undefined){
                     return message.reply("❌ There aren't any players you can attack in this server!");
@@ -486,7 +455,8 @@ module.exports = {
 
                 await app.cd.setCD(message.author.id, 'attack', app.itemdata[item].cooldown.seconds * 1000);
 
-                let randDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage);
+                let baseDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage);
+                let randDmg = baseDmg;
 
                 let target = await pickTarget(app, message, randUsers);
 
@@ -495,8 +465,14 @@ module.exports = {
                 }
 
                 const victimRow = await app.player.getRow(target.id);
+                const victimArmorCD = await app.cd.getCD(target.id, 'shield');
+                const victimArmor = await app.player.getArmor(target.id);
                 let chance = Math.floor(Math.random() * 100) + 1; // 1-100
                 let luck = victimRow.luck >= 10 ? 10 : victimRow.luck;
+
+                if(victimArmorCD){
+                    randDmg -= Math.floor(baseDmg * app.itemdata[victimArmor].shieldInfo.protection);
+                }
 
                 if(chance <= luck){
                     if(weaponBroke){
@@ -506,14 +482,13 @@ module.exports = {
                         return message.channel.createMessage(`🍀 <@${target.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!`);
                     }
                 }
-                
-                // not lucky, continue attack
                 else if(victimRow.health - randDmg <= 0){
                     // player was killed
                     
                     let randomItems = await app.itm.getRandomUserItems(target.id);
                     let xpGained = randomItems.items.length * 50;
                     let moneyStolen = Math.floor(victimRow.money * .75);
+                    let scrapStolen = Math.floor(victimRow.scrap * .5);
 
                     // passive shield, protects same player from being attacked for 24 hours
                     await app.cd.setCD(target.id, 'passive_shield', app.config.cooldowns.daily * 1000);
@@ -522,6 +497,8 @@ module.exports = {
                     await app.itm.addItem(message.author.id, randomItems.amounts);
                     await app.player.removeMoney(target.id, moneyStolen);
                     await app.player.addMoney(message.author.id, moneyStolen);
+                    await app.player.removeScrap(target.id, scrapStolen);
+                    await app.player.addScrap(message.author.id, scrapStolen);
 
                     await app.player.addPoints(message.author.id, xpGained); // 50 xp for each item stolen
 
@@ -546,32 +523,32 @@ module.exports = {
                     const killedReward = new app.Embed()
                     .setTitle('Loot Received')
                     .setColor(7274496)
-                    .addField('Money', app.common.formatNumber(moneyStolen))
+                    .addField('Balance Stolen', app.common.formatNumber(moneyStolen) + '\n' + app.common.formatNumber(scrapStolen, false, true))
                     .addField("Items (" + randomItems.items.length + ")", randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
                     .setFooter('⭐ ' + xpGained + ' XP earned!')
                     
                     message.channel.createMessage({
-                        content: await generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, true), 
+                        content: await generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, true, victimArmor, baseDmg), 
                         embed: killedReward.embed
                     });
 
                     // send notifications
                     if(victimRow.notify2) notifyDeathVictim(app, message, target, item, randDmg, randomItems.items.length !== 0 ? randomItems.display : ['You had nothing they could steal!']);
                     if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
-                        sendToKillFeed(app, message.author, serverInfo.killChan, target, item, randDmg, randomItems, moneyStolen);
+                        sendToKillFeed(app, message.author, serverInfo.killChan, target, item, randDmg, randomItems, moneyStolen, scrapStolen);
                     }
-                    logKill(app, message.member, target, item, ammoUsed, randDmg, moneyStolen, randomItems)
+                    logKill(app, message.member, target, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems)
                 }
                 else{
                     // normal attack
-                    if(item === "peck_seed"){
-                        await app.cd.setCD(target.id, 'peck', app.config.cooldowns.peck_seed * 1000);
+                    if(ammoUsed === "40mm_smoke_grenade"){
+                        await app.cd.setCD(target.id, 'blinded', 7200 * 1000);
                         
-                        message.channel.createMessage(generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, false));
+                        message.channel.createMessage(generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg));
                     }
                     else{
                 
-                        message.channel.createMessage(generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, false));
+                        message.channel.createMessage(generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg));
                     }
 
                     await app.query(`UPDATE scores SET health = health - ${randDmg} WHERE userId = ${target.id}`);
@@ -586,9 +563,10 @@ module.exports = {
             else{
                 const victimRow = await app.player.getRow(member.id);
                 const playRow = await app.query(`SELECT * FROM userGuilds WHERE userId ="${member.id}" AND guildId = "${message.channel.guild.id}"`);
-                const victimShield = await app.cd.getCD(member.id, 'shield');
+                const victimArmorCD = await app.cd.getCD(member.id, 'shield');
+                const victimArmor = await app.player.getArmor(member.id);
                 const victimPassiveShield = await app.cd.getCD(member.id, 'passive_shield');
-                const victimPeckCD = await app.cd.getCD(member.id, 'peck');
+                const victimBlindedCD = await app.cd.getCD(member.id, 'blinded');
 
                 if(member.id === app.bot.user.id){
                     return message.channel.createMessage("ow...");
@@ -605,14 +583,8 @@ module.exports = {
                 else if(!playRow.length){
                     return message.reply(`❌ **${member.nick || member.username}** has not activated their account in this server!`);
                 }
-                else if(victimShield){
-                    return message.reply(`🛡 **${member.nick || member.username}** has a shield active!\nThey are untargetable for \`${victimShield}\`.`);
-                }
                 else if(victimPassiveShield){
                     return message.reply(`🛡 **${member.nick || member.username}** was killed recently and has a **passive shield**!\nThey are untargetable for \`${victimPassiveShield}\`.`);
-                }
-                else if(item === 'peck_seed' && victimPeckCD){
-                    return message.reply(`**${member.nick || member.username}** is already under the effects of a ${app.itemdata['peck_seed'].icon}\`peck_seed\`!`);
                 }
 
                 let ammoUsed
@@ -625,6 +597,10 @@ module.exports = {
                     ammoUsed = getAmmo(app, item, row, userItems);
 
                     if(ammoUsed){
+                        if(ammoUsed === '40mm_smoke_grenade' && victimBlindedCD){
+                            return message.reply(`❌ **${member.nick || member.username}** is already blinded by a ${app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`!`);
+                        }
+
                         bonusDamage = app.itemdata[ammoUsed].damage;
                         await app.itm.removeItem(message.author.id, ammoUsed, 1);
                     }
@@ -661,9 +637,14 @@ module.exports = {
 
                 await app.cd.setCD(message.author.id, 'attack', app.itemdata[item].cooldown.seconds * 1000);
 
-                let randDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage);
+                let baseDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage);
+                let randDmg = baseDmg;
                 let chance = Math.floor(Math.random() * 100) + 1; // 1-100
                 let luck = victimRow.luck >= 10 ? 10 : victimRow.luck;
+
+                if(victimArmorCD){
+                    randDmg -= Math.floor(baseDmg * app.itemdata[victimArmor].shieldInfo.protection);
+                }
 
                 if(chance <= luck){
                     if(weaponBroke){
@@ -673,14 +654,13 @@ module.exports = {
                         return message.channel.createMessage(`🍀 <@${member.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!`);
                     }
                 }
-
-                // not lucky, continue attack
                 else if(victimRow.health - randDmg <= 0){
                     // player was killed
                     
                     let randomItems = await app.itm.getRandomUserItems(member.id);
                     let xpGained = randomItems.items.length * 50;
                     let moneyStolen = Math.floor(victimRow.money * .75);
+                    let scrapStolen = Math.floor(victimRow.scrap * .5);
 
                     // passive shield, protects same player from being attacked for 24 hours
                     await app.cd.setCD(member.id, 'passive_shield', app.config.cooldowns.daily * 1000);
@@ -689,6 +669,8 @@ module.exports = {
                     await app.itm.addItem(message.author.id, randomItems.amounts);
                     await app.player.removeMoney(member.id, moneyStolen);
                     await app.player.addMoney(message.author.id, moneyStolen);
+                    await app.player.removeScrap(member.id, scrapStolen);
+                    await app.player.addScrap(message.author.id, scrapStolen);
 
                     await app.player.addPoints(message.author.id, xpGained); // 50 xp for each item stolen
 
@@ -713,32 +695,33 @@ module.exports = {
                     const killedReward = new app.Embed()
                     .setTitle('Loot Received')
                     .setColor(7274496)
-                    .addField('Money', app.common.formatNumber(moneyStolen))
+                    .addField('Balance Stolen', app.common.formatNumber(moneyStolen) + '\n' + app.common.formatNumber(scrapStolen, false, true))
                     .addField("Items (" + randomItems.items.length + ")", randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
                     .setFooter('⭐ ' + xpGained + ' XP earned!')
                     
                     message.channel.createMessage({
-                        content: await generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, true), 
+                        content: await generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, true, victimArmor, baseDmg), 
                         embed: killedReward.embed
                     });
 
                     // send notifications
                     if(victimRow.notify2) notifyDeathVictim(app, message, member, item, randDmg, randomItems.items.length !== 0 ? randomItems.display : ['You had nothing they could steal!']);
                     if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
-                        sendToKillFeed(app, message.author, serverInfo.killChan, member, item, randDmg, randomItems, moneyStolen);
+                        sendToKillFeed(app, message.author, serverInfo.killChan, member, item, randDmg, randomItems, moneyStolen, scrapStolen);
                     }
-                    logKill(app, message.member, member, item, ammoUsed, randDmg, moneyStolen, randomItems)
+                    logKill(app, message.member, member, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems)
                 }
                 else{
                     // normal attack
-                    if(item === "peck_seed"){
-                        await app.cd.setCD(member.id, 'peck', app.config.cooldowns.peck_seed * 1000);
+                    if(ammoUsed === "40mm_smoke_grenade"){
+                        await app.cd.setCD(member.id, 'blinded', 7200 * 1000);
                         
-                        message.channel.createMessage(generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, false));
+                        message.channel.createMessage(generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg));
                     }
                     else{
-                
-                        message.channel.createMessage(generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, false));
+                        console.log(victimArmor);
+                        console.log(baseDmg);
+                        message.channel.createMessage(generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg));
                     }
 
                     await app.query(`UPDATE scores SET health = health - ${randDmg} WHERE userId = ${member.id}`);
@@ -777,7 +760,7 @@ function getAmmo(app, item, row, userItems){
     }
 }
 
-function logKill(app, killer, victim, item, ammo, damage, moneyStolen, itemsLost){
+function logKill(app, killer, victim, item, ammo, damage, moneyStolen, scrapStolen, itemsLost){
     try{
         const embed = new app.Embed()
         .setTitle('Kill Log')
@@ -786,7 +769,7 @@ function logKill(app, killer, victim, item, ammo, damage, moneyStolen, itemsLost
         .addField('Killer', (killer.username + '#' + killer.discriminator) + ' ID: ```\n' + killer.id + '```')
         .addField('Victim', (victim.username + '#' + victim.discriminator) + ' ID: ```\n' + victim.id + '```')
         .addField('Items Stolen', itemsLost.items.length !== 0 ? itemsLost.display.join('\n') : 'Nothing', true)
-        .addField('Money Stolen', app.common.formatNumber(moneyStolen), true)
+        .addField('Balance Stolen', app.common.formatNumber(moneyStolen) + '\n' + app.common.formatNumber(scrapStolen, false, true), true)
         .setTimestamp()
         
         app.messager.messageLogs(embed);
@@ -796,20 +779,17 @@ function logKill(app, killer, victim, item, ammo, damage, moneyStolen, itemsLost
     }
 }
 
-function generateAttackString(app, message, victim, victimRow, damage, itemUsed, ammoUsed, itemBroke, killed){
-    let finalStr;
+function generateAttackString(app, message, victim, victimRow, damage, itemUsed, ammoUsed, itemBroke, killed, armor, baseDamage){
+    let finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
+    .replace('{victim}', `<@${victim.id}>`)
+    .replace('{weaponIcon}', app.itemdata[itemUsed].icon)
+    .replace('{weapon}', itemUsed)
+    .replace('{ammoIcon}', ammoUsed ? app.itemdata[ammoUsed].icon : '')
+    .replace('{ammo}', ammoUsed)
+    .replace('{damage}', baseDamage);
 
-    if(ammoUsed && itemUsed === 'bat'){
-        finalStr = `**ITS A GRAND SLAM!** <@${message.author.id}> fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` directly at <@${victim.id}>'s face using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`. **${damage}** damage dealt!`
-    }
-    else{
-        finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
-        .replace('{victim}', `<@${victim.id}>`)
-        .replace('{weaponIcon}', app.itemdata[itemUsed].icon)
-        .replace('{weapon}', itemUsed)
-        .replace('{ammoIcon}', ammoUsed ? app.itemdata[ammoUsed].icon : '')
-        .replace('{ammo}', ammoUsed)
-        .replace('{damage}', damage);
+    if(armor){
+        finalStr += `\n**${victim.nick || victim.username}**'s ${app.itemdata[armor].icon}\`${armor}\` absorbed **${baseDamage - damage}** (${Math.floor(app.itemdata[armor].shieldInfo.protection * 100)}%) damage, lowering the total damage dealt to **${damage}**!`;
     }
 
     if(killed){
@@ -820,8 +800,8 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
         else finalStr += `\n**${victim.nick || victim.username}** is left with ${app.player.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage}** health.`;
     }
 
-    if(itemUsed == 'peck_seed'){
-        finalStr += `\n**${victim.nick || victim.username}** was turned into a chicken and cannot use any commands for **2** hours!`;
+    if(ammoUsed === '40mm_smoke_grenade'){
+        finalStr += `\n**${victim.nick || victim.username}** is blinded by the smoke and cannot use any commands for **2** hours!`;
     }
 
     if(itemBroke){
@@ -836,34 +816,27 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
 
 function generateAttackMobString(app, message, monsterRow, damage, itemUsed, ammoUsed, itemBroke, killed, moneyStolen){
     const monster = app.mobdata[monsterRow.monster];
-    let finalStr;
-
-    if(ammoUsed && itemUsed === 'bat'){
-        finalStr = `**ITS A GRAND SLAM!** <@${message.author.id}> fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` directly at the **${monster.title}**'s face using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`. **${damage}** damage dealt!`
-    }
-    else{
-        finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
-        .replace('{victim}', `the **${monster.title}**`)
-        .replace('{weaponIcon}', app.itemdata[itemUsed].icon)
-        .replace('{weapon}', itemUsed)
-        .replace('{ammoIcon}', ammoUsed ? app.itemdata[ammoUsed].icon : '')
-        .replace('{ammo}', ammoUsed)
-        .replace('{damage}', damage);
-    }
-
+    let finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
+    .replace('{victim}', monster.mentioned)
+    .replace('{weaponIcon}', app.itemdata[itemUsed].icon)
+    .replace('{weapon}', itemUsed)
+    .replace('{ammoIcon}', ammoUsed ? app.itemdata[ammoUsed].icon : '')
+    .replace('{ammo}', ammoUsed)
+    .replace('{damage}', damage);
+    
     if(killed){
-        finalStr += `\n${app.icons.death_skull} **The ${monster.title} DIED!**`
+        finalStr += `\n${app.icons.death_skull} ${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} DIED!`
     }
     else{
-        finalStr += `\nThe **${monster.title}** is left with ${app.icons.health.full} **${monsterRow.health - damage}** health.`;
+        finalStr += `\n${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} is left with ${app.icons.health.full} **${monsterRow.health - damage}** health.`;
     }
 
-    if(itemUsed == 'peck_seed'){
-        finalStr += `\nThe **${monster.title}** resisted the effects of the ${app.itemdata[itemUsed].icon}\`${itemUsed}\`!`;
+    if(ammoUsed === '40mm_smoke_grenade'){
+        finalStr += `\n${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} resisted the effects of the ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\`!`;
     }
 
     if(moneyStolen){
-        finalStr += `\n\n**${message.member.nick || message.member.username}** dealt **${Math.floor((damage / monsterRow.health).toFixed(2) * 100)}%** of the **${monster.title}**'s current health and managed to steal **${app.common.formatNumber(moneyStolen)}**.`;
+        finalStr += `\n\n**${message.member.nick || message.member.username}** dealt **${Math.floor((damage / monsterRow.health).toFixed(2) * 100)}%** of ${monster.mentioned}'s current health and managed to steal **${app.common.formatNumber(moneyStolen)}**.`;
     }
 
     if(itemBroke && moneyStolen){
@@ -876,17 +849,21 @@ function generateAttackMobString(app, message, monsterRow, damage, itemUsed, amm
     return finalStr;
 }
 
-function generateMobAttack(app, message, monsterRow, playerRow, damage, itemUsed, ammoUsed, killed){
+function generateMobAttack(app, message, monsterRow, playerRow, damage, itemUsed, ammoUsed, killed, armor, baseDamage){
     const monster = app.mobdata[monsterRow.monster];
     let finalStr = "";
 
     if(ammoUsed){
         // weapon uses ammo
-        finalStr = `The **${monster.title}** fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` straight at <@${message.author.id}> using a ${itemUsed.icon}\`${itemUsed.name}\`! **${damage}** damage dealt!`;
+        finalStr = `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} fires a ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\` straight at <@${message.author.id}> using a ${itemUsed.icon}\`${itemUsed.name}\`! **${baseDamage}** damage dealt!`;
     }
     else{
         // melee weapon
-        finalStr = `The **${monster.title}** smashes <@${message.author.id}> with a ${itemUsed.icon}\`${itemUsed.name}\` dealing **${damage}** damage!`;
+        finalStr = `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} smashes <@${message.author.id}> with a ${itemUsed.icon}\`${itemUsed.name}\` dealing **${baseDamage}** damage!`;
+    }
+
+    if(armor){
+        finalStr += `\n**${message.member.nick || message.member.username}**'s ${app.itemdata[armor].icon}\`${armor}\` absorbed **${baseDamage - damage}** (${Math.floor(app.itemdata[armor].shieldInfo.protection * 100)}%) damage, lowering the total damage dealt to **${damage}**!`;
     }
 
     if(killed){
@@ -899,7 +876,7 @@ function generateMobAttack(app, message, monsterRow, playerRow, damage, itemUsed
     return finalStr;
 }
 
-async function getRandomPlayers(app, userId, guild){ // returns a random userId from the attackers guild
+async function getRandomPlayers(app, userId, guild, item = ''){ // returns a random userId from the attackers guild
     const userRows = await app.query(`SELECT * FROM userGuilds WHERE guildId ="${guild.id}" ORDER BY LOWER(userId)`);
     const userClan = await app.player.getRow(userId);
     let guildUsers = [];
@@ -907,12 +884,16 @@ async function getRandomPlayers(app, userId, guild){ // returns a random userId 
     
     for(var i = 0; i < userRows.length; i++){
         try{
-            const hasShield = await app.cd.getCD(userRows[i].userId, 'shield');
             const passiveShield = await app.cd.getCD(userRows[i].userId, 'passive_shield');
             const userClanId = (await app.query(`SELECT clanId FROM scores WHERE userId ="${userRows[i].userId}"`))[0];
+            let blinded = false;
+
+            if(item === 'grenade_launcher'){
+                blinded = await app.cd.getCD(userRows[i].userId, 'blinded');
+            }
 
             if(userRows[i].userId !== userId){
-                if(!hasShield && !passiveShield && (userClan.clanId === 0 || userClan.clanId !== userClanId.clanId)){
+                if(!blinded && !passiveShield && (userClan.clanId === 0 || userClan.clanId !== userClanId.clanId)){
                     guildUsers.push(userRows[i].userId);
                 }
             }
@@ -962,7 +943,7 @@ async function pickTarget(app, message, selection){
             1. ${app.player.getBadge(userdata.user1.badge)} **${(selection.members[0]).username + '#' + (selection.members[0]).discriminator}** ${app.icons.health.full} ${userdata.user1.health} - ${app.common.formatNumber(userdata.user1.money)} - ${(await app.itm.getItemCount(await app.itm.getItemObject(selection.users[0]), userdata.user1)).itemCt} items\n
             2. ${app.player.getBadge(userdata.user2.badge)} **${(selection.members[1]).username + '#' + (selection.members[1]).discriminator}** ${app.icons.health.full} ${userdata.user2.health} - ${app.common.formatNumber(userdata.user2.money)} - ${(await app.itm.getItemCount(await app.itm.getItemObject(selection.users[1]), userdata.user2)).itemCt} items\n
             3. ${app.player.getBadge(userdata.user3.badge)} **${(selection.members[2]).username + '#' + (selection.members[2]).discriminator}** ${app.icons.health.full} ${userdata.user3.health} - ${app.common.formatNumber(userdata.user3.money)} - ${(await app.itm.getItemCount(await app.itm.getItemObject(selection.users[2]), userdata.user3)).itemCt} items`)
-            .setColor(13215302)
+            .setColor(13451564)
             .setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
 
             const botMessage = await message.channel.createMessage(atkEmbed);
@@ -1035,12 +1016,12 @@ async function notifyDeathVictim(app, message, victim, itemUsed, damage, itemsLo
     }
 }
 
-async function sendToKillFeed(app, killer, channelID, victim, itemName, itemDmg, itemsStolen, moneyStolen, monster = false){
+async function sendToKillFeed(app, killer, channelID, victim, itemName, itemDmg, itemsStolen, moneyStolen, scrapStolen, monster = false){
     const killEmbed = new app.Embed()
     .setDescription((monster ? killer.username : "<@" + killer.id + ">") + " 🗡 " + ("<@" + victim.user.id + ">") + " 💀")
     .addField('Weapon Used', `${monster ? app.mobdata[killer.id].weapon.icon : app.itemdata[itemName].icon}\`${itemName}\` - **${itemDmg} damage**`)
     .addField('Items Stolen', itemsStolen.items.length !== 0 ? itemsStolen.display.join('\n') : 'Nothing', true)
-    .addField('Money Stolen', app.common.formatNumber(moneyStolen), true)
+    .addField('Balance Stolen', app.common.formatNumber(moneyStolen) + '\n' + app.common.formatNumber(scrapStolen, false, true), true)
     .setColor(16734296)
     .setTimestamp()
 

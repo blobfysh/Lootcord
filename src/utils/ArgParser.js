@@ -1,5 +1,5 @@
 const SpellCorrector = require('../structures/Corrector');
-const ignoredItemCorrections = ['bounty', 'fuck', 'cock']; // don't correct these words into items
+const ignoredItemCorrections = ['bounty', 'fuck', 'cock', 'armor']; // don't correct these words into items
 
 class ArgParser {
     constructor(app){
@@ -18,9 +18,11 @@ class ArgParser {
         let itemArgs = [];
 
         for(let i = 0; i < args.length; i++){
-            let correctedArgs = this.correctItem(args[i] + '_' + args[i + 1]);
+            let correctedArgs = this.correctItem(args[i] + '_' + args[i + 1] + '_' + args[i + 2]);
 
-            if(this.app.itemdata[correctedArgs] && !this._isNumber(args[i]) && !this._isNumber(args[i + 1])){
+            // check if 3 args makes up item
+            if(this.app.itemdata[correctedArgs] && !this._isNumber(args[i]) && !this._isNumber(args[i + 1]) && !this._isNumber(args[i + 2])){
+                args.splice(i, 1);
                 args.splice(i, 1);
                 args.splice(i, 1);
                 i -= 1;
@@ -28,14 +30,27 @@ class ArgParser {
                 itemArgs.push(correctedArgs);
             }
             else{
-                let correctedArg = this.correctItem(args[i]);
+                // check if 2 args makes up item
+                correctedArgs = this.correctItem(args[i] + '_' + args[i + 1]);
 
-                if(this.app.itemdata[correctedArg]){
+                if(this.app.itemdata[correctedArgs] && !this._isNumber(args[i]) && !this._isNumber(args[i + 1])){
+                    args.splice(i, 1);
                     args.splice(i, 1);
                     i -= 1;
+    
+                    itemArgs.push(correctedArgs);
+                }
+                else{
+                    // check if 1 arg makes up item
+                    let correctedArg = this.correctItem(args[i]);
+    
+                    if(this.app.itemdata[correctedArg] && !this._isNumber(args[i])){
+                        args.splice(i, 1);
+                        i -= 1;
 
-                    itemArgs.push(correctedArg);
-                }    
+                        itemArgs.push(correctedArg);
+                    }    
+                }
             }
 
             if(itemArgs.length >= amount) break;
@@ -50,95 +65,156 @@ class ArgParser {
      */
     correctItem(itemName = ''){
         let itemSearched = itemName.toLowerCase();
+        let itemParts = itemSearched.split('_');
 
         // prevent unnecessary spell corection calls. 
-        if(itemSearched.split('_')[1] === 'undefined' || ignoredItemCorrections.includes(itemSearched)){
+        if(itemParts[itemParts.length - 1] === 'undefined' || ignoredItemCorrections.includes(itemSearched)){
             return undefined;
         } 
 
         switch(itemSearched){
             case "item_box":
             case "box":
-            case "item": itemSearched = "item_box"; break;
-            case "ultra": itemSearched = "ultra_box"; break;
-            case "rail":
-            case "cannon": itemSearched = "rail_cannon"; break;
-            case "ak": itemSearched = "ak47"; break;
-            case "m4": itemSearched = "m4a1"; break;
-            case "ray": itemSearched = "ray_gun"; break;
-            case "golf": itemSearched = "golf_club"; break;
-            case "fiber":
-            case "optics": itemSearched = "fiber_optics"; break;
-            case "gold": itemSearched = "gold_shield"; break;
-            case "iron": 
-            case "shield": itemSearched = "iron_shield"; break;
-            case "peck":
-            case "seed": itemSearched = "peck_seed"; break;
-            case "potion":
-            case "health_potion":
-            case "health": itemSearched = "health_pot"; break;
-            case "exp":
-            case "xp": itemSearched = "xp_potion"; break;
-            case "reroll": itemSearched = "reroll_scroll"; break;
-            case "canvas": itemSearched = "canvas_bag"; break;
-            case "light": itemSearched = "light_pack"; break;
-            case "hikers":
-            case "hiker": itemSearched = "hikers_pack"; break;
-            case "easter":
-            case "egg": itemSearched = "easter_egg"; break;
-            case "golden": itemSearched = "golden_egg"; break;
-            case "tnt": itemSearched = "tnt_egg"; break;
-            case "candy": itemSearched = "candy_bar"; break;
-            case "magic": itemSearched = "magic_staff"; break;
-            case "care":
-            case "package": itemSearched = "care_package"; break;
-            case "cyber": itemSearched = "cyber_pack"; break;
-            case "signal":
-            case "supply": itemSearched = "supply_signal"; break;
-            case "gp":
-            case "powder": itemSearched = "gunpowder"; break;
-            case "smg": itemSearched = "smg_body"; break;
-            case "pump": itemSearched = "pump_body"; break;
-            case "assault": itemSearched = "assault_body"; break;
+            case "loot":
+            case "container":
+            case "item": itemSearched = "crate"; break;
             case "rifle":
-            case "body": itemSearched = "rifle_body"; break;
-            case "desert":
-            case "deagle": itemSearched = "desert_eagle"; break;
-            case "7.62":
-            case "7.62x39":
-            case "762x39":
-            case "7.62x39_fmj":
-            case "762x39_fmj":
-            case "762": itemSearched = "7.62_fmj"; break;
+            case "ak":
+            case "assault":
+            case "ak47":
+            case "ak-47": itemSearched = "assault_rifle"; break;
+            case "med":
+            case "med_syringe":
+            case "medical":
+            case "syringe": itemSearched = "medical_syringe"; break;
+            case "large_med":
+            case "medkit": itemSearched = "large_medkit"; break;
+            case "large_box": itemSearched = "large_wood_box"; break;
+            case "drop":
+            case "airdrop":
+            case "supply": itemSearched = "supply_drop"; break;
+            case "signal": itemSearched = "supply_signal"; break;
+            case "pipy":
+            case "pipey":
+            case "waterpipe": itemSearched = "waterpipe_shotgun"; break;
+            case "shotgun":
+            case "pump":
+            case "shotty":
+            case "pumpie":
+            case "pumpy": itemSearched = "pump_shotgun"; break;
+            case "gp":
+            case "boom":
+            case "powder": itemSearched = "gunpowder"; break;
+            case "sar":
+            case "semi": itemSearched = "semi_rifle"; break;
+            case "p2":
+            case "p250":
+            case "pistol": itemSearched = "semi_pistol"; break;
+            case "custom":
+            case "smg": itemSearched = "custom_smg"; break;
+            case "m2":
+            case "machine_gun": itemSearched = "m249"; break;
+            case "rpg":
+            case "launcher": itemSearched = "rocket_launcher"; break;
+            case "tommy":
+            case "thommy": itemSearched = "thompson"; break;
+            case "crossie":
+            case "crossy": itemSearched = "crossbow"; break;
+            case "pick": itemSearched = "pickaxe"; break;
+            case "f1":
+            case "grenade": itemSearched = "f1_grenade"; break;
+            case "spear": itemSearched = "wooden_spear"; break;
+            case "metal_frags":
+            case "metal_frag":
+            case "frags":
+            case "metal_fragments": itemSearched = "metal"; break;
+            case "salvaged":
+            case "salvage":
+            case "cleaver": itemSearched = "salvaged_cleaver"; break;
+            case "sword": itemSearched = "salvaged_sword"; break;
+            case "knife": itemSearched = "bone_knife"; break;
+            case "timed_explosive": itemSearched = "c4"; break;
+            case "bolty":
+            case "sniper":
+            case "bolt":
+            case "bolt_action": itemSearched = "bolt_rifle"; break;
+            case "revy":
+            case "revo":
+            case "revvy": itemSearched = "revolver"; break;
+            case "mili":
+            case "milli":
+            case "mili_crate":
+            case "milly":
+            case "milly_crate":
+            case "military":
+            case "milli_crate": itemSearched = "military_crate"; break;
+            case "55":
+            case "556":
+            case "rifle_ammo":
             case "5.56x45":
             case "556x45":
-            case "5.56x45_fmj":
-            case "5.56x45_fmj":
-            case "5.56":
-            case "556": itemSearched = "5.56_fmj"; break;
-            case "50ae":
-            case ".50ae":
-            case ".50": itemSearched = ".50ae_hp"; break;
-            case "slug": itemSearched = "12g_slug"; break;
-            case "870":
-            case "shotty":
-            case "shotgun":
-            case "remington": itemSearched = "remington_870"; break;
-            case "cross": itemSearched = "crossbow"; break;
-            case "buckshot":
-            case "12g": itemSearched = "12g_buckshot"; break;
-            case "45":
-            case ".45":
-            case "acp": itemSearched = ".45_fmj"; break;
-            case ".44": itemSearched = ".44_fmj"; break;
+            case "5.56": itemSearched = "rifle_bullet"; break;
             case "9mm":
+            case "9mil":
+            case "9mill":
+            case "9x19":
             case "bullet":
-            case "9fmj":
-            case "9x19": itemSearched = "9mm_fmj"; break;
-            case "7n23": itemSearched = "7.62_7n23"; break;
-            case "m61": itemSearched = "7.62_m61"; break;
-            case "m80": itemSearched = "7.62_m80"; break;
-            case "m855": itemSearched = "5.56_m855"; break;
+            case "ammo":
+            case "ammunition":
+            case "pistol_ammo": itemSearched = "pistol_bullet"; break;
+            case "slug": itemSearched = "12g_slug"; break;
+            case "buck":
+            case "buckshot":
+            case "12_gauge":
+            case "shotgun_ammo":
+            case "shotgun_bullet":
+            case "shotty_ammo":
+            case "shotty_bullet":
+            case "12g": itemSearched = "12g_buckshot"; break;
+            case "spring": itemSearched = "metal_spring"; break;
+            case "pipe": itemSearched = "metal_pipe"; break;
+            case "body": itemSearched = "rifle_body"; break;
+            case "tech":
+            case "trash": itemSearched = "tech_trash"; break;
+            case "hazzy":
+            case "hazzie":
+            case "hazmat":
+            case "radsuit":
+            case "haz":
+            case "rad_suit": itemSearched = "hazmat_suit"; break;
+            case "lr":
+            case "lr_300": itemSearched = "lr-300"; break;
+            case "m92":
+            case "m9": itemSearched = "m92_pistol"; break;
+            case "spas":
+            case "spas_12": itemSearched = "spas-12"; break;
+            case "hv":
+            case "hv_bullet":
+            case "high_velocity":
+            case "hv_rifle":
+            case "high_velocity_bullet":
+            case "hv_ammo": itemSearched = "hv_rifle_bullet"; break;
+            case "candy":
+            case "chocolate":
+            case "chocolate_bar": itemSearched = "candy_bar"; break;
+            case "snow": itemSearched = "snowball"; break;
+            case "pail":
+            case "candy_bucket": itemSearched = "candy_pail"; break;
+            case "gl": itemSearched = "grenade_launcher"; break;
+            case "40mm":
+            case "he":
+            case "he_grenade":
+            case "40mm_grenade":
+            case "explosive_grenade": itemSearched = "40mm_he_grenade"; break;
+            case "smoke_grenade":
+            case "40mm_smoke":
+            case "smoke": itemSearched = "40mm_smoke_grenade"; break;
+            case "full_metal": itemSearched = "metal_armor"; break;
+            case "bones":
+            case "bone":
+            case "bone_frags":
+            case "bone_frag": itemSearched = "bone_fragments"; break;
+            case "elite_box": itemSearched = "elite_crate"; break;
 
             default:
                 // try using spell correction to find the item name

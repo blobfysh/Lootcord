@@ -1,4 +1,12 @@
 const Jimp = require('jimp');
+let oldPlayers;
+
+try{
+    oldPlayers = require('../resources/json/og_looters');
+}
+catch(err){
+    oldPlayers = [];
+}
 
 class Player {
     constructor(app){
@@ -25,16 +33,38 @@ class Player {
 
     async createAccount(id){
         await this.app.query(insertScoreSQL, [id, (new Date()).getTime(), 100, 1, 100, 100, 1.00, 'none', 'none', 'none', 'none']);
-        await this.app.itm.addItem(id, 'item_box', 1);
+        await this.app.itm.addItem(id, 'crate', 1);
         
         const newPlayer = new this.app.Embed()
-        .setTitle('Thanks for joining Lootcord!')
-        .setColor(13215302)
-        .setDescription('Make sure to follow the [rules](https://lootcord.com/rules)!\n\nSupport server: https://discord.gg/apKSxuE\n\nFor more on using the bot check these [guides](https://lootcord.com/guides)')
-        .addField("Items Received", this.app.icons.plus + "1x " + this.app.itemdata['item_box'].icon + "`item_box`")
-        .addField("Getting Started", `Open your ${this.app.itemdata['item_box'].icon}\`item_box\` by **using** it: \`t-use item_box\`\nYou can see every item you own with the \`inv\` command.\n\nAttack other players by **using** a weapon on them: \`t-use rock @user\`\n\nVarious stats are displayed on your \`profile\`!\n\n**Good luck and HAPPY LOOTING**`)
+        .setTitle('Thanks for playing Lootcord!')
+        .setColor(13451564)
+        .setThumbnail(this.app.bot.user.avatarURL)
+        .setDescription(`Here's a list of commands you'll use the most:\n
+        \`inv\` - View your items, health, money, and currently equipped storage container.
+        \`profile\` - View various statistic about yourself or another player.
+        \`use\` - Uses an item on yourself or attacks another player with said item.
+        \`items\` - View a full list of items. Specify an item to see specific information about it.
+        \`buy\` - Purchase items, you can also specify an amount to purchase.
+        \`sell\` - Sell your items for Lootcoin.
+        \`leaderboard\` - View the best players in your server or globally.
+        \`mysettings\` - Manage your settings such as notifications.
+        \`hourly\` - Claim a ${this.app.itemdata['crate'].icon}\`crate\` every hour.
+        \`daily\` - Claim a ${this.app.itemdata['military_crate'].icon}\`military_crate\` every day.
+        \`cooldowns\` - View all your command cooldowns.
+        
+        You can also use \`t-help <command>\` to see detailed command information and examples.
+        
+        ⚠️ **ALT ACCOUNTS ARE NOT ALLOWED**, make sure to follow these [rules](https://lootcord.com/rules)!
+        Check out the [faq](https://lootcord.com/rules) and these [guides](https://lootcord.com/guides) if you are confused!
+        
+        Join the [support server](https://discord.gg/apKSxuE) if you need more help!`)
+        .addField('Items Received', `1x ${this.app.itemdata['crate'].icon}\`crate\`\nOpen it by __using__ it: \`t-use crate\`\n\nOnce you get a weapon, you can attack another player by __using__ a weapon on them: \`t-use rock @user\``)
         .setFooter("This message will only be sent the first time your account is created.")
-        this.app.common.messageUser(id, newPlayer)
+        this.app.common.messageUser(id, newPlayer);
+
+        if(oldPlayers.includes(id)){
+            await this.app.itm.addBadge(id, 'og_looter');
+        }
     }
 
     /**
@@ -149,6 +179,40 @@ class Player {
     }
 
     /**
+     * Checks if players has the amount specified
+     * @param {string} id ID of player to check
+     * @param {number} amount Amount of scrap to check
+     */
+    async hasScrap(id, amount){
+        let row = await this.getRow(id);
+        
+        if(row.scrap >= amount){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    /**
+     * 
+     * @param {string} id ID of player to remove from
+     * @param {number} amount Scrap to remove
+     */
+    async removeScrap(id, amount){
+        await this.app.query(`UPDATE scores SET scrap = scrap - ${parseInt(amount)} WHERE userId = ${id}`);
+    }
+
+    /**
+     * 
+     * @param {*} id ID of user to add money to.
+     * @param {*} amount Amount of scrap to add.
+     */
+    async addScrap(id, amount){
+        await this.app.query(`UPDATE scores SET scrap = scrap + ${parseInt(amount)} WHERE userId = ${id}`);
+    }
+
+    /**
      * 
      * @param {*} id ID of user to add xp to.
      * @param {*} amount Amount of xp to add.
@@ -192,6 +256,20 @@ class Player {
     }
 
     /**
+     * Get the armor user is wearing.
+     * @param {*} id ID of user
+     */
+    async getArmor(id){
+        const armor = await this.app.cache.get(`shield|${id}`);
+
+        if(this.app.itemdata[armor]){
+            return armor;
+        }
+
+        return undefined;
+    }
+
+    /**
      * 
      * @param {*} message Message of player to check level up for.
      */
@@ -199,37 +277,41 @@ class Player {
         try{
             let xp = this.app.common.calculateXP(row.points, row.level);
 
-            if(row.points >= xp.totalNeeded) {
-
+            if(row.points >= xp.totalNeeded){
                 console.log(row.points + ' is greater than ' + xp.totalNeeded)
+                const craftables = Object.keys(this.app.itemdata).filter(item => this.app.itemdata[item].craftedWith !== "" && this.app.itemdata[item].craftedWith.level === row.level + 1);
                 let levelItem = "";
 
                 await this.app.query(`UPDATE scores SET points = points + 1, level = level + 1 WHERE userId = ${message.author.id}`);
 
-                if((row.level + 1) > 15){
+                if((row.level + 1) % 5 === 0 && row.level + 1 >= 10){
+                    levelItem = `${this.app.itemdata['elite_crate'].icon}\`elite_crate\``;
+                    await this.app.itm.addItem(message.author.id, 'elite_crate', 1);
+                }
+                else if((row.level + 1) > 15){
                     levelItem = `${this.app.itemdata['supply_signal'].icon}\`supply_signal\``;
                     await this.app.itm.addItem(message.author.id, 'supply_signal', 1);
                 }
                 else if((row.level + 1) > 10){
-                    levelItem = `2x ${this.app.itemdata['ultra_box'].icon}\`ultra_box\``;
-                    await this.app.itm.addItem(message.author.id, 'ultra_box', 2);
+                    levelItem = `2x ${this.app.itemdata['military_crate'].icon}\`military_crate\``;
+                    await this.app.itm.addItem(message.author.id, 'military_crate', 2);
                 }
                 else if((row.level + 1) > 5){
-                    levelItem = `${this.app.itemdata['ultra_box'].icon}\`ultra_box\``;
-                    await this.app.itm.addItem(message.author.id, 'ultra_box', 1);
+                    levelItem = `${this.app.itemdata['military_crate'].icon}\`military_crate\``;
+                    await this.app.itm.addItem(message.author.id, 'military_crate', 1);
                 }
                 else{
-                    levelItem = `1x ${this.app.itemdata['item_box'].icon}\`item_box\``;
-                    await this.app.itm.addItem(message.author.id, 'item_box', 1);
+                    levelItem = `1x ${this.app.itemdata['crate'].icon}\`crate\``;
+                    await this.app.itm.addItem(message.author.id, 'crate', 1);
                 }
 
                 if(row.level + 1 >= 5){
                     await this.app.itm.addBadge(message.author.id, 'loot_goblin');
                 }
-                if(row.level + 1 >= 25){
+                if(row.level + 1 >= 10){
                     await this.app.itm.addBadge(message.author.id, 'loot_fiend');
                 }
-                if(row.level + 1 >= 100){
+                if(row.level + 1 >= 20){
                     await this.app.itm.addBadge(message.author.id, 'loot_legend');
                 }
 
@@ -244,7 +326,7 @@ class Player {
                     if(guildRow.levelChan !== undefined && guildRow.levelChan !== "" && guildRow.levelChan !== 0){
                         try{
                             await this.app.bot.createMessage(guildRow.levelChan, {
-                                content: `<@${message.author.id}> leveled up!\n**Item received:** ${levelItem}`
+                                content: `<@${message.author.id}> leveled up!\n**Reward:** ${levelItem}${craftables.length ? '\n\nYou can now craft the following items:\n' + craftables.map(item => this.app.itemdata[item].icon + '`' + item + '`').join(', ') : ''}`
                             }, {
                                 file: lvlUpImage,
                                 name: 'userLvl.jpeg'
@@ -257,7 +339,7 @@ class Player {
                     }
                     else{
                         message.channel.createMessage({
-                            content: `<@${message.author.id}> level up!\n**Item received:** ${levelItem}`
+                            content: `<@${message.author.id}> level up!\n**Reward:** ${levelItem}${craftables.length ? '\n\nYou can now craft the following items:\n' + craftables.map(item => this.app.itemdata[item].icon + '`' + item + '`').join(', ') : ''}`
                         }, {
                             file: lvlUpImage,
                             name: 'userLvl.jpeg'
@@ -276,7 +358,6 @@ class Player {
     }
 
     async getLevelImage(playerImage, level){
-        //const smallFont = await Jimp.loadFont('./src/resources/fonts/Quicksand_Light25.fnt');
         const image = await Jimp.read('./src/resources/images/LvlUp2.png');
         const avatar = await Jimp.read(playerImage);
         const largeFont = await Jimp.loadFont('./src/resources/fonts/BebasNeueWhite.fnt');
@@ -288,14 +369,6 @@ class Player {
             text: "LVL " + level,
             alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER
         }, 108, 128);
-        
-        /* Old lvl image showing users name
-        image.print(smallFont, 0, 0, {
-            text: name.substring(0, 13),
-            alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
-            alignmentY: Jimp.VERTICAL_ALIGN_TOP
-        }, 164, 144);
-        */
 
         image.composite(avatar, 22, 16);
 
@@ -315,6 +388,7 @@ INSERT IGNORE INTO scores (
     userId,
     createdAt,
     money,
+    scrap,
     level,
     health,
     maxHealth,
@@ -349,6 +423,7 @@ INSERT IGNORE INTO scores (
         ?,
         ?,
         ?,
+        0,
         ?,
         ?,
         ?,

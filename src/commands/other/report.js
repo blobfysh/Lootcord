@@ -35,6 +35,7 @@ module.exports = {
                 .setThumbnail(message.author.avatarURL)
                 .addField("Submitted by", `${(message.author.username + '#' + message.author.discriminator)}\n(${message.author.id})`)
                 .addField("Message", messageIn)
+                .addField("Message Link", `https://discord.com/channels/${message.channel.guild.id}/${message.channel.id}/${message.id}`)
                 .setFooter(`Respond with t-message ${message.author.id} <message>`)
                 .setColor(16734296)
                 

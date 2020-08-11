@@ -28,6 +28,9 @@ module.exports = {
         else if(user.id === app.bot.user.id){
             return message.reply(app.icons.blackjack_dealer_neutral + ' I don\'t join loser clans');
         }
+        else if(Math.floor((user.id / 4194304) + 1420070400000) > Date.now() - (30 * 24 * 60 * 60 * 1000)){
+            return message.reply(`❌ **${user.nick || user.username}**'s Discord account must be at least 30 days old to join a clan! This helps us prevent alt abuse. 😭`);
+        }
         else if(invitedScoreRow.clanId !== 0){
             return message.reply('❌ That user is already in a clan!');
         }

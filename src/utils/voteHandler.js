@@ -19,8 +19,8 @@ exports.handle = async function({ vote, type }){
         await this.itm.addItem(vote.user, 'supply_signal', 1);
     }
     else{
-        itemReward = "📦 You received an **ultra_box**!";
-        await this.itm.addItem(vote.user, 'ultra_box', 1);
+        itemReward = "📦 You received an **military_crate**!";
+        await this.itm.addItem(vote.user, 'military_crate', 1);
     }
 
     // add vote cooldown
@@ -46,10 +46,10 @@ function getCounterEmbed(app, counterVal){
     for(var i = 0; i < 5; i++){
         // Iterate 5 times
         if(counterDayVal >= i + 1){
-            rewardString += '☑ Day ' + (i + 1) + ': `ultra_box`\n';
+            rewardString += '☑ Day ' + (i + 1) + ': `military_crate`\n';
         }
         else{
-            rewardString += '❌ Day ' + (i + 1) + ': `ultra_box`\n';
+            rewardString += '❌ Day ' + (i + 1) + ': `military_crate`\n';
         }
     }
     

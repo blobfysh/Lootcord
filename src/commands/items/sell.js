@@ -2,10 +2,10 @@
 module.exports = {
     name: 'sell',
     aliases: [''],
-    description: 'Sell items for money.',
-    long: 'Sell items for money. Check the `shop` to see how much items can be sold for. You can also sell multiple items at once, check the examples to see how.',
+    description: 'Sell items for Lootcoin.',
+    long: 'Sell items for Lootcoin. Use the `item` command to see how much an item can be sold for. You can also sell multiple items at once, check the examples to see how.',
     args: {"item": "Item to sell.", "amount": "**OPTIONAL** Amount of item to sell."},
-    examples: ["sell iron_shield 3", "sell rpg 2 rock 3 ultra 1"],
+    examples: ["sell hazmat_suit 3", "sell bolt_rifle 2 rock 3 crate 1"],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,
@@ -34,7 +34,7 @@ module.exports = {
                     return message.reply(`❌ You can't sell ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`'s!`);
                 }
                 else if(!userItems[itemAmnt[0]]){
-                    return message.reply(`❌ You don't have a ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`.`)
+                    return message.reply(`❌ You don't have ${app.common.getA(itemAmnt[0])} ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`.`)
                 }
                 else if(userItems[itemAmnt[0]] < itemAmnt[1]){
                     return message.reply(`❌ You only have **${userItems[itemAmnt[0]]}x** ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`.`);
@@ -88,7 +88,7 @@ module.exports = {
             let itemPrice = app.itemdata[sellItem].sell;
             
             if(!hasItems){
-                return message.reply(userItems[sellItem] ? `❌ You don't have enough of that item! You have **${userItems[sellItem]}x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.` : `❌ You don't have a ${app.itemdata[sellItem].icon}\`${sellItem}\`.`);
+                return message.reply(userItems[sellItem] ? `❌ You don't have enough of that item! You have **${userItems[sellItem]}x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.` : `❌ You don't have ${app.common.getA(sellItem)} ${app.itemdata[sellItem].icon}\`${sellItem}\`.`);
             }
             
             if(itemPrice !== ""){

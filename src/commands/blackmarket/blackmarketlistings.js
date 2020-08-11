@@ -1,4 +1,4 @@
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 9;
 
 module.exports = {
     name: 'blackmarketlistings',
@@ -15,7 +15,7 @@ module.exports = {
     async execute(app, message){
         const listings = await app.query(`SELECT * FROM blackmarket WHERE sellerId = ${message.author.id}`);
 
-        if(listings.length <= 10){
+        if(listings.length <= 9){
             return message.channel.createMessage(generatePages(app, message, listings)[0]);
         }
         
@@ -34,8 +34,10 @@ function generatePages(app, message, listings){
         
         const pageEmbed = new app.Embed()
         .setAuthor(message.author.username + "'s Listings", message.author.avatarURL)
-        .setDescription('List more with `bmlist`\nRemove a listing with `bmremove <listing ID>`\n' + app.bm.createDisplay(selectedListings))
-        .setColor(13215302)
+        .setDescription('List more with `bmlist`\nRemove a listing with `bmremove <listing ID>`')
+        .setColor(13451564)
+
+        app.bm.displayListings(pageEmbed, selectedListings);
 
         pages.push(pageEmbed);
     }

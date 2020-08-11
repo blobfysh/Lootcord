@@ -1,12 +1,12 @@
-const WIN_QUOTES = ['You just won {0}!', 'Wow you\'re pretty good at flipping this coin 👀 You won {0}!', 'Congratulations! You just won {0}!'];
-const LOSE_QUOTES = ['You just lost {0}!', 'Congratulations! You just lost {0}!'];
+const WIN_QUOTES = ['You just won **{0}**!', 'Wow you\'re pretty good at flipping this coin 👀 You won **{0}**!', 'Congratulations! You just won **{0}**!'];
+const LOSE_QUOTES = ['You just lost **{0}**!', 'Congratulations! You just lost **{0}**!'];
 
 module.exports = {
     name: 'coinflip',
     aliases: ['cf'],
     description: 'Flip a coin for a chance to win!',
-    long: 'Gamble your money for a 50% chance of winning 2x what you bet!',
-    args: {"amount": "Amount of money to gamble."},
+    long: 'Gamble your Scrap for a 50% chance of winning 2x what you bet!',
+    args: {"amount": "Amount of Scrap to gamble."},
     examples: ["cf 1000"],
     ignoreHelp: false,
     requiresAcc: true,
@@ -20,7 +20,7 @@ module.exports = {
         let gambleAmount = app.parse.numbers(message.args)[0];
 
         if(!gambleAmount && message.args[0] && message.args[0].toLowerCase() === 'all'){
-            gambleAmount = row.money >= 1000000 ? 1000000 : row.money;
+            gambleAmount = row.scrap >= 2000000 ? 2000000 : row.scrap;
         }
         
         if(coinflipCD){
@@ -28,30 +28,30 @@ module.exports = {
         }
 
         if(!gambleAmount || gambleAmount < 100){
-            return message.reply(`Please specify an amount of at least ${app.common.formatNumber(100)} to gamble!`);
+            return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100, false, true)}** to gamble!`);
         }
 
-        if(gambleAmount > row.money){
-            return message.reply(`You don't have that much money! You currently have ${app.common.formatNumber(row.money)}`);
+        if(gambleAmount > row.scrap){
+            return message.reply(`You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can buy more Scrap from the Outpost! (\`${message.prefix}shop\`)`);
         }
         
-        if(gambleAmount > 1000000){
-            return message.reply(`Woah there high roller, you cannot gamble more than ${app.common.formatNumber(1000000)} on coinflip.`);
+        if(gambleAmount > 2000000){
+            return message.reply(`Woah there high roller, you cannot gamble more than **${app.common.formatNumber(2000000, false, true)}** on coinflip.`);
         }
         
         
         if(Math.random() < 0.5){
-            await app.player.addMoney(message.author.id, gambleAmount);
+            await app.player.addScrap(message.author.id, gambleAmount);
 
             if(gambleAmount >= 1000000){
                 await app.itm.addBadge(message.author.id, 'gambler');
             }
 
-            message.reply(WIN_QUOTES[Math.floor(Math.random() * WIN_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount * 2)));
+            message.reply(WIN_QUOTES[Math.floor(Math.random() * WIN_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount * 2, false, true)));
         }
         else{
-            await app.player.removeMoney(message.author.id, gambleAmount);
-            message.reply(LOSE_QUOTES[Math.floor(Math.random() * LOSE_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount)));
+            await app.player.removeScrap(message.author.id, gambleAmount);
+            message.reply(LOSE_QUOTES[Math.floor(Math.random() * LOSE_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount, false, true)));
         }
         
         await app.cd.setCD(message.author.id, 'coinflip', app.config.cooldowns.coinflip * 1000);

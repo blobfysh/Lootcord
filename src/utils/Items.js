@@ -101,18 +101,14 @@ class Items {
         else return false;
     }
 
-    async getItemCount(userItems, userRow, options = { cntTokens: false, cntBanners: false }){
-        options.cntTokens = options.cntTokens == null ? false : options.cntTokens;
+    async getItemCount(userItems, userRow, options = { cntBanners: false }){
         options.cntBanners = options.cntBanners == null ? false : options.cntBanners;
 
         let totalItemCt = 0;
 
         Object.keys(this.app.itemdata).forEach(key => {
             if(userItems[key] > 0){
-                if(key == 'token' && options.cntTokens){
-                    totalItemCt += userItems[key];
-                }
-                else if(this.app.itemdata[key].isBanner && options.cntBanners){
+                if(this.app.itemdata[key].isBanner && options.cntBanners){
                     totalItemCt += userItems[key];
                 }
                 else if(key !== 'token' && !this.app.itemdata[key].isBanner){
@@ -155,13 +151,13 @@ class Items {
         options.countBanners = options.countBanners == null ? false : options.countBanners;
         options.countLimited = options.countLimited == null ? true : options.countLimited;
         
-        let commonItems   = [];
-        let uncommonItems = [];
-        let rareItems     = [];
-        let epicItems     = [];
-        let legendItems   = [];
-        let ultraItems    = [];
-        let limitedItems  = [];
+        let ranged = [];
+        let melee = [];
+        let usables = [];
+        let ammo = [];
+        let materials = [];
+        let storage = [];
+        let banners = [];
         let invValue      = 0;
         let itemCount     = 0;
 
@@ -186,46 +182,45 @@ class Items {
 
         for(let key of filteredItems){
             if(items[key] >= 1){
+                let itemInfo = this.app.itemdata[key];
 
-                switch(this.app.itemdata[key].rarity){
-                    case "Common": commonItems.push(key); break;
-                    case "Uncommon": uncommonItems.push(key); break;
-                    case "Rare": rareItems.push(key); break;
-                    case "Epic": epicItems.push(key); break;
-                    case "Legendary": legendItems.push(key); break;
-                    case "Ultra": ultraItems.push(key); break;
-                    case "Limited": limitedItems.push(key); break;
-                }
+                if(itemInfo.category === 'Ranged') ranged.push(key);
+                else if(itemInfo.category === 'Melee') melee.push(key);
+                else if(itemInfo.category === 'Item') usables.push(key);
+                else if(itemInfo.category === 'Ammo') ammo.push(key);
+                else if(itemInfo.category === 'Material') materials.push(key);
+                else if(itemInfo.category === 'Storage') storage.push(key);
+                else if(itemInfo.category === 'Banner') banners.push(key);
     
                 invValue += this.app.itemdata[key].sell * items[key];
                 itemCount+= items[key];
             }
         }
         
-        commonItems.sort();
-        uncommonItems.sort();
-        rareItems.sort();
-        epicItems.sort();
-        legendItems.sort();
-        ultraItems.sort();
-        limitedItems.sort();
+        ranged.sort();
+        melee.sort();
+        usables.sort();
+        ammo.sort();
+        materials.sort();
+        storage.sort();
+        banners.sort();
 
-        commonItems = commonItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        uncommonItems = uncommonItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        rareItems = rareItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        epicItems = epicItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        legendItems = legendItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        ultraItems = ultraItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        limitedItems = limitedItems.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        ranged = ranged.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        melee = melee.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        usables = usables.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        ammo = ammo.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        materials = materials.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        storage = storage.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
+        banners = banners.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
 
         return {
-            common: commonItems,
-            uncommon: uncommonItems,
-            rare: rareItems,
-            epic: epicItems,
-            legendary: legendItems,
-            ultra: ultraItems,
-            limited: limitedItems,
+            ranged,
+            melee,
+            usables,
+            ammo,
+            materials,
+            storage,
+            banners,
             invValue: invValue,
             itemCount: itemCount
         }
@@ -385,7 +380,7 @@ class Items {
         for(let item of amountResults){
             let split = item.split('|');
 
-            display.push(`${split[1]}x ${this.app.itemdata[split[0]].icon}\`${split[0]}\``);
+            display.push(`**${split[1]}x** ${this.app.itemdata[split[0]].icon}\`${split[0]}\``);
         }
 
         return {
@@ -396,85 +391,33 @@ class Items {
     }
 
     sortItemsLowHigh(a, b){
-        let aRarity;
-        let bRarity;
-
-        switch(this.itemdata[a].rarity){
-            case "Common": aRarity = 0; break;
-            case "Uncommon": aRarity = 1; break;
-            case "Rare": aRarity = 2; break;
-            case "Epic": aRarity = 3; break;
-            case "Legendary": aRarity = 4; break;
-            case "Ultra": aRarity = 5; break;
-            default: aRarity = 6;
-        }
-        switch(this.itemdata[b].rarity){
-            case "Common": bRarity = 0; break;
-            case "Uncommon": bRarity = 1; break;
-            case "Rare": bRarity = 2; break;
-            case "Epic": bRarity = 3; break;
-            case "Legendary": bRarity = 4; break;
-            case "Ultra": bRarity = 5; break;
-            default: bRarity = 6;
-        }
-
-        if(aRarity < bRarity) return -1;
-
-        else if(aRarity > bRarity) return 1;
-
-        else if(aRarity === bRarity){
-            if(a < b) return -1;
-            
-            else if(a > b) return 1;
-
-            return 0
-        }
-
-        return 0;
-    }
-
-    sortItemsHighLow(a, b){
-        let aRarity;
-        let bRarity;
-
         if(a.includes('|')){
             a = a.split('|')[0];
             b = b.split('|')[0];
         }
 
-        switch(this.itemdata[a].rarity){
-            case "Common": aRarity = 6; break;
-            case "Uncommon": aRarity = 5; break;
-            case "Rare": aRarity = 4; break;
-            case "Epic": aRarity = 3; break;
-            case "Legendary": aRarity = 2; break;
-            case "Ultra": aRarity = 1; break;
-            default: aRarity = 0;
-        }
-        switch(this.itemdata[b].rarity){
-            case "Common": bRarity = 6; break;
-            case "Uncommon": bRarity = 5; break;
-            case "Rare": bRarity = 4; break;
-            case "Epic": bRarity = 3; break;
-            case "Legendary": bRarity = 2; break;
-            case "Ultra": bRarity = 1; break;
-            default: bRarity = 0;
+        let asell = this.itemdata[a].sell;
+        let bsell = this.itemdata[b].sell;
+
+        if(bsell > asell) return -1;
+        
+        else if(bsell < asell) return 1;
+
+        return 0;
+    }
+
+    sortItemsHighLow(a, b){
+        if(a.includes('|')){
+            a = a.split('|')[0];
+            b = b.split('|')[0];
         }
 
-        if(aRarity < bRarity) return -1;
+        let asell = this.itemdata[a].sell;
+        let bsell = this.itemdata[b].sell;
 
-        else if(aRarity > bRarity) return 1;
-
-        else if(aRarity === bRarity){
-            let asell = this.itemdata[a].sell;
-            let bsell = this.itemdata[b].sell;
-
-            if(bsell < asell) return -1;
-            
-            else if(bsell > asell) return 1;
-
-            return 0
-        }
+        if(bsell < asell) return -1;
+        
+        else if(bsell > asell) return 1;
 
         return 0;
     }
@@ -512,7 +455,7 @@ class Items {
         for(let i = 0; i < combined.length; i++){
             let itemAmnt = combined[i].split('|');
             
-            finalArr.push(itemAmnt[1] + 'x ' + this.app.itemdata[itemAmnt[0]].icon + '`' + itemAmnt[0] + '`');
+            finalArr.push('**' + itemAmnt[1] + 'x** ' + this.app.itemdata[itemAmnt[0]].icon + '`' + itemAmnt[0] + '`');
         }
     
         return finalArr;

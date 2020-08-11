@@ -2,8 +2,8 @@
 module.exports = {
     name: 'points',
     aliases: ['xp'],
-    description: 'Shows total experience earned.',
-    long: 'Shows your lifetime earned experience.',
+    description: 'Shows experience towards the next level.',
+    long: 'Shows your current experience towards the next level.',
     args: {},
     examples: [],
     ignoreHelp: false,

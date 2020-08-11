@@ -2,7 +2,7 @@ const tips = require('../../resources/json/tips');
 
 module.exports = {
     name: 'help',
-    aliases: [''],
+    aliases: ['commands'],
     description: 'helpception',
     long: 'helpception',
     args: {
@@ -33,7 +33,7 @@ module.exports = {
             if(cmd.aliases.length && cmd.aliases[0].length) embed.addField("Aliases", cmd.aliases.map(alias => '`' + alias + '`').join(', '))
             embed.addField("Usage", '`' + getUsage(message.prefix, cmd) + '`')
             if(Object.keys(cmd.args).length) embed.addField("Options", getOptions(cmd))
-            embed.setColor(13215302)
+            embed.setColor(13451564)
 
             return message.channel.createMessage(embed);
         }
@@ -51,11 +51,29 @@ module.exports = {
             }
         });
 
+        const date = new Date();
+        const converted = new Date(date.toLocaleString('en-US', {
+            timeZone: 'America/New_York'
+        }));
+        const todaysMonth = converted.getMonth();
+        converted.setDate(converted.getDate() + 10);
+
         const embed = new app.Embed()
         .setAuthor('Lootcord Commands', message.author.avatarURL)
         .setDescription('**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'+ message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).')
         .setFooter(`To see more about a command, use ${message.prefix}help <command>`)
-        .setColor(13215302)
+        .setColor(13451564)
+
+        if(todaysMonth !== converted.getMonth()){
+            const daysUntilWipe = 10 - converted.getDate();
+
+            if(daysUntilWipe <= 1){
+                embed.setDescription('⚠️ **WIPE HYPE** Levels will be wiped **tomorrow**! This will clear your crafting recipes.\n\n**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'+ message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).')
+            }
+            else{
+                embed.setDescription('⚠️ **WIPE HYPE** The monthly level wipe will happen in **' + daysUntilWipe + '** days! This will clear your crafting recipes.\n\n**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'+ message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).')
+            }
+        }
 
         const categoriesArr = Object.keys(categories);
 

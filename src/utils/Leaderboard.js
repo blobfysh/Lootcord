@@ -6,11 +6,13 @@ class Leaderboard {
 
     async getLB(){
         const moneyRows = (await this.app.query('SELECT userId, money, badge FROM scores ORDER BY money DESC LIMIT 5')).filter(user => user.userId !== 0);
+        const scrapRows = (await this.app.query('SELECT userId, scrap, badge FROM scores ORDER BY scrap DESC LIMIT 5')).filter(user => user.userId !== 0);
         const levelRows = (await this.app.query('SELECT userId, level, badge FROM scores ORDER BY level DESC LIMIT 5')).filter(user => user.userId !== 0);
         const killRows  = (await this.app.query('SELECT userId, kills, badge FROM scores ORDER BY kills DESC LIMIT 5')).filter(user => user.userId !== 0);
         const clanRows  = await this.app.query('SELECT name, money FROM clans ORDER BY money DESC LIMIT 5');
 
         let leaders      = [];
+        let scrapLeaders = [];
         let levelLeaders = [];
         let killLeaders  = [];
         let tokenLeaders = [];
@@ -18,6 +20,7 @@ class Leaderboard {
 
         let leaderJSON   = {
             money  : {}, 
+            scrap  : {},
             level  : {}, 
             kills  : {},
             clans  : {},
@@ -27,7 +30,7 @@ class Leaderboard {
         for(let i = 0; i < moneyRows.length; i++){
             try{
                 let user = await this.app.common.fetchUser(moneyRows[i].userId, { cacheIPC: false });
-                leaders.push(`${this.app.player.getBadge(moneyRows[i].badge)} **${user.username}#${user.discriminator}**` + ' - ' + this.app.common.formatNumber(moneyRows[i].money));  
+                leaders.push(`${this.app.player.getBadge(moneyRows[i].badge)} ${user.username}#${user.discriminator}` + ' - ' + this.app.common.formatNumber(moneyRows[i].money));  
                 
                 leaderJSON.money[user.username] = {
                     data: this.app.common.formatNumber(moneyRows[i].money, true), 
@@ -38,10 +41,24 @@ class Leaderboard {
             }
         }
 
+        for(let i = 0; i < scrapRows.length; i++){
+            try{
+                let user = await this.app.common.fetchUser(scrapRows[i].userId, { cacheIPC: false });
+                scrapLeaders.push(`${this.app.player.getBadge(scrapRows[i].badge)} ${user.username}#${user.discriminator}` + ' - ' + this.app.common.formatNumber(scrapRows[i].scrap, false, true));  
+                
+                leaderJSON.scrap[user.username] = {
+                    data: this.app.common.formatNumber(scrapRows[i].scrap, true), 
+                    avatar: this.app.common.getAvatar(user)
+                };
+            }
+            catch(err){
+            }
+        }
+
         for(let i = 0; i < levelRows.length; i++){
             try{
                 let user = await this.app.common.fetchUser(levelRows[i].userId, { cacheIPC: false });
-                levelLeaders.push(`${this.app.player.getBadge(levelRows[i].badge)} **${user.username}#${user.discriminator}**` + ' - Level  ' + levelRows[i].level);
+                levelLeaders.push(`${this.app.player.getBadge(levelRows[i].badge)} ${user.username}#${user.discriminator}` + ' - Level  ' + levelRows[i].level);
 
                 leaderJSON.level[user.username] = {
                     data: levelRows[i].level, 
@@ -55,7 +72,7 @@ class Leaderboard {
         for(let i = 0; i < killRows.length; i++){
             try{
                 let user = await this.app.common.fetchUser(killRows[i].userId, { cacheIPC: false });
-                killLeaders.push(`${this.app.player.getBadge(killRows[i].badge)} **${user.username}#${user.discriminator}**` + ' - ' + killRows[i].kills + " kills");
+                killLeaders.push(`${this.app.player.getBadge(killRows[i].badge)} ${user.username}#${user.discriminator}` + ' - ' + killRows[i].kills + " kills");
 
                 leaderJSON.kills[user.username] = {
                     data: killRows[i].kills, 
@@ -80,12 +97,14 @@ class Leaderboard {
         }
 
         await this.app.itm.addBadge(moneyRows[0].userId, 'elitist');
-        await this.app.itm.addBadge(levelRows[0].userId, 'elitist');
+        await this.app.itm.addBadge(scrapRows[0].userId, 'elitist');
         await this.app.itm.addBadge(killRows[0].userId, 'elitist');
+        if(new Date().getDate() > 5) await this.app.itm.addBadge(levelRows[0].userId, 'elitist');
         clanLeaders[0] = clanLeaders.length ? clanLeaders[0] : 'No clans';
 
         return {
             moneyLB    : leaders,
+            scrapLB    : scrapLeaders,
             levelLB    : levelLeaders,
             killLB     : killLeaders,
             clanLB     : clanLeaders,

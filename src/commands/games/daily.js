@@ -1,7 +1,7 @@
 const QUOTES = [
-    'Oh look, I found this {icon}{item} for you!\n\nWant more? Try the `hourly`, `vote` commands.', 
-    'Here\'s a free {icon}{item}!\n\nWant more? Try the `hourly`, `vote` commands.', 
-    'You earned a free {icon}{item}!\n\nWant more? Try the `hourly`, `vote` commands.'
+    '**Oh look, I found this {icon}{item} for you!** Open it to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `hourly`, `vote` commands.', 
+    '**Here\'s a free {icon}{item}!** Open it to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `hourly`, `vote` commands.', 
+    '**You earned a free {icon}{item}!** Open it to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `hourly`, `vote` commands.'
 ];
 const OFFICIAL_QUOTES = [
     'You gained **2x** {icon}{item} for playing in the official Lootcord server! 😎'
@@ -10,8 +10,8 @@ const OFFICIAL_QUOTES = [
 module.exports = {
     name: 'daily',
     aliases: [''],
-    description: 'Receive a free ultra_box every day!',
-    long: 'Use this command to receive a free ultra_box every day.\n\n**Receive double the reward when used in the official Discord!**',
+    description: 'Receive a free military_crate every day!',
+    long: 'Use this command to receive a free military_crate every day.\n\n**Receive double the reward when used in the official Discord!**',
     args: {},
     examples: [],
     ignoreHelp: false,
@@ -33,12 +33,12 @@ module.exports = {
         await app.cd.setCD(message.author.id, 'daily', app.config.cooldowns.daily * 1000);
 
         if(message.channel.guild.id === app.config.supportGuildID){
-            await app.itm.addItem(message.author.id, 'ultra_box', 2);
-            message.reply(OFFICIAL_QUOTES[Math.floor(Math.random() * OFFICIAL_QUOTES.length)].replace('{icon}', app.itemdata['ultra_box'].icon).replace('{item}', '`ultra_box`'));
+            await app.itm.addItem(message.author.id, 'military_crate', 2);
+            message.reply(OFFICIAL_QUOTES[Math.floor(Math.random() * OFFICIAL_QUOTES.length)].replace('{icon}', app.itemdata['military_crate'].icon).replace('{item}', '`military_crate`'));
         }
         else{
-            await app.itm.addItem(message.author.id, 'ultra_box', 1);
-            message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata['ultra_box'].icon).replace('{item}', '`ultra_box`'));
+            await app.itm.addItem(message.author.id, 'military_crate', 1);
+            message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata['military_crate'].icon).replace('{item}', '`military_crate`').replace('{prefix}', message.prefix));
         }
     },
 }

@@ -37,7 +37,7 @@ class Monsters {
 
             const mobEmbed = await this.genMobEmbed(channelId, this.mobdata[monster], this.mobdata[monster].health, randMoney);
 
-            await this.app.bot.createMessage(channelId, {content: 'A bounty has arrived...', embed: mobEmbed.embed});
+            await this.app.bot.createMessage(channelId, {content: 'An enemy has spawned...', embed: mobEmbed.embed});
         }
         catch(err){
             await this.app.query(`DELETE FROM spawnChannels WHERE channelId = ?`, [channelId]);
@@ -51,7 +51,6 @@ class Monsters {
     async genMobEmbed(channelId, monster, health, money){
         const spawnInfo = await this.app.mysql.select('spawns', 'channelId', channelId);
         const remaining = await this.app.cd.getCD(channelId, 'mob');
-        const artistInfo = await this.app.common.fetchUser(monster.artist, { cacheIPC: false });
 
         
         let guildPrefix = await this.app.cache.get(`prefix|${spawnInfo.guildId}`);
@@ -86,14 +85,13 @@ class Monsters {
 
         const mobEmbed = new this.app.Embed()
         .setTitle(monster.title)
-        .setDescription(`Attack with \`${guildPrefix}use <weapon> bounty\`\n\nYou have \`${remaining}\` to defeat the ${monster.title} before ${monster.pronoun} leaves the server.`)
-        .setColor(16734296)
+        .setDescription(`Attack with \`${guildPrefix}use <weapon> ${monster.title.toLowerCase()}\`\n\nYou have \`${remaining}\` to defeat ${monster.mentioned} before ${monster.pronoun} leaves the server.${monster.special !== '' ? '\n\n**Special:** ' + monster.special : ''}`)
+        .setColor(13451564)
         .addField('Health', `${this.app.player.getHealthIcon(health, monster.health, true)}\n${health} / ${monster.health}`, true)
-        .addField('Damage', `${monster.minDamage} - ${monster.maxDamage}`, true)
+        .addField('Damage', `${monster.weapon.icon}\`${monster.weapon.name}\` ${monster.minDamage} - ${monster.maxDamage}`, true)
         .addBlankField()
         .addField('Has a chance of dropping:', this.app.itm.getDisplay(loot.sort(this.app.itm.sortItemsHighLow.bind(this.app))).join('\n'), true)
-        .addField('Money', this.app.common.formatNumber(money), true)
-        .setFooter('Art by ' + artistInfo.username + '#' + artistInfo.discriminator)
+        .addField('Balance', this.app.common.formatNumber(money), true)
         .setImage(monster.image)
 
         return mobEmbed;
@@ -101,10 +99,10 @@ class Monsters {
 
     mobLeftEmbed(monster){
         const mobEmbed = new this.app.Embed()
-        .setTitle(`The bounty left...`)
-        .setDescription(`Nobody defeated the ${monster.title}!`)
-        .setColor(16734296)
-        .setImage(monster.image)
+        .setTitle(`${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} left...`)
+        .setDescription(`Nobody defeated ${monster.mentioned}!`)
+        .setColor(13451564)
+        .setImage(monster.leftImage)
 
         return mobEmbed;
     }

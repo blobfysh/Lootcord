@@ -81,6 +81,7 @@ class Lootcord extends Base {
             await this.refreshLists();
             await this.startAirdrops();
             await this.startSpawns();
+            await this.cache.setNoExpire('scrapExchangeRate', this.config.scrapExchangeRate.toString());
         }
 
         this.bot.editStatus('online', {
@@ -176,6 +177,11 @@ class Lootcord extends Base {
 
                         continue;
                     }
+                    else if(cdInfo.type === 'shield'){
+                        await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true, armor: cdInfo.info }, callback);
+
+                        continue;
+                    }
                     
                     await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true }, callback);
                     
@@ -243,6 +249,15 @@ class Lootcord extends Base {
                 if(await this.cd.getCD(banned.userId, 'banned')) continue;
                 
                 await this.cache.setNoExpire(`banned|${banned.userId}`, 'Banned perma');
+            }
+        }
+
+        const bannedGuildRows = await this.query(`SELECT * FROM bannedguilds`); 
+        for(let banned of bannedGuildRows){
+            if(banned.guildId !== undefined && banned.guildId !== null){
+                if(await this.cd.getCD(banned.guildId, 'guildbanned')) continue;
+                
+                await this.cache.setNoExpire(`guildbanned|${banned.guildId}`, 'Banned perma');
             }
         }
 

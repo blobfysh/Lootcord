@@ -4,7 +4,7 @@ module.exports = {
     aliases: [''],
     description: 'Play a game of Russian roulette.',
     long: 'Play a game of Russian roulette.\nIf you survive, you win **1.2x** what you bet.\nIf you lose, you\'ll be shot for **20 - 50** damage (depending on your bet) and lose your bet amount.',
-    args: {"amount": "Amount of money to gamble."},
+    args: {"amount": "Amount of Scrap to gamble."},
     examples: ["roulette 1000"],
     ignoreHelp: false,
     requiresAcc: true,
@@ -17,7 +17,7 @@ module.exports = {
         let gambleAmount = app.parse.numbers(message.args)[0];
 
         if(!gambleAmount && message.args[0] && message.args[0].toLowerCase() === 'all'){
-            gambleAmount = row.money >= 1000000 ? 1000000 : row.money;
+            gambleAmount = row.scrap >= 2000000 ? 2000000 : row.scrap;
         }
         
         if(rouletteCD){
@@ -29,24 +29,24 @@ module.exports = {
         }
 
         if(!gambleAmount || gambleAmount < 100){
-            return message.reply(`Please specify an amount of at least ${app.common.formatNumber(100)} to gamble!`);
+            return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100, false, true)}** to gamble!`);
         }
 
-        if(gambleAmount > row.money){
-            return message.reply(`You don't have that much money! You currently have ${app.common.formatNumber(row.money)}`);
+        if(gambleAmount > row.scrap){
+            return message.reply(`You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can buy more Scrap from the Outpost! (\`${message.prefix}shop\`)`);
         }
         
-        if(gambleAmount > 1000000){
-            return message.reply(`You cannot gamble more than ${app.common.formatNumber(1000000)}`);
+        if(gambleAmount > 2000000){
+            return message.reply(`You cannot gamble more than **${app.common.formatNumber(2000000, false, true)}**`);
         }
         
-        await app.player.removeMoney(message.author.id, gambleAmount);
+        await app.player.removeScrap(message.author.id, gambleAmount);
         
         let multiplier = 1.2;
         let winnings = Math.floor(gambleAmount * multiplier);
         let chance = Math.floor(Math.random() * 100); //return 1-100
 
-        if(chance <= 100){
+        if(chance <= 20){
             let healthDeduct = getDamage(gambleAmount);
 
             if(row.health <= healthDeduct){
@@ -60,16 +60,16 @@ module.exports = {
 
             message.reply("***Click***").then(msg => {
                 setTimeout(() => {
-                    msg.edit(`<@${message.author.id}>, 💥 The gun fires! You took ***${healthDeduct}*** damage and now have **${row.health - healthDeduct} health**. Oh, and you also lost ${app.common.formatNumber(gambleAmount)}`);
+                    msg.edit(`<@${message.author.id}>, 💥 The gun fires! You took ***${healthDeduct}*** damage and now have ${app.player.getHealthIcon(row.health - healthDeduct, row.maxHealth)} **${row.health - healthDeduct} / ${row.maxHealth}** health. Oh, and you also lost **${app.common.formatNumber(gambleAmount, false, true)}** Scrap`);
                 }, 1500);
             });
         }
         else{
-            await app.player.addMoney(message.author.id, winnings);
+            await app.player.addScrap(message.author.id, winnings);
 
             message.reply("***Click***").then(msg => {
                 setTimeout(() => {
-                    msg.edit(`<@${message.author.id}>, You survived! Your winnings are: ${app.common.formatNumber(winnings)}`);
+                    msg.edit(`<@${message.author.id}>, You survived! Your winnings are: **${app.common.formatNumber(winnings, false, true)}**`);
                 }, 1500);
             });
         }

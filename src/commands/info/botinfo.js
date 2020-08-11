@@ -18,9 +18,9 @@ module.exports = {
 
         const embedInfo = new app.Embed()
         embedInfo.setTitle(`Lootcord Update Info`)
-        embedInfo.setColor(13215302)
+        embedInfo.setColor(13451564)
         embedInfo.setThumbnail(app.bot.user.avatarURL)
-        embedInfo.setDescription('Read [here](https://lootcord.com/blog) for update details')
+        embedInfo.setDescription('Read [here](https://lootcord.com/blog) for update details.\n\nLootcord is created by fans and is not affilated with Facepunch.')
         embedInfo.addField("Shard ID", codeWrap(message.channel.guild.shard.id.toString(), 'js'), true)
         embedInfo.addField("Cluster ID", codeWrap(app.clusterID.toString(), 'js'), true)
         embedInfo.addField("Active Servers", codeWrap(stats.guilds || '1', 'js'), true)

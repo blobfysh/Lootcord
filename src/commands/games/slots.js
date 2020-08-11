@@ -2,9 +2,9 @@
 module.exports = {
     name: 'slots',
     aliases: ['slot'],
-    description: 'Put some money in the slot machine!',
-    long: 'Play a game of slots.\n\n<:UnboxCommon:526248905676029968><:UnboxCommon:526248905676029968> - **0.8x** multiplier\n<:UnboxRare:526248948579434496><:UnboxRare:526248948579434496> - **1.5x** multiplier\n<:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402> - **3x** multiplier\n<:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368> - **5x** multiplier\n<:UnboxCommon:526248905676029968><:UnboxCommon:526248905676029968><:UnboxCommon:526248905676029968> - **2x** multiplier\n<:UnboxRare:526248948579434496><:UnboxRare:526248948579434496><:UnboxRare:526248948579434496> - **3x** multiplier\n<:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402><:UnboxEpic:526248961892155402> - **6x** multiplier\n<:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368><:UnboxLegendary:526248970914234368> - **10x** multiplier',
-    args: {"amount": "Amount of money to gamble."},
+    description: 'Put some Scrap in the slot machine!',
+    long: 'Play a game of slots.\n\n💵 💵 - **0.8x** multiplier\n💸 💸 - **1.5x** multiplier\n💰 💰 - **3x** multiplier\n💎 💎 - **5x** multiplier\n💵 💵 💵 - **2x** multiplier\n💸 💸 💸 - **3x** multiplier\n💰 💰 💰 - **6x** multiplier\n💎 💎 💎 - **10x** multiplier',
+    args: {"amount": "Amount of Scrap to gamble."},
     examples: ["slots 1000"],
     ignoreHelp: false,
     requiresAcc: true,
@@ -17,7 +17,7 @@ module.exports = {
         let gambleAmount = app.parse.numbers(message.args)[0];
         
         if(!gambleAmount && message.args[0] && message.args[0].toLowerCase() === 'all'){
-            gambleAmount = row.money >= 1000000 ? 1000000 : row.money;
+            gambleAmount = row.scrap >= 2000000 ? 2000000 : row.scrap;
         }
         
         if(slotsCD){
@@ -25,18 +25,18 @@ module.exports = {
         }
 
         if(!gambleAmount || gambleAmount < 100){
-            return message.reply(`Please specify an amount of at least ${app.common.formatNumber(100)} to gamble!`);
+            return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100, false, true)}** to gamble!`);
         }
 
-        if(gambleAmount > row.money){
-            return message.reply(`You don't have that much money! You currently have ${app.common.formatNumber(row.money)}`);
+        if(gambleAmount > row.scrap){
+            return message.reply(`You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can buy more Scrap from the Outpost! (\`${message.prefix}shop\`)`);
         }
         
-        if(gambleAmount > 1000000){
-            return message.reply(`You cannot gamble more than ${app.common.formatNumber(1000000)}`);
+        if(gambleAmount > 2000000){
+            return message.reply(`You cannot gamble more than **${app.common.formatNumber(2000000, false, true)}**`);
         }
         
-        await app.player.removeMoney(message.author.id, gambleAmount);
+        await app.player.removeScrap(message.author.id, gambleAmount);
         let mainRowGif = app.icons.slots_midrow_gif;
         let topRowGif = app.icons.slots_botrow_gif;
         let botRowGif = app.icons.slots_toprow_gif;
@@ -110,14 +110,15 @@ module.exports = {
                 rewardMltp = 5.00;
             }
         }
+
         winnings = Math.floor(gambleAmount * rewardMltp);
-        await app.player.addMoney(message.author.id, winnings);
+        await app.player.addScrap(message.author.id, winnings);
 
         if(winnings >= 2000000){
             await app.itm.addBadge(message.author.id, 'gambler');
         }
 
-        let template = "⬛"+topRowGif+topRowGif+topRowGif+"⬛\n▶"+mainRowGif+mainRowGif+mainRowGif+"◀\n⬛"+botRowGif+botRowGif+botRowGif+"⬛";
+        let template = "⬛" + topRowGif + " " + topRowGif +  " " + topRowGif + "⬛\n▶" + mainRowGif + " " + mainRowGif + " " + mainRowGif + "◀\n⬛" + botRowGif + " " + botRowGif + " " + botRowGif + "⬛";
         
         const slotEmbed = new app.Embed()
         .setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
@@ -126,22 +127,22 @@ module.exports = {
 
         const botMsg = await message.channel.createMessage(slotEmbed);
 
-        let slots1 = "⬛"+col['1'][0]+topRowGif+topRowGif+"⬛\n"+
-                        "▶"+col['1'][1]+mainRowGif+mainRowGif+"◀\n"+
-                        "⬛"+col['1'][2]+botRowGif+botRowGif+"⬛";
-        let slots2 = "⬛"+col['1'][0]+col['2'][0]+topRowGif+"⬛\n"+
-                        "▶"+col['1'][1]+col['2'][1]+mainRowGif+"◀\n"+
-                        "⬛"+col['1'][2]+col['2'][2]+botRowGif+"⬛";
+        let slots1 = "⬛" + col['1'][0] + " " + topRowGif + " " + topRowGif + "⬛\n" +
+                        "▶" + col['1'][1] + " " + mainRowGif + " " + mainRowGif + "◀\n" +
+                        "⬛"+ col['1'][2] + " " + botRowGif + " " + botRowGif + "⬛";
+        let slots2 = "⬛" + col['1'][0] + " " + col['2'][0] + " " + topRowGif + "⬛\n" +
+                        "▶" + col['1'][1] + " " + col['2'][1] + " " + mainRowGif + "◀\n" +
+                        "⬛" + col['1'][2] + " " + col['2'][2] + " " + botRowGif + "⬛";
         let slots3 = "";
         if(rewardMltp !== 0.00){
-            slots3 = "⬛"+col['1'][0]+col['2'][0]+col['3'][0]+"⬛\n"+
-                        "▶"+col['1'][1]+col['2'][1]+col['3'][1]+`◀ You won **${app.common.formatNumber(winnings)}**! (${rewardMltp.toFixed(2)}x)\n`+
-                        "⬛"+col['1'][2]+col['2'][2]+col['3'][2]+"⬛";
+            slots3 = "⬛" + col['1'][0] + " " + col['2'][0] + " " + col['3'][0] + "⬛\n" +
+                        "▶" + col['1'][1] + " " + col['2'][1] + " " + col['3'][1] + `◀ You won **${app.common.formatNumber(winnings, false, true)}** Scrap! (${rewardMltp.toFixed(2)}x)\n` +
+                        "⬛" + col['1'][2] + " " + col['2'][2] + " " + col['3'][2] + "⬛";
         }
         else{
-            slots3 = "⬛"+col['1'][0]+col['2'][0]+col['3'][0]+"⬛\n"+
-                        "▶"+col['1'][1]+col['2'][1]+col['3'][1]+`◀ You lost!\n`+
-                        "⬛"+col['1'][2]+col['2'][2]+col['3'][2]+`⬛ Better luck next time.`;
+            slots3 = "⬛" + col['1'][0] + " " + col['2'][0] + " " + col['3'][0] + "⬛\n" +
+                        "▶" + col['1'][1] + " " + col['2'][1] + " " + col['3'][1] + `◀ You lost!\n` +
+                        "⬛" + col['1'][2] + " " + col['2'][2] + " " + col['3'][2] + `⬛ Better luck next time.`;
         }
 
         slotEmbed.setDescription(slots1);

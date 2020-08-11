@@ -6,7 +6,7 @@ module.exports = {
     aliases: ['bj'],
     description: 'Play a game of blackjack, get a higher total than the dealer without busting and you win!',
     long: 'Play a game of blackjack. Type hit to draw a random card from the deck or type stand to stop drawing cards and see if the dealer gets closer to 21 than you. Whoever gets closer to 21 without going over, wins!',
-    args: {"amount": "Amount of money to gamble."},
+    args: {"amount": "Amount of Scrap to gamble."},
     examples: ["blackjack 1000"],
     ignoreHelp: false,
     requiresAcc: true,
@@ -19,7 +19,7 @@ module.exports = {
         let gambleAmount = app.parse.numbers(message.args)[0];
 
         if(!gambleAmount && message.args[0] && message.args[0].toLowerCase() === 'all'){
-            gambleAmount = row.money >= 1000000 ? 1000000 : row.money;
+            gambleAmount = row.scrap >= 2000000 ? 2000000 : row.scrap;
         }
         
         if(blackjackCD){
@@ -27,15 +27,15 @@ module.exports = {
         }
 
         if(!gambleAmount || gambleAmount < 100){
-            return message.reply(`Please specify an amount of at least ${app.common.formatNumber(100)} to gamble!`);
+            return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100, false, true)}** to gamble!`);
         }
 
-        if(gambleAmount > row.money){
-            return message.reply(`You don't have that much money! You currently have ${app.common.formatNumber(row.money)}`);
+        if(gambleAmount > row.scrap){
+            return message.reply(`You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can buy more Scrap from the Outpost! (\`${message.prefix}shop\`)`);
         }
         
-        if(gambleAmount > 1000000){
-            return message.reply(`Woah there high roller, you cannot gamble more than ${app.common.formatNumber(1000000)} on blackjack.`);
+        if(gambleAmount > 2000000){
+            return message.reply(`Woah there high roller, you cannot gamble more than **${app.common.formatNumber(2000000, false, true)}** on blackjack.`);
         }
 
         try{
@@ -55,7 +55,7 @@ module.exports = {
             }
             dealerCards.push(drawCard(deck));
 
-            await app.player.removeMoney(message.author.id, gambleAmount);
+            await app.player.removeScrap(message.author.id, gambleAmount);
             await app.cd.setCD(message.author.id, 'blackjack', app.config.cooldowns.blackjack * 1000);
 
             message.channel.createMessage(genEmbed(app, message, playerCards, dealerCards, gambleAmount));
@@ -71,7 +71,7 @@ module.exports = {
                     if(playerScore.minScore > 21){
                         app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
 
-                        message.channel.createMessage(loserEmbed(app, message, playerCards, dealerCards, 'You busted and lost ' + app.common.formatNumber(gambleAmount) + '...', gambleAmount));
+                        message.channel.createMessage(loserEmbed(app, message, playerCards, dealerCards, 'You busted and lost **' + app.common.formatNumber(gambleAmount, false, true) + '**...', gambleAmount));
                     }
                     else{
                         message.channel.createMessage(genEmbed(app, message, playerCards, dealerCards, gambleAmount));
@@ -101,16 +101,16 @@ module.exports = {
                     }
 
                     if(dealerFinal > 21){
-                        message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, 'The dealer busted! You won ' + app.common.formatNumber(gambleAmount * 2), gambleAmount));
+                        message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, 'The dealer busted! You won **' + app.common.formatNumber(gambleAmount * 2, false, true) + '**', gambleAmount));
                     }
                     else if(playerFinal > dealerFinal){
-                        message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, 'You won ' + app.common.formatNumber(gambleAmount * 2) + '!', gambleAmount));
+                        message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, 'You won **' + app.common.formatNumber(gambleAmount * 2, false, true) + '**!', gambleAmount));
                     }
                     else if(playerFinal < dealerFinal){
-                        message.channel.createMessage(loserEmbed(app, message, playerCards, dealerCards, 'You lost ' + app.common.formatNumber(gambleAmount) + '...', gambleAmount));
+                        message.channel.createMessage(loserEmbed(app, message, playerCards, dealerCards, 'You lost **' + app.common.formatNumber(gambleAmount, false, true) + '**...', gambleAmount));
                     }
                     else{ // player and dealer tied...
-                        message.channel.createMessage(tieEmbed(app, message, playerCards, dealerCards, `Tied with dealer (You lose ${app.common.formatNumber(0)})`, gambleAmount));
+                        message.channel.createMessage(tieEmbed(app, message, playerCards, dealerCards, `Tied with dealer (You lose **${app.common.formatNumber(0, false, true)}**)`, gambleAmount));
                     }
                 }
             });
@@ -202,12 +202,12 @@ function genEmbed(app, message, playerCards, dealerCards, gambleAmount, dealerEm
     const embed = new app.Embed()
     .setAuthor('Blackjack', message.author.avatarURL)
     .setDescription('Type `hit` to draw another card or `stand` to pass.')
-    .addField('Bet: ', app.common.formatNumber(gambleAmount))
+    .addField('Bet: ', app.common.formatNumber(gambleAmount, false, true))
     .addBlankField()
     .addField(message.author.username + ` - **${hasAce(playerCards) && playerVal.score <= 21 ? playerVal.score + '/' + playerVal.minScore : playerVal.minScore}**`, playerString)
     .addField(`${dealerEmote} Dealer - **${dealerVal.score > 21 ? dealerVal.minScore : dealerVal.score}**`, dealerString)
     .setFooter('You have 60 seconds to finish this game.')
-    .setColor(13215302)
+    .setColor(13451564)
 
     return embed;
 }
@@ -218,7 +218,7 @@ function winnerEmbed(app, message, playerCards, dealerCards, quote, gambleAmount
     embed.setDescription(quote);
     embed.setColor(720640);
     embed.embed.footer = undefined;
-    app.player.addMoney(message.author.id, gambleAmount * 2);
+    app.player.addScrap(message.author.id, gambleAmount * 2);
 
     if(gambleAmount * 2 >= 2000000){
         app.itm.addBadge(message.author.id, 'gambler');
@@ -243,7 +243,7 @@ function tieEmbed(app, message, playerCards, dealerCards, quote, gambleAmount){
     embed.setDescription(quote);
     embed.setColor(10395294);
     embed.embed.footer = undefined;
-    app.player.addMoney(message.author.id, gambleAmount);
+    app.player.addScrap(message.author.id, gambleAmount);
 
     return embed;
 }

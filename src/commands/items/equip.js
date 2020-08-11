@@ -3,9 +3,9 @@ module.exports = {
     name: 'equip',
     aliases: ['wear'],
     description: 'Equip an item.',
-    long: 'Allows user to equip different backpacks and inventory banners. You can also equip a badge to set it as your display badge.',
+    long: 'Allows user to equip different storage containers and inventory banners. You can also equip a badge to set it as your display badge.',
     args: {"item/banner": "Item to equip."},
-    examples: ["equip light_pack", "equip recruit"],
+    examples: ["equip wood_box", "equip recruit"],
     ignoreHelp: false,
     requiresAcc: true,
     requiresActive: false,
@@ -73,20 +73,10 @@ module.exports = {
             message.reply(`✅ Successfully made ${app.badgedata[equipBadge].icon}\`${equipBadge}\` your display badge!`);
         }
         else if(equipItem && !app.itemdata[equipItem].equippable){
-            return message.reply(app.itemdata[equipItem].icon + '`' + equipItem + '` cannot be equipped. Specify a ' + app.icons.items.backpack + ' backpack, ' + app.icons.items.banner + ' banner or badge to equip.');
+            return message.reply(app.itemdata[equipItem].icon + '`' + equipItem + '` cannot be equipped. Specify a storage container, banner or badge to equip.');
         }
         else{
             message.reply(`Specify a valid item that can be equipped. \`${message.prefix}equip <item>\`. You can also equip a badge to set it as your display badge.`);
         }
     },
 }
-
-/* maybe one day i will add armor
-else if(userRow.armor == "none" && itemdata[equipitem].type == "armor"){
-    await app.query(`UPDATE scores SET armor = '${equipitem}' WHERE userId = ${message.author.id}`);
-    //add armor defense % to sql table somewhere?
-    methods.removeitem(message.author.id, equipitem, 1);
-
-    message.reply(lang.equip[1].replace('{-1}', itemdata[equipitem].icon).replace('{0}', equipitem));
-}
-*/

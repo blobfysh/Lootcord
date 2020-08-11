@@ -1,4 +1,4 @@
-const { RARITIES } = require('../../resources/constants');
+const { ITEM_TYPES } = require('../../resources/constants');
 
 module.exports = {
     name: 'inventory',
@@ -43,82 +43,63 @@ module.exports = {
                 const itemObject     = await app.itm.getItemObject(member.id);
                 const usersItems     = await app.itm.getUserItems(itemObject);
                 const itemCt         = await app.itm.getItemCount(itemObject, userRow);
-                const shieldLeft     = await app.cd.getCD(member.id, 'shield');
+                const armorLeft      = await app.cd.getCD(member.id, 'shield');
+                const armor          = await app.player.getArmor(member.id);
                 const passiveShield  = await app.cd.getCD(member.id, 'passive_shield');
-
-                let ultraItemList    = usersItems.ultra;
-                let legendItemList   = usersItems.legendary;
-                let epicItemList     = usersItems.epic;
-                let rareItemList     = usersItems.rare;
-                let uncommonItemList = usersItems.uncommon;
-                let commonItemList   = usersItems.common;
-                let limitedItemList  = usersItems.limited;
-                let backpack         = userRow.backpack;
 
                 const embedInfo = new app.Embed()
                 .setTitle(`${isActive ? app.icons.accounts.active : app.icons.accounts.inactive} ${member.username + '#' + member.discriminator}'s Inventory`)
+                .setColor(13451564)
 
-                if(userRow.banner !== 'none'){
-                    embedInfo.setImage(app.itemdata[userRow.banner].image);
-                    embedInfo.setColor(app.itemdata[userRow.banner].bannerColor);
-                }
-
-                if(shieldLeft){
-                    embedInfo.addField("🛡️ Shield", '`' + shieldLeft + '`');
+                if(armorLeft){
+                    embedInfo.addField(armor ? 'Armor' : '🛡️ Armor', armor ? app.itemdata[armor].icon + '`' + armor + '` (`' + armorLeft + '`)' : '`' + armorLeft + '`');
                 }
                 if(passiveShield){
-                    embedInfo.addField("🛡️ Passive Shield", '`' + passiveShield + '`');
+                    embedInfo.addField("🛡️ Passive Shield", '`' + passiveShield + '` [?](https://lootcord.com/faq#what-is-a-passive-shield \'A passive shield is a 24 hour attack shield given to you when you are killed.\n\nThis shield will automatically be removed if you decide to attack someone.\')');
                 }
 
                 embedInfo.addField("Health",`${app.player.getHealthIcon(userRow.health, userRow.maxHealth, true)}\n${userRow.health} / ${userRow.maxHealth}`, true)
                 
-                embedInfo.addField("Money", app.common.formatNumber(userRow.money), true)
+                embedInfo.addField("Money", app.common.formatNumber(userRow.money) + '\n' + app.common.formatNumber(userRow.scrap, false, true), true)
 
-                //embedInfo.addField('Level ' + userRow.level, `\`${xp.needed} xp until level ${userRow.level + 1}\``, true)
-
-                if(backpack === 'none'){
-                    embedInfo.addField('Backpack', 'None', true)
+                if(userRow.backpack === 'none'){
+                    embedInfo.addField('Storage Container', 'None equipped', true)
                 }
                 else{
-                    embedInfo.addField('Backpack', app.itemdata[backpack].icon + '`' + backpack + '`', true)
+                    embedInfo.addField('Storage Container', app.itemdata[userRow.backpack].icon + '`' + userRow.backpack + '`', true)
                 }
                 
-                embedInfo.addField('\u200b', '__**Items**__')
+                embedInfo.addBlankField();
 
                 // item fields
-                if(ultraItemList != ""){
-                    embedInfo.addField(RARITIES['ultra'].name, ultraItemList.join('\n'), true);
+                if(usersItems.ranged.length){
+                    embedInfo.addField(ITEM_TYPES['ranged'].name, usersItems.ranged.join('\n'), true);
+                }
+
+                if(usersItems.melee.length){
+                    embedInfo.addField(ITEM_TYPES['melee'].name, usersItems.melee.join('\n'), true);
                 }
                 
-                if(legendItemList != ""){
-                    embedInfo.addField(RARITIES['legendary'].name, legendItemList.join('\n'), true);
+                if(usersItems.usables.length){
+                    embedInfo.addField(ITEM_TYPES['items'].name, usersItems.usables.join('\n'), true);
                 }
                 
-                if(epicItemList != ""){
-                    embedInfo.addField(RARITIES['epic'].name, epicItemList.join('\n'), true);
+                if(usersItems.ammo.length){
+                    embedInfo.addField(ITEM_TYPES['ammo'].name, usersItems.ammo.join('\n'), true);
                 }
                 
-                if(rareItemList != ""){
-                    embedInfo.addField(RARITIES['rare'].name, rareItemList.join('\n'), true);
+                if(usersItems.materials.length){
+                    embedInfo.addField(ITEM_TYPES['materials'].name, usersItems.materials.join('\n'), true);
                 }
                 
-                if(uncommonItemList != ""){
-                    embedInfo.addField(RARITIES['uncommon'].name, uncommonItemList.join('\n'), true);
+                if(usersItems.storage.length){
+                    embedInfo.addField(ITEM_TYPES['storage'].name, usersItems.storage.join('\n'), true);
                 }
                 
-                if(commonItemList != ""){
-                    embedInfo.addField(RARITIES['common'].name, commonItemList.join('\n'), true);
-                }
-                
-                if(limitedItemList != ""){
-                    embedInfo.addField(RARITIES['limited'].name, limitedItemList.join('\n'), true);
-                }
-                
-                if(ultraItemList == "" && legendItemList == "" && epicItemList == "" && rareItemList == "" && uncommonItemList == "" && commonItemList == ""&& limitedItemList == ""){
+                if(!usersItems.ranged.length && !usersItems.melee.length && !usersItems.usables.length && !usersItems.ammo.length && !usersItems.materials.length && !usersItems.storage.length){
                     embedInfo.addField('This inventory is empty! :(', "\u200b");
                 }
 
-                //embedInfo.setFooter("Inventory space: " + itemCt.capacity + " max | Value: " + app.common.formatNumber(usersItems.invValue, true))
                 embedInfo.addField("\u200b", "Inventory space: " + itemCt.capacity + " max | Value: " + app.common.formatNumber(usersItems.invValue + userRow.money) + '');
                 
                 await message.channel.createMessage(embedInfo);

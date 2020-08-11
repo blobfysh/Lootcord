@@ -1,0 +1,281 @@
+{
+    "arrow": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 12,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 2,
+            "materials": [
+                "rock|1",
+                "wood|1",
+                "cloth|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 928,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732928578278260786/arrow.png",
+        "icon": "<:arrow:732852891299086417>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "bone_arrow": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 18,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 4,
+            "materials": [
+                "wood|1",
+                "bone_fragments|2"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 2036,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736661914079330394/bone_arrow.png",
+        "icon": "<:bone_arrow:736661877685485578>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "pistol_bullet": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 15,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 4,
+            "materials": [
+                "gunpowder|2",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 6056,
+        "desc": "9x19mm cartridge, also known as 9mm.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929397333426246/pistol_bullet.png",
+        "icon": "<:pistol_bullet:732853196724371527>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "rifle_bullet": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 25,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 5,
+            "materials": [
+                "gunpowder|3",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 10036,
+        "desc": "5.56 rifle ammunition.",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733051137774583810/rifle_bullet.png",
+        "icon": "<:rifle_bullet:732853207029514260>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "hv_rifle_bullet": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 34,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 8,
+            "materials": [
+                "gunpowder|5",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": {
+            "materials": [
+                "gunpowder|1"
+            ]
+        },
+        "buy": "",
+        "sell": 20823,
+        "desc": "High velocity 5.56 rifle ammunition.",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/734096778466558002/hv_rifle_bullet.png",
+        "icon": "<:hv_rifle_bullet:734096749395705956>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "12g_buckshot": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 15,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 4,
+            "materials": [
+                "gunpowder|2",
+                "metal|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 8134,
+        "desc": "12 Gauge buckshot shell.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930056271429632/12g_buckshot.png",
+        "icon": "<:12g_buckshot:732853227552374793>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "12g_slug": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 33,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 7,
+            "materials": [
+                "gunpowder|4",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 36120,
+        "desc": "12 Gauge slug shell. Used for shotguns.",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733052371680362626/12g_slug.png",
+        "icon": "<:12g_slug:732853235404111882>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "rocket": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 85,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 10,
+            "materials": [
+                "gunpowder|6",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "2x gunpowder",
+            "materials": [
+                "gunpowder|2"
+            ]
+        },
+        "buy": "",
+        "sell": 119850,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930781508403280/rocket.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930781508403280/rocket.png",
+        "icon": "<:rocket_basic:732853217049837569>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "40mm_smoke_grenade": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 5,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "1x gunpowder",
+            "materials": [
+                "gunpowder|1"
+            ]
+        },
+        "buy": "",
+        "sell": 65262,
+        "desc": "Releases smoke upon impact, blinding the enemy and preventing any use of commands for **2 hours**.",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736367317037875221/40mm_smoke_grenade.png",
+        "icon": "<:40mm_smoke_grenade:736367271940849674>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    },
+    "40mm_he_grenade": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 82,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "2x gunpowder",
+            "materials": [
+                "gunpowder|2"
+            ]
+        },
+        "buy": "",
+        "sell": 95421,
+        "desc": "High explosive ammunition for grenade launchers.",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736369883683487754/40mm_he_grenade.png",
+        "icon": "<:40mm_he_grenade:736369860824793090>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo"
+    }
+}

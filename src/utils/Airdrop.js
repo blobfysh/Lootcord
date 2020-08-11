@@ -6,11 +6,11 @@ class Airdrop {
     }
 
     initAirdrop(guildId){
-        let rand = Math.round(Math.random() * (14400 * 1000)) + (14400 * 1000); // Generate random time from 4 - 8 hours 14400
+        let rand = Math.round(Math.random() * (14400 * 1000)) + (21600 * 1000); // Generate random time from 6 - 8 hours 14400
         console.log(`[AIRDROP] Counting down from ${this.app.cd.convertTime(rand)}`);
 
         let timeObj = {guild: guildId, started: Date.now(), length: rand, timer: setTimeout(() => {
-            this.callAirdrop(guildId, 'care_package');
+            this.callAirdrop(guildId, 'supply_drop');
         }, rand)};
     
         this.timers.push(timeObj);
@@ -51,7 +51,7 @@ class Airdrop {
             .setDescription(`**A ${this.app.itemdata[itemToDrop].icon}\`${itemToDrop}\` has arrived!**\n\nUse \`${guildPrefix}claimdrop\` to claim it.`)
             .setImage(this.app.itemdata[itemToDrop].image)
             .setFooter('You have 5 minutes to claim this drop.')
-            .setColor(13215302)
+            .setColor(13451564)
             
             await this.app.bot.createMessage(channelToDrop, dropEmbed);
             await this.app.query(`UPDATE guildInfo SET dropItemChan = '${channelToDrop}' WHERE guildId = ${guildId}`);

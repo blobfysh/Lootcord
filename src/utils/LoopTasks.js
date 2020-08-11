@@ -15,6 +15,7 @@ class LoopTasks {
         this.biHourly = new CronJob('0 */2 * * *', this.biHourlyTasks.bind(this), null, false, 'America/New_York');
         this.hourly = new CronJob('0 * * * *', this.hourlyTasks.bind(this), null, false, 'America/New_York');
         this.removePatrons = new CronJob('0 0 2 * *', () => {this.app.ipc.broadcast('removePatrons', {})}, null, false, 'America/New_York');
+        this.firstOfMonth = new CronJob('0 0 1 * *', this.monthlyTasks.bind(this), null, false, 'America/New_York');
 
         // every 3 minutes
         this.often = new CronJob('*/3 * * * *', this.frequentTasks.bind(this), null, false, 'America/New_York');
@@ -28,9 +29,14 @@ class LoopTasks {
             this.biHourly.start();
             this.often.start();
             this.removePatrons.start();
+            this.firstOfMonth.start();
         }
         
         this.hourly.start();
+    }
+
+    async monthlyTasks(){
+        await this.app.query(`UPDATE scores SET points = 0, level = 1`);
     }
 
     async dailyTasks(){
@@ -43,7 +49,7 @@ class LoopTasks {
 
         for(let i = 0; i < clans.length; i++){
             const clanData = await this.app.clans.getClanData(clans[i]);
-            const upkeep = this.app.clans.getUpkeep(clanData.vaultValue, clans[i].money, clanData.memberCount, clanData.inactiveMemberCount);
+            const upkeep = this.app.clans.getUpkeep(clans[i].money, clanData.memberCount, clanData.inactiveMemberCount);
 
             if(clans[i].money >= upkeep){
                 await this.app.clans.removeMoney(clans[i].clanId, upkeep);
@@ -184,7 +190,7 @@ class LoopTasks {
                 .setTitle('Conversion Successful')
                 .setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/662369574720765994/spaces2F-LQzahLixLnvmbDfQ1K02Favatar.png')
                 .setDescription(`You received ${this.app.common.formatNumber(payout)} (${transaction.payout} rounded) through Discoin! [Click this to see more details.](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)\n\nKeep in mind there is a daily limit of ${this.app.common.formatNumber(1000000)} on both incoming and outgoing transactions.`)
-                .setColor(13215302)
+                .setColor(13451564)
 
                 if(userRow.discoinLimit + payout > 1000000){
                     if(userRow.discoinLimit >= 1000000){
@@ -221,7 +227,7 @@ class LoopTasks {
                 .addField('Lootcoin Payout', this.app.common.formatNumber(payout) + ' (' + this.app.common.formatNumber(refunded) + ' refunded)', true)
                 .addField('User', '```\n' + transaction.user + '```')
                 .setFooter(`Transaction ID: ${transaction.id}`)
-                .setColor(13215302)
+                .setColor(13451564)
 
                 logTransactions.push(logEmbed);
             }

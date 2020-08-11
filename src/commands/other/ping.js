@@ -14,6 +14,7 @@ module.exports = {
     
     async execute(app, message){
         message.reply(`Pong! ws: ${app.bot.shards.get(app.bot.guildShardMap[message.channel.guild.id]).latency} ms`);
+
         /*
 
         awaiting message

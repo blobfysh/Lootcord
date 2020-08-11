@@ -1,14 +1,14 @@
 const QUOTES = [
-    'Oh look, I found this {icon}{item} for you!', 
-    'Here\'s a free {icon}{item}!',
-    'Here\'s your hourly {icon}{item}!'
+    '**Oh look, I found this {icon}{item} for you!** You can open it by using it: `{prefix}use crate`', 
+    '**Here\'s a free {icon}{item}!** Open it to see what it contains: `{prefix}use crate`',
+    '**Here\'s your {icon}{item}!** Open it to see what\'s inside: `{prefix}use crate`'
 ];
 
 module.exports = {
     name: 'hourly',
     aliases: ['hour'],
-    description: 'Receive a free item_box every hour!',
-    long: 'Use this command to receive a free item_box every hour.',
+    description: 'Receive a free crate every hour!',
+    long: 'Use this command to receive a free crate every hour.',
     args: {},
     examples: [],
     ignoreHelp: false,
@@ -35,12 +35,12 @@ module.exports = {
         let chance = Math.floor(Math.random() * 100) + luck;
         
         if(chance >= 100){
-            await app.itm.addItem(message.author.id, 'ultra_box', 1);
-            message.reply("🍀 **How lucky!** You earned a free " + app.itemdata['ultra_box'].icon + "`ultra_box`!");
+            await app.itm.addItem(message.author.id, 'military_crate', 1);
+            message.reply("🍀 **How lucky!** You earned a free " + app.itemdata['military_crate'].icon + "`military_crate`!");
         }
         else{
-            await app.itm.addItem(message.author.id, 'item_box', 1);
-            message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata['item_box'].icon).replace('{item}', '`item_box`'));
+            await app.itm.addItem(message.author.id, 'crate', 1);
+            message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata['crate'].icon).replace('{item}', '`crate`').replace('{prefix}', message.prefix));
         }
     },
 }

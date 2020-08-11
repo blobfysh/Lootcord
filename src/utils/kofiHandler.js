@@ -47,14 +47,14 @@ exports.handle = async function({ data }){
     
         // give reward
         this.itm.addItem(user, 'kofi_king', 1);
-        this.itm.addItem(user, 'ultra_box', coffees);
+        this.itm.addItem(user, 'military_crate', coffees);
 
         const patronEmbed = new this.Embed()
         .setTitle('😲 a donator!')
         .setFooter('💙 blobfysh')
         .setColor('#29ABE0')
         .setDescription(`Thank you for helping me create Lootcord!!`)
-        .addField('Items Received', `${coffees}x ${this.itemdata['ultra_box'].icon}\`ultra_box\`\n1x ${this.itemdata['kofi_king'].icon}\`kofi_king\``)
+        .addField('Items Received', `${coffees}x ${this.itemdata['military_crate'].icon}\`military_crate\`\n1x ${this.itemdata['kofi_king'].icon}\`kofi_king\``)
     
         try{
             await this.common.messageUser(user, patronEmbed, { throwErr: true });

@@ -1,7 +1,7 @@
 {
     "elitist": {
         "icon": "🥇",
-        "description": "Reach #1 on the global leaderboard in any category.",
+        "description": "Reach #1 on the global leaderboard in any category. For the level category, you must be #1 5 days after the level wipe.",
         "image": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/236/first-place-medal_1f947.png",
         "artist": ""
     },
@@ -25,19 +25,19 @@
     },
     "loot_fiend": {
         "icon": "🔹",
-        "description": "Reach level 25.",
+        "description": "Reach level 10.",
         "image": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/236/small-blue-diamond_1f539.png",
         "artist": ""
     },
     "loot_legend": {
         "icon": "💠",
-        "description": "Reach level 100.",
+        "description": "Reach level 20.",
         "image": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/236/diamond-shape-with-a-dot-inside_1f4a0.png",
         "artist": ""
     },
     "gambler": {
         "icon": "💰",
-        "description": "Win at least 2,000,000 Lootcoin in a single gamble.",
+        "description": "Win at least 2,000,000 Scrap in a single gamble.",
         "image": "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/236/money-bag_1f4b0.png",
         "artist": ""
     },
@@ -47,10 +47,10 @@
         "image": "https://cdn.discordapp.com/attachments/542248243313246208/716861466782728323/detective_1f575.png",
         "artist": ""
     },
-    "ultra_lucky": {
-        "icon": "🍀",
-        "description": "Get an ultra quality item from opening an `ultra_box`.",
-        "image": "https://cdn.discordapp.com/attachments/542248243313246208/716861852100984842/four-leaf-clover_1f340.png",
+    "og_looter": {
+        "icon": "<:og_lootcord:736435639179804788>",
+        "description": "Played Lootcord before the August 1st Rust update.",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736435600990666862/og_lootcord.png",
         "artist": ""
     }
 }
