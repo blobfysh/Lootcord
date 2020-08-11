@@ -136,9 +136,8 @@ module.exports = {
             if(buyAmount < 100){
                 return message.reply(`❌ Please specify an amount of at least **${app.common.formatNumber(100)}** to convert!`);
             }
-
-            const exchangeRate = await app.cache.get('scrapExchangeRate');
-            const scrapPrice = Math.floor(exchangeRate * buyAmount);
+            
+            const scrapPrice = buyAmount;
 
             const botMessage = await message.channel.createMessage(`Trade **${app.common.formatNumber(scrapPrice)}** Lootcoin for **${app.common.formatNumber(buyAmount, false, true)}** Scrap?`);
 
