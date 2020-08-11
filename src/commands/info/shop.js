@@ -59,17 +59,23 @@ async function generatePages(app, allItems, prefix, itemsPerPage){
     return pages;
 }
 
-// checks if any steam keys are for sale
 async function getHomePage(app, prefix){
     const shopRows = await app.query(`SELECT * FROM shopData`);
-    const exchangeRate = await app.cache.get('scrapExchangeRate');
+    const date = new Date();
+    const converted = new Date(date.toLocaleString('en-US', {
+        timeZone: 'America/New_York'
+    }));
+    const midnight = new Date(converted);
+    midnight.setHours(24, 0, 0, 0);
+    const timeUntilMidnight = midnight.getTime() - converted.getTime();
 
     const firstEmbed = new app.Embed()
     firstEmbed.setTitle(`Welcome to the Outpost!`);
-    firstEmbed.setDescription('Use `' + prefix + 'buy <item>` to purchase.\n\nWe\'ll sell you Scrap for your Lootcoin! (`' + prefix + 'buy scrap <amount>`)');
+    firstEmbed.setDescription('We\'ll give you ' + app.icons.scrap + ' Scrap for your ' + app.icons.money + ' Lootcoin:\n`' + prefix + 'buy scrap <amount>`');
     firstEmbed.setThumbnail("https://cdn.discordapp.com/attachments/497302646521069570/733741460868038706/outpost_shop_small.png");
     firstEmbed.setColor(13451564);
-    firstEmbed.addField('Scrap Exchange', '**' + app.common.formatNumber(Math.floor(exchangeRate * 100)) + '** Lootcoin → ' + app.icons.scrap + ' **100** Scrap')
+
+    let items = [];
 
     for(let shopRow of shopRows){
         let display = app.itemdata[shopRow.item] ? app.itemdata[shopRow.item].icon + ' ' + shopRow.itemDisplay : shopRow.itemDisplay;
@@ -79,13 +85,15 @@ async function getHomePage(app, prefix){
                 firstEmbed.addField(display, "Price: " + app.common.formatNumber(shopRow.itemPrice) + " | **" + shopRow.itemAmount + "** left! Use `" + prefix + "buy " + shopRow.itemName + "` to purchase!");
             }
             else if(shopRow.itemCurrency === "scrap"){
-                firstEmbed.addField(display, "Price: " + app.common.formatNumber(shopRow.itemPrice, false, true) + " | **" + shopRow.itemAmount + "** left! Use `" + prefix + "buy " + shopRow.itemName + "` to purchase!");
+                items.push(`**${display}** ─ ${app.common.formatNumber(shopRow.itemPrice, false, true)} (${shopRow.itemAmount} left!)\nUse \`${prefix}buy ${shopRow.itemName}\` to purchase!`)
             }
             else{
                 firstEmbed.addField(display, "Price: " + shopRow.itemPrice + "x " + app.itemdata[shopRow.itemCurrency].icon + "`" + shopRow.itemCurrency + "` | **" + shopRow.itemAmount + "** left! Use `" + prefix + "buy " + shopRow.itemName + "` to purchase!");
             }
         }
     }
+
+    firstEmbed.addField('\u200b', '__**SCRAP DEALS**__ (restocks in `' + app.cd.convertTime(timeUntilMidnight) + '`)\n' + items.join('\n\n'))
     
     return firstEmbed;
 }

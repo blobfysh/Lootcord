@@ -1,0 +1,184 @@
+{
+    "hv_rifle_bullet": {
+        "buyName": "hvscrap",
+        "minPrice": 700000,
+        "maxPrice": 1000000,
+        "minStock": 1,
+        "maxStock": 2
+    },
+    "rifle_bullet": {
+        "buyName": "riflescrap",
+        "minPrice": 200000,
+        "maxPrice": 300000,
+        "minStock": 1,
+        "maxStock": 2
+    },
+    "pistol_bullet": {
+        "buyName": "pistolscrap",
+        "minPrice": 125000,
+        "maxPrice": 200000,
+        "minStock": 1,
+        "maxStock": 3
+    },
+    "rocket": {
+        "buyName": "rocketscrap",
+        "minPrice": 1500000,
+        "maxPrice": 2000000,
+        "minStock": 1,
+        "maxStock": 2
+    },
+    "40mm_he_grenade": {
+        "buyName": "hescrap",
+        "minPrice": 1000000,
+        "maxPrice": 2000000,
+        "minStock": 1,
+        "maxStock": 1
+    },
+    "40mm_smoke_grenade": {
+        "buyName": "smokescrap",
+        "minPrice": 1000000,
+        "maxPrice": 2000000,
+        "minStock": 1,
+        "maxStock": 1
+    },
+    "assault_rifle": {
+        "buyName": "akscrap",
+        "minPrice": 500000,
+        "maxPrice": 800000,
+        "minStock": 1,
+        "maxStock": 1
+    },
+    "gunpowder": {
+        "buyName": "gpscrap",
+        "minPrice": 500000,
+        "maxPrice": 700000,
+        "minStock": 1,
+        "maxStock": 3
+    },
+    "bolt_rifle": {
+        "buyName": "boltscrap",
+        "minPrice": 1200000,
+        "maxPrice": 1500000,
+        "minStock": 1,
+        "maxStock": 1
+    },
+    "c4": {
+        "buyName": "c4scrap",
+        "minPrice": 5000000,
+        "maxPrice": 10000000,
+        "minStock": 1,
+        "maxStock": 1
+    },
+    "bone_arrow": {
+        "buyName": "bonescrap",
+        "minPrice": 80000,
+        "maxPrice": 120000,
+        "minStock": 1,
+        "maxStock": 3
+    },
+    "m92_pistol": {
+        "buyName": "m92scrap",
+        "minPrice": 300000,
+        "maxPrice": 600000,
+        "minStock": 1,
+        "maxStock": 2
+    },
+    "12g_slug": {
+        "buyName": "slugscrap",
+        "minPrice": 350000,
+        "maxPrice": 550000,
+        "minStock": 1,
+        "maxStock": 2
+    },
+    "mp5": {
+        "buyName": "mp5scrap",
+        "minPrice": 600000,
+        "maxPrice": 900000,
+        "minStock": 1,
+        "maxStock": 1
+    },
+    "rocket_launcher": {
+        "buyName": "launcherscrap",
+        "minPrice": 1000000,
+        "maxPrice": 2000000,
+        "minStock": 1,
+        "maxStock": 1
+    },
+    "crate": {
+        "buyName": "cratescrap",
+        "minPrice": 90000,
+        "maxPrice": 110000,
+        "minStock": 3,
+        "maxStock": 5
+    },
+    "military_crate": {
+        "buyName": "militaryscrap",
+        "minPrice": 200000,
+        "maxPrice": 250000,
+        "minStock": 2,
+        "maxStock": 3
+    },
+    "supply_signal": {
+        "buyName": "hvscrap",
+        "minPrice": 800000,
+        "maxPrice": 1000000,
+        "minStock": 1,
+        "maxStock": 1
+    },
+    "elite_crate": {
+        "buyName": "elitescrap",
+        "minPrice": 2200000,
+        "maxPrice": 3000000,
+        "minStock": 1,
+        "maxStock": 1
+    },
+    "metal": {
+        "buyName": "metalscrap",
+        "minPrice": 90000,
+        "maxPrice": 150000,
+        "minStock": 2,
+        "maxStock": 2
+    },
+    "cloth": {
+        "buyName": "clothscrap",
+        "minPrice": 150000,
+        "maxPrice": 200000,
+        "minStock": 2,
+        "maxStock": 2
+    },
+    "metal_spring": {
+        "buyName": "springscrap",
+        "minPrice": 400000,
+        "maxPrice": 500000,
+        "minStock": 1,
+        "maxStock": 1
+    },
+    "smg_body": {
+        "buyName": "smgscrap",
+        "minPrice": 300000,
+        "maxPrice": 350000,
+        "minStock": 1,
+        "maxStock": 2
+    },
+    "rifle_body": {
+        "buyName": "bodyscrap",
+        "minPrice": 350000,
+        "maxPrice": 400000,
+        "minStock": 1,
+        "maxStock": 2
+    },
+    "medical_syringe": {
+        "buyName": "medscrap",
+        "minPrice": 130000,
+        "maxPrice": 180000,
+        "minStock": 2,
+        "maxStock": 2
+    },
+    "large_medkit": {
+        "buyName": "medkitscrap",
+        "minPrice": 350000,
+        "maxPrice": 400000,
+        "minStock": 1,
+        "maxStock": 2
+    }
+}

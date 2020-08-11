@@ -1,4 +1,5 @@
 const CronJob = require('cron').CronJob;
+const shopData = require('../resources/json/shop');
 const STATUS_LIST = [
     "Looting {users} players", 
     "{users} loot goblins", 
@@ -41,6 +42,9 @@ class LoopTasks {
 
     async dailyTasks(){
         console.log('[LOOPTASKS] Running daily tasks...');
+        // reroll scrap deals in shop
+        await this.restockShop();
+
         // take clan upkeep costs
         const clans = await this.app.query(`SELECT clanId, money, reduction FROM clans`);
         let moneyRemoved = 0;
@@ -98,6 +102,21 @@ class LoopTasks {
         .setDescription('Removed ' + this.app.common.formatNumber(moneyRemoved) + ' and **' + itemsRemoved + '** items from **' + decayingClans + '** decaying clans.')
         .setColor('#ffffff')
         this.app.messager.messageLogs(dailyEmbed);
+    }
+
+    async restockShop(){
+        await this.app.query(`DELETE FROM shopData WHERE item != ''`);
+
+        const items = this.app.common.shuffleArr(Object.keys(shopData)).slice(0, 3);
+
+        for(let item of items){
+            const itemInfo = shopData[item];
+            const price = Math.floor((Math.random() * (itemInfo.maxPrice - itemInfo.minPrice + 1)) + itemInfo.minPrice);
+            const stock = Math.floor((Math.random() * (itemInfo.maxStock - itemInfo.minStock + 1)) + itemInfo.minStock);
+
+            await this.app.query(`INSERT INTO shopData (itemName, itemAmount, itemPrice, itemCurrency, itemDisplay, item) VALUES (?, ?, ?, ?, ?, ?)`,
+            [itemInfo.buyName, stock, price, 'scrap', item, item]);
+        }
     }
 
     async refreshLB(){
