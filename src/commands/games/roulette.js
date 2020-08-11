@@ -17,7 +17,7 @@ module.exports = {
         let gambleAmount = app.parse.numbers(message.args)[0];
 
         if(!gambleAmount && message.args[0] && message.args[0].toLowerCase() === 'all'){
-            gambleAmount = row.scrap >= 2000000 ? 2000000 : row.scrap;
+            gambleAmount = row.scrap >= 1000000 ? 1000000 : row.scrap;
         }
         
         if(rouletteCD){
@@ -36,8 +36,8 @@ module.exports = {
             return message.reply(`You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can buy more Scrap from the Outpost! (\`${message.prefix}shop\`)`);
         }
         
-        if(gambleAmount > 2000000){
-            return message.reply(`You cannot gamble more than **${app.common.formatNumber(2000000, false, true)}**`);
+        if(gambleAmount > 1000000){
+            return message.reply(`You cannot gamble more than **${app.common.formatNumber(1000000, false, true)}**`);
         }
         
         await app.player.removeScrap(message.author.id, gambleAmount);
