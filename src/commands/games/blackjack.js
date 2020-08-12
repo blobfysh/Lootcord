@@ -31,7 +31,7 @@ module.exports = {
         }
 
         if(gambleAmount > row.scrap){
-            return message.reply(`You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can buy more Scrap from the Outpost! (\`${message.prefix}shop\`)`);
+            return message.reply(`❌ You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can trade your ${app.icons.money} Lootcoin for ${app.icons.scrap} Scrap: \`${message.prefix}buy scrap <amount>\``);
         }
         
         if(gambleAmount > 1000000){
