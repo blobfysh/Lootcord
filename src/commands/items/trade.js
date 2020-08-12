@@ -1,5 +1,5 @@
 const max_disparity = 2;
-const flagged_threshold = 75000;
+const flagged_threshold = 50000;
 
 module.exports = {
     name: 'trade',
@@ -132,7 +132,7 @@ module.exports = {
                                         
                                         botMessage.edit('✅ Trade completed!');
 
-                                        tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user, player1Val, player2Val);
+                                        tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user, player1Val, player2Val, player1Items, player2Items);
                                     }
                                     catch(err){
                                         if(err.player){
@@ -164,7 +164,7 @@ module.exports = {
 
                                         botMessage.edit('✅ Trade completed!');
 
-                                        tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user, player1Val, player2Val);
+                                        tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user, player1Val, player2Val, player1Items, player2Items);
                                     }
                                     catch(err){
                                         if(err.player){
@@ -371,14 +371,14 @@ async function tradeItems(app, player1, player1Money, player1Items, player2, pla
     await app.itm.addItem(player2.id, player1Items);
 }
 
-function tradeCompleted(app, embed, player1, player2, player1Val, player2Val){
+function tradeCompleted(app, embed, player1, player2, player1Val, player2Val, player1Items, player2Items){
     try{
-        if(player1Val > player2Val * max_disparity && player1Val - player2Val >= flagged_threshold){
+        if(player1Val > player2Val * max_disparity && player1Val - player2Val >= flagged_threshold && app.itm.getTotalItmCountFromList(player1Items) > 1){
             embed.setTitle('Trade Log (Flagged)')
             embed.setColor(16734296)
             embed.setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/209/triangular-flag-on-post_1f6a9.png')
         }
-        else if(player2Val > player1Val * max_disparity && player2Val - player1Val >= flagged_threshold){
+        else if(player2Val > player1Val * max_disparity && player2Val - player1Val >= flagged_threshold && app.itm.getTotalItmCountFromList(player2Items) > 1){
             embed.setTitle('Trade Log (Flagged)')
             embed.setColor(16734296)
             embed.setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/209/triangular-flag-on-post_1f6a9.png')
