@@ -378,7 +378,7 @@ module.exports = {
                         if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
                             sendToKillFeed(app, {username: monster.title, discriminator: '0000', id: monsterRow.monster}, serverInfo.killChan, message.member, monster.weapon.name, mobDmg, randomItems, moneyStolen, scrapStolen, true);
                         }
-                        logKill(app, {username: monster.title, discriminator: '0000', id: monsterRow.monster}, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, scrapStolen, randomItems)
+                        logKill(app, message.channel.guild.id, {username: monster.title, discriminator: '0000', id: monsterRow.monster}, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, scrapStolen, randomItems)
                     }
                     else{
                         await app.query(`UPDATE scores SET health = health - ${mobDmg} WHERE userId = ${message.author.id}`);
@@ -537,7 +537,7 @@ module.exports = {
                     if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
                         sendToKillFeed(app, message.author, serverInfo.killChan, target, item, randDmg, randomItems, moneyStolen, scrapStolen);
                     }
-                    logKill(app, message.member, target, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems)
+                    logKill(app, message.channel.guild.id, message.member, target, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems)
                 }
                 else{
                     // normal attack
@@ -709,7 +709,7 @@ module.exports = {
                     if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
                         sendToKillFeed(app, message.author, serverInfo.killChan, member, item, randDmg, randomItems, moneyStolen, scrapStolen);
                     }
-                    logKill(app, message.member, member, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems)
+                    logKill(app, message.channel.guild.id, message.member, member, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems)
                 }
                 else{
                     // normal attack
@@ -760,7 +760,7 @@ function getAmmo(app, item, row, userItems){
     }
 }
 
-function logKill(app, killer, victim, item, ammo, damage, moneyStolen, scrapStolen, itemsLost){
+function logKill(app, guildID, killer, victim, item, ammo, damage, moneyStolen, scrapStolen, itemsLost){
     try{
         const embed = new app.Embed()
         .setTitle('Kill Log')
@@ -771,6 +771,7 @@ function logKill(app, killer, victim, item, ammo, damage, moneyStolen, scrapStol
         .addField('Items Stolen', itemsLost.items.length !== 0 ? itemsLost.display.join('\n') : 'Nothing', true)
         .addField('Balance Stolen', app.common.formatNumber(moneyStolen) + '\n' + app.common.formatNumber(scrapStolen, false, true), true)
         .setTimestamp()
+        .setFooter('Guild ID: ' + guildID)
         
         app.messager.messageLogs(embed);
     }

@@ -132,7 +132,7 @@ module.exports = {
                                         
                                         botMessage.edit('✅ Trade completed!');
 
-                                        tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user, player1Val, player2Val, player1Items, player2Items);
+                                        tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.channel.guild.id, message.member, user, player1Val, player2Val, player1Items, player2Items);
                                     }
                                     catch(err){
                                         if(err.player){
@@ -164,7 +164,7 @@ module.exports = {
 
                                         botMessage.edit('✅ Trade completed!');
 
-                                        tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.member, user, player1Val, player2Val, player1Items, player2Items);
+                                        tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.channel.guild.id, message.member, user, player1Val, player2Val, player1Items, player2Items);
                                     }
                                     catch(err){
                                         if(err.player){
@@ -371,7 +371,7 @@ async function tradeItems(app, player1, player1Money, player1Items, player2, pla
     await app.itm.addItem(player2.id, player1Items);
 }
 
-function tradeCompleted(app, embed, player1, player2, player1Val, player2Val, player1Items, player2Items){
+function tradeCompleted(app, embed, guildID, player1, player2, player1Val, player2Val, player1Items, player2Items){
     try{
         if(player1Val > player2Val * max_disparity && player1Val - player2Val >= flagged_threshold && app.itm.getTotalItmCountFromList(player1Items) > 1){
             embed.setTitle('Trade Log (Flagged)')
@@ -389,7 +389,7 @@ function tradeCompleted(app, embed, player1, player2, player1Val, player2Val, pl
             embed.setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/153/white-heavy-check-mark_2705.png')
         }
 
-        embed.setDescription((player1.username + '#' + player1.discriminator) + ' ID: ```\n' + player1.id + '```' + (player2.username + '#' + player2.discriminator) + ' ID: ```\n' + player2.id + '```')
+        embed.setDescription((player1.username + '#' + player1.discriminator) + ' ID: ```\n' + player1.id + '```' + (player2.username + '#' + player2.discriminator) + ' ID: ```\n' + player2.id + '```Guild ID: ```\n' + guildID + '```')
         embed.setTimestamp()
         embed.setFooter('Keep an eye on users that trade low-value for high-value')
         
