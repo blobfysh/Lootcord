@@ -143,8 +143,8 @@
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
-        "healMin": 20,
-        "healMax": 28,
+        "healMin": 26,
+        "healMax": 30,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -156,13 +156,13 @@
             "currency": "money"
         },
         "sell": 9652,
-        "desc": "Use this to restore **20 - 28** health.",
+        "desc": "Use this to restore **26 - 30** health.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929964889997343/medical_syringe.png",
         "icon": "<:medical_syringe:732858500631494727>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 1596
+            "seconds": 1696
         },
         "artist": "",
         "category": "Item"

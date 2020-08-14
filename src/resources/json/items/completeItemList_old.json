@@ -912,7 +912,11 @@
                 "metal|2"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": [
+                "cloth|1"
+            ]
+        },
         "buy": {
             "amount": 102692,
             "currency": "money"
