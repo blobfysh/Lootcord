@@ -53,6 +53,7 @@ module.exports = {
                 await app.query(`DELETE FROM user_items WHERE userId ="${userID}"`);
                 await app.query(`DELETE FROM badges WHERE userId = ${userID}`);
                 await app.query(`DELETE FROM userGuilds WHERE userId = ${userID}`);
+                await app.query(`DELETE FROM blackmarket WHERE sellerId ="${userID}"`);
                 await app.cd.clearCD(userID, 'shield');
 
                 botMessage.edit(`Successfully deleted **${user.username}#${user.discriminator}**'s account data.`);
