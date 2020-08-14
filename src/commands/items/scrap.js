@@ -100,7 +100,7 @@ module.exports = {
                 sellAmount = 30;
             }
 
-            const botMessage = await message.reply(`Scrap ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for **${app.common.formatNumber(Math.floor(itemPrice * scrap_bonus_rate) * sellAmount, false, true)}**?`);
+            const botMessage = await message.reply(`Scrap **${sellAmount}x** ${app.itemdata[sellItem].icon}\`${sellItem}\` for **${app.common.formatNumber(Math.floor(itemPrice * scrap_bonus_rate) * sellAmount, false, true)}**?`);
             
             try{
                 const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
@@ -114,7 +114,7 @@ module.exports = {
 
                         app.player.addScrap(message.author.id, parseInt(Math.floor(itemPrice * scrap_bonus_rate) * sellAmount));
                         app.itm.removeItem(message.author.id, sellItem, sellAmount);
-                        botMessage.edit(`Successfully scrapped ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(Math.floor(itemPrice * scrap_bonus_rate) * sellAmount, false, true)}.\n\nYou now have **${app.common.formatNumber(row.scrap + (Math.floor(itemPrice * scrap_bonus_rate) * sellAmount), false, true)}**.`);
+                        botMessage.edit(`Successfully scrapped **${sellAmount}x** ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(Math.floor(itemPrice * scrap_bonus_rate) * sellAmount, false, true)}.\n\nYou now have **${app.common.formatNumber(row.scrap + (Math.floor(itemPrice * scrap_bonus_rate) * sellAmount), false, true)}**.`);
                     }
                     else{
                         botMessage.edit(userItems[sellItem] ? `❌ You don't have enough of that item! You have **${userItems[sellItem]}x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.` : `❌ You don't have a ${app.itemdata[sellItem].icon}\`${sellItem}\`.`);
