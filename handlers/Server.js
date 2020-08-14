@@ -77,7 +77,7 @@ class Server {
     async _searchBlackMarket(req, res){
         if(this.config.serverAuth !== req.headers.authorization) return res.status(403).send('Unauthorized');
 
-        const listings = await this.mysql.query(`SELECT * FROM blackmarket WHERE itemName LIKE ? ORDER BY pricePer ASC LIMIT 50`, ['%' + req.body.input + '%']);
+        const listings = await this.mysql.query(`SELECT * FROM blackmarket WHERE itemName = ? ORDER BY pricePer ASC LIMIT 50`, [req.body.input]);
         
         res.status(200).send(listings);
     }

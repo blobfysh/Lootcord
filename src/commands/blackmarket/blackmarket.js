@@ -28,7 +28,7 @@ module.exports = {
             message.channel.createMessage(embed);
         }
         else{
-            const listings = await app.query(`SELECT * FROM blackmarket WHERE itemName LIKE ? ORDER BY pricePer ASC LIMIT 18`, ['%' + item + '%']);
+            const listings = await app.query(`SELECT * FROM blackmarket WHERE itemName = ? ORDER BY pricePer ASC LIMIT 18`, [item]);
 
             if(listings.length <= 9){
                 return message.channel.createMessage(generatePages(app, message, listings, item)[0]);
