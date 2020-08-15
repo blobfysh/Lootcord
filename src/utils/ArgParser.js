@@ -93,6 +93,7 @@ class ArgParser {
             case "drop":
             case "airdrop":
             case "supply": itemSearched = "supply_drop"; break;
+            case "supply_beacon":
             case "signal": itemSearched = "supply_signal"; break;
             case "pipy":
             case "pipey":
