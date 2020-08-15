@@ -15,7 +15,9 @@ class Discoin {
                 data: {
                     user: userId,
                     amount: exchAmount,
-                    toId: currencyType
+                    to: currencyType,
+                    from: 'LCN',
+                    handled: false
                 },
                 url: 'https://discoin.zws.im/transactions'
             }).then(result => {
