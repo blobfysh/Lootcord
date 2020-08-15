@@ -211,14 +211,14 @@ class LoopTasks {
                 .setDescription(`You received ${this.app.common.formatNumber(payout)} (${transaction.payout} rounded) through Discoin! [Click this to see more details.](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)\n\nKeep in mind there is a daily limit of ${this.app.common.formatNumber(1000000)} on both incoming and outgoing transactions.`)
                 .setColor(13451564)
 
-                if(userRow.discoinLimit + payout > 1000000){
-                    if(userRow.discoinLimit >= 1000000){
+                if(userRow.discoinLimit + payout > 100000){
+                    if(userRow.discoinLimit >= 100000){
                         // user hit daily limit, refund everything
                         refunded = payout;
                         payout = 0;
                     }
                     else{
-                        refunded = Math.abs((1000000 - (userRow.discoinLimit + payout)));
+                        refunded = Math.abs((100000 - (userRow.discoinLimit + payout)));
                         payout -= refunded;
                     }
 
@@ -233,7 +233,7 @@ class LoopTasks {
                         payout = Math.round(transaction.payout);
                     }
 
-                    embed.setDescription(`**Oh no!**\nIt looks like you hit the daily transaction limit of **${this.app.common.formatNumber(1000000)}**\n\nYou still received **${this.app.common.formatNumber(payout)}**, the other **${this.app.common.formatNumber(refunded)}** was automatically sent back to **${transaction.from.id}**.\n\nThis limit helps keep our economy stable!`);
+                    embed.setDescription(`**Oh no!**\nIt looks like you hit the daily transaction limit of **${this.app.common.formatNumber(100000)}**\n\nYou still received **${this.app.common.formatNumber(payout)}**, the other **${this.app.common.formatNumber(refunded)}** was automatically sent back to **${transaction.from.id}**.\n\nThis limit helps keep our economy stable!`);
                 }
 
                 await this.app.query("UPDATE scores SET discoinLimit = discoinLimit + ? WHERE userId = ?", [payout, transaction.user]);

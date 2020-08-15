@@ -1,4 +1,4 @@
-const CONVERT_LIMIT = 1000000;
+const CONVERT_LIMIT = 100000;
 
 module.exports = {
     name: 'convert',
