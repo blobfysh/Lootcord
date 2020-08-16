@@ -178,7 +178,7 @@ module.exports = {
                 if(reason === 'time'){
                     const embedScramble = new app.Embed()
                     .setTitle("You didn't get it in time!")
-                    .setDescription("The word was : ```\n" + scrambleWord + "```")
+                    .setDescription("The word was: ```\n" + scrambleWord + "```")
                     .setColor(16734296);
                     message.channel.createMessage(embedScramble);
                 }

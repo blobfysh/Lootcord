@@ -82,7 +82,7 @@ module.exports = {
                 const embedWrong = new app.Embed() 
                 .setTitle('Incorrect')
                 .setColor(13632027)
-                .addField("Reward", "`shame`")
+                .addField("Reward:", "`shame`")
                 botMessage.edit(embedWrong);
             }
 
@@ -97,7 +97,7 @@ module.exports = {
                 const embedReward = new app.Embed()
                 .setTitle(`${(app.trivia_questions[chance][app.trivia_questions[chance].correct_answer])} is correct!`)
                 .setColor(720640)
-                .addField("Reward", reward.display)
+                .addField("Reward:", reward.display)
                 botMessage.edit(embedReward);
             }
         }
