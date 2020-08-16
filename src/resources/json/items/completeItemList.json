@@ -2621,7 +2621,7 @@
         "isWeap": true,
         "isItem": false,
         "minDmg": 0,
-        "maxDmg": 20,
+        "maxDmg": 28,
         "ammo": [
             "12g_slug",
             "12g_buckshot"
