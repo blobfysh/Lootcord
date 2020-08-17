@@ -19,7 +19,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "cloth": {
         "rarity": "Uncommon",
@@ -41,7 +42,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "semi_body": {
         "rarity": "Uncommon",
@@ -68,7 +70,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "bone_fragments": {
         "rarity": "Uncommon",
@@ -90,7 +93,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": ["bones", "bone_frags"]
     },
     "metal": {
         "rarity": "Rare",
@@ -112,7 +116,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": ["metal_frags", "metal_frag", "frags", "metal_fragments"]
     },
     "smg_body": {
         "rarity": "Rare",
@@ -139,7 +144,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "rifle_body": {
         "rarity": "Rare",
@@ -166,7 +172,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": ["body"]
     },
     "tech_trash": {
         "rarity": "Epic",
@@ -189,7 +196,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": ["tech", "trash"]
     },
     "metal_pipe": {
         "rarity": "Epic",
@@ -212,7 +220,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": ["pipe"]
     },
     "metal_spring": {
         "rarity": "Epic",
@@ -235,7 +244,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": ["spring"]
     },
     "gunpowder": {
         "rarity": "Epic",
@@ -258,7 +268,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": ["gp", "boom", "powder"]
     },
     "coal": {
         "rarity": "Limited",
@@ -280,6 +291,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     }
 }

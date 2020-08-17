@@ -32,7 +32,8 @@
         },
         "phrase": "{attacker} mows down {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`'s! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["m2", "machine_gun", "light_machine_gun"]
     },
     "bow": {
         "rarity": "Uncommon",
@@ -70,7 +71,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "revolver": {
         "rarity": "Rare",
@@ -106,7 +108,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["revvy", "revvie", "revo"]
     },
     "thompson": {
         "rarity": "Rare",
@@ -144,7 +147,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["tommy", "thommy"]
     },
     "mp5": {
         "rarity": "Rare",
@@ -182,7 +186,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "custom_smg": {
         "rarity": "Rare",
@@ -218,7 +223,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["custom", "smg"]
     },
     "python": {
         "rarity": "Rare",
@@ -254,7 +260,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "m92_pistol": {
         "rarity": "Rare",
@@ -284,7 +291,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["m92", "m9"]
     },
     "bolt_rifle": {
         "rarity": "Rare",
@@ -322,7 +330,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["bolty", "sniper", "bolt", "bolt_action"]
     },
     "semi_rifle": {
         "rarity": "Rare",
@@ -361,7 +370,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["sar", "semi"]
     },
     "semi_pistol": {
         "rarity": "Rare",
@@ -397,7 +407,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["p2", "p250", "pistol"]
     },
     "crossbow": {
         "rarity": "Rare",
@@ -435,7 +446,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["crossy", "crossie"]
     },
     "pump_shotgun": {
         "rarity": "Rare",
@@ -473,7 +485,8 @@
         },
         "phrase": "{attacker} blasts {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["shotgun", "pump", "shotty", "pumpie", "pumpy"]
     },
     "spas-12": {
         "rarity": "Rare",
@@ -505,7 +518,8 @@
         },
         "phrase": "{attacker} blasts {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["spas"]
     },
     "lr-300": {
         "rarity": "Rare",
@@ -538,7 +552,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["lr"]
     },
     "assault_rifle": {
         "rarity": "Rare",
@@ -577,7 +592,8 @@
         },
         "phrase": "{attacker} sprays down {victim} using an {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`'s! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["rifle", "ak", "ak-47", "ak47", "assault"]
     },
     "waterpipe_shotgun": {
         "rarity": "Rare",
@@ -616,7 +632,8 @@
         },
         "phrase": "{attacker} blasts {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["pipey", "pipy", "pipie", "waterpipe"]
     },
     "rocket_launcher": {
         "rarity": "Legendary",
@@ -648,7 +665,8 @@
         },
         "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["rpg", "launcher"]
     },
     "grenade_launcher": {
         "rarity": "Legendary",
@@ -680,6 +698,7 @@
         },
         "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": ["gl"]
     }
 }

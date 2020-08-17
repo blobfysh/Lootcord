@@ -26,7 +26,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "221087115893669889",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "looter": {
         "rarity": "Uncommon",
@@ -55,7 +56,8 @@
         "cooldown": "",
         "shopOrderCode": 3,
         "artist": "221087115893669889",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "killer": {
         "rarity": "Rare",
@@ -82,7 +84,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "221087115893669889",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "elite": {
         "rarity": "Rare",
@@ -109,7 +112,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "221087115893669889",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "hitman": {
         "rarity": "Legendary",
@@ -137,7 +141,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "221087115893669889",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "master": {
         "rarity": "Legendary",
@@ -165,7 +170,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "221087115893669889",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "spooky": {
         "rarity": "Limited",
@@ -189,7 +195,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "sheriff": {
         "rarity": "Limited",
@@ -213,7 +220,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "kofi_king": {
         "rarity": "Limited",
@@ -237,7 +245,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "patron": {
         "rarity": "Limited",
@@ -261,6 +270,7 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     }
 }

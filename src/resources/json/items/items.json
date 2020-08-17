@@ -76,7 +76,8 @@
             }
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": ["item_box", "item", "loot"]
     },
     "bandage": {
         "rarity": "Uncommon",
@@ -110,7 +111,8 @@
             "seconds": 967
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "reroll_scroll": {
         "rarity": "Legendary",
@@ -136,7 +138,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "medical_syringe": {
         "rarity": "Rare",
@@ -165,7 +168,8 @@
             "seconds": 1696
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": ["med", "syringe", "med_syringe", "medical"]
     },
     "large_medkit": {
         "rarity": "Rare",
@@ -200,7 +204,8 @@
             "seconds": 2682
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": ["large_med", "medkit"]
     },
     "military_crate": {
         "rarity": "Epic",
@@ -224,16 +229,17 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "56": {
-                "xp": 20,
+            "2": {
+                "xp": 50,
                 "items": [
-                    "f1_grenade|1",
-                    "bandage|1",
-                    "mace|1",
-                    "machete|1",
-                    "salvaged_sword|1",
-                    "salvaged_cleaver|1",
-                    "longsword|1"
+                    "12g_slug|1",
+                    "rifle_bullet|1",
+                    "tech_trash|1",
+                    "large_medkit|1",
+                    "semi_pistol|1",
+                    "metal_spring|1",
+                    "custom_smg|1",
+                    "m92_pistol|1"
                 ]
             },
             "34": {
@@ -244,6 +250,18 @@
                     "medical_syringe|1",
                     "waterpipe_shotgun|1",
                     "arrow|1"
+                ]
+            },
+            "56": {
+                "xp": 20,
+                "items": [
+                    "f1_grenade|1",
+                    "bandage|1",
+                    "mace|1",
+                    "machete|1",
+                    "salvaged_sword|1",
+                    "salvaged_cleaver|1",
+                    "longsword|1"
                 ]
             },
             "7.5": {
@@ -260,19 +278,6 @@
                     "hazmat_suit|1"
                 ]
             },
-            "2": {
-                "xp": 50,
-                "items": [
-                    "12g_slug|1",
-                    "rifle_bullet|1",
-                    "tech_trash|1",
-                    "large_medkit|1",
-                    "semi_pistol|1",
-                    "metal_spring|1",
-                    "custom_smg|1",
-                    "m92_pistol|1"
-                ]
-            },
             "0.5": {
                 "xp": 70,
                 "items": [
@@ -284,7 +289,8 @@
             }
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": ["mili", "mili_crate", "milly", "milly_crate", "military"]
     },
     "supply_drop": {
         "rarity": "Epic",
@@ -305,15 +311,13 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "60": {
-                "xp": 75,
+            "1": {
+                "xp": 140,
                 "items": [
-                    "tech_trash|1",
-                    "small_stash|1",
-                    "rifle_body|1",
-                    "pistol_bullet|1",
-                    "12g_buckshot|1",
-                    "metal_spring|1"
+                    "rocket|1",
+                    "assault_rifle|1",
+                    "bolt_rifle|1",
+                    "spas-12|1"
                 ]
             },
             "34": {
@@ -329,6 +333,17 @@
                     "large_medkit|1"
                 ]
             },
+            "60": {
+                "xp": 75,
+                "items": [
+                    "tech_trash|1",
+                    "small_stash|1",
+                    "rifle_body|1",
+                    "pistol_bullet|1",
+                    "12g_buckshot|1",
+                    "metal_spring|1"
+                ]
+            },
             "4.5": {
                 "xp": 110,
                 "items": [
@@ -339,15 +354,6 @@
                     "metal_armor|1"
                 ]
             },
-            "1": {
-                "xp": 140,
-                "items": [
-                    "rocket|1",
-                    "assault_rifle|1",
-                    "bolt_rifle|1",
-                    "spas-12|1"
-                ]
-            },
             "0.5": {
                 "xp": 150,
                 "items": [
@@ -356,7 +362,8 @@
             }
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": ["drop", "airdrop", "supply"]
     },
     "elite_crate": {
         "rarity": "Epic",
@@ -377,19 +384,10 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "70": {
-                "xp": 50,
+            "5": {
+                "xp": 90,
                 "items": [
-                    "12g_slug|1",
-                    "thompson|1",
-                    "hv_rifle_bullet|1",
-                    "metal_armor|1",
-                    "large_medkit|1",
-                    "assault_rifle|1",
-                    "python|1",
-                    "m92_pistol|1",
-                    "spas-12|1",
-                    "custom_smg|1"
+                    "c4|1"
                 ]
             },
             "25": {
@@ -404,15 +402,25 @@
                     "lr-300|1"
                 ]
             },
-            "5": {
-                "xp": 90,
+            "70": {
+                "xp": 50,
                 "items": [
-                    "c4|1"
+                    "12g_slug|1",
+                    "thompson|1",
+                    "hv_rifle_bullet|1",
+                    "metal_armor|1",
+                    "large_medkit|1",
+                    "assault_rifle|1",
+                    "python|1",
+                    "m92_pistol|1",
+                    "spas-12|1",
+                    "custom_smg|1"
                 ]
             }
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": ["elite_box"]
     },
     "supply_signal": {
         "rarity": "Legendary",
@@ -439,7 +447,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": ["supply_beacon", "signal"]
     },
     "c4": {
         "rarity": "Ultra",
@@ -471,7 +480,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": ["timed_explosive"]
     },
     "hazmat_suit": {
         "rarity": "Epic",
@@ -510,7 +520,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": ["hazzy", "hazmat", "hazzie", "rad_suit", "haz"]
     },
     "metal_armor": {
         "rarity": "Epic",
@@ -519,7 +530,7 @@
         "isShield": true,
         "shieldInfo": {
             "seconds": 28800,
-            "protection": 0.50
+            "protection": 0.5
         },
         "damage": "",
         "minDmg": "",
@@ -539,7 +550,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": ["full_metal"]
     },
     "stocking": {
         "rarity": "Limited",
@@ -563,7 +575,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "gingerbread": {
         "rarity": "Limited",
@@ -589,7 +602,8 @@
             "seconds": 1200
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "present": {
         "rarity": "Limited",
@@ -632,7 +646,8 @@
             }
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "apple": {
         "rarity": "Limited",
@@ -660,7 +675,8 @@
             "seconds": 600
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "pumpkin": {
         "rarity": "Limited",
@@ -688,7 +704,8 @@
             "seconds": 1200
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "candy_bar": {
         "rarity": "Limited",
@@ -716,7 +733,8 @@
             "seconds": 1200
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": ["candy", "chocolate", "chocolate_bar"]
     },
     "candy_pail": {
         "rarity": "Limited",
@@ -753,6 +771,7 @@
             }
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": ["candy_bucket", "pail"]
     }
 }

@@ -24,7 +24,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": []
     },
     "12g_slug": {
         "rarity": "Rare",
@@ -51,7 +52,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": []
     },
     "40mm_he_grenade": {
         "rarity": "Legendary",
@@ -77,7 +79,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": []
     },
     "40mm_smoke_grenade": {
         "rarity": "Legendary",
@@ -103,7 +106,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": []
     },
     "apple": {
         "rarity": "Limited",
@@ -131,7 +135,8 @@
             "seconds": 600
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "arrow": {
         "rarity": "Common",
@@ -159,7 +164,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": []
     },
     "assault_rifle": {
         "rarity": "Rare",
@@ -198,7 +204,8 @@
         },
         "phrase": "{attacker} sprays down {victim} using an {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`'s! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "bandage": {
         "rarity": "Uncommon",
@@ -232,7 +239,8 @@
             "seconds": 967
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "bolt_rifle": {
         "rarity": "Rare",
@@ -270,7 +278,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "bone_arrow": {
         "rarity": "Common",
@@ -297,7 +306,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": []
     },
     "bone_fragments": {
         "rarity": "Uncommon",
@@ -319,7 +329,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "bone_knife": {
         "rarity": "Common",
@@ -347,7 +358,8 @@
         },
         "phrase": "{attacker} sliced {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "bow": {
         "rarity": "Uncommon",
@@ -385,7 +397,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "c4": {
         "rarity": "Ultra",
@@ -417,7 +430,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "candy_bar": {
         "rarity": "Limited",
@@ -445,7 +459,8 @@
             "seconds": 1200
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "candy_pail": {
         "rarity": "Limited",
@@ -482,7 +497,8 @@
             }
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "candycane": {
         "rarity": "Limited",
@@ -506,7 +522,8 @@
         },
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "cloth": {
         "rarity": "Uncommon",
@@ -528,7 +545,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "coal": {
         "rarity": "Limited",
@@ -550,7 +568,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "crate": {
         "rarity": "Common",
@@ -629,7 +648,10 @@
             }
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": [
+            "item"
+        ]
     },
     "crossbow": {
         "rarity": "Rare",
@@ -667,7 +689,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "custom_smg": {
         "rarity": "Rare",
@@ -703,7 +726,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "elite": {
         "rarity": "Rare",
@@ -730,7 +754,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "221087115893669889",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "elite_crate": {
         "rarity": "Epic",
@@ -786,7 +811,8 @@
             }
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "f1_grenade": {
         "rarity": "Rare",
@@ -809,7 +835,8 @@
         },
         "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "gingerbread": {
         "rarity": "Limited",
@@ -835,7 +862,8 @@
             "seconds": 1200
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "grenade_launcher": {
         "rarity": "Legendary",
@@ -867,7 +895,8 @@
         },
         "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "gunpowder": {
         "rarity": "Epic",
@@ -890,7 +919,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "hazmat_suit": {
         "rarity": "Epic",
@@ -929,7 +959,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "hitman": {
         "rarity": "Legendary",
@@ -957,7 +988,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "221087115893669889",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "hv_rifle_bullet": {
         "rarity": "Uncommon",
@@ -988,7 +1020,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": []
     },
     "killer": {
         "rarity": "Rare",
@@ -1015,7 +1048,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "221087115893669889",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "kofi_king": {
         "rarity": "Limited",
@@ -1039,7 +1073,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "large_medkit": {
         "rarity": "Rare",
@@ -1074,7 +1109,8 @@
             "seconds": 2682
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "large_wood_box": {
         "rarity": "Legendary",
@@ -1112,7 +1148,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Storage"
+        "category": "Storage",
+        "aliases": []
     },
     "longsword": {
         "rarity": "Rare",
@@ -1135,7 +1172,8 @@
         },
         "phrase": "{attacker} swings at {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "looter": {
         "rarity": "Uncommon",
@@ -1164,7 +1202,8 @@
         "cooldown": "",
         "shopOrderCode": 3,
         "artist": "221087115893669889",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "lr-300": {
         "rarity": "Rare",
@@ -1197,7 +1236,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "m249": {
         "rarity": "Ultra",
@@ -1232,7 +1272,8 @@
         },
         "phrase": "{attacker} mows down {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`'s! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "m92_pistol": {
         "rarity": "Rare",
@@ -1262,7 +1303,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "mace": {
         "rarity": "Uncommon",
@@ -1286,7 +1328,8 @@
         },
         "phrase": "{attacker} whacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "machete": {
         "rarity": "Uncommon",
@@ -1310,7 +1353,8 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "master": {
         "rarity": "Legendary",
@@ -1338,7 +1382,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "221087115893669889",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "medical_syringe": {
         "rarity": "Rare",
@@ -1367,7 +1412,8 @@
             "seconds": 1696
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "metal": {
         "rarity": "Rare",
@@ -1389,7 +1435,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "metal_armor": {
         "rarity": "Epic",
@@ -1418,7 +1465,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "metal_pipe": {
         "rarity": "Epic",
@@ -1441,7 +1489,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "metal_spring": {
         "rarity": "Epic",
@@ -1464,7 +1513,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "military_crate": {
         "rarity": "Epic",
@@ -1548,7 +1598,8 @@
             }
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "mp5": {
         "rarity": "Rare",
@@ -1586,7 +1637,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "neros_crate": {
         "rarity": "Limited",
@@ -1611,7 +1663,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Storage"
+        "category": "Storage",
+        "aliases": []
     },
     "patron": {
         "rarity": "Limited",
@@ -1635,7 +1688,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "pickaxe": {
         "rarity": "Uncommon",
@@ -1659,7 +1713,8 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "pistol_bullet": {
         "rarity": "Uncommon",
@@ -1686,7 +1741,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": []
     },
     "present": {
         "rarity": "Limited",
@@ -1729,7 +1785,8 @@
             }
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "pump_shotgun": {
         "rarity": "Rare",
@@ -1767,7 +1824,8 @@
         },
         "phrase": "{attacker} blasts {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "pumpkin": {
         "rarity": "Limited",
@@ -1795,7 +1853,8 @@
             "seconds": 1200
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "python": {
         "rarity": "Rare",
@@ -1831,7 +1890,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "recruit": {
         "rarity": "Common",
@@ -1860,7 +1920,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "221087115893669889",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "reroll_scroll": {
         "rarity": "Legendary",
@@ -1886,7 +1947,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "revolver": {
         "rarity": "Rare",
@@ -1922,7 +1984,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "rifle_body": {
         "rarity": "Rare",
@@ -1949,7 +2012,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "rifle_bullet": {
         "rarity": "Uncommon",
@@ -1976,7 +2040,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": []
     },
     "rock": {
         "rarity": "Common",
@@ -2000,7 +2065,8 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "rocket": {
         "rarity": "Legendary",
@@ -2033,7 +2099,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": []
     },
     "rocket_launcher": {
         "rarity": "Legendary",
@@ -2065,7 +2132,8 @@
         },
         "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "rolads_pack": {
         "rarity": "Limited",
@@ -2090,7 +2158,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Storage"
+        "category": "Storage",
+        "aliases": []
     },
     "salvaged_cleaver": {
         "rarity": "Common",
@@ -2114,7 +2183,8 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "salvaged_sword": {
         "rarity": "Uncommon",
@@ -2138,7 +2208,8 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "semi_body": {
         "rarity": "Uncommon",
@@ -2165,7 +2236,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "semi_pistol": {
         "rarity": "Rare",
@@ -2201,7 +2273,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "semi_rifle": {
         "rarity": "Rare",
@@ -2240,7 +2313,8 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "sheriff": {
         "rarity": "Limited",
@@ -2264,7 +2338,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "sickle": {
         "rarity": "Limited",
@@ -2290,7 +2365,8 @@
         },
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "small_stash": {
         "rarity": "Uncommon",
@@ -2323,7 +2399,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Storage"
+        "category": "Storage",
+        "aliases": []
     },
     "smg_body": {
         "rarity": "Rare",
@@ -2350,7 +2427,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "snowball": {
         "rarity": "Limited",
@@ -2374,7 +2452,8 @@
         },
         "phrase": "{attacker} hurls a {weaponIcon}`{weapon}` at {victim} dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "spas-12": {
         "rarity": "Rare",
@@ -2406,7 +2485,8 @@
         },
         "phrase": "{attacker} blasts {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "spooky": {
         "rarity": "Limited",
@@ -2430,7 +2510,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Banner"
+        "category": "Banner",
+        "aliases": []
     },
     "stocking": {
         "rarity": "Limited",
@@ -2454,7 +2535,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "supply_drop": {
         "rarity": "Epic",
@@ -2526,7 +2608,8 @@
             }
         },
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "supply_signal": {
         "rarity": "Legendary",
@@ -2553,7 +2636,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Item"
+        "category": "Item",
+        "aliases": []
     },
     "tech_trash": {
         "rarity": "Epic",
@@ -2576,7 +2660,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "thompson": {
         "rarity": "Rare",
@@ -2614,14 +2699,15 @@
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "waterpipe_shotgun": {
         "rarity": "Rare",
         "isWeap": true,
         "isItem": false,
-        "minDmg": -10,
-        "maxDmg": 35,
+        "minDmg": 0,
+        "maxDmg": 28,
         "ammo": [
             "12g_slug",
             "12g_buckshot"
@@ -2653,7 +2739,8 @@
         },
         "phrase": "{attacker} blasts {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Ranged"
+        "category": "Ranged",
+        "aliases": []
     },
     "wood": {
         "rarity": "Common",
@@ -2675,7 +2762,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material"
+        "category": "Material",
+        "aliases": []
     },
     "wood_box": {
         "rarity": "Epic",
@@ -2711,7 +2799,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Storage"
+        "category": "Storage",
+        "aliases": []
     },
     "wooden_spear": {
         "rarity": "Common",
@@ -2735,6 +2824,7 @@
         },
         "phrase": "{attacker} stabbed {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     }
 }

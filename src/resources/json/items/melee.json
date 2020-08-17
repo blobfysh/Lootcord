@@ -21,7 +21,8 @@
         },
         "phrase": "{attacker} stabbed {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": ["spear"]
     },
     "bone_knife": {
         "rarity": "Common",
@@ -49,7 +50,8 @@
         },
         "phrase": "{attacker} sliced {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": ["knife"]
     },
     "rock": {
         "rarity": "Common",
@@ -73,7 +75,8 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "salvaged_cleaver": {
         "rarity": "Common",
@@ -97,7 +100,8 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": ["cleaver", "salvaged"]
     },
     "salvaged_sword": {
         "rarity": "Uncommon",
@@ -121,7 +125,8 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": ["sword"]
     },
     "machete": {
         "rarity": "Uncommon",
@@ -145,7 +150,8 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "mace": {
         "rarity": "Uncommon",
@@ -169,7 +175,8 @@
         },
         "phrase": "{attacker} whacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "pickaxe": {
         "rarity": "Uncommon",
@@ -193,7 +200,8 @@
         },
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": ["pick"]
     },
     "f1_grenade": {
         "rarity": "Rare",
@@ -216,7 +224,8 @@
         },
         "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": ["f1", "grenade"]
     },
     "longsword": {
         "rarity": "Rare",
@@ -239,7 +248,8 @@
         },
         "phrase": "{attacker} swings at {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": ["long"]
     },
     "candycane": {
         "rarity": "Limited",
@@ -263,7 +273,8 @@
         },
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     },
     "snowball": {
         "rarity": "Limited",
@@ -287,7 +298,8 @@
         },
         "phrase": "{attacker} hurls a {weaponIcon}`{weapon}` at {victim} dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": ["snow"]
     },
     "sickle": {
         "rarity": "Limited",
@@ -313,6 +325,7 @@
         },
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
-        "category": "Melee"
+        "category": "Melee",
+        "aliases": []
     }
 }

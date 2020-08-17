@@ -30,7 +30,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Storage"
+        "category": "Storage",
+        "aliases": []
     },
     "wood_box": {
         "rarity": "Epic",
@@ -66,7 +67,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Storage"
+        "category": "Storage",
+        "aliases": ["box", "container"]
     },
     "large_wood_box": {
         "rarity": "Legendary",
@@ -104,7 +106,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Storage"
+        "category": "Storage",
+        "aliases": ["large_box"]
     },
     "rolads_pack": {
         "rarity": "Limited",
@@ -129,7 +132,8 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Storage"
+        "category": "Storage",
+        "aliases": []
     },
     "neros_crate": {
         "rarity": "Limited",
@@ -154,6 +158,7 @@
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
-        "category": "Storage"
+        "category": "Storage",
+        "aliases": []
     }
 }

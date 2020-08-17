@@ -25,7 +25,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": []
     },
     "bone_arrow": {
         "rarity": "Common",
@@ -52,7 +53,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": []
     },
     "pistol_bullet": {
         "rarity": "Uncommon",
@@ -79,7 +81,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": ["9mm", "9mill", "9x19", "bullet", "pistol_ammo", "ammunition", "ammo"]
     },
     "rifle_bullet": {
         "rarity": "Uncommon",
@@ -106,7 +109,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": ["rifle_ammo", "5.56x45", "556x45", "5.56"]
     },
     "hv_rifle_bullet": {
         "rarity": "Uncommon",
@@ -137,7 +141,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": ["hv", "hv_bullet", "hv_ammo", "high_velocity", "hv_rifle", "hight_velocity_bullet"]
     },
     "12g_buckshot": {
         "rarity": "Rare",
@@ -164,7 +169,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": ["buck", "buckshot", "12_gauge", "shotgun_ammo", "shotgun_bullet", "shotty_ammo", "shotty_bullet", "12g"]
     },
     "12g_slug": {
         "rarity": "Rare",
@@ -191,7 +197,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": ["slug"]
     },
     "rocket": {
         "rarity": "Legendary",
@@ -224,7 +231,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": []
     },
     "40mm_smoke_grenade": {
         "rarity": "Legendary",
@@ -250,7 +258,8 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": ["smoke_grenade", "40mm_smoke", "smoke"]
     },
     "40mm_he_grenade": {
         "rarity": "Legendary",
@@ -276,6 +285,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Ammo"
+        "category": "Ammo",
+        "aliases": ["40mm", "he", "he_grenade", "40mm_grenade", "explosive_grenade"]
     }
 }
