@@ -41,7 +41,7 @@ let itemsChanged = {};
 for(let item of Object.keys(previousList)){
 
     if(!combined[item]){
-        itemsLost[item] = previousList[item].rarity;
+        itemsLost[item] = previousList[item].category;
     }
 
     for(let key of Object.keys(previousList[item])){
@@ -80,39 +80,39 @@ for(let item of Object.keys(previousList)){
 
 for(let item of Object.keys(combined)){
     if(previousList[item] == undefined){
-        itemsGained[item] = combined[item].rarity;
+        itemsGained[item] = combined[item].category;
     }
 }
 
 console.warn(`===================\nItems gained (${Object.keys(itemsGained).length}):\n`);
-console.log('\nCommon: ' + Object.keys(itemsGained).filter(item => itemsGained[item] == 'Common').sort().join(', '));
-console.log('\nUncommon: ' + Object.keys(itemsGained).filter(item => itemsGained[item] == 'Uncommon').sort().join(', '));
-console.log('\nRare: ' + Object.keys(itemsGained).filter(item => itemsGained[item] == 'Rare').sort().join(', '));
-console.log('\nEpic: ' + Object.keys(itemsGained).filter(item => itemsGained[item] == 'Epic').sort().join(', '));
-console.log('\nLegendary: ' + Object.keys(itemsGained).filter(item => itemsGained[item] == 'Legendary').sort().join(', '));
-console.log('\nUltra: ' + Object.keys(itemsGained).filter(item => itemsGained[item] == 'Ultra').sort().join(', '));
-console.log('\nLimited: ' + Object.keys(itemsGained).filter(item => itemsGained[item] == 'Limited').sort().join(', '));
+console.log('\nRanged: ' + Object.keys(itemsGained).filter(item => itemsGained[item] == 'Ranged').sort().join(', '));
+console.log('\nMelee: ' + Object.keys(itemsGained).filter(item => itemsGained[item] == 'Melee').sort().join(', '));
+console.log('\nItems: ' + Object.keys(itemsGained).filter(item => itemsGained[item] == 'Items').sort().join(', '));
+console.log('\nAmmo: ' + Object.keys(itemsGained).filter(item => itemsGained[item] == 'Ammo').sort().join(', '));
+console.log('\nMaterials: ' + Object.keys(itemsGained).filter(item => itemsGained[item] == 'Materials').sort().join(', '));
+console.log('\nStorage: ' + Object.keys(itemsGained).filter(item => itemsGained[item] == 'Storage').sort().join(', '));
+console.log('\nBanners: ' + Object.keys(itemsGained).filter(item => itemsGained[item] == 'Banners').sort().join(', '));
 
 
 console.warn(`\n===================\nItems lost (${Object.keys(itemsLost).length}):\n`);
-console.log('\nCommon: ' + Object.keys(itemsLost).filter(item => itemsLost[item] == 'Common').sort().join(', '));
-console.log('\nUncommon: ' + Object.keys(itemsLost).filter(item => itemsLost[item] == 'Uncommon').sort().join(', '));
-console.log('\nRare: ' + Object.keys(itemsLost).filter(item => itemsLost[item] == 'Rare').sort().join(', '));
-console.log('\nEpic: ' + Object.keys(itemsLost).filter(item => itemsLost[item] == 'Epic').sort().join(', '));
-console.log('\nLegendary: ' + Object.keys(itemsLost).filter(item => itemsLost[item] == 'Legendary').sort().join(', '));
-console.log('\nUltra: ' + Object.keys(itemsLost).filter(item => itemsLost[item] == 'Ultra').sort().join(', '));
-console.log('\nLimited: ' + Object.keys(itemsLost).filter(item => itemsLost[item] == 'Limited').sort().join(', '));
+console.log('\nRanged: ' + Object.keys(itemsLost).filter(item => itemsLost[item] == 'Ranged').sort().join(', '));
+console.log('\nMelee: ' + Object.keys(itemsLost).filter(item => itemsLost[item] == 'Melee').sort().join(', '));
+console.log('\nItems: ' + Object.keys(itemsLost).filter(item => itemsLost[item] == 'Items').sort().join(', '));
+console.log('\nAmmo: ' + Object.keys(itemsLost).filter(item => itemsLost[item] == 'Ammo').sort().join(', '));
+console.log('\nMaterials: ' + Object.keys(itemsLost).filter(item => itemsLost[item] == 'Materials').sort().join(', '));
+console.log('\nStorage: ' + Object.keys(itemsLost).filter(item => itemsLost[item] == 'Storage').sort().join(', '));
+console.log('\nBanners: ' + Object.keys(itemsLost).filter(item => itemsLost[item] == 'Banners').sort().join(', '));
 
 
 console.warn(`\n===================\nItems with changed attributes (${Object.keys(itemsChanged).length} total):`);
 console.log('# inside parenthesis is number of attributes changed.');
-console.log('\nCommon: ' + Object.keys(itemsChanged).filter(item => itemsChanged[item].rarity == 'Common').sort().map(item => item + '(' + itemsChanged[item].changes + ')').join(', '));
-console.log('\nUncommon: ' + Object.keys(itemsChanged).filter(item => itemsChanged[item].rarity == 'Uncommon').sort().map(item => item + '(' + itemsChanged[item].changes + ')').join(', '));
-console.log('\nRare: ' + Object.keys(itemsChanged).filter(item => itemsChanged[item].rarity == 'Rare').sort().map(item => item + '(' + itemsChanged[item].changes + ')').join(', '));
-console.log('\nEpic: ' + Object.keys(itemsChanged).filter(item => itemsChanged[item].rarity == 'Epic').sort().map(item => item + '(' + itemsChanged[item].changes + ')').join(', '));
-console.log('\nLegendary: ' + Object.keys(itemsChanged).filter(item => itemsChanged[item].rarity == 'Legendary').sort().map(item => item + '(' + itemsChanged[item].changes + ')').join(', '));
-console.log('\nUltra: ' + Object.keys(itemsChanged).filter(item => itemsChanged[item].rarity == 'Ultra').sort().map(item => item + '(' + itemsChanged[item].changes + ')').join(', '));
-console.log('\nLimited: ' + Object.keys(itemsChanged).filter(item => itemsChanged[item].rarity == 'Limited').sort().map(item => item + '(' + itemsChanged[item].changes + ')').join(', '));
+console.log('\nRanged: ' + Object.keys(itemsChanged).filter(item => itemsChanged[item].category == 'Ranged').sort().map(item => item + '(' + itemsChanged[item].changes + ')').join(', '));
+console.log('\nMelee: ' + Object.keys(itemsChanged).filter(item => itemsChanged[item].category == 'Melee').sort().map(item => item + '(' + itemsChanged[item].changes + ')').join(', '));
+console.log('\nItems: ' + Object.keys(itemsChanged).filter(item => itemsChanged[item].category == 'Items').sort().map(item => item + '(' + itemsChanged[item].changes + ')').join(', '));
+console.log('\nAmmo: ' + Object.keys(itemsChanged).filter(item => itemsChanged[item].category == 'Ammo').sort().map(item => item + '(' + itemsChanged[item].changes + ')').join(', '));
+console.log('\nMaterials: ' + Object.keys(itemsChanged).filter(item => itemsChanged[item].category == 'Materials').sort().map(item => item + '(' + itemsChanged[item].changes + ')').join(', '));
+console.log('\nStorage: ' + Object.keys(itemsChanged).filter(item => itemsChanged[item].category == 'Storage').sort().map(item => item + '(' + itemsChanged[item].changes + ')').join(', '));
+console.log('\nBanners: ' + Object.keys(itemsChanged).filter(item => itemsChanged[item].category == 'Banners').sort().map(item => item + '(' + itemsChanged[item].changes + ')').join(', '));
 
 
 console.log('===================')
