@@ -51,7 +51,7 @@ module.exports = {
             // valid currency and user has money
             const response = await app.discoin.request(message.author.id, convertAmnt, currency);
             await app.player.removeMoney(message.author.id, convertAmnt);
-            await app.query("UPDATE scores SET discoinLimit = discoinLimit + ? WHERE userId = ?", [convertAmnt, message.author.id]);
+            //await app.query("UPDATE scores SET discoinLimit = discoinLimit + ? WHERE userId = ?", [convertAmnt, message.author.id]);
             
             const embed = new app.Embed()
             .setTitle('Successfully Converted!')
