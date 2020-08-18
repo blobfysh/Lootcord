@@ -32,9 +32,11 @@ module.exports = {
         else if(row.money < convertAmnt){
             return message.reply("❌ You don't have enough money for that conversion! You currently have **" + app.common.formatNumber(row.money) + "**");
         }
+        /*
         else if(row.discoinLimit + convertAmnt > CONVERT_LIMIT){
             return message.reply(`❌ You are limited to converting ${app.common.formatNumber(CONVERT_LIMIT)} a day.${CONVERT_LIMIT - row.discoinLimit > 0 ? ' You can still convert ' + app.common.formatNumber(CONVERT_LIMIT - row.discoinLimit) + ' today.' : ''}\n\nThis limit helps prevent players from inflating other bot currencies.`);
         }
+        */
 
         try{
             const currencies = await app.discoin.getCurrencies();
