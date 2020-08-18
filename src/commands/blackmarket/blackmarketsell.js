@@ -4,7 +4,7 @@ const max_listings = 15;
 
 module.exports = {
     name: 'blackmarketsell',
-    aliases: ['blackmarketlist', 'bmlist', 'bmsell'],
+    aliases: ['blackmarketlist', 'bmlist', 'bmsell', 'bms'],
     description: 'Add a new listing to the Black Market.',
     long: 'Sell an item of your own on the Black Market for other players to buy! Listing an item has a fee of 10% of the price.',
     args: {},

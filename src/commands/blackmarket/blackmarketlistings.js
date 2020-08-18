@@ -2,7 +2,7 @@ const ITEMS_PER_PAGE = 9;
 
 module.exports = {
     name: 'blackmarketlistings',
-    aliases: ['bmlistings', 'bmlisting'],
+    aliases: ['bmlistings', 'bmlisting', 'bml'],
     description: 'View your Black Market listings.',
     long: 'Show all listings on the Black Market that you own.',
     args: {},
