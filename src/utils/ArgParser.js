@@ -1,11 +1,11 @@
 const SpellCorrector = require('../structures/Corrector');
-const ignoredItemCorrections = ['bounty', 'fuck', 'cock', 'armor']; // don't correct these words into items
+const ignoredItemCorrections = ['bounty', 'fuck', 'cock', 'armor', 'all', 'money']; // don't correct these words into items
 
 class ArgParser {
     constructor(app){
         this.app = app;
         this.badgedata = app.badgedata;
-        this.itemCorrector = new SpellCorrector([...Object.keys(this.app.itemdata), ...this._getAliases()].filter(item => item.length > 3));
+        this.itemCorrector = new SpellCorrector([...Object.keys(this.app.itemdata), ...this._getAliases().filter(item => item.length > 3)]);
         this.badgeCorrector = new SpellCorrector(Object.keys(this.app.badgedata));
     }
 
@@ -94,13 +94,15 @@ class ArgParser {
             arg = arg.replace(/,/g,"");
             
             if(this._isNumber(arg)){
-                numbers.push(Math.floor(Number(arg)));
-            }
-            else if(arg.endsWith('m') && !isNaN(arg.slice(0, -1)) && Number(arg.slice(0, -1))){
-                numbers.push(Math.floor(parseFloat(arg) * 1000000))
-            }
-            else if(arg.endsWith('k') && !isNaN(arg.slice(0, -1)) && Number(arg.slice(0, -1))){
-                numbers.push(Math.floor(parseFloat(arg) * 1000))
+                if(arg.endsWith('m')){
+                    numbers.push(Math.floor(parseFloat(arg) * 1000000))
+                }
+                else if(arg.endsWith('k')){
+                    numbers.push(Math.floor(parseFloat(arg) * 1000))
+                }
+                else{
+                    numbers.push(Math.floor(Number(arg)));
+                }
             }
         }
         return numbers.filter(num => num >= 0);
@@ -203,6 +205,12 @@ class ArgParser {
 
     _isNumber(arg){
         if(!isNaN(arg) && Number(arg) && !arg.includes('.')){
+            return true;
+        }
+        else if(arg.endsWith('m') && !isNaN(arg.slice(0, -1)) && Number(arg.slice(0, -1))){
+            return true;
+        }
+        else if(arg.endsWith('k') && !isNaN(arg.slice(0, -1)) && Number(arg.slice(0, -1))){
             return true;
         }
         else return false;
