@@ -538,6 +538,20 @@ module.exports = {
                         sendToKillFeed(app, message.author, serverInfo.killChan, target, item, randDmg, randomItems, moneyStolen, scrapStolen);
                     }
                     logKill(app, message.channel.guild.id, message.member, target, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems)
+
+                    // deactivate victim if they had nothing to loot
+                    if(randomItems.items.length === 0 && moneyStolen <= 1000 && scrapStolen <= 1000){
+                        await app.player.deactivate(target.id, message.channel.guild.id);
+                        
+                        if(Object.keys(app.config.activeRoleGuilds).includes(message.channel.guild.id)){
+                            try{
+                                target.removeRole(app.config.activeRoleGuilds[message.channel.guild.id].activeRoleID);
+                            }
+                            catch(err){
+                                console.warn('Failed to add active role.');
+                            }
+                        }
+                    }
                 }
                 else{
                     // normal attack
@@ -709,7 +723,21 @@ module.exports = {
                     if(serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== ''){
                         sendToKillFeed(app, message.author, serverInfo.killChan, member, item, randDmg, randomItems, moneyStolen, scrapStolen);
                     }
-                    logKill(app, message.channel.guild.id, message.member, member, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems)
+                    logKill(app, message.channel.guild.id, message.member, member, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems);
+
+                    // deactivate victim if they had nothing to loot
+                    if(randomItems.items.length === 0 && moneyStolen <= 1000 && scrapStolen <= 1000){
+                        await app.player.deactivate(member.id, message.channel.guild.id);
+                        
+                        if(Object.keys(app.config.activeRoleGuilds).includes(message.channel.guild.id)){
+                            try{
+                                member.removeRole(app.config.activeRoleGuilds[message.channel.guild.id].activeRoleID);
+                            }
+                            catch(err){
+                                console.warn('Failed to add active role.');
+                            }
+                        }
+                    }
                 }
                 else{
                     // normal attack
