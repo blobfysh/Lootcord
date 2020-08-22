@@ -78,8 +78,8 @@ class LoopTasks {
         // reset daily limits
         await this.app.query(`UPDATE scores SET discoinLimit = 0, bmLimit = 0 WHERE discoinLimit != 0 OR bmLimit != 0`);
 
-        // auto-deactivate players who have not played for 14 days
-        const InactiveUsers = await this.app.query(`SELECT scores.userId, guildId, lastActive FROM userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 14 DAY`);
+        // auto-deactivate players who have not played for 7 days
+        const InactiveUsers = await this.app.query(`SELECT scores.userId, guildId, lastActive FROM userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 7 DAY`);
         let activeRolesRemoved = 0;
 
         for(let i = 0; i < InactiveUsers.length; i++){
@@ -95,7 +95,7 @@ class LoopTasks {
         }
         console.log('[LOOPTASKS] Removed active role from ' + activeRolesRemoved + ' players.');
         
-        await this.app.query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 14 DAY`);
+        await this.app.query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 7 DAY`);
 
         const dailyEmbed = new this.app.Embed()
         .setTitle('Daily Tasks')
