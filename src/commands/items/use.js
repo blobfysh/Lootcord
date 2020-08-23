@@ -308,7 +308,7 @@ module.exports = {
                         await app.itm.addBadge(message.author.id, 'specialist');
                     }
                     if(row.kills + 1 >= 100){
-                        await app.itm.addBadge(message.author.id, 'hitman');
+                        await app.itm.addBadge(message.author.id, 'executioner');
                     }
 
                     const killedReward = new app.Embed()
@@ -517,7 +517,7 @@ module.exports = {
                         await app.itm.addBadge(message.author.id, 'specialist');
                     }
                     if(row.kills + 1 >= 100){
-                        await app.itm.addBadge(message.author.id, 'hitman');
+                        await app.itm.addBadge(message.author.id, 'executioner');
                     }
                     
                     const killedReward = new app.Embed()
@@ -703,7 +703,7 @@ module.exports = {
                         await app.itm.addBadge(message.author.id, 'specialist');
                     }
                     if(row.kills + 1 >= 100){
-                        await app.itm.addBadge(message.author.id, 'hitman');
+                        await app.itm.addBadge(message.author.id, 'executioner');
                     }
                     
                     const killedReward = new app.Embed()
