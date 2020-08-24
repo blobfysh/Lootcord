@@ -519,6 +519,9 @@ module.exports = {
                     if(row.kills + 1 >= 100){
                         await app.itm.addBadge(message.author.id, 'executioner');
                     }
+                    if(target.id === '168958344361541633'){
+                        await app.itm.addBadge(message.author.id, 'dev_slayer');
+                    }
                     
                     const killedReward = new app.Embed()
                     .setTitle('Loot Received')
@@ -699,11 +702,15 @@ module.exports = {
                         await app.query(`UPDATE scores SET power = -5 WHERE userId = ${member.id}`);
                     }
 
+                    // add badges
                     if(row.kills + 1 >= 20){
                         await app.itm.addBadge(message.author.id, 'specialist');
                     }
                     if(row.kills + 1 >= 100){
                         await app.itm.addBadge(message.author.id, 'executioner');
+                    }
+                    if(member.id === '168958344361541633'){
+                        await app.itm.addBadge(message.author.id, 'dev_slayer');
                     }
                     
                     const killedReward = new app.Embed()

@@ -52,5 +52,11 @@
         "description": "Played Lootcord before the August 1st Rust update.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/736435600990666862/og_lootcord.png",
         "artist": ""
+    },
+    "dev_slayer": {
+        "icon": "<:wickmode:744409719581573210>",
+        "description": "Kill blobfysh#4679 (the developer of the bot), you can find him in the official Discord server! `t-discord`",
+        "image": "https://cdn.discordapp.com/attachments/542248243313246208/747420490821271632/wickmode.png",
+        "artist": ""
     }
 }
