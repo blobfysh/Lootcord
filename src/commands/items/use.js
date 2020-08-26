@@ -398,16 +398,6 @@ module.exports = {
                     return message.reply("❌ There aren't any players you can attack in this server!");
                 }
 
-                // try creating user collector first, to error out before doing anything else
-                try{
-                    app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
-                        return m.author.id === message.author.id
-                    }, { time: 16000 });
-                }
-                catch(err){
-                    return message.reply("❌ You have an active command running.");
-                }
-
                 let ammoUsed
                 let bonusDamage = 0;
                 let damageMin = app.itemdata[item].minDmg;
@@ -424,7 +414,6 @@ module.exports = {
                     }
                 }
                 catch(err){
-                    app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
                     return message.reply("❌ You don't have any ammo for that weapon!");
                 }
 
@@ -967,11 +956,16 @@ async function pickTarget(app, message, selection){
     }
     else{
         try{
+            const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
+                return m.author.id === message.author.id
+            }, { time: 16000 });
+
             const userdata = {
                 user1: await app.player.getRow(selection.users[0]),
                 user2: await app.player.getRow(selection.users[1]),
                 user3: await app.player.getRow(selection.users[2])
             };
+
             const atkEmbed = new app.Embed()
             .setAuthor((message.author.username + '#' + message.author.discriminator), message.author.avatarURL)
             .setTitle('Pick someone to attack!')
@@ -983,28 +977,26 @@ async function pickTarget(app, message, selection){
             .setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
 
             const botMessage = await message.channel.createMessage(atkEmbed);
-
-            const collector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
             
             return new Promise(resolve => {
-                collector.on('collect', m => {
+                collectorObj.collector.on('collect', m => {
                     if(m.content === '1'){
                         botMessage.delete();
-                        app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                        app.msgCollector.stopCollector(collectorObj);
                         resolve(selection.members[0]);
                     }
                     else if(m.content === '2'){
                         botMessage.delete();
-                        app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                        app.msgCollector.stopCollector(collectorObj);
                         resolve(selection.members[1]);
                     }
                     else if(m.content === '3'){
                         botMessage.delete();
-                        app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                        app.msgCollector.stopCollector(collectorObj);
                         resolve(selection.members[2]);
                     }
                 });
-                collector.on('end', reason => {
+                collectorObj.collector.on('end', reason => {
                     if(reason === 'time'){
                         botMessage.delete();
                         resolve(selection.members[Math.floor(Math.random() * selection.members.length)]);

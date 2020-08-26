@@ -64,32 +64,22 @@ module.exports = {
             const confirmed = await app.react.getConfirmation(user.id, botMessage);
 
             if(confirmed){
-                
-                try{
-                    // try to create collector first so that it can error out
-                    app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
-                        return m.author.id === message.author.id
-                    }, { time: 180000 });
-                    app.msgCollector.createUserCollector(user.id, message.channel.id, m => {
-                        return m.author.id === user.id
-                    }, { time: 180000 });
-                }
-                catch(err){
-                    return botMessage.edit('❌ One of the trading partners has another command active. Finish using that command before starting a trade.');
-                }
-
-                const player1Collector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
-                const player2Collector = app.msgCollector.collectors[`${user.id}_${message.channel.id}`].collector;
+                const player1Collector = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
+                    return m.author.id === message.author.id
+                }, { time: 180000 });
+                const player2Collector = app.msgCollector.createUserCollector(user.id, message.channel.id, m => {
+                    return m.author.id === user.id
+                }, { time: 180000 });
 
                 let player1Money = 0;
                 let player2Money = 0;
                 let player1Items = [];
                 let player2Items = [];
 
-                player1Collector.on('collect', getPlayer);
-                player2Collector.on('collect', getPlayer);
+                player1Collector.collector.on('collect', getPlayer);
+                player2Collector.collector.on('collect', getPlayer);
                 
-                player1Collector.on('end', reason => {
+                player1Collector.collector.on('end', reason => {
                     if(reason === 'time'){
                         message.channel.createMessage('❌ The trade timed out.');
                     }
@@ -107,15 +97,15 @@ module.exports = {
 
                 async function handleMsg(m, args, command, player){
                     if(command.toLowerCase() === 'cancel'){
-                        app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
-                        app.msgCollector.stopCollector(`${user.id}_${message.channel.id}`);
+                        app.msgCollector.stopCollector(player1Collector);
+                        app.msgCollector.stopCollector(player2Collector);
 
                         message.channel.createMessage('Trade has been canceled.');
                     }
                     else if(command.toLowerCase() === 'accept'){
                         if(!getValue(app, player2Money, player2Items) && !getValue(app, player1Money, player1Items)) return m.channel.createMessage(`❌ You should add something to the trade!`);
-                        app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
-                        app.msgCollector.stopCollector(`${user.id}_${message.channel.id}`);
+                        app.msgCollector.stopCollector(player1Collector);
+                        app.msgCollector.stopCollector(player2Collector);
 
                         if(player === 1){
                             const botMessage = await message.channel.createMessage(`<@${user.id}>, **${message.member.nick || message.member.username}** has accepted the trade! Do you accept?`);

@@ -3,32 +3,47 @@ const EventEmitter = require('events').EventEmitter;
 class MessageCollector {
     constructor(app) {
         this.app = app;
-        this.collectors = {};
-        this.listener = (message) => this.verify(message);
+        this.channelCollectors = [];
+        this.userCollectors = [];
 
-        this.app.bot.on('messageCreate', this.listener);
+        this.app.bot.on('messageCreate', this.verify.bind(this));
+
+        setInterval(() => {
+            for(let c of this.channelCollectors){
+                if(c.maxLength && Date.now() - c.maxLength > c.startedAt){
+                    c.collector.emit('end', 'time');
+                    this.channelCollectors.splice(this.channelCollectors.indexOf(c), 1);
+                }
+            }
+            for(let c of this.userCollectors){
+                if(c.maxLength && Date.now() - c.maxLength > c.startedAt){
+                    c.collector.emit('end', 'time');
+                    this.userCollectors.splice(this.userCollectors.indexOf(c), 1);
+                }
+            }
+        }, 1000);
     }
 
     verify(msg){
         if(msg.author.bot) return;
 
-        const collectorObj = this.collectors[`${msg.channel.id}`];
-        const userCollectorObj = this.collectors[`${msg.author.id}_${msg.channel.id}`];
+        const channelCollectors = this.channelCollectors.filter(obj => obj.channelId === msg.channel.id);
+        const userCollectors = this.userCollectors.filter(obj => obj.channelId === msg.channel.id && obj.userId === msg.author.id);
 
-        // check if any collectors exist...
-        if(!collectorObj && !userCollectorObj) return;
-
-        // check if message passes the collector filters
-        if(collectorObj && collectorObj.filter(msg)){
-            collectorObj.collector.emit('collect', msg);
+        for(let obj of channelCollectors){
+            if(obj.filter(msg)){
+                obj.collector.emit('collect', msg);
+            }
         }
 
-        if(userCollectorObj && userCollectorObj.filter(msg)){
-            userCollectorObj.collector.emit('collect', msg);
-            userCollectorObj.collected.push(msg);
+        for(let obj of userCollectors){
+            if(obj.filter(msg)){
+                obj.collector.emit('collect', msg);
+                obj.collected.push(msg);
 
-            if(userCollectorObj.maxMatches && userCollectorObj.collected.length >= userCollectorObj.maxMatches){
-                this.stopCollector([`${msg.author.id}_${msg.channel.id}`], userCollectorObj.collected);
+                if(obj.maxMatches && obj.collected.length >= obj.maxMatches){
+                    this.stopCollector(obj, obj.collected);
+                }
             }
         }
     }
@@ -40,26 +55,19 @@ class MessageCollector {
      * @param {*} options options.time - time in milliseconds collector should last
      */
     createChannelCollector(message, filter, options = { time: 15000 }){
-        // check if a collector already exists on this channel
-        if(this.collectors[`${message.channel.id}`]){
-            throw new Error('Overlapping collectors should be handled gracefully. You should be checking if a collector already exists before creating a new one.');
-        }
-
         const eventCollector = new EventEmitter();
-        let timer;
 
-        if(options.time){
-            timer = setTimeout(() => {
-                eventCollector.emit('end', 'time');
-                delete this.collectors[`${message.channel.id}`];
-            }, options.time);
+        const collectorObj = {
+            channelId: message.channel.id,
+            startedAt: Date.now(),
+            maxLength: options.time || undefined,
+            collector: eventCollector,
+            filter
         }
 
-        this.collectors[`${message.channel.id}`] = {
-            timer: timer,
-            collector: eventCollector,
-            filter: filter
-        };
+        this.channelCollectors.push(collectorObj);
+
+        return collectorObj;
     }
 
     /**
@@ -69,49 +77,44 @@ class MessageCollector {
      * @param {*} options options.time - time in milliseconds collector should last
      */
     createUserCollector(userId, channelId, filter, options = { time: 15000, maxMatches: undefined }){
-        // check if a collector already exists for this user on this channel
-        if(this.collectors[`${userId}_${channelId}`]){
-            throw new Error('Overlapping collectors should be handled gracefully. You should be checking if a collector already exists before creating a new one.');
-        }
-
         const eventCollector = new EventEmitter();
-        let timer;
 
-        if(options.time){
-            timer = setTimeout(() => {
-                eventCollector.emit('end', 'time');
-                delete this.collectors[`${userId}_${channelId}`];
-            }, options.time);
-        }
-
-        this.collectors[`${userId}_${channelId}`] = {
-            timer: timer,
+        const collectorObj = {
+            userId,
+            channelId,
+            startedAt: Date.now(),
+            maxLength: options.time || undefined,
             collector: eventCollector,
             collected: [],
             maxMatches: options.maxMatches,
-            filter: filter
-        };
+            filter
+        }
+
+        this.userCollectors.push(collectorObj);
+
+        return collectorObj;
     }
 
     awaitMessages(userId, channelId, filter, options = { time: 15000, maxMatches: 1 }){
-        // check if a collector already exists for this user on this channel
-        this.createUserCollector(userId, channelId, filter, options);
-        const collector = this.collectors[`${userId}_${channelId}`].collector;
+        const collectorObj = this.createUserCollector(userId, channelId, filter, options);
 
         return new Promise((resolve) => {
-            collector.on('end', resolve)
+            collectorObj.collector.on('end', resolve)
         });
     }
 
     /**
      * Clears timeout for collector and stops it
-     * @param {string} key Key of collector to remove, can be channel ID or User ID + channel ID
+     * @param {*} collectorObj Collector to remove
      */
-    stopCollector(key, message = 'forced'){
-        if(this.collectors[key]){
-            clearTimeout(this.collectors[key].timer);
-            this.collectors[key].collector.emit('end', message);
-            delete this.collectors[key];
+    stopCollector(collectorObj, message = 'forced'){
+        if(this.userCollectors.includes(collectorObj)){
+            collectorObj.collector.emit('end', message);
+            this.userCollectors.splice(this.userCollectors.indexOf(collectorObj), 1);
+        }
+        else if(this.channelCollectors.includes(collectorObj)){
+            collectorObj.collector.emit('end', message);
+            this.channelCollectors.splice(this.channelCollectors.indexOf(collectorObj), 1);
         }
     }
 }

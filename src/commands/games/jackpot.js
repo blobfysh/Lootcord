@@ -59,7 +59,9 @@ async function startJackpot(app, message, gambleAmount){
     let jackpotObj = {};
 
     try{
-        app.msgCollector.createChannelCollector(message, m => {
+        if(app.msgCollector.channelCollectors.filter(obj => obj.channelId === message.channel.id).length){ throw 'Jackpot already started!' };
+
+        const collectorObj = app.msgCollector.createChannelCollector(message, m => {
             return m.channel.id === message.channel.id &&
             m.content.toLowerCase().startsWith(message.prefix + 'join')
         }, { time: 120000 });
@@ -91,9 +93,7 @@ async function startJackpot(app, message, gambleAmount){
             message.channel.createMessage(`And the winner is...`);
         }, 119000)
 
-        const collector = app.msgCollector.collectors[`${message.channel.id}`].collector;
-
-        collector.on('collect', async m => {
+        collectorObj.collector.on('collect', async m => {
             if(!await app.player.isActive(m.author.id, m.channel.guild.id)) return m.channel.createMessage(`Your account is not active in this server! Use \`${message.prefix}play\` to activate it here`);
             const userArgs = m.content.slice(message.prefix.length).split(/ +/).slice(1);
             const userRow = await app.player.getRow(m.author.id);
@@ -136,7 +136,7 @@ async function startJackpot(app, message, gambleAmount){
             m.channel.createMessage(refreshEmbed(app, jackpotObj, message.prefix));
         });
 
-        collector.on('end', async reason => {
+        collectorObj.collector.on('end', async reason => {
             let winnerId = pickWinner(jackpotObj);
             let winAmount = getJackpotTotal(jackpotObj);
             

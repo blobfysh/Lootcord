@@ -40,7 +40,7 @@ module.exports = {
 
         try{
             // try to create collector first so that it can error out before removing player money and adding cooldown
-            app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
+            const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
                 return m.author.id === message.author.id
             }, { time: 60000 });
 
@@ -60,16 +60,14 @@ module.exports = {
 
             message.channel.createMessage(genEmbed(app, message, playerCards, dealerCards, gambleAmount));
 
-            const collector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
-
-            collector.on('collect', m => {
+            collectorObj.collector.on('collect', m => {
                 if(m.content.toLowerCase().startsWith('hit')){
                     // hit
                     playerCards.push(drawCard(deck));
 
                     let playerScore = getScore(playerCards);
                     if(playerScore.minScore > 21){
-                        app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                        app.msgCollector.stopCollector(collectorObj);
 
                         message.channel.createMessage(loserEmbed(app, message, playerCards, dealerCards, 'You busted and lost **' + app.common.formatNumber(gambleAmount, false, true) + '**...', gambleAmount));
                     }
@@ -78,7 +76,7 @@ module.exports = {
                     }
                 }
                 else if(m.content.toLowerCase().startsWith('stand')){
-                    app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                    app.msgCollector.stopCollector(collectorObj);
 
                     let playerScore = getScore(playerCards);
                     if(playerScore.score > 21){
@@ -114,7 +112,7 @@ module.exports = {
                     }
                 }
             });
-            collector.on('end', reason => {
+            collectorObj.collector.on('end', reason => {
                 if(reason === 'time'){
                     message.reply('**You took too long to make a decision!** Your game of blackjack has expired.');
                 }

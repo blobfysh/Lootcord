@@ -16,14 +16,9 @@ module.exports = {
     
     
     async execute(app, message){
-        try{
-            app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
-                return m.author.id === message.author.id
-            }, { time: 30000 });
-        }
-        catch(err){
-            return message.reply('❌ You have an active command running!');
-        }
+        const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
+            return m.author.id === message.author.id
+        }, { time: 30000 });
 
         const monumentsArr = app.common.shuffleArr(Object.keys(monuments)).slice(0, 3);
         const exploreEmbed = new app.Embed()
@@ -33,21 +28,19 @@ module.exports = {
         let monumentsDisplay = '';
 
         for(let i = 0; i < monumentsArr.length; i++){
-            monumentsDisplay += (i + 1) + '. **' + monuments[monumentsArr[i]].title + '** (Recommended level: **' +monuments[monumentsArr[i]].suggestedLevel + '**+)\n';
+            monumentsDisplay += (i + 1) + '. **' + monuments[monumentsArr[i]].title + '** (Recommended level: **' + monuments[monumentsArr[i]].suggestedLevel + '**+, Cooldown: `' + app.cd.convertTime(monuments[monumentsArr[i]].cooldown * 1000) + '`)\n';
         }
 
         exploreEmbed.setDescription('Type the number of the location you wish to explore:\n\n' + monumentsDisplay);
 
         message.channel.createMessage(exploreEmbed);
 
-        const collector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
-
-        collector.on('collect', async m => {
+        collectorObj.collector.on('collect', async m => {
             const userArgs = m.content.split(/ +/);
             const number = app.parse.numbers(userArgs)[0];
 
             if(monumentsArr[number - 1]){
-                app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                app.msgCollector.stopCollector(collectorObj);
 
                 const choice = monuments[monumentsArr[number - 1]];
                 const row = await app.player.getRow(message.author.id);
@@ -181,7 +174,7 @@ module.exports = {
                 }
             }
         });
-        collector.on('end', reason => {
+        collectorObj.collector.on('end', reason => {
             if(reason === 'time'){
                 message.reply('**You took too long to make a decision!**');
             }

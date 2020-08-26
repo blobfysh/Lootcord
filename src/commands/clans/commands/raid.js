@@ -65,8 +65,7 @@ module.exports = {
                     return;
                 }
 
-                // try to create collector first so that it can error out before starting raid
-                app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
+                const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
                     return m.author.id === message.author.id
                 }, { time: 120000 });
 
@@ -93,16 +92,14 @@ module.exports = {
                 await app.clans.addMoney(scoreRow.clanId, moneyStolen);
 
 
-                const collector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
-
                 if((await app.itm.getUserItems(await app.itm.getItemObject(clanRow.clanId))).itemCount === 0){
                     setTimeout(() => {
-                        app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                        app.msgCollector.stopCollector(collectorObj);
                         message.channel.createMessage(`<@${message.author.id}>, -> Max items stolen. Ending raid.`);
                     }, 2000);
                 }
 
-                collector.on('collect', async m => {
+                collectorObj.collector.on('collect', async m => {
                     if(!m.content.toLowerCase().startsWith(message.prefix)) return;
 
                     const userArgs = m.content.slice(message.prefix.length).split(/ +/);
@@ -112,7 +109,7 @@ module.exports = {
                     let amount = app.parse.numbers(itemInput)[0] || 1;
                     
                     if(command.toLowerCase() === 'stop' || command.toLowerCase() === 'end'){
-                        app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                        app.msgCollector.stopCollector(collectorObj);
                         return m.channel.createMessage(`<@${m.author.id}>, -> Ending raid.`);
                     }
                     else if(command.toLowerCase() === 'steal' || command.toLowerCase() === 'take'){
@@ -137,11 +134,11 @@ module.exports = {
 
                         if(itemsToSteal - itemsStolen <= 0){
                             m.channel.createMessage(`<@${m.author.id}>, -> Max items stolen. Ending raid.`);
-                            app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                            app.msgCollector.stopCollector(collectorObj);
                         }
                     }
                 });
-                collector.on('end', async reason => {
+                collectorObj.collector.on('end', async reason => {
                     await app.cd.clearCD(clanRow.clanId, 'getting_raided');
 
                     const raidEmbed = new app.Embed()

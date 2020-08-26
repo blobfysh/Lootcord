@@ -144,19 +144,17 @@ module.exports = {
         }
 
         try{
-            app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
+            const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
                 return m.author.id === message.author.id
             }, { time: 30000 });
 
             await app.cd.setCD(message.author.id, 'scramble', app.config.cooldowns.scramble * 1000);
 
             message.channel.createMessage(embedScramble);
-
-            const collector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
             
-            collector.on('collect', async m => {
+            collectorObj.collector.on('collect', async m => {
                 if(m.content.toLowerCase() == finalWord){
-                    app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                    app.msgCollector.stopCollector(collectorObj);
 
                     if(reward.item === 'money'){
                         await app.player.addMoney(message.author.id, reward.amount);
@@ -174,7 +172,7 @@ module.exports = {
                 }
             });
 
-            collector.on('end', reason => {
+            collectorObj.collector.on('end', reason => {
                 if(reason === 'time'){
                     const embedScramble = new app.Embed()
                     .setTitle("You didn't get it in time!")

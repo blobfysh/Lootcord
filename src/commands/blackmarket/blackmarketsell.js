@@ -103,20 +103,18 @@ module.exports = {
             .setColor(13451564)
 
             try{
-                app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
+                const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
                     return m.author.id === message.author.id
                 }, { time: 60000 });
 
                 let botMessage = await message.channel.createMessage(bmEmbed);
 
-                const collector = app.msgCollector.collectors[`${message.author.id}_${message.channel.id}`].collector;
-
-                collector.on('collect', async m => {
+                collectorObj.collector.on('collect', async m => {
                     let newArgs = m.content.split(/ +/);
                     let newItem = app.parse.items(newArgs)[0];
 
                     if(m.content.toLowerCase() == 'cancel' || m.content.toLowerCase() == 'stop'){
-                        app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                        app.msgCollector.stopCollector(collectorObj);
 
                         return message.reply('Listing canceled.');
                     }
@@ -174,7 +172,7 @@ module.exports = {
                         bmEmbed.addField('Price:', app.common.formatNumber(price));
                         bmEmbed.setDescription(`List **${amount}x** \`${item}\` for ${app.common.formatNumber(price)}?`);
                         botMessage = await message.channel.createMessage({content: '<@' + message.author.id + '>, This will cost ' + app.common.formatNumber(listingFee) + ' to list. Are you sure?', embed: bmEmbed.embed});
-                        app.msgCollector.stopCollector(`${message.author.id}_${message.channel.id}`);
+                        app.msgCollector.stopCollector(collectorObj);
                         try{
                             const confirmed = await app.react.getConfirmation(message.author.id, botMessage);
     
@@ -202,7 +200,7 @@ module.exports = {
                         }
                     }
                 });
-                collector.on('end', reason => {
+                collectorObj.collector.on('end', reason => {
                     if(reason === 'time'){
                         botMessage.edit({content: '❌ Command timed out.', embed: null});
                     }
