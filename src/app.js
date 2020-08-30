@@ -18,7 +18,6 @@ const NoFlyList        = require('./utils/NoFlyList');
 const Messager         = require('./utils/Messager');
 const Common           = require('./utils/Common');
 const Leaderboard      = require('./utils/Leaderboard');
-const Airdrop          = require('./utils/Airdrop');
 const Monsters         = require('./utils/Monsters');
 const MessageCollector = require('./utils/MessageCollector');
 const BlackMarket      = require('./utils/BlackMarket');
@@ -64,7 +63,6 @@ class Lootcord extends Base {
         this.clans = new Clans(this);
         this.parse = new ArgParser(this);
         this.Embed = Embed;
-        this.airdrop = new Airdrop(this);
         this.monsters = new Monsters(this);
         this.loopTasks = new LoopTasks(this);
         this.commandHandler = new CommandHandler(this);
@@ -81,7 +79,6 @@ class Lootcord extends Base {
             // only run these on main cluster, cooldowns only need to be refreshed once for all other clusters
             await this.refreshCooldowns();
             await this.refreshLists();
-            await this.startAirdrops();
             await this.startSpawns();
             await this.cache.setNoExpire('scrapExchangeRate', this.config.scrapExchangeRate.toString());
         }
@@ -268,16 +265,6 @@ class Lootcord extends Base {
         for(let banned of tradeBannedRows){
             if(banned.userId !== undefined && banned.userId !== null){
                 await this.cache.setNoExpire(`tradeban|${banned.userId}`, 'Tradebanned perma');
-            }
-        }
-    }
-
-    async startAirdrops(){
-        const airdropRows = await this.query(`SELECT * FROM guildInfo WHERE dropChan != 0`);
-
-        for(let i = 0; i < airdropRows.length; i++){
-            if(airdropRows[i].guildId !== undefined && airdropRows[i].guildId !== null && airdropRows[i].dropChan !== 0){
-                this.airdrop.initAirdrop(airdropRows[i].guildId);
             }
         }
     }

@@ -49,7 +49,6 @@ module.exports = {
             
             const killFeedChan = cachedChannels.get(guildRow.killChan) ? cachedChannels.get(guildRow.killChan).name + ' (ID: `' + guildRow.killChan + '`)' : 'None set';
             const levelChan = cachedChannels.get(guildRow.levelChan) ? cachedChannels.get(guildRow.levelChan).name + ' (ID: `' + guildRow.levelChan + '`)' : 'None set';
-            const airdropChan = cachedChannels.get(guildRow.dropChan) ? cachedChannels.get(guildRow.dropChan).name + ' (ID: `' + guildRow.dropChan + '`)' : 'None set';
             const attackMode = guildRow.randomOnly ? 'Random only' : 'Selectable';
 
             const statEmbed = new app.Embed()
@@ -63,7 +62,6 @@ module.exports = {
             **Prefix**: ${prefixRow ? prefixRow.prefix : app.config.prefix}
             **Killfeed**: ${killFeedChan}
             **Levelling Channel**: ${levelChan}
-            **Airdrops**: ${airdropChan}
             **Attack Mode**: ${attackMode}`)
             .addField(`Channels - ${cachedChannels.size}`, cachedChannels.filter(chan => chan.type !== 4).map(chan => getChannelType(app.icons, chan, guildID) + ' ' + chan.name + ' (ID: `' + chan.id + '`)').slice(0, 10).join('\n') || 'None')
             .addField(`Cached Members - ${cachedMembers.size}`, codeWrap(cachedMembers.filter(user => !user.user.bot).map(user => user.user.username + '#' + user.user.discriminator + ' (' + user.user.id + ')').slice(0, 15).join('\n') || 'None (cached bots are not shown)', ''))

@@ -27,7 +27,6 @@ module.exports = {
         const rouletteCD = await app.cd.getCD(message.author.id, 'roulette');
         const coinflipCD = await app.cd.getCD(message.author.id, 'coinflip');
         const jackpotCD = await app.cd.getCD(message.author.id, 'jackpot');
-        const airdropCD = await app.cd.getCD(message.author.id, 'airdrop');
         const xp_potionCD = await app.cd.getCD(message.author.id, 'xp_potion');
         const armorCD = await app.cd.getCD(message.author.id, 'shield');
         const armor = await app.player.getArmor(message.author.id);
@@ -84,9 +83,6 @@ module.exports = {
         }
         if(passiveShield){
             embedLeader.addField("🛡 Passive Shield", '`' + passiveShield + '` [?](https://lootcord.com/faq#what-is-a-passive-shield \'A passive shield is a 24 hour attack shield given to you when you are killed.\n\nThis shield will automatically be removed if you decide to attack someone.\')', true)
-        }
-        if(airdropCD){
-            embedLeader.addField("claimdrop", '`❌ ' + airdropCD + '`', true)
         }
         if(xp_potionCD){
             embedLeader.addField("xp_potion", '`❌ ' + xp_potionCD + '`', true)

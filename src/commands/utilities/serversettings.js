@@ -17,7 +17,6 @@ module.exports = {
 
         let killfeedStr = message.channel.guild.channels.get(guildRow.killChan) ? '(Disable with `togglekillfeed`)' : '(Set with `togglekillfeed`)';
         let lvlChanStr = message.channel.guild.channels.get(guildRow.levelChan) ? '(Disable with `togglelevelchannel`)' : '(Set with `togglelevelchannel`)';
-        let airdropChan = message.channel.guild.channels.get(guildRow.dropChan) ? '(Disable with `disabledropchannel`)' : '(Set with `setdropchannel`)';
         
         const settings = new app.Embed()
         .setTitle('Settings for: ' + message.channel.guild.name)
@@ -26,7 +25,6 @@ module.exports = {
         .addField(`Killfeed Channel\n${killfeedStr}`, message.channel.guild.channels.get(guildRow.killChan) ? message.channel.guild.channels.get(guildRow.killChan).mention : 'None set')
         .addField(`Level-up Channel\n${lvlChanStr}`, message.channel.guild.channels.get(guildRow.levelChan) ? message.channel.guild.channels.get(guildRow.levelChan).mention : 'None set')
         .addField('Attack Mode\n(Change with `togglerandomattacks`)', guildRow.randomOnly ? 'Random only' : 'Selectable')
-        .addField(`Airdrop Channel\n${airdropChan}`, message.channel.guild.channels.get(guildRow.dropChan) ? message.channel.guild.channels.get(guildRow.dropChan).mention : 'None set')
 
         if(message.channel.guild.iconURL) settings.setThumbnail(message.channel.guild.iconURL);
         message.channel.createMessage(settings);
