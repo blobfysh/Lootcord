@@ -423,7 +423,7 @@ INSERT IGNORE INTO scores (
         ?,
         ?,
         ?,
-        0,
+        500,
         ?,
         ?,
         ?,
