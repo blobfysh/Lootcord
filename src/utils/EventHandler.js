@@ -14,9 +14,9 @@ class EventHandler {
         const rand = Math.random();
         let event;
 
-        if(rand <= 0.1){
+        if(rand <= 0.15){
             // rare event
-            event = this.events.get('exploration');
+            event = this.events.get('airdrop');
         }
         else{
             // common event

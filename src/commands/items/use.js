@@ -67,35 +67,24 @@ module.exports = {
                 message.channel.createMessage('<@' + message.author.id + '>, ' + openStr);
             }
             else if(item === 'supply_signal'){
-                const serverInfo = await app.common.getGuildInfo(message.channel.guild.id);
                 await app.itm.removeItem(message.author.id, item, 1);
 
                 message.reply('📻 Requesting immediate airdrop...').then(msg => {
                     setTimeout(() => {
-                        message.channel.createMessage('**📻 Airdrop arriving in `30 seconds`!**');
+                        message.channel.createMessage('**📻 Airdrop arriving in `10 seconds`!**');
                     }, 3000);
                     setTimeout(() => {
-                        message.channel.createMessage('**📻 `10 seconds`!**');
-                    }, 20000);
-                    setTimeout(() => {
                         message.channel.createMessage('**📻 `5`...**');
-                    }, 25000);
+                    }, 8000);
                     setTimeout(() => {
                         message.channel.createMessage('**📻 `4`...**');
-                    }, 26000);
+                    }, 9000);
                     setTimeout(() => {
                         message.channel.createMessage('**📻 `3`...**');
-                    }, 27000);
+                    }, 10000);
                     setTimeout(() => {
-                        const dropEmbed = new app.Embed()
-                        .setDescription(`**A ${app.itemdata['supply_drop'].icon}\`supply_drop\` has arrived!**\n\nUse \`${message.prefix}claimdrop\` to claim it.`)
-                        .setImage(app.itemdata['supply_drop'].image)
-                        .setColor(13451564)
-                        app.query(`UPDATE guildInfo SET dropItemChan = '${message.channel.id}' WHERE guildId = ${message.channel.guild.id}`);
-                        app.query(`UPDATE guildInfo SET dropItem = 'supply_drop' WHERE guildId = ${message.channel.guild.id}`);
-                        
-                        message.channel.createMessage(dropEmbed);
-                    }, 30000);
+                        app.eventHandler.events.get('airdrop').execute(app, message);
+                    }, 13000);
                 });
             }
             else if(app.itemdata[item].isShield){

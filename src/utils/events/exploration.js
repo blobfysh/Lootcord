@@ -5,6 +5,8 @@ module.exports = {
     cooldown: 3600 * 1000,
     
     async execute(app, message){
+        console.log('[EVENT] Exploration started');
+
         const collectorObj = app.msgCollector.createChannelCollector(message, m => {
             return m.channel.id === message.channel.id &&
             m.content.toLowerCase() === 'roam'
@@ -38,7 +40,7 @@ module.exports = {
             });
     
             collectorObj.collector.on('end', async reason => {
-                exploreEmbed.setDescription(`Monument: **${monument.title}**\nRecommended level: **${monument.suggestedLevel}+**\n\n~~Type \`roam\` to explore this monument for loot!~~\n❌ This event has ended and no longer accepting responses! ${app.icons.blackjack_dealer_lost}`)
+                exploreEmbed.setDescription(`Monument: **${monument.title}**\nRecommended level: **${monument.suggestedLevel}+**\n\n~~Type \`roam\` to explore this monument for loot!~~\n❌ This event has ended and is no longer accepting responses! ${app.icons.blackjack_dealer_lost}`)
                 startedMessage.edit(exploreEmbed);
 
                 const results = [];
