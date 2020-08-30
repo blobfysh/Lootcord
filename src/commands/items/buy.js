@@ -22,7 +22,7 @@ module.exports = {
             let itemPrice = app.itemdata[buyItem].buy.amount;
 
             if(itemPrice == undefined){
-                return message.reply('That item is not for sale!');
+                return message.reply('That item is not for sale, try checking the black market instead: `' + message.prefix + 'bm ' + buyItem + '`');
             }
             
             if(buyAmount > 20) buyAmount = 20;
@@ -348,6 +348,9 @@ module.exports = {
                 console.log(err);
                 botMessage.edit('You ran out of time.');
             }
+        }
+        else if(message.args[0] && message.args[0].toLowerCase() === 'lootcoin'){
+            message.reply(`You can't buy Lootcoin directly using Scrap, you should instead check the daily scrap deals in the \`shop\`!`)
         }
         else{
             message.reply(`You need to enter a valid item to buy! \`${message.prefix}buy <item> <amount>\``);
