@@ -25,6 +25,7 @@ const BlackMarket      = require('./utils/BlackMarket');
 const Clans            = require('./utils/Clans');
 const LoopTasks        = require('./utils/LoopTasks');
 const PatreonHandler   = require('./utils/PatreonHandler');
+const EventHandler     = require('./utils/EventHandler');
 
 const events           = fs.readdirSync(__dirname + '/events');
 const ipcEvents        = fs.readdirSync(__dirname + '/ipc');
@@ -67,6 +68,7 @@ class Lootcord extends Base {
         this.monsters = new Monsters(this);
         this.loopTasks = new LoopTasks(this);
         this.commandHandler = new CommandHandler(this);
+        this.eventHandler = new EventHandler(this);
     }
 
     async launch(){

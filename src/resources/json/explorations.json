@@ -34,7 +34,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "You've found {reward} outside of the building!"
+                "quote": "**{user}** found {reward} outside of the building!"
             },
             {
                 "reward": {
@@ -49,7 +49,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "After checking all the rooms in the building, you decide to climb the ladder to the top of the building.\n\nYou've found {reward}!"
+                "quote": "**{user}** climbs on top of the building and finds {reward}!"
             },
             {
                 "reward": {
@@ -64,7 +64,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "After going inside, you noticed a dead body. You check the contents of it and find {reward}!"
+                "quote": "**{user}** loots a dead player inside the building and finds {reward}!"
             }
         ],
         "failed": [
@@ -75,7 +75,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "You've noticed plenty of people inside and decide it isn't a very good idea to go there alone. You back off with nothing..."
+                "quote": "**{user}** saw people inside and was too scared to enter..."
             },
             {
                 "loss": {
@@ -84,7 +84,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "Unfortunately empty bottles of water won't do. Your expedition was a fail!"
+                "quote": "**{user}** could not find anything worth taking..."
             },
             {
                 "loss": {
@@ -93,7 +93,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "You couldn't find anything useful in here."
+                "quote": "**{user}** could not find anything useful."
             },
             {
                 "loss": {
@@ -102,7 +102,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "All you could find there was broken tiles, empty shelves and a dead rat."
+                "quote": "All **{user}** saw was broken tiles, empty shelves and a dead rat."
             },
             {
                 "loss": {
@@ -111,7 +111,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "You've checked all the shelves, office and store rooms inside the market, but found nothing..."
+                "quote": "**{user}** checked all the shelves, the back office and storage rooms, but found nothing..."
             },
             {
                 "loss": {
@@ -120,7 +120,7 @@
                 },
                 "item": "rock",
                 "item2": "",
-                "quote": "Someone bonked you in the head with a {item}, and the culprit ran away!"
+                "quote": "Someone bonked **{user}** on the head with a {item} for **{damage}** damage, and ran away!"
             },
             {
                 "loss": {
@@ -129,7 +129,7 @@
                 },
                 "item": "bone_knife",
                 "item2": "",
-                "quote": "You got into a fight with an armed man wielding a {item}, at least he wasn't quick enough to catch up to you."
+                "quote": "**{user}** got into a fight with an armed man wielding a {item} and lost **{damage}** health."
             },
             {
                 "loss": {
@@ -138,7 +138,7 @@
                 },
                 "item": "crossbow",
                 "item2": "",
-                "quote": "You try to explore the supermarket but some loser headshots you with a {item}..."
+                "quote": "**{user}** was headshot by some loser with a {item} and lost **{damage}** health..."
             }
         ]
     },
@@ -177,7 +177,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "You've found a dead body on the floor and found {reward} on it!"
+                "quote": "**{user}** searched a players body on the floor and found {reward}!"
             },
             {
                 "reward": {
@@ -192,7 +192,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "You've found {reward} outside of the building!"
+                "quote": "**{user}** found {reward} outside of the building!"
             },
             {
                 "reward": {
@@ -207,7 +207,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "After checking all the rooms in the building, you managed to find {reward}!"
+                "quote": "After checking all the rooms in the building, **{user}** managed to find {reward}!"
             },
             {
                 "reward": {
@@ -222,7 +222,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "You've noticed a looter hiding in the bathroom and downed him, stealing {reward} from him!"
+                "quote": "**{user}** downed a looter hiding in the bathroom and stole {reward} from him!"
             },
             {
                 "reward": {
@@ -237,7 +237,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "You found {reward} in the station's garage."
+                "quote": "**{user}** found {reward} in the station's garage."
             },
             {
                 "reward": {
@@ -252,7 +252,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "**The expedition was a success!** You found {reward}!"
+                "quote": "**{user}** found {reward}!"
             },
             {
                 "reward": {
@@ -267,7 +267,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "You noticed a small toolbox holding {reward} in it!"
+                "quote": "**{user}** found a small toolbox holding {reward}!"
             },
             {
                 "reward": {
@@ -282,7 +282,7 @@
                     "type": "health",
                     "value": 5
                 },
-                "quote": "You noticed someone inside, and a battle begins! After an exchange of rock throws, you down him, grabbing {reward} from him!"
+                "quote": "**{user}** encounters another player and chooses to fight! After taking **{damage}** damage, **{user}** manages to find {reward}."
             },
             {
                 "reward": {
@@ -297,7 +297,7 @@
                     "type": "health",
                     "value": 4
                 },
-                "quote": "After arrival a wild boar appeared, which you fought off!\n\nYou got bitten, but found {reward} inside the building!"
+                "quote": "**{user}** is attacked by a wild boar and loses **{damage}** health. Luckily, **{user}** continues the exploration and finds {reward}."
             }
         ],
         "failed": [
@@ -308,7 +308,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "There was nothing either inside, nor outside the building..."
+                "quote": "**{user}** could not find anything inside, nor outside the building..."
             },
             {
                 "loss": {
@@ -317,7 +317,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "Plenty of dead bodies there. You prefer not to go inside, and slowly back off."
+                "quote": "**{user}** saw plenty of dead bodies and decided to back off..."
             },
             {
                 "loss": {
@@ -326,7 +326,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "You look everywhere, station, shelves, computer station, toilets... but you find nothing."
+                "quote": "**{user}** looked everywhere: the shelves, computer station, bathroom... but found nothing."
             },
             {
                 "loss": {
@@ -335,7 +335,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "After seeing animal tracks beside the monument, you don't want to risk being eaten alive."
+                "quote": "**{user}** was spooked by some animal tracks and didn't want to risk being eaten alive..."
             },
             {
                 "loss": {
@@ -344,7 +344,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "You've noticed a zerg of looters inside, which are working together. Too scared - you run away."
+                "quote": "**{user}** noticed a group of looters inside. Too scared - **{user}** ran away."
             },
             {
                 "loss": {
@@ -353,7 +353,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "You couldn't find anything useful in here."
+                "quote": "**{user}** did not find anything useful."
             },
             {
                 "loss": {
@@ -362,7 +362,7 @@
                 },
                 "item": "bow",
                 "item2": "",
-                "quote": "You met another looter who immediately shot you with their {item}!"
+                "quote": "**{user}** was attacked by another looter using a {item} and lost **{damage}** health!"
             },
             {
                 "loss": {
@@ -370,8 +370,8 @@
                     "value": 8
                 },
                 "item": "wooden_spear",
-                "item2": "hazmat_suit",
-                "quote": "**The exploration went terribly!** Some idiot wearing a {item2} stabbed you with a {item}..."
+                "item2": "",
+                "quote": "**{user}** was stabbed by some idiot with a {item} and lost **{damage}** health..."
             }
         ]
     },
@@ -415,7 +415,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "You skilfully dodged an encounter with Bradley, climbed up to the top of Launch Site without any problems, and found {reward}!"
+                "quote": "**{user}** dodges <:bradley_tank:749017206209380433> Bradley, climbs to the top of Launch Site, and finds {reward} at the top!"
             },
             {
                 "reward": {
@@ -430,7 +430,7 @@
                     "type": "health",
                     "value": 45
                 },
-                "quote": "After not being cautious enough, Bradley spots you and shoots you! Luckily enough, you've managed to enter the main building and get to the top of Launch Site without any issues.\n\nYou receive {reward}!"
+                "quote": "After not being cautious enough, <:bradley_tank:749017206209380433> Bradley spots **{user}** and fires his cannons! **{user}** loses {damage} health from the encounter but finds {reward}."
             },
             {
                 "reward": {
@@ -445,7 +445,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "After seeing Bradley circling around, you wait patiently to sneak past it and enter the building. Climbing ladders and jumping the gaps was too exhausting for you, and you resign from going to the top of Launch Site.\n\nLuckily, you've found {reward}!"
+                "quote": "After seeing <:bradley_tank:749017206209380433> Bradley circling around, **{user}** wimps out and resigns to looting the outskirts of Launch, still managing to find {reward}!"
             },
             {
                 "reward": {
@@ -460,7 +460,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "You've noticed that Bradley is about to leave the main site, and you choose to enter the building. After looking up, you decide not to climb up, as it looks too complex for you to handle.\n\nJust before leaving, you've noticed {reward}!"
+                "quote": "**{user}** decides to loot the rocket and finds {reward}!"
             },
             {
                 "reward": {
@@ -475,7 +475,7 @@
                     "type": "health",
                     "value": 25
                 },
-                "quote": "You've reached the site without any issues, but you've noticed someone inside the main building. A fight has begun, You manage to headshot a geared player with your weapon.\n\nYou suffer damage from a hit, but you've managed to steal {reward} from him!"
+                "quote": "**{user}** encounters 2 other looters. After suffering **{damage}** damage, **{user}** takes them both out and finds {reward} on them!"
             }
         ],
         "failed": [
@@ -486,7 +486,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "Just after entering the site, Bradley noticed you! You tried to hide, but unfortunately Bradley's cannons were quicker."
+                "quote": "**{user}** was spotted by <:bradley_tank:749017206209380433> Bradley and got shot by his cannons for **{damage}** damage!"
             },
             {
                 "loss": {
@@ -495,7 +495,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "You try to enter the Launch Site but notice extremely high radiation levels! You decide to leave, maybe you'd have more success if you were wearing something to protect you from the radiation..."
+                "quote": "**{user}** noticed high radiation levels and decided to back off. If only there was some outfit that helped with radiation..."
             },
             {
                 "loss": {
@@ -504,7 +504,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "You could hear gunshots on the site. You decide not to approach and leave."
+                "quote": "**{user}** heard plenty of gunshots and decided to leave."
             },
             {
                 "loss": {
@@ -513,7 +513,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "You quietly enter the Launch Site, and you hear the sound of an engine coming towards you. You've been spotted and shot by Bradley."
+                "quote": "**{user}** quietly entered the Launch Site, but was quickly spotted by <:bradley_tank:749017206209380433> Bradley and got blasted for **{damage}** damage!"
             }
         ]
     },
@@ -562,7 +562,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "You look around, the place is very quiet.\n\nSearching for the boxes wasn't a big deal, and you got yourself {reward}!"
+                "quote": "**{user}** look arounds and finds {reward} inside one of the train cars!"
             },
             {
                 "reward": {
@@ -577,7 +577,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "Sneaking was a great idea. There was another person inside the main building, but he quickly left.\n\nYou've noticed that he missed {reward}!"
+                "quote": "**{user}** sneaks past another looter and finds a {reward} outside!"
             },
             {
                 "reward": {
@@ -592,7 +592,7 @@
                     "type": "health",
                     "value": 19
                 },
-                "quote": "You were attacked by a wolf and weather conditions were not good, but you found {reward} beside the communications tower!"
+                "quote": "**{user}** was attacked by a wolf for **{damage}** damage but still was able to find {reward}!"
             },
             {
                 "reward": {
@@ -607,7 +607,7 @@
                     "type": "health",
                     "value": 21
                 },
-                "quote": "After sneaking in to the main building, you've noticed a looter who was putting in a fuse into a fuse box. He notices you and attacks! You win the fight, suffering some wounds.\n\nOn his body you find {reward}!"
+                "quote": "**{user}** fights another looter beside the train tracks, wins but suffers **{damage}** damage... **{user}** gained {reward}!"
             }
         ],
         "failed": [
@@ -619,7 +619,7 @@
                 },
                 "item": "metal_armor",
                 "item2": "",
-                "quote": "You've noticed two figures wearing {item}, and you decide to sneak onto them. Unfortunately you slipped and got noticed by one of them! You run away while being shot at!"
+                "quote": "**{user}** is spotted by two looters wearing {item}, tries to run away but is shot at for **{damage}** damage!"
             },
             {
                 "loss": {
@@ -629,7 +629,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "You fail to look both ways when crossing the track got hit by a train!"
+                "quote": "**{user}** was struck by a train and lost **{damage}** health!"
             },
             {
                 "loss": {
@@ -639,7 +639,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "You ran away from an oncoming train full of people. <:uh:737093788937355355>"
+                "quote": "**{user}** saw an oncoming train full of people and ran away. <:uh:737093788937355355>"
             },
             {
                 "loss": {
@@ -649,7 +649,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "On arrival you could hear some serious fight between two clans. You decide not to get into cross-fire."
+                "quote": "**{user}** heard a serious fight between two clans and decided to back off."
             }
         ]
     },
@@ -698,7 +698,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "You've successfully explored this monument without any issues and find {reward}!"
+                "quote": "**{user}** explores the monument without any issues and finds {reward}!"
             },
             {
                 "reward": {
@@ -713,7 +713,7 @@
                     "type": "health",
                     "value": 30
                 },
-                "quote": "You notice two looters approaching you, a fight breaks out!\n\nYou win the fight and find {reward} on them!"
+                "quote": "**{user}** saw two looters and chose to fight them! After taking **{damage}** damage, **{user}** wins and finds {reward}!"
             },
             {
                 "reward": {
@@ -728,7 +728,7 @@
                     "type": "health",
                     "value": 20
                 },
-                "quote": "You climb up one of the many cooling towers and find {reward}. You begin to climb back down but stumble and fall!"
+                "quote": "**{user}** climbs up one of the cooling towers and finds {reward} but takes **{damage}** damage from the radiation..."
             },
             {
                 "reward": {
@@ -743,7 +743,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "You climb up one of the many cooling towers and find {reward}."
+                "quote": "**{user}** climbs up one of the cooling towers and finds {reward}."
             }
         ],
         "failed": [
@@ -755,7 +755,7 @@
                 },
                 "item": "hazmat_suit",
                 "item2": "",
-                "quote": "You notice two looters wearing {item}'s approaching you. There was no time to run or hide, you were shot at!"
+                "quote": "**{user}** was approached by two looters wearing {item}'s and got shot at for **{damage}** damage!"
             },
             {
                 "loss": {
@@ -765,17 +765,17 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "You try to climb up one of the cooling towers but lose your grip!"
+                "quote": "**{user}** tried to climb up one of the cooling towers but fell and took **{damage}** damage!"
             },
             {
                 "loss": {
-                    "type": null,
-                    "value": 0,
+                    "type": "health",
+                    "value": 14,
                     "item": false
                 },
                 "item": "thompson",
                 "item2": "",
-                "quote": "On your way to the Power Plant, you get sprayed at by someone using a {item}. You decide to back off and return later."
+                "quote": "**{user}** was sprayed at by someone using a {item} and lost **{damage}** health..."
             },
             {
                 "loss": {
@@ -785,7 +785,7 @@
                 },
                 "item": "revolver",
                 "item2": "",
-                "quote": "You see a group of **8** looters wielding {item}'s heading toward the Power Plant and decide now wouldn't be the best time to explore."
+                "quote": "**{user}** saw a group of **8** looters with {item}'s and decided against exploring..."
             }
         ]
     }

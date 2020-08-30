@@ -1,4 +1,4 @@
-//TODO add 12 hour cooldown for this command
+//TODO remove this command
 
 const monuments = require('../../resources/json/explorations');
 
@@ -16,6 +16,10 @@ module.exports = {
     
     
     async execute(app, message){
+        message.channel.createMessage('a test exploration event will start in 10 seconds...');
+
+        app.eventHandler.initEvent(message);
+        /*
         const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => {
             return m.author.id === message.author.id
         }, { time: 30000 });
@@ -179,5 +183,6 @@ module.exports = {
                 message.reply('**You took too long to make a decision!**');
             }
         });
+        */
     },
 }
