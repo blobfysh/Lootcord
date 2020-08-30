@@ -81,7 +81,7 @@ module.exports = {
 
                     let listingId = await listItem(app, message, itemName, itemAmnt, itemCost);
 
-                    return botMessage.edit(`Success! Your ${app.itemdata[itemName].icon}\`${itemName}\` was listed with the ID: \`${listingId}\`.`, {embed: null});
+                    return botMessage.edit({content: `Success! Your ${app.itemdata[itemName].icon}\`${itemName}\` was listed with the ID: \`${listingId}\`.`, embed: null});
                 }
                 else{
                     botMessage.delete();
@@ -189,7 +189,7 @@ module.exports = {
     
                                 let listingId = await listItem(app, message, item, amount, price);
     
-                                return botMessage.edit({content: `Success! Your \`${item}\` was listed with the ID: \`${listingId}\`.`, embed: null});
+                                return botMessage.edit({content: `Success! Your ${app.itemdata[item].icon}\`${item}\` was listed with the ID: \`${listingId}\`.`, embed: null});
                             }
                             else{
                                 botMessage.delete();
