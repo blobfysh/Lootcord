@@ -501,7 +501,8 @@
         "maxDmg": 27,
         "ammo": [
             "12g_slug",
-            "12g_buckshot"
+            "12g_buckshot",
+            "handmade_shell"
         ],
         "craftedWith": {
             "level": 6,
@@ -547,7 +548,8 @@
         "maxDmg": 46,
         "ammo": [
             "12g_slug",
-            "12g_buckshot"
+            "12g_buckshot",
+            "handmade_shell"
         ],
         "craftedWith": "",
         "recyclesTo": {
@@ -667,7 +669,8 @@
         "maxDmg": 28,
         "ammo": [
             "12g_slug",
-            "12g_buckshot"
+            "12g_buckshot",
+            "handmade_shell"
         ],
         "craftedWith": {
             "level": 3,

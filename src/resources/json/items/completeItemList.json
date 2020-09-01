@@ -677,7 +677,8 @@
                     "crossbow|1",
                     "f1_grenade|1",
                     "medical_syringe|1",
-                    "waterpipe_shotgun|1"
+                    "waterpipe_shotgun|1",
+                    "handmade_shell|1"
                 ]
             },
             "15": {
@@ -1012,6 +1013,38 @@
             "gp",
             "boom",
             "powder"
+        ],
+        "tier": 0
+    },
+    "handmade_shell": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 5,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 3,
+            "materials": [
+                "gunpowder|1",
+                "rock|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 2352,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/750166902625796188/handmade_shell.png",
+        "icon": "<:handmade_shell:750166864818208788>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo",
+        "aliases": [
+            "handmade",
+            "shell"
         ],
         "tier": 0
     },
@@ -1716,7 +1749,8 @@
                     "bow|1",
                     "medical_syringe|1",
                     "waterpipe_shotgun|1",
-                    "arrow|1"
+                    "arrow|1",
+                    "handmade_shell|1"
                 ]
             },
             "56": {
@@ -1977,7 +2011,8 @@
         "maxDmg": 27,
         "ammo": [
             "12g_slug",
-            "12g_buckshot"
+            "12g_buckshot",
+            "handmade_shell"
         ],
         "craftedWith": {
             "level": 6,
@@ -2700,7 +2735,8 @@
         "maxDmg": 46,
         "ammo": [
             "12g_slug",
-            "12g_buckshot"
+            "12g_buckshot",
+            "handmade_shell"
         ],
         "craftedWith": "",
         "recyclesTo": {
@@ -2969,7 +3005,8 @@
         "maxDmg": 28,
         "ammo": [
             "12g_slug",
-            "12g_buckshot"
+            "12g_buckshot",
+            "handmade_shell"
         ],
         "craftedWith": {
             "level": 3,

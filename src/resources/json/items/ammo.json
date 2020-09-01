@@ -169,6 +169,38 @@
         ],
         "tier": 3
     },
+    "handmade_shell": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 5,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 3,
+            "materials": [
+                "gunpowder|1",
+                "rock|1"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 2352,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/750166902625796188/handmade_shell.png",
+        "icon": "<:handmade_shell:750166864818208788>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo",
+        "aliases": [
+            "handmade",
+            "shell"
+        ],
+        "tier": 0
+    },
     "12g_buckshot": {
         "rarity": "Rare",
         "isWeap": false,
