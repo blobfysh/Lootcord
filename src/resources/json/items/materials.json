@@ -20,7 +20,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "cloth": {
         "rarity": "Uncommon",
@@ -43,7 +44,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "semi_body": {
         "rarity": "Uncommon",
@@ -71,7 +73,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "bone_fragments": {
         "rarity": "Uncommon",
@@ -94,7 +97,11 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": ["bones", "bone_frags"]
+        "aliases": [
+            "bones",
+            "bone_frags"
+        ],
+        "tier": 0
     },
     "metal": {
         "rarity": "Rare",
@@ -117,7 +124,13 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": ["metal_frags", "metal_frag", "frags", "metal_fragments"]
+        "aliases": [
+            "metal_frags",
+            "metal_frag",
+            "frags",
+            "metal_fragments"
+        ],
+        "tier": 0
     },
     "smg_body": {
         "rarity": "Rare",
@@ -145,7 +158,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "rifle_body": {
         "rarity": "Rare",
@@ -173,7 +187,10 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": ["body"]
+        "aliases": [
+            "body"
+        ],
+        "tier": 0
     },
     "tech_trash": {
         "rarity": "Epic",
@@ -197,7 +214,11 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": ["tech", "trash"]
+        "aliases": [
+            "tech",
+            "trash"
+        ],
+        "tier": 0
     },
     "metal_pipe": {
         "rarity": "Epic",
@@ -221,7 +242,10 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": ["pipe"]
+        "aliases": [
+            "pipe"
+        ],
+        "tier": 0
     },
     "metal_spring": {
         "rarity": "Epic",
@@ -245,7 +269,10 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": ["spring"]
+        "aliases": [
+            "spring"
+        ],
+        "tier": 0
     },
     "gunpowder": {
         "rarity": "Epic",
@@ -269,7 +296,12 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": ["gp", "boom", "powder"]
+        "aliases": [
+            "gp",
+            "boom",
+            "powder"
+        ],
+        "tier": 0
     },
     "coal": {
         "rarity": "Limited",
@@ -292,6 +324,7 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     }
 }

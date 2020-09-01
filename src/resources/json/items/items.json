@@ -77,7 +77,12 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": ["item_box", "item", "loot"]
+        "aliases": [
+            "item_box",
+            "item",
+            "loot"
+        ],
+        "tier": 0
     },
     "bandage": {
         "rarity": "Uncommon",
@@ -112,7 +117,8 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "reroll_scroll": {
         "rarity": "Legendary",
@@ -139,7 +145,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Item",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "medical_syringe": {
         "rarity": "Rare",
@@ -161,7 +168,7 @@
         "sell": 9652,
         "desc": "Use this to restore **26 - 30** health.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929964889997343/medical_syringe.png",
-        "icon": "<:medical_syringe:732858500631494727>",
+        "icon": "<:medical_syringe:750105092287627414>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
@@ -169,7 +176,13 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": ["med", "syringe", "med_syringe", "medical"]
+        "aliases": [
+            "med",
+            "syringe",
+            "med_syringe",
+            "medical"
+        ],
+        "tier": 1
     },
     "large_medkit": {
         "rarity": "Rare",
@@ -197,7 +210,7 @@
         "sell": 21254,
         "desc": "Use this to restore **50 - 60** health.",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733220182331359313/large_medkit.png",
-        "icon": "<:large_medkit:732858516838154261>",
+        "icon": "<:large_medkit:750105123497312347>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
@@ -205,7 +218,11 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": ["large_med", "medkit"]
+        "aliases": [
+            "large_med",
+            "medkit"
+        ],
+        "tier": 2
     },
     "military_crate": {
         "rarity": "Epic",
@@ -290,7 +307,14 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": ["mili", "mili_crate", "milly", "milly_crate", "military"]
+        "aliases": [
+            "mili",
+            "mili_crate",
+            "milly",
+            "milly_crate",
+            "military"
+        ],
+        "tier": 0
     },
     "supply_drop": {
         "rarity": "Epic",
@@ -363,7 +387,12 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": ["drop", "airdrop", "supply"]
+        "aliases": [
+            "drop",
+            "airdrop",
+            "supply"
+        ],
+        "tier": 0
     },
     "elite_crate": {
         "rarity": "Epic",
@@ -420,7 +449,10 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": ["elite_box"]
+        "aliases": [
+            "elite_box"
+        ],
+        "tier": 0
     },
     "supply_signal": {
         "rarity": "Legendary",
@@ -448,7 +480,11 @@
         "cooldown": "",
         "artist": "",
         "category": "Item",
-        "aliases": ["supply_beacon", "signal"]
+        "aliases": [
+            "supply_beacon",
+            "signal"
+        ],
+        "tier": 0
     },
     "c4": {
         "rarity": "Ultra",
@@ -475,13 +511,16 @@
         "sell": 312900,
         "desc": "Use this on another clan to temporarily lower their current power by **5** for 1 hour, making them vulnerable to a raid.\n\nThis effect can stack.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930980725260348/c4.png",
-        "icon": "<:c4:732853863396147252>",
+        "icon": "<:c4:750105297695014912>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
         "category": "Item",
-        "aliases": ["timed_explosive"]
+        "aliases": [
+            "timed_explosive"
+        ],
+        "tier": 3
     },
     "hazmat_suit": {
         "rarity": "Epic",
@@ -515,13 +554,20 @@
         "sell": 14293,
         "desc": "Use this armor to reduce damage taken from attacks by **35%** for **2 hours**.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/736424250017316964/hazmat_suit_ingame.png",
-        "icon": "<:hazmat_suit:733566843637334026>",
+        "icon": "<:hazmat_suit:750105123283271721>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
         "category": "Item",
-        "aliases": ["hazzy", "hazmat", "hazzie", "rad_suit", "haz"]
+        "aliases": [
+            "hazzy",
+            "hazmat",
+            "hazzie",
+            "rad_suit",
+            "haz"
+        ],
+        "tier": 2
     },
     "metal_armor": {
         "rarity": "Epic",
@@ -545,13 +591,16 @@
         "sell": 42153,
         "desc": "Use this armor to reduce damage taken from attacks by **50%** for **8 hours**.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/736424258573434880/metal_armor_ingame.png",
-        "icon": "<:metal_armor:736402922295919215>",
+        "icon": "<:metal_armor:750105297925832795>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
         "category": "Item",
-        "aliases": ["full_metal"]
+        "aliases": [
+            "full_metal"
+        ],
+        "tier": 3
     },
     "stocking": {
         "rarity": "Limited",
@@ -576,7 +625,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Item",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "gingerbread": {
         "rarity": "Limited",
@@ -603,7 +653,8 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "present": {
         "rarity": "Limited",
@@ -647,7 +698,8 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "apple": {
         "rarity": "Limited",
@@ -676,7 +728,8 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "pumpkin": {
         "rarity": "Limited",
@@ -705,7 +758,8 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "candy_bar": {
         "rarity": "Limited",
@@ -734,7 +788,12 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": ["candy", "chocolate", "chocolate_bar"]
+        "aliases": [
+            "candy",
+            "chocolate",
+            "chocolate_bar"
+        ],
+        "tier": 0
     },
     "candy_pail": {
         "rarity": "Limited",
@@ -772,6 +831,10 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": ["candy_bucket", "pail"]
+        "aliases": [
+            "candy_bucket",
+            "pail"
+        ],
+        "tier": 0
     }
 }

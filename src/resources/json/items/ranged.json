@@ -23,7 +23,7 @@
         "desc": "Military light machine gun that can only drop from the Patrol Helicopter and Bradley.",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733246776793890897/m249.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/733246776793890897/m249.png",
-        "icon": "<:m249:732853728146882675>",
+        "icon": "<:m249:750105298101993472>",
         "breaksOnUse": false,
         "chanceToBreak": 0.08,
         "canBeStolen": true,
@@ -33,7 +33,12 @@
         "phrase": "{attacker} mows down {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`'s! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["m2", "machine_gun", "light_machine_gun"]
+        "aliases": [
+            "m2",
+            "machine_gun",
+            "light_machine_gun"
+        ],
+        "tier": 3
     },
     "bow": {
         "rarity": "Uncommon",
@@ -72,7 +77,8 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "revolver": {
         "rarity": "Rare",
@@ -99,7 +105,7 @@
         "sell": 4037,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929789962354778/revolver.png",
-        "icon": "<:revolver:732853148426960936>",
+        "icon": "<:revolver:750105092308467763>",
         "breaksOnUse": false,
         "chanceToBreak": 0.34,
         "canBeStolen": true,
@@ -109,7 +115,12 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["revvy", "revvie", "revo"]
+        "aliases": [
+            "revvy",
+            "revvie",
+            "revo"
+        ],
+        "tier": 1
     },
     "thompson": {
         "rarity": "Rare",
@@ -138,7 +149,7 @@
         "sell": 19736,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/733261093731958794/thompson.png",
-        "icon": "<:thompson:732853783067099177>",
+        "icon": "<:thompson:750105123899834428>",
         "breaksOnUse": false,
         "chanceToBreak": 0.35,
         "canBeStolen": true,
@@ -148,7 +159,11 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["tommy", "thommy"]
+        "aliases": [
+            "tommy",
+            "thommy"
+        ],
+        "tier": 2
     },
     "mp5": {
         "rarity": "Rare",
@@ -177,7 +192,7 @@
         "sell": 52573,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733325647857844274/mp5.png",
-        "icon": "<:mp5:732853715966623794>",
+        "icon": "<:mp5:750105298114707506>",
         "breaksOnUse": false,
         "chanceToBreak": 0.12,
         "canBeStolen": true,
@@ -187,7 +202,8 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": []
+        "aliases": [],
+        "tier": 3
     },
     "custom_smg": {
         "rarity": "Rare",
@@ -214,7 +230,7 @@
         "sell": 17252,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733250239665799188/custom_smg.png",
-        "icon": "<:custom_smg:732853477025513525>",
+        "icon": "<:custom_smg:750105123065167872>",
         "breaksOnUse": false,
         "chanceToBreak": 0.38,
         "canBeStolen": true,
@@ -224,7 +240,11 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["custom", "smg"]
+        "aliases": [
+            "custom",
+            "smg"
+        ],
+        "tier": 2
     },
     "python": {
         "rarity": "Rare",
@@ -251,7 +271,7 @@
         "sell": 17157,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733575765198766110/python.png",
-        "icon": "<:python:732853440371359814>",
+        "icon": "<:python:750105123631661076>",
         "breaksOnUse": false,
         "chanceToBreak": 0.59,
         "canBeStolen": true,
@@ -261,7 +281,8 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": []
+        "aliases": [],
+        "tier": 2
     },
     "m92_pistol": {
         "rarity": "Rare",
@@ -282,7 +303,7 @@
         "sell": 18157,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/734000982392045628/m92_pistol.png",
-        "icon": "<:m92_pistol:732853706294558720>",
+        "icon": "<:m92_pistol:750105123002253393>",
         "breaksOnUse": false,
         "chanceToBreak": 0.27,
         "canBeStolen": true,
@@ -292,7 +313,11 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["m92", "m9"]
+        "aliases": [
+            "m92",
+            "m9"
+        ],
+        "tier": 2
     },
     "bolt_rifle": {
         "rarity": "Rare",
@@ -321,7 +346,7 @@
         "sell": 96621,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733262499440492544/bolt_rifle.png",
-        "icon": "<:bolt_rifle:732853656801771613>",
+        "icon": "<:bolt_rifle:750105297485299802>",
         "breaksOnUse": false,
         "chanceToBreak": 0.26,
         "canBeStolen": true,
@@ -331,7 +356,13 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["bolty", "sniper", "bolt", "bolt_action"]
+        "aliases": [
+            "bolty",
+            "sniper",
+            "bolt",
+            "bolt_action"
+        ],
+        "tier": 3
     },
     "semi_rifle": {
         "rarity": "Rare",
@@ -361,7 +392,7 @@
         "sell": 21037,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733248648275558400/semi_rifle.png",
-        "icon": "<:semi_rifle:733248789674066033>",
+        "icon": "<:semi_rifle:750105123757359114>",
         "breaksOnUse": false,
         "chanceToBreak": 0.35,
         "canBeStolen": true,
@@ -371,7 +402,11 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["sar", "semi"]
+        "aliases": [
+            "sar",
+            "semi"
+        ],
+        "tier": 2
     },
     "semi_pistol": {
         "rarity": "Rare",
@@ -398,7 +433,7 @@
         "sell": 7156,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929807179972748/semi_pistol.png",
-        "icon": "<:semi_pistol:732853166864990211>",
+        "icon": "<:semi_pistol:750105123757359134>",
         "breaksOnUse": false,
         "chanceToBreak": 0.3,
         "canBeStolen": true,
@@ -408,7 +443,12 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["p2", "p250", "pistol"]
+        "aliases": [
+            "p2",
+            "p250",
+            "pistol"
+        ],
+        "tier": 2
     },
     "crossbow": {
         "rarity": "Rare",
@@ -437,7 +477,7 @@
         "sell": 3662,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929913145000016/crossbow.png",
-        "icon": "<:crossbow:732862499019423774>",
+        "icon": "<:crossbow:750105090999713884>",
         "breaksOnUse": false,
         "chanceToBreak": 0.35,
         "canBeStolen": true,
@@ -447,7 +487,11 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["crossy", "crossie"]
+        "aliases": [
+            "crossy",
+            "crossie"
+        ],
+        "tier": 1
     },
     "pump_shotgun": {
         "rarity": "Rare",
@@ -476,7 +520,7 @@
         "sell": 24263,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930012034105394/pump_shotgun.png",
-        "icon": "<:pump_shotgun:732853454254374913>",
+        "icon": "<:pump_shotgun:750105123098722366>",
         "breaksOnUse": false,
         "chanceToBreak": 0.4,
         "canBeStolen": true,
@@ -486,7 +530,14 @@
         "phrase": "{attacker} blasts {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["shotgun", "pump", "shotty", "pumpie", "pumpy"]
+        "aliases": [
+            "shotgun",
+            "pump",
+            "shotty",
+            "pumpie",
+            "pumpy"
+        ],
+        "tier": 2
     },
     "spas-12": {
         "rarity": "Rare",
@@ -509,7 +560,7 @@
         "sell": 53621,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/734033475807477780/spas-12.png",
-        "icon": "<:spas12:732854036595736646>",
+        "icon": "<:spas12:750105297892278392>",
         "breaksOnUse": false,
         "chanceToBreak": 0.22,
         "canBeStolen": true,
@@ -519,7 +570,10 @@
         "phrase": "{attacker} blasts {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["spas"]
+        "aliases": [
+            "spas"
+        ],
+        "tier": 3
     },
     "lr-300": {
         "rarity": "Rare",
@@ -543,7 +597,7 @@
         "sell": 65623,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733991382821109790/lr-300.png",
-        "icon": "<:lr300:732853687222927400>",
+        "icon": "<:lr300:750105297804329003>",
         "breaksOnUse": false,
         "chanceToBreak": 0.15,
         "canBeStolen": true,
@@ -553,7 +607,10 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["lr"]
+        "aliases": [
+            "lr"
+        ],
+        "tier": 3
     },
     "assault_rifle": {
         "rarity": "Rare",
@@ -583,7 +640,7 @@
         "sell": 82571,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733253825418231868/ak-47.png",
-        "icon": "<:ak47:732853644323586108>",
+        "icon": "<:ak47:750105297108074559>",
         "breaksOnUse": false,
         "chanceToBreak": 0.23,
         "canBeStolen": true,
@@ -593,7 +650,14 @@
         "phrase": "{attacker} sprays down {victim} using an {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`'s! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["rifle", "ak", "ak-47", "ak47", "assault"]
+        "aliases": [
+            "rifle",
+            "ak",
+            "ak-47",
+            "ak47",
+            "assault"
+        ],
+        "tier": 3
     },
     "waterpipe_shotgun": {
         "rarity": "Rare",
@@ -623,7 +687,7 @@
         "sell": 5419,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/733222004924350484/waterpipe_shotgun.png",
-        "icon": "<:waterpipe_shotgun:733221981142515742>",
+        "icon": "<:waterpipe_shotgun:750105092258267207>",
         "breaksOnUse": false,
         "chanceToBreak": 0.76,
         "canBeStolen": true,
@@ -633,7 +697,13 @@
         "phrase": "{attacker} blasts {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["pipey", "pipy", "pipie", "waterpipe"]
+        "aliases": [
+            "pipey",
+            "pipy",
+            "pipie",
+            "waterpipe"
+        ],
+        "tier": 1
     },
     "rocket_launcher": {
         "rarity": "Legendary",
@@ -656,7 +726,7 @@
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930783240519712/rocket_launcher.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930783240519712/rocket_launcher.png",
-        "icon": "<:rocket_launcher:732853816675926066>",
+        "icon": "<:rocket_launcher:750105298122965063>",
         "breaksOnUse": false,
         "chanceToBreak": 0.15,
         "canBeStolen": true,
@@ -666,7 +736,11 @@
         "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["rpg", "launcher"]
+        "aliases": [
+            "rpg",
+            "launcher"
+        ],
+        "tier": 3
     },
     "grenade_launcher": {
         "rarity": "Legendary",
@@ -689,7 +763,7 @@
         "sell": 108427,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/736367319944659065/grenade_launcher.png",
-        "icon": "<:grenade_launcher:736367190282076232>",
+        "icon": "<:grenade_launcher:750105297632362496>",
         "breaksOnUse": false,
         "chanceToBreak": 0.13,
         "canBeStolen": true,
@@ -699,6 +773,9 @@
         "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": ["gl"]
+        "aliases": [
+            "gl"
+        ],
+        "tier": 3
     }
 }

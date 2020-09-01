@@ -27,7 +27,8 @@
         "cooldown": "",
         "artist": "221087115893669889",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "looter": {
         "rarity": "Uncommon",
@@ -57,7 +58,8 @@
         "shopOrderCode": 3,
         "artist": "221087115893669889",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "killer": {
         "rarity": "Rare",
@@ -85,7 +87,8 @@
         "cooldown": "",
         "artist": "221087115893669889",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "elite": {
         "rarity": "Rare",
@@ -113,7 +116,8 @@
         "cooldown": "",
         "artist": "221087115893669889",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "hitman": {
         "rarity": "Legendary",
@@ -142,7 +146,8 @@
         "cooldown": "",
         "artist": "221087115893669889",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "master": {
         "rarity": "Legendary",
@@ -171,7 +176,8 @@
         "cooldown": "",
         "artist": "221087115893669889",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "spooky": {
         "rarity": "Limited",
@@ -196,7 +202,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "sheriff": {
         "rarity": "Limited",
@@ -221,7 +228,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "kofi_king": {
         "rarity": "Limited",
@@ -246,7 +254,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "patron": {
         "rarity": "Limited",
@@ -271,6 +280,7 @@
         "cooldown": "",
         "artist": "",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     }
 }

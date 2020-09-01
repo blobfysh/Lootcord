@@ -26,7 +26,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Ammo",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "bone_arrow": {
         "rarity": "Common",
@@ -54,7 +55,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Ammo",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "pistol_bullet": {
         "rarity": "Uncommon",
@@ -76,13 +78,22 @@
         "sell": 6056,
         "desc": "9x19mm cartridge, also known as 9mm.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929397333426246/pistol_bullet.png",
-        "icon": "<:pistol_bullet:732853196724371527>",
+        "icon": "<:pistol_bullet:750105091977248860>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
         "category": "Ammo",
-        "aliases": ["9mm", "9mill", "9x19", "bullet", "pistol_ammo", "ammunition", "ammo"]
+        "aliases": [
+            "9mm",
+            "9mill",
+            "9x19",
+            "bullet",
+            "pistol_ammo",
+            "ammunition",
+            "ammo"
+        ],
+        "tier": 1
     },
     "rifle_bullet": {
         "rarity": "Uncommon",
@@ -104,13 +115,19 @@
         "sell": 10036,
         "desc": "5.56 rifle ammunition.",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733051137774583810/rifle_bullet.png",
-        "icon": "<:rifle_bullet:732853207029514260>",
+        "icon": "<:rifle_bullet:750105123677798493>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
         "category": "Ammo",
-        "aliases": ["rifle_ammo", "5.56x45", "556x45", "5.56"]
+        "aliases": [
+            "rifle_ammo",
+            "5.56x45",
+            "556x45",
+            "5.56"
+        ],
+        "tier": 2
     },
     "hv_rifle_bullet": {
         "rarity": "Uncommon",
@@ -136,13 +153,21 @@
         "sell": 20823,
         "desc": "High velocity 5.56 rifle ammunition.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/734096778466558002/hv_rifle_bullet.png",
-        "icon": "<:hv_rifle_bullet:734096749395705956>",
+        "icon": "<:hv_rifle_bullet:750105298093473932>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
         "category": "Ammo",
-        "aliases": ["hv", "hv_bullet", "hv_ammo", "high_velocity", "hv_rifle", "hight_velocity_bullet"]
+        "aliases": [
+            "hv",
+            "hv_bullet",
+            "hv_ammo",
+            "high_velocity",
+            "hv_rifle",
+            "hight_velocity_bullet"
+        ],
+        "tier": 3
     },
     "12g_buckshot": {
         "rarity": "Rare",
@@ -164,13 +189,23 @@
         "sell": 8134,
         "desc": "12 Gauge buckshot shell.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930056271429632/12g_buckshot.png",
-        "icon": "<:12g_buckshot:732853227552374793>",
+        "icon": "<:12g_buckshot:750105123014836284>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
         "category": "Ammo",
-        "aliases": ["buck", "buckshot", "12_gauge", "shotgun_ammo", "shotgun_bullet", "shotty_ammo", "shotty_bullet", "12g"]
+        "aliases": [
+            "buck",
+            "buckshot",
+            "12_gauge",
+            "shotgun_ammo",
+            "shotgun_bullet",
+            "shotty_ammo",
+            "shotty_bullet",
+            "12g"
+        ],
+        "tier": 2
     },
     "12g_slug": {
         "rarity": "Rare",
@@ -192,13 +227,16 @@
         "sell": 36120,
         "desc": "12 Gauge slug shell. Used for shotguns.",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733052371680362626/12g_slug.png",
-        "icon": "<:12g_slug:732853235404111882>",
+        "icon": "<:12g_slug:750105297481367592>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
         "category": "Ammo",
-        "aliases": ["slug"]
+        "aliases": [
+            "slug"
+        ],
+        "tier": 3
     },
     "rocket": {
         "rarity": "Legendary",
@@ -226,13 +264,14 @@
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930781508403280/rocket.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930781508403280/rocket.png",
-        "icon": "<:rocket_basic:732853217049837569>",
+        "icon": "<:rocket_basic:750105298118901822>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
         "category": "Ammo",
-        "aliases": []
+        "aliases": [],
+        "tier": 3
     },
     "40mm_smoke_grenade": {
         "rarity": "Legendary",
@@ -253,13 +292,18 @@
         "sell": 65262,
         "desc": "Releases smoke upon impact, blinding the enemy and preventing any use of commands for **2 hours**.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/736367317037875221/40mm_smoke_grenade.png",
-        "icon": "<:40mm_smoke_grenade:736367271940849674>",
+        "icon": "<:40mm_smoke_grenade:750105297242292295>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
         "category": "Ammo",
-        "aliases": ["smoke_grenade", "40mm_smoke", "smoke"]
+        "aliases": [
+            "smoke_grenade",
+            "40mm_smoke",
+            "smoke"
+        ],
+        "tier": 3
     },
     "40mm_he_grenade": {
         "rarity": "Legendary",
@@ -280,12 +324,19 @@
         "sell": 95421,
         "desc": "High explosive ammunition for grenade launchers.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/736369883683487754/40mm_he_grenade.png",
-        "icon": "<:40mm_he_grenade:736369860824793090>",
+        "icon": "<:40mm_he_grenade:750105297187766273>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
         "category": "Ammo",
-        "aliases": ["40mm", "he", "he_grenade", "40mm_grenade", "explosive_grenade"]
+        "aliases": [
+            "40mm",
+            "he",
+            "he_grenade",
+            "40mm_grenade",
+            "explosive_grenade"
+        ],
+        "tier": 3
     }
 }

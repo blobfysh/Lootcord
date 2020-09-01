@@ -66,7 +66,9 @@ module.exports = {
                 embedItem.setDescription(itemInfo);
             }
 
-            embedItem.addField("Type", itemCategory === 'Storage' ? 'Storage Container' : itemCategory)
+            embedItem.addField("Type", itemCategory === 'Storage' ? 'Storage Container' : itemCategory, true);
+            embedItem.addField("Tier", app.itemdata[itemSearched].tier === 0 ? "None" : "Tier " + app.icons.tiers[app.itemdata[itemSearched].tier], true);
+            embedItem.addBlankField(true);
             
             if(itemCooldown !== ""){
                 embedItem.addField("Cooldown", "`" + app.cd.convertTime(itemCooldown.seconds * 1000) + "`", true)

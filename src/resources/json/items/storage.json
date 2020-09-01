@@ -31,7 +31,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Storage",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "wood_box": {
         "rarity": "Epic",
@@ -68,7 +69,11 @@
         "cooldown": "",
         "artist": "",
         "category": "Storage",
-        "aliases": ["box", "container"]
+        "aliases": [
+            "box",
+            "container"
+        ],
+        "tier": 0
     },
     "large_wood_box": {
         "rarity": "Legendary",
@@ -107,7 +112,10 @@
         "cooldown": "",
         "artist": "",
         "category": "Storage",
-        "aliases": ["large_box"]
+        "aliases": [
+            "large_box"
+        ],
+        "tier": 0
     },
     "rolads_pack": {
         "rarity": "Limited",
@@ -133,7 +141,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Storage",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "neros_crate": {
         "rarity": "Limited",
@@ -159,6 +168,7 @@
         "cooldown": "",
         "artist": "",
         "category": "Storage",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     }
 }

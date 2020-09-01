@@ -19,7 +19,7 @@
         "sell": 8134,
         "desc": "12 Gauge buckshot shell.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930056271429632/12g_buckshot.png",
-        "icon": "<:12g_buckshot:732853227552374793>",
+        "icon": "<:12g_buckshot:750105123014836284>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -34,7 +34,8 @@
             "shotty_ammo",
             "shotty_bullet",
             "12g"
-        ]
+        ],
+        "tier": 2
     },
     "12g_slug": {
         "rarity": "Rare",
@@ -56,7 +57,7 @@
         "sell": 36120,
         "desc": "12 Gauge slug shell. Used for shotguns.",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733052371680362626/12g_slug.png",
-        "icon": "<:12g_slug:732853235404111882>",
+        "icon": "<:12g_slug:750105297481367592>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -64,7 +65,8 @@
         "category": "Ammo",
         "aliases": [
             "slug"
-        ]
+        ],
+        "tier": 3
     },
     "40mm_he_grenade": {
         "rarity": "Legendary",
@@ -85,7 +87,7 @@
         "sell": 95421,
         "desc": "High explosive ammunition for grenade launchers.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/736369883683487754/40mm_he_grenade.png",
-        "icon": "<:40mm_he_grenade:736369860824793090>",
+        "icon": "<:40mm_he_grenade:750105297187766273>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -97,7 +99,8 @@
             "he_grenade",
             "40mm_grenade",
             "explosive_grenade"
-        ]
+        ],
+        "tier": 3
     },
     "40mm_smoke_grenade": {
         "rarity": "Legendary",
@@ -118,7 +121,7 @@
         "sell": 65262,
         "desc": "Releases smoke upon impact, blinding the enemy and preventing any use of commands for **2 hours**.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/736367317037875221/40mm_smoke_grenade.png",
-        "icon": "<:40mm_smoke_grenade:736367271940849674>",
+        "icon": "<:40mm_smoke_grenade:750105297242292295>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -128,7 +131,8 @@
             "smoke_grenade",
             "40mm_smoke",
             "smoke"
-        ]
+        ],
+        "tier": 3
     },
     "apple": {
         "rarity": "Limited",
@@ -157,7 +161,8 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "arrow": {
         "rarity": "Common",
@@ -186,7 +191,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Ammo",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "assault_rifle": {
         "rarity": "Rare",
@@ -216,7 +222,7 @@
         "sell": 82571,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733253825418231868/ak-47.png",
-        "icon": "<:ak47:732853644323586108>",
+        "icon": "<:ak47:750105297108074559>",
         "breaksOnUse": false,
         "chanceToBreak": 0.23,
         "canBeStolen": true,
@@ -232,7 +238,8 @@
             "ak-47",
             "ak47",
             "assault"
-        ]
+        ],
+        "tier": 3
     },
     "bandage": {
         "rarity": "Uncommon",
@@ -267,7 +274,8 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "bolt_rifle": {
         "rarity": "Rare",
@@ -296,7 +304,7 @@
         "sell": 96621,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733262499440492544/bolt_rifle.png",
-        "icon": "<:bolt_rifle:732853656801771613>",
+        "icon": "<:bolt_rifle:750105297485299802>",
         "breaksOnUse": false,
         "chanceToBreak": 0.26,
         "canBeStolen": true,
@@ -311,7 +319,8 @@
             "sniper",
             "bolt",
             "bolt_action"
-        ]
+        ],
+        "tier": 3
     },
     "bone_arrow": {
         "rarity": "Common",
@@ -339,7 +348,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Ammo",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "bone_fragments": {
         "rarity": "Uncommon",
@@ -365,7 +375,8 @@
         "aliases": [
             "bones",
             "bone_frags"
-        ]
+        ],
+        "tier": 0
     },
     "bone_knife": {
         "rarity": "Common",
@@ -396,7 +407,8 @@
         "category": "Melee",
         "aliases": [
             "knife"
-        ]
+        ],
+        "tier": 0
     },
     "bow": {
         "rarity": "Uncommon",
@@ -435,7 +447,8 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "c4": {
         "rarity": "Ultra",
@@ -462,7 +475,7 @@
         "sell": 312900,
         "desc": "Use this on another clan to temporarily lower their current power by **5** for 1 hour, making them vulnerable to a raid.\n\nThis effect can stack.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930980725260348/c4.png",
-        "icon": "<:c4:732853863396147252>",
+        "icon": "<:c4:750105297695014912>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -470,7 +483,8 @@
         "category": "Item",
         "aliases": [
             "timed_explosive"
-        ]
+        ],
+        "tier": 3
     },
     "candy_bar": {
         "rarity": "Limited",
@@ -503,7 +517,8 @@
             "candy",
             "chocolate",
             "chocolate_bar"
-        ]
+        ],
+        "tier": 0
     },
     "candy_pail": {
         "rarity": "Limited",
@@ -544,7 +559,8 @@
         "aliases": [
             "candy_bucket",
             "pail"
-        ]
+        ],
+        "tier": 0
     },
     "candycane": {
         "rarity": "Limited",
@@ -569,7 +585,8 @@
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
         "category": "Melee",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "cloth": {
         "rarity": "Uncommon",
@@ -592,7 +609,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "coal": {
         "rarity": "Limited",
@@ -615,7 +633,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "crate": {
         "rarity": "Common",
@@ -699,7 +718,8 @@
             "item_box",
             "item",
             "loot"
-        ]
+        ],
+        "tier": 0
     },
     "crossbow": {
         "rarity": "Rare",
@@ -728,7 +748,7 @@
         "sell": 3662,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929913145000016/crossbow.png",
-        "icon": "<:crossbow:732862499019423774>",
+        "icon": "<:crossbow:750105090999713884>",
         "breaksOnUse": false,
         "chanceToBreak": 0.35,
         "canBeStolen": true,
@@ -741,7 +761,8 @@
         "aliases": [
             "crossy",
             "crossie"
-        ]
+        ],
+        "tier": 1
     },
     "custom_smg": {
         "rarity": "Rare",
@@ -768,7 +789,7 @@
         "sell": 17252,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733250239665799188/custom_smg.png",
-        "icon": "<:custom_smg:732853477025513525>",
+        "icon": "<:custom_smg:750105123065167872>",
         "breaksOnUse": false,
         "chanceToBreak": 0.38,
         "canBeStolen": true,
@@ -781,7 +802,8 @@
         "aliases": [
             "custom",
             "smg"
-        ]
+        ],
+        "tier": 2
     },
     "elite": {
         "rarity": "Rare",
@@ -809,7 +831,8 @@
         "cooldown": "",
         "artist": "221087115893669889",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "elite_crate": {
         "rarity": "Epic",
@@ -868,7 +891,8 @@
         "category": "Item",
         "aliases": [
             "elite_box"
-        ]
+        ],
+        "tier": 0
     },
     "f1_grenade": {
         "rarity": "Rare",
@@ -883,7 +907,7 @@
         "sell": 4278,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930107852980234/f1_grenade.png",
-        "icon": "<:f1_grenade:732853499435679819>",
+        "icon": "<:f1_grenade:750105091222143056>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
@@ -895,7 +919,8 @@
         "aliases": [
             "f1",
             "grenade"
-        ]
+        ],
+        "tier": 1
     },
     "gingerbread": {
         "rarity": "Limited",
@@ -922,7 +947,8 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "grenade_launcher": {
         "rarity": "Legendary",
@@ -945,7 +971,7 @@
         "sell": 108427,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/736367319944659065/grenade_launcher.png",
-        "icon": "<:grenade_launcher:736367190282076232>",
+        "icon": "<:grenade_launcher:750105297632362496>",
         "breaksOnUse": false,
         "chanceToBreak": 0.13,
         "canBeStolen": true,
@@ -957,7 +983,8 @@
         "category": "Ranged",
         "aliases": [
             "gl"
-        ]
+        ],
+        "tier": 3
     },
     "gunpowder": {
         "rarity": "Epic",
@@ -985,7 +1012,8 @@
             "gp",
             "boom",
             "powder"
-        ]
+        ],
+        "tier": 0
     },
     "hazmat_suit": {
         "rarity": "Epic",
@@ -1019,7 +1047,7 @@
         "sell": 14293,
         "desc": "Use this armor to reduce damage taken from attacks by **35%** for **2 hours**.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/736424250017316964/hazmat_suit_ingame.png",
-        "icon": "<:hazmat_suit:733566843637334026>",
+        "icon": "<:hazmat_suit:750105123283271721>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -1031,7 +1059,8 @@
             "hazzie",
             "rad_suit",
             "haz"
-        ]
+        ],
+        "tier": 2
     },
     "hitman": {
         "rarity": "Legendary",
@@ -1060,7 +1089,8 @@
         "cooldown": "",
         "artist": "221087115893669889",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "hv_rifle_bullet": {
         "rarity": "Uncommon",
@@ -1086,7 +1116,7 @@
         "sell": 20823,
         "desc": "High velocity 5.56 rifle ammunition.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/734096778466558002/hv_rifle_bullet.png",
-        "icon": "<:hv_rifle_bullet:734096749395705956>",
+        "icon": "<:hv_rifle_bullet:750105298093473932>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -1099,7 +1129,8 @@
             "high_velocity",
             "hv_rifle",
             "hight_velocity_bullet"
-        ]
+        ],
+        "tier": 3
     },
     "killer": {
         "rarity": "Rare",
@@ -1127,7 +1158,8 @@
         "cooldown": "",
         "artist": "221087115893669889",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "kofi_king": {
         "rarity": "Limited",
@@ -1152,7 +1184,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "large_medkit": {
         "rarity": "Rare",
@@ -1180,7 +1213,7 @@
         "sell": 21254,
         "desc": "Use this to restore **50 - 60** health.",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733220182331359313/large_medkit.png",
-        "icon": "<:large_medkit:732858516838154261>",
+        "icon": "<:large_medkit:750105123497312347>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
@@ -1191,7 +1224,8 @@
         "aliases": [
             "large_med",
             "medkit"
-        ]
+        ],
+        "tier": 2
     },
     "large_wood_box": {
         "rarity": "Legendary",
@@ -1232,7 +1266,8 @@
         "category": "Storage",
         "aliases": [
             "large_box"
-        ]
+        ],
+        "tier": 0
     },
     "longsword": {
         "rarity": "Rare",
@@ -1258,7 +1293,8 @@
         "category": "Melee",
         "aliases": [
             "long"
-        ]
+        ],
+        "tier": 0
     },
     "looter": {
         "rarity": "Uncommon",
@@ -1288,7 +1324,8 @@
         "shopOrderCode": 3,
         "artist": "221087115893669889",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "lr-300": {
         "rarity": "Rare",
@@ -1312,7 +1349,7 @@
         "sell": 65623,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733991382821109790/lr-300.png",
-        "icon": "<:lr300:732853687222927400>",
+        "icon": "<:lr300:750105297804329003>",
         "breaksOnUse": false,
         "chanceToBreak": 0.15,
         "canBeStolen": true,
@@ -1324,7 +1361,8 @@
         "category": "Ranged",
         "aliases": [
             "lr"
-        ]
+        ],
+        "tier": 3
     },
     "m249": {
         "rarity": "Ultra",
@@ -1350,7 +1388,7 @@
         "desc": "Military light machine gun that can only drop from the Patrol Helicopter and Bradley.",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733246776793890897/m249.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/733246776793890897/m249.png",
-        "icon": "<:m249:732853728146882675>",
+        "icon": "<:m249:750105298101993472>",
         "breaksOnUse": false,
         "chanceToBreak": 0.08,
         "canBeStolen": true,
@@ -1364,7 +1402,8 @@
             "m2",
             "machine_gun",
             "light_machine_gun"
-        ]
+        ],
+        "tier": 3
     },
     "m92_pistol": {
         "rarity": "Rare",
@@ -1385,7 +1424,7 @@
         "sell": 18157,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/734000982392045628/m92_pistol.png",
-        "icon": "<:m92_pistol:732853706294558720>",
+        "icon": "<:m92_pistol:750105123002253393>",
         "breaksOnUse": false,
         "chanceToBreak": 0.27,
         "canBeStolen": true,
@@ -1398,7 +1437,8 @@
         "aliases": [
             "m92",
             "m9"
-        ]
+        ],
+        "tier": 2
     },
     "mace": {
         "rarity": "Uncommon",
@@ -1423,7 +1463,8 @@
         "phrase": "{attacker} whacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
         "category": "Melee",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "machete": {
         "rarity": "Uncommon",
@@ -1448,7 +1489,8 @@
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
         "category": "Melee",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "master": {
         "rarity": "Legendary",
@@ -1477,7 +1519,8 @@
         "cooldown": "",
         "artist": "221087115893669889",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "medical_syringe": {
         "rarity": "Rare",
@@ -1499,7 +1542,7 @@
         "sell": 9652,
         "desc": "Use this to restore **26 - 30** health.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929964889997343/medical_syringe.png",
-        "icon": "<:medical_syringe:732858500631494727>",
+        "icon": "<:medical_syringe:750105092287627414>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
@@ -1512,7 +1555,8 @@
             "syringe",
             "med_syringe",
             "medical"
-        ]
+        ],
+        "tier": 1
     },
     "metal": {
         "rarity": "Rare",
@@ -1540,7 +1584,8 @@
             "metal_frag",
             "frags",
             "metal_fragments"
-        ]
+        ],
+        "tier": 0
     },
     "metal_armor": {
         "rarity": "Epic",
@@ -1564,7 +1609,7 @@
         "sell": 42153,
         "desc": "Use this armor to reduce damage taken from attacks by **50%** for **8 hours**.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/736424258573434880/metal_armor_ingame.png",
-        "icon": "<:metal_armor:736402922295919215>",
+        "icon": "<:metal_armor:750105297925832795>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -1572,7 +1617,8 @@
         "category": "Item",
         "aliases": [
             "full_metal"
-        ]
+        ],
+        "tier": 3
     },
     "metal_pipe": {
         "rarity": "Epic",
@@ -1598,7 +1644,8 @@
         "category": "Material",
         "aliases": [
             "pipe"
-        ]
+        ],
+        "tier": 0
     },
     "metal_spring": {
         "rarity": "Epic",
@@ -1624,7 +1671,8 @@
         "category": "Material",
         "aliases": [
             "spring"
-        ]
+        ],
+        "tier": 0
     },
     "military_crate": {
         "rarity": "Epic",
@@ -1715,7 +1763,8 @@
             "milly",
             "milly_crate",
             "military"
-        ]
+        ],
+        "tier": 0
     },
     "mp5": {
         "rarity": "Rare",
@@ -1744,7 +1793,7 @@
         "sell": 52573,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733325647857844274/mp5.png",
-        "icon": "<:mp5:732853715966623794>",
+        "icon": "<:mp5:750105298114707506>",
         "breaksOnUse": false,
         "chanceToBreak": 0.12,
         "canBeStolen": true,
@@ -1754,7 +1803,8 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": []
+        "aliases": [],
+        "tier": 3
     },
     "neros_crate": {
         "rarity": "Limited",
@@ -1780,7 +1830,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Storage",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "patron": {
         "rarity": "Limited",
@@ -1805,7 +1856,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "pickaxe": {
         "rarity": "Uncommon",
@@ -1832,7 +1884,8 @@
         "category": "Melee",
         "aliases": [
             "pick"
-        ]
+        ],
+        "tier": 0
     },
     "pistol_bullet": {
         "rarity": "Uncommon",
@@ -1854,7 +1907,7 @@
         "sell": 6056,
         "desc": "9x19mm cartridge, also known as 9mm.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929397333426246/pistol_bullet.png",
-        "icon": "<:pistol_bullet:732853196724371527>",
+        "icon": "<:pistol_bullet:750105091977248860>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -1868,7 +1921,8 @@
             "pistol_ammo",
             "ammunition",
             "ammo"
-        ]
+        ],
+        "tier": 1
     },
     "present": {
         "rarity": "Limited",
@@ -1912,7 +1966,8 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "pump_shotgun": {
         "rarity": "Rare",
@@ -1941,7 +1996,7 @@
         "sell": 24263,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930012034105394/pump_shotgun.png",
-        "icon": "<:pump_shotgun:732853454254374913>",
+        "icon": "<:pump_shotgun:750105123098722366>",
         "breaksOnUse": false,
         "chanceToBreak": 0.4,
         "canBeStolen": true,
@@ -1957,7 +2012,8 @@
             "shotty",
             "pumpie",
             "pumpy"
-        ]
+        ],
+        "tier": 2
     },
     "pumpkin": {
         "rarity": "Limited",
@@ -1986,7 +2042,8 @@
         },
         "artist": "",
         "category": "Item",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "python": {
         "rarity": "Rare",
@@ -2013,7 +2070,7 @@
         "sell": 17157,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733575765198766110/python.png",
-        "icon": "<:python:732853440371359814>",
+        "icon": "<:python:750105123631661076>",
         "breaksOnUse": false,
         "chanceToBreak": 0.59,
         "canBeStolen": true,
@@ -2023,7 +2080,8 @@
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
         "category": "Ranged",
-        "aliases": []
+        "aliases": [],
+        "tier": 2
     },
     "recruit": {
         "rarity": "Common",
@@ -2053,7 +2111,8 @@
         "cooldown": "",
         "artist": "221087115893669889",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "reroll_scroll": {
         "rarity": "Legendary",
@@ -2080,7 +2139,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Item",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "revolver": {
         "rarity": "Rare",
@@ -2107,7 +2167,7 @@
         "sell": 4037,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929789962354778/revolver.png",
-        "icon": "<:revolver:732853148426960936>",
+        "icon": "<:revolver:750105092308467763>",
         "breaksOnUse": false,
         "chanceToBreak": 0.34,
         "canBeStolen": true,
@@ -2121,7 +2181,8 @@
             "revvy",
             "revvie",
             "revo"
-        ]
+        ],
+        "tier": 1
     },
     "rifle_body": {
         "rarity": "Rare",
@@ -2151,7 +2212,8 @@
         "category": "Material",
         "aliases": [
             "body"
-        ]
+        ],
+        "tier": 0
     },
     "rifle_bullet": {
         "rarity": "Uncommon",
@@ -2173,7 +2235,7 @@
         "sell": 10036,
         "desc": "5.56 rifle ammunition.",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733051137774583810/rifle_bullet.png",
-        "icon": "<:rifle_bullet:732853207029514260>",
+        "icon": "<:rifle_bullet:750105123677798493>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
@@ -2184,7 +2246,8 @@
             "5.56x45",
             "556x45",
             "5.56"
-        ]
+        ],
+        "tier": 2
     },
     "rock": {
         "rarity": "Common",
@@ -2209,7 +2272,8 @@
         "phrase": "{attacker} smacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
         "category": "Melee",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "rocket": {
         "rarity": "Legendary",
@@ -2237,13 +2301,14 @@
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930781508403280/rocket.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930781508403280/rocket.png",
-        "icon": "<:rocket_basic:732853217049837569>",
+        "icon": "<:rocket_basic:750105298118901822>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
         "category": "Ammo",
-        "aliases": []
+        "aliases": [],
+        "tier": 3
     },
     "rocket_launcher": {
         "rarity": "Legendary",
@@ -2266,7 +2331,7 @@
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930783240519712/rocket_launcher.png",
         "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930783240519712/rocket_launcher.png",
-        "icon": "<:rocket_launcher:732853816675926066>",
+        "icon": "<:rocket_launcher:750105298122965063>",
         "breaksOnUse": false,
         "chanceToBreak": 0.15,
         "canBeStolen": true,
@@ -2279,7 +2344,8 @@
         "aliases": [
             "rpg",
             "launcher"
-        ]
+        ],
+        "tier": 3
     },
     "rolads_pack": {
         "rarity": "Limited",
@@ -2305,7 +2371,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Storage",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "salvaged_cleaver": {
         "rarity": "Common",
@@ -2333,7 +2400,8 @@
         "aliases": [
             "cleaver",
             "salvaged"
-        ]
+        ],
+        "tier": 0
     },
     "salvaged_sword": {
         "rarity": "Uncommon",
@@ -2360,7 +2428,8 @@
         "category": "Melee",
         "aliases": [
             "sword"
-        ]
+        ],
+        "tier": 0
     },
     "semi_body": {
         "rarity": "Uncommon",
@@ -2388,7 +2457,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "semi_pistol": {
         "rarity": "Rare",
@@ -2415,7 +2485,7 @@
         "sell": 7156,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929807179972748/semi_pistol.png",
-        "icon": "<:semi_pistol:732853166864990211>",
+        "icon": "<:semi_pistol:750105123757359134>",
         "breaksOnUse": false,
         "chanceToBreak": 0.3,
         "canBeStolen": true,
@@ -2429,7 +2499,8 @@
             "p2",
             "p250",
             "pistol"
-        ]
+        ],
+        "tier": 2
     },
     "semi_rifle": {
         "rarity": "Rare",
@@ -2459,7 +2530,7 @@
         "sell": 21037,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733248648275558400/semi_rifle.png",
-        "icon": "<:semi_rifle:733248789674066033>",
+        "icon": "<:semi_rifle:750105123757359114>",
         "breaksOnUse": false,
         "chanceToBreak": 0.35,
         "canBeStolen": true,
@@ -2472,7 +2543,8 @@
         "aliases": [
             "sar",
             "semi"
-        ]
+        ],
+        "tier": 2
     },
     "sheriff": {
         "rarity": "Limited",
@@ -2497,7 +2569,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "sickle": {
         "rarity": "Limited",
@@ -2524,7 +2597,8 @@
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
         "category": "Melee",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "small_stash": {
         "rarity": "Uncommon",
@@ -2558,7 +2632,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Storage",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "smg_body": {
         "rarity": "Rare",
@@ -2586,7 +2661,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "snowball": {
         "rarity": "Limited",
@@ -2613,7 +2689,8 @@
         "category": "Melee",
         "aliases": [
             "snow"
-        ]
+        ],
+        "tier": 0
     },
     "spas-12": {
         "rarity": "Rare",
@@ -2636,7 +2713,7 @@
         "sell": 53621,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/734033475807477780/spas-12.png",
-        "icon": "<:spas12:732854036595736646>",
+        "icon": "<:spas12:750105297892278392>",
         "breaksOnUse": false,
         "chanceToBreak": 0.22,
         "canBeStolen": true,
@@ -2648,7 +2725,8 @@
         "category": "Ranged",
         "aliases": [
             "spas"
-        ]
+        ],
+        "tier": 3
     },
     "spooky": {
         "rarity": "Limited",
@@ -2673,7 +2751,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Banner",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "stocking": {
         "rarity": "Limited",
@@ -2698,7 +2777,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Item",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "supply_drop": {
         "rarity": "Epic",
@@ -2775,7 +2855,8 @@
             "drop",
             "airdrop",
             "supply"
-        ]
+        ],
+        "tier": 0
     },
     "supply_signal": {
         "rarity": "Legendary",
@@ -2806,7 +2887,8 @@
         "aliases": [
             "supply_beacon",
             "signal"
-        ]
+        ],
+        "tier": 0
     },
     "tech_trash": {
         "rarity": "Epic",
@@ -2833,7 +2915,8 @@
         "aliases": [
             "tech",
             "trash"
-        ]
+        ],
+        "tier": 0
     },
     "thompson": {
         "rarity": "Rare",
@@ -2862,7 +2945,7 @@
         "sell": 19736,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/733261093731958794/thompson.png",
-        "icon": "<:thompson:732853783067099177>",
+        "icon": "<:thompson:750105123899834428>",
         "breaksOnUse": false,
         "chanceToBreak": 0.35,
         "canBeStolen": true,
@@ -2875,7 +2958,8 @@
         "aliases": [
             "tommy",
             "thommy"
-        ]
+        ],
+        "tier": 2
     },
     "waterpipe_shotgun": {
         "rarity": "Rare",
@@ -2905,7 +2989,7 @@
         "sell": 5419,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/733222004924350484/waterpipe_shotgun.png",
-        "icon": "<:waterpipe_shotgun:733221981142515742>",
+        "icon": "<:waterpipe_shotgun:750105092258267207>",
         "breaksOnUse": false,
         "chanceToBreak": 0.76,
         "canBeStolen": true,
@@ -2920,7 +3004,8 @@
             "pipy",
             "pipie",
             "waterpipe"
-        ]
+        ],
+        "tier": 1
     },
     "wood": {
         "rarity": "Common",
@@ -2943,7 +3028,8 @@
         "cooldown": "",
         "artist": "",
         "category": "Material",
-        "aliases": []
+        "aliases": [],
+        "tier": 0
     },
     "wood_box": {
         "rarity": "Epic",
@@ -2983,7 +3069,8 @@
         "aliases": [
             "box",
             "container"
-        ]
+        ],
+        "tier": 0
     },
     "wooden_spear": {
         "rarity": "Common",
@@ -3010,6 +3097,7 @@
         "category": "Melee",
         "aliases": [
             "spear"
-        ]
+        ],
+        "tier": 0
     }
 }
