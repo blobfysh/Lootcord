@@ -60,7 +60,9 @@ module.exports = {
 
         const embed = new app.Embed()
         .setAuthor('Lootcord Commands', message.author.avatarURL)
-        .setDescription('**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'+ message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).')
+        .setDescription('**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'
+        + message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).'
+        + '\n\n__**Tip:**__\n' + tips[Math.floor(Math.random() * tips.length)])
         .setFooter(`To see more about a command, use ${message.prefix}help <command>`)
         .setColor(13451564)
 
@@ -78,14 +80,14 @@ module.exports = {
         const categoriesArr = Object.keys(categories);
 
         if(categoriesArr.includes('items')) embed.addField('⚔ Item Usage', categories['items'].map(cmd => '`' + cmd + '`').join(' '));
-        if(categoriesArr.includes('games')) embed.addField('🎲 Games and Rewards', categories['games'].map(cmd => '`' + cmd + '`').join(' '));
+        if(categoriesArr.includes('rewards')) embed.addField('🎉 Free Stuff', categories['rewards'].map(cmd => '`' + cmd + '`').join(' '));
+        if(categoriesArr.includes('games')) embed.addField('🎲 Gambling', categories['games'].map(cmd => '`' + cmd + '`').join(' '));
         if(categoriesArr.includes('info')) embed.addField('📋 Info', categories['info'].map(cmd => '`' + cmd + '`').join(' '));
         if(categoriesArr.includes('blackmarket')) embed.addField('💰 Black Market', categories['blackmarket'].map(cmd => '`' + cmd + '`').join(' '));
         if(categoriesArr.includes('utilities')) embed.addField('⚙ Utility', categories['utilities'].map(cmd => '`' + cmd + '`').join(' '));
         if(categoriesArr.includes('other')) embed.addField('📈 Other', categories['other'].map(cmd => '`' + cmd + '`').join(' '));
         
         embed.addField('⚔️ Clans', Array.from(app.clanCommands.keys()).map(cmd => '`' + cmd + '`').join(' '))
-        embed.addField('💡 Random Tip', tips[Math.floor(Math.random() * tips.length)])
 
         message.channel.createMessage(embed);
     },
