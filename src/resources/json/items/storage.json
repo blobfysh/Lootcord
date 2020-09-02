@@ -25,14 +25,16 @@
         "equippable": true,
         "type": "backpack",
         "inv_slots": 10,
-        "icon": "<:small_stash:732867510688284702>",
+        "icon": "<:small_stash:750835281938219102>",
         "breaksOnUse": "",
         "canBeStolen": false,
         "cooldown": "",
         "artist": "",
         "category": "Storage",
-        "aliases": [],
-        "tier": 0
+        "aliases": [
+            "stash"
+        ],
+        "tier": 1
     },
     "wood_box": {
         "rarity": "Epic",
@@ -63,7 +65,7 @@
         "equippable": true,
         "type": "backpack",
         "inv_slots": 20,
-        "icon": "<:wood_box:732867523791552512>",
+        "icon": "<:wood_box:750835298254061730>",
         "breaksOnUse": "",
         "canBeStolen": false,
         "cooldown": "",
@@ -73,7 +75,7 @@
             "box",
             "container"
         ],
-        "tier": 0
+        "tier": 2
     },
     "large_wood_box": {
         "rarity": "Legendary",
@@ -106,7 +108,7 @@
         "equippable": true,
         "type": "backpack",
         "inv_slots": 40,
-        "icon": "<:large_wood_box:732871054527168532>",
+        "icon": "<:large_wood_box:750835317636071514>",
         "breaksOnUse": "",
         "canBeStolen": false,
         "cooldown": "",
@@ -115,7 +117,7 @@
         "aliases": [
             "large_box"
         ],
-        "tier": 0
+        "tier": 3
     },
     "rolads_pack": {
         "rarity": "Limited",

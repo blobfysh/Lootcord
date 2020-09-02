@@ -41,7 +41,8 @@
                     "f1_grenade|1",
                     "medical_syringe|1",
                     "waterpipe_shotgun|1",
-                    "handmade_shell|1"
+                    "handmade_shell|1",
+                    "bone_armor|1"
                 ]
             },
             "15": {
@@ -524,6 +525,46 @@
         ],
         "tier": 3
     },
+    "bone_armor": {
+        "rarity": "Epic",
+        "isWeap": false,
+        "isItem": true,
+        "isShield": true,
+        "shieldInfo": {
+            "seconds": 3600,
+            "protection": 0.20
+        },
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 4,
+            "materials": [
+                "cloth|1",
+                "bone_fragments|2"
+            ]
+        },
+        "recyclesTo": {
+            "materials": [
+                "bone_fragments|1"
+            ]
+        },
+        "buy": "",
+        "sell": 6340,
+        "desc": "Use this armor to reduce damage taken from attacks by **20%** for **1 hour**.",
+        "image": "https://cdn.discordapp.com/attachments/542248243313246208/750619946249355345/bone_armor.png",
+        "icon": "<:bone_armor:750834742395666523>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item",
+        "aliases": [
+            "bone_suit"
+        ],
+        "tier": 1
+    },
     "hazmat_suit": {
         "rarity": "Epic",
         "isWeap": false,
@@ -555,7 +596,7 @@
         },
         "sell": 14293,
         "desc": "Use this armor to reduce damage taken from attacks by **35%** for **2 hours**.",
-        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736424250017316964/hazmat_suit_ingame.png",
+        "image": "https://cdn.discordapp.com/attachments/542248243313246208/750619951580053544/hazmat_suit_ingame.png",
         "icon": "<:hazmat_suit:750105123283271721>",
         "breaksOnUse": "",
         "canBeStolen": true,
@@ -592,7 +633,7 @@
         },
         "sell": 42153,
         "desc": "Use this armor to reduce damage taken from attacks by **50%** for **8 hours**.",
-        "image": "https://cdn.discordapp.com/attachments/732785297363959902/736424258573434880/metal_armor_ingame.png",
+        "image": "https://cdn.discordapp.com/attachments/542248243313246208/750619954772181012/metal_armor_ingame.png",
         "icon": "<:metal_armor:750105297925832795>",
         "breaksOnUse": "",
         "canBeStolen": true,
