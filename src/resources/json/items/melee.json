@@ -222,6 +222,32 @@
         ],
         "tier": 0
     },
+    "hatchet": {
+        "rarity": "Uncommon",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "6 - 10",
+        "minDmg": 6,
+        "maxDmg": 10,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 489,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/750839454251483277/hatchet.png",
+        "icon": "<:hatchet:750838999417094280>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 547
+        },
+        "phrase": "{attacker} chops {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Melee",
+        "aliases": [],
+        "tier": 0
+    },
     "f1_grenade": {
         "rarity": "Rare",
         "isWeap": true,

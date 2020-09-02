@@ -740,17 +740,18 @@
                     "bandage|1",
                     "mace|1",
                     "salvaged_sword|1",
-                    "salvaged_cleaver|1"
+                    "machete|1",
+                    "bone_knife|1"
                 ]
             },
             "50": {
                 "xp": 10,
                 "items": [
-                    "bone_knife|1",
+                    "hatchet|1",
                     "rock|1",
                     "pickaxe|1",
                     "wooden_spear|1",
-                    "machete|1"
+                    "salvaged_cleaver|1"
                 ]
             }
         },
@@ -1087,6 +1088,32 @@
             "handmade",
             "shell"
         ],
+        "tier": 0
+    },
+    "hatchet": {
+        "rarity": "Uncommon",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "6 - 10",
+        "minDmg": 6,
+        "maxDmg": 10,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 489,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/750839454251483277/hatchet.png",
+        "icon": "<:hatchet:750838999417094280>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 547
+        },
+        "phrase": "{attacker} chops {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Melee",
+        "aliases": [],
         "tier": 0
     },
     "hazmat_suit": {
