@@ -415,7 +415,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "**{user}** dodges <:bradley_tank:749017206209380433> Bradley, climbs to the top of Launch Site, and finds {reward} at the top!"
+                "quote": "**{user}** dodges <:bradley_tank:750916252809035876> Bradley, climbs to the top of Launch Site, and finds {reward} at the top!"
             },
             {
                 "reward": {
@@ -430,7 +430,7 @@
                     "type": "health",
                     "value": 45
                 },
-                "quote": "After not being cautious enough, <:bradley_tank:749017206209380433> Bradley spots **{user}** and fires his cannons! **{user}** loses {damage} health from the encounter but finds {reward}."
+                "quote": "After not being cautious enough, <:bradley_tank:750916252809035876> Bradley spots **{user}** and fires his cannons! **{user}** loses {damage} health from the encounter but finds {reward}."
             },
             {
                 "reward": {
@@ -445,7 +445,7 @@
                     "type": null,
                     "value": 0
                 },
-                "quote": "After seeing <:bradley_tank:749017206209380433> Bradley circling around, **{user}** wimps out and resigns to looting the outskirts of Launch, still managing to find {reward}!"
+                "quote": "After seeing <:bradley_tank:750916252809035876> Bradley circling around, **{user}** wimps out and resigns to looting the outskirts of Launch, still managing to find {reward}!"
             },
             {
                 "reward": {
@@ -486,7 +486,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "**{user}** was spotted by <:bradley_tank:749017206209380433> Bradley and got shot by his cannons for **{damage}** damage!"
+                "quote": "**{user}** was spotted by <:bradley_tank:750916252809035876> Bradley and got shot by his cannons for **{damage}** damage!"
             },
             {
                 "loss": {
@@ -513,7 +513,158 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "**{user}** quietly entered the Launch Site, but was quickly spotted by <:bradley_tank:749017206209380433> Bradley and got blasted for **{damage}** damage!"
+                "quote": "**{user}** quietly entered the Launch Site, but was quickly spotted by <:bradley_tank:750916252809035876> Bradley and got blasted for **{damage}** damage!"
+            }
+        ]
+    },
+    "military_tunnels": {
+        "title": "Military Tunnels",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/750920969266135040/military_tunnels.png",
+        "suggestedLevel": "12",
+        "successRate": {
+            "1": -1.0,
+            "2": -1.0,
+            "3": -1.0,
+            "4": -1.0,
+            "5": -1.0,
+            "6": -1.0,
+            "7": -1.0,
+            "8": -0.1,
+            "9": -0.1,
+            "10": 0.0,
+            "11": 0.1,
+            "12": 0.15,
+            "13": 0.16,
+            "14": 0.17,
+            "15": 0.2
+        },
+        "requirement": {
+            "type": "armor",
+            "value": "metal_armor",
+            "bonus": 0.7
+        },
+        "success": [
+            {
+                "reward": {
+                    "item": "elite_crate|1",
+                    "rareItem": "elite_crate|1",
+                    "money": {
+                        "min": 105000,
+                        "max": 110000
+                    }
+                },
+                "loss": {
+                    "type": null,
+                    "value": 0
+                },
+                "quote": "**{user}** finds {reward} inside of the tunnel!"
+            },
+            {
+                "reward": {
+                    "item": "elite_crate|1",
+                    "rareItem": "elite_crate|1",
+                    "money": {
+                        "min": 105000,
+                        "max": 110000
+                    }
+                },
+                "loss": {
+                    "type": "health",
+                    "value": 47
+                },
+                "quote": "**{user}** is shot by multiple <:scientist:750915939675013212> Scientists and suffers **{damage}** damage but is able to find {reward}!"
+            },
+            {
+                "reward": {
+                    "item": "military_crate|1",
+                    "rareItem": "elite_crate|1",
+                    "money": {
+                        "min": 45000,
+                        "max": 60000
+                    }
+                },
+                "loss": {
+                    "type": null,
+                    "value": 0
+                },
+                "quote": "**{user}** resigns to looting the outside the tunnel after seeing several <:scientist:750915939675013212> Scientists inside. {user} manages to find {reward}!"
+            },
+            {
+                "reward": {
+                    "item": "military_crate|1",
+                    "rareItem": "supply_signal|1",
+                    "money": {
+                        "min": 45000,
+                        "max": 60000
+                    }
+                },
+                "loss": {
+                    "type": null,
+                    "value": 0
+                },
+                "quote": "**{user}** loots the tunnel and finds {reward}!"
+            },
+            {
+                "reward": {
+                    "item": "elite_crate|1",
+                    "rareItem": "elite_crate|1",
+                    "money": {
+                        "min": 105000,
+                        "max": 110000
+                    }
+                },
+                "loss": {
+                    "type": "health",
+                    "value": 28
+                },
+                "quote": "**{user}** discovers that the tunnels were occupied by 3 other looters! **{user}** sneaks by them and finds {reward} but is shot for **{damage}** damage while trying to run away!"
+            }
+        ],
+        "failed": [
+            {
+                "loss": {
+                    "type": "health",
+                    "value": 85
+                },
+                "item": "",
+                "item2": "",
+                "quote": "**{user}** enters the tunnels... Only to be shot by 5 <:scientist:750915939675013212> Scientists for **{damage}**!"
+            },
+            {
+                "loss": {
+                    "type": "health",
+                    "value": 21
+                },
+                "item": "",
+                "item2": "",
+                "quote": "**{user}** was not equipped to deal with the <:scientist:750915939675013212> Scientist guarding the entrance and gets shot for **{damage}** damage! Next time you should wear some better armor..."
+            },
+            {
+                "loss": {
+                    "type": null,
+                    "value": 0
+                },
+                "item": "",
+                "item2": "",
+                "quote": "**{user}** noticed that the tunnels were being cleared by another group of looters and decided to leave..."
+            },
+            {
+                "loss": {
+                    "type": "health",
+                    "value": 52
+                },
+                "item": "pump_shotgun",
+                "item2": "",
+                "quote": "**{user}** enters the tunnels but gets blasted by some guy camping the entrance with a {item}! **{user}** suffers **{damage}** damage."
+            },
+            {
+                "loss": {
+                    "type": "health",
+                    "value": 58
+                },
+                "item": "metal_armor",
+                "item2": "",
+                "quote": "**{user}** attracts the attention of looters wearing {item} while trying to clear the tunnels. **{user}** gets shot for **{damage}** damage..."
             }
         ]
     },
