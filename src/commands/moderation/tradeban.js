@@ -4,7 +4,7 @@ module.exports = {
     name: 'tradeban',
     aliases: [''],
     description: 'Bans a user from trading.',
-    long: 'Bans a user from being able to use the trade command as well as the black market, clan vaults, and Discoin conversions. You must provide one of the following rules:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts\n**6** - False reports\n**7** - Farming airdrops',
+    long: 'Bans a user from being able to use the trade command as well as the black market, clan vaults, and Discoin conversions. You must provide one of the following rules:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts\n**6** - False reports',
     args: {
         "User ID": "ID of user to ban.",
         "rule": "Rule broken."
@@ -26,7 +26,7 @@ module.exports = {
             return message.reply('❌ You forgot to include a user ID.')
         }
         else if(!rule || !Object.keys(RULES).includes(rule)){
-            return message.reply('❌ You need to specify what rule was broken:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts\n**6** - False reports\n**7** - Farming airdrops');
+            return message.reply('❌ You need to specify what rule was broken:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts\n**6** - False reports');
         }
         else if(await app.cd.getCD(userID, 'mod')){
             return message.reply("Hey stop trying to ban a moderator!!! >:(");
