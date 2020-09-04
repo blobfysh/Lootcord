@@ -628,7 +628,7 @@
                 },
                 "item": "",
                 "item2": "",
-                "quote": "**{user}** enters the tunnels... Only to be shot by 5 <:scientist:750915939675013212> Scientists for **{damage}**!"
+                "quote": "**{user}** enters the tunnels... Only to be shot by 5 <:scientist:750915939675013212> Scientists for **{damage}** damage!"
             },
             {
                 "loss": {
