@@ -69,7 +69,7 @@ module.exports = {
         if(todaysMonth !== converted.getMonth()){
             const daysUntilWipe = 10 - converted.getDate();
 
-            if(daysUntilWipe <= 1){
+            if(daysUntilWipe <= 0){
                 embed.setDescription('⚠️ **WIPE HYPE** Levels will be wiped **tomorrow**! This will clear your crafting recipes.\n\n**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'+ message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).')
             }
             else{
@@ -80,7 +80,7 @@ module.exports = {
         const categoriesArr = Object.keys(categories);
 
         if(categoriesArr.includes('items')) embed.addField('⚔ Item Usage', categories['items'].map(cmd => '`' + cmd + '`').join(' '));
-        if(categoriesArr.includes('rewards')) embed.addField('🎉 Free Stuff', categories['rewards'].map(cmd => '`' + cmd + '`').join(' '));
+        if(categoriesArr.includes('rewards')) embed.addField('🎉 Free Loot', categories['rewards'].map(cmd => '`' + cmd + '`').join(' '));
         if(categoriesArr.includes('games')) embed.addField('🎲 Gambling', categories['games'].map(cmd => '`' + cmd + '`').join(' '));
         if(categoriesArr.includes('info')) embed.addField('📋 Info', categories['info'].map(cmd => '`' + cmd + '`').join(' '));
         if(categoriesArr.includes('blackmarket')) embed.addField('💰 Black Market', categories['blackmarket'].map(cmd => '`' + cmd + '`').join(' '));
