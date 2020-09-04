@@ -10,7 +10,7 @@ module.exports = {
         const collectorObj = app.msgCollector.createChannelCollector(message, m => {
             return m.channel.id === message.channel.id &&
             m.content.toLowerCase() === 'roam'
-        }, { time: 20000 });
+        }, { time: 40000 });
 
         const monumentsArr = Object.keys(monuments);
         const monument = monuments[monumentsArr[Math.floor(Math.random() * monumentsArr.length)]];

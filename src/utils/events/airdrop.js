@@ -9,7 +9,7 @@ module.exports = {
         const collectorObj = app.msgCollector.createChannelCollector(message, m => {
             return m.channel.id === message.channel.id &&
             m.content.toLowerCase() === 'claimdrop'
-        }, { time: 20000 });
+        }, { time: 40000 });
 
         const exploreEmbed = new app.Embed()
         .setColor(13451564)
