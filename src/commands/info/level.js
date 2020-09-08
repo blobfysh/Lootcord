@@ -18,7 +18,8 @@ module.exports = {
             const row = await app.player.getRow(message.author.id);
             const xp = app.common.calculateXP(row.points, row.level);
             const craftableItems = Object.keys(app.itemdata).filter(item => app.itemdata[item].craftedWith !== "" && app.itemdata[item].craftedWith.level === row.level + 1);
-
+            craftableItems.sort(app.itm.sortItemsHighLow.bind(app));
+            
             let recipes = craftableItems ?
             '\n\nCrafting recipes you\'ll unlock next level:\n' + craftableItems.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n') :
             '';

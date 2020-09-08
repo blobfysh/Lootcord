@@ -278,9 +278,10 @@ class Player {
             let xp = this.app.common.calculateXP(row.points, row.level);
 
             if(row.points >= xp.totalNeeded){
-                console.log(row.points + ' is greater than ' + xp.totalNeeded)
                 const craftables = Object.keys(this.app.itemdata).filter(item => this.app.itemdata[item].craftedWith !== "" && this.app.itemdata[item].craftedWith.level === row.level + 1);
                 let levelItem = "";
+
+                craftables.sort(app.itm.sortItemsHighLow.bind(this.app));
 
                 await this.app.query(`UPDATE scores SET points = points + 1, level = level + 1 WHERE userId = ${message.author.id}`);
 

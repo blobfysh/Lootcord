@@ -339,6 +339,9 @@ module.exports = {
                         let moneyStolen = Math.floor((row.money + mobMoneyStolen) * .75);
                         let scrapStolen = Math.floor(row.scrap * .5);
                         
+                        // passive shield, protects same player from being attacked for 24 hours
+                        await app.cd.setCD(message.author.id, 'passive_shield', app.config.cooldowns.daily * 1000);
+
                         await app.itm.removeItem(message.author.id, randomItems.amounts);
                         await app.player.removeMoney(message.author.id, moneyStolen);
                         await app.player.removeScrap(message.author.id, scrapStolen);
