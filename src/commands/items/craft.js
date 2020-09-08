@@ -26,7 +26,7 @@ module.exports = {
             
             if(craftAmount > 20) craftAmount = 20;
 
-            let itemMats = getItemMats(app.itemdata[craftItem].craftedWith.materials, craftAmount);
+            let itemMats = getItemMats(app.itemdata[craftItem].craftedWith.materials, craftAmount).sort(app.itm.sortItemsHighLow.bind(app));
 
             const embedInfo = new app.Embed()
             .setDescription(`Craft **${craftAmount}x** ${app.itemdata[craftItem].icon}\`${craftItem}\` for:\n\n${app.itm.getDisplay(itemMats).join('\n')}`)

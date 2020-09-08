@@ -15,7 +15,8 @@ module.exports = {
     async execute(app, message){
         const row = await app.player.getRow(message.author.id);
         const userItems = await app.itm.getItemObject(message.author.id);
-        const craftableItems = Object.keys(app.itemdata).filter(item => app.itemdata[item].craftedWith !== "" && app.itemdata[item].craftedWith.level <= row.level);
+        const itemsSorted = Object.keys(app.itemdata).sort(app.itm.sortItemsHighLow.bind(app));
+        const craftableItems = itemsSorted.filter(item => app.itemdata[item].craftedWith !== "" && app.itemdata[item].craftedWith.level <= row.level);
         let craftables = [];
 
         for(let i = 0; i < craftableItems.length; i++){
@@ -23,8 +24,6 @@ module.exports = {
                 craftables.push(craftableItems[i] + '|' + maxCraft(craftableItems[i]));
             }
         }
-
-        craftables.sort(app.itm.sortItemsHighLow.bind(app));
 
         for(let i = 0; i < craftables.length; i++){
             let itemAmount = craftables[i].split('|');
@@ -65,18 +64,19 @@ module.exports = {
         let material = craftableItems.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Material');
         let storage = craftableItems.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Storage');
         let banners = craftableItems.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Banner');
+        
         const craftableEmb = new app.Embed()
         .setTitle('Craftables')
         .setDescription('**Items you are a high enough level to craft:**' + (craftableItems.length ? '' : '\nNothing, you should level up more!'))
         .setColor(13451564)
 
-        craftableEmb.addField(ITEM_TYPES['ranged'].name, rangedWeapons.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-        craftableEmb.addField(ITEM_TYPES['melee'].name, meleeWeapons.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-        craftableEmb.addField(ITEM_TYPES['items'].name, items.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-        craftableEmb.addField(ITEM_TYPES['ammo'].name, ammo.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-        craftableEmb.addField(ITEM_TYPES['materials'].name, material.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-        craftableEmb.addField(ITEM_TYPES['storage'].name, storage.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-        craftableEmb.addField(ITEM_TYPES['banners'].name, banners.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+        craftableEmb.addField(ITEM_TYPES['ranged'].name, rangedWeapons.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+        craftableEmb.addField(ITEM_TYPES['melee'].name, meleeWeapons.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+        craftableEmb.addField(ITEM_TYPES['items'].name, items.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+        craftableEmb.addField(ITEM_TYPES['ammo'].name, ammo.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+        craftableEmb.addField(ITEM_TYPES['materials'].name, material.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+        craftableEmb.addField(ITEM_TYPES['storage'].name, storage.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+        craftableEmb.addField(ITEM_TYPES['banners'].name, banners.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
 
         craftableEmb.addField('\u200b' ,'**These are the items you can craft right now:**\n' + (craftables.length ? craftables.join('\n') : 'You don\'t have the materials to craft anything right now!'))
 

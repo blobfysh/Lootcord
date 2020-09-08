@@ -22,7 +22,7 @@ module.exports = {
 
             if(sellAmount > 20) sellAmount = 20;
 
-            let itemMats = getItemMats(app.itemdata[sellItem].recyclesTo.materials, sellAmount);
+            let itemMats = getItemMats(app.itemdata[sellItem].recyclesTo.materials, sellAmount).sort(app.itm.sortItemsHighLow.bind(app));
 
             const embedInfo = new app.Embed()
             .setDescription(`Recycle **${sellAmount}x** ${app.itemdata[sellItem].icon}\`${sellItem}\` for:\n\n${app.itm.getDisplay(itemMats).join('\n')}`)

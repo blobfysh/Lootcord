@@ -158,8 +158,8 @@ class Items {
         let materials = [];
         let storage = [];
         let banners = [];
-        let invValue      = 0;
-        let itemCount     = 0;
+        let invValue = 0;
+        let itemCount = 0;
 
         let filteredItems = Object.keys(this.app.itemdata).filter(item => {
             if(options.onlyBanners){
@@ -180,38 +180,25 @@ class Items {
             }
         });
 
-        for(let key of filteredItems){
+        for(let key of filteredItems.sort(this.sortItemsHighLow.bind(this.app))){
             if(items[key] >= 1){
                 let itemInfo = this.app.itemdata[key];
+                let itemDisplay = itemInfo.icon + '`' + key + '`(' + items[key] + ')';
 
-                if(itemInfo.category === 'Ranged') ranged.push(key);
-                else if(itemInfo.category === 'Melee') melee.push(key);
-                else if(itemInfo.category === 'Item') usables.push(key);
-                else if(itemInfo.category === 'Ammo') ammo.push(key);
-                else if(itemInfo.category === 'Material') materials.push(key);
-                else if(itemInfo.category === 'Storage') storage.push(key);
-                else if(itemInfo.category === 'Banner') banners.push(key);
+                switch(itemInfo.category){
+                    case 'Ranged': ranged.push(itemDisplay); break;
+                    case 'Melee': melee.push(itemDisplay); break;
+                    case 'Item': usables.push(itemDisplay); break;
+                    case 'Ammo': ammo.push(itemDisplay); break;
+                    case 'Material': materials.push(itemDisplay); break;
+                    case 'Storage': storage.push(itemDisplay); break;
+                    case 'Banner': banners.push(itemDisplay);
+                }
     
-                invValue += this.app.itemdata[key].sell * items[key];
-                itemCount+= items[key];
+                invValue += itemInfo.sell * items[key];
+                itemCount += items[key];
             }
         }
-        
-        ranged.sort();
-        melee.sort();
-        usables.sort();
-        ammo.sort();
-        materials.sort();
-        storage.sort();
-        banners.sort();
-
-        ranged = ranged.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        melee = melee.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        usables = usables.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        ammo = ammo.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        materials = materials.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        storage = storage.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
-        banners = banners.map(item => this.app.itemdata[item].icon + '`' + item + '`' + "(" + items[item] + ")");
 
         return {
             ranged,
@@ -364,7 +351,6 @@ class Items {
         randArr = randArr.sort(() => 0.5 - Math.random());
         
         let results = randArr.slice(0, amount);
-        let display = [];
         let amountResults = [];
 
         for(let i = 0; i < results.length; i++){
@@ -377,15 +363,9 @@ class Items {
             }
         }
 
-        for(let item of amountResults){
-            let split = item.split('|');
-
-            display.push(`**${split[1]}x** ${this.app.itemdata[split[0]].icon}\`${split[0]}\``);
-        }
-
         return {
             items: results,
-            display: display,
+            display: this.getDisplay(amountResults.sort(this.sortItemsHighLow.bind(this.app))),
             amounts: amountResults
         }
     }
@@ -396,12 +376,16 @@ class Items {
             b = b.split('|')[0];
         }
 
-        let asell = this.itemdata[a].sell;
-        let bsell = this.itemdata[b].sell;
+        let aitem = this.itemdata[a];
+        let bitem = this.itemdata[b];
 
-        if(bsell > asell) return -1;
+        if(bitem.tier > aitem.tier) return -1;
+
+        else if(bitem.tier < aitem.tier) return 1;
+
+        else if(b > a) return -1;
         
-        else if(bsell < asell) return 1;
+        else if(b < a) return 1;
 
         return 0;
     }
@@ -412,13 +396,17 @@ class Items {
             b = b.split('|')[0];
         }
 
-        let asell = this.itemdata[a].sell;
-        let bsell = this.itemdata[b].sell;
+        let aitem = this.itemdata[a];
+        let bitem = this.itemdata[b];
 
-        if(bsell < asell) return -1;
+        if(bitem.tier < aitem.tier) return -1;
+
+        else if(bitem.tier > aitem.tier) return 1;
+
+        else if(b > a) return -1;
         
-        else if(bsell > asell) return 1;
-
+        else if(b < a) return 1;
+        
         return 0;
     }
 

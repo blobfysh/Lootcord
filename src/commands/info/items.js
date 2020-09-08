@@ -13,6 +13,7 @@ module.exports = {
     guildModsOnly: false,
     
     async execute(app, message){
+        const itemsArraySorted = Object.keys(app.itemdata).sort(app.itm.sortItemsHighLow.bind(app));
         let itemSearched = app.parse.items(message.args)[0];
         let itemChoice = (message.args[0] || '').toLowerCase();
 
@@ -20,7 +21,6 @@ module.exports = {
             let itemBuyCurr = app.itemdata[itemSearched].buy.currency;
             let itemBuyPrice = app.itemdata[itemSearched].buy.amount;
             let itemSellPrice = app.itemdata[itemSearched].sell;
-            let itemAmmo = app.itemdata[itemSearched].ammo;
             let itemCategory = app.itemdata[itemSearched].category;
             let itemInfo = app.itemdata[itemSearched].desc;
             let itemImg = app.itemdata[itemSearched].image;
@@ -32,6 +32,7 @@ module.exports = {
             const embedItem = new app.Embed()
             .setTitle(`${app.itemdata[itemSearched].icon} ${itemSearched}`)
             .setColor(13451564)
+
             if(app.itemdata[itemSearched].isBanner){
                 embedItem.setImage(itemImg);
                 embedItem.setColor(app.itemdata[itemSearched].bannerColor)
@@ -51,12 +52,12 @@ module.exports = {
                 let possibleItems = [];
 
                 Object.keys(app.itemdata[itemSearched].rates).forEach(rate => {
-                    for(var i = 0; i < app.itemdata[itemSearched].rates[rate].items.length; i++){
+                    for(let i = 0; i < app.itemdata[itemSearched].rates[rate].items.length; i++){
                         possibleItems.push(app.itemdata[itemSearched].rates[rate].items[i].split('|')[0]);
                     }
                 });
                 
-                itemInfo += '\n\n**Possible items:** ' + possibleItems.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join(', ')
+                itemInfo += '\n\n**Possible items:** ' + possibleItems.sort(app.itm.sortItemsHighLow.bind(app)).map(item => app.itemdata[item].icon + '`' + item + '`').join(', ')
             }
 
             if(!isBound){
@@ -79,7 +80,7 @@ module.exports = {
 
             if(app.itemdata[itemSearched].isWeap){
                 if(app.itemdata[itemSearched].ammo !== ""){
-                    embedItem.addField("Damage", app.itemdata[itemSearched].ammo.sort().map(ammo => {
+                    embedItem.addField("Damage", app.itemdata[itemSearched].ammo.sort(app.itm.sortItemsHighLow.bind(app)).map(ammo => {
                         return app.itemdata[ammo].icon + '`' + ammo + '` ' + (app.itemdata[ammo].damage + app.itemdata[itemSearched].minDmg) + ' - ' + (app.itemdata[ammo].damage + app.itemdata[itemSearched].maxDmg)
                     }).join('\n'));
                 }
@@ -89,7 +90,7 @@ module.exports = {
             }
 
             if(app.itemdata[itemSearched].category === 'Ammo'){
-                let ammoFor = Object.keys(app.itemdata).filter(item => app.itemdata[item].ammo !== "" && app.itemdata[item].ammo.includes(itemSearched));
+                let ammoFor = itemsArraySorted.filter(item => app.itemdata[item].ammo !== "" && app.itemdata[item].ammo.includes(itemSearched));
 
                 embedItem.addField("Damage", app.itemdata[itemSearched].damage, true);
                 embedItem.addField("Ammo for:", ammoFor.map(weapon => app.itemdata[weapon].icon + '`' + weapon + '`').join('\n'), true)
@@ -109,7 +110,7 @@ module.exports = {
             let craftItems = [];
             let recycledFrom = [];
 
-            Object.keys(app.itemdata).forEach(item => {
+            for(let item of itemsArraySorted){
                 if(app.itemdata[item].craftedWith !== ''){
                     for(let i = 0; i < app.itemdata[item].craftedWith.materials.length; i++){
                         if(app.itemdata[item].craftedWith.materials[i].split('|')[0] == itemSearched){
@@ -119,21 +120,21 @@ module.exports = {
                 }
                 
                 if(app.itemdata[item].recyclesTo.length == undefined){
-                    for(var i = 0; i < app.itemdata[item].recyclesTo.materials.length; i++){
+                    for(let i = 0; i < app.itemdata[item].recyclesTo.materials.length; i++){
                         if(app.itemdata[item].recyclesTo.materials[i].split('|')[0] == itemSearched){
                             recycledFrom.push(app.itemdata[item].icon + '`' + item + '`');
                         }
                     }
                 }
-            });
+            }
 
             if(itemCraftedWith !== "" || itemRecyclesTo.materials !== undefined || craftItems.length || recycledFrom.length) embedItem.addBlankField();
 
             if(itemCraftedWith !== ""){
-                embedItem.addField("🔩 Crafted with:", "⭐ __Level **" + itemCraftedWith.level + '**+__\n\n' + app.itm.getDisplay(itemCraftedWith.materials.sort()).join('\n'), true)
+                embedItem.addField("🔩 Crafted with:", "⭐ __Level **" + itemCraftedWith.level + '**+__\n\n' + app.itm.getDisplay(itemCraftedWith.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n'), true)
             }
             if(itemRecyclesTo.materials !== undefined){
-                embedItem.addField("♻ Recycles into:", app.itm.getDisplay(itemRecyclesTo.materials.sort()).join('\n'), true)
+                embedItem.addField("♻ Recycles into:", app.itm.getDisplay(itemRecyclesTo.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n'), true)
             }
 
             if(craftItems.length){
@@ -146,24 +147,24 @@ module.exports = {
             message.channel.createMessage(embedItem);
         }
         else if(!itemChoice){
-            let meleeWeapons = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Melee');
-            let rangedWeapons = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Ranged');
-            let items = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Item');
-            let ammo = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Ammo');
-            let material = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Material');
-            let storage = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Storage');
-            let banners = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Banner');
+            let meleeWeapons = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Melee');
+            let rangedWeapons = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Ranged');
+            let items = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Item');
+            let ammo = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Ammo');
+            let material = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Material');
+            let storage = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Storage');
+            let banners = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Banner');
 
             const embedInfo = new app.Embed()
             .setColor(13451564)
             .setTitle("Full Items List")
-            .addField(ITEM_TYPES['ranged'].name, rangedWeapons.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField(ITEM_TYPES['melee'].name, meleeWeapons.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField(ITEM_TYPES['items'].name, items.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField(ITEM_TYPES['ammo'].name, ammo.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField(ITEM_TYPES['materials'].name, material.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField(ITEM_TYPES['storage'].name, storage.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField(ITEM_TYPES['banners'].name, banners.sort().map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField(ITEM_TYPES['ranged'].name, rangedWeapons.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField(ITEM_TYPES['melee'].name, meleeWeapons.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField(ITEM_TYPES['items'].name, items.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField(ITEM_TYPES['ammo'].name, ammo.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField(ITEM_TYPES['materials'].name, material.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField(ITEM_TYPES['storage'].name, storage.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
+            .addField(ITEM_TYPES['banners'].name, banners.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
             .setFooter(`Use ${message.prefix}item <item> to retrieve more information!`)
 
             message.channel.createMessage(embedInfo);
