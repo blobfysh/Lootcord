@@ -48,27 +48,26 @@ module.exports = {
                 for(let user in joined){
                     const userRow = await app.player.getRow(user);
                     const userItems = await app.itm.getItemObject(user);
+                    const armor = await app.player.getArmor(user);
                     let successRate = monument.successRate[userRow.level] !== undefined ? monument.successRate[userRow.level] : monument.successRate[successRates[successRates.length - 1]];
                     
+                    console.log('success before: ' + successRate);
                     // check for monument requirements such as items/armor
                     if(monument.requirement.type !== null){
-                        if(monument.requirement.type === 'armor'){
-                            const armor = await app.player.getArmor(user);
-
-                            if(armor && armor === monument.requirement.value) successRate += monument.requirement.bonus;
-                            else successRate -= 1;
+                        if(monument.requirement.type === 'armor' && armor && armor === monument.requirement.value){
+                            successRate += monument.requirement.bonus;
                         }
-                        else if(monument.requirement.type === 'item'){
-                            if(userItems[monument.requirement.value] >= 1){
-                                await app.itm.removeItem(user, monument.requirement.value, 1);
+                        else if(monument.requirement.type === 'item' && userItems[monument.requirement.value] >= 1){
+                            await app.itm.removeItem(user, monument.requirement.value, 1);
 
-                                successRate += monument.requirement.bonus;
-                            }
-                            else{
-                                successRate -= 1;
-                            }
+                            successRate += monument.requirement.bonus;
+                        }
+                        else{
+                            successRate -= 1;
                         }
                     }
+
+                    console.log('success after: ' + successRate);
 
                     if(Math.random() < successRate){
                         const outcome = monument.success[Math.floor(Math.random() * monument.success.length)];
@@ -81,13 +80,17 @@ module.exports = {
                         if(outcome.loss.type === 'health'){
                             let healthReduct = outcome.loss.value;
     
+                            if(armor){
+                                healthReduct -= Math.floor(outcome.loss.value * app.itemdata[armor].shieldInfo.protection);
+                            }
+
                             if(userRow.health - healthReduct <= 0){
                                 healthReduct = userRow.health - 1;
                             }
     
                             await app.mysql.updateDecr('scores', 'health', healthReduct, 'userId', user);
     
-                            quote = quote.replace('{damage}', '💥' + healthReduct);
+                            quote = quote.replace('{damage}', armor ? '💥~~' + outcome.loss.value + '~~ ' + app.itemdata[armor].icon + healthReduct : '💥' + healthReduct);
                         }
     
                         if(hasEnough && Math.random() < 0.9){
@@ -115,7 +118,15 @@ module.exports = {
     
                         if(outcome.loss.type === 'health'){
                             let healthReduct = outcome.loss.value;
-                            quote = quote.replace('{damage}', healthReduct);
+                            
+                            if(armor){
+                                healthReduct -= Math.floor(outcome.loss.value * app.itemdata[armor].shieldInfo.protection);
+
+                                quote = quote.replace('{damage}', '💥~~' + outcome.loss.value + '~~ ' + app.itemdata[armor].icon + healthReduct);
+                            }
+                            else{
+                                quote = quote.replace('{damage}', '💥' + healthReduct);
+                            }
     
                             if(userRow.health - healthReduct <= 0){
                                 // player was killed

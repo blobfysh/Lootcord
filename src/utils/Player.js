@@ -281,7 +281,7 @@ class Player {
                 const craftables = Object.keys(this.app.itemdata).filter(item => this.app.itemdata[item].craftedWith !== "" && this.app.itemdata[item].craftedWith.level === row.level + 1);
                 let levelItem = "";
 
-                craftables.sort(app.itm.sortItemsHighLow.bind(this.app));
+                craftables.sort(this.app.itm.sortItemsHighLow.bind(this.app));
 
                 await this.app.query(`UPDATE scores SET points = points + 1, level = level + 1 WHERE userId = ${message.author.id}`);
 
