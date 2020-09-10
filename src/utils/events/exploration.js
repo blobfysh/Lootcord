@@ -51,7 +51,6 @@ module.exports = {
                     const armor = await app.player.getArmor(user);
                     let successRate = monument.successRate[userRow.level] !== undefined ? monument.successRate[userRow.level] : monument.successRate[successRates[successRates.length - 1]];
                     
-                    console.log('success before: ' + successRate);
                     // check for monument requirements such as items/armor
                     if(monument.requirement.type !== null){
                         if(monument.requirement.type === 'armor' && armor && armor === monument.requirement.value){
@@ -66,8 +65,6 @@ module.exports = {
                             successRate -= 1;
                         }
                     }
-
-                    console.log('success after: ' + successRate);
 
                     if(Math.random() < successRate){
                         const outcome = monument.success[Math.floor(Math.random() * monument.success.length)];
@@ -184,8 +181,6 @@ module.exports = {
                     .setColor(13451564)
                     .setTitle(`Event Results - __IT'S TIME TO ROAM!__`)
                     .setDescription(results.join('\n\n'));
-
-                    console.log(results.join('\n\n').length);
 
                     await message.channel.createMessage(resultsEmb);
                 }

@@ -13,15 +13,15 @@ module.exports = {
     guildModsOnly: false,
 
     async execute(app, message){
-        let allItems = Object.keys(app.itemdata).filter(item => app.itemdata[item].buy.currency !== undefined).sort((a, b) => {
+        const allItems = Object.keys(app.itemdata).filter(item => app.itemdata[item].buy.currency !== undefined)
+        
+        allItems.sort(app.itm.sortItemsHighLow.bind(app));
+        allItems.sort((a, b) => {
             let aCurr = app.itemdata[a].buy.currency;
             let bCurr = app.itemdata[b].buy.currency;
 
-            if(aCurr === 'scrap' && bCurr === 'money') return -1
-            else if(aCurr === 'money' && bCurr === 'scrap') return 1
-            else{
-                return a.localeCompare(b);
-            }
+            if(aCurr === 'scrap' && bCurr === 'money') return 1
+            else if(aCurr === 'money' && bCurr === 'scrap') return -1
         });
 
         app.react.paginate(message, await generatePages(app, allItems, message.prefix, max_items_per_page));
