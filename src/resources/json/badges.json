@@ -58,5 +58,11 @@
         "description": "Kill blobfysh#4679 (the developer of the bot), you can find him in the official Discord server! `t-discord`",
         "image": "https://cdn.discordapp.com/attachments/542248243313246208/747420490821271632/wickmode.png",
         "artist": ""
+    },
+    "loot_lord": {
+        "icon": "💎",
+        "description": "An exclusive badge for Loot Lord patreon donators!",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/754010748115615844/gem-stone_1f48e.png",
+        "artist": ""
     }
 }

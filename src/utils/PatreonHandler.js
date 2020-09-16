@@ -123,6 +123,7 @@ class PatreonHandler {
             await this.app.query("INSERT INTO patrons (userId, tier, started) VALUES (?, ?, ?)", [userId, 3, Date.now()]);
             await this.app.cache.setNoExpire(`patron3|${userId}`, 'Patron Monthly Tier 3');
             await this.addPatronItems(userId);
+            await this.app.itm.addBadge(userId, 'loot_lord');
 
             await this.app.common.messageUser(userId, patronEmbed, { throwErr: true });
 
@@ -208,6 +209,7 @@ class PatreonHandler {
             await this.app.query(`DELETE FROM patrons WHERE userId = ? AND tier = ?`, [userId, 3]);
             await this.app.cd.clearCD(userId, 'patron3');
             await this.removePatronItems(userId);
+            await this.app.itm.removeBadge(userId, 'loot_lord');
 
             const patreonLogEmbed = new this.app.Embed()
             .setTitle('Perks Ended')
