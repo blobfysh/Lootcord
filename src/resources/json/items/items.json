@@ -768,7 +768,7 @@
         "cooldown": {
             "display": "10 minutes",
             "scoreRow": "_10mHEALCD",
-            "seconds": 600
+            "seconds": 752
         },
         "artist": "",
         "category": "Item",
@@ -796,9 +796,35 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
-            "display": "20 minutes",
-            "scoreRow": "_20mHEALCD",
-            "seconds": 1200
+            "seconds": 1322
+        },
+        "artist": "",
+        "category": "Item",
+        "aliases": [],
+        "tier": 0
+    },
+    "corn": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 9,
+        "healMax": 15,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 857,
+        "desc": "Heals **9 - 15** HP.\n**Halloween event item.**",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758296775785840680/corn.png",
+        "icon": "<:corn_food:758296754163548180>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 854
         },
         "artist": "",
         "category": "Item",
@@ -819,16 +845,14 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 1387,
+        "sell": 1587,
         "desc": "A king-sized candy bar! Heals **13 - 28** HP.\n**Halloween event item.**",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/734408436682326037/chocolate_bar.png",
         "icon": "<:candy_bar:734408335108997181>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
-            "display": "20 minutes",
-            "scoreRow": "_20mHEALCD",
-            "seconds": 1200
+            "seconds": 1258
         },
         "artist": "",
         "category": "Item",
@@ -839,7 +863,7 @@
         ],
         "tier": 0
     },
-    "candy_pail": {
+    "small_loot_bag": {
         "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
@@ -851,33 +875,167 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 1267,
-        "desc": "A trick-or-treat pail. It could contain some cool Halloween items!",
-        "image": "https://cdn.discordapp.com/attachments/732785297363959902/734408433222025286/candy_pail.png",
-        "icon": "<:candy_pail:734408335377432586>",
+        "desc": "Open this to see what's inside. It could contain some cool Halloween items!",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758435011451027476/small_loot_bag.png",
+        "icon": "<:small_loot_bag:758434757775851561>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
             "20": {
-                "xp": 30,
+                "xp": 10,
                 "items": [
-                    "sickle|1"
+                    "sickle|1",
+                    "bone_arrow|1",
+                    "bow|1"
                 ]
             },
             "80": {
-                "xp": 20,
+                "xp": 5,
                 "items": [
                     "apple|1",
                     "candy_bar|1",
-                    "pumpkin|1"
+                    "pumpkin|1",
+                    "corn|1"
                 ]
             }
         },
         "artist": "",
         "category": "Item",
         "aliases": [
-            "candy_bucket",
-            "pail"
+            "loot_bag"
+        ],
+        "tier": 0
+    },
+    "medium_loot_bag": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 1,
+            "materials": [
+                "small_loot_bag|10"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 7422,
+        "desc": "Open this to see what's inside. It could contain some cool Halloween items!",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758435009181777950/medium_loot_bag.png",
+        "icon": "<:medium_loot_bag:758434919483047976>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "10": {
+                "xp": 20,
+                "items": [
+                    "coffin|1"
+                ]
+            },
+            "20": {
+                "xp": 15,
+                "items": [
+                    "pump_shotgun|1",
+                    "12g_buckshot|1",
+                    "chainsaw|1",
+                    "rifle_bullet|1",
+                    "python|1"
+                ]
+            },
+            "70": {
+                "xp": 10,
+                "items": [
+                    "pistol_bullet|1",
+                    "revolver|1",
+                    "crossbow|1",
+                    "waterpipe_shotgun|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item",
+        "aliases": [],
+        "tier": 0
+    },
+    "large_loot_bag": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 1,
+            "materials": [
+                "medium_loot_bag|10"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 22670,
+        "desc": "Open this to see what's inside. It could contain some cool Halloween items!",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758435006372249640/large_loot_bag.png",
+        "icon": "<:large_loot_bag:758434932895776862>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "10": {
+                "xp": 60,
+                "items": [
+                    "m249|1"
+                ]
+            },
+            "90": {
+                "xp": 50,
+                "items": [
+                    "rifle_bullet|1",
+                    "grenade_launcher|1",
+                    "40mm_he_grenade|1",
+                    "lr-300|1",
+                    "rocket|1",
+                    "mp5|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item",
+        "aliases": [],
+        "tier": 0
+    },
+    "scarecrow_suit": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isShield": true,
+        "shieldInfo": {
+            "seconds": 14400,
+            "protection": 0.50
+        },
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 18159,
+        "desc": "Use this armor to reduce damage taken from attacks by **50%** for **4 hours**.",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758453069280968754/scarecrow_armor_ingame.png",
+        "icon": "<:scarecrow_suit:758442991886401546>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item",
+        "aliases": [
+            "scarecrow"
         ],
         "tier": 0
     }

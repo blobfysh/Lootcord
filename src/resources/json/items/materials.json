@@ -303,6 +303,37 @@
         ],
         "tier": 0
     },
+    "human_skull": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "1x bone_fragments",
+            "materials": [
+                "bone_fragments|1"
+            ]
+        },
+        "buy": "",
+        "sell": 604,
+        "desc": "**Halloween event item.**",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758455971512057866/human_skull.png",
+        "icon": "<:human_skull:758455439980625961>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Material",
+        "aliases": [
+            "skull"
+        ],
+        "tier": 0
+    },
     "coal": {
         "rarity": "Limited",
         "isWeap": false,

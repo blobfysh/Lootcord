@@ -157,7 +157,7 @@
         "cooldown": {
             "display": "10 minutes",
             "scoreRow": "_10mHEALCD",
-            "seconds": 600
+            "seconds": 752
         },
         "artist": "",
         "category": "Item",
@@ -490,6 +490,32 @@
         "aliases": [],
         "tier": 0
     },
+    "butcher_knife": {
+        "rarity": "Limited",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "13 - 19",
+        "minDmg": 13,
+        "maxDmg": 19,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 3510,
+        "desc": "**Halloween event item.**",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758296124850438154/butcher_knife.png",
+        "icon": "<:butcher_knife:758296100133142559>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1705
+        },
+        "phrase": "{attacker} chops up {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Melee",
+        "aliases": [],
+        "tier": 0
+    },
     "c4": {
         "rarity": "Ultra",
         "isWeap": false,
@@ -540,16 +566,14 @@
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 1387,
+        "sell": 1587,
         "desc": "A king-sized candy bar! Heals **13 - 28** HP.\n**Halloween event item.**",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/734408436682326037/chocolate_bar.png",
         "icon": "<:candy_bar:734408335108997181>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
-            "display": "20 minutes",
-            "scoreRow": "_20mHEALCD",
-            "seconds": 1200
+            "seconds": 1258
         },
         "artist": "",
         "category": "Item",
@@ -557,48 +581,6 @@
             "candy",
             "chocolate",
             "chocolate_bar"
-        ],
-        "tier": 0
-    },
-    "candy_pail": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
-        "damage": "",
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": [],
-        "buy": "",
-        "sell": 1267,
-        "desc": "A trick-or-treat pail. It could contain some cool Halloween items!",
-        "image": "https://cdn.discordapp.com/attachments/732785297363959902/734408433222025286/candy_pail.png",
-        "icon": "<:candy_pail:734408335377432586>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "rates": {
-            "20": {
-                "xp": 30,
-                "items": [
-                    "sickle|1"
-                ]
-            },
-            "80": {
-                "xp": 20,
-                "items": [
-                    "apple|1",
-                    "candy_bar|1",
-                    "pumpkin|1"
-                ]
-            }
-        },
-        "artist": "",
-        "category": "Item",
-        "aliases": [
-            "candy_bucket",
-            "pail"
         ],
         "tier": 0
     },
@@ -623,6 +605,32 @@
             "seconds": 2700
         },
         "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Melee",
+        "aliases": [],
+        "tier": 0
+    },
+    "chainsaw": {
+        "rarity": "Limited",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "40 - 53",
+        "minDmg": 40,
+        "maxDmg": 53,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 15252,
+        "desc": "**Halloween event item.**",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758295217211572224/chainsaw.png",
+        "icon": "<:chainsaw:758295192150343742>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 3132
+        },
+        "phrase": "{attacker} cuts up {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
         "category": "Melee",
         "aliases": [],
@@ -676,6 +684,61 @@
         "aliases": [],
         "tier": 0
     },
+    "coffin": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": false,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": "",
+        "buy": "",
+        "sell": "",
+        "desc": "Equip this storage box to gain **30** item slots!",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758293052577546270/coffin.png",
+        "unboxImage": "",
+        "equippable": true,
+        "type": "backpack",
+        "inv_slots": 30,
+        "icon": "<:coffin_box:758292645666881536>",
+        "breaksOnUse": "",
+        "canBeStolen": false,
+        "cooldown": "",
+        "artist": "",
+        "category": "Storage",
+        "aliases": [],
+        "tier": 0
+    },
+    "corn": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isHeal": true,
+        "healMin": 9,
+        "healMax": 15,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 857,
+        "desc": "Heals **9 - 15** HP.\n**Halloween event item.**",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758296775785840680/corn.png",
+        "icon": "<:corn_food:758296754163548180>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 854
+        },
+        "artist": "",
+        "category": "Item",
+        "aliases": [],
+        "tier": 0
+    },
     "crate": {
         "rarity": "Common",
         "isWeap": false,
@@ -712,7 +775,7 @@
                 ]
             },
             "8": {
-                "xp": 40,
+                "xp": 35,
                 "items": [
                     "crossbow|1",
                     "f1_grenade|1",
@@ -723,7 +786,7 @@
                 ]
             },
             "15": {
-                "xp": 35,
+                "xp": 25,
                 "items": [
                     "metal_pipe|1",
                     "bow|1",
@@ -735,7 +798,7 @@
                 ]
             },
             "25": {
-                "xp": 25,
+                "xp": 15,
                 "items": [
                     "bandage|1",
                     "mace|1",
@@ -1193,6 +1256,37 @@
         "aliases": [],
         "tier": 0
     },
+    "human_skull": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "display": "1x bone_fragments",
+            "materials": [
+                "bone_fragments|1"
+            ]
+        },
+        "buy": "",
+        "sell": 604,
+        "desc": "**Halloween event item.**",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758455971512057866/human_skull.png",
+        "icon": "<:human_skull:758455439980625961>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Material",
+        "aliases": [
+            "skull"
+        ],
+        "tier": 0
+    },
     "hv_rifle_bullet": {
         "rarity": "Uncommon",
         "isWeap": false,
@@ -1285,6 +1379,53 @@
         "cooldown": "",
         "artist": "",
         "category": "Banner",
+        "aliases": [],
+        "tier": 0
+    },
+    "large_loot_bag": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 1,
+            "materials": [
+                "medium_loot_bag|10"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 22670,
+        "desc": "Open this to see what's inside. It could contain some cool Halloween items!",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758435006372249640/large_loot_bag.png",
+        "icon": "<:large_loot_bag:758434932895776862>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "10": {
+                "xp": 60,
+                "items": [
+                    "m249|1"
+                ]
+            },
+            "90": {
+                "xp": 50,
+                "items": [
+                    "rifle_bullet|1",
+                    "grenade_launcher|1",
+                    "40mm_he_grenade|1",
+                    "lr-300|1",
+                    "rocket|1",
+                    "mp5|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item",
         "aliases": [],
         "tier": 0
     },
@@ -1659,6 +1800,61 @@
         ],
         "tier": 1
     },
+    "medium_loot_bag": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 1,
+            "materials": [
+                "small_loot_bag|10"
+            ]
+        },
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 7422,
+        "desc": "Open this to see what's inside. It could contain some cool Halloween items!",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758435009181777950/medium_loot_bag.png",
+        "icon": "<:medium_loot_bag:758434919483047976>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "10": {
+                "xp": 20,
+                "items": [
+                    "coffin|1"
+                ]
+            },
+            "20": {
+                "xp": 15,
+                "items": [
+                    "pump_shotgun|1",
+                    "12g_buckshot|1",
+                    "chainsaw|1",
+                    "rifle_bullet|1",
+                    "python|1"
+                ]
+            },
+            "70": {
+                "xp": 10,
+                "items": [
+                    "pistol_bullet|1",
+                    "revolver|1",
+                    "crossbow|1",
+                    "waterpipe_shotgun|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item",
+        "aliases": [],
+        "tier": 0
+    },
     "metal": {
         "rarity": "Rare",
         "isWeap": false,
@@ -2026,6 +2222,32 @@
         ],
         "tier": 1
     },
+    "pitchfork": {
+        "rarity": "Limited",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "35 - 40",
+        "minDmg": 35,
+        "maxDmg": 40,
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 8020,
+        "desc": "**Halloween event item.**",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758293349244731412/pitchfork.png",
+        "icon": "<:pitchfork:758293300272431134>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 2552
+        },
+        "phrase": "{attacker} stabs {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Melee",
+        "aliases": [],
+        "tier": 0
+    },
     "present": {
         "rarity": "Limited",
         "isWeap": false,
@@ -2139,9 +2361,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
-            "display": "20 minutes",
-            "scoreRow": "_20mHEALCD",
-            "seconds": 1200
+            "seconds": 1322
         },
         "artist": "",
         "category": "Item",
@@ -2534,6 +2754,36 @@
         ],
         "tier": 0
     },
+    "scarecrow_suit": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "isShield": true,
+        "shieldInfo": {
+            "seconds": 14400,
+            "protection": 0.5
+        },
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 18159,
+        "desc": "Use this armor to reduce damage taken from attacks by **50%** for **4 hours**.",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758453069280968754/scarecrow_armor_ingame.png",
+        "icon": "<:scarecrow_suit:758442991886401546>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item",
+        "aliases": [
+            "scarecrow"
+        ],
+        "tier": 0
+    },
     "semi_body": {
         "rarity": "Uncommon",
         "isWeap": false,
@@ -2679,28 +2929,70 @@
         "rarity": "Limited",
         "isWeap": true,
         "isItem": false,
-        "damage": "35 - 40",
-        "minDmg": 35,
-        "maxDmg": 40,
+        "damage": "20 - 28",
+        "minDmg": 20,
+        "maxDmg": 28,
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
         "buy": "",
-        "sell": 8020,
+        "sell": 5504,
         "desc": "**Halloween event item.**",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/734410707658997770/sickle.png",
         "icon": "<:sickle:734410650461405285>",
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "display": "30 minutes",
-            "scoreRow": "_30mCD",
-            "seconds": 1800
+            "seconds": 2050
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "phrase": "{attacker} slices {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
         "category": "Melee",
         "aliases": [],
+        "tier": 0
+    },
+    "small_loot_bag": {
+        "rarity": "Limited",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": [],
+        "buy": "",
+        "sell": 1267,
+        "desc": "Open this to see what's inside. It could contain some cool Halloween items!",
+        "image": "https://cdn.discordapp.com/attachments/750103329257816085/758435011451027476/small_loot_bag.png",
+        "icon": "<:small_loot_bag:758434757775851561>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "20": {
+                "xp": 10,
+                "items": [
+                    "sickle|1",
+                    "bone_arrow|1",
+                    "bow|1"
+                ]
+            },
+            "80": {
+                "xp": 5,
+                "items": [
+                    "apple|1",
+                    "candy_bar|1",
+                    "pumpkin|1",
+                    "corn|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item",
+        "aliases": [
+            "loot_bag"
+        ],
         "tier": 0
     },
     "small_stash": {
