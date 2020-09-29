@@ -40,7 +40,7 @@ module.exports = {
                 return message.reply(`❌ You don't have enough of that item! You have **${userItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\`.`);
             }
 
-            if(['crate', 'military_crate', 'candy_pail', 'present', 'supply_drop', 'elite_crate'].includes(item)){
+            if(['crate', 'military_crate', 'candy_pail', 'present', 'supply_drop', 'elite_crate', 'small_loot_bag', 'medium_loot_bag', 'large_loot_bag'].includes(item)){
                 // open box
                 if(!await app.itm.hasSpace(itemCt)){
                     return message.reply(`❌ **You don't have enough space in your inventory!** (You have **${itemCt.open}** open slots)\n\nYou can clear up space by selling some items.`);
@@ -222,7 +222,7 @@ module.exports = {
                 const monsterRow = await app.mysql.select('spawns', 'channelId', message.channel.id);
 
                 if(!monsterRow){
-                    return message.reply("❌ There are no bounties in this channel!");
+                    return message.reply("❌ There are no enemies in this channel! You can check when one will spawn with `" + message.prefix + "enemy`");
                 }
 
                 const monster = app.mobdata[monsterRow.monster];
@@ -283,9 +283,9 @@ module.exports = {
                     let extras = [];
                     let weightedExtras = app.itm.generateWeightedArray(monster.loot.extras);
 
-                    extras.push(app.monsters.pickRandomLoot(monster, 'extras', weightedExtras));
-                    extras.push(app.monsters.pickRandomLoot(monster, 'extras', weightedExtras));
-                    extras.push(app.monsters.pickRandomLoot(monster, 'extras', weightedExtras));
+                    for(let i = 0; i < monster.extraDrops; i++){
+                        extras.push(app.monsters.pickRandomLoot(monster, 'extras', weightedExtras));
+                    }
 
                     await app.itm.addItem(message.author.id, [bestItem, ...extras]);
                     await app.player.addMoney(message.author.id, monsterRow.money);
@@ -876,7 +876,7 @@ function generateMobAttack(app, message, monsterRow, playerRow, damage, itemUsed
     }
     else{
         // melee weapon
-        finalStr = `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} smashes <@${message.author.id}> with a ${itemUsed.icon}\`${itemUsed.name}\` dealing **${baseDamage}** damage!`;
+        finalStr = `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} cuts up <@${message.author.id}> with a ${itemUsed.icon}\`${itemUsed.name}\` dealing **${baseDamage}** damage!`;
     }
 
     if(armor){
