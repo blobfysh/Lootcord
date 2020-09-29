@@ -11,7 +11,7 @@ module.exports = {
     requiresAcc: true,
     requiresActive: true,
     guildModsOnly: false,
-    patronTier1Only: true,
+    patronTier1Only: false,
     
     async execute(app, message){
         const userSpawns = await app.mysql.select('spawnChannels', 'userId', message.author.id, true);
