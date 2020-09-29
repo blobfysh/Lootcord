@@ -358,7 +358,7 @@
         "tier": 0
     },
     "butcher_knife": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": true,
         "isItem": false,
         "damage": "13 - 19",
@@ -384,7 +384,7 @@
         "tier": 0
     },
     "sickle": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": true,
         "isItem": false,
         "damage": "20 - 28",
@@ -410,7 +410,7 @@
         "tier": 0
     },
     "pitchfork": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": true,
         "isItem": false,
         "damage": "35 - 40",
@@ -436,7 +436,7 @@
         "tier": 0
     },
     "chainsaw": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": true,
         "isItem": false,
         "damage": "40 - 53",

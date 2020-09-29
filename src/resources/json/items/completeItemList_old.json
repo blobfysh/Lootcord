@@ -508,7 +508,7 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 1705
+            "seconds": 1305
         },
         "phrase": "{attacker} chops up {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
