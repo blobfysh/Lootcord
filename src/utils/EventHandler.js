@@ -14,20 +14,26 @@ class EventHandler {
         const rand = Math.random();
         let event;
 
-        if(rand <= 0.15){
+        if(rand <= 0.1){
             // rare event
             event = this.events.get('airdrop');
         }
+        else if(rand <= 0.25){
+            event = this.events.get('exploration');
+        }
+        else if(rand <= 0.4){
+            event = this.events.get('trickortreatrare');
+        }
         else{
             // common event
-            event = this.events.get('exploration');
+            event = this.events.get('trickortreat');
         }
 
         // prevent further events from happening based on cooldown of current event
         await this.app.cd.setCD(message.channel.guild.id, 'event', event.cooldown);
         
-        // start event after 10 seconds so that it seems like the event randomly started
-        setTimeout(() => { event.execute(this.app, message) }, 10 * 1000);
+        // start event after 5 seconds so that it seems like the event randomly started
+        setTimeout(() => { event.execute(this.app, message) }, 5 * 1000);
     }
 
     loadEvents(){
