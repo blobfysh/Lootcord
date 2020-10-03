@@ -56,13 +56,15 @@ module.exports = {
             timeZone: 'America/New_York'
         }));
         const todaysMonth = converted.getMonth();
+        let description = '🎃 **It\'s Halloween! Use the `trickortreat` command to collect candy, fight monsters with `enablespawns` and look out for new events!**'
+        + '\n**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'
+        + message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).'
+        + '\n\n__**Tip:**__\n' + tips[Math.floor(Math.random() * tips.length)];
+
         converted.setDate(converted.getDate() + 10);
 
         const embed = new app.Embed()
         .setAuthor('Lootcord Commands', message.author.avatarURL)
-        .setDescription('**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'
-        + message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).'
-        + '\n\n__**Tip:**__\n' + tips[Math.floor(Math.random() * tips.length)])
         .setFooter(`To see more about a command, use ${message.prefix}help <command>`)
         .setColor(13451564)
 
@@ -70,12 +72,14 @@ module.exports = {
             const daysUntilWipe = 10 - converted.getDate();
 
             if(daysUntilWipe <= 0){
-                embed.setDescription('⚠️ **WIPE HYPE** Levels will be wiped **tomorrow**! This will clear your crafting recipes.\n\n**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'+ message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).')
+                description = '⚠️ **WIPE HYPE** Levels will be wiped **tomorrow**! This will clear your crafting recipes.\n\n' + description;
             }
             else{
-                embed.setDescription('⚠️ **WIPE HYPE** The monthly level wipe will happen in **' + daysUntilWipe + '** days! This will clear your crafting recipes.\n\n**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'+ message.prefix + 'clan help`, or check this [link](https://lootcord.com/guides/clans).')
+                description = '⚠️ **WIPE HYPE** The monthly level wipe will happen in **' + daysUntilWipe + '** days! This will clear your crafting recipes.\n\n' + description;
             }
         }
+
+        embed.setDescription(description);
 
         const categoriesArr = Object.keys(categories);
 

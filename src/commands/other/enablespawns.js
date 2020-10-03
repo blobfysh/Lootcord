@@ -6,7 +6,7 @@ module.exports = {
     long: "Lure strong enemies to randomly spawn in this channel. Defeat them to steal their items and Lootcoin!\nUser **MUST** have the Manage Server permission.",
     args: {},
     examples: [],
-    ignoreHelp: true,
+    ignoreHelp: false,
     premiumCmd: true,
     requiresAcc: true,
     requiresActive: true,
@@ -34,6 +34,6 @@ module.exports = {
         
         await app.monsters.initSpawn(message.channel.id);
 
-        message.reply("✅ Enemies will soon spawn here...");
+        message.reply("✅ Enemies will soon spawn here... You can use `" + message.prefix + "enemy` to get spawn information.");
     },
 }
