@@ -135,7 +135,7 @@
         "tier": 3
     },
     "apple": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
@@ -491,7 +491,7 @@
         "tier": 0
     },
     "butcher_knife": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": true,
         "isItem": false,
         "damage": "13 - 19",
@@ -553,7 +553,7 @@
         "tier": 3
     },
     "candy_bar": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
@@ -611,7 +611,7 @@
         "tier": 0
     },
     "chainsaw": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": true,
         "isItem": false,
         "damage": "40 - 53",
@@ -685,7 +685,7 @@
         "tier": 0
     },
     "coffin": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": false,
         "isItem": false,
         "damage": "",
@@ -712,7 +712,7 @@
         "tier": 0
     },
     "corn": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
@@ -1257,7 +1257,7 @@
         "tier": 0
     },
     "human_skull": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": false,
         "isItem": false,
         "isMaterial": true,
@@ -1383,7 +1383,7 @@
         "tier": 0
     },
     "large_loot_bag": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": false,
         "isItem": true,
         "damage": "",
@@ -1801,7 +1801,7 @@
         "tier": 1
     },
     "medium_loot_bag": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": false,
         "isItem": true,
         "damage": "",
@@ -2223,7 +2223,7 @@
         "tier": 1
     },
     "pitchfork": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": true,
         "isItem": false,
         "damage": "35 - 40",
@@ -2341,7 +2341,7 @@
         "tier": 2
     },
     "pumpkin": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
@@ -2755,7 +2755,7 @@
         "tier": 0
     },
     "scarecrow_suit": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": false,
         "isItem": true,
         "isShield": true,
@@ -2926,7 +2926,7 @@
         "tier": 0
     },
     "sickle": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": true,
         "isItem": false,
         "damage": "20 - 28",
@@ -2952,7 +2952,7 @@
         "tier": 0
     },
     "small_loot_bag": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": false,
         "isItem": true,
         "damage": "",
@@ -3127,7 +3127,7 @@
         "tier": 3
     },
     "spooky": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isBanner": true,
         "bannerColor": 15626817,
         "isWeap": false,
@@ -3138,7 +3138,10 @@
         "ammo": "",
         "craftedWith": "",
         "recyclesTo": [],
-        "buy": "",
+        "buy": {
+            "amount": 550000,
+            "currency": "scrap"
+        },
         "sell": "",
         "desc": "Very spooky banner...\nEquip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/631885680175480852/batbanner.png",
@@ -3190,7 +3193,7 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 33773,
-        "desc": "High tier loot container dropped from a plane.\nCan only be looted by the first person to claim it.",
+        "desc": "High tier loot container dropped from a plane.\nCan randomly spawn in your server as an event.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/733738547840024576/supply_drop_icon.png",
         "icon": "<:supply_drop_icon:733732983252582420>",
         "breaksOnUse": "",
