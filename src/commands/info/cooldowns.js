@@ -13,6 +13,7 @@ module.exports = {
     
     async execute(app, message){
         const isDonor = await app.patreonHandler.isPatron(message.author.id);
+        const trickortreatCD = await app.cd.getCD(message.author.id, 'trickortreat');
         const attackCD = await app.cd.getCD(message.author.id, 'attack');
         const healCD = await app.cd.getCD(message.author.id, 'heal');
         const hourlyCD = await app.cd.getCD(message.author.id, 'hourly');
@@ -31,7 +32,8 @@ module.exports = {
         const armorCD = await app.cd.getCD(message.author.id, 'shield');
         const armor = await app.player.getArmor(message.author.id);
         const passiveShield = await app.cd.getCD(message.author.id, 'passive_shield');
-                    
+
+        let trickortreatReady = trickortreatCD ? '❌ ' + trickortreatCD : "✅ ready";
         let hourlyReady = hourlyCD ? '❌ ' + hourlyCD : "✅ ready";
         let dailyReady = dailyCD ? '❌ ' + dailyCD : "✅ ready";
         let weeklyReady = '❌ Patreon only';
@@ -53,17 +55,11 @@ module.exports = {
         else if(isDonor){
             weeklyReady = "✅ ready";
         }
-        /*
-        let giftReady = "✅ ready"
-        if(message.client.sets.eventCooldown.has(message.author.id)){
-            giftReady = (((43200 * 1000 - ((new Date()).getTime() - row.prizeTime)) / 60000).toFixed(1)/60).toFixed(1) + " hours";
-        }
-        embedLeader.addField("🎁 claimgift", "`" + giftReady + "`",true)
-        */
 
         const embedLeader = new app.Embed()
         embedLeader.setAuthor('Cooldowns', message.author.avatarURL)
         embedLeader.setColor(13451564)
+        embedLeader.addField("🎃 trickortreat", "`" + trickortreatReady + "`", true)
         embedLeader.addField("hourly", "`" + hourlyReady + "`",true)
         embedLeader.addField("daily", "`" + dailyReady + "`", true)
         embedLeader.addField("weekly", "`" + weeklyReady + "`", true)
