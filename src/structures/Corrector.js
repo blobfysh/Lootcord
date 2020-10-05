@@ -1,30 +1,30 @@
-const levenshtein = require('js-levenshtein');
+const levenshtein = require('js-levenshtein')
 
 class Corrector {
-    constructor(words, maxDistance = 2){
-        this.words = words;
-        this.maxDistance = maxDistance;
-    }
+	constructor(words, maxDistance = 2) {
+		this.words = words
+		this.maxDistance = maxDistance
+	}
 
-    getWord(input){
-        if(!input) return undefined;
-        else if(this.words.includes(input)) return input;
-        
-        let compared = [];
+	getWord(input) {
+		if (!input) return undefined
+		else if (this.words.includes(input)) return input
 
-        for(let word of this.words){
-            compared.push({
-                word,
-                steps: levenshtein(input, word)
-            });
-        }
+		const compared = []
 
-        compared.sort((a, b) => a.steps - b.steps);
+		for (const word of this.words) {
+			compared.push({
+				word,
+				steps: levenshtein(input, word)
+			})
+		}
 
-        if(compared[0].steps <= this.maxDistance) return compared[0].word;
+		compared.sort((a, b) => a.steps - b.steps)
 
-        return undefined;
-    }
-};
+		if (compared[0].steps <= this.maxDistance) return compared[0].word
 
-module.exports = Corrector;
+		return undefined
+	}
+}
+
+module.exports = Corrector

@@ -9,7 +9,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 169,
         "desc": "",
@@ -33,7 +35,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 8976,
         "desc": "",
@@ -86,7 +90,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 525,
         "desc": "",
@@ -113,7 +119,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 4409,
         "desc": "",
@@ -202,7 +210,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 11447,
         "desc": "",
@@ -230,7 +240,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 5447,
         "desc": "",
@@ -257,7 +269,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 20726,
         "desc": "",
@@ -284,7 +298,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 36627,
         "desc": "Makes things go boom. Useful for crafting ammunition.",
@@ -344,7 +360,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 234,
         "desc": "You were on the naughty list!\n**Christmas event item.**",

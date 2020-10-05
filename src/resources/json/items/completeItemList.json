@@ -14,7 +14,9 @@
                 "metal|1"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 8134,
         "desc": "12 Gauge buckshot shell.",
@@ -52,7 +54,9 @@
                 "metal|2"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 36120,
         "desc": "12 Gauge slug shell. Used for shotguns.",
@@ -146,7 +150,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 549,
         "desc": "Someone seriously gave you an apple... You can eat it to gain **9 - 13** health.\n**Halloween event item.**",
@@ -180,7 +186,9 @@
                 "cloth|1"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 928,
         "desc": "",
@@ -258,7 +266,9 @@
                 "cloth|2"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 7712,
             "currency": "money"
@@ -377,7 +387,9 @@
                 "bone_fragments|2"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 2036,
         "desc": "",
@@ -401,7 +413,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 525,
         "desc": "",
@@ -499,7 +513,9 @@
         "maxDmg": 19,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 3510,
         "desc": "**Halloween event item.**",
@@ -564,7 +580,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 1587,
         "desc": "A king-sized candy bar! Heals **13 - 28** HP.\n**Halloween event item.**",
@@ -593,7 +611,9 @@
         "maxDmg": 15,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 834,
         "desc": "**Christmas event item.**",
@@ -619,7 +639,9 @@
         "maxDmg": 53,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 15252,
         "desc": "**Halloween event item.**",
@@ -646,7 +668,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 8976,
         "desc": "",
@@ -670,7 +694,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 234,
         "desc": "You were on the naughty list!\n**Christmas event item.**",
@@ -693,7 +719,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": "",
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": "",
         "desc": "Equip this storage box to gain **30** item slots!",
@@ -723,7 +751,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 857,
         "desc": "Heals **9 - 15** HP.\n**Halloween event item.**",
@@ -748,7 +778,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 18655,
             "currency": "money"
@@ -922,7 +954,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 90817,
             "currency": "scrap"
@@ -949,7 +983,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 82414,
         "desc": "",
@@ -1008,7 +1044,9 @@
         "maxDmg": 30,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 4278,
         "desc": "",
@@ -1040,7 +1078,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 553,
         "desc": "Eat this to restore **20 - 25** health!\n**Christmas event item.**",
@@ -1102,7 +1142,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 36627,
         "desc": "Makes things go boom. Useful for crafting ammunition.",
@@ -1136,7 +1178,9 @@
                 "rock|1"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 2352,
         "desc": "",
@@ -1162,7 +1206,9 @@
         "maxDmg": 10,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 489,
         "desc": "",
@@ -1237,7 +1283,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 410015,
             "currency": "scrap"
@@ -1338,7 +1386,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 126731,
             "currency": "scrap"
@@ -1367,7 +1417,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": "",
         "desc": "Get this banner by donating on [Ko-fi](https://ko-fi.com/blobfysh)! Equip this to give your profile a fresh new look!",
@@ -1396,7 +1448,9 @@
                 "medium_loot_bag|10"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 22670,
         "desc": "Open this to see what's inside. It could contain some cool Halloween items!",
@@ -1447,7 +1501,9 @@
                 "medical_syringe|2"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 52666,
             "currency": "money"
@@ -1519,7 +1575,9 @@
         "maxDmg": 31,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 4583,
         "desc": "",
@@ -1549,7 +1607,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 43370,
             "currency": "scrap"
@@ -1691,7 +1751,9 @@
         "maxDmg": 26,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 4153,
         "desc": "",
@@ -1717,7 +1779,9 @@
         "maxDmg": 23,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 3177,
         "desc": "",
@@ -1745,7 +1809,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 1348700,
             "currency": "scrap"
@@ -1776,7 +1842,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 19476,
             "currency": "money"
@@ -1814,7 +1882,9 @@
                 "small_loot_bag|10"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 7422,
         "desc": "Open this to see what's inside. It could contain some cool Halloween items!",
@@ -1865,7 +1935,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 4409,
         "desc": "",
@@ -1898,7 +1970,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 206140,
             "currency": "money"
@@ -1927,7 +2001,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 5447,
         "desc": "",
@@ -1954,7 +2030,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 20726,
         "desc": "",
@@ -1980,7 +2058,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 105143,
             "currency": "money"
@@ -2113,7 +2193,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": "",
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": "",
         "desc": "Equip this storage container to gain **45** item slots!",
@@ -2142,7 +2224,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": "",
         "desc": "Exclusive banner for [patrons](https://www.patreon.com/lootcord)! Equip this to give your profile a fresh new look!",
@@ -2166,7 +2250,9 @@
         "maxDmg": 11,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 532,
         "desc": "",
@@ -2200,7 +2286,9 @@
                 "metal|2"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 6056,
         "desc": "9x19mm cartridge, also known as 9mm.",
@@ -2231,7 +2319,9 @@
         "maxDmg": 40,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 8020,
         "desc": "**Halloween event item.**",
@@ -2257,7 +2347,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 693,
         "desc": "Unwrap it to see what's inside!\n**Christmas event item.**",
@@ -2352,7 +2444,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 1624,
         "desc": "A pumpkin! You could make a jack-o'-lantern... Or you could just eat it to gain **15 - 30** health.\n**Halloween event item.**",
@@ -2422,7 +2516,9 @@
                 "tech_trash|1"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 378,
         "desc": "Given when you create an account! Equip this to give your profile a fresh new look!",
@@ -2447,7 +2543,9 @@
         "isAmmo": [],
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 106638,
             "currency": "money"
@@ -2553,7 +2651,9 @@
                 "metal|2"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 10036,
         "desc": "5.56 rifle ammunition.",
@@ -2581,7 +2681,9 @@
         "maxDmg": 6,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 340,
         "desc": "",
@@ -2679,7 +2781,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": "",
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": "",
         "desc": "Equip this backpack to gain **45** item slots! Rolads special backpack.",
@@ -2706,7 +2810,9 @@
         "maxDmg": 21,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 1909,
         "desc": "",
@@ -2735,7 +2841,9 @@
         "maxDmg": 20,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 1953,
         "desc": "",
@@ -2768,7 +2876,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 18159,
         "desc": "Use this armor to reduce damage taken from attacks by **50%** for **4 hours**.",
@@ -2910,7 +3020,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 24842,
         "desc": "Only the best.",
@@ -2934,7 +3046,9 @@
         "maxDmg": 28,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 5504,
         "desc": "**Halloween event item.**",
@@ -2960,7 +3074,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 1267,
         "desc": "Open this to see what's inside. It could contain some cool Halloween items!",
@@ -3070,7 +3186,9 @@
         "maxDmg": 45,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 8253,
         "desc": "**Christmas event item.**",
@@ -3137,7 +3255,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 550000,
             "currency": "scrap"
@@ -3167,7 +3287,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 1954,
         "desc": "Has a chance to contain `500 - 2,000` Lootcoin\n**Christmas event item.**",
@@ -3190,7 +3312,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 33773,
         "desc": "High tier loot container dropped from a plane.",
@@ -3301,7 +3425,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 11447,
         "desc": "",
@@ -3419,7 +3545,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 169,
         "desc": "",
@@ -3483,7 +3611,9 @@
         "maxDmg": 9,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 379,
         "desc": "",

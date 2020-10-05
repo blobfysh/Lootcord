@@ -1,35 +1,34 @@
-
 module.exports = {
-    name: 'restart',
-    aliases: [''],
-    description: "Restarts a cluster.",
-    long: "Restarts a cluster.",
-    args: {
-        "Cluster ID": "ID of cluster to reboot."
-    },
-    examples: ["restart 0"],
-    ignoreHelp: false,
-    requiresAcc: false,
-    requiresActive: false,
-    guildModsOnly: false,
-    
-    async execute(app, message){
-        let clusterID = message.args[0];
+	name: 'restart',
+	aliases: [''],
+	description: 'Restarts a cluster.',
+	long: 'Restarts a cluster.',
+	args: {
+		'Cluster ID': 'ID of cluster to reboot.'
+	},
+	examples: ['restart 0'],
+	ignoreHelp: false,
+	requiresAcc: false,
+	requiresActive: false,
+	guildModsOnly: false,
 
-        if(clusterID === undefined){
-            return message.reply('❌ You forgot to include a cluster ID.');
-        }
-        else if(!parseInt(clusterID) && clusterID !== '0'){
-            return message.reply('❌ Only numbers are supported.');
-        }
+	async execute(app, message) {
+		const clusterID = message.args[0]
 
-        try{
-            message.reply(`Restarting cluster \`${clusterID}\`...`);
+		if (clusterID === undefined) {
+			return message.reply('❌ You forgot to include a cluster ID.')
+		}
+		else if (!parseInt(clusterID) && clusterID !== '0') {
+			return message.reply('❌ Only numbers are supported.')
+		}
 
-            app.restartCluster(parseInt(clusterID));
-        }
-        catch(err){
-            message.reply("Error messaging user:```\n" + err + "```")
-        }
-    },
+		try {
+			message.reply(`Restarting cluster \`${clusterID}\`...`)
+
+			app.restartCluster(parseInt(clusterID))
+		}
+		catch (err) {
+			message.reply(`Error messaging user:\`\`\`\n${err}\`\`\``)
+		}
+	}
 }

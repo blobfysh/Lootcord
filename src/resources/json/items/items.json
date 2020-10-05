@@ -8,7 +8,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 18655,
             "currency": "money"
@@ -104,7 +106,9 @@
                 "cloth|2"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 7712,
             "currency": "money"
@@ -133,7 +137,9 @@
         "isAmmo": [],
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 106638,
             "currency": "money"
@@ -163,7 +169,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 19476,
             "currency": "money"
@@ -205,7 +213,9 @@
                 "medical_syringe|2"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 52666,
             "currency": "money"
@@ -236,7 +246,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 105143,
             "currency": "money"
@@ -329,7 +341,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 33773,
         "desc": "High tier loot container dropped from a plane.",
@@ -407,7 +421,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 82414,
         "desc": "",
@@ -533,7 +549,7 @@
         "isShield": true,
         "shieldInfo": {
             "seconds": 3600,
-            "protection": 0.20
+            "protection": 0.2
         },
         "damage": "",
         "minDmg": "",
@@ -627,7 +643,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 206140,
             "currency": "money"
@@ -658,7 +676,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 1954,
         "desc": "Has a chance to contain `500 - 2,000` Lootcoin\n**Christmas event item.**",
@@ -684,7 +704,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 553,
         "desc": "Eat this to restore **20 - 25** health!\n**Christmas event item.**",
@@ -709,7 +731,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 693,
         "desc": "Unwrap it to see what's inside!\n**Christmas event item.**",
@@ -757,7 +781,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 549,
         "desc": "Someone seriously gave you an apple... You can eat it to gain **9 - 13** health.\n**Halloween event item.**",
@@ -787,7 +813,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 1624,
         "desc": "A pumpkin! You could make a jack-o'-lantern... Or you could just eat it to gain **15 - 30** health.\n**Halloween event item.**",
@@ -815,7 +843,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 857,
         "desc": "Heals **9 - 15** HP.\n**Halloween event item.**",
@@ -843,7 +873,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 1587,
         "desc": "A king-sized candy bar! Heals **13 - 28** HP.\n**Halloween event item.**",
@@ -872,7 +904,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 1267,
         "desc": "Open this to see what's inside. It could contain some cool Halloween items!",
@@ -921,7 +955,9 @@
                 "small_loot_bag|10"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 7422,
         "desc": "Open this to see what's inside. It could contain some cool Halloween items!",
@@ -976,7 +1012,9 @@
                 "medium_loot_bag|10"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 22670,
         "desc": "Open this to see what's inside. It could contain some cool Halloween items!",
@@ -1016,14 +1054,16 @@
         "isShield": true,
         "shieldInfo": {
             "seconds": 14400,
-            "protection": 0.50
+            "protection": 0.5
         },
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 18159,
         "desc": "Use this armor to reduce damage taken from attacks by **50%** for **4 hours**.",

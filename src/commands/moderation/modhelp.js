@@ -1,66 +1,65 @@
-
 module.exports = {
-    name: 'modhelp',
-    aliases: [''],
-    description: 'Shows moderation commands.',
-    long: 'Shows moderation commands.',
-    args: {
-        "command": "Command to lookup info for."
-    },
-    examples: [],
-    ignoreHelp: false,
-    requiresAcc: false,
-    requiresActive: false,
-    guildModsOnly: false,
-    
-    async execute(app, message){
-        if(message.args[0]){
-            let command = message.args[0].toLowerCase();
-            let cmd = app.commands.find(cmd => cmd.name === command && cmd.category === 'moderation') || app.commands.find(cmd => cmd.aliases && cmd.aliases.includes(command) && cmd.category === 'moderation');
+	name: 'modhelp',
+	aliases: [''],
+	description: 'Shows moderation commands.',
+	long: 'Shows moderation commands.',
+	args: {
+		command: 'Command to lookup info for.'
+	},
+	examples: [],
+	ignoreHelp: false,
+	requiresAcc: false,
+	requiresActive: false,
+	guildModsOnly: false,
 
-            if(!cmd) return message.reply("❌ I don't recognize that moderator command.");
+	async execute(app, message) {
+		if (message.args[0]) {
+			const command = message.args[0].toLowerCase()
+			const cmd = app.commands.find(c => c.name === command && c.category === 'moderation') || app.commands.find(c => c.aliases && c.aliases.includes(command) && c.category === 'moderation')
 
-            const embed = new app.Embed()
-            .setTitle(`🔎 ${cmd.name}`)
-            .setDescription(cmd.long)
+			if (!cmd) return message.reply('❌ I don\'t recognize that moderator command.')
 
-            if(cmd.examples.length && cmd.examples[0].length) embed.addField("Examples", cmd.examples.map(ex => '`' + message.prefix + ex + '`').join(', '))
-            if(cmd.aliases.length && cmd.aliases[0].length) embed.addField("Aliases", cmd.aliases.map(alias => '`' + alias + '`').join(', '))
-            embed.addField("Usage", '`' + getUsage(message.prefix, cmd) + '`')
-            if(Object.keys(cmd.args).length) embed.addField("Options", getOptions(cmd))
-            embed.setColor('#ff7272')
+			const embed = new app.Embed()
+				.setTitle(`🔎 ${cmd.name}`)
+				.setDescription(cmd.long)
 
-            return message.channel.createMessage(embed);
-        }
+			if (cmd.examples.length && cmd.examples[0].length) embed.addField('Examples', cmd.examples.map(ex => `\`${message.prefix}${ex}\``).join(', '))
+			if (cmd.aliases.length && cmd.aliases[0].length) embed.addField('Aliases', cmd.aliases.map(alias => `\`${alias}\``).join(', '))
+			embed.addField('Usage', `\`${getUsage(message.prefix, cmd)}\``)
+			if (Object.keys(cmd.args).length) embed.addField('Options', getOptions(cmd))
+			embed.setColor('#ff7272')
 
-        let commands = app.commands.filter(cmd => cmd.category === 'moderation');
+			return message.channel.createMessage(embed)
+		}
 
-        const embed = new app.Embed()
-        .setAuthor('Moderation Commands', message.author.avatarURL)
-        .setDescription('Most commands require you are in the moderator channel. `getstats`, `getprofile`, `getinv`, and `shardinfo` work anywhere.\n\n' + commands.map(cmd => '`' + cmd.name + '`').join(' '))
-        .setFooter(`To see more about a command, use ${message.prefix}modhelp <command>`)
-        .setColor('#ff7272')
+		const commands = app.commands.filter(cmd => cmd.category === 'moderation')
 
-        message.channel.createMessage(embed);
-    },
+		const embed = new app.Embed()
+			.setAuthor('Moderation Commands', message.author.avatarURL)
+			.setDescription(`Most commands require you are in the moderator channel. \`getstats\`, \`getprofile\`, \`getinv\`, and \`shardinfo\` work anywhere.\n\n${commands.map(cmd => `\`${cmd.name}\``).join(' ')}`)
+			.setFooter(`To see more about a command, use ${message.prefix}modhelp <command>`)
+			.setColor('#ff7272')
+
+		message.channel.createMessage(embed)
+	}
 }
 
-function getUsage(prefix, cmd){
-    let finalStr = `${prefix}${cmd.name}`;
+function getUsage(prefix, cmd) {
+	let finalStr = `${prefix}${cmd.name}`
 
-    for(let arg of Object.keys(cmd.args)){
-        finalStr += ` <${arg}>`;
-    }
+	for (const arg of Object.keys(cmd.args)) {
+		finalStr += ` <${arg}>`
+	}
 
-    return finalStr;
+	return finalStr
 }
 
-function getOptions(cmd){
-    let finalStr = '';
+function getOptions(cmd) {
+	let finalStr = ''
 
-    for(let arg of Object.keys(cmd.args)){
-        finalStr += `\`${arg}\` - ${cmd.args[arg]}\n`
-    }
+	for (const arg of Object.keys(cmd.args)) {
+		finalStr += `\`${arg}\` - ${cmd.args[arg]}\n`
+	}
 
-    return finalStr;
+	return finalStr
 }

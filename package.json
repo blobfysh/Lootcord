@@ -4,7 +4,11 @@
   "description": "Collect items and battle your friends!",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "fix": "eslint --fix --ext .js .",
+    "lint": "eslint --ext .js .",
+    "test": "jest && npm run lint"
   },
   "author": "blobfysh#4679",
   "license": "GPL-3.0",
@@ -24,5 +28,15 @@
     "mysql": "^2.18.1",
     "redis": "^3.0.2",
     "shortid": "^2.2.15"
+  },
+  "devDependencies": {
+    "eslint": "^7.10.0",
+    "eslint-plugin-jest": "^24.0.2",
+    "jest": "^26.4.2",
+    "nodemon": "^2.0.4"
+  },
+  "nodemonConfig": {
+    "ignore": ["test/*"],
+    "delay": "2500"
   }
 }

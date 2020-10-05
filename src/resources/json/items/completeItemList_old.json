@@ -3193,7 +3193,7 @@
         "recyclesTo": [],
         "buy": "",
         "sell": 33773,
-        "desc": "High tier loot container dropped from a plane.\nCan randomly spawn in your server as an event.",
+        "desc": "High tier loot container dropped from a plane.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/733738547840024576/supply_drop_icon.png",
         "icon": "<:supply_drop_icon:733732983252582420>",
         "breaksOnUse": "",
