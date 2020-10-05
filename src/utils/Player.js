@@ -1,4 +1,7 @@
-const Jimp = require('jimp')
+const Canvas = require('canvas')
+
+Canvas.registerFont('src/resources/fonts/BebasNeue-Regular.ttf', { family: 'Bebas Neue' })
+
 let oldPlayers
 
 try {
@@ -357,27 +360,26 @@ class Player {
 	}
 
 	async getLevelImage(playerImage, level) {
-		const image = await Jimp.read('./src/resources/images/LvlUp2.png')
-		const avatar = await Jimp.read(playerImage)
-		const largeFont = await Jimp.loadFont('./src/resources/fonts/BebasNeueWhite.fnt')
+		const WIDTH = 108
+		const HEIGHT = 128
+		const image = await Canvas.loadImage('src/resources/images/LvlUp2.png')
+		const avatar = await Canvas.loadImage(playerImage)
+		const canvas = Canvas.createCanvas(WIDTH, HEIGHT)
+		const ctx = canvas.getContext('2d')
 
-		image.quality(70)
-		avatar.resize(64, 64)
+		// background
+		ctx.drawImage(image, 0, 0, WIDTH, HEIGHT)
 
-		image.print(largeFont, 0, 85, {
-			text: `LVL ${level}`,
-			alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER
-		}, 108, 128)
+		// avatar
+		ctx.drawImage(avatar, 22, 16, 64, 64)
 
-		image.composite(avatar, 22, 16)
+		// text
+		ctx.fillStyle = '#E8E8E8'
+		ctx.font = '45px Bebas Neue'
+		ctx.textAlign = 'center'
+		ctx.fillText(`LVL ${level}`, WIDTH / 2, 120)
 
-		return new Promise((resolve, reject) => {
-			image.getBuffer(Jimp.AUTO, (err, buffer) => {
-				if (err) reject(new Error(err))
-
-				resolve(buffer)
-			})
-		})
+		return canvas.toBuffer()
 	}
 }
 
