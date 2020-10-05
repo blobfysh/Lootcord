@@ -1,6 +1,5 @@
 const Filter = require('bad-words')
 const filter = new Filter()
-// TODO probably remove this command entirely...
 
 module.exports = {
 	name: 'setstatus',
