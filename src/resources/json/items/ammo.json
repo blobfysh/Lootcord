@@ -15,7 +15,9 @@
                 "cloth|1"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 928,
         "desc": "",
@@ -44,7 +46,9 @@
                 "bone_fragments|2"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 2036,
         "desc": "",
@@ -73,7 +77,9 @@
                 "metal|2"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 6056,
         "desc": "9x19mm cartridge, also known as 9mm.",
@@ -110,7 +116,9 @@
                 "metal|2"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 10036,
         "desc": "5.56 rifle ammunition.",
@@ -184,7 +192,9 @@
                 "rock|1"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 2352,
         "desc": "",
@@ -216,7 +226,9 @@
                 "metal|1"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 8134,
         "desc": "12 Gauge buckshot shell.",
@@ -254,7 +266,9 @@
                 "metal|2"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 36120,
         "desc": "12 Gauge slug shell. Used for shotguns.",

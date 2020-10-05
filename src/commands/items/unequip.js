@@ -1,54 +1,53 @@
-
 module.exports = {
-    name: 'unequip',
-    aliases: [''],
-    description: 'Unequip an item.',
-    long: 'Unequip your current storage container or banner.',
-    args: {"item/banner": "Item to unequip."},
-    examples: ["unequip wood_box", "unequip banner", "unequip storage"],
-    ignoreHelp: false,
-    requiresAcc: true,
-    requiresActive: false,
-    guildModsOnly: false,
-    
-    async execute(app, message){
-        const userRow = await app.player.getRow(message.author.id);
-        let equipitem = app.parse.items(message.args)[0];
-        let equipBadge = app.parse.badges(message.args)[0];
+	name: 'unequip',
+	aliases: [''],
+	description: 'Unequip an item.',
+	long: 'Unequip your current storage container or banner.',
+	args: { 'item/banner': 'Item to unequip.' },
+	examples: ['unequip wood_box', 'unequip banner', 'unequip storage'],
+	ignoreHelp: false,
+	requiresAcc: true,
+	requiresActive: false,
+	guildModsOnly: false,
 
-        if(userRow.backpack === equipitem || message.args[0] === "storage"){
-            if(userRow.backpack !== "none"){
-                await app.query(`UPDATE scores SET backpack = 'none' WHERE userId = ${message.author.id}`);
-                await app.query(`UPDATE scores SET inv_slots = inv_slots - ${app.itemdata[userRow.backpack].inv_slots} WHERE userId = ${message.author.id}`);
-                await app.itm.addItem(message.author.id, userRow.backpack, 1);
+	async execute(app, message) {
+		const userRow = await app.player.getRow(message.author.id)
+		const equipitem = app.parse.items(message.args)[0]
+		const equipBadge = app.parse.badges(message.args)[0]
 
-                message.reply(`✅ Successfully unequipped ${app.itemdata[userRow.backpack].icon}\`${userRow.backpack}\`.\nYour carry capacity is now **${app.config.baseInvSlots + (userRow.inv_slots - app.itemdata[userRow.backpack].inv_slots)}** items.`);
-            }
-            else{
-                message.reply(`❌ You don't have a storage container equipped! You can check what containers you own in your \`inventory\`.`);
-            }
-        }
+		if (userRow.backpack === equipitem || message.args[0] === 'storage') {
+			if (userRow.backpack !== 'none') {
+				await app.query(`UPDATE scores SET backpack = 'none' WHERE userId = ${message.author.id}`)
+				await app.query(`UPDATE scores SET inv_slots = inv_slots - ${app.itemdata[userRow.backpack].inv_slots} WHERE userId = ${message.author.id}`)
+				await app.itm.addItem(message.author.id, userRow.backpack, 1)
 
-        else if(userRow.banner === equipitem || message.args[0] === "banner"){
-            if(userRow.banner !== "none"){
-                await app.query(`UPDATE scores SET banner = 'none' WHERE userId = ${message.author.id}`);
-                await app.itm.addItem(message.author.id, userRow.banner, 1);
+				message.reply(`✅ Successfully unequipped ${app.itemdata[userRow.backpack].icon}\`${userRow.backpack}\`.\nYour carry capacity is now **${app.config.baseInvSlots + (userRow.inv_slots - app.itemdata[userRow.backpack].inv_slots)}** items.`)
+			}
+			else {
+				message.reply('❌ You don\'t have a storage container equipped! You can check what containers you own in your `inventory`.')
+			}
+		}
 
-                message.reply(`✅ Successfully unequipped ${app.itemdata[userRow.banner].icon}\`${userRow.banner}\`.`);
-            }
-            else{
-                message.reply(`❌ You don't have a banner equipped! You can check what banners you own on your \`profile\`.`);
-            }
-        }
+		else if (userRow.banner === equipitem || message.args[0] === 'banner') {
+			if (userRow.banner !== 'none') {
+				await app.query(`UPDATE scores SET banner = 'none' WHERE userId = ${message.author.id}`)
+				await app.itm.addItem(message.author.id, userRow.banner, 1)
 
-        else if(equipBadge || message.args[0] === 'badge'){
-            await app.query(`UPDATE scores SET badge = 'none' WHERE userId = ${message.author.id}`);
+				message.reply(`✅ Successfully unequipped ${app.itemdata[userRow.banner].icon}\`${userRow.banner}\`.`)
+			}
+			else {
+				message.reply('❌ You don\'t have a banner equipped! You can check what banners you own on your `profile`.')
+			}
+		}
 
-            return message.reply(`✅ Successfully unequipped your display badge!`);
-        }
+		else if (equipBadge || message.args[0] === 'badge') {
+			await app.query(`UPDATE scores SET badge = 'none' WHERE userId = ${message.author.id}`)
 
-        else{
-            message.reply("Specify a storage container, banner, or badge to unequip. `" + message.prefix + "unequip <item/badge>`");
-        }
-    },
+			return message.reply('✅ Successfully unequipped your display badge!')
+		}
+
+		else {
+			message.reply(`Specify a storage container, banner, or badge to unequip. \`${message.prefix}unequip <item/badge>\``)
+		}
+	}
 }

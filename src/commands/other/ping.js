@@ -1,21 +1,20 @@
-
 module.exports = {
-    name: 'ping',
-    aliases: [''],
-    description: "Check the bot's ping",
-    long: "Check the bot's ping",
-    args: {},
-    examples: [],
-    ignoreHelp: true,
-    requiresAcc: false,
-    requiresActive: false,
-    guildModsOnly: false,
-    
-    
-    async execute(app, message){
-        message.reply(`Pong! ws: ${app.bot.shards.get(app.bot.guildShardMap[message.channel.guild.id]).latency} ms`);
+	name: 'ping',
+	aliases: [''],
+	description: 'Check the bot\'s ping',
+	long: 'Check the bot\'s ping',
+	args: {},
+	examples: [],
+	ignoreHelp: true,
+	requiresAcc: false,
+	requiresActive: false,
+	guildModsOnly: false,
 
-        /*
+
+	async execute(app, message) {
+		message.reply(`Pong! ws: ${app.bot.shards.get(app.bot.guildShardMap[message.channel.guild.id]).latency} ms`)
+
+		/*
 
         awaiting message
         const messages = await app.msgCollector.awaitMessages(message.author.id, message.channel.id, m => {
@@ -48,11 +47,11 @@ module.exports = {
         */
 
 
-        /*
+		/*
         try{
             let user = await app.bot.users.get('168958344361541633');
             let IPCuser = await app.ipc.fetchUser('168958344361541633');
-            
+
             console.log(util.inspect(user, {showHidden: false, depth: null}))
             console.log('vs');
             console.log(util.inspect(IPCuser, {showHidden: false, depth: null}))
@@ -62,5 +61,5 @@ module.exports = {
             console.log(util.inspect(err, {showHidden: false, depth: null}))
         }
         */
-    },
+	}
 }

@@ -1,18 +1,18 @@
-const mysql  = require('mysql');
+const mysql = require('mysql')
 
 class MySQL {
-    constructor(config){
-        this.db = mysql.createPool({
-            connectionLimit: 10,
-            host     : config.sqlhostname,
-            user     : config.sqluser,
-            password : config.sqlpass,
-            database : config.sqldatabase,
-            supportBigNumbers: true,
-            bigNumberStrings: false,
-            charset: "utf8mb4",
-        });
-        /*
+	constructor(config) {
+		this.db = mysql.createPool({
+			connectionLimit: 10,
+			host: config.sqlhostname,
+			user: config.sqluser,
+			password: config.sqlpass,
+			database: config.sqldatabase,
+			supportBigNumbers: true,
+			bigNumberStrings: false,
+			charset: 'utf8mb4'
+		})
+		/*
         this.db.on('acquire', connection => {
             console.log('[MYSQL] Used an existing connection from the pool');
         });
@@ -20,123 +20,123 @@ class MySQL {
             console.log('Connection ' + connection.threadId + ' released');
         });
         */
-        this.db.on('connection', connection => {
-            console.log('[MYSQL][' + connection.threadId + '] Created a new connection in the pool');
-        });
-    }
+		this.db.on('connection', connection => {
+			console.log(`[MYSQL][${connection.threadId}] Created a new connection in the pool`)
+		})
+	}
 
-    async createDB(){
-        try{
-            // create scores table (main table)
-            await this.query(createScoreSQL);
+	async createDB() {
+		try {
+			// create scores table (main table)
+			await this.query(createScoreSQL)
 
-            // create player stats table
-            await this.query(createStatsSQL);
+			// create player stats table
+			await this.query(createStatsSQL)
 
-            // items table
-            await this.query(createItemsSQL);
+			// items table
+			await this.query(createItemsSQL)
 
-            // wiped data
-            await this.query(createWipedSQL);
+			// wiped data
+			await this.query(createWipedSQL)
 
-            // player badges table
-            await this.query(createBadgesSQL);
+			// player badges table
+			await this.query(createBadgesSQL)
 
-            // cooldowns table
-            await this.query(createCooldownsSQL);
+			// cooldowns table
+			await this.query(createCooldownsSQL)
 
-            // clans table
-            await this.query(createClansSQL);
+			// clans table
+			await this.query(createClansSQL)
 
-            // clans logs table
-            await this.query(createClansLogs);
+			// clans logs table
+			await this.query(createClansLogs)
 
-            // blackmarket listings table
-            await this.query(createBlackMarket);
-            await this.query(createBMLogs);
+			// blackmarket listings table
+			await this.query(createBlackMarket)
+			await this.query(createBMLogs)
 
-            await this.query(transactionsTable);
+			await this.query(transactionsTable)
 
-            // create monsters table
-            await this.query(createSpawnChannels);
-            await this.query(createSpawnsSQL);
+			// create monsters table
+			await this.query(createSpawnChannels)
+			await this.query(createSpawnsSQL)
 
-            // userGuilds table for keeping track of which servers users are activated in
-            await this.query('CREATE TABLE IF NOT EXISTS userGuilds (userId bigint, guildId bigint) ENGINE = InnoDB');
+			// userGuilds table for keeping track of which servers users are activated in
+			await this.query('CREATE TABLE IF NOT EXISTS userGuilds (userId bigint, guildId bigint) ENGINE = InnoDB')
 
-            await this.query('CREATE TABLE IF NOT EXISTS guildPrefix (guildId bigint, prefix VARCHAR(5)) ENGINE = InnoDB');
+			await this.query('CREATE TABLE IF NOT EXISTS guildPrefix (guildId bigint, prefix VARCHAR(5)) ENGINE = InnoDB')
 
-            // guildInfo table for keeping information about specific guild
-            await this.query('CREATE TABLE IF NOT EXISTS guildInfo (guildId bigint, killChan bigint, levelChan bigint, dropChan bigint, dropItemChan bigint, dropItem VARCHAR(255), randomOnly BOOLEAN) ENGINE = InnoDB');
-        
-            // mods table
-            await this.query('CREATE TABLE IF NOT EXISTS mods (userId bigint) ENGINE = InnoDB');
+			// guildInfo table for keeping information about specific guild
+			await this.query('CREATE TABLE IF NOT EXISTS guildInfo (guildId bigint, killChan bigint, levelChan bigint, dropChan bigint, dropItemChan bigint, dropItem VARCHAR(255), randomOnly BOOLEAN) ENGINE = InnoDB')
 
-            await this.query('CREATE TABLE IF NOT EXISTS patrons (userId bigint, tier INT, started bigint) ENGINE = InnoDB');
+			// mods table
+			await this.query('CREATE TABLE IF NOT EXISTS mods (userId bigint) ENGINE = InnoDB')
 
-            await this.query('CREATE TABLE IF NOT EXISTS banned (userId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB');
+			await this.query('CREATE TABLE IF NOT EXISTS patrons (userId bigint, tier INT, started bigint) ENGINE = InnoDB')
 
-            await this.query('CREATE TABLE IF NOT EXISTS bannedguilds (guildId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB');
+			await this.query('CREATE TABLE IF NOT EXISTS banned (userId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB')
 
-            await this.query('CREATE TABLE IF NOT EXISTS tradebanned (userId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB');
+			await this.query('CREATE TABLE IF NOT EXISTS bannedguilds (guildId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB')
 
-            await this.query('CREATE TABLE IF NOT EXISTS warnings (userId bigint, modId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB');
+			await this.query('CREATE TABLE IF NOT EXISTS tradebanned (userId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB')
 
-            await this.query('CREATE TABLE IF NOT EXISTS shopData (itemName VARCHAR(255), itemAmount INT, itemPrice INT, itemCurrency VARCHAR(255), itemDisplay VARCHAR(255), item VARCHAR(255)) ENGINE = InnoDB');
+			await this.query('CREATE TABLE IF NOT EXISTS warnings (userId bigint, modId bigint, reason VARCHAR(2048), date bigint) ENGINE = InnoDB')
 
-            return 'Success';
-        }
-        catch(err){
-            console.error('[MYSQL] Error creating tables: ' + err.code + ': ' + err.sqlMessage);
-            if(err.code === 'ER_BAD_DB_ERROR') console.warn('Did you create the database?');
-        }
-    }
+			await this.query('CREATE TABLE IF NOT EXISTS shopData (itemName VARCHAR(255), itemAmount INT, itemPrice INT, itemCurrency VARCHAR(255), itemDisplay VARCHAR(255), item VARCHAR(255)) ENGINE = InnoDB')
 
-    query(sql, args){
-        return new Promise((resolve, reject) => {
-            // query automatically releases connection after finished
-            this.db.query(sql, args, (err, rows) => {
-                if(err) return reject(err);
-                
-                resolve(rows);
-            });
-        });
-    }
+			return 'Success'
+		}
+		catch (err) {
+			console.error(`[MYSQL] Error creating tables: ${err.code}: ${err.sqlMessage}`)
+			if (err.code === 'ER_BAD_DB_ERROR') console.warn('Did you create the database?')
+		}
+	}
 
-    /**
+	query(sql, args) {
+		return new Promise((resolve, reject) => {
+			// query automatically releases connection after finished
+			this.db.query(sql, args, (err, rows) => {
+				if (err) return reject(err)
+
+				resolve(rows)
+			})
+		})
+	}
+
+	/**
      * Performs an escaped update, changing the column to value
-     * @param {string} table 
-     * @param {string} column 
-     * @param {*} value 
-     * @param {string} conditionColumn 
+     * @param {string} table
+     * @param {string} column
+     * @param {*} value
+     * @param {string} conditionColumn
      * @param {*} conditionValue
-     * @override 
+     * @override
      */
-    async update(table, column, value, conditionColumn, conditionValue){
-        let sql = 'UPDATE ?? SET ?? = ? WHERE ?? = ?';
+	async update(table, column, value, conditionColumn, conditionValue) {
+		let sql = 'UPDATE ?? SET ?? = ? WHERE ?? = ?'
 
-        sql = mysql.format(sql, [table, column, value, conditionColumn, conditionValue]);
+		sql = mysql.format(sql, [table, column, value, conditionColumn, conditionValue])
 
-        return await this.query(sql);
-    }
+		return this.query(sql)
+	}
 
-    /**
+	/**
      * Performs an escaped update, increasing the column by value
-     * @param {string} table 
-     * @param {string} column 
-     * @param {*} value 
-     * @param {string} conditionCol 
-     * @param {*} conditionVal 
+     * @param {string} table
+     * @param {string} column
+     * @param {*} value
+     * @param {string} conditionCol
+     * @param {*} conditionVal
      */
-    async updateIncr(table, column, value, conditionCol, conditionVal){
-        let sql = 'UPDATE ?? SET ?? = ?? + ? WHERE ?? = ?';
+	async updateIncr(table, column, value, conditionCol, conditionVal) {
+		let sql = 'UPDATE ?? SET ?? = ?? + ? WHERE ?? = ?'
 
-        sql = mysql.format(sql, [table, column, column, value, conditionCol, conditionVal]);
+		sql = mysql.format(sql, [table, column, column, value, conditionCol, conditionVal])
 
-        return await this.query(sql);
-    }
+		return this.query(sql)
+	}
 
-    /**
+	/**
      * Performs an escaped update, decreasing the column by value
      * @param {string} table Table to update
      * @param {string} column Column to change
@@ -144,28 +144,28 @@ class MySQL {
      * @param {string} conditionCol Column to search for in WHERE clause
      * @param {*} conditionVal Value of column in WHERE clause
      */
-    async updateDecr(table, column, value, conditionCol, conditionVal){
-        let sql = 'UPDATE ?? SET ?? = ?? - ? WHERE ?? = ?';
+	async updateDecr(table, column, value, conditionCol, conditionVal) {
+		let sql = 'UPDATE ?? SET ?? = ?? - ? WHERE ?? = ?'
 
-        sql = mysql.format(sql, [table, column, column, value, conditionCol, conditionVal]);
+		sql = mysql.format(sql, [table, column, column, value, conditionCol, conditionVal])
 
-        return await this.query(sql);
-    }
+		return this.query(sql)
+	}
 
-    /**
+	/**
      * Performs an escaped select query.
      * @param {string} table The table to select from
      * @param {string} conditionCol The column to search condition for
      * @param {*} conditionVal The condition
      * @param {boolean} selectRows Whether or not to return multiple rows
      */
-    async select(table, conditionCol, conditionVal, selectRows = false){
-        let sql = 'SELECT * FROM ?? WHERE ?? = ?';
+	async select(table, conditionCol, conditionVal, selectRows = false) {
+		let sql = 'SELECT * FROM ?? WHERE ?? = ?'
 
-        sql = mysql.format(sql, [table, conditionCol, conditionVal]);
+		sql = mysql.format(sql, [table, conditionCol, conditionVal])
 
-        return selectRows ? await this.query(sql) : (await this.query(sql))[0];
-    }
+		return selectRows ? this.query(sql) : (await this.query(sql))[0]
+	}
 }
 
 const createWipedSQL = `
@@ -227,14 +227,14 @@ CREATE TABLE IF NOT EXISTS scores (
     createdAt BIGINT,
     level INT,
     health INT,
-    maxHealth INT, 
+    maxHealth INT,
     scaledDamage DECIMAL(3,2),
     inv_slots INT,
     backpack VARCHAR(255),
     armor VARCHAR(255),
     ammo VARCHAR(255),
     badge VARCHAR(255),
-    money BIGINT, 
+    money BIGINT,
     scrap BIGINT,
     points BIGINT,
     kills INT,
@@ -323,7 +323,7 @@ CREATE TABLE IF NOT EXISTS blackmarket_transactions (
     ENGINE = InnoDB
 `
 
-const transactionsTable =`
+const transactionsTable = `
 CREATE TABLE IF NOT EXISTS transactions (
     userId BIGINT,
     date DATETIME,
@@ -332,4 +332,4 @@ CREATE TABLE IF NOT EXISTS transactions (
     ENGINE = InnoDB
 `
 
-module.exports = MySQL;
+module.exports = MySQL

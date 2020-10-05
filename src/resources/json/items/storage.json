@@ -128,7 +128,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": "",
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": "",
         "desc": "Equip this storage box to gain **30** item slots!",
@@ -155,7 +157,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": "",
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": "",
         "desc": "Equip this backpack to gain **45** item slots! Rolads special backpack.",
@@ -182,7 +186,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": "",
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": "",
         "desc": "Equip this storage container to gain **45** item slots!",

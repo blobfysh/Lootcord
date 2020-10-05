@@ -1,169 +1,169 @@
-const CronJob = require('cron').CronJob;
-const shopData = require('../resources/json/shop');
+const CronJob = require('cron').CronJob
+const shopData = require('../resources/json/shop')
 const STATUS_LIST = [
-    "Looting {users} players", 
-    "{users} loot goblins", 
-    "{guilds} servers!", 
-    "Join the discord!", 
-    "lootcord.com 👀"
-];
+	'Looting {users} players',
+	'{users} loot goblins',
+	'{guilds} servers!',
+	'Join the discord!',
+	'lootcord.com 👀'
+]
 
 class LoopTasks {
-    constructor(app){
-        this.app = app;
-        this.daily = new CronJob('0 0 0 * * *', this.dailyTasks.bind(this), null, false, 'America/New_York');
-        this.refreshLBJob = new CronJob('0 */6 * * *', this.refreshLB.bind(this), null, false, 'America/New_York');
-        this.biHourly = new CronJob('0 */2 * * *', this.biHourlyTasks.bind(this), null, false, 'America/New_York');
-        this.hourly = new CronJob('0 * * * *', this.hourlyTasks.bind(this), null, false, 'America/New_York');
-        this.removePatrons = new CronJob('0 0 2 * *', () => {this.app.ipc.broadcast('removePatrons', {})}, null, false, 'America/New_York');
-        this.firstOfMonth = new CronJob('0 0 1 * *', this.monthlyTasks.bind(this), null, false, 'America/New_York');
+	constructor(app) {
+		this.app = app
+		this.daily = new CronJob('0 0 0 * * *', this.dailyTasks.bind(this), null, false, 'America/New_York')
+		this.refreshLBJob = new CronJob('0 */6 * * *', this.refreshLB.bind(this), null, false, 'America/New_York')
+		this.biHourly = new CronJob('0 */2 * * *', this.biHourlyTasks.bind(this), null, false, 'America/New_York')
+		this.hourly = new CronJob('0 * * * *', this.hourlyTasks.bind(this), null, false, 'America/New_York')
+		this.removePatrons = new CronJob('0 0 2 * *', () => { this.app.ipc.broadcast('removePatrons', {}) }, null, false, 'America/New_York')
+		this.firstOfMonth = new CronJob('0 0 1 * *', this.monthlyTasks.bind(this), null, false, 'America/New_York')
 
-        // every 3 minutes
-        this.often = new CronJob('*/3 * * * *', this.frequentTasks.bind(this), null, false, 'America/New_York');
-    }
+		// every 3 minutes
+		this.often = new CronJob('*/3 * * * *', this.frequentTasks.bind(this), null, false, 'America/New_York')
+	}
 
-    start(){
-        if(this.app.clusterID === 0){
-            console.log('[LOOPTASKS] Starting daily/bi-hourly tasks...');
-            this.daily.start();
-            this.refreshLBJob.start();
-            this.biHourly.start();
-            this.often.start();
-            this.removePatrons.start();
-            this.firstOfMonth.start();
-        }
-        
-        this.hourly.start();
-    }
+	start() {
+		if (this.app.clusterID === 0) {
+			console.log('[LOOPTASKS] Starting daily/bi-hourly tasks...')
+			this.daily.start()
+			this.refreshLBJob.start()
+			this.biHourly.start()
+			this.often.start()
+			this.removePatrons.start()
+			this.firstOfMonth.start()
+		}
 
-    async monthlyTasks(){
-        await this.app.query(`UPDATE scores SET points = 0, level = 1`);
-    }
+		this.hourly.start()
+	}
 
-    async dailyTasks(){
-        console.log('[LOOPTASKS] Running daily tasks...');
-        // reroll scrap deals in shop
-        await this.restockShop();
+	async monthlyTasks() {
+		await this.app.query('UPDATE scores SET points = 0, level = 1')
+	}
 
-        // take clan upkeep costs
-        const clans = await this.app.query(`SELECT clanId, money, reduction FROM clans`);
-        let moneyRemoved = 0;
-        let itemsRemoved = 0;
-        let decayingClans = 0;
+	async dailyTasks() {
+		console.log('[LOOPTASKS] Running daily tasks...')
+		// reroll scrap deals in shop
+		await this.restockShop()
 
-        for(let i = 0; i < clans.length; i++){
-            const clanData = await this.app.clans.getClanData(clans[i]);
-            const upkeep = this.app.clans.getUpkeep(clans[i].money, clanData.memberCount, clanData.inactiveMemberCount);
+		// take clan upkeep costs
+		const clans = await this.app.query('SELECT clanId, money, reduction FROM clans')
+		let moneyRemoved = 0
+		let itemsRemoved = 0
+		let decayingClans = 0
 
-            if(clans[i].money >= upkeep){
-                await this.app.clans.removeMoney(clans[i].clanId, upkeep);
-                moneyRemoved += upkeep;
-                decayingClans++;
-            }
-            else if(clanData.usedPower >= 1){
-                const randomItem = await this.app.itm.getRandomUserItems(clans[i].clanId, 1);
-                await this.app.itm.removeItem(clans[i].clanId, randomItem.items[0], 1);
-                await this.app.clans.addLog(clans[i].clanId, `The vault lost 1x ${randomItem.items[0]} due to cost of upkeep`);
-                itemsRemoved++;
-                decayingClans++;
-            }
-        }
+		for (let i = 0; i < clans.length; i++) {
+			const clanData = await this.app.clans.getClanData(clans[i])
+			const upkeep = this.app.clans.getUpkeep(clans[i].money, clanData.memberCount, clanData.inactiveMemberCount)
 
-        // remove old logs
-        await this.app.query(`DELETE FROM clan_logs WHERE logDate < NOW() - INTERVAL 30 DAY`);
+			if (clans[i].money >= upkeep) {
+				await this.app.clans.removeMoney(clans[i].clanId, upkeep)
+				moneyRemoved += upkeep
+				decayingClans++
+			}
+			else if (clanData.usedPower >= 1) {
+				const randomItem = await this.app.itm.getRandomUserItems(clans[i].clanId, 1)
+				await this.app.itm.removeItem(clans[i].clanId, randomItem.items[0], 1)
+				await this.app.clans.addLog(clans[i].clanId, `The vault lost 1x ${randomItem.items[0]} due to cost of upkeep`)
+				itemsRemoved++
+				decayingClans++
+			}
+		}
 
-        // remove old transactions
-        await this.app.query(`DELETE FROM transactions WHERE date < NOW() - INTERVAL 30 DAY`);
+		// remove old logs
+		await this.app.query('DELETE FROM clan_logs WHERE logDate < NOW() - INTERVAL 30 DAY')
 
-        // reset daily limits
-        await this.app.query(`UPDATE scores SET discoinLimit = 0, bmLimit = 0 WHERE discoinLimit != 0 OR bmLimit != 0`);
+		// remove old transactions
+		await this.app.query('DELETE FROM transactions WHERE date < NOW() - INTERVAL 30 DAY')
 
-        // auto-deactivate players who have not played for 7 days
-        const InactiveUsers = await this.app.query(`SELECT scores.userId, guildId, lastActive FROM userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 7 DAY`);
-        let activeRolesRemoved = 0;
+		// reset daily limits
+		await this.app.query('UPDATE scores SET discoinLimit = 0, bmLimit = 0 WHERE discoinLimit != 0 OR bmLimit != 0')
 
-        for(let i = 0; i < InactiveUsers.length; i++){
-            if(Object.keys(this.app.config.activeRoleGuilds).includes(InactiveUsers[i].guildId)){
-                this.app.ipc.broadcast('removeActiveRole', {
-                    guildId: InactiveUsers[i].guildId,
-                    userId: InactiveUsers[i].userId,
-                    roleId: this.app.config.activeRoleGuilds[InactiveUsers[i].guildId].activeRoleID
-                });
+		// auto-deactivate players who have not played for 7 days
+		const InactiveUsers = await this.app.query('SELECT scores.userId, guildId, lastActive FROM userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 7 DAY')
+		let activeRolesRemoved = 0
 
-                activeRolesRemoved++;
-            }
-        }
-        console.log('[LOOPTASKS] Removed active role from ' + activeRolesRemoved + ' players.');
-        
-        await this.app.query(`DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 7 DAY`);
+		for (let i = 0; i < InactiveUsers.length; i++) {
+			if (Object.keys(this.app.config.activeRoleGuilds).includes(InactiveUsers[i].guildId)) {
+				this.app.ipc.broadcast('removeActiveRole', {
+					guildId: InactiveUsers[i].guildId,
+					userId: InactiveUsers[i].userId,
+					roleId: this.app.config.activeRoleGuilds[InactiveUsers[i].guildId].activeRoleID
+				})
 
-        const dailyEmbed = new this.app.Embed()
-        .setTitle('Daily Tasks')
-        .setDescription('Removed ' + this.app.common.formatNumber(moneyRemoved) + ' and **' + itemsRemoved + '** items from **' + decayingClans + '** decaying clans.')
-        .setColor('#ffffff')
-        this.app.messager.messageLogs(dailyEmbed);
-    }
+				activeRolesRemoved++
+			}
+		}
+		console.log(`[LOOPTASKS] Removed active role from ${activeRolesRemoved} players.`)
 
-    async restockShop(){
-        await this.app.query(`DELETE FROM shopData WHERE item != ''`);
+		await this.app.query('DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 7 DAY')
 
-        const items = this.app.common.shuffleArr(Object.keys(shopData)).slice(0, 3);
+		const dailyEmbed = new this.app.Embed()
+			.setTitle('Daily Tasks')
+			.setDescription(`Removed ${this.app.common.formatNumber(moneyRemoved)} and **${itemsRemoved}** items from **${decayingClans}** decaying clans.`)
+			.setColor('#ffffff')
+		this.app.messager.messageLogs(dailyEmbed)
+	}
 
-        for(let item of items){
-            const itemInfo = shopData[item];
-            const price = Math.floor((Math.random() * (itemInfo.maxPrice - itemInfo.minPrice + 1)) + itemInfo.minPrice);
-            const stock = Math.floor((Math.random() * (itemInfo.maxStock - itemInfo.minStock + 1)) + itemInfo.minStock);
+	async restockShop() {
+		await this.app.query('DELETE FROM shopData WHERE item != \'\'')
 
-            await this.app.query(`INSERT INTO shopData (itemName, itemAmount, itemPrice, itemCurrency, itemDisplay, item) VALUES (?, ?, ?, ?, ?, ?)`,
-            [itemInfo.buyName, stock, price, 'scrap', item, item]);
-        }
-    }
+		const items = this.app.common.shuffleArr(Object.keys(shopData)).slice(0, 3)
 
-    async refreshLB(){
-        console.log('[LOOPTASKS] Refreshing global leaderboard...');
-        const leaders = await this.app.leaderboard.getLB();
-        const patrons = await this.app.patreonHandler.getPatrons(2);
-        this.app.cache.setNoExpire('leaderboard', JSON.stringify(leaders));
-        this.app.cache.setNoExpire('patronsCache', JSON.stringify(patrons));
-    }
+		for (const item of items) {
+			const itemInfo = shopData[item]
+			const price = Math.floor((Math.random() * (itemInfo.maxPrice - itemInfo.minPrice + 1)) + itemInfo.minPrice)
+			const stock = Math.floor((Math.random() * (itemInfo.maxStock - itemInfo.minStock + 1)) + itemInfo.minStock)
 
-    async biHourlyTasks(){
-        console.log('[LOOPTASKS] Running bi-hourly tasks...');
-        // add 1 power to all active players every 2 hours
-        await this.app.query(`UPDATE scores SET power = power + 1 WHERE power < max_power AND lastActive > NOW() - INTERVAL 14 DAY;`);
-        
-        // remove 1 power for players inactve over 2 weeks, down to minimum of 0
-        await this.app.query(`UPDATE scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 14 DAY`);
+			await this.app.query('INSERT INTO shopData (itemName, itemAmount, itemPrice, itemCurrency, itemDisplay, item) VALUES (?, ?, ?, ?, ?, ?)',
+				[itemInfo.buyName, stock, price, 'scrap', item, item])
+		}
+	}
 
-        // clean up cooldown table
-        this.app.query(`DELETE FROM cooldown WHERE UNIX_TIMESTAMP() * 1000 > start + length`);
-    }
+	async refreshLB() {
+		console.log('[LOOPTASKS] Refreshing global leaderboard...')
+		const leaders = await this.app.leaderboard.getLB()
+		const patrons = await this.app.patreonHandler.getPatrons(2)
+		this.app.cache.setNoExpire('leaderboard', JSON.stringify(leaders))
+		this.app.cache.setNoExpire('patronsCache', JSON.stringify(patrons))
+	}
 
-    async hourlyTasks(){
-        const stats = JSON.parse(await this.app.cache.get('stats')) || {};
-        
-        if(this.app.bot.shards.get([...this.app.bot.shards][0][0]).presence.game.type === 2) return;
+	async biHourlyTasks() {
+		console.log('[LOOPTASKS] Running bi-hourly tasks...')
+		// add 1 power to all active players every 2 hours
+		await this.app.query('UPDATE scores SET power = power + 1 WHERE power < max_power AND lastActive > NOW() - INTERVAL 14 DAY;')
 
-        if(stats.guilds){
-            this.app.bot.editStatus('online', {
-                name: 't-help | ' + STATUS_LIST[Math.floor(Math.random() * STATUS_LIST.length)].replace('{users}', this.app.common.formatNumber(stats.users, true)).replace('{guilds}', this.app.common.formatNumber(stats.guilds, true)),
-                type: 0
-            });
-        }
-    }
+		// remove 1 power for players inactve over 2 weeks, down to minimum of 0
+		await this.app.query('UPDATE scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 14 DAY')
 
-    async frequentTasks(){
-        if(!this.app.config.debug && this.app.clusterID === 0){
-            await this._handleDiscoinTransactions();
-        }
+		// clean up cooldown table
+		this.app.query('DELETE FROM cooldown WHERE UNIX_TIMESTAMP() * 1000 > start + length')
+	}
 
-        await this.app.ipc.broadcast('refreshPatrons', {});
-    }
+	async hourlyTasks() {
+		const stats = JSON.parse(await this.app.cache.get('stats')) || {}
 
-    async _handleDiscoinTransactions(){
-        try{
-            const unhandled = await this.app.discoin.getUnhandled();
-            /* test transaction
+		if (this.app.bot.shards.get([...this.app.bot.shards][0][0]).presence.game.type === 2) return
+
+		if (stats.guilds) {
+			this.app.bot.editStatus('online', {
+				name: `t-help | ${STATUS_LIST[Math.floor(Math.random() * STATUS_LIST.length)].replace('{users}', this.app.common.formatNumber(stats.users, true)).replace('{guilds}', this.app.common.formatNumber(stats.guilds, true))}`,
+				type: 0
+			})
+		}
+	}
+
+	async frequentTasks() {
+		if (!this.app.config.debug && this.app.clusterID === 0) {
+			await this._handleDiscoinTransactions()
+		}
+
+		await this.app.ipc.broadcast('refreshPatrons', {})
+	}
+
+	async _handleDiscoinTransactions() {
+		try {
+			const unhandled = await this.app.discoin.getUnhandled()
+			/* test transaction
             const unhandled = {
                 data: [
                     {
@@ -189,100 +189,100 @@ class LoopTasks {
                 ]
             }
             */
-            let logTransactions = [];
+			const logTransactions = []
 
-            for(let i = 0; i < unhandled.data.length; i++){
-                let transaction = unhandled.data[i];
-                let payout = Math.round(transaction.payout);
-                let refunded = 0;
-                let userRow = await this.app.player.getRow(transaction.user);
-                await this.app.discoin.handle(transaction.id);
-    
-                if(!userRow){
-                    // create account for user if they dont have one
-                    await this.app.player.createAccount(transaction.user);
+			for (let i = 0; i < unhandled.data.length; i++) {
+				const transaction = unhandled.data[i]
+				let payout = Math.round(transaction.payout)
+				let refunded = 0
+				let userRow = await this.app.player.getRow(transaction.user)
+				await this.app.discoin.handle(transaction.id)
 
-                    userRow = await this.app.player.getRow(transaction.user);
-                }
+				if (!userRow) {
+					// create account for user if they dont have one
+					await this.app.player.createAccount(transaction.user)
 
-                const embed = new this.app.Embed()
-                .setTitle('Conversion Successful')
-                .setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/662369574720765994/spaces2F-LQzahLixLnvmbDfQ1K02Favatar.png')
-                .setDescription(`You received ${this.app.common.formatNumber(payout)} (${transaction.payout} rounded) through Discoin! [Click this to see more details.](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)\n\nKeep in mind there is a daily limit of ${this.app.common.formatNumber(100000)} on incoming transactions.`)
-                .setColor(13451564)
+					userRow = await this.app.player.getRow(transaction.user)
+				}
 
-                if(userRow.discoinLimit + payout > 100000){
-                    if(userRow.discoinLimit >= 100000){
-                        // user hit daily limit, refund everything
-                        refunded = payout;
-                        payout = 0;
-                    }
-                    else{
-                        refunded = Math.abs((100000 - (userRow.discoinLimit + payout)));
-                        payout -= refunded;
-                    }
+				const embed = new this.app.Embed()
+					.setTitle('Conversion Successful')
+					.setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/662369574720765994/spaces2F-LQzahLixLnvmbDfQ1K02Favatar.png')
+					.setDescription(`You received ${this.app.common.formatNumber(payout)} (${transaction.payout} rounded) through Discoin! [Click this to see more details.](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)\n\nKeep in mind there is a daily limit of ${this.app.common.formatNumber(100000)} on incoming transactions.`)
+					.setColor(13451564)
 
-                    try{
-                        const response = await this.app.discoin.request(transaction.user, refunded, transaction.from.id);
-                    }
-                    catch(err){
-                        console.error(err);
+				if (userRow.discoinLimit + payout > 100000) {
+					if (userRow.discoinLimit >= 100000) {
+						// user hit daily limit, refund everything
+						refunded = payout
+						payout = 0
+					}
+					else {
+						refunded = Math.abs(100000 - (userRow.discoinLimit + payout))
+						payout -= refunded
+					}
 
-                        // idk discoin not working so just give them all money, this is very unlikely to happen tho since discoin.handle() would error before this
-                        refunded = 0;
-                        payout = Math.round(transaction.payout);
-                    }
+					try {
+						await this.app.discoin.request(transaction.user, refunded, transaction.from.id)
+					}
+					catch (err) {
+						console.error(err)
 
-                    embed.setDescription(`**Oh no!**\nIt looks like you hit the daily transaction limit of **${this.app.common.formatNumber(100000)}**\n\nYou still received **${this.app.common.formatNumber(payout)}**, the other **${this.app.common.formatNumber(refunded)}** was automatically sent back to **${transaction.from.id}**.\n\nThis limit helps keep our economy stable!`);
-                }
+						// idk discoin not working so just give them all money, this is very unlikely to happen tho since discoin.handle() would error before this
+						refunded = 0
+						payout = Math.round(transaction.payout)
+					}
 
-                await this.app.query("UPDATE scores SET discoinLimit = discoinLimit + ? WHERE userId = ?", [payout, transaction.user]);
-                this.app.player.addMoney(transaction.user, payout);
-                this.app.common.messageUser(transaction.user, embed);
+					embed.setDescription(`**Oh no!**\nIt looks like you hit the daily transaction limit of **${this.app.common.formatNumber(100000)}**\n\nYou still received **${this.app.common.formatNumber(payout)}**, the other **${this.app.common.formatNumber(refunded)}** was automatically sent back to **${transaction.from.id}**.\n\nThis limit helps keep our economy stable!`)
+				}
 
-                const logEmbed = new this.app.Embed()
-                .setTitle('Discoin Conversion')
-                .setDescription(`${transaction.from.name}(${transaction.from.id}) to Lootcoin\n\n[Link](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)`)
-                .addField('Lootcoin Payout', this.app.common.formatNumber(payout) + ' (' + this.app.common.formatNumber(refunded) + ' refunded)', true)
-                .addField('User', '```\n' + transaction.user + '```')
-                .setFooter(`Transaction ID: ${transaction.id}`)
-                .setColor(13451564)
+				await this.app.query('UPDATE scores SET discoinLimit = discoinLimit + ? WHERE userId = ?', [payout, transaction.user])
+				this.app.player.addMoney(transaction.user, payout)
+				this.app.common.messageUser(transaction.user, embed)
 
-                logTransactions.push(logEmbed);
-            }
-    
-            if(logTransactions.length) this.app.messager.messageLogs(logTransactions);
-            console.log('[DISCOIN] Successfully handled ' + unhandled.data.length + ' transactions.');
-        }
-        catch(err){
-            console.log('[DISCOIN] API error:');
-            console.log(err);
-        }
-    }
+				const logEmbed = new this.app.Embed()
+					.setTitle('Discoin Conversion')
+					.setDescription(`${transaction.from.name}(${transaction.from.id}) to Lootcoin\n\n[Link](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)`)
+					.addField('Lootcoin Payout', `${this.app.common.formatNumber(payout)} (${this.app.common.formatNumber(refunded)} refunded)`, true)
+					.addField('User', `\`\`\`\n${transaction.user}\`\`\``)
+					.setFooter(`Transaction ID: ${transaction.id}`)
+					.setColor(13451564)
 
-    async _refreshBlacklist(){
-        try{
-            const list = await this.app.noflylist.getList();
-            let totalBanned = 0;
+				logTransactions.push(logEmbed)
+			}
 
-            for(let i = 0; i < list.length; i++){
-                if(await this.app.cd.getCD(list[i].discordId, 'banned')) continue;
-                let reason = `Automatically banned using the no fly list for reason: ${list[i].reason}`;
+			if (logTransactions.length) this.app.messager.messageLogs(logTransactions)
+			console.log(`[DISCOIN] Successfully handled ${unhandled.data.length} transactions.`)
+		}
+		catch (err) {
+			console.log('[DISCOIN] API error:')
+			console.log(err)
+		}
+	}
 
-                await this.app.query("INSERT INTO banned (userId, reason, date) VALUES (?, ?, ?)", [list[i].discordId, reason, new Date(list[i].dateBlacklisted).getTime()]);
-                await this.app.cache.setNoExpire(`banned|${list[i].discordId}`, 'Banned perma');
+	async _refreshBlacklist() {
+		try {
+			const list = await this.app.noflylist.getList()
+			let totalBanned = 0
 
-                console.log('[LOOPTASKS] Banned user ' + list[i].discordId + ' using no fly list.');
-                totalBanned++;
-            }
+			for (let i = 0; i < list.length; i++) {
+				if (await this.app.cd.getCD(list[i].discordId, 'banned')) continue
+				const reason = `Automatically banned using the no fly list for reason: ${list[i].reason}`
 
-            return 'Banned ' + totalBanned + ' users using the no fly list.';
-        }
-        catch(err){
-            console.warn('Unable to refresh the global blacklist:');
-            console.warn(err);
-        }
-    }
+				await this.app.query('INSERT INTO banned (userId, reason, date) VALUES (?, ?, ?)', [list[i].discordId, reason, new Date(list[i].dateBlacklisted).getTime()])
+				await this.app.cache.setNoExpire(`banned|${list[i].discordId}`, 'Banned perma')
+
+				console.log(`[LOOPTASKS] Banned user ${list[i].discordId} using no fly list.`)
+				totalBanned++
+			}
+
+			return `Banned ${totalBanned} users using the no fly list.`
+		}
+		catch (err) {
+			console.warn('Unable to refresh the global blacklist:')
+			console.warn(err)
+		}
+	}
 }
 
-module.exports = LoopTasks;
+module.exports = LoopTasks

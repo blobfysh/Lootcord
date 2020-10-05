@@ -1,176 +1,166 @@
-const { ITEM_TYPES } = require('../../resources/constants');
+const { ITEM_TYPES } = require('../../resources/constants')
 
 module.exports = {
-    name: 'items',
-    aliases: ['item', 'recipe'],
-    description: 'Shows information about an item.',
-    long: 'Specify an item to see detailed information about it.',
-    args: {"item": "Item to search."},
-    examples: ["item ak47"],
-    ignoreHelp: false,
-    requiresAcc: false,
-    requiresActive: false,
-    guildModsOnly: false,
-    
-    async execute(app, message){
-        const itemsArraySorted = Object.keys(app.itemdata).sort(app.itm.sortItemsHighLow.bind(app));
-        let itemSearched = app.parse.items(message.args)[0];
-        let itemChoice = (message.args[0] || '').toLowerCase();
+	name: 'items',
+	aliases: ['item', 'recipe'],
+	description: 'Shows information about an item.',
+	long: 'Specify an item to see detailed information about it.',
+	args: { item: 'Item to search.' },
+	examples: ['item ak47'],
+	ignoreHelp: false,
+	requiresAcc: false,
+	requiresActive: false,
+	guildModsOnly: false,
 
-        if(itemSearched){
-            let itemBuyCurr = app.itemdata[itemSearched].buy.currency;
-            let itemBuyPrice = app.itemdata[itemSearched].buy.amount;
-            let itemSellPrice = app.itemdata[itemSearched].sell;
-            let itemCategory = app.itemdata[itemSearched].category;
-            let itemInfo = app.itemdata[itemSearched].desc;
-            let itemImg = app.itemdata[itemSearched].image;
-            let itemRecyclesTo = app.itemdata[itemSearched].recyclesTo;
-            let itemCraftedWith = app.itemdata[itemSearched].craftedWith;
-            let itemCooldown = app.itemdata[itemSearched].cooldown;
-            let isBound = app.itemdata[itemSearched].canBeStolen;
-            
-            const embedItem = new app.Embed()
-            .setTitle(`${app.itemdata[itemSearched].icon} ${itemSearched}`)
-            .setColor(13451564)
+	async execute(app, message) {
+		const itemsArraySorted = Object.keys(app.itemdata).sort(app.itm.sortItemsHighLow.bind(app))
+		const itemSearched = app.parse.items(message.args)[0]
+		const itemChoice = (message.args[0] || '').toLowerCase()
 
-            if(app.itemdata[itemSearched].isBanner){
-                embedItem.setImage(itemImg);
-                embedItem.setColor(app.itemdata[itemSearched].bannerColor)
-            }
-            else if(itemImg){
-                embedItem.setThumbnail(itemImg)
-            }
+		if (itemSearched) {
+			const itemInfo = app.itemdata[itemSearched]
+			let itemDesc = itemInfo.desc
 
-            if(app.itemdata[itemSearched].artist !== ""){
-                const artistInfo = await app.common.fetchUser(app.itemdata[itemSearched].artist, { cacheIPC: false });
+			const embedItem = new app.Embed()
+				.setTitle(`${itemInfo.icon} ${itemSearched}`)
+				.setColor(13451564)
 
-                embedItem.setFooter('Art by ' + artistInfo.username + '#' + artistInfo.discriminator);
-            }
+			if (itemInfo.isBanner) {
+				embedItem.setImage(itemInfo.image)
+				embedItem.setColor(itemInfo.bannerColor)
+			}
+			else if (itemInfo.image) {
+				embedItem.setThumbnail(itemInfo.image)
+			}
 
-            // if item is a box =>
-            if(app.itemdata[itemSearched].rates !== undefined){
-                let possibleItems = [];
+			if (itemInfo.artist !== '') {
+				const artistInfo = await app.common.fetchUser(itemInfo.artist, { cacheIPC: false })
 
-                Object.keys(app.itemdata[itemSearched].rates).forEach(rate => {
-                    for(let i = 0; i < app.itemdata[itemSearched].rates[rate].items.length; i++){
-                        possibleItems.push(app.itemdata[itemSearched].rates[rate].items[i].split('|')[0]);
-                    }
-                });
-                
-                itemInfo += '\n\n**Possible items:** ' + possibleItems.sort(app.itm.sortItemsHighLow.bind(app)).map(item => app.itemdata[item].icon + '`' + item + '`').join(', ')
-            }
+				embedItem.setFooter(`Art by ${artistInfo.username}#${artistInfo.discriminator}`)
+			}
 
-            if(!isBound){
-                embedItem.setDescription(itemInfo + "\n```css\nThis item binds to the user when received, and cannot be traded or stolen.```");
-            }
-            else if(itemInfo !== ""){
-                embedItem.setDescription(itemInfo);
-            }
+			// if item is a box =>
+			if (itemInfo.rates !== undefined) {
+				const possibleItems = []
 
-            embedItem.addField("Type", itemCategory === 'Storage' ? 'Storage Container' : itemCategory, true);
-            embedItem.addField("Tier", app.itemdata[itemSearched].tier === 0 ? "None" : "Tier " + app.icons.tiers[app.itemdata[itemSearched].tier], true);
-            embedItem.addBlankField(true);
-            
-            if(itemCooldown !== ""){
-                embedItem.addField("Cooldown", "`" + app.cd.convertTime(itemCooldown.seconds * 1000) + "`", true)
-            }
-            if(app.itemdata[itemSearched].chanceToBreak){
-                embedItem.addField("Chance to break", "`" + (app.itemdata[itemSearched].chanceToBreak * 100) + "%`", true)
-            }
+				Object.keys(itemInfo.rates).forEach(rate => {
+					for (let i = 0; i < itemInfo.rates[rate].items.length; i++) {
+						possibleItems.push(itemInfo.rates[rate].items[i].split('|')[0])
+					}
+				})
 
-            if(app.itemdata[itemSearched].isWeap){
-                if(app.itemdata[itemSearched].ammo !== ""){
-                    embedItem.addField("Damage", app.itemdata[itemSearched].ammo.sort(app.itm.sortItemsHighLow.bind(app)).map(ammo => {
-                        return app.itemdata[ammo].icon + '`' + ammo + '` ' + (app.itemdata[ammo].damage + app.itemdata[itemSearched].minDmg) + ' - ' + (app.itemdata[ammo].damage + app.itemdata[itemSearched].maxDmg)
-                    }).join('\n'));
-                }
-                else{
-                    embedItem.addField("Damage", app.itemdata[itemSearched].minDmg + ' - ' + app.itemdata[itemSearched].maxDmg, true)
-                }
-            }
+				itemDesc += `\n\n**Possible items:** ${possibleItems.sort(app.itm.sortItemsHighLow.bind(app)).map(item => `${app.itemdata[item].icon}\`${item}\``).join(', ')}`
+			}
 
-            if(app.itemdata[itemSearched].category === 'Ammo'){
-                let ammoFor = itemsArraySorted.filter(item => app.itemdata[item].ammo !== "" && app.itemdata[item].ammo.includes(itemSearched));
+			if (!itemInfo.canBeStolen) {
+				embedItem.setDescription(`${itemDesc}\n\`\`\`css\nThis item binds to the user when received, and cannot be traded or stolen.\`\`\``)
+			}
+			else if (itemDesc !== '') {
+				embedItem.setDescription(itemDesc)
+			}
 
-                embedItem.addField("Damage", app.itemdata[itemSearched].damage, true);
-                embedItem.addField("Ammo for:", ammoFor.map(weapon => app.itemdata[weapon].icon + '`' + weapon + '`').join('\n'), true)
-            }
+			embedItem.addField('Type', itemInfo.category === 'Storage' ? 'Storage Container' : itemInfo.category, true)
+			embedItem.addField('Tier', itemInfo.tier === 0 ? 'None' : `Tier ${app.icons.tiers[itemInfo.tier]}`, true)
+			embedItem.addBlankField(true)
 
-            if(itemBuyCurr !== undefined && (itemBuyCurr === "money" || itemBuyCurr === "scrap")){
-                embedItem.addField("Buy", app.common.formatNumber(itemBuyPrice, false, itemBuyCurr === "scrap" ? true : false), true);
-            }
-            else if(itemBuyCurr !== undefined){
-                embedItem.addField("Buy", itemBuyPrice + "x " + app.itemdata[itemBuyCurr].icon + "`" + itemBuyCurr + "`", true);
-            }
+			if (itemInfo.cooldown !== '') {
+				embedItem.addField('Cooldown', `\`${app.cd.convertTime(itemInfo.cooldown.seconds * 1000)}\``, true)
+			}
+			if (itemInfo.chanceToBreak) {
+				embedItem.addField('Chance to break', `\`${itemInfo.chanceToBreak * 100}%\``, true)
+			}
 
-            if(itemSellPrice !== ""){
-                embedItem.addField("Sell", app.common.formatNumber(itemSellPrice), true);
-            }
-            
-            let craftItems = [];
-            let recycledFrom = [];
+			if (itemInfo.isWeap) {
+				if (itemInfo.ammo !== '') {
+					embedItem.addField('Damage', itemInfo.ammo.sort(app.itm.sortItemsHighLow.bind(app)).map(ammo => `${app.itemdata[ammo].icon}\`${ammo}\` ${app.itemdata[ammo].damage + itemInfo.minDmg} - ${app.itemdata[ammo].damage + itemInfo.maxDmg}`).join('\n'))
+				}
+				else {
+					embedItem.addField('Damage', `${itemInfo.minDmg} - ${itemInfo.maxDmg}`, true)
+				}
+			}
 
-            for(let item of itemsArraySorted){
-                if(app.itemdata[item].craftedWith !== ''){
-                    for(let i = 0; i < app.itemdata[item].craftedWith.materials.length; i++){
-                        if(app.itemdata[item].craftedWith.materials[i].split('|')[0] == itemSearched){
-                            craftItems.push(app.itemdata[item].icon + '`' + item + '`');
-                        }
-                    }
-                }
-                
-                if(app.itemdata[item].recyclesTo.length == undefined){
-                    for(let i = 0; i < app.itemdata[item].recyclesTo.materials.length; i++){
-                        if(app.itemdata[item].recyclesTo.materials[i].split('|')[0] == itemSearched){
-                            recycledFrom.push(app.itemdata[item].icon + '`' + item + '`');
-                        }
-                    }
-                }
-            }
+			if (itemInfo.category === 'Ammo') {
+				const ammoFor = itemsArraySorted.filter(item => app.itemdata[item].ammo !== '' && app.itemdata[item].ammo.includes(itemSearched))
 
-            if(itemCraftedWith !== "" || itemRecyclesTo.materials !== undefined || craftItems.length || recycledFrom.length) embedItem.addBlankField();
+				embedItem.addField('Damage', itemInfo.damage, true)
+				embedItem.addField('Ammo for:', ammoFor.map(weapon => `${app.itemdata[weapon].icon}\`${weapon}\``).join('\n'), true)
+			}
 
-            if(itemCraftedWith !== ""){
-                embedItem.addField("🔩 Crafted with:", "⭐ __Level **" + itemCraftedWith.level + '**+__\n\n' + app.itm.getDisplay(itemCraftedWith.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n'), true)
-            }
-            if(itemRecyclesTo.materials !== undefined){
-                embedItem.addField("♻ Recycles into:", app.itm.getDisplay(itemRecyclesTo.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n'), true)
-            }
+			if (itemInfo.buy.currency !== undefined && (itemInfo.buy.currency === 'money' || itemInfo.buy.currency === 'scrap')) {
+				embedItem.addField('Buy', app.common.formatNumber(itemInfo.buy.amount, false, itemInfo.buy.currency === 'scrap'), true)
+			}
+			else if (itemInfo.buy.currency !== undefined) {
+				embedItem.addField('Buy', `${itemInfo.buy.amount}x ${app.itemdata[itemInfo.buy.currency].icon}\`${itemInfo.buy.currency}\``, true)
+			}
 
-            if(craftItems.length){
-                embedItem.addField('Used to craft:', craftItems.join('\n'), true)
-            }
-            if(recycledFrom.length){
-                embedItem.addField('Recycled from:', recycledFrom.join('\n'), true)
-            }
+			if (itemInfo.sell !== '') {
+				embedItem.addField('Sell', app.common.formatNumber(itemInfo.sell), true)
+			}
 
-            message.channel.createMessage(embedItem);
-        }
-        else if(!itemChoice){
-            let meleeWeapons = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Melee');
-            let rangedWeapons = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Ranged');
-            let items = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Item');
-            let ammo = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Ammo');
-            let material = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Material');
-            let storage = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Storage');
-            let banners = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Banner');
+			const craftItems = []
+			const recycledFrom = []
 
-            const embedInfo = new app.Embed()
-            .setColor(13451564)
-            .setTitle("Full Items List")
-            .addField(ITEM_TYPES['ranged'].name, rangedWeapons.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField(ITEM_TYPES['melee'].name, meleeWeapons.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField(ITEM_TYPES['items'].name, items.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField(ITEM_TYPES['ammo'].name, ammo.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField(ITEM_TYPES['materials'].name, material.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField(ITEM_TYPES['storage'].name, storage.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .addField(ITEM_TYPES['banners'].name, banners.map(item => app.itemdata[item].icon + '`' + item + '`').join('\n'), true)
-            .setFooter(`Use ${message.prefix}item <item> to retrieve more information!`)
+			for (const item of itemsArraySorted) {
+				if (app.itemdata[item].craftedWith !== '') {
+					for (let i = 0; i < app.itemdata[item].craftedWith.materials.length; i++) {
+						if (app.itemdata[item].craftedWith.materials[i].split('|')[0] === itemSearched) {
+							craftItems.push(`${app.itemdata[item].icon}\`${item}\``)
+						}
+					}
+				}
 
-            message.channel.createMessage(embedInfo);
-        }
-        else{
-            message.reply(`I don't recognize that item. Use \`${message.prefix}items\` to see a full list!`);
-        }
-    },
+				if (app.itemdata[item].recyclesTo.materials.length) {
+					for (let i = 0; i < app.itemdata[item].recyclesTo.materials.length; i++) {
+						if (app.itemdata[item].recyclesTo.materials[i].split('|')[0] === itemSearched) {
+							recycledFrom.push(`${app.itemdata[item].icon}\`${item}\``)
+						}
+					}
+				}
+			}
+
+			if (itemInfo.craftedWith !== '' || itemInfo.recyclesTo.materials.length || craftItems.length || recycledFrom.length) embedItem.addBlankField()
+
+			if (itemInfo.craftedWith !== '') {
+				embedItem.addField('🔩 Crafted with:', `⭐ __Level **${itemInfo.craftedWith.level}**+__\n\n${app.itm.getDisplay(itemInfo.craftedWith.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n')}`, true)
+			}
+			if (itemInfo.recyclesTo.materials.length) {
+				embedItem.addField('♻ Recycles into:', app.itm.getDisplay(itemInfo.recyclesTo.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n'), true)
+			}
+
+			if (craftItems.length) {
+				embedItem.addField('Used to craft:', craftItems.join('\n'), true)
+			}
+			if (recycledFrom.length) {
+				embedItem.addField('Recycled from:', recycledFrom.join('\n'), true)
+			}
+
+			message.channel.createMessage(embedItem)
+		}
+		else if (!itemChoice) {
+			const meleeWeapons = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Melee')
+			const rangedWeapons = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Ranged')
+			const items = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Item')
+			const ammo = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Ammo')
+			const material = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Material')
+			const storage = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Storage')
+			const banners = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Banner')
+
+			const embedInfo = new app.Embed()
+				.setColor(13451564)
+				.setTitle('Full Items List')
+				.addField(ITEM_TYPES.ranged.name, rangedWeapons.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
+				.addField(ITEM_TYPES.melee.name, meleeWeapons.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
+				.addField(ITEM_TYPES.items.name, items.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
+				.addField(ITEM_TYPES.ammo.name, ammo.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
+				.addField(ITEM_TYPES.materials.name, material.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
+				.addField(ITEM_TYPES.storage.name, storage.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
+				.addField(ITEM_TYPES.banners.name, banners.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
+				.setFooter(`Use ${message.prefix}item <item> to retrieve more information!`)
+
+			message.channel.createMessage(embedInfo)
+		}
+		else {
+			message.reply(`I don't recognize that item. Use \`${message.prefix}items\` to see a full list!`)
+		}
+	}
 }

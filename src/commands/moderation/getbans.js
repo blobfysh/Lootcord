@@ -1,44 +1,43 @@
-
 module.exports = {
-    name: 'getbans',
-    aliases: [''],
-    description: "Get a list of all banned players.",
-    long: "Get a list of all banned players.",
-    args: {
-        "page": "Page number."
-    },
-    examples: [],
-    ignoreHelp: false,
-    requiresAcc: false,
-    requiresActive: false,
-    guildModsOnly: false,
-    
-    async execute(app, message){
-        let page = (app.parse.numbers(message.args)[0] || 1) - 1;
+	name: 'getbans',
+	aliases: [''],
+	description: 'Get a list of all banned players.',
+	long: 'Get a list of all banned players.',
+	args: {
+		page: 'Page number.'
+	},
+	examples: [],
+	ignoreHelp: false,
+	requiresAcc: false,
+	requiresActive: false,
+	guildModsOnly: false,
 
-        try{
-            let bannedList = [];
-            const bans = await app.query(`SELECT * FROM banned ORDER BY date DESC LIMIT ?, 10`, [page * 10]);
+	async execute(app, message) {
+		const page = (app.parse.numbers(message.args)[0] || 1) - 1
 
-            const banMsg = new app.Embed()
-            .setAuthor(`Banned Players (Page ${page + 1})`)
-            .setDescription(app.icons.loading + ' fetching bans...')
-            .setColor(720640)
-            const botMessage = await message.channel.createMessage(banMsg);
+		try {
+			const bannedList = []
+			const bans = await app.query('SELECT * FROM banned ORDER BY date DESC LIMIT ?, 10', [page * 10])
 
-            for(let i = 0; i < bans.length; i++){
-                const user = await app.common.fetchUser(bans[i].userId, { cacheIPC: false });
+			const banMsg = new app.Embed()
+				.setAuthor(`Banned Players (Page ${page + 1})`)
+				.setDescription(`${app.icons.loading} fetching bans...`)
+				.setColor(720640)
+			const botMessage = await message.channel.createMessage(banMsg)
 
-                bannedList.push(`${(page * 10) + 1 + i}. ${user.username}#${user.discriminator} (${user.id})`);
-            }
+			for (let i = 0; i < bans.length; i++) {
+				const user = await app.common.fetchUser(bans[i].userId, { cacheIPC: false })
 
-            setTimeout(() => {
-                banMsg.setDescription('Sorted newest to oldest:```\n' + (bannedList.join('\n') || 'None') + '```')
-                botMessage.edit(banMsg);
-            }, 1000);
-        }
-        catch(err){
-            message.reply("Error: ```" + err + "```")
-        }
-    },
+				bannedList.push(`${(page * 10) + 1 + i}. ${user.username}#${user.discriminator} (${user.id})`)
+			}
+
+			setTimeout(() => {
+				banMsg.setDescription(`Sorted newest to oldest:\`\`\`\n${bannedList.join('\n') || 'None'}\`\`\``)
+				botMessage.edit(banMsg)
+			}, 1000)
+		}
+		catch (err) {
+			message.reply(`Error: \`\`\`${err}\`\`\``)
+		}
+	}
 }

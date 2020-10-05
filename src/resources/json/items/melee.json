@@ -8,7 +8,9 @@
         "maxDmg": 9,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 379,
         "desc": "",
@@ -68,7 +70,9 @@
         "maxDmg": 6,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 340,
         "desc": "",
@@ -94,7 +98,9 @@
         "maxDmg": 21,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 1909,
         "desc": "",
@@ -123,7 +129,9 @@
         "maxDmg": 20,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 1953,
         "desc": "",
@@ -151,7 +159,9 @@
         "maxDmg": 23,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 3177,
         "desc": "",
@@ -177,7 +187,9 @@
         "maxDmg": 26,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 4153,
         "desc": "",
@@ -203,7 +215,9 @@
         "maxDmg": 11,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 532,
         "desc": "",
@@ -231,7 +245,9 @@
         "maxDmg": 10,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 489,
         "desc": "",
@@ -256,7 +272,9 @@
         "maxDmg": 30,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 4278,
         "desc": "",
@@ -284,7 +302,9 @@
         "maxDmg": 31,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 4583,
         "desc": "",
@@ -312,7 +332,9 @@
         "maxDmg": 15,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 834,
         "desc": "**Christmas event item.**",
@@ -338,7 +360,9 @@
         "maxDmg": 45,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 8253,
         "desc": "**Christmas event item.**",
@@ -366,7 +390,9 @@
         "maxDmg": 19,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 3510,
         "desc": "**Halloween event item.**",
@@ -392,7 +418,9 @@
         "maxDmg": 28,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 5504,
         "desc": "**Halloween event item.**",
@@ -418,7 +446,9 @@
         "maxDmg": 40,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 8020,
         "desc": "**Halloween event item.**",
@@ -444,7 +474,9 @@
         "maxDmg": 53,
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 15252,
         "desc": "**Halloween event item.**",

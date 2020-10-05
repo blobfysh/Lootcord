@@ -1,50 +1,49 @@
-
 module.exports = {
-    name: 'getclan',
-    aliases: ['getclaninfo', 'getclanid'],
-    description: "Get metadata of a clan.",
-    long: "Get metadata of a clan using the name. Will retrieve the clan's ID and all member ID's.",
-    args: {
-        "clan": "Clan to search."
-    },
-    examples: ["getclan Mod Squad"],
-    ignoreHelp: false,
-    requiresAcc: false,
-    requiresActive: false,
-    guildModsOnly: false,
-    
-    async execute(app, message){
-        let clanName = message.args.join(" ");
-        const clanRow = await app.clans.searchClanRow(clanName);
+	name: 'getclan',
+	aliases: ['getclaninfo', 'getclanid'],
+	description: 'Get metadata of a clan.',
+	long: 'Get metadata of a clan using the name. Will retrieve the clan\'s ID and all member ID\'s.',
+	args: {
+		clan: 'Clan to search.'
+	},
+	examples: ['getclan Mod Squad'],
+	ignoreHelp: false,
+	requiresAcc: false,
+	requiresActive: false,
+	guildModsOnly: false,
 
-        if(!clanRow){
-            return message.reply('❌ A clan with that name does not exist.');
-        }
+	async execute(app, message) {
+		const clanName = message.args.join(' ')
+		const clanRow = await app.clans.searchClanRow(clanName)
 
-        const clanMembers = await app.clans.getMembers(clanRow.clanId);
+		if (!clanRow) {
+			return message.reply('❌ A clan with that name does not exist.')
+		}
 
-        let membersRanksList = [];
+		const clanMembers = await app.clans.getMembers(clanRow.clanId)
 
-        for(let i = 0; i < clanMembers.count; i++){
-            const clanUser = await app.common.fetchUser(clanMembers.memberIds[i], { cacheIPC: false });
-            const clanUserRow = await app.player.getRow(clanMembers.memberIds[i]);
+		const membersRanksList = []
 
-            if(app.clan_ranks[clanUserRow.clanRank].title == 'Leader'){
-                membersRanksList.push([` - ${app.icons.clan_leader_crown} ` + app.clan_ranks[clanUserRow.clanRank].title + ' ' + app.player.getBadge(clanUserRow.badge) + ' ' + (`${clanUser.username}#${clanUser.discriminator}`)+ ' (`' + clanMembers.memberIds[i] + '`)', clanUserRow.clanRank]);
-            }
-            else{
-                membersRanksList.push([' - ' + app.clan_ranks[clanUserRow.clanRank].title + ' ' + app.player.getBadge(clanUserRow.badge) + ' ' + (`${clanUser.username}#${clanUser.discriminator}`) + ' (`' + clanMembers.memberIds[i] + '`)', clanUserRow.clanRank]);
-            }
-        }
+		for (let i = 0; i < clanMembers.count; i++) {
+			const clanUser = await app.common.fetchUser(clanMembers.memberIds[i], { cacheIPC: false })
+			const clanUserRow = await app.player.getRow(clanMembers.memberIds[i])
 
-        membersRanksList.sort(function(a, b){return b[1] - a[1]}); // Sort clan members by rank.
+			if (app.clan_ranks[clanUserRow.clanRank].title === 'Leader') {
+				membersRanksList.push([` - ${app.icons.clan_leader_crown} ${app.clan_ranks[clanUserRow.clanRank].title} ${app.player.getBadge(clanUserRow.badge)} ${clanUser.username}#${clanUser.discriminator} (\`${clanMembers.memberIds[i]}\`)`, clanUserRow.clanRank])
+			}
+			else {
+				membersRanksList.push([` - ${app.clan_ranks[clanUserRow.clanRank].title} ${app.player.getBadge(clanUserRow.badge)} ${clanUser.username}#${clanUser.discriminator} (\`${clanMembers.memberIds[i]}\`)`, clanUserRow.clanRank])
+			}
+		}
 
-        const baseEmbed = new app.Embed()
-        .setColor(13451564)
-        .setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
-        .addField('Clan ID', '```\n' + clanRow.clanId + '```')
-        .addField(`Members (${clanMembers.count})`, membersRanksList.map(member => member[0]).join('\n'))
+		membersRanksList.sort((a, b) => b[1] - a[1]) // Sort clan members by rank.
 
-        message.channel.createMessage(baseEmbed);
-    },
+		const baseEmbed = new app.Embed()
+			.setColor(13451564)
+			.setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
+			.addField('Clan ID', `\`\`\`\n${clanRow.clanId}\`\`\``)
+			.addField(`Members (${clanMembers.count})`, membersRanksList.map(member => member[0]).join('\n'))
+
+		message.channel.createMessage(baseEmbed)
+	}
 }

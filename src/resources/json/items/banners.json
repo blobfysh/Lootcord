@@ -15,7 +15,9 @@
                 "tech_trash|1"
             ]
         },
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 378,
         "desc": "Given when you create an account! Equip this to give your profile a fresh new look!",
@@ -41,7 +43,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 43370,
             "currency": "scrap"
@@ -72,7 +76,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 126731,
             "currency": "scrap"
@@ -101,7 +107,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 90817,
             "currency": "scrap"
@@ -130,7 +138,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 410015,
             "currency": "scrap"
@@ -160,7 +170,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 1348700,
             "currency": "scrap"
@@ -190,7 +202,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": {
             "amount": 550000,
             "currency": "scrap"
@@ -219,7 +233,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": 24842,
         "desc": "Only the best.",
@@ -245,7 +261,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": "",
         "desc": "Get this banner by donating on [Ko-fi](https://ko-fi.com/blobfysh)! Equip this to give your profile a fresh new look!",
@@ -271,7 +289,9 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": "",
-        "recyclesTo": [],
+        "recyclesTo": {
+            "materials": []
+        },
         "buy": "",
         "sell": "",
         "desc": "Exclusive banner for [patrons](https://www.patreon.com/lootcord)! Equip this to give your profile a fresh new look!",
