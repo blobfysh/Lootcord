@@ -5,7 +5,7 @@
   <h1 align="center">
     Lootcord
   </h1>
-  <p align="center">  
+  <p align="center">
     <a href="https://discordbots.org/bot/493316754689359874"><img src="https://discordbots.org/api/widget/lib/493316754689359874.svg"/></a>
     <a href="https://discordbots.org/bot/493316754689359874"><img src="https://discordbots.org/api/widget/upvotes/493316754689359874.svg"/></a>
     <a href="https://discordbots.org/bot/493316754689359874"><img src="https://discordbots.org/api/widget/servers/493316754689359874.svg"/></a>
@@ -27,19 +27,19 @@ Commands can be found [here](https://lootcord.com/commands).
 
 Requirements:
 
-- Node.js (>= v10.19.0)
+- Node.js 10.x or 12.x
 - MySQL or MariaDB
 - Redis (tested on Windows using Memurai)
 
 Edit `config_example.json` in src/resources/config to point to your MySQL database and rename it to `config.json`.
 
-Install dependencies: 
+Install dependencies:
 ```javascript
 npm install
 ```
 Run:
 ```
-node index.js
+npm start
 ```
 
 Custom icons will not show for you, you can change those in `icons.json`.
