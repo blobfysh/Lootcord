@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const dailyCD = await app.cd.getCD(message.author.id, 'trickortreat')
 
 		if (dailyCD) {
@@ -24,6 +24,6 @@ module.exports = {
 		await app.cd.setCD(message.author.id, 'trickortreat', app.config.cooldowns.daily * 1000)
 
 		await app.itm.addItem(message.author.id, 'small_loot_bag', 1)
-		message.reply(`Here's a ${app.itemdata.small_loot_bag.icon}\`small_loot_bag\`!\n\nYou can open it (\`${message.prefix}use small_loot_bag\`) OR combine **10** to craft a ${app.itemdata.medium_loot_bag.icon}\`medium_loot_bag\`.`)
+		message.reply(`Here's a ${app.itemdata.small_loot_bag.icon}\`small_loot_bag\`!\n\nYou can open it (\`${prefix}use small_loot_bag\`) OR combine **10** to craft a ${app.itemdata.medium_loot_bag.icon}\`medium_loot_bag\`.`)
 	}
 }

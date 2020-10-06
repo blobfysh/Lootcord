@@ -9,7 +9,7 @@ module.exports = {
 	requiresActive: true,
 	minimumRank: 1,
 
-	async execute(app, message, args) {
+	async execute(app, message, { args, prefix }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 		const raidCD = await app.cd.getCD(scoreRow.clanId, 'raid')
 
@@ -66,8 +66,8 @@ module.exports = {
 
 			const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 120000 })
 
-			raidableEmbed.setDescription(`Raid successful!\n\nChoose up to **${itemsToSteal}** items to steal from their vault.\n\nExample: \`${message.prefix}steal item_box 2\` to steal 2 boxes from the vault. Not sure what items they have? Check with \`${message.prefix}clan vault ${clanRow.name}\`.`)
-			raidableEmbed.setFooter(`You have 2 minutes to pick the items. | You can type ${message.prefix}stop to end the raid early.`)
+			raidableEmbed.setDescription(`Raid successful!\n\nChoose up to **${itemsToSteal}** items to steal from their vault.\n\nExample: \`${prefix}steal item_box 2\` to steal 2 boxes from the vault. Not sure what items they have? Check with \`${prefix}clan vault ${clanRow.name}\`.`)
+			raidableEmbed.setFooter(`You have 2 minutes to pick the items. | You can type ${prefix}stop to end the raid early.`)
 			raidableEmbed.setColor(8311585)
 			setTimeout(() => {
 				botmsg.edit(raidableEmbed)
@@ -97,9 +97,9 @@ module.exports = {
 			}
 
 			collectorObj.collector.on('collect', async m => {
-				if (!m.content.toLowerCase().startsWith(message.prefix)) return
+				if (!m.content.toLowerCase().startsWith(prefix)) return
 
-				const userArgs = m.content.slice(message.prefix.length).split(/ +/)
+				const userArgs = m.content.slice(prefix.length).split(/ +/)
 				const command = userArgs[0] || ''
 				const itemInput = userArgs.slice(1)
 				const item = app.parse.items(itemInput)[0]

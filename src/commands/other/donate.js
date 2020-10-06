@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		if (!await app.patreonHandler.isPatron(message.author.id)) {
 			return message.channel.createMessage(`**Help support the development of Lootcord!** Become a patron and get some cool rewards like:
             \n- **Access to the spawn system.** Team up to fight enemies that can spawn in a channel of your choice (you can see this in action on the official server). Enemies include a helicopter, scientists, a tank, and more!\n- **Reduced global spam cooldown** from 3 seconds to 1 second.\n- An animated ${app.itemdata.patron.icon}\`patron\` banner to show off your support.\n- A role in the official Discord server.\n- Supporting the development of the bot!
@@ -28,7 +28,7 @@ module.exports = {
 			.setAuthor('Thank you!', message.author.avatarURL)
 			.addField('Patron Status', 'active 😃')
 			.addField(`Active Enemy Spawn Channels (${activeSpawnChannels.length})`, activeSpawnChannels.join('\n') || 'None')
-			.addField('How do I claim my weekly reward?', `Use \`${message.prefix}weekly\` to claim your ${app.itemdata.supply_drop.icon}\`supply_drop\` every week!`)
+			.addField('How do I claim my weekly reward?', `Use \`${prefix}weekly\` to claim your ${app.itemdata.supply_drop.icon}\`supply_drop\` every week!`)
 			.addField('How do I use the enemy spawn system?', 'Spawn enemies in a channel using the `enablespawns` command.' +
         '\n\nTo stop all active enemy spawns use `disablespawns`.' +
         '\n\nOnce an enemy has spawned, you or anyone in the server can use the `enemy` command to view the enemy and fight it!' +

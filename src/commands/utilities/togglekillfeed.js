@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: true,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const guildRow = await app.common.getGuildInfo(message.channel.guild.id)
 
 		if (guildRow.killChan === 0) {

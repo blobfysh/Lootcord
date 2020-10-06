@@ -10,9 +10,9 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const sellItems = app.parse.items(message.args, 15)
-		const sellAmounts = app.parse.numbers(message.args)
+	async execute(app, message, { args, prefix }) {
+		const sellItems = app.parse.items(args, 15)
+		const sellAmounts = app.parse.numbers(args)
 
 		if (sellItems.length > 1) {
 			const userItems = await app.itm.getItemObject(message.author.id)
@@ -23,7 +23,7 @@ module.exports = {
 				itemAmounts = app.itm.combineItems(getItemList(sellItems, sellAmounts))
 			}
 			catch (err) {
-				return message.reply(`❌ You need to specify amounts when bulk selling multiple items! For example: \`${message.prefix}sell rock 1 rpg 3 item_box 2\``)
+				return message.reply(`❌ You need to specify amounts when bulk selling multiple items! For example: \`${prefix}sell rock 1 rpg 3 item_box 2\``)
 			}
 
 			for (let i = 0; i < itemAmounts.length; i++) {
@@ -128,7 +128,7 @@ module.exports = {
 			}
 		}
 		else {
-			message.reply(`You need to enter a valid item to sell! \`${message.prefix}sell <item> <amount>\``)
+			message.reply(`You need to enter a valid item to sell! \`${prefix}sell <item> <amount>\``)
 		}
 	}
 }

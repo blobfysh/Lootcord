@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const scrambleCD = await app.cd.getCD(message.author.id, 'scramble')
 
 		if (scrambleCD) {
@@ -18,7 +18,7 @@ module.exports = {
 		}
 
 		const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), await app.player.getRow(message.author.id))
-		const option = message.args[0] ? message.args[0].toLowerCase() : undefined
+		const option = args[0] ? args[0].toLowerCase() : undefined
 		const scrambleJSONlength = Object.keys(app.scramble_words).length
 		const chance = Math.floor(Math.random() * scrambleJSONlength) // returns value 0 between 32 (1 of 10)
 		const scrambleWord = app.scramble_words[chance].word // json data word to scramble
@@ -32,7 +32,7 @@ module.exports = {
 		}
 
 		if (!option || (option !== 'easy' && option !== 'hard')) {
-			return message.reply(`You need to choose a difficulty \`${message.prefix}scramble easy/hard\`\nEasy: Hint but less reward\nHard: Better reward, no hint`)
+			return message.reply(`You need to choose a difficulty \`${prefix}scramble easy/hard\`\nEasy: Hint but less reward\nHard: Better reward, no hint`)
 		}
 
 		const embedScramble = new app.Embed()

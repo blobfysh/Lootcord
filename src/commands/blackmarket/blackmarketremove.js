@@ -12,9 +12,9 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		if (shortid.isValid(message.args[0])) {
-			const listing = await app.bm.getListingInfo(message.args[0])
+	async execute(app, message, { args, prefix }) {
+		if (shortid.isValid(args[0])) {
+			const listing = await app.bm.getListingInfo(args[0])
 			const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), await app.player.getRow(message.author.id))
 
 			if (!listing) {
@@ -33,7 +33,7 @@ module.exports = {
 			}
 		}
 		else {
-			message.reply('I could not find a listing with that ID. You can check your listings and their IDs with `bmlistings`')
+			message.reply(`I could not find a listing with that ID. You can check your listings and their IDs with \`${prefix}bmlistings\``)
 		}
 	}
 }

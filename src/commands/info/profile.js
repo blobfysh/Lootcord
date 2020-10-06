@@ -12,11 +12,11 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const memberArg = app.parse.members(message, message.args)[0]
+	async execute(app, message, { args, prefix }) {
+		const memberArg = app.parse.members(message, args)[0]
 
 		if (!memberArg) {
-			if (message.args.length) {
+			if (args.length) {
 				message.reply('❌ Could not find anyone matching that description!\nYou can mention someone, use their Discord#tag, or type their user ID')
 				return
 			}

@@ -14,9 +14,8 @@ module.exports = {
 	guildModsOnly: false,
 	levelReq: 3,
 
-	async execute(app, message) {
-		const user = app.parse.members(message, message.args)[0]
-		// var userNameID = general.getUserId(args);
+	async execute(app, message, { args, prefix }) {
+		const user = app.parse.members(message, args)[0]
 
 		if (!user) {
 			return message.reply('❌ You need to mention the user you want to trade with.')
@@ -73,18 +72,18 @@ module.exports = {
 				const player2Items = []
 
 				player1Collector.collector.on('collect', m => {
-					if (!m.content.toLowerCase().startsWith(message.prefix)) return
+					if (!m.content.toLowerCase().startsWith(prefix)) return
 
-					const args = m.content.slice(message.prefix.length).split(/ +/)
+					const userArgs = m.content.slice(prefix.length).split(/ +/)
 
-					return handleMsg(m, args.slice(1), args[0] || '', 1)
+					return handleMsg(m, userArgs.slice(1), userArgs[0] || '', 1)
 				})
 				player2Collector.collector.on('collect', m => {
-					if (!m.content.toLowerCase().startsWith(message.prefix)) return
+					if (!m.content.toLowerCase().startsWith(prefix)) return
 
-					const args = m.content.slice(message.prefix.length).split(/ +/)
+					const userArgs = m.content.slice(prefix.length).split(/ +/)
 
-					return handleMsg(m, args.slice(1), args[0] || '', 2)
+					return handleMsg(m, userArgs.slice(1), userArgs[0] || '', 2)
 				})
 
 				player1Collector.collector.on('end', reason => {
@@ -94,7 +93,7 @@ module.exports = {
 				})
 
 				// eslint-disable-next-line no-inner-declarations
-				async function handleMsg(m, args, command, player) {
+				async function handleMsg(m, userArgs, command, player) {
 					if (command.toLowerCase() === 'cancel') {
 						app.msgCollector.stopCollector(player1Collector)
 						app.msgCollector.stopCollector(player2Collector)
@@ -121,7 +120,7 @@ module.exports = {
 
 										acceptMessage.edit('✅ Trade completed!')
 
-										tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.channel.guild.id, message.member, user, player1Val, player2Val, player1Items, player2Items)
+										tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, prefix, true), message.channel.guild.id, message.member, user, player1Val, player2Val, player1Items, player2Items)
 									}
 									catch (err) {
 										if (err.player) {
@@ -152,7 +151,7 @@ module.exports = {
 
 										acceptMessage.edit('✅ Trade completed!')
 
-										tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix, true), message.channel.guild.id, message.member, user, player1Val, player2Val, player1Items, player2Items)
+										tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, prefix, true), message.channel.guild.id, message.member, user, player1Val, player2Val, player1Items, player2Items)
 									}
 									catch (err) {
 										if (err.player) {
@@ -171,7 +170,7 @@ module.exports = {
 					}
 					else if (command.toLowerCase() === 'addmoney') {
 						const row = await app.player.getRow(m.author.id)
-						const amount = app.parse.numbers(args)[0]
+						const amount = app.parse.numbers(userArgs)[0]
 
 						if (!amount) {
 							return m.channel.createMessage(`❌ You should specify an amount of Lootcoin. You currently have **${app.common.formatNumber(row.money)}**`)
@@ -187,11 +186,11 @@ module.exports = {
 							player2Money += amount
 						}
 
-						message.channel.createMessage(refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix))
+						message.channel.createMessage(refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, prefix))
 					}
 					else if (command.toLowerCase() === 'add') {
-						const item = app.parse.items(args)[0]
-						const amount = app.parse.numbers(args)[0] || 1
+						const item = app.parse.items(userArgs)[0]
+						const amount = app.parse.numbers(userArgs)[0] || 1
 
 						if (!item) {
 							return m.channel.createMessage('❌ You need to specify an item.')
@@ -221,12 +220,12 @@ module.exports = {
 							player2Items.push(`${item}|${amount}`)
 						}
 
-						message.channel.createMessage(refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix))
+						message.channel.createMessage(refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, prefix))
 					}
 					else if (command.toLowerCase() === 'remove') {
-						const item = app.parse.items(args)[0]
+						const item = app.parse.items(userArgs)[0]
 
-						if (args[0] === 'money') {
+						if (userArgs[0] === 'money') {
 							if (player === 1) {
 								m.channel.createMessage(`Successfully removed ${app.common.formatNumber(player1Money)} from the trade.`)
 								player1Money = 0
@@ -266,11 +265,11 @@ module.exports = {
 							m.channel.createMessage(`Item ${app.itemdata[item].icon}\`${item}\` removed.`)
 						}
 
-						message.channel.createMessage(refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, message.prefix))
+						message.channel.createMessage(refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, prefix))
 					}
 				}
 
-				message.channel.createMessage(refreshWindow(app, message.member, 0, [], user, 0, [], message.prefix))
+				message.channel.createMessage(refreshWindow(app, message.member, 0, [], user, 0, [], prefix))
 			}
 			else {
 				botMessage.edit(`❌ **${user.nick || user.username}** declined the trade.`)

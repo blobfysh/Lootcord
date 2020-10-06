@@ -12,14 +12,14 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const row = await app.player.getRow(message.author.id)
-		const item = app.parse.items(message.args)[0]
-		const member = app.parse.members(message, message.args)[0]
-		let amount = app.parse.numbers(message.args)[0] || 1
+		const item = app.parse.items(args)[0]
+		const member = app.parse.members(message, args)[0]
+		let amount = app.parse.numbers(args)[0] || 1
 
 		if (!item) {
-			return message.reply(`❌ You need to specify an item to use! \`${message.prefix}use <item>\`. For more information and examples, type \`${message.prefix}help use\`.`)
+			return message.reply(`❌ You need to specify an item to use! \`${prefix}use <item>\`. For more information and examples, type \`${prefix}help use\`.`)
 		}
 		else if (member && !app.itemdata[item].isWeap) {
 			// tried using item on someone
@@ -169,9 +169,10 @@ module.exports = {
 				message.reply(`Successfully drank an ${app.itemdata.xp_potion.icon}\`xp_potion\` and gained **75** XP! You now have **${xp.curLvlXp + 75} / ${xp.neededForLvl}** XP.`)
 			}
 			else if (item === 'c4') {
-				const clanName = message.args
+				const clanName = args
+
 				if (!clanName.length) {
-					return message.reply(`You need to specify a clan to use your explosive on! \`${message.prefix}use c4 <clan name>\``)
+					return message.reply(`You need to specify a clan to use your explosive on! \`${prefix}use c4 <clan name>\``)
 				}
 
 				const clanRow = await app.clans.searchClanRow(clanName.join(' '))
@@ -220,11 +221,11 @@ module.exports = {
 			}
 
 			// check if attacking monster
-			if (message.args.map(arg => arg.toLowerCase()).some(arg => ['@spawn', 'spawn', '@enemy', 'enemy', '@bounty', 'bounty'].includes(arg)) || Object.keys(app.mobdata).some(monster => message.args.map(arg => arg.toLowerCase()).join(' ').includes(app.mobdata[monster].title.toLowerCase()))) {
+			if (args.map(arg => arg.toLowerCase()).some(arg => ['@spawn', 'spawn', '@enemy', 'enemy', '@bounty', 'bounty'].includes(arg)) || Object.keys(app.mobdata).some(monster => args.map(arg => arg.toLowerCase()).join(' ').includes(app.mobdata[monster].title.toLowerCase()))) {
 				const monsterRow = await app.mysql.select('spawns', 'channelId', message.channel.id)
 
 				if (!monsterRow) {
-					return message.reply(`❌ There are no enemies in this channel! You can check when one will spawn with \`${message.prefix}enemy\``)
+					return message.reply(`❌ There are no enemies in this channel! You can check when one will spawn with \`${prefix}enemy\``)
 				}
 
 				const damageMin = app.itemdata[item].minDmg
@@ -384,9 +385,9 @@ module.exports = {
 
 			// check if attack is random
 			else if (serverInfo.randomOnly === 1 && member) {
-				return message.reply(`❌ This server allows only random attacks, specifying a target will not work. You can use the item without a mention to attack a random player: \`${message.prefix}use <item>\``)
+				return message.reply(`❌ This server allows only random attacks, specifying a target will not work. You can use the item without a mention to attack a random player: \`${prefix}use <item>\``)
 			}
-			else if (['rand', 'random'].some(str => message.args.map(arg => arg.toLowerCase()).includes(str)) || serverInfo.randomOnly === 1) {
+			else if (['rand', 'random'].some(str => args.map(arg => arg.toLowerCase()).includes(str)) || serverInfo.randomOnly === 1) {
 				const randUsers = await getRandomPlayers(app, message.author.id, message.channel.guild, item)
 
 				if (randUsers.users[0] === undefined) {
@@ -747,7 +748,7 @@ module.exports = {
 			}
 		}
 		else {
-			return message.reply(`❌ That item cannot be used on yourself or other players. \`${message.prefix}use <item> <@user>\``)
+			return message.reply(`❌ That item cannot be used on yourself or other players. \`${prefix}use <item> <@user>\``)
 		}
 	}
 }
@@ -1000,7 +1001,7 @@ async function notifyAttackVictim(app, message, victim, itemUsed, damage, victim
 	const notifyEmbed = new app.Embed()
 		.setTitle('You were attacked!')
 		.setDescription(`${`${message.author.username}#${message.author.discriminator}`} hit you for **${damage}** damage using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`.
-    
+
     Health: ${app.player.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage} / ${victimRow.maxHealth}**`)
 		.setColor(16610383)
 

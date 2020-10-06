@@ -12,10 +12,10 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const itemsArraySorted = Object.keys(app.itemdata).sort(app.itm.sortItemsHighLow.bind(app))
-		const itemSearched = app.parse.items(message.args)[0]
-		const itemChoice = (message.args[0] || '').toLowerCase()
+		const itemSearched = app.parse.items(args)[0]
+		const itemChoice = (args[0] || '').toLowerCase()
 
 		if (itemSearched) {
 			const itemInfo = app.itemdata[itemSearched]
@@ -155,12 +155,12 @@ module.exports = {
 				.addField(ITEM_TYPES.materials.name, material.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
 				.addField(ITEM_TYPES.storage.name, storage.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
 				.addField(ITEM_TYPES.banners.name, banners.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-				.setFooter(`Use ${message.prefix}item <item> to retrieve more information!`)
+				.setFooter(`Use ${prefix}item <item> to retrieve more information!`)
 
 			message.channel.createMessage(embedInfo)
 		}
 		else {
-			message.reply(`I don't recognize that item. Use \`${message.prefix}items\` to see a full list!`)
+			message.reply(`I don't recognize that item. Use \`${prefix}items\` to see a full list!`)
 		}
 	}
 }

@@ -12,17 +12,17 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const shopItems = await getShopData(app)
-		let buyItem = app.parse.items(message.args)[0]
-		let buyAmount = app.parse.numbers(message.args)[0] || 1
+		let buyItem = app.parse.items(args)[0]
+		let buyAmount = app.parse.numbers(args)[0] || 1
 
 		if (buyItem) {
 			const currency = app.itemdata[buyItem].buy.currency
 			const itemPrice = app.itemdata[buyItem].buy.amount
 
 			if (itemPrice === undefined) {
-				return message.reply(`That item is not for sale, try checking the black market instead: \`${message.prefix}bm ${buyItem}\``)
+				return message.reply(`That item is not for sale, try checking the black market instead: \`${prefix}bm ${buyItem}\``)
 			}
 
 			if (buyAmount > 20) buyAmount = 20
@@ -124,10 +124,10 @@ module.exports = {
 				}
 			}
 		}
-		else if (message.args.map(arg => arg.toLowerCase()).includes('scrap')) {
+		else if (args.map(arg => arg.toLowerCase()).includes('scrap')) {
 			const row = await app.player.getRow(message.author.id)
 
-			if (message.args[1] && message.args[1].toLowerCase() === 'all') {
+			if (args[1] && args[1].toLowerCase() === 'all') {
 				buyAmount = row.money
 			}
 
@@ -165,9 +165,9 @@ module.exports = {
 				botMessage.edit('You ran out of time.')
 			}
 		}
-		else if (shopItems[message.args[0]] !== undefined) {
+		else if (shopItems[args[0]] !== undefined) {
 			// code for buying game here
-			buyItem = message.args[0]
+			buyItem = args[0]
 			const itemAmount = shopItems[buyItem].itemAmount
 			const currency = shopItems[buyItem].itemCurrency
 			const itemPrice = shopItems[buyItem].itemPrice
@@ -257,8 +257,8 @@ module.exports = {
 				}
 			}
 		}
-		else if (shortid.isValid(message.args[0]) && await app.bm.getListingInfo(message.args[0])) {
-			buyItem = message.args[0]
+		else if (shortid.isValid(args[0]) && await app.bm.getListingInfo(args[0])) {
+			buyItem = args[0]
 
 			if (await app.cd.getCD(message.author.id, 'tradeban')) {
 				return message.reply('❌ You are trade banned and cannot use the black market.')
@@ -348,11 +348,11 @@ module.exports = {
 				botMessage.edit('You ran out of time.')
 			}
 		}
-		else if (message.args[0] && message.args[0].toLowerCase() === 'lootcoin') {
+		else if (args[0] && args[0].toLowerCase() === 'lootcoin') {
 			message.reply('You can\'t buy Lootcoin directly using Scrap, you should instead check the daily scrap deals in the `shop`!')
 		}
 		else {
-			message.reply(`You need to enter a valid item to buy! \`${message.prefix}buy <item> <amount>\``)
+			message.reply(`You need to enter a valid item to buy! \`${prefix}buy <item> <amount>\``)
 		}
 	}
 }

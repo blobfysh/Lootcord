@@ -10,12 +10,12 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const userRow = await app.player.getRow(message.author.id)
-		const equipitem = app.parse.items(message.args)[0]
-		const equipBadge = app.parse.badges(message.args)[0]
+		const equipitem = app.parse.items(args)[0]
+		const equipBadge = app.parse.badges(args)[0]
 
-		if (userRow.backpack === equipitem || message.args[0] === 'storage') {
+		if (userRow.backpack === equipitem || args[0] === 'storage') {
 			if (userRow.backpack !== 'none') {
 				await app.query(`UPDATE scores SET backpack = 'none' WHERE userId = ${message.author.id}`)
 				await app.query(`UPDATE scores SET inv_slots = inv_slots - ${app.itemdata[userRow.backpack].inv_slots} WHERE userId = ${message.author.id}`)
@@ -28,7 +28,7 @@ module.exports = {
 			}
 		}
 
-		else if (userRow.banner === equipitem || message.args[0] === 'banner') {
+		else if (userRow.banner === equipitem || args[0] === 'banner') {
 			if (userRow.banner !== 'none') {
 				await app.query(`UPDATE scores SET banner = 'none' WHERE userId = ${message.author.id}`)
 				await app.itm.addItem(message.author.id, userRow.banner, 1)
@@ -40,14 +40,14 @@ module.exports = {
 			}
 		}
 
-		else if (equipBadge || message.args[0] === 'badge') {
+		else if (equipBadge || args[0] === 'badge') {
 			await app.query(`UPDATE scores SET badge = 'none' WHERE userId = ${message.author.id}`)
 
 			return message.reply('✅ Successfully unequipped your display badge!')
 		}
 
 		else {
-			message.reply(`Specify a storage container, banner, or badge to unequip. \`${message.prefix}unequip <item/badge>\``)
+			message.reply(`Specify a storage container, banner, or badge to unequip. \`${prefix}unequip <item/badge>\``)
 		}
 	}
 }

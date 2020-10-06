@@ -26,6 +26,7 @@ const Clans = require('./utils/Clans')
 const LoopTasks = require('./utils/LoopTasks')
 const PatreonHandler = require('./utils/PatreonHandler')
 const EventHandler = require('./utils/EventHandler')
+require('./utils/MessageUtils')
 
 const events = fs.readdirSync(path.join(__dirname, '/events'))
 const ipcEvents = fs.readdirSync(path.join(__dirname, '/ipc'))

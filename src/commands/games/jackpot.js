@@ -10,12 +10,12 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const jackpotCD = await app.cd.getCD(message.author.id, 'jackpot')
 		const row = await app.player.getRow(message.author.id)
-		let gambleAmount = app.parse.numbers(message.args)[0]
+		let gambleAmount = app.parse.numbers(args)[0]
 
-		if (!gambleAmount && message.args[0] && message.args[0].toLowerCase() === 'all') {
+		if (!gambleAmount && args[0] && args[0].toLowerCase() === 'all') {
 			gambleAmount = row.scrap >= 100000 ? 100000 : row.scrap
 		}
 
@@ -28,7 +28,7 @@ module.exports = {
 		}
 
 		if (gambleAmount > row.scrap) {
-			return message.reply(`❌ You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can trade your ${app.icons.money} Lootcoin for ${app.icons.scrap} Scrap: \`${message.prefix}buy scrap <amount>\``)
+			return message.reply(`❌ You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can trade your ${app.icons.money} Lootcoin for ${app.icons.scrap} Scrap: \`${prefix}buy scrap <amount>\``)
 		}
 
 		if (gambleAmount > 100000) {
@@ -42,7 +42,7 @@ module.exports = {
 			const verifyRow = await app.player.getRow(message.author.id)
 
 			if (result && gambleAmount <= verifyRow.scrap) {
-				startJackpot(app, message, gambleAmount)
+				startJackpot(app, message, prefix, gambleAmount)
 			}
 			else {
 				botMessage.delete()
@@ -54,28 +54,28 @@ module.exports = {
 	}
 }
 
-async function startJackpot(app, message, gambleAmount) {
+async function startJackpot(app, message, prefix, gambleAmount) {
 	const jackpotObj = {}
 
 	try {
 		if (app.msgCollector.channelCollectors.filter(obj => obj.channelId === message.channel.id).length) throw new Error('Jackpot already started!')
 
 		const collectorObj = app.msgCollector.createChannelCollector(message, m => m.channel.id === message.channel.id &&
-            m.content.toLowerCase().startsWith(`${message.prefix}join`), { time: 120000 })
+            m.content.toLowerCase().startsWith(`${prefix}join`), { time: 120000 })
 
 		jackpotObj[message.author.id] = { name: message.author.username, amount: gambleAmount }
 		message.channel.createMessage('**A jackpot has started! A winner will be chosen in `2 minutes`**')
-		message.channel.createMessage(refreshEmbed(app, jackpotObj, message.prefix))
+		message.channel.createMessage(refreshEmbed(app, jackpotObj, prefix))
 
 		await app.player.removeScrap(message.author.id, gambleAmount)
 		await app.cd.setCD(message.author.id, 'jackpot', app.config.cooldowns.jackpot * 1000)
 
 		setTimeout(() => {
-			message.channel.createMessage(`⏱ **\`1 minute\` remaining to enter the jackpot! Use \`${message.prefix}join <amount>\` to enter!**`)
+			message.channel.createMessage(`⏱ **\`1 minute\` remaining to enter the jackpot! Use \`${prefix}join <amount>\` to enter!**`)
 		}, 60000)
 
 		setTimeout(() => {
-			message.channel.createMessage(`⏱ **\`30 seconds\` remaining to enter the jackpot! Use \`${message.prefix}join <amount>\` to enter!**`)
+			message.channel.createMessage(`⏱ **\`30 seconds\` remaining to enter the jackpot! Use \`${prefix}join <amount>\` to enter!**`)
 		}, 90000)
 
 		setTimeout(() => {
@@ -91,8 +91,8 @@ async function startJackpot(app, message, gambleAmount) {
 		}, 119000)
 
 		collectorObj.collector.on('collect', async m => {
-			if (!await app.player.isActive(m.author.id, m.channel.guild.id)) return m.channel.createMessage(`Your account is not active in this server! Use \`${message.prefix}play\` to activate it here`)
-			const userArgs = m.content.slice(message.prefix.length).split(/ +/).slice(1)
+			if (!await app.player.isActive(m.author.id, m.channel.guild.id)) return m.channel.createMessage(`Your account is not active in this server! Use \`${prefix}play\` to activate it here`)
+			const userArgs = m.content.slice(prefix.length).split(/ +/).slice(1)
 			const userRow = await app.player.getRow(m.author.id)
 			let gambleAmnt = app.parse.numbers(userArgs)[0]
 
@@ -130,7 +130,7 @@ async function startJackpot(app, message, gambleAmount) {
 			}
 
 			await app.player.removeScrap(m.author.id, gambleAmnt)
-			m.channel.createMessage(refreshEmbed(app, jackpotObj, message.prefix))
+			m.channel.createMessage(refreshEmbed(app, jackpotObj, prefix))
 		})
 
 		collectorObj.collector.on('end', async reason => {

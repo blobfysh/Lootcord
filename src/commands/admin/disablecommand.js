@@ -12,8 +12,8 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const command = message.args[0]
+	async execute(app, message, { args, prefix }) {
+		const command = args[0]
 
 		if (!command) {
 			return message.reply('❌ You forgot to include a command.')

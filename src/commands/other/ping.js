@@ -11,7 +11,7 @@ module.exports = {
 	guildModsOnly: false,
 
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		message.reply(`Pong! ws: ${app.bot.shards.get(app.bot.guildShardMap[message.channel.guild.id]).latency} ms`)
 
 		/*

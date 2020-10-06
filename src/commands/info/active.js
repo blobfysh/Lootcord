@@ -12,14 +12,14 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const guildUsers = []
 		const clans = []
-		const rows = await app.query(`SELECT scores.userId, badge 
-        FROM scores 
-        INNER JOIN userGuilds 
-        ON scores.userId = userGuilds.userId 
-        WHERE guildId = "${message.channel.guild.id}" 
+		const rows = await app.query(`SELECT scores.userId, badge
+        FROM scores
+        INNER JOIN userGuilds
+        ON scores.userId = userGuilds.userId
+        WHERE guildId = "${message.channel.guild.id}"
         ORDER BY LOWER(scores.userId)`)
 
 		const clanRows = await app.query(`SELECT DISTINCT clans.name FROM (

@@ -10,9 +10,9 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const playerBadges = await app.itm.getBadges(message.author.id)
-		const badgeToSet = app.parse.badges(message.args)[0]
+		const badgeToSet = app.parse.badges(args)[0]
 
 		if (message.args[0] && message.args[0].toLowerCase() === 'none') {
 			await app.query(`UPDATE scores SET badge = 'none' WHERE userId = ${message.author.id}`)

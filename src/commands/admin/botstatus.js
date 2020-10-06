@@ -14,10 +14,10 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const status = message.args[0]
-		const type = message.args[1]
-		const content = message.args.slice(2).join(' ')
+	async execute(app, message, { args, prefix }) {
+		const status = args[0]
+		const type = args[1]
+		const content = args.slice(2).join(' ')
 
 		if (!status) {
 			return message.reply('❌ You forgot to include a status.')

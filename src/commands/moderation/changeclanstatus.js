@@ -12,9 +12,9 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const clanID = message.args[0]
-		const statusToSet = message.cleanContent.slice(message.prefix.length).split(/ +/).slice(2).join(' ')
+	async execute(app, message, { args, prefix }) {
+		const clanID = args[0]
+		const statusToSet = message.cleanContent.slice(prefix.length).split(/ +/).slice(2).join(' ')
 
 		if (message.channel.id !== app.config.modChannel) {
 			return message.reply('❌ You must be in the moderator channel to use this command.')

@@ -14,8 +14,8 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const userID = message.args[0]
+	async execute(app, message, { args, prefix }) {
+		const userID = args[0]
 
 		if (!userID) {
 			return message.reply('❌ You forgot to include a user ID.')

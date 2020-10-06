@@ -11,7 +11,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const monsterRow = await app.mysql.select('spawnChannels', 'channelId', message.channel.id)
 		const monsterSpawn = await app.mysql.select('spawns', 'channelId', message.channel.id)
 

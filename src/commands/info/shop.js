@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const allItems = Object.keys(app.itemdata).filter(item => app.itemdata[item].buy.currency !== undefined)
 
 		allItems.sort(app.itm.sortItemsHighLow.bind(app))
@@ -24,7 +24,7 @@ module.exports = {
 			else if (aCurr === 'money' && bCurr === 'scrap') return -1
 		})
 
-		app.react.paginate(message, await generatePages(app, allItems, message.prefix, max_items_per_page))
+		app.react.paginate(message, await generatePages(app, allItems, prefix, max_items_per_page))
 	}
 }
 

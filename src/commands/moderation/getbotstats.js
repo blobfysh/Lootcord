@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const stats = JSON.parse(await app.cache.get('stats')) || {}
 		const guildsJoined = await app.cache.get('servers_joined') || 0
 		const guildsLeft = await app.cache.get('servers_left') || 0

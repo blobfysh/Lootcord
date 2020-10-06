@@ -14,9 +14,9 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		if (message.args[0]) {
-			const cmd = app.commands.get(message.args[0]) || app.commands.find(c => c.aliases && c.aliases.includes(message.args[0]))
+	async execute(app, message, { args, prefix }) {
+		if (args[0]) {
+			const cmd = app.commands.get(args[0]) || app.commands.find(c => c.aliases && c.aliases.includes(args[0]))
 
 			if (!cmd) return message.reply('❌ That command doesn\'t exist!')
 
@@ -29,9 +29,9 @@ module.exports = {
 				.setTitle(`🔎 ${cmd.name}`)
 				.setDescription(cmd.long)
 
-			if (cmd.examples.length && cmd.examples[0].length) embed.addField('Examples', cmd.examples.map(ex => `\`${message.prefix}${ex}\``).join(', '))
+			if (cmd.examples.length && cmd.examples[0].length) embed.addField('Examples', cmd.examples.map(ex => `\`${prefix}${ex}\``).join(', '))
 			if (cmd.aliases.length && cmd.aliases[0].length) embed.addField('Aliases', cmd.aliases.map(alias => `\`${alias}\``).join(', '))
-			embed.addField('Usage', `\`${getUsage(message.prefix, cmd)}\``)
+			embed.addField('Usage', `\`${getUsage(prefix, cmd)}\``)
 			if (Object.keys(cmd.args).length) embed.addField('Options', getOptions(cmd))
 			embed.setColor(13451564)
 
@@ -58,14 +58,14 @@ module.exports = {
 		const todaysMonth = converted.getMonth()
 		let description = `${'🎃 **It\'s Halloween! Use the `trickortreat` command to collect candy, fight monsters with `enablespawns` and look out for new events!**' +
         '\n**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'}${
-			message.prefix}clan help\`, or check this [link](https://lootcord.com/guides/clans).` +
+			prefix}clan help\`, or check this [link](https://lootcord.com/guides/clans).` +
         `\n\n__**Tip:**__\n${tips[Math.floor(Math.random() * tips.length)]}`
 
 		converted.setDate(converted.getDate() + 10)
 
 		const embed = new app.Embed()
 			.setAuthor('Lootcord Commands', message.author.avatarURL)
-			.setFooter(`To see more about a command, use ${message.prefix}help <command>`)
+			.setFooter(`To see more about a command, use ${prefix}help <command>`)
 			.setColor(13451564)
 
 		if (todaysMonth !== converted.getMonth()) {

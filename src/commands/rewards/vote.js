@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const voteCD = await app.cd.getCD(message.author.id, 'vote')
 		const vote2CD = await app.cd.getCD(message.author.id, 'vote2')
 

@@ -13,9 +13,9 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const userID = message.args[0]
-		const coffees = message.args[1]
+	async execute(app, message, { args, prefix }) {
+		const userID = args[0]
+		const coffees = args[1]
 
 		if (!userID) {
 			return message.reply('❌ You forgot to include a user ID.')

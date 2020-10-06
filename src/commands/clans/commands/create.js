@@ -13,7 +13,7 @@ module.exports = {
 	requiresActive: true,
 	minimumRank: 0,
 
-	async execute(app, message, args) {
+	async execute(app, message, { args, prefix }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 		const clanName = args.join(' ')
 
@@ -66,7 +66,7 @@ module.exports = {
 
 				await app.player.removeMoney(message.author.id, CREATION_COST)
 				createClan(app, clanName, message.author.id)
-				botMessage.edit(`Congratulations! You are now the proud leader of the \`${clanName}\` clan!\n\nView your clan information with \`${message.prefix}clan info\` and check the vault with \`${message.prefix}clan vault\`.`)
+				botMessage.edit(`Congratulations! You are now the proud leader of the \`${clanName}\` clan!\n\nView your clan information with \`${prefix}clan info\` and check the vault with \`${prefix}clan vault\`.`)
 			}
 			else {
 				botMessage.delete()

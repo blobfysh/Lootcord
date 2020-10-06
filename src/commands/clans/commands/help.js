@@ -9,7 +9,7 @@ module.exports = {
 	requiresActive: false,
 	minimumRank: 0,
 
-	async execute(app, message, args) {
+	async execute(app, message, { args, prefix }) {
 		if (args[0]) {
 			const cmd = app.clanCommands.get(args[0]) || app.clanCommands.find(c => c.aliases && c.aliases.includes(args[0]))
 
@@ -19,9 +19,9 @@ module.exports = {
 				.setTitle(`🔎 clan ${cmd.name}`)
 				.setDescription(cmd.long)
 			if (cmd.requiresClan) embed.addField('Required Rank', getRank(app, cmd))
-			if (cmd.examples.length && cmd.examples[0].length) embed.addField('Examples', cmd.examples.map(ex => `\`${message.prefix}${ex}\``).join(', '))
+			if (cmd.examples.length && cmd.examples[0].length) embed.addField('Examples', cmd.examples.map(ex => `\`${prefix}${ex}\``).join(', '))
 			if (cmd.aliases.length && cmd.aliases[0].length) embed.addField('Aliases', cmd.aliases.map(alias => `\`${alias}\``).join(', '))
-			embed.addField('Usage', `\`${getUsage(message.prefix, cmd)}\``)
+			embed.addField('Usage', `\`${getUsage(prefix, cmd)}\``)
 			if (Object.keys(cmd.args).length) embed.addField('Options', getOptions(cmd))
 			embed.setColor(13451564)
 

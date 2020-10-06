@@ -12,10 +12,10 @@ module.exports = {
 	requiresActive: true,
 	minimumRank: 2,
 
-	async execute(app, message, args) {
+	async execute(app, message, { args, prefix }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 
-		let statusToSet = message.cleanContent.slice(message.prefix.length).split(/ +/).slice(2).join(' ')
+		let statusToSet = message.cleanContent.slice(prefix.length).split(/ +/).slice(2).join(' ')
 
 		if (statusToSet.length > 120) {
 			return message.reply(`Your status can only be up to 120 characters long! You tried to set one that was ${statusToSet.length} characters long.`)

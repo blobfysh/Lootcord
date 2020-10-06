@@ -1,4 +1,4 @@
-const scrap_bonus_rate = 1.5
+const SCRAP_BONUS_RATE = 1.5
 
 module.exports = {
 	name: 'scrap',
@@ -12,9 +12,9 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const sellItems = app.parse.items(message.args, 15)
-		const sellAmounts = app.parse.numbers(message.args)
+	async execute(app, message, { args, prefix }) {
+		const sellItems = app.parse.items(args, 15)
+		const sellAmounts = app.parse.numbers(args)
 
 		if (sellItems.length > 1) {
 			const userItems = await app.itm.getItemObject(message.author.id)
@@ -25,7 +25,7 @@ module.exports = {
 				itemAmounts = app.itm.combineItems(getItemList(sellItems, sellAmounts))
 			}
 			catch (err) {
-				return message.reply(`❌ You need to specify amounts when scrapping multiple items! For example: \`${message.prefix}scrap rock 1 rpg 3 item_box 2\``)
+				return message.reply(`❌ You need to specify amounts when scrapping multiple items! For example: \`${prefix}scrap rock 1 rpg 3 item_box 2\``)
 			}
 
 			for (let i = 0; i < itemAmounts.length; i++) {
@@ -41,7 +41,7 @@ module.exports = {
 					return message.reply(`❌ You only have **${userItems[itemAmnt[0]]}x** ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`.`)
 				}
 
-				sellPrice += Math.floor(app.itemdata[itemAmnt[0]].sell * scrap_bonus_rate) * parseInt(itemAmnt[1])
+				sellPrice += Math.floor(app.itemdata[itemAmnt[0]].sell * SCRAP_BONUS_RATE) * parseInt(itemAmnt[1])
 			}
 
 			const botMessage = await message.reply(`Scrap ${app.itm.getDisplay(itemAmounts).join(', ')} for **${app.common.formatNumber(sellPrice, false, true)}** Scrap?`)
@@ -99,7 +99,7 @@ module.exports = {
 				sellAmount = 30
 			}
 
-			const botMessage = await message.reply(`Scrap **${sellAmount}x** ${app.itemdata[sellItem].icon}\`${sellItem}\` for **${app.common.formatNumber(Math.floor(itemPrice * scrap_bonus_rate) * sellAmount, false, true)}**?`)
+			const botMessage = await message.reply(`Scrap **${sellAmount}x** ${app.itemdata[sellItem].icon}\`${sellItem}\` for **${app.common.formatNumber(Math.floor(itemPrice * SCRAP_BONUS_RATE) * sellAmount, false, true)}**?`)
 
 			try {
 				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
@@ -111,9 +111,9 @@ module.exports = {
 					if (vHasItems) {
 						const row = await app.player.getRow(message.author.id)
 
-						app.player.addScrap(message.author.id, parseInt(Math.floor(itemPrice * scrap_bonus_rate) * sellAmount))
+						app.player.addScrap(message.author.id, parseInt(Math.floor(itemPrice * SCRAP_BONUS_RATE) * sellAmount))
 						app.itm.removeItem(message.author.id, sellItem, sellAmount)
-						botMessage.edit(`Successfully scrapped **${sellAmount}x** ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(Math.floor(itemPrice * scrap_bonus_rate) * sellAmount, false, true)}.\n\nYou now have **${app.common.formatNumber(row.scrap + (Math.floor(itemPrice * scrap_bonus_rate) * sellAmount), false, true)}**.`)
+						botMessage.edit(`Successfully scrapped **${sellAmount}x** ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(Math.floor(itemPrice * SCRAP_BONUS_RATE) * sellAmount, false, true)}.\n\nYou now have **${app.common.formatNumber(row.scrap + (Math.floor(itemPrice * SCRAP_BONUS_RATE) * sellAmount), false, true)}**.`)
 					}
 					else {
 						botMessage.edit(vUserItems[sellItem] ? `❌ You don't have enough of that item! You have **${vUserItems[sellItem]}x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.` : `❌ You don't have a ${app.itemdata[sellItem].icon}\`${sellItem}\`.`)
@@ -128,7 +128,7 @@ module.exports = {
 			}
 		}
 		else {
-			message.reply(`You need to enter a valid item to scrap! \`${message.prefix}scrap <item> <amount>\``)
+			message.reply(`You need to enter a valid item to scrap! \`${prefix}scrap <item> <amount>\``)
 		}
 	}
 }

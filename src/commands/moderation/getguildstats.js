@@ -15,9 +15,9 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const guildID = message.args[0]
-		const fetchAll = message.args[1]
+	async execute(app, message, { args, prefix }) {
+		const guildID = args[0]
+		const fetchAll = args[1]
 
 		if (!guildID) {
 			return message.reply('❌ You forgot to include a guild ID.')

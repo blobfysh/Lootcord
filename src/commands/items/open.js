@@ -10,13 +10,13 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const row = await app.player.getRow(message.author.id)
-		const item = app.parse.items(message.args)[0]
-		let amount = app.parse.numbers(message.args)[0] || 1
+		const item = app.parse.items(args)[0]
+		let amount = app.parse.numbers(args)[0] || 1
 
 		if (!item) {
-			return message.reply(`❌ You need to specify a box to open! \`${message.prefix}open <item>\`.`)
+			return message.reply(`❌ You need to specify a box to open! \`${prefix}open <item>\`.`)
 		}
 		else if (['crate', 'military_crate', 'candy_pail', 'present', 'supply_drop', 'elite_crate', 'small_loot_bag', 'medium_loot_bag', 'large_loot_bag'].includes(item)) {
 			const userItems = await app.itm.getItemObject(message.author.id)

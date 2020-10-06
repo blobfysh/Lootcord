@@ -14,13 +14,13 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	execute(app, message) {
-		const memberArg = app.parse.members(message, message.args)[0]
+	execute(app, message, { args, prefix }) {
+		const memberArg = app.parse.members(message, args)[0]
 
 		// no member found in ArgParser
 		if (!memberArg) {
 			// player was trying to search someone
-			if (message.args.length) {
+			if (args.length) {
 				message.reply('❌ Could not find anyone matching that description!\nYou can mention someone, use their Discord#tag, or type their user ID')
 				return
 			}

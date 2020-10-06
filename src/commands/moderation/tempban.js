@@ -16,10 +16,10 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const userID = message.args[0]
-		const limit = message.args[1] || ''
-		const rule = message.args[2]
+	async execute(app, message, { args, prefix }) {
+		const userID = args[0]
+		const limit = args[1] || ''
+		const rule = args[2]
 		const banLength = getTimeFromLimit(limit)
 
 		if (message.channel.id !== app.config.modChannel) {

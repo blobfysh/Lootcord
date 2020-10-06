@@ -12,15 +12,15 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const item = app.parse.items(message.args)[0]
+	async execute(app, message, { args, prefix }) {
+		const item = app.parse.items(args)[0]
 
 		if (!item) {
 			const listings = await app.query('SELECT * FROM blackmarket ORDER BY RAND() LIMIT 9')
 
 			const embed = new app.Embed()
 				.setTitle('🛒 Random Black Market Listings')
-				.setDescription(`These listings were made by other players!\n\nPurchase one with \`${message.prefix}buy <Listing ID>\` command (ex. \`t-buy Jq0cG_YY\`)\n\n**Search for items with \`bm <item to search>\`**`)
+				.setDescription(`These listings were made by other players!\n\nPurchase one with \`${prefix}buy <Listing ID>\` command (ex. \`t-buy Jq0cG_YY\`)\n\n**Search for items with \`bm <item to search>\`**`)
 				.setColor(13451564)
 
 			app.bm.displayListings(embed, listings)
@@ -31,15 +31,15 @@ module.exports = {
 			const listings = await app.query('SELECT * FROM blackmarket WHERE itemName = ? ORDER BY pricePer ASC LIMIT 18', [item])
 
 			if (listings.length <= 9) {
-				return message.channel.createMessage(generatePages(app, message, listings, item)[0])
+				return message.channel.createMessage(generatePages(app, message, prefix, listings, item)[0])
 			}
 
-			app.react.paginate(message, generatePages(app, message, listings, item), 30000)
+			app.react.paginate(message, generatePages(app, message, prefix, listings, item), 30000)
 		}
 	}
 }
 
-function generatePages(app, message, listings, item) {
+function generatePages(app, message, prefix, listings, item) {
 	const maxPage = Math.ceil(listings.length / ITEMS_PER_PAGE) || 1
 	const pages = []
 
@@ -50,7 +50,7 @@ function generatePages(app, message, listings, item) {
 
 		const pageEmbed = new app.Embed()
 			.setTitle(`Black Market Listings for: ${app.itemdata[item].icon}${item}`)
-			.setDescription(`These listings were made by other players!\n\nPurchase one with \`${message.prefix}buy <Listing ID>\` command (ex. \`t-buy Jq0cG_YY\`)\n\n**Sorted lowest price to highest:**`)
+			.setDescription(`These listings were made by other players!\n\nPurchase one with \`${prefix}buy <Listing ID>\` command (ex. \`t-buy Jq0cG_YY\`)\n\n**Sorted lowest price to highest:**`)
 			.setColor(13451564)
 
 		app.bm.displayListings(pageEmbed, selectedListings)

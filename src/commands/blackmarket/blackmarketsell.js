@@ -14,10 +14,10 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const itemName = app.parse.items(message.args)[0]
-		const itemAmnt = app.parse.numbers(message.args)[0]
-		const itemCost = app.parse.numbers(message.args)[1]
+	async execute(app, message, { args, prefix }) {
+		const itemName = app.parse.items(args)[0]
+		const itemAmnt = app.parse.numbers(args)[0]
+		const itemCost = app.parse.numbers(args)[1]
 
 		if (await app.cd.getCD(message.author.id, 'tradeban')) {
 			return message.reply('❌ You are trade banned.')

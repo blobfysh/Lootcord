@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const activatedGuilds = await app.query('SELECT * FROM userGuilds WHERE userId = ?', [message.author.id])
 
 		for (let i = 0; i < activatedGuilds.length; i++) {

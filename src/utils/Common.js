@@ -243,6 +243,36 @@ class Common {
 
 		return `https://cdn.discordapp.com/embed/avatars/${user.discriminator % 5}.png`
 	}
+
+	/**
+	 *
+	 * @param {*} guildId ID of guild to get prefix of
+	 */
+	async getPrefix(guildId) {
+		const cachePrefix = await this.app.cache.get(`prefix|${guildId}`)
+
+		if (!cachePrefix) {
+			try {
+				const prefixRow = (await this.app.query(`SELECT * FROM guildPrefix WHERE guildId = ${guildId}`))[0]
+
+				if (prefixRow) {
+					await this.app.cache.set(`prefix|${guildId}`, prefixRow.prefix, 43200)
+					return prefixRow.prefix
+				}
+
+				await this.app.cache.set(`prefix|${guildId}`, this.app.config.prefix, 43200)
+				return this.app.config.prefix
+			}
+			catch (err) {
+				console.log('[CMD] Prefix query failed, MySQL not working?:')
+				console.log(err)
+				this.cache.incr('mysql_errors')
+			}
+		}
+		else {
+			return cachePrefix
+		}
+	}
 }
 
 module.exports = Common

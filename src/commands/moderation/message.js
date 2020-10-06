@@ -13,9 +13,9 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const userID = message.args[0]
-		const messageIn = message.args.slice(1).join(' ')
+	async execute(app, message, { args, prefix }) {
+		const userID = args[0]
+		const messageIn = args.slice(1).join(' ')
 
 		if (message.channel.id !== app.config.modChannel) {
 			return message.reply('❌ You must be in the moderator channel to use this command.')

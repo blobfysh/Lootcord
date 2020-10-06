@@ -10,9 +10,9 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const equipItem = app.parse.items(message.args)[0]
-		const equipBadge = app.parse.badges(message.args)[0]
+	async execute(app, message, { args, prefix }) {
+		const equipItem = app.parse.items(args)[0]
+		const equipBadge = app.parse.badges(args)[0]
 
 		if (equipItem && app.itemdata[equipItem].equippable) {
 			const userRow = await app.player.getRow(message.author.id)
@@ -72,13 +72,13 @@ module.exports = {
 			message.reply(`✅ Successfully made ${app.badgedata[equipBadge].icon}\`${equipBadge}\` your display badge!`)
 		}
 		else if (equipItem && (app.itemdata[equipItem].category === 'Ranged' || app.itemdata[equipItem].category === 'Melee')) {
-			return message.reply(`${app.itemdata[equipItem].icon}\`${equipItem}\` is a weapon, you should attack another player using this: \`${message.prefix}use ${equipItem} @user\``)
+			return message.reply(`${app.itemdata[equipItem].icon}\`${equipItem}\` is a weapon, you should attack another player using this: \`${prefix}use ${equipItem} @user\``)
 		}
 		else if (equipItem) {
 			return message.reply(`${app.itemdata[equipItem].icon}\`${equipItem}\` cannot be equipped. Specify a storage container, banner or badge to equip.`)
 		}
 		else {
-			message.reply(`Specify a valid item that can be equipped. \`${message.prefix}equip <item>\`. You can also equip a badge to set it as your display badge.`)
+			message.reply(`Specify a valid item that can be equipped. \`${prefix}equip <item>\`. You can also equip a badge to set it as your display badge.`)
 		}
 	}
 }

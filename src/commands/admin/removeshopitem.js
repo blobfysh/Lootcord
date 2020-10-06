@@ -12,8 +12,8 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const itemName = message.args[0]
+	async execute(app, message, { args, prefix }) {
+		const itemName = args[0]
 
 		try {
 			await app.query(`DELETE FROM shopData WHERE itemName = '${itemName}'`)

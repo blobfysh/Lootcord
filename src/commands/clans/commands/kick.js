@@ -9,23 +9,23 @@ module.exports = {
 	requiresActive: true,
 	minimumRank: 4,
 
-	async execute(app, message, args) {
+	async execute(app, message, { args, prefix }) {
 		const scoreRow = await app.player.getRow(message.author.id)
-		let member = app.parse.members(message, message.args)[0]
-		const number = app.parse.numbers(message.args)[0]
+		let member = app.parse.members(message, args)[0]
+		const number = app.parse.numbers(args)[0]
 
 		if (!member && number) {
 			const members = await app.clans.getMembers(scoreRow.clanId)
 			const memberId = members.memberIds[number - 1]
 
 			if (!memberId) {
-				return message.reply(`Please specify someone to kick. You can mention someone, use their Discord#tag, type their user ID, or use their number from \`${message.prefix}clan info\``)
+				return message.reply(`Please specify someone to kick. You can mention someone, use their Discord#tag, type their user ID, or use their number from \`${prefix}clan info\``)
 			}
 
 			member = await app.common.fetchUser(memberId, { cacheIPC: false })
 		}
 		else if (!member) {
-			return message.reply(`Please specify someone to kick. You can mention someone, use their Discord#tag, type their user ID, or use their number from \`${message.prefix}clan info\``)
+			return message.reply(`Please specify someone to kick. You can mention someone, use their Discord#tag, type their user ID, or use their number from \`${prefix}clan info\``)
 		}
 
 		const invitedScoreRow = await app.player.getRow(member.id)

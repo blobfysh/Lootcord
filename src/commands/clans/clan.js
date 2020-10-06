@@ -10,15 +10,15 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 
-		const commandName = message.args[0] ? message.args[0].toLowerCase() : undefined
+		const commandName = args[0] ? args[0].toLowerCase() : undefined
 		const command = app.clanCommands.get(commandName) || app.clanCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
 
 		if (!command) {
 			try {
-				return app.clanCommands.get('info').execute(app, message, message.args)
+				return app.clanCommands.get('info').execute(app, message, { args, prefix })
 			}
 			catch (err) {
 				console.log(err)
@@ -28,7 +28,7 @@ module.exports = {
 			return message.reply('❌ That command requires that you are a member of a clan.')
 		}
 		else if (command.requiresActive && !await app.player.isActive(message.author.id, message.channel.guild.id)) {
-			return message.channel.createMessage(`❌ You need to activate before using that clan command here! Use \`${message.prefix}activate\` to activate.`)
+			return message.channel.createMessage(`❌ You need to activate before using that clan command here! Use \`${prefix}activate\` to activate.`)
 		}
 		else if (scoreRow.clanRank < command.minimumRank) {
 			return message.reply(`❌ Your clan rank is not high enough to use this command! Your rank: \`${app.clan_ranks[scoreRow.clanRank].title}\` Required: \`${app.clan_ranks[command.minimumRank].title}\`+`)
@@ -38,7 +38,7 @@ module.exports = {
 		}
 
 		try {
-			command.execute(app, message, message.args.slice(1))
+			command.execute(app, message, { args: args.slice(1), prefix })
 		}
 		catch (err) {
 			console.log(err)

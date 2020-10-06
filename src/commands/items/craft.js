@@ -10,10 +10,10 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const row = await app.player.getRow(message.author.id)
-		const craftItem = app.parse.items(message.args)[0]
-		let craftAmount = app.parse.numbers(message.args)[0] || 1
+		const craftItem = app.parse.items(args)[0]
+		let craftAmount = app.parse.numbers(args)[0] || 1
 
 		if (craftItem) {
 			if (app.itemdata[craftItem].craftedWith === '') {
@@ -76,7 +76,7 @@ module.exports = {
 			}
 		}
 		else {
-			message.reply(`I don't recognize that item. \`${message.prefix}craft <item>\``)
+			message.reply(`I don't recognize that item. \`${prefix}craft <item>\``)
 		}
 	}
 }

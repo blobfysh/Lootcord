@@ -10,8 +10,8 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		if (message.args[0] === 'g' || message.args[0] === 'global') {
+	async execute(app, message, { args, prefix }) {
+		if (args[0] === 'g' || args[0] === 'global') {
 			const leaders = await getGlobalLB(app)
 
 			const embedLeader = new app.Embed()
@@ -33,28 +33,28 @@ module.exports = {
 		const scrapLeaders = []
 
 		const moneyRows = await app.query(`SELECT scores.userId, money, badge
-            FROM userGuilds 
-            INNER JOIN scores 
-            ON userGuilds.userId = scores.userId 
-            WHERE userGuilds.guildId ="${message.channel.guild.id}" 
+            FROM userGuilds
+            INNER JOIN scores
+            ON userGuilds.userId = scores.userId
+            WHERE userGuilds.guildId ="${message.channel.guild.id}"
             ORDER BY money DESC LIMIT 3`)
 		const scrapRows = await app.query(`SELECT scores.userId, scrap, badge
-            FROM userGuilds 
-            INNER JOIN scores 
-            ON userGuilds.userId = scores.userId 
-            WHERE userGuilds.guildId ="${message.channel.guild.id}" 
+            FROM userGuilds
+            INNER JOIN scores
+            ON userGuilds.userId = scores.userId
+            WHERE userGuilds.guildId ="${message.channel.guild.id}"
             ORDER BY scrap DESC LIMIT 3`)
 		const levelRows = await app.query(`SELECT scores.userId, level, badge
-            FROM userGuilds 
-            INNER JOIN scores 
-            ON userGuilds.userId = scores.userId 
-            WHERE userGuilds.guildId ="${message.channel.guild.id}" 
+            FROM userGuilds
+            INNER JOIN scores
+            ON userGuilds.userId = scores.userId
+            WHERE userGuilds.guildId ="${message.channel.guild.id}"
             ORDER BY level DESC LIMIT 3`)
 		const killRows = await app.query(`SELECT scores.userId, kills, badge
-            FROM userGuilds 
-            INNER JOIN scores 
-            ON userGuilds.userId = scores.userId 
-            WHERE userGuilds.guildId ="${message.channel.guild.id}" 
+            FROM userGuilds
+            INNER JOIN scores
+            ON userGuilds.userId = scores.userId
+            WHERE userGuilds.guildId ="${message.channel.guild.id}"
             ORDER BY kills DESC LIMIT 3`)
 
 		for (const key in moneyRows) {

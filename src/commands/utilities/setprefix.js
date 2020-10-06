@@ -10,11 +10,11 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: true,
 
-	async execute(app, message) {
-		let prefixString = message.args[0]
+	async execute(app, message, { args, prefix }) {
+		let prefixString = args[0]
 
 		if (prefixString === undefined || prefixString === '' || prefixString.length > 5) {
-			return message.reply(`Please enter a prefix up to 5 characters long! \`${message.prefix}setprefix *****\``)
+			return message.reply(`Please enter a prefix up to 5 characters long! \`${prefix}setprefix *****\``)
 		}
 
 		const prefixRow = (await app.query(`SELECT * FROM guildPrefix WHERE guildId = "${message.channel.guild.id}"`))[0]

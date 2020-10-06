@@ -19,7 +19,7 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const dailyCD = await app.cd.getCD(message.author.id, 'daily')
 
 		if (dailyCD) {
@@ -38,7 +38,7 @@ module.exports = {
 		}
 		else {
 			await app.itm.addItem(message.author.id, 'military_crate', 1)
-			message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata.military_crate.icon).replace('{item}', '`military_crate`').replace('{prefix}', message.prefix))
+			message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata.military_crate.icon).replace('{item}', '`military_crate`').replace('{prefix}', prefix))
 		}
 	}
 }

@@ -11,6 +11,10 @@
     "test": "jest && npm run lint"
   },
   "author": "blobfysh#4679",
+  "repository": {
+		"type": "git",
+		"url": "https://github.com/blobfysh/Lootcord.git"
+	},
   "license": "GPL-3.0",
   "dependencies": {
     "axios": "^0.19.2",

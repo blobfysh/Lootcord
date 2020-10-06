@@ -13,8 +13,8 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		let statusToSet = message.cleanContent.slice(message.prefix.length).split(/ +/).slice(1).join(' ')
+	async execute(app, message, { args, prefix }) {
+		let statusToSet = message.cleanContent.slice(prefix.length).split(/ +/).slice(1).join(' ')
 
 		if (statusToSet.length > 120) {
 			return message.reply(`Your status can only be up to 120 characters long! You tried to set one that was ${statusToSet.length} characters long.`)

@@ -10,15 +10,15 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const messageIn = message.args.join(' ')
+	async execute(app, message, { args, prefix }) {
+		const messageIn = args.join(' ')
 		const reportCD = await app.cd.getCD(message.author.id, 'report')
 
 		if (reportCD) {
 			return message.reply(`You just sent a report! Wait \`${reportCD}\` before sending another.`)
 		}
 		else if (messageIn === '') {
-			return message.reply(`You forgot to put a message! \`${message.prefix}report <content>\``)
+			return message.reply(`You forgot to put a message! \`${prefix}report <content>\``)
 		}
 
 		const botMessage = await message.reply('Submit report?\n\n**Spamming this command or using it for purposes other than reporting will result in a warning or ban.**')

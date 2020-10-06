@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		try {
 			if (message.channel.guild.id !== app.config.supportGuildID) return message.reply('This only works in the support guild!')
 

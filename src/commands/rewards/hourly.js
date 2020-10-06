@@ -16,7 +16,7 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const hourlyCD = await app.cd.getCD(message.author.id, 'hourly')
 
 		if (hourlyCD) {
@@ -40,7 +40,7 @@ module.exports = {
 		}
 		else {
 			await app.itm.addItem(message.author.id, 'crate', 1)
-			message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata.crate.icon).replace('{item}', '`crate`').replace('{prefix}', message.prefix))
+			message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)].replace('{icon}', app.itemdata.crate.icon).replace('{item}', '`crate`').replace('{prefix}', prefix))
 		}
 	}
 }

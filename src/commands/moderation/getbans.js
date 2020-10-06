@@ -12,8 +12,8 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const page = (app.parse.numbers(message.args)[0] || 1) - 1
+	async execute(app, message, { args, prefix }) {
+		const page = (app.parse.numbers(args)[0] || 1) - 1
 
 		try {
 			const bannedList = []

@@ -12,8 +12,8 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const badgeSearched = app.parse.badges(message.args)[0]
+	async execute(app, message, { args, prefix }) {
+		const badgeSearched = app.parse.badges(args)[0]
 
 		if (badgeSearched) {
 			const badge = app.badgedata[badgeSearched]
@@ -32,7 +32,7 @@ module.exports = {
 
 			message.channel.createMessage(badgeEmbed)
 		}
-		else if (!message.args.length) {
+		else if (!args.length) {
 			const badgeList = Object.keys(app.badgedata)
 			if (badgeList.length > BADGES_PER_PAGE) {
 				return app.react.paginate(message, generatePages(app, Object.keys(app.badgedata).sort(), BADGES_PER_PAGE))

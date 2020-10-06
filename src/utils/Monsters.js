@@ -52,22 +52,7 @@ class Monsters {
 		const remaining = await this.app.cd.getCD(channelId, 'mob')
 
 
-		let guildPrefix = await this.app.cache.get(`prefix|${spawnInfo.guildId}`)
-
-		if (!guildPrefix) {
-			// check db for prefix
-			guildPrefix = await this.app.query(`SELECT * FROM guildPrefix WHERE guildId = ${spawnInfo.guildId}`)
-
-			if (guildPrefix.length && guildPrefix[0].prefix) {
-				await this.app.cache.set(`prefix|${spawnInfo.guildId}`, guildPrefix[0].prefix, 43200)
-				guildPrefix = guildPrefix[0].prefix
-			}
-			else {
-				// no prefix found in cache or db, use config
-				await this.app.cache.set(`prefix|${spawnInfo.guildId}`, this.app.config.prefix, 43200)
-				guildPrefix = this.app.config.prefix
-			}
-		}
+		const guildPrefix = await this.app.common.getPrefix(spawnInfo.guildId)
 
 		const loot = []
 

@@ -12,8 +12,8 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const clanName = message.args.join(' ')
+	async execute(app, message, { args, prefix }) {
+		const clanName = args.join(' ')
 		const clanRow = await app.clans.searchClanRow(clanName)
 
 		if (!clanRow) {

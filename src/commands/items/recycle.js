@@ -10,9 +10,9 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const sellItem = app.parse.items(message.args)[0]
-		let sellAmount = app.parse.numbers(message.args)[0] || 1
+	async execute(app, message, { args, prefix }) {
+		const sellItem = app.parse.items(args)[0]
+		let sellAmount = app.parse.numbers(args)[0] || 1
 
 		if (sellItem) {
 			if (!app.itemdata[sellItem].recyclesTo.materials.length) {
@@ -73,7 +73,7 @@ module.exports = {
 			}
 		}
 		else {
-			message.reply(`I don't recognize that item. \`${message.prefix}recycle <item>\``)
+			message.reply(`I don't recognize that item. \`${prefix}recycle <item>\``)
 		}
 	}
 }

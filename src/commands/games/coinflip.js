@@ -14,12 +14,12 @@ module.exports = {
 	guildModsOnly: false,
 
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const row = await app.player.getRow(message.author.id)
 		const coinflipCD = await app.cd.getCD(message.author.id, 'coinflip')
-		let gambleAmount = app.parse.numbers(message.args)[0]
+		let gambleAmount = app.parse.numbers(args)[0]
 
-		if (!gambleAmount && message.args[0] && message.args[0].toLowerCase() === 'all') {
+		if (!gambleAmount && args[0] && args[0].toLowerCase() === 'all') {
 			gambleAmount = row.scrap >= 1000000 ? 1000000 : row.scrap
 		}
 
@@ -32,7 +32,7 @@ module.exports = {
 		}
 
 		if (gambleAmount > row.scrap) {
-			return message.reply(`❌ You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can trade your ${app.icons.money} Lootcoin for ${app.icons.scrap} Scrap: \`${message.prefix}buy scrap <amount>\``)
+			return message.reply(`❌ You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can trade your ${app.icons.money} Lootcoin for ${app.icons.scrap} Scrap: \`${prefix}buy scrap <amount>\``)
 		}
 
 		if (gambleAmount > 1000000) {

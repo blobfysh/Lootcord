@@ -6,7 +6,7 @@ class CommandHandler {
 	}
 
 	async handle(message) {
-		const prefix = message.channel.guild ? await this.getPrefix(message.channel.guild.id) : this.prefix
+		const prefix = message.channel.guild ? await this.app.common.getPrefix(message.channel.guild.id) : this.prefix
 
 		if (!message.content.toLowerCase().startsWith(prefix)) return
 
@@ -88,10 +88,11 @@ class CommandHandler {
 
 		// execute command
 		try {
-			console.log(`${message.author.id} ran command: ${command.name}`)
 			this.app.cache.incr('commands')
 			this.app.query(`UPDATE scores SET lastActive = NOW() WHERE userId = ${message.author.id}`)
-			command.execute(this.app, this.buildMessage(message, prefix, args))
+
+			command.execute(this.app, message, { args, prefix })
+			console.log(`${message.author.username}#${message.author.discriminator} (${message.author.id}) ran command: ${command.name} in guild: ${message.channel.guild.name} (${message.channel.guild.id})`)
 
 			// dont add spamCooldown if in debug mode or user is admin
 			if (this.app.config.debug || this.app.sets.adminUsers.has(message.author.id)) return
@@ -110,45 +111,6 @@ class CommandHandler {
 		}
 	}
 
-	buildMessage(message, prefix, args) {
-		const msg = message
-		msg.args = args
-		msg.prefix = prefix
-		msg.sentTime = Date.now()
-		msg.reply = function(content) {
-			return msg.channel.createMessage({ content: `<@${msg.author.id}>, ${content}` })
-		}
-
-		return msg
-	}
-
-	// checks cache for guild prefix on every message sent, reduces call to database for guild prefix
-	async getPrefix(guildId) {
-		const cachePrefix = await this.app.cache.get(`prefix|${guildId}`)
-
-		if (!cachePrefix) {
-			try {
-				const prefixRow = (await this.app.query(`SELECT * FROM guildPrefix WHERE guildId = ${guildId}`))[0]
-
-				if (prefixRow) {
-					await this.app.cache.set(`prefix|${guildId}`, prefixRow.prefix, 43200)
-					return prefixRow.prefix
-				}
-
-				await this.app.cache.set(`prefix|${guildId}`, this.prefix, 43200)
-				return this.prefix
-			}
-			catch (err) {
-				console.log('[CMD] Prefix query failed, MySQL not working?:')
-				console.log(err)
-				this.cache.incr('mysql_errors')
-			}
-		}
-		else {
-			return cachePrefix
-		}
-	}
-
 	// check that bot has all permissions specificed in config before running a command.
 	botHasPermissions(message) {
 		const botPerms = message.channel.permissionsOf(this.app.bot.user.id)
@@ -163,8 +125,10 @@ class CommandHandler {
 		if (neededPerms.length) {
 			const permsString = neededPerms.map(perm => neededPerms.length > 1 && neededPerms.indexOf(perm) === (neededPerms.length - 1) ? `or \`${perm}\`` : `\`${perm}\``).join(', ')
 			if (!neededPerms.includes('Send Messages')) message.channel.createMessage(`I don't have permission to ${permsString}... Please reinvite me or give me those permissions :(`)
+
 			return false
 		}
+
 		return true
 	}
 }

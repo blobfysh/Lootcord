@@ -11,7 +11,7 @@ module.exports = {
 	requiresActive: false,
 	minimumRank: 0,
 
-	async execute(app, message, args) {
+	async execute(app, message, { args, prefix }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 		const mentionedUser = app.parse.members(message, args)[0]
 

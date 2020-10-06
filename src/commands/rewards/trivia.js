@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const triviaCD = await app.cd.getCD(message.author.id, 'trivia')
 
 		if (triviaCD) {

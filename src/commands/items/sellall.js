@@ -12,8 +12,8 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
-		const sellItem = message.args[0] || ''
+	async execute(app, message, { args, prefix }) {
+		const sellItem = args[0] || ''
 
 		if (Object.keys(ITEM_TYPES).includes(sellItem.toLowerCase())) {
 			let commonTotal = 0
@@ -22,7 +22,7 @@ module.exports = {
 			const itemsToCheck = Object.keys(app.itemdata).filter(item => app.itemdata[item].category === ITEM_TYPES[sellItem.toLowerCase()].type)
 
 			if (itemsToCheck.length < 1) {
-				return message.reply(`You need to enter a valid type to sell! \`${message.prefix}sellall <type>\``)
+				return message.reply(`You need to enter a valid type to sell! \`${prefix}sellall <type>\``)
 			}
 
 			const itemRow = await app.itm.getItemObject(message.author.id)

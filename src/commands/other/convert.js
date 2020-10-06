@@ -13,11 +13,11 @@ module.exports = {
 	guildModsOnly: false,
 	levelReq: 3,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const row = await app.player.getRow(message.author.id)
 
-		const convertAmnt = app.parse.numbers(message.args)[0]
-		let currency = message.args[1] || ''
+		const convertAmnt = app.parse.numbers(args)[0]
+		let currency = args[1] || ''
 		currency = currency.toUpperCase()
 
 		if (!convertAmnt) {

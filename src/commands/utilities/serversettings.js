@@ -10,9 +10,8 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message) {
+	async execute(app, message, { args, prefix }) {
 		const guildRow = await app.common.getGuildInfo(message.channel.guild.id)
-		const prefixRow = (await app.query(`SELECT * FROM guildPrefix WHERE guildId ="${message.channel.guild.id}"`))[0]
 
 		const killfeedStr = message.channel.guild.channels.get(guildRow.killChan) ? '(Disable with `togglekillfeed`)' : '(Set with `togglekillfeed`)'
 		const lvlChanStr = message.channel.guild.channels.get(guildRow.levelChan) ? '(Disable with `togglelevelchannel`)' : '(Set with `togglelevelchannel`)'
@@ -20,7 +19,7 @@ module.exports = {
 		const settings = new app.Embed()
 			.setTitle(`Settings for: ${message.channel.guild.name}`)
 			.setDescription('Changing these settings requires that you have the `Manage Server` permission.')
-			.addField('Prefix\n(Change with `setprefix`)', prefixRow ? prefixRow.prefix : app.config.prefix)
+			.addField('Prefix\n(Change with `setprefix`)', prefix)
 			.addField(`Killfeed Channel\n${killfeedStr}`, message.channel.guild.channels.get(guildRow.killChan) ? message.channel.guild.channels.get(guildRow.killChan).mention : 'None set')
 			.addField(`Level-up Channel\n${lvlChanStr}`, message.channel.guild.channels.get(guildRow.levelChan) ? message.channel.guild.channels.get(guildRow.levelChan).mention : 'None set')
 			.addField('Attack Mode\n(Change with `togglerandomattacks`)', guildRow.randomOnly ? 'Random only' : 'Selectable')
