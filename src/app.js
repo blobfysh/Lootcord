@@ -39,7 +39,7 @@ class Lootcord extends Base {
 		this.isReady = true
 		this.config = config
 		this.icons = icons
-		this.itemdata = require('./resources/json/items/completeItemList')
+		this.itemdata = this.loadItems()
 		this.badgedata = require('./resources/json/badges')
 		this.mobdata = require('./resources/json/monsters')
 		this.clan_ranks = require('./resources/json/clan_ranks')
@@ -131,6 +131,26 @@ class Lootcord extends Base {
 		}
 
 		return commands
+	}
+
+	loadItems() {
+		const ranged = require('./resources/json/items/ranged')
+		const melee = require('./resources/json/items/melee')
+		const items = require('./resources/json/items/items')
+		const ammo = require('./resources/json/items/ammo')
+		const materials = require('./resources/json/items/materials')
+		const storage = require('./resources/json/items/storage')
+		const banners = require('./resources/json/items/banners')
+
+		return {
+			...ranged,
+			...melee,
+			...items,
+			...ammo,
+			...materials,
+			...storage,
+			...banners
+		}
 	}
 
 	loadSets() {
