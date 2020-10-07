@@ -181,7 +181,7 @@ class ArgParser {
 					const userToCheck = previousArgs.slice(i2 * -1).join(' ')
 
 					const member = message.channel.guild.members.find(m => (m.username.toLowerCase() === userToCheck.toLowerCase() && m.discriminator === userTag[1]) ||
-                        ((member.nick && member.nick.toLowerCase() === userToCheck) && member.discriminator === userTag[1]))
+                        ((m.nick && m.nick.toLowerCase() === userToCheck) && m.discriminator === userTag[1]))
 
 					if (member) return member
 				}
