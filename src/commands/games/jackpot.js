@@ -167,7 +167,7 @@ function refreshEmbed(app, jackpotObj, prefix) {
 	usersArr.unshift(`${'Player'.padEnd(22) + 'Bet (Scrap)'.padEnd(15)}Chance`)
 
 	const jackpotEmbed = new app.Embed()
-		.setColor(13451564)
+		.setColor('#9449d6')
 		.setTitle('Jackpot - Win it all!')
 		.setDescription(`Enter or add to your current bet with \`${prefix}join <amount>\`.`)
 		.addField('Current entrants', `\`\`\`cs\n${usersArr.join('\n')}\`\`\``)

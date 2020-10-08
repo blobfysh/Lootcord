@@ -15,7 +15,7 @@ module.exports = {
 		const successRates = Object.keys(monument.successRate)
 
 		const exploreEmbed = new app.Embed()
-			.setColor(13451564)
+			.setColor('#9449d6')
 			.setTitle('Event - __IT\'S TIME TO ROAM!__')
 			.setDescription(`Monument: **${monument.title}**\nRecommended level: **${monument.suggestedLevel}+**\n\nType \`roam\` to explore this monument for loot!`)
 			.setImage(monument.image)
@@ -176,7 +176,7 @@ module.exports = {
 
 				if (results.length) {
 					const resultsEmb = new app.Embed()
-						.setColor(13451564)
+						.setColor('#9449d6')
 						.setTitle('Event Results - __IT\'S TIME TO ROAM!__')
 						.setDescription(results.join('\n\n'))
 

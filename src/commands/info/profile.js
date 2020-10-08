@@ -59,7 +59,7 @@ module.exports = {
 			}
 
 			const profileEmbed = new app.Embed()
-				.setColor(13451564)
+				.setColor('#9449d6')
 				.setAuthor(`${member.username}#${member.discriminator}'s Profile`, member.avatarURL)
 				.setDescription(userStatus)
 				.addField('Clan', codeWrap(userRow.clanId !== 0 ? (await app.clans.getRow(userRow.clanId)).name : 'None', 'js'), true)

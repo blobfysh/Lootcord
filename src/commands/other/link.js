@@ -13,7 +13,7 @@ module.exports = {
 	execute(app, message, { args, prefix }) {
 		const invite = new app.Embed()
 			.setDescription('You can invite Lootcord using this [link](https://discord.com/oauth2/authorize?client_id=493316754689359874&permissions=388160&scope=bot \'Click to invite Lootcord\')!')
-			.setColor(13451564)
+			.setColor('#9449d6')
 
 		message.channel.createMessage(invite)
 	}
