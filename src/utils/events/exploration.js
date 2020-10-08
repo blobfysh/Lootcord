@@ -4,7 +4,7 @@ module.exports = {
 	name: 'exploration',
 	cooldown: 3600 * 1000,
 
-	async execute(app, message) {
+	async execute(app, message, { prefix }) {
 		console.log('[EVENT] Exploration started')
 
 		const collectorObj = app.msgCollector.createChannelCollector(message, m => m.channel.id === message.channel.id &&
@@ -25,7 +25,7 @@ module.exports = {
 			const joined = {}
 
 			collectorObj.collector.on('collect', async m => {
-				if (!await app.player.isActive(m.author.id, m.channel.guild.id)) return m.channel.createMessage(`Your account is not active in this server! Use \`${message.prefix}play\` to activate it here`)
+				if (!await app.player.isActive(m.author.id, m.channel.guild.id)) return m.channel.createMessage(`Your account is not active in this server! Use \`${prefix}play\` to activate it here`)
 
 				// ignore users who have already joined this event
 				else if (Object.keys(joined).includes(m.author.id)) return

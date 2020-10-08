@@ -64,7 +64,7 @@ class CommandHandler {
 		// check if player leveled up
 		if (account) await this.app.player.checkLevelXP(message, account)
 
-		if (Math.random() <= 0.02) this.app.eventHandler.initEvent(message)
+		if (Math.random() <= 0.02) this.app.eventHandler.initEvent(message, { prefix })
 
 		// check if command requires an account at all, create new account for player if command requires it.
 		if (command.requiresAcc && !account) await this.app.player.createAccount(message.author.id)
