@@ -84,7 +84,7 @@ module.exports = {
 						message.channel.createMessage('**📻 `3`...**')
 					}, 10000)
 					setTimeout(() => {
-						app.eventHandler.events.get('airdrop').execute(app, message)
+						app.eventHandler.events.get('airdrop').execute(app, message, { prefix })
 					}, 13000)
 				})
 			}
