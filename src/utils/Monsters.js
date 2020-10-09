@@ -5,9 +5,16 @@ class Monsters {
 	}
 
 	async initSpawn(channelId) {
-		const activeMob = await this.app.cd.getCD(channelId, 'mob')
-		if (activeMob) return false
-
+		const activeMob = await this.app.mysql.select('spawns', 'channelId', channelId)
+		if (activeMob && this.mobdata[activeMob.monster]) {
+			return false
+		}
+		else if (activeMob) {
+			// monster was removed from mobdata, need to restart the spawning process
+			await this.app.query('DELETE FROM spawns WHERE channelId = ?', [channelId])
+			await this.app.cd.clearCD(channelId, 'mob')
+			await this.app.cd.clearCD(channelId, 'mobHalf')
+		}
 		const rand = Math.round(Math.random() * (14400 * 1000)) + (28800 * 1000) // Generate random time from 8 - 12 hours
 		console.log(`[MONSTERS] Counting down from ${this.app.cd.convertTime(rand)}`)
 
