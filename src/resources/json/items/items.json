@@ -806,8 +806,8 @@
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
-        "healMin": 15,
-        "healMax": 30,
+        "healMin": 10,
+        "healMax": 20,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -818,13 +818,13 @@
         },
         "buy": "",
         "sell": 1624,
-        "desc": "A pumpkin! You could make a jack-o'-lantern... Or you could just eat it to gain **15 - 30** health.\n**Halloween event item.**",
+        "desc": "A pumpkin! You could make a jack-o'-lantern... Or you could just eat it to gain **10 - 20** health.\n**Halloween event item.**",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/734408439295639653/pumpkin.png",
         "icon": "<:pumpkin:734408377756549141>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 1322
+            "seconds": 1258
         },
         "artist": "",
         "category": "Item",
@@ -867,7 +867,7 @@
         "isItem": true,
         "isHeal": true,
         "healMin": 13,
-        "healMax": 28,
+        "healMax": 23,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -878,13 +878,13 @@
         },
         "buy": "",
         "sell": 1587,
-        "desc": "A king-sized candy bar! Heals **13 - 28** HP.\n**Halloween event item.**",
+        "desc": "A king-sized candy bar! Heals **13 - 23** HP.\n**Halloween event item.**",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/734408436682326037/chocolate_bar.png",
         "icon": "<:candy_bar:734408335108997181>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 1258
+            "seconds": 1322
         },
         "artist": "",
         "category": "Item",
