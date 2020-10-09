@@ -82,7 +82,6 @@ class Lootcord extends Base {
 			await this.refreshCooldowns()
 			await this.refreshLists()
 			await this.startSpawns()
-			await this.cache.setNoExpire('scrapExchangeRate', this.config.scrapExchangeRate.toString())
 		}
 
 		this.bot.editStatus('online', {

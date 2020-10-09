@@ -15,15 +15,14 @@
   "modChannel":        "channel_for_moderators_to_use_commands",
   "modRoleID":         "ID_of_role_to_ping_moderators",
   "baseInvSlots":      15,
-  "scrapExchangeRate": 1.00,
   "adminUsers":        ["168958344361541633"],
   "requiredPerms":     {
-    "sendMessages": "Send Messages", 
-    "addReactions": "Add Reactions", 
-    "manageMessages": "Manage Messages", 
-    "embedLinks": "Embed Links", 
-    "attachFiles": "Attach Files", 
-    "externalEmojis": "Use External Emoji", 
+    "sendMessages": "Send Messages",
+    "addReactions": "Add Reactions",
+    "manageMessages": "Manage Messages",
+    "embedLinks": "Embed Links",
+    "attachFiles": "Attach Files",
+    "externalEmojis": "Use External Emoji",
     "readMessageHistory": "Read Message History"
   },
   "ignoreLvlMessages": [],
@@ -51,8 +50,6 @@
     "trivia": 900,
     "roulette": 180,
     "slots": 180,
-    "jackpot": 300,
-    "xp_potion": 180,
-    "claimdrop": 21600
+    "jackpot": 300
   }
 }

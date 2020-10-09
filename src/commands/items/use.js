@@ -154,20 +154,6 @@ module.exports = {
 
 				message.reply(`You read the ${app.itemdata.reroll_scroll.icon}\`reroll_scroll\` and feel a sense of renewal. Your skills have been reset.`)
 			}
-			else if (item === 'xp_potion') {
-				const xpCD = await app.cd.getCD(message.author.id, 'xp_potion')
-				const xp = app.common.calculateXP(row.points, row.level)
-
-				if (xpCD) {
-					return message.reply(`You need to wait \`${xpCD}\` before using another ${app.itemdata.xp_potion.icon}\`xp_potion\`.`)
-				}
-
-				await app.cd.setCD(message.author.id, 'xp_potion', app.config.cooldowns.xp_potion * 1000)
-				await app.itm.removeItem(message.author.id, 'xp_potion', 1)
-				await app.query(`UPDATE scores SET points = points + 75 WHERE userId = '${message.author.id}'`)
-
-				message.reply(`Successfully drank an ${app.itemdata.xp_potion.icon}\`xp_potion\` and gained **75** XP! You now have **${xp.curLvlXp + 75} / ${xp.neededForLvl}** XP.`)
-			}
 			else if (item === 'c4') {
 				const clanName = args
 
