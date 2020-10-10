@@ -166,8 +166,8 @@ module.exports = {
 							return m.channel.createMessage('You can `sell` that for more money! You should list for more money, or sell them using the sell command instead.')
 						}
 
-						const listingFee = Math.floor(price * listing_fee)
 						price = newCost
+						const listingFee = Math.floor(price * listing_fee)
 
 						bmEmbed.addField('Price:', app.common.formatNumber(price))
 						bmEmbed.setDescription(`List **${amount}x** \`${item}\` for ${app.common.formatNumber(price)}?`)
@@ -184,6 +184,7 @@ module.exports = {
 								else if (!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), item, amount)) {
 									return botMessage.edit({ content: `Listing failed! You don't have **${amount}** \`${item}\`'s.`, embed: null })
 								}
+
 								await app.player.removeMoney(message.author.id, listingFee)
 								await app.itm.removeItem(message.author.id, item, amount)
 
