@@ -79,8 +79,8 @@ module.exports = {
 }
 
 async function createClan(app, clanTag, clanOwner) {
-	const clanID = (await app.query(`SELECT clanId FROM clans WHERE ownerId = ${clanOwner}`))[0].clanId
 	await app.query(insertClanSQL, [clanTag, clanOwner, new Date().getTime()])
+	const clanID = (await app.query(`SELECT clanId FROM clans WHERE ownerId = ${clanOwner}`))[0].clanId
 
 	await app.query(`UPDATE scores SET clanId = ${clanID} WHERE userId = ${clanOwner}`)
 	await app.query(`UPDATE scores SET clanRank = 4 WHERE userId = ${clanOwner}`)
