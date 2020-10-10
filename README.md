@@ -1,6 +1,6 @@
 <div>
   <p align="center">
-    <a href="https://discordapp.com/oauth2/authorize?client_id=493316754689359874&permissions=519232&scope=bot"><img src="https://cdn.discordapp.com/attachments/497302646521069570/693086925707411508/lc_icon_transparent.png"/></a>
+    <a href="https://discordapp.com/oauth2/authorize?client_id=493316754689359874&permissions=388160&scope=bot"><img src="https://cdn.discordapp.com/attachments/497302646521069570/764344112299507763/lootcord_icon_transparent_small.png"/></a>
   </p>
   <h1 align="center">
     Lootcord
@@ -43,3 +43,14 @@ npm start
 ```
 
 Custom icons will not show for you, you can change those in `icons.json`.
+
+## Contributing
+
+
+Feel free to contribute! Check the issues tab to see what needs to be worked on. If you're planning on fixing a bug, make sure an issue was created first so I can verify that the bug exists.
+
+You can run:
+```
+npm run test
+```
+to make sure your code follows the project style and passes the tests
