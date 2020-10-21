@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  bot:
+    container_name: dev_bot
+    image: blobfysh/lootdev
+    restart: unless-stopped
+    ports:
+      - '5000:5000'
+    env_file:
+      - .env
+    environment:
+      - MYSQL_HOSTNAME=db
+      - REDIS_HOSTNAME=redis
+    links:
+      - db
+      - redis
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=true'
+  db:
+    image: mariadb:10.5
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - '3306'
+    volumes:
+      - lootdev-db:/var/lib/mariadb
+  redis:
+    image: bitnami/redis:6.0
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - '6379'
+    volumes:
+      - lootdev-redis:/var/lib/redis
+  watchtower:
+    image: containrrr/watchtower
+    restart: unless-stopped
+    environment:
+      - WATCHTOWER_LABEL_ENABLE=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+volumes:
+  lootdev-db:
+    external: true
+  lootdev-redis:
+    external: true
