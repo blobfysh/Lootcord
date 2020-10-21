@@ -1,10 +1,7 @@
-# Bot config file
-src/resources/config/config.json
-
 # Old item files
-src/resources/json/items/_compiler.js
-src/resources/json/items/completeItemList.json
-src/resources/json/items/completeItemList_old.json
+src/resources/items/_compiler.js
+src/resources/items/completeItemList.json
+src/resources/items/completeItemList_old.json
 
 # Trivia json to prevent cheating
 src/resources/json/trivia_questions.json
@@ -78,7 +75,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+*.env
 
 # next.js build output
 .next

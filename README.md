@@ -31,7 +31,7 @@ Requirements:
 - MySQL or MariaDB
 - Redis (tested on Windows using Memurai)
 
-Edit `config_example.json` in src/resources/config to point to your MySQL database and rename it to `config.json`.
+Create a .env file with your secrets (you can refer to the .env.example for what is needed).
 
 Install dependencies:
 ```javascript

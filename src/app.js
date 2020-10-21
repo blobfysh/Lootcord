@@ -4,10 +4,10 @@ const Eris = require('eris')
 const fs = require('fs')
 const path = require('path')
 
-const config = require('./resources/config/config')
-const icons = require('./resources/config/icons')
+const config = require('./config')
+const icons = require('./resources/json/icons')
 const Embed = require('./structures/Embed')
-const CommandHandler = require('./utils/CommandHandler')
+const CommandHandler = require('./handlers/CommandHandler')
 const MySQL = require('./utils/MySQL')
 const Cooldowns = require('./utils/Cooldowns')
 const Items = require('./utils/Items')
@@ -24,8 +24,8 @@ const MessageCollector = require('./utils/MessageCollector')
 const BlackMarket = require('./utils/BlackMarket')
 const Clans = require('./utils/Clans')
 const LoopTasks = require('./utils/LoopTasks')
-const PatreonHandler = require('./utils/PatreonHandler')
-const EventHandler = require('./utils/EventHandler')
+const PatreonHandler = require('./handlers/PatreonHandler')
+const EventHandler = require('./handlers/EventHandler')
 require('./utils/MessageUtils')
 
 const events = fs.readdirSync(path.join(__dirname, '/events'))
@@ -133,13 +133,13 @@ class Lootcord extends Base {
 	}
 
 	loadItems() {
-		const ranged = require('./resources/json/items/ranged')
-		const melee = require('./resources/json/items/melee')
-		const items = require('./resources/json/items/items')
-		const ammo = require('./resources/json/items/ammo')
-		const materials = require('./resources/json/items/materials')
-		const storage = require('./resources/json/items/storage')
-		const banners = require('./resources/json/items/banners')
+		const ranged = require('./resources/items/ranged')
+		const melee = require('./resources/items/melee')
+		const items = require('./resources/items/items')
+		const ammo = require('./resources/items/ammo')
+		const materials = require('./resources/items/materials')
+		const storage = require('./resources/items/storage')
+		const banners = require('./resources/items/banners')
 
 		return {
 			...ranged,

@@ -1,7 +1,7 @@
 const CronJob = require('cron').CronJob
 const axios = require('axios')
 
-class LoopTasks {
+class BotListUpdater {
 	constructor(cache, config) {
 		this.cache = cache
 		this.config = config
@@ -69,17 +69,7 @@ class LoopTasks {
 		}
 
 		console.log(`Posted stats to ${completedLists} bot lists.`)
-
-		/*
-        for(let cluster of stats.clusters){
-            for(let shard of cluster.shardStats){
-                for(let botList of this.config.botLists){
-                    // post shard stats
-                }
-            }
-        }
-        */
 	}
 }
 
-module.exports = LoopTasks
+module.exports = BotListUpdater

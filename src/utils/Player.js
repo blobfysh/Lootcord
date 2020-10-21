@@ -317,9 +317,6 @@ class Player {
 					await this.app.itm.addBadge(message.author.id, 'loot_legend')
 				}
 
-				// ignore bot list discords
-				if (this.app.config.ignoreLvlMessages.includes(message.channel.guild.id)) return
-
 				const guildRow = await this.app.common.getGuildInfo(message.channel.guild.id)
 
 				try {

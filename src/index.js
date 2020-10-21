@@ -1,12 +1,12 @@
 const cluster = require('cluster')
 const Sharder = require('eris-sharder').Master
 
-const config = require('./src/resources/config/config')
-const cache = require('./src/utils/cache')
-const MySQL = require('./src/utils/MySQL')
-const Server = require('./handlers/Server')
-const LoopTasks = require('./handlers/LoopTasks')
-const loopTasks = new LoopTasks(cache, config)
+const config = require('./config')
+const cache = require('./utils/cache')
+const MySQL = require('./utils/MySQL')
+const Server = require('./api/Server')
+const ListUpdater = require('./handlers/BotListUpdater')
+const listUpdater = new ListUpdater(cache, config)
 const mysql = new MySQL(config)
 
 const sharder = new Sharder(`Bot ${config.botToken}`, '/src/app.js', {
@@ -46,6 +46,8 @@ sharder.on('stats', stats => {
 })
 
 if (cluster.isMaster) {
-	loopTasks.start()
-	new Server(sharder, mysql, cache, config)
+	const server = new Server(sharder, mysql, cache, config)
+
+	listUpdater.start()
+	server.launch()
 }

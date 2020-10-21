@@ -1,5 +1,9 @@
+const config = require('../config')
 const redis = require('redis')
-const client = new redis.createClient()
+const client = new redis.createClient({
+	host: config.redis.host,
+	password: config.redis.password
+})
 
 exports.set = function(key, value, ttl = 3600) {
 	return new Promise((resolve, reject) => {

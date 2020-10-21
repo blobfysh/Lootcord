@@ -32,21 +32,21 @@ class Messager {
      */
 	messageLogs(message) {
 		try {
-			if (!this.config.webhooks.logs || !this.config.webhooks.logs.id.length) return
+			if (!this.config.logWebhook.id.length) return
 
 			// in future can queue up logs to send multiple embeds at once
 			if (Array.isArray(message)) {
-				this.app.bot.executeWebhook(this.config.webhooks.logs.id, this.config.webhooks.logs.token, {
+				this.app.bot.executeWebhook(this.config.logWebhook.id, this.config.logWebhook.token, {
 					embeds: message.map(embed => embed.embed)
 				})
 			}
 			else if (message instanceof this.app.Embed) {
-				this.app.bot.executeWebhook(this.config.webhooks.logs.id, this.config.webhooks.logs.token, {
+				this.app.bot.executeWebhook(this.config.logWebhook.id, this.config.logWebhook.token, {
 					embeds: [message].map(embed => embed.embed)
 				})
 			}
 			else {
-				this.app.bot.executeWebhook(this.config.webhooks.logs.id, this.config.webhooks.logs.token, {
+				this.app.bot.executeWebhook(this.config.logWebhook.id, this.config.logWebhook.token, {
 					content: message
 				})
 			}

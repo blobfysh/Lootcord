@@ -1,5 +1,6 @@
 const fs = require('fs')
-const eventFiles = fs.readdirSync(`${__dirname}/events`)
+const path = require('path')
+const eventFiles = fs.readdirSync(path.join(__dirname, '/events'))
 
 class EventHandler {
 	constructor(app) {

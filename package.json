@@ -2,19 +2,19 @@
   "name": "lootcord",
   "version": "1.0.0",
   "description": "Collect items and battle your friends!",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "node -r dotenv/config src/index.js",
+    "dev": "nodemon -r dotenv/config src/index.js",
     "fix": "eslint --fix --ext .js .",
     "lint": "eslint --ext .js .",
     "test": "jest && npm run lint"
   },
   "author": "blobfysh#4679",
   "repository": {
-		"type": "git",
-		"url": "https://github.com/blobfysh/Lootcord.git"
-	},
+    "type": "git",
+    "url": "https://github.com/blobfysh/Lootcord.git"
+  },
   "license": "GPL-3.0",
   "dependencies": {
     "axios": "^0.19.2",
@@ -23,6 +23,7 @@
     "body-parser": "^1.19.0",
     "canvas": "^2.6.1",
     "cron": "^1.8.2",
+    "dotenv": "^8.2.0",
     "eris": "^0.13.3",
     "eris-reactions": "^0.1.2",
     "eris-sharder": "^1.10.0",

@@ -4,10 +4,10 @@ class MySQL {
 	constructor(config) {
 		this.db = mysql.createPool({
 			connectionLimit: 10,
-			host: config.sqlhostname,
-			user: config.sqluser,
-			password: config.sqlpass,
-			database: config.sqldatabase,
+			host: config.sql.host,
+			user: config.sql.user,
+			password: config.sql.password,
+			database: config.sql.database,
 			supportBigNumbers: true,
 			bigNumberStrings: false,
 			charset: 'utf8mb4'
