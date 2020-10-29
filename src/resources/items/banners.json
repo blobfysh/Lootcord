@@ -192,7 +192,7 @@
         "tier": 0
     },
     "spooky": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isBanner": true,
         "bannerColor": 15626817,
         "isWeap": false,
@@ -205,10 +205,7 @@
         "recyclesTo": {
             "materials": []
         },
-        "buy": {
-            "amount": 550000,
-            "currency": "scrap"
-        },
+        "buy": "",
         "sell": "",
         "desc": "Very spooky banner...\nEquip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/631885680175480852/batbanner.png",

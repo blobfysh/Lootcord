@@ -770,7 +770,7 @@
         "tier": 0
     },
     "apple": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
@@ -802,7 +802,7 @@
         "tier": 0
     },
     "pumpkin": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
@@ -832,7 +832,7 @@
         "tier": 0
     },
     "corn": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
@@ -862,7 +862,7 @@
         "tier": 0
     },
     "candy_bar": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
@@ -896,7 +896,7 @@
         "tier": 0
     },
     "small_loot_bag": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "damage": "",
@@ -942,7 +942,7 @@
         "tier": 0
     },
     "medium_loot_bag": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "damage": "",
@@ -999,7 +999,7 @@
         "tier": 0
     },
     "large_loot_bag": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "damage": "",
@@ -1048,7 +1048,7 @@
         "tier": 0
     },
     "scarecrow_suit": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "isShield": true,
