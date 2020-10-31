@@ -43,7 +43,7 @@ async function generatePages(app, allItems, prefix, itemsPerPage) {
 		const pageEmbed = new app.Embed()
 			.setTitle('The Outpost Shop')
 			.setDescription(`Use \`${prefix}buy <item>\` to purchase.\n\nCan't find the item you want? Try searching the black market: \`${prefix}bm <item>\`.`)
-			.setColor('#9449d6')
+			.setColor(13451564)
 
 		for (const item of filteredItems) {
 			const itemBuyCurr = app.itemdata[item].buy.currency
@@ -73,7 +73,7 @@ async function getHomePage(app, prefix) {
 	firstEmbed.setTitle('Welcome to the Outpost!')
 	firstEmbed.setDescription(`We'll give you ${app.icons.scrap} Scrap for your ${app.icons.money} Lootcoin:\n\`${prefix}buy scrap <amount>\``)
 	firstEmbed.setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/733741460868038706/outpost_shop_small.png')
-	firstEmbed.setColor('#9449d6')
+	firstEmbed.setColor(13451564)
 
 	const items = []
 

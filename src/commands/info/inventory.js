@@ -49,7 +49,7 @@ module.exports = {
 
 				const embedInfo = new app.Embed()
 					.setTitle(`${isActive ? app.icons.accounts.active : app.icons.accounts.inactive} ${`${member.username}#${member.discriminator}`}'s Inventory`)
-					.setColor('#9449d6')
+					.setColor(13451564)
 
 				if (armorLeft) {
 					embedInfo.addField(armor ? 'Armor' : '🛡️ Armor', armor ? `${app.itemdata[armor].icon}\`${armor}\` (\`${armorLeft}\`)` : `\`${armorLeft}\``)

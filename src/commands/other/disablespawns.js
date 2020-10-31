@@ -5,12 +5,12 @@ module.exports = {
 	long: 'Stop all active spawn channels you created. Using this will not cause any existing enemies to leave, only prevent future spawns.',
 	args: {},
 	examples: [],
-	ignoreHelp: false,
+	ignoreHelp: true,
 	premiumCmd: true,
 	requiresAcc: true,
 	requiresActive: true,
 	guildModsOnly: false,
-	patronTier1Only: false,
+	patronTier1Only: true,
 
 	async execute(app, message, { args, prefix }) {
 		const userSpawns = await app.mysql.select('spawnChannels', 'userId', message.author.id, true)

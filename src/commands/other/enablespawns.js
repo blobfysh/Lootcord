@@ -5,12 +5,12 @@ module.exports = {
 	long: 'Lure strong enemies to randomly spawn in this channel. Defeat them to steal their items and Lootcoin!\nUser **MUST** have the Manage Server permission.',
 	args: {},
 	examples: [],
-	ignoreHelp: false,
+	ignoreHelp: true,
 	premiumCmd: true,
 	requiresAcc: true,
 	requiresActive: true,
 	guildModsOnly: true,
-	patronTier1Only: false,
+	patronTier1Only: true,
 
 	async execute(app, message, { args, prefix }) {
 		const userSpawns = await app.mysql.select('spawnChannels', 'userId', message.author.id, true)

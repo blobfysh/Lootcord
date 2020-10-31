@@ -303,17 +303,14 @@ module.exports = {
 				}
 				else {
 					const mobMoneyStolen = Math.floor((randDmg / monsterRow.health) * monsterRow.money)
-					const percentDamageDealt = (randDmg / monster.health).toFixed(2)
 
 					await app.monsters.subMoney(message.channel.id, mobMoneyStolen)
 					await app.monsters.subHealth(message.channel.id, randDmg)
 
 					await app.player.addMoney(message.author.id, mobMoneyStolen)
 
-					if (percentDamageDealt >= 0.4) await app.itm.addItem(message.author.id, 'small_loot_bag', 1)
-
 					message.channel.createMessage({
-						content: generateAttackMobString(app, message, monsterRow, randDmg, item, ammoUsed, weaponBroke, false, mobMoneyStolen, percentDamageDealt),
+						content: generateAttackMobString(app, message, monsterRow, randDmg, item, ammoUsed, weaponBroke, false, mobMoneyStolen),
 						embed: (await app.monsters.genMobEmbed(message.channel.id, monster, monsterRow.health - randDmg, monsterRow.money - mobMoneyStolen)).embed
 					})
 
@@ -817,7 +814,7 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
 	return finalStr
 }
 
-function generateAttackMobString(app, message, monsterRow, damage, itemUsed, ammoUsed, itemBroke, killed, moneyStolen, percentDamageDealt) {
+function generateAttackMobString(app, message, monsterRow, damage, itemUsed, ammoUsed, itemBroke, killed, moneyStolen) {
 	const monster = app.mobdata[monsterRow.monster]
 	let finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
 		.replace('{victim}', monster.mentioned)
@@ -838,11 +835,7 @@ function generateAttackMobString(app, message, monsterRow, damage, itemUsed, amm
 		finalStr += `\n${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} resisted the effects of the ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\`!`
 	}
 
-	if (moneyStolen && percentDamageDealt >= 0.4) {
-		finalStr += `\n\n**${message.member.nick || message.member.username}** dealt **${Math.floor((damage / monsterRow.health).toFixed(2) * 100)}%** of ${monster.mentioned}'s current health and managed to steal **1x ${app.itemdata.small_loot_bag.icon}\`small_loot_bag\` and ${app.common.formatNumber(moneyStolen)}**.`
-	}
-
-	else if (moneyStolen) {
+	if (moneyStolen) {
 		finalStr += `\n\n**${message.member.nick || message.member.username}** dealt **${Math.floor((damage / monsterRow.health).toFixed(2) * 100)}%** of ${monster.mentioned}'s current health and managed to steal **${app.common.formatNumber(moneyStolen)}**.`
 	}
 
@@ -953,7 +946,7 @@ async function pickTarget(app, message, selection) {
             1. ${app.player.getBadge(userdata.user1.badge)} **${`${selection.members[0].username}#${selection.members[0].discriminator}`}** ${app.icons.health.full} ${userdata.user1.health} - ${app.common.formatNumber(userdata.user1.money)} - ${(await app.itm.getItemCount(await app.itm.getItemObject(selection.users[0]), userdata.user1)).itemCt} items\n
             2. ${app.player.getBadge(userdata.user2.badge)} **${`${selection.members[1].username}#${selection.members[1].discriminator}`}** ${app.icons.health.full} ${userdata.user2.health} - ${app.common.formatNumber(userdata.user2.money)} - ${(await app.itm.getItemCount(await app.itm.getItemObject(selection.users[1]), userdata.user2)).itemCt} items\n
             3. ${app.player.getBadge(userdata.user3.badge)} **${`${selection.members[2].username}#${selection.members[2].discriminator}`}** ${app.icons.health.full} ${userdata.user3.health} - ${app.common.formatNumber(userdata.user3.money)} - ${(await app.itm.getItemCount(await app.itm.getItemObject(selection.users[2]), userdata.user3)).itemCt} items`)
-			.setColor('#9449d6')
+			.setColor(13451564)
 			.setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
 
 		const botMessage = await message.channel.createMessage(atkEmbed)

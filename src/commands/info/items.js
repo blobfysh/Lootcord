@@ -23,7 +23,7 @@ module.exports = {
 
 			const embedItem = new app.Embed()
 				.setTitle(`${itemInfo.icon} ${itemSearched}`)
-				.setColor('#9449d6')
+				.setColor(13451564)
 
 			if (itemInfo.isBanner) {
 				embedItem.setImage(itemInfo.image)
@@ -146,7 +146,7 @@ module.exports = {
 			const banners = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Banner')
 
 			const embedInfo = new app.Embed()
-				.setColor('#9449d6')
+				.setColor(13451564)
 				.setTitle('Full Items List')
 				.addField(ITEM_TYPES.ranged.name, rangedWeapons.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
 				.addField(ITEM_TYPES.melee.name, meleeWeapons.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)

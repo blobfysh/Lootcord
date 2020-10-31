@@ -12,7 +12,6 @@ module.exports = {
 
 	async execute(app, message, { args, prefix }) {
 		const isDonor = await app.patreonHandler.isPatron(message.author.id)
-		const trickortreatCD = await app.cd.getCD(message.author.id, 'trickortreat')
 		const attackCD = await app.cd.getCD(message.author.id, 'attack')
 		const healCD = await app.cd.getCD(message.author.id, 'heal')
 		const hourlyCD = await app.cd.getCD(message.author.id, 'hourly')
@@ -32,7 +31,6 @@ module.exports = {
 		const armor = await app.player.getArmor(message.author.id)
 		const passiveShield = await app.cd.getCD(message.author.id, 'passive_shield')
 
-		const trickortreatReady = trickortreatCD ? `❌ ${trickortreatCD}` : '✅ ready'
 		const hourlyReady = hourlyCD ? `❌ ${hourlyCD}` : '✅ ready'
 		const dailyReady = dailyCD ? `❌ ${dailyCD}` : '✅ ready'
 		let weeklyReady = '❌ Patreon only'
@@ -57,8 +55,7 @@ module.exports = {
 
 		const embedLeader = new app.Embed()
 			.setAuthor('Cooldowns', message.author.avatarURL)
-			.setColor('#9449d6')
-			.addField('🎃 trickortreat', `\`${trickortreatReady}\``, true)
+			.setColor(13451564)
 			.addField('hourly', `\`${hourlyReady}\``, true)
 			.addField('daily', `\`${dailyReady}\``, true)
 			.addField('weekly', `\`${weeklyReady}\``, true)

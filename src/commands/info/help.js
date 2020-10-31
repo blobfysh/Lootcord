@@ -33,7 +33,7 @@ module.exports = {
 			if (cmd.aliases.length && cmd.aliases[0].length) embed.addField('Aliases', cmd.aliases.map(alias => `\`${alias}\``).join(', '))
 			embed.addField('Usage', `\`${getUsage(prefix, cmd)}\``)
 			if (Object.keys(cmd.args).length) embed.addField('Options', getOptions(cmd))
-			embed.setColor('#9449d6')
+			embed.setColor(13451564)
 
 			return message.channel.createMessage(embed)
 		}
@@ -56,9 +56,8 @@ module.exports = {
 			timeZone: 'America/New_York'
 		}))
 		const todaysMonth = converted.getMonth()
-		let description = `${'🎃 **It\'s Halloween! Use the `trickortreat` command to collect candy, fight monsters with `enablespawns` and look out for new events!**' +
-        '\n**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**\nFor details on using clan commands, you can type `'}${
-			prefix}clan help\`, or check this [link](https://lootcord.com/guides/clans).` +
+		let description = '**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**' +
+		`\nFor details on using clan commands, you can type \`${prefix}clan help\`, or check this [link](https://lootcord.com/guides/clans).` +
         `\n\n__**Tip:**__\n${tips[Math.floor(Math.random() * tips.length)]}`
 
 		converted.setDate(converted.getDate() + 10)
@@ -66,7 +65,7 @@ module.exports = {
 		const embed = new app.Embed()
 			.setAuthor('Lootcord Commands', message.author.avatarURL)
 			.setFooter(`To see more about a command, use ${prefix}help <command>`)
-			.setColor('#9449d6')
+			.setColor(13451564)
 
 		if (todaysMonth !== converted.getMonth()) {
 			const daysUntilWipe = 10 - converted.getDate()

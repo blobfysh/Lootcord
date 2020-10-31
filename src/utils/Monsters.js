@@ -28,7 +28,7 @@ class Monsters {
 			const spawnInfo = await this.app.mysql.select('spawnChannels', 'channelId', channelId)
 			if (!spawnInfo) throw new Error('No spawn channel.')
 
-			// if(!await this.app.patreonHandler.isPatron(spawnInfo.userId) && !this.app.sets.adminUsers.has(spawnInfo.userId)) throw new Error('User is not a patron.');
+			if (!await this.app.patreonHandler.isPatron(spawnInfo.userId) && !this.app.sets.adminUsers.has(spawnInfo.userId)) throw new Error('User is not a patron.')
 
 			const randMoney = Math.floor(Math.random() * (this.mobdata[monster].maxMoney - this.mobdata[monster].minMoney + 1)) + this.mobdata[monster].minMoney
 
@@ -77,7 +77,7 @@ class Monsters {
 		const mobEmbed = new this.app.Embed()
 			.setTitle(monster.title)
 			.setDescription(`Attack with \`${guildPrefix}use <weapon> ${monster.title.toLowerCase()}\`\n\nYou have \`${remaining}\` to defeat ${monster.mentioned} before ${monster.pronoun} leaves the server.${monster.special !== '' ? `\n\n**Special:** ${monster.special}` : ''}`)
-			.setColor('#9449d6')
+			.setColor(13451564)
 			.addField('Health', `${this.app.player.getHealthIcon(health, monster.health, true)}\n${health} / ${monster.health}`, true)
 			.addField('Damage', `${monster.weapon.icon}\`${monster.weapon.name}\` ${monster.minDamage} - ${monster.maxDamage}`, true)
 			.addBlankField()
@@ -92,7 +92,7 @@ class Monsters {
 		const mobEmbed = new this.app.Embed()
 			.setTitle(`${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} left...`)
 			.setDescription(`Nobody defeated ${monster.mentioned}!`)
-			.setColor('#9449d6')
+			.setColor(13451564)
 			.setImage(monster.leftImage)
 
 		return mobEmbed

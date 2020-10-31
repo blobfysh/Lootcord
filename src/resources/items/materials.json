@@ -320,7 +320,7 @@
         "tier": 0
     },
     "human_skull": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": false,
         "isMaterial": true,
