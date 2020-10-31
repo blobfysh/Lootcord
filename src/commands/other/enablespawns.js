@@ -5,7 +5,7 @@ module.exports = {
 	long: 'Lure strong enemies to randomly spawn in this channel. Defeat them to steal their items and Lootcoin!\nUser **MUST** have the Manage Server permission.',
 	args: {},
 	examples: [],
-	ignoreHelp: false,
+	ignoreHelp: true,
 	premiumCmd: true,
 	requiresAcc: true,
 	requiresActive: true,
