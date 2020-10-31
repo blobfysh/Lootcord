@@ -68,7 +68,7 @@ module.exports = {
 		const craftableEmb = new app.Embed()
 			.setTitle('Craftables')
 			.setDescription(`**Items you are a high enough level to craft:**${craftableItems.length ? '' : '\nNothing, you should level up more!'}`)
-			.setColor('#9449d6')
+			.setColor(13451564)
 
 		craftableEmb.addField(ITEM_TYPES.ranged.name, rangedWeapons.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
 		craftableEmb.addField(ITEM_TYPES.melee.name, meleeWeapons.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)

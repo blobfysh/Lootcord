@@ -36,7 +36,7 @@ module.exports = {
 
 
 			const alts = new app.Embed()
-				.setColor('#9449d6')
+				.setColor(13451564)
 				.setAuthor(`${userInfo.username}#${userInfo.discriminator}`)
 				.setTitle('Possible Alts')
 				.setThumbnail(app.common.getAvatar(userInfo))

@@ -19,7 +19,7 @@ module.exports = {
         4. **No kill-farming.** Killing someone then trading items back to the other person in order to gain kill count without consequences.\n
         5. **No handouts.** Giving another player free items/money whether it be through trading, the black market, clans, or kills is not allowed. Doing so will result in a warning or trade ban.\n
         6. **Do not report without reason.** The report command should only be used when you have evidence that someone is breaking these rules. Spamming the report command may result in a temporary or permanent ban.`)
-			.setColor('#9449d6')
+			.setColor(13451564)
 			.setFooter('Rules subject to change.')
 
 		message.channel.createMessage(ruleInfo)

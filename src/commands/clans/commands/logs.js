@@ -51,7 +51,7 @@ async function getClanLogs(app, clanId) {
 	const logsEmbed = new app.Embed()
 		.setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
 		.setTitle('Logs (Last 10, Newest to Oldest)')
-		.setColor('#9449d6')
+		.setColor(13451564)
 
 	for (let i = 0; i < logs.length; i++) {
 		logsEmbed.addField(getShortDate(logs[i].logTime), `\`\`\`\n${logs[i].details}\`\`\``)

@@ -37,7 +37,7 @@ module.exports = {
 			const activeString = row ? codeWrap(`${new Date(row.lastActive).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'America/New_York' })}\n${new Date(row.lastActive).toLocaleTimeString('en-US', { timeZone: 'America/New_York' })} (EST)`, 'fix') : codeWrap('Never', 'fix')
 
 			const statEmbed = new app.Embed()
-				.setColor('#9449d6')
+				.setColor(13451564)
 				.setAuthor(`${userInfo.username}#${userInfo.discriminator}`)
 				.setThumbnail(app.common.getAvatar(userInfo))
 				.addField('Joined Discord', discordAccCreated)

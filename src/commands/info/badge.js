@@ -22,7 +22,7 @@ module.exports = {
 				.setTitle(`${badge.icon} ${badgeSearched}`)
 				.setThumbnail(badge.image)
 				.setDescription(badge.description)
-				.setColor('#9449d6')
+				.setColor(13451564)
 
 			if (badge.artist !== '') {
 				const artistInfo = await app.common.fetchUser(badge.artist, { cacheIPC: false })
@@ -59,7 +59,7 @@ function generatePages(app, badges, itemsPerPage) {
 			.setTitle('Badge List')
 			.setDescription(filteredBadges.sort().map(badge => `${app.badgedata[badge].icon} \`${badge}\``).join('\n'))
 			.setFooter('Use badge <badge> to see more information about a badge.')
-			.setColor('#9449d6')
+			.setColor(13451564)
 
 		pages.push(pageEmbed)
 	}

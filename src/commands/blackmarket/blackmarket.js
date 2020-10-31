@@ -21,7 +21,7 @@ module.exports = {
 			const embed = new app.Embed()
 				.setTitle('🛒 Random Black Market Listings')
 				.setDescription(`These listings were made by other players!\n\nPurchase one with \`${prefix}buy <Listing ID>\` command (ex. \`t-buy Jq0cG_YY\`)\n\n**Search for items with \`bm <item to search>\`**`)
-				.setColor('#9449d6')
+				.setColor(13451564)
 
 			app.bm.displayListings(embed, listings)
 
@@ -51,7 +51,7 @@ function generatePages(app, message, prefix, listings, item) {
 		const pageEmbed = new app.Embed()
 			.setTitle(`Black Market Listings for: ${app.itemdata[item].icon}${item}`)
 			.setDescription(`These listings were made by other players!\n\nPurchase one with \`${prefix}buy <Listing ID>\` command (ex. \`t-buy Jq0cG_YY\`)\n\n**Sorted lowest price to highest:**`)
-			.setColor('#9449d6')
+			.setColor(13451564)
 
 		app.bm.displayListings(pageEmbed, selectedListings)
 

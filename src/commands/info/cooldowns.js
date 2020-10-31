@@ -57,7 +57,7 @@ module.exports = {
 
 		const embedLeader = new app.Embed()
 			.setAuthor('Cooldowns', message.author.avatarURL)
-			.setColor('#9449d6')
+			.setColor(13451564)
 			.addField('🎃 trickortreat', `\`${trickortreatReady}\``, true)
 			.addField('hourly', `\`${hourlyReady}\``, true)
 			.addField('daily', `\`${dailyReady}\``, true)
