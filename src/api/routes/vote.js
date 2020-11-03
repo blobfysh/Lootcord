@@ -24,7 +24,7 @@ router.post('/dbl', (req, res) => {
 	if (!req.headers['x-dbl-signature'] || req.headers['x-dbl-signature'].split(' ')[0] !== client.config.apiAuth) return res.status(401).send('Unauthorized')
 
 	if (req.body.id) {
-		this.sharder.sendTo(0, {
+		client.sharder.sendTo(0, {
 			_eventName: 'vote',
 			vote: {
 				user: req.body.id
