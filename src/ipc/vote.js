@@ -2,7 +2,7 @@ exports.run = async function({ vote, type }) {
 	const voteCD = await this.cd.getCD(vote.user, type === 'topgg' ? 'vote' : 'vote2')
 
 	if (voteCD) {
-		console.log(`[VOTE] Received a vote but ignored it due to user having already voted in past 12 hours: ${vote.user}`)
+		console.log(`[VOTE] Received a vote but ignored it due to user having vote cooldown: ${vote.user}`)
 		return
 	}
 
@@ -27,8 +27,9 @@ exports.run = async function({ vote, type }) {
 	if (type === 'topgg') {
 		await this.cd.setCD(vote.user, 'vote', 43200 * 1000)
 	}
-	else if (type === 'dbl') {
-		await this.cd.setCD(vote.user, 'vote2', 86400 * 1000)
+	else if (type === 'bfd') {
+		const midnight = new Date(new Date().setUTCHours(24, 0, 0, 0))
+		await this.cd.setCD(vote.user, 'vote2', midnight - Date.now())
 	}
 
 	await this.query(`UPDATE scores SET voteCounter = voteCounter + 1 WHERE userId = ${vote.user}`)
