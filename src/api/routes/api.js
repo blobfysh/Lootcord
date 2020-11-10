@@ -1,5 +1,10 @@
+const fs = require('fs')
+const path = require('path')
 const express = require('express')
 const router = express.Router()
+
+const categories = fs.readdirSync(path.join(__dirname, '/../../commands'))
+
 let client
 
 function setClient(c) {
@@ -32,6 +37,40 @@ router.post('/patrons', async(req, res) => {
 	if (!patrons) return res.status(200).send(undefined)
 
 	res.status(200).send(JSON.parse(patrons))
+})
+
+router.post('/commands', async(req, res) => {
+	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
+
+	const commandInfo = []
+
+	function getUsage(command) {
+		let finalStr = `t-${command.name}`
+
+		for (const arg of Object.keys(command.args)) {
+			finalStr += ` <${arg}>`
+		}
+
+		return finalStr
+	}
+
+	for (const category of categories) {
+		const commandFiles = fs.readdirSync(path.join(__dirname, `/../../commands/${category}`)).filter(file => file.endsWith('.js'))
+
+		for (const file of commandFiles) {
+			const command = require(`../../commands/${category}/${file}`)
+
+			commandInfo.push({
+				command: command.name,
+				patronOnly: !!command.premiumCmd,
+				shortDesc: command.description,
+				category,
+				usage: getUsage(command)
+			})
+		}
+	}
+
+	res.status(200).json(commandInfo)
 })
 
 module.exports = {
