@@ -15,19 +15,22 @@ class CommandHandler {
 		const command = this.app.commands.get(commandName) || this.app.commands.find(cmd => cmd.aliases && cmd.aliases[0].length && cmd.aliases.includes(commandName))
 
 		// no command was found
-		if (!command) return
+		if (!command) { return }
 
 		// makes sure command wasn't used in DM's
-		if (!message.channel.guild) return
+		else if (!message.channel.guild) { return message }
+
+		// check if bot should ignore guild entirely
+		else if (this.app.config.ignoredGuilds.includes(message.channel.guild.id)) { return }
 
 		// check if user is banned from bot
-		if (await this.app.cd.getCD(message.author.id, 'banned')) return
+		else if (await this.app.cd.getCD(message.author.id, 'banned')) { return }
 
 		// makes sure bot has all permissions from config (prevents permission-related errors)
-		if (!this.botHasPermissions(message)) return
+		else if (!this.botHasPermissions(message)) { return }
 
 		// check if user has spam cooldown
-		if (this.spamCooldown.has(message.author.id)) {
+		else if (this.spamCooldown.has(message.author.id)) {
 			const botMsg = await message.channel.createMessage('⏱ **You\'re talking too fast, I can\'t understand! Please slow down...** `2 seconds`')
 			setTimeout(() => {
 				botMsg.delete()
@@ -36,7 +39,7 @@ class CommandHandler {
 			return
 		}
 
-		if (this.app.sets.disabledCommands.has(command.name)) {
+		else if (this.app.sets.disabledCommands.has(command.name)) {
 			return message.channel.createMessage('❌ That command has been disabled to prevent issues! Sorry about that...')
 		}
 
@@ -54,10 +57,10 @@ class CommandHandler {
 		}
 
 		// chcek if user is admin before running admin command
-		if (command.category === 'admin' && !this.app.sets.adminUsers.has(message.author.id)) return
+		else if (command.category === 'admin' && !this.app.sets.adminUsers.has(message.author.id)) { return }
 
 		// ignore mod command if user is not a moderator or admin
-		if (command.category === 'moderation' && (!await this.app.cd.getCD(message.author.id, 'mod') && !this.app.sets.adminUsers.has(message.author.id))) return
+		else if (command.category === 'moderation' && (!await this.app.cd.getCD(message.author.id, 'mod') && !this.app.sets.adminUsers.has(message.author.id))) { return }
 
 		const account = await this.app.player.getRow(message.author.id)
 
@@ -70,13 +73,13 @@ class CommandHandler {
 		if (command.requiresAcc && !account) await this.app.player.createAccount(message.author.id)
 
 		// check if player meets the minimum level required to run the command
-		if (command.levelReq && ((account ? account.level : 1) < command.levelReq)) return message.channel.createMessage(`❌ You must be at least level \`${command.levelReq}\` to use that command!`)
+		if (command.levelReq && ((account ? account.level : 1) < command.levelReq)) { return message.channel.createMessage(`❌ You must be at least level \`${command.levelReq}\` to use that command!`) }
 
 		// check if command requires an active account (player would be elligible to be attacked) in the server
-		if (command.requiresAcc && command.requiresActive && !await this.app.player.isActive(message.author.id, message.channel.guild.id)) return message.channel.createMessage(`❌ You need to activate before using that command here! Use \`${prefix}activate\` to activate.`)
+		else if (command.requiresAcc && command.requiresActive && !await this.app.player.isActive(message.author.id, message.channel.guild.id)) { return message.channel.createMessage(`❌ You need to activate before using that command here! Use \`${prefix}activate\` to activate.`) }
 
 		// check if command is patrons only
-		if (command.patronTier1Only && !await this.app.patreonHandler.isPatron(message.author.id) && !this.app.sets.adminUsers.has(message.author.id)) {
+		else if (command.patronTier1Only && !await this.app.patreonHandler.isPatron(message.author.id) && !this.app.sets.adminUsers.has(message.author.id)) {
 			return message.channel.createMessage(`❌ \`${command.name}\` is exclusive for patreon donators. Support Lootcord on patreon to get access: https://www.patreon.com/lootcord`)
 		}
 		else if (command.patronTier2Only && !await this.app.patreonHandler.isPatron(message.author.id, 2) && !this.app.sets.adminUsers.has(message.author.id)) {
@@ -84,7 +87,7 @@ class CommandHandler {
 		}
 
 		// check if user has manage server permission before running guildModsOnly command
-		if (command.guildModsOnly && !message.member.permission.has('manageGuild')) return message.channel.createMessage('❌ You need the `Manage Server` permission to use this command!')
+		else if (command.guildModsOnly && !message.member.permission.has('manageGuild')) { return message.channel.createMessage('❌ You need the `Manage Server` permission to use this command!') }
 
 		// execute command
 		try {
