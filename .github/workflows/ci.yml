@@ -12,9 +12,16 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: "12.x"
-    - name: Install and test
-      run: |
-        npm install
-        npm test
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+    - name: Install dependencies
+      run: npm install
+    - name: Run tests
+      run: npm test
       env:
         CI: true
