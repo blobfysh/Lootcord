@@ -7,6 +7,7 @@
         "minDmg": 47,
         "maxDmg": 72,
         "ammo": [
+            "explosive_bullet",
             "hv_rifle_bullet",
             "rifle_bullet"
         ],
@@ -326,6 +327,7 @@
         "minDmg": 54,
         "maxDmg": 59,
         "ammo": [
+            "explosive_bullet",
             "hv_rifle_bullet",
             "rifle_bullet"
         ],
@@ -371,6 +373,7 @@
         "minDmg": 5,
         "maxDmg": 17,
         "ammo": [
+            "explosive_bullet",
             "hv_rifle_bullet",
             "rifle_bullet"
         ],
@@ -584,6 +587,7 @@
         "minDmg": 30,
         "maxDmg": 38,
         "ammo": [
+            "explosive_bullet",
             "hv_rifle_bullet",
             "rifle_bullet"
         ],
@@ -621,6 +625,7 @@
         "minDmg": 34,
         "maxDmg": 45,
         "ammo": [
+            "explosive_bullet",
             "hv_rifle_bullet",
             "rifle_bullet"
         ],

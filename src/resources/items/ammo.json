@@ -177,6 +177,44 @@
         ],
         "tier": 3
     },
+    "explosive_bullet": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 32,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": [
+                "gunpowder|2"
+            ]
+        },
+        "buy": "",
+        "sell": 38823,
+        "desc": "Explosive 5.56 rifle ammunition. Has the ability to __penetrate armor__.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/777345539879862311/95273911-4aa9af00-0812-11eb-8224-8e905d8b883f.png",
+        "icon": "<:explosive_bullet:763256721786929212>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "penetratesArmor": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo",
+        "aliases": [
+            "explosive_rifle_bullet",
+            "explosive",
+            "explo_ammo",
+            "explo",
+            "explo_bullet",
+            "explosive_rifle",
+            "explo_rifle",
+            "explo_rifle_bullet",
+            "explo_rifle_ammo"
+        ],
+        "tier": 3
+    },
     "handmade_shell": {
         "rarity": "Rare",
         "isWeap": false,

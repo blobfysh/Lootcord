@@ -433,10 +433,11 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "5": {
+            "8": {
                 "xp": 90,
                 "items": [
-                    "c4|1"
+                    "c4|1",
+                    "explosive_bullet|1"
                 ]
             },
             "25": {
@@ -451,7 +452,7 @@
                     "lr-300|1"
                 ]
             },
-            "70": {
+            "67": {
                 "xp": 50,
                 "items": [
                     "12g_slug|1",

@@ -441,7 +441,8 @@ module.exports = {
 				const chance = Math.floor(Math.random() * 100) + 1 // 1-100
 				const luck = victimRow.luck >= 10 ? 10 : victimRow.luck
 
-				if (victimArmorCD) {
+				// Check if victim has armor and if the ammo penetrates armor
+				if (victimArmorCD && (!ammoUsed || !app.itemdata[ammoUsed].penetratesArmor)) {
 					randDmg -= Math.floor(baseDmg * app.itemdata[victimArmor].shieldInfo.protection)
 				}
 
@@ -629,7 +630,8 @@ module.exports = {
 
 				let randDmg = baseDmg
 
-				if (victimArmorCD) {
+				// Check if victim has armor and if the ammo penetrates armor
+				if (victimArmorCD && (!ammoUsed || !app.itemdata[ammoUsed].penetratesArmor)) {
 					randDmg -= Math.floor(baseDmg * app.itemdata[victimArmor].shieldInfo.protection)
 				}
 
@@ -790,7 +792,7 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
 		.replace('{ammo}', ammoUsed)
 		.replace('{damage}', baseDamage)
 
-	if (armor) {
+	if (armor && (!ammoUsed || !app.itemdata[ammoUsed].penetratesArmor)) {
 		finalStr += `\n**${victim.nick || victim.username}**'s ${app.itemdata[armor].icon}\`${armor}\` absorbed **${baseDamage - damage}** (${Math.floor(app.itemdata[armor].shieldInfo.protection * 100)}%) damage, lowering the total damage dealt to **${damage}**!`
 	}
 
