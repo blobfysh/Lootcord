@@ -62,7 +62,7 @@ exports.donatorRoles = {
 exports.botLists = [
 	{
 		url: 'https://top.gg/api/bots/493316754689359874/stats',
-		token: process.env.DBL_API_TOKEN
+		token: process.env.TOPGG_API_TOKEN
 	},
 	{
 		url: 'https://discord.bots.gg/api/v1/bots/493316754689359874/stats',
