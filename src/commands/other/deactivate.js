@@ -16,7 +16,7 @@ module.exports = {
 
 		if (activateCD) return message.reply(`You must wait \`${activateCD}\` after activating in order to deactivate`)
 
-		if (attackCD) return message.reply('You can\'t deactivate when you still have an attack cooldown!')
+		else if (attackCD) return message.reply('You can\'t deactivate while you have an attack cooldown!')
 
 		const botMessage = await message.reply('Deactivating your account will prevent you from using commands or being targeted in **this** server.\n\n**Are you sure?**')
 
@@ -24,6 +24,11 @@ module.exports = {
 			const result = await app.react.getConfirmation(message.author.id, botMessage, 15000)
 
 			if (result) {
+				const attackCDAfter = await app.cd.getCD(message.author.id, 'attack')
+
+				if (attackCDAfter) return botMessage.edit('You can\'t deactivate while you have an attack cooldown!')
+
+				// All checks passed, deactivate account
 				await app.player.deactivate(message.author.id, message.channel.guild.id)
 
 				botMessage.edit('Your account has been disabled on this server')
@@ -33,7 +38,7 @@ module.exports = {
 						message.member.removeRole(app.config.activeRoleGuilds[message.channel.guild.id].activeRoleID)
 					}
 					catch (err) {
-						console.warn('Failed to add active role.')
+						console.warn('Failed to remove active role.')
 					}
 				}
 			}
