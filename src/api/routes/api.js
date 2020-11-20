@@ -4,6 +4,13 @@ const express = require('express')
 const router = express.Router()
 
 const categories = fs.readdirSync(path.join(__dirname, '/../../commands'))
+const ranged = require('../../resources/items/ranged')
+const melee = require('../../resources/items/melee')
+const items = require('../../resources/items/items')
+const ammo = require('../../resources/items/ammo')
+const materials = require('../../resources/items/materials')
+const storage = require('../../resources/items/storage')
+const banners = require('../../resources/items/banners')
 
 let client
 
@@ -71,6 +78,21 @@ router.post('/commands', async(req, res) => {
 	}
 
 	res.status(200).json(commandInfo)
+})
+
+
+router.post('/items', async(req, res) => {
+	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
+
+	res.status(200).json({
+		...ranged,
+		...melee,
+		...items,
+		...ammo,
+		...materials,
+		...storage,
+		...banners
+	})
 })
 
 module.exports = {
