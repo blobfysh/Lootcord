@@ -665,12 +665,12 @@
         ],
         "tier": 3
     },
-    "stocking": {
-        "rarity": "Limited",
+    "small_stocking": {
+        "rarity": "Common",
         "isWeap": false,
         "isItem": true,
         "givesMoneyOnUse": true,
-        "itemMin": 500,
+        "itemMin": 1000,
         "itemMax": 2000,
         "damage": "",
         "minDmg": "",
@@ -681,8 +681,8 @@
             "materials": []
         },
         "buy": "",
-        "sell": 1954,
-        "desc": "Has a chance to contain `500 - 2,000` Lootcoin\n**Christmas event item.**",
+        "sell": 1154,
+        "desc": "Has a chance to contain 1,000 - 2,000 Lootcoin\n**Christmas event item.**",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/734405933098074142/stocking.png",
         "icon": "<:stocking:734405868296208394>",
         "breaksOnUse": "",
@@ -690,11 +690,13 @@
         "cooldown": "",
         "artist": "",
         "category": "Item",
-        "aliases": [],
+        "aliases": [
+            "stocking"
+        ],
         "tier": 0
     },
     "gingerbread": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
@@ -716,15 +718,15 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 1200
+            "seconds": 1422
         },
         "artist": "",
         "category": "Item",
         "aliases": [],
         "tier": 0
     },
-    "present": {
-        "rarity": "Limited",
+    "small_present": {
+        "rarity": "Common",
         "isWeap": false,
         "isItem": true,
         "damage": "",
@@ -744,7 +746,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "10": {
+            "25": {
                 "xp": 15,
                 "items": [
                     "coal|1"
@@ -756,15 +758,159 @@
                     "snowball|1"
                 ]
             },
-            "70": {
+            "55": {
                 "xp": 20,
                 "items": [
-                    "stocking|1",
+                    "small_stocking|1",
                     "gingerbread|1",
-                    "candycane|1"
+                    "candy_cane|1"
                 ]
             }
         },
+        "artist": "",
+        "category": "Item",
+        "aliases": [
+            "present"
+        ],
+        "tier": 0
+    },
+    "medium_present": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 1,
+            "materials": [
+                "small_present|10"
+            ]
+        },
+        "recyclesTo": {
+            "materials": []
+        },
+        "buy": "",
+        "sell": 6703,
+        "desc": "Unwrap it to see what's inside!\n**Christmas event item.**",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/784227941420761138/medium_present.png",
+        "icon": "<:medium_present:784227884038225952>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "10": {
+                "xp": 20,
+                "items": [
+                    "santa_hat|1"
+                ]
+            },
+            "20": {
+                "xp": 15,
+                "items": [
+                    "pump_shotgun|1",
+                    "12g_buckshot|1",
+                    "rifle_bullet|1",
+                    "custom_smg|1",
+                    "semi_rifle|1"
+                ]
+            },
+            "70": {
+                "xp": 10,
+                "items": [
+                    "pistol_bullet|1",
+                    "revolver|1",
+                    "crossbow|1",
+                    "bone_arrow|1",
+                    "waterpipe_shotgun|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item",
+        "aliases": [
+            "med_present"
+        ],
+        "tier": 0
+    },
+    "large_present": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 1,
+            "materials": [
+                "medium_present|10"
+            ]
+        },
+        "recyclesTo": {
+            "materials": []
+        },
+        "buy": "",
+        "sell": 20592,
+        "desc": "Unwrap it to see what's inside!\n**Christmas event item.**",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/784227939188342834/large_present.png",
+        "icon": "<:large_present:784227884155273276>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "10": {
+                "xp": 60,
+                "items": [
+                    "m249|1"
+                ]
+            },
+            "90": {
+                "xp": 50,
+                "items": [
+                    "explosive_bullet|1",
+                    "rifle_bullet|1",
+                    "grenade_launcher|1",
+                    "40mm_he_grenade|1",
+                    "lr-300|1",
+                    "rocket|1",
+                    "mp5|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item",
+        "aliases": [
+            "big_present"
+        ],
+        "tier": 0
+    },
+    "santa_hat": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": true,
+        "isShield": true,
+        "shieldInfo": {
+            "seconds": 7200,
+            "protection": 0.2
+        },
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": []
+        },
+        "buy": "",
+        "sell": 5281,
+        "desc": "Equip this festive hat to reduce damage taken from attacks by **20%** for **2 hours**.",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/784486202346700800/santa_hat.png",
+        "icon": "<:santa_hat:784486175149654087>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
         "artist": "",
         "category": "Item",
         "aliases": [],

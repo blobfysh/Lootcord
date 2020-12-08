@@ -323,8 +323,8 @@
         ],
         "tier": 0
     },
-    "candycane": {
-        "rarity": "Limited",
+    "candy_cane": {
+        "rarity": "Common",
         "isWeap": true,
         "isItem": false,
         "damage": "3 - 15",
@@ -343,16 +343,16 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 2700
+            "seconds": 1329
         },
-        "phrase": "{attacker} attacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "phrase": "{attacker} whacks {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
         "artist": "",
         "category": "Melee",
         "aliases": [],
         "tier": 0
     },
     "snowball": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": true,
         "isItem": false,
         "damage": "20 - 45",
@@ -371,7 +371,7 @@
         "breaksOnUse": true,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 2700
+            "seconds": 2352
         },
         "phrase": "{attacker} hurls a {weaponIcon}`{weapon}` at {victim} dealing **{damage}** damage!",
         "artist": "",

@@ -351,7 +351,7 @@
         "tier": 0
     },
     "coal": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": false,
         "isItem": false,
         "isMaterial": true,
