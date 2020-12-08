@@ -1,5 +1,5 @@
 const POSSIBLE_ITEMS = ['crate', 'coal', 'small_present', 'small_present', 'small_present']
-const SUCCESS_QUOTES = ['{user} received {reward}', '{user} was given {reward}']
+const SUCCESS_QUOTES = ['☃️ {user} received {reward}', '🎄 {user} was given {reward}', '❄️ {user} received {reward}', '🎁 {user} was given {reward}']
 
 module.exports = {
 	name: 'santasighting',
@@ -67,7 +67,7 @@ module.exports = {
 						}
 					}
 					else {
-						results.push(`<@${user}> received no candy... 😞`)
+						results.push(`<@${user}> received nothing... 😞`)
 					}
 				}
 
