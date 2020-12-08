@@ -366,8 +366,8 @@ async function boughtGame(app, user, itemRow) {
 
 	try {
 		const buyerEmbed = new app.Embed()
-			.setTitle('✅ Game Purchased!')
-			.setDescription('The moderators have received confirmation that you purchased a game the shop and will respond with your key soon.')
+			.setTitle('✅ Shop Item Purchased!')
+			.setDescription('The moderators have received confirmation that you purchased a product from the shop and will respond with your key soon.')
 			.setFooter('Please do not message asking "Where is my code?" unless at least 12 hours have passed. We have the right to cancel this purchase if we suspect you of cheating.')
 			.setTimestamp()
 
@@ -380,12 +380,12 @@ async function boughtGame(app, user, itemRow) {
 	}
 
 	const soldEmbed = new app.Embed()
-		.setTitle('✅ Game Purchased')
-		.addField('Game Sold', itemRow.itemDisplay)
+		.setTitle('✅ Shop Item Purchased')
+		.addField('Product Sold', itemRow.itemDisplay)
 		.addField('Buyer', `${user.username}#${user.discriminator} ID: \`\`\`\n${user.id}\`\`\``)
 
 	app.messager.messageMods(soldEmbed)
-	console.warn(`A game (${itemRow.itemName}) was sold to id: ${user.id}`)
+	console.warn(`A shop item (${itemRow.itemName}) was sold to id: ${user.id}`)
 }
 
 async function getShopData(app) {
