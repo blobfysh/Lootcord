@@ -770,6 +770,7 @@
         "artist": "",
         "category": "Item",
         "aliases": [
+            "small",
             "present"
         ],
         "tier": 0
