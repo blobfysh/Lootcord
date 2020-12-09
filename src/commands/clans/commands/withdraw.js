@@ -4,7 +4,7 @@ module.exports = {
 	description: 'Withdraw items from your clans vault.',
 	long: 'Withdraw items from your clans vault.',
 	args: { 'item/money': 'Item to withdraw or money to withdraw.', 'amount': 'Amount of item or money to take out.' },
-	examples: ['clan withdraw ultra_box 2', 'clan withdraw 2000'],
+	examples: ['clan withdraw military_crate 2', 'clan withdraw 2000'],
 	requiresClan: true,
 	requiresActive: true,
 	minimumRank: 1,

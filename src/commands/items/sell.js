@@ -23,7 +23,7 @@ module.exports = {
 				itemAmounts = app.itm.combineItems(getItemList(sellItems, sellAmounts))
 			}
 			catch (err) {
-				return message.reply(`❌ You need to specify amounts when bulk selling multiple items! For example: \`${prefix}sell rock 1 rpg 3 item_box 2\``)
+				return message.reply(`❌ You need to specify amounts when bulk selling multiple items! For example: \`${prefix}sell rock 1 assault_rifle 3 crate 2\``)
 			}
 
 			for (let i = 0; i < itemAmounts.length; i++) {

@@ -6,7 +6,7 @@ module.exports = {
 	description: 'Get Scrap for your items.',
 	long: 'Exchange your items for Scrap! Scrapping your items gives you 1.5x their sell value.',
 	args: { item: 'Item to scrap.', amount: '**OPTIONAL** Amount of item to scrap.' },
-	examples: ['scrap assault_rifle 2', 'scrap rock 1 rpg 3 item_box 2'],
+	examples: ['scrap assault_rifle 2', 'scrap rock 1 assault_rifle 3 crate 2'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,
@@ -25,7 +25,7 @@ module.exports = {
 				itemAmounts = app.itm.combineItems(getItemList(sellItems, sellAmounts))
 			}
 			catch (err) {
-				return message.reply(`❌ You need to specify amounts when scrapping multiple items! For example: \`${prefix}scrap rock 1 rpg 3 item_box 2\``)
+				return message.reply(`❌ You need to specify amounts when scrapping multiple items! For example: \`${prefix}scrap rock 1 assault_rifle 3 crate 2\``)
 			}
 
 			for (let i = 0; i < itemAmounts.length; i++) {

@@ -96,7 +96,7 @@ module.exports = {
 					const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
 
 					if (confirmed) {
-						// if user bought 3 rpgs at 5 tokens each, they would need 3 - 15 = -12 space in their inventory
+						// if user bought 3 rocks at 5 tokens each, they would need 3 - 15 = -12 space in their inventory
 						// if they had 20/10 slots at time of purchasing, this would return true because 20 - 12 = 8/10 slots
 						const userItems = await app.itm.getItemObject(message.author.id)
 						const itemCt = await app.itm.getItemCount(userItems, await app.player.getRow(message.author.id))

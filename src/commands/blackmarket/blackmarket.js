@@ -6,7 +6,7 @@ module.exports = {
 	description: 'Search for Black Market listings by other players.',
 	long: 'Search the Black Market for item listings.\n\nThe Black Market is a shop where players can list their own items for their own price and anyone can buy them using the `buy` command. You can also search the black market here: https://lootcord.com/blackmarket',
 	args: { item: 'Item to search for.' },
-	examples: ['blackmarket rpg'],
+	examples: ['blackmarket assault_rifle'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

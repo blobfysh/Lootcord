@@ -66,7 +66,7 @@ module.exports = {
 
 			const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 120000 })
 
-			raidableEmbed.setDescription(`Raid successful!\n\nChoose up to **${itemsToSteal}** items to steal from their vault.\n\nExample: \`${prefix}steal item_box 2\` to steal 2 boxes from the vault. Not sure what items they have? Check with \`${prefix}clan vault ${clanRow.name}\`.`)
+			raidableEmbed.setDescription(`Raid successful!\n\nChoose up to **${itemsToSteal}** items to steal from their vault.\n\nExample: \`${prefix}steal crate 2\` to steal 2 crates from the vault. Not sure what items they have? Check with \`${prefix}clan vault ${clanRow.name}\`.`)
 			raidableEmbed.setFooter(`You have 2 minutes to pick the items. | You can type ${prefix}stop to end the raid early.`)
 			raidableEmbed.setColor(8311585)
 			setTimeout(() => {

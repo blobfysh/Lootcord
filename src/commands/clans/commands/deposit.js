@@ -4,7 +4,7 @@ module.exports = {
 	description: 'Deposit items into your clans vault.',
 	long: 'Deposit items into your clans vault.',
 	args: { 'item/money': 'Item to deposit or money to deposit.', 'amount': 'Amount of item or money to deposit.' },
-	examples: ['clan deposit rpg 1', 'clan deposit 3000'],
+	examples: ['clan deposit assault_rifle 1', 'clan deposit 3000'],
 	requiresClan: true,
 	requiresActive: true,
 	minimumRank: 1,
