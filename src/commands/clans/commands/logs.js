@@ -1,3 +1,5 @@
+const LOGS_PER_PAGE = 5
+
 module.exports = {
 	name: 'logs',
 	aliases: ['log'],
@@ -17,7 +19,14 @@ module.exports = {
 			return message.reply('You are not a member of any clan! You can look up other clans by searching their name.')
 		}
 		else if (!args.length) {
-			message.channel.createMessage(await getClanLogs(app, scoreRow.clanId))
+			const clanRow = await app.clans.getRow(scoreRow.clanId)
+			const logs = await app.query(`SELECT * FROM clan_logs WHERE clanId = ${scoreRow.clanId} ORDER BY logDate DESC LIMIT 50`)
+
+			if (logs.length <= LOGS_PER_PAGE) {
+				return message.channel.createMessage(generatePages(app, logs, clanRow.name)[0])
+			}
+
+			app.react.paginate(message, generatePages(app, logs, clanRow.name), 30000)
 		}
 		else if (user) {
 			const invitedScoreRow = (await app.query(`SELECT * FROM scores WHERE userId = ${user.id}`))[0]
@@ -29,7 +38,14 @@ module.exports = {
 				return message.reply('❌ That user is not in a clan.')
 			}
 
-			message.channel.createMessage(await getClanLogs(app, invitedScoreRow.clanId))
+			const clanRow = await app.clans.getRow(invitedScoreRow.clanId)
+			const logs = await app.query(`SELECT * FROM clan_logs WHERE clanId = ${invitedScoreRow.clanId} ORDER BY logDate DESC LIMIT 50`)
+
+			if (logs.length <= LOGS_PER_PAGE) {
+				return message.channel.createMessage(generatePages(app, logs, clanRow.name)[0])
+			}
+
+			app.react.paginate(message, generatePages(app, logs, clanRow.name), 30000)
 		}
 		else {
 			const clanName = args.join(' ')
@@ -39,40 +55,41 @@ module.exports = {
 				return message.reply('I could not find a clan with that name! Maybe you misspelled it?')
 			}
 
-			message.channel.createMessage(await getClanLogs(app, clanRow.clanId))
+			const logs = await app.query(`SELECT * FROM clan_logs WHERE clanId = ${clanRow.clanId} ORDER BY logDate DESC LIMIT 50`)
+
+			if (logs.length <= LOGS_PER_PAGE) {
+				return message.channel.createMessage(generatePages(app, logs, clanRow.name)[0])
+			}
+
+			app.react.paginate(message, generatePages(app, logs, clanRow.name), 30000)
 		}
 	}
 }
 
-async function getClanLogs(app, clanId) {
-	const clanRow = await app.clans.getRow(clanId)
-	const logs = await app.query(`SELECT * FROM clan_logs WHERE clanId = ${clanId} ORDER BY logDate DESC LIMIT 10`)
+function generatePages(app, logs, clanName) {
+	const maxPage = Math.ceil(logs.length / LOGS_PER_PAGE) || 1
+	const pages = []
 
-	const logsEmbed = new app.Embed()
-		.setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
-		.setTitle('Logs (Last 10, Newest to Oldest)')
-		.setColor(13451564)
+	for (let i = 1; i < maxPage + 1; i++) {
+		const indexFirst = (LOGS_PER_PAGE * i) - LOGS_PER_PAGE
+		const indexLast = LOGS_PER_PAGE * i
+		const selectedLogs = logs.slice(indexFirst, indexLast)
 
-	for (let i = 0; i < logs.length; i++) {
-		logsEmbed.addField(getShortDate(logs[i].logTime), `\`\`\`\n${logs[i].details}\`\`\``)
+		const logsEmbed = new app.Embed()
+			.setAuthor(clanName, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
+			.setTitle('Logs (Newest to Oldest)')
+			.setColor(13451564)
+
+		for (const log of selectedLogs) {
+			logsEmbed.addField(app.common.getShortDate(log.logTime), `\`\`\`\n${log.details}\`\`\``)
+		}
+
+		if (!selectedLogs.length) {
+			logsEmbed.setDescription('😟 there\'s nothing to see here')
+		}
+
+		pages.push(logsEmbed)
 	}
 
-	if (!logs.length) logsEmbed.setDescription('😟 there\'s nothing to see here')
-
-	return logsEmbed
-}
-
-function getShortDate(date) {
-	let convertedTime = new Date(date).toLocaleString('en-US', {
-		timeZone: 'America/New_York'
-	})
-	convertedTime = new Date(convertedTime)
-
-	const d = convertedTime
-	const month = d.getMonth() + 1
-	const day = d.getDate()
-	const year = d.getFullYear()
-	const time = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }).replace(' ', '')
-
-	return `${month}/${day}/${year.toString().slice(2)} ${time} EST`
+	return pages
 }

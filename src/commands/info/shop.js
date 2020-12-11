@@ -37,7 +37,7 @@ async function generatePages(app, allItems, prefix, itemsPerPage) {
 
 	for (let i = 1; i < maxPage + 1; i++) {
 		const indexFirst = (itemsPerPage * i) - itemsPerPage
-		const indexLast = (itemsPerPage * i) - 1
+		const indexLast = itemsPerPage * i
 		const filteredItems = allItems.slice(indexFirst, indexLast)
 
 		const pageEmbed = new app.Embed()

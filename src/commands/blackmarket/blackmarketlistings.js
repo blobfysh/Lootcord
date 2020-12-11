@@ -15,7 +15,7 @@ module.exports = {
 	async execute(app, message, { args, prefix }) {
 		const listings = await app.query(`SELECT * FROM blackmarket WHERE sellerId = ${message.author.id}`)
 
-		if (listings.length <= 9) {
+		if (listings.length <= ITEMS_PER_PAGE) {
 			return message.channel.createMessage(generatePages(app, message, listings)[0])
 		}
 
@@ -29,7 +29,7 @@ function generatePages(app, message, listings) {
 
 	for (let i = 1; i < maxPage + 1; i++) {
 		const indexFirst = (ITEMS_PER_PAGE * i) - ITEMS_PER_PAGE
-		const indexLast = (ITEMS_PER_PAGE * i) - 1
+		const indexLast = ITEMS_PER_PAGE * i
 		const selectedListings = listings.slice(indexFirst, indexLast)
 
 		const pageEmbed = new app.Embed()

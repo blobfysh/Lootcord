@@ -34,6 +34,7 @@ module.exports = {
 		}
 		else if (!args.length) {
 			const badgeList = Object.keys(app.badgedata)
+
 			if (badgeList.length > BADGES_PER_PAGE) {
 				return app.react.paginate(message, generatePages(app, Object.keys(app.badgedata).sort(), BADGES_PER_PAGE))
 			}
@@ -52,7 +53,7 @@ function generatePages(app, badges, itemsPerPage) {
 
 	for (let i = 1; i < maxPage + 1; i++) {
 		const indexFirst = (itemsPerPage * i) - itemsPerPage
-		const indexLast = (itemsPerPage * i) - 1
+		const indexLast = itemsPerPage * i
 		const filteredBadges = badges.slice(indexFirst, indexLast)
 
 		const pageEmbed = new app.Embed()

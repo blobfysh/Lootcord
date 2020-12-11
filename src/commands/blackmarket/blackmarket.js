@@ -30,22 +30,22 @@ module.exports = {
 		else {
 			const listings = await app.query('SELECT * FROM blackmarket WHERE itemName = ? ORDER BY pricePer ASC LIMIT 18', [item])
 
-			if (listings.length <= 9) {
-				return message.channel.createMessage(generatePages(app, message, prefix, listings, item)[0])
+			if (listings.length <= ITEMS_PER_PAGE) {
+				return message.channel.createMessage(generatePages(app, prefix, listings, item)[0])
 			}
 
-			app.react.paginate(message, generatePages(app, message, prefix, listings, item), 30000)
+			app.react.paginate(message, generatePages(app, prefix, listings, item), 30000)
 		}
 	}
 }
 
-function generatePages(app, message, prefix, listings, item) {
+function generatePages(app, prefix, listings, item) {
 	const maxPage = Math.ceil(listings.length / ITEMS_PER_PAGE) || 1
 	const pages = []
 
 	for (let i = 1; i < maxPage + 1; i++) {
 		const indexFirst = (ITEMS_PER_PAGE * i) - ITEMS_PER_PAGE
-		const indexLast = (ITEMS_PER_PAGE * i) - 1
+		const indexLast = ITEMS_PER_PAGE * i
 		const selectedListings = listings.slice(indexFirst, indexLast)
 
 		const pageEmbed = new app.Embed()
