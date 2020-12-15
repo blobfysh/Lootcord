@@ -74,6 +74,7 @@ class LoopTasks {
 
 		// remove old transactions
 		await this.app.query('DELETE FROM transactions WHERE date < NOW() - INTERVAL 30 DAY')
+		await this.app.query('DELETE FROM blackmarket_transactions WHERE soldDate < NOW() - INTERVAL 60 DAY')
 
 		// reset daily limits
 		await this.app.query('UPDATE scores SET discoinLimit = 0, bmLimit = 0 WHERE discoinLimit != 0 OR bmLimit != 0')
