@@ -9,7 +9,7 @@ module.exports = {
             m.content.toLowerCase() === 'claimdrop', { time: 40000 })
 
 		const exploreEmbed = new app.Embed()
-			.setColor(13451564)
+			.setColor('#ADADAD')
 			.setTitle('Event - __AIRDROP__')
 			.setDescription(`**A ${app.itemdata.supply_drop.icon}\`supply_drop\` has arrived!**\n\nType \`claimdrop\` to try and steal it!`)
 			.setImage(app.itemdata.supply_drop.image)
@@ -43,7 +43,7 @@ module.exports = {
 					await app.itm.addItem(winner, 'supply_drop', 1)
 
 					const resultsEmb = new app.Embed()
-						.setColor(13451564)
+						.setColor('#ADADAD')
 						.setTitle('Event Results - __AIRDROP__')
 						.setDescription(`<@${winner}> runs away with the ${app.itemdata.supply_drop.icon}\`supply_drop\`!`)
 

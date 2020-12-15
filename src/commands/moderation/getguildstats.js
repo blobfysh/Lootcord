@@ -52,7 +52,7 @@ module.exports = {
 			const attackMode = guildRow.randomOnly ? 'Random only' : 'Selectable'
 
 			const statEmbed = new app.Embed()
-				.setColor(13451564)
+				.setColor('#ADADAD')
 				.setAuthor(`${guildInfo.name}`)
 				.setDescription('Only a max of 15 members/channels will be shown due to length limitations.')
 				.addField('Guild Created', guildCreated, true)

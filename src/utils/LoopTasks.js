@@ -210,7 +210,7 @@ class LoopTasks {
 					.setTitle('Conversion Successful')
 					.setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/662369574720765994/spaces2F-LQzahLixLnvmbDfQ1K02Favatar.png')
 					.setDescription(`You received ${this.app.common.formatNumber(payout)} (${transaction.payout} rounded) through Discoin! [Click this to see more details.](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)\n\nKeep in mind there is a daily limit of ${this.app.common.formatNumber(100000)} on incoming transactions.`)
-					.setColor(13451564)
+					.setColor('#ADADAD')
 
 				if (userRow.discoinLimit + payout > 100000) {
 					if (userRow.discoinLimit >= 100000) {
@@ -247,7 +247,7 @@ class LoopTasks {
 					.addField('Lootcoin Payout', `${this.app.common.formatNumber(payout)} (${this.app.common.formatNumber(refunded)} refunded)`, true)
 					.addField('User', `\`\`\`\n${transaction.user}\`\`\``)
 					.setFooter(`Transaction ID: ${transaction.id}`)
-					.setColor(13451564)
+					.setColor('#ADADAD')
 
 				logTransactions.push(logEmbed)
 			}
