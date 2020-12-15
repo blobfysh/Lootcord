@@ -156,7 +156,7 @@ module.exports = {
 									const randomItem = await app.itm.getRandomUserItems(user, 1)
 
 									if (randomItem.items.length) {
-										await app.itm.removeItem(message.author.id, randomItem.amounts)
+										await app.itm.removeItem(user, randomItem.amounts)
 
 										quote += `\n${app.icons.minus} **${joined[user].username}** lost ${randomItem.display[0]} and now has ${app.icons.health.full} **${userRow.health - healthReduct}** health.`
 									}
