@@ -785,5 +785,40 @@
             "gl"
         ],
         "tier": 3
+    },
+    "snowball_gun": {
+        "rarity": "Common",
+        "isWeap": true,
+        "isItem": false,
+        "minDmg": 15,
+        "maxDmg": 32,
+        "ammo": [
+            "snowball"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": [
+                "metal_pipe|1",
+                "metal|1"
+            ]
+        },
+        "buy": "",
+        "sell": 50251,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/750103301739249716/791719544636833832/snowball_gun.png",
+        "icon": "<:snowball_gun:791719449115361280>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.31,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 4207
+        },
+        "phrase": "{attacker} launches a {ammoIcon}`{ammo}` at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Ranged",
+        "aliases": [
+            "snow_gun"
+        ],
+        "tier": 0
     }
 }

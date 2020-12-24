@@ -355,7 +355,7 @@
         "rarity": "Common",
         "isWeap": true,
         "isItem": false,
-        "damage": "20 - 45",
+        "damage": 45,
         "minDmg": 20,
         "maxDmg": 45,
         "ammo": "",
