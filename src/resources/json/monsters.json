@@ -41,7 +41,7 @@
                         "cloth|1",
                         "wood|1",
                         "semi_body|1",
-                        "small_present|2"
+                        "pickaxe|1"
                     ]
                 },
                 "25": {
@@ -109,7 +109,7 @@
                         "cloth|1",
                         "wood|1",
                         "semi_body|1",
-                        "small_present|2"
+                        "pickaxe|1"
                     ]
                 },
                 "25": {
@@ -177,7 +177,7 @@
                         "cloth|1",
                         "wood|1",
                         "semi_body|1",
-                        "small_present|2"
+                        "pickaxe|1"
                     ]
                 },
                 "25": {
@@ -247,7 +247,7 @@
                         "cloth|1",
                         "semi_body|1",
                         "12g_slug|1",
-                        "small_present|2"
+                        "pickaxe|1"
                     ]
                 },
                 "25": {
@@ -313,8 +313,7 @@
                         "rifle_bullet|1",
                         "large_medkit|1",
                         "rocket_launcher|1",
-                        "medium_present|1",
-                        "small_present|2",
+                        "tech_trash|1",
                         "medical_syringe|2"
                     ]
                 },
@@ -374,8 +373,7 @@
                     "items": [
                         "large_medkit|1",
                         "hv_rifle_bullet|1",
-                        "medium_present|1",
-                        "small_present|2",
+                        "thompson|1",
                         "assault_rifle|1",
                         "gunpowder|1"
                     ]
