@@ -787,7 +787,7 @@
         "tier": 3
     },
     "snowball_gun": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": true,
         "isItem": false,
         "minDmg": 15,

@@ -324,7 +324,7 @@
         "tier": 0
     },
     "candy_cane": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": true,
         "isItem": false,
         "damage": "3 - 15",
@@ -352,7 +352,7 @@
         "tier": 0
     },
     "snowball": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": true,
         "isItem": false,
         "damage": 45,

@@ -666,7 +666,7 @@
         "tier": 3
     },
     "small_stocking": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "givesMoneyOnUse": true,
@@ -696,7 +696,7 @@
         "tier": 0
     },
     "gingerbread": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
@@ -726,7 +726,7 @@
         "tier": 0
     },
     "small_present": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "damage": "",
@@ -776,7 +776,7 @@
         "tier": 0
     },
     "medium_present": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "damage": "",
@@ -837,7 +837,7 @@
         "tier": 0
     },
     "large_present": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "damage": "",
@@ -889,7 +889,7 @@
         "tier": 0
     },
     "santa_hat": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "isShield": true,
