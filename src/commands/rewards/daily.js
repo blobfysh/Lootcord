@@ -1,9 +1,10 @@
 const QUOTES = [
-	'🎄 **MERRY CHRISTMAS!** Heres a {icon2}{item2} and a {icon}{item}. Open them to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `hourly`, `vote` commands.',
-	'☃️ **Take this {icon2}{item2} and a {icon}{item}!** Open them to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `hourly`, `vote` commands.'
+	'**Oh look, I found this {icon}{item} for you!** Open it to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `hourly`, `vote` commands.',
+	'**Here\'s a free {icon}{item}!** Open it to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `hourly`, `vote` commands.',
+	'**You earned a free {icon}{item}!** Open it to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `hourly`, `vote` commands.'
 ]
 const OFFICIAL_QUOTES = [
-	'❄️ You gained a {icon2}{item2} and **2x** {icon}{item} for playing in the official Lootcord server! 😎'
+	'You gained **2x** {icon}{item} for playing in the official Lootcord server! 😎'
 ]
 
 module.exports = {
@@ -31,23 +32,17 @@ module.exports = {
 
 		await app.cd.setCD(message.author.id, 'daily', app.config.cooldowns.daily * 1000)
 
-		await app.itm.addItem(message.author.id, 'small_present', 1)
-
 		if (message.channel.guild.id === app.config.supportGuildID) {
 			await app.itm.addItem(message.author.id, 'military_crate', 2)
 			message.reply(OFFICIAL_QUOTES[Math.floor(Math.random() * OFFICIAL_QUOTES.length)]
 				.replace('{icon}', app.itemdata.military_crate.icon)
-				.replace('{item}', '`military_crate`')
-				.replace('{icon2}', app.itemdata.small_present.icon)
-				.replace('{item2}', '`small_present`'))
+				.replace('{item}', '`military_crate`'))
 		}
 		else {
 			await app.itm.addItem(message.author.id, 'military_crate', 1)
 			message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)]
 				.replace('{icon}', app.itemdata.military_crate.icon)
 				.replace('{item}', '`military_crate`')
-				.replace('{icon2}', app.itemdata.small_present.icon)
-				.replace('{item2}', '`small_present`')
 				.replace('{prefix}', prefix))
 		}
 	}
