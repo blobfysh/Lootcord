@@ -1,10 +1,10 @@
 const CronJob = require('cron').CronJob
 const shopData = require('../resources/json/shop')
 const STATUS_LIST = [
-	'☃️ Looting {users} players',
-	'🎄 {users} workshop elves',
-	'🎁 Use t-daily for a present!',
-	'❄️ Join the discord!',
+	'Looting {users} players',
+	'{users} loot goblins',
+	'{guilds} servers!',
+	'Join the discord!',
 	'lootcord.com 👀'
 ]
 
