@@ -215,19 +215,5 @@
         "maxPrice": 500000,
         "minStock": 1,
         "maxStock": 2
-    },
-    "small_present": {
-        "buyName": "smallpresentscrap",
-        "minPrice": 95000,
-        "maxPrice": 145000,
-        "minStock": 2,
-        "maxStock": 3
-    },
-    "medium_present": {
-        "buyName": "mediumpresentscrap",
-        "minPrice": 950000,
-        "maxPrice": 1250000,
-        "minStock": 1,
-        "maxStock": 2
     }
 }
