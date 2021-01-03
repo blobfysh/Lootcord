@@ -59,7 +59,7 @@ module.exports = {
 				.addField('Item:', `${app.itemdata[itemName].icon}\`${itemName}\``, true)
 				.addField('Quantity:', itemAmnt, true)
 				.addField('Price:', `**${app.common.formatNumber(itemCost)}** Lootcoin`)
-				.setColor('#ADADAD')
+				.setColor(13451564)
 
 			const listingFee = Math.floor(itemCost * listing_fee)
 			const botMessage = await message.channel.createMessage({ content: `<@${message.author.id}>, This will cost **${app.common.formatNumber(listingFee)}** (${listing_fee * 100}%) to list. Are you sure?`, embed: bmEmbed.embed })
@@ -99,7 +99,7 @@ module.exports = {
 				.setTitle('List an item on the Black Market')
 				.setDescription('Enter the name of the item you would like to list:')
 				.setFooter('Type cancel to stop the command.')
-				.setColor('#ADADAD')
+				.setColor(13451564)
 
 			try {
 				const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 60000 })

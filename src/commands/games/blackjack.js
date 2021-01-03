@@ -203,7 +203,7 @@ function genEmbed(app, message, playerCards, dealerCards, gambleAmount, dealerEm
 		.addField(`${message.author.username} - **${hasAce(playerCards) && playerVal.score <= 21 ? `${playerVal.score}/${playerVal.minScore}` : playerVal.minScore}**`, playerString)
 		.addField(`${dealerEmote} Dealer - **${dealerVal.score > 21 ? dealerVal.minScore : dealerVal.score}**`, dealerString)
 		.setFooter('You have 60 seconds to finish this game.')
-		.setColor('#ADADAD')
+		.setColor(13451564)
 
 	return embed
 }
