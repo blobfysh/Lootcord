@@ -11,7 +11,7 @@ module.exports = {
 	guildModsOnly: false,
 
 	async execute(app, message, { args, prefix }) {
-		const activateCD = await app.cd.getCD(message.author.id, 'activate')
+		const activateCD = await app.cd.getCD(message.author.id, `activate|${message.channel.guild.id}`)
 		const attackCD = await app.cd.getCD(message.author.id, 'attack')
 
 		if (activateCD) return message.reply(`You must wait \`${activateCD}\` after activating in order to deactivate`)
