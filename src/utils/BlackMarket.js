@@ -33,7 +33,7 @@ class BlackMarket {
 			const notifyEmb = new this.app.Embed()
 				.setTitle('Your Item on the Black Market Sold!')
 				.addField('Item:', `${listingInfo.amount}x ${this.app.itemdata[listingInfo.item].icon}\`${listingInfo.item}\``, true)
-				.addField('Amount Recieved:', this.app.common.formatNumber(listingInfo.price), true)
+				.addField('Amount Received:', this.app.common.formatNumber(listingInfo.price), true)
 				.setFooter(`Listing ID: ${listingInfo.listingId}`)
 				.setColor('#4CAD4C')
 
