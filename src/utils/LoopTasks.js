@@ -17,6 +17,7 @@ class LoopTasks {
 		this.hourly = new CronJob('0 * * * *', this.hourlyTasks.bind(this), null, false, 'America/New_York')
 		this.removePatrons = new CronJob('0 0 2 * *', () => { this.app.ipc.broadcast('removePatrons', {}) }, null, false, 'America/New_York')
 		this.firstOfMonth = new CronJob('0 0 1 * *', this.monthlyTasks.bind(this), null, false, 'America/New_York')
+		this.weekly = new CronJob('0 0 * * 0', this.weeklyTasks.bind(this), null, false, 'America/New_York')
 
 		// every 3 minutes
 		this.often = new CronJob('*/3 * * * *', this.frequentTasks.bind(this), null, false, 'America/New_York')
@@ -150,6 +151,49 @@ class LoopTasks {
 				name: `t-help | ${STATUS_LIST[Math.floor(Math.random() * STATUS_LIST.length)].replace('{users}', this.app.common.formatNumber(stats.users, true)).replace('{guilds}', this.app.common.formatNumber(stats.guilds, true))}`,
 				type: 0
 			})
+		}
+	}
+
+	async weeklyTasks() {
+		// remove all bounties and reimburse players
+		const bounties = await this.app.query('SELECT * FROM bounties')
+		await this.app.bountyHandler.reimburseAll()
+
+		// combine all bounties user has placed
+		const userBounties = bounties.reduce((obj, curr) => {
+			obj[curr.placedBy] = obj[curr.placedBy] ?
+				{
+					money: curr.money + obj[curr.placedBy].money,
+					bounties: [...obj[curr.placedBy].bounties, {
+						id: curr.userId,
+						money: curr.money
+					}]
+				} :
+				{
+					money: curr.money,
+					bounties: [{
+						id: curr.userId,
+						money: curr.money
+					}]
+				}
+
+			return obj
+		}, {})
+
+		for (const user in userBounties) {
+			const bountyList = []
+
+			for (const bountyId of userBounties[user].bounties) {
+				const bountyUser = await this.app.common.fetchUser(bountyId.id, { cacheIPC: false })
+
+				bountyList.push(`${bountyUser.username}#${bountyUser.discriminator} - ${this.app.common.formatNumber(bountyId.money)}`)
+			}
+
+			const bountyEmbed = new this.app.Embed()
+				.setColor(13451564)
+				.setDescription(`**${this.app.icons.death_skull} The following bounties you placed have expired:**\n\n${bountyList.join('\n')}\n\n**You have been reimbursed ${this.app.common.formatNumber(userBounties[user].money)}.**`)
+
+			this.app.common.messageUser(user, bountyEmbed)
 		}
 	}
 

@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'enemy',
-	aliases: ['bounty', 'boss', 'spawn', 'spawns'],
+	aliases: ['boss', 'spawn', 'spawns'],
 	description: 'Displays the enemy present in the channel, if there is one.',
 	long: 'Displays the enemy present in the channel, if there is one.\n\nEnemy spawns are like raid bosses, you can fight them for loot, or die trying.\n\nThe spawn system is exclusive to patreon donators: https://www.patreon.com/lootcord.',
 	args: {},

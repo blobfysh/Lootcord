@@ -360,7 +360,7 @@ module.exports = {
 						if (serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== '') {
 							sendToKillFeed(app, { username: monster.title, discriminator: '0000', id: monsterRow.monster }, serverInfo.killChan, message.member, monster.weapon.name, mobDmg, randomItems, moneyStolen, scrapStolen, true)
 						}
-						logKill(app, message.channel.guild.id, { username: monster.title, discriminator: '0000', id: monsterRow.monster }, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, scrapStolen, randomItems)
+						logKill(app, message.channel.guild.id, { username: monster.title, discriminator: '0000', id: monsterRow.monster }, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, scrapStolen, randomItems, 0)
 					}
 					else {
 						await app.query(`UPDATE scores SET health = health - ${mobDmg} WHERE userId = ${message.author.id}`)
@@ -460,6 +460,7 @@ module.exports = {
 					const xpGained = randomItems.items.length * 50
 					const moneyStolen = Math.floor(victimRow.money * 0.75)
 					const scrapStolen = Math.floor(victimRow.scrap * 0.5)
+					const bountyMoney = await app.bountyHandler.getBounty(target.id)
 
 					// passive shield, protects same player from being attacked for 24 hours
 					await app.cd.setCD(target.id, 'passive_shield', app.config.cooldowns.daily * 1000)
@@ -467,7 +468,7 @@ module.exports = {
 					await app.itm.removeItem(target.id, randomItems.amounts)
 					await app.itm.addItem(message.author.id, randomItems.amounts)
 					await app.player.removeMoney(target.id, moneyStolen)
-					await app.player.addMoney(message.author.id, moneyStolen)
+					await app.player.addMoney(message.author.id, moneyStolen + bountyMoney)
 					await app.player.removeScrap(target.id, scrapStolen)
 					await app.player.addScrap(message.author.id, scrapStolen)
 
@@ -501,6 +502,11 @@ module.exports = {
 						.addField(`Items (${randomItems.items.length})`, randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
 						.setFooter(`⭐ ${xpGained} XP earned!`)
 
+					if (bountyMoney) {
+						await app.bountyHandler.removeBounties(target.id, false)
+						killedReward.addField('Bounty Claimed', app.common.formatNumber(bountyMoney))
+					}
+
 					message.channel.createMessage({
 						content: await generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, true, victimArmor, baseDmg),
 						embed: killedReward.embed
@@ -511,7 +517,7 @@ module.exports = {
 					if (serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== '') {
 						sendToKillFeed(app, message.author, serverInfo.killChan, target, item, randDmg, randomItems, moneyStolen, scrapStolen)
 					}
-					logKill(app, message.channel.guild.id, message.member, target, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems)
+					logKill(app, message.channel.guild.id, message.member, target, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems, bountyMoney)
 
 					// deactivate victim if they had nothing to loot
 					if (randomItems.items.length === 0 && moneyStolen <= 1000 && scrapStolen <= 1000) {
@@ -649,6 +655,7 @@ module.exports = {
 					const xpGained = randomItems.items.length * 50
 					const moneyStolen = Math.floor(victimRow.money * 0.75)
 					const scrapStolen = Math.floor(victimRow.scrap * 0.5)
+					const bountyMoney = await app.bountyHandler.getBounty(member.id)
 
 					// passive shield, protects same player from being attacked for 24 hours
 					await app.cd.setCD(member.id, 'passive_shield', app.config.cooldowns.daily * 1000)
@@ -656,7 +663,7 @@ module.exports = {
 					await app.itm.removeItem(member.id, randomItems.amounts)
 					await app.itm.addItem(message.author.id, randomItems.amounts)
 					await app.player.removeMoney(member.id, moneyStolen)
-					await app.player.addMoney(message.author.id, moneyStolen)
+					await app.player.addMoney(message.author.id, moneyStolen + bountyMoney)
 					await app.player.removeScrap(member.id, scrapStolen)
 					await app.player.addScrap(message.author.id, scrapStolen)
 
@@ -691,6 +698,11 @@ module.exports = {
 						.addField(`Items (${randomItems.items.length})`, randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
 						.setFooter(`⭐ ${xpGained} XP earned!`)
 
+					if (bountyMoney) {
+						await app.bountyHandler.removeBounties(member.id, false)
+						killedReward.addField('Bounty Claimed', app.common.formatNumber(bountyMoney))
+					}
+
 					message.channel.createMessage({
 						content: await generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, true, victimArmor, baseDmg),
 						embed: killedReward.embed
@@ -701,7 +713,7 @@ module.exports = {
 					if (serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== '') {
 						sendToKillFeed(app, message.author, serverInfo.killChan, member, item, randDmg, randomItems, moneyStolen, scrapStolen)
 					}
-					logKill(app, message.channel.guild.id, message.member, member, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems)
+					logKill(app, message.channel.guild.id, message.member, member, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems, bountyMoney)
 
 					// deactivate victim if they had nothing to loot
 					if (randomItems.items.length === 0 && moneyStolen <= 1000 && scrapStolen <= 1000) {
@@ -763,7 +775,7 @@ function getAmmo(app, item, row, userItems) {
 	return undefined
 }
 
-function logKill(app, guildID, killer, victim, item, ammo, damage, moneyStolen, scrapStolen, itemsLost) {
+function logKill(app, guildID, killer, victim, item, ammo, damage, moneyStolen, scrapStolen, itemsLost, bountyMoney) {
 	try {
 		const embed = new app.Embed()
 			.setTitle('Kill Log')
@@ -775,6 +787,8 @@ function logKill(app, guildID, killer, victim, item, ammo, damage, moneyStolen, 
 			.addField('Balance Stolen', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`, true)
 			.setTimestamp()
 			.setFooter(`Guild ID: ${guildID}`)
+
+		if (bountyMoney) embed.addField('Bounty Claimed', app.common.formatNumber(bountyMoney))
 
 		app.messager.messageLogs(embed)
 	}

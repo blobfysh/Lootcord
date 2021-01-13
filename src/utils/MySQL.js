@@ -42,6 +42,9 @@ class MySQL {
 			// player badges table
 			await this.query(createBadgesSQL)
 
+			// player bounties table
+			await this.query(createBountiesSQL)
+
 			// cooldowns table
 			await this.query(createCooldownsSQL)
 
@@ -218,6 +221,17 @@ CREATE TABLE IF NOT EXISTS badges (
     badge VARCHAR(255),
     earned BIGINT,
     UNIQUE user_badge(userId, badge))
+    ENGINE = InnoDB
+`
+
+const createBountiesSQL = `
+CREATE TABLE IF NOT EXISTS bounties (
+	userId BIGINT,
+	placedBy BIGINT,
+    money BIGINT,
+	PRIMARY KEY(userId, placedBy),
+	FOREIGN KEY (userId) REFERENCES scores (userId),
+	FOREIGN KEY (placedBy) REFERENCES scores (userId))
     ENGINE = InnoDB
 `
 

@@ -48,6 +48,8 @@ module.exports = {
 					app.clans.disbandClan(userRow2.clanId)
 				}
 
+				// remove bounties before deleting scores row because of foreign constraints
+				await app.bountyHandler.removeBounties(userID)
 				await app.query(`DELETE FROM scores WHERE userId ="${userID}"`)
 				await app.query(`DELETE FROM user_items WHERE userId ="${userID}"`)
 				await app.query(`DELETE FROM badges WHERE userId = ${userID}`)
