@@ -35,6 +35,12 @@ class BountyHandler {
 		return bounty[0].hit || 0
 	}
 
+	async getPlacedBounties(userId) {
+		const bounties = await this.app.query('SELECT * FROM bounties WHERE placedBy = ?', [userId])
+
+		return bounties
+	}
+
 	/**
 	 * Gives everyone who placed an active bounty their money back and removes all existing bounties.
 	 */

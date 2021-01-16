@@ -2,7 +2,7 @@ module.exports = {
 	name: 'placebounty',
 	aliases: [''],
 	description: 'Place a bounty on another player that can be claimed by whoever kills that player.',
-	long: 'Place a bounty on another player that can be claimed by whoever kills that player. If nobody claims the bounty you place within the week, you will receive that money back.',
+	long: 'Place a bounty on another player that can be claimed by whoever kills that player. If nobody claims the bounty you place within the week, you will receive that money back.\n\nYou can place bounties on up to 3 players.',
 	args: {
 		'@user/discord#tag': 'User to place bounty on.',
 		'amount': 'Amount of Lootcoin for bounty.'
@@ -47,6 +47,19 @@ module.exports = {
 		}
 		else if (row.clanId !== 0 && row.clanId === victimRow.clanId) {
 			return message.reply('❌ You cannot place a bounty on a member of your own clan.')
+		}
+
+		const placedBounties = await app.bountyHandler.getPlacedBounties(message.author.id)
+
+		// check if user placed 3 bounties and isnt trying to add to existing placed bounty
+		if (placedBounties.length >= 3 && !placedBounties.filter(user => user.userId === memberArg.id).length) {
+			return message.reply('❌ You can only have up to **3** active bounties at a time. Wait for your current bounties to get claimed or expire before placing any more.')
+		}
+
+		const userBounty = await app.bountyHandler.getBounty(memberArg.id)
+
+		if (userBounty + hitAmount > 1000000) {
+			return message.reply(`❌ Placing a **${app.common.formatNumber(hitAmount)}** bounty on ${memberArg.username}#${memberArg.discriminator} will put their bounty over the max of **${app.common.formatNumber(1000000)}**. (The highest hit you could place on this person is  **${app.common.formatNumber(1000000 - userBounty)}**)`)
 		}
 
 		const botMessage = await message.reply(`You are about to place a **${app.common.formatNumber(hitAmount)}** bounty on ${memberArg.username}#${memberArg.discriminator}.\n\n**Are you sure?**`)
