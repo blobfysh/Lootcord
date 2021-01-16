@@ -37,7 +37,6 @@ module.exports = {
 		if (bounties.length > usersPerPage) {
 			const pages = []
 
-			// max page is based off of active users because there will never be more active clans than there are active users
 			const maxPage = Math.ceil(bounties.length / usersPerPage)
 
 			for (let i = 1; i < maxPage + 1; i++) {

@@ -95,6 +95,30 @@ router.post('/items', async(req, res) => {
 	})
 })
 
+router.get('/bans', async(req, res) => {
+	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
+
+	const bannedUsers = await client.mysql.query('SELECT * FROM banned')
+
+	res.status(200).json(bannedUsers)
+})
+
+router.get('/tradebans', async(req, res) => {
+	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
+
+	const bannedUsers = await client.mysql.query('SELECT * FROM tradebanned')
+
+	res.status(200).json(bannedUsers)
+})
+
+router.get('/guildbans', async(req, res) => {
+	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
+
+	const bannedGuilds = await client.mysql.query('SELECT * FROM bannedguilds')
+
+	res.status(200).json(bannedGuilds)
+})
+
 module.exports = {
 	setClient,
 	path: '/api',
