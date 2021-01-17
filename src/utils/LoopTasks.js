@@ -32,6 +32,7 @@ class LoopTasks {
 			this.often.start()
 			this.removePatrons.start()
 			this.firstOfMonth.start()
+			this.weekly.start()
 		}
 
 		this.hourly.start()
@@ -155,6 +156,7 @@ class LoopTasks {
 	}
 
 	async weeklyTasks() {
+		console.log('[LOOPTASKS] Running weekly tasks...')
 		// remove all bounties and reimburse players
 		const bounties = await this.app.query('SELECT * FROM bounties')
 		await this.app.bountyHandler.reimburseAll()
