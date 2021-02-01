@@ -20,14 +20,16 @@ router.post('/topgg', (req, res) => {
 	res.status(200).send('Successfully received vote!')
 })
 
-router.post('/bfd', (req, res) => {
+router.post('/dbl', (req, res) => {
 	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
 
-	if (req.body.user) {
+	if (req.body.id) {
 		client.sharder.sendTo(0, {
 			_eventName: 'vote',
-			vote: req.body,
-			type: 'bfd'
+			vote: {
+				user: req.body.id
+			},
+			type: 'dbl'
 		})
 	}
 

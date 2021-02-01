@@ -24,13 +24,7 @@ exports.run = async function({ vote, type }) {
 	}
 
 	// add vote cooldown
-	if (type === 'topgg') {
-		await this.cd.setCD(vote.user, 'vote', 43200 * 1000)
-	}
-	else if (type === 'bfd') {
-		const midnight = new Date(new Date().setUTCHours(24, 0, 0, 0))
-		await this.cd.setCD(vote.user, 'vote2', midnight - Date.now())
-	}
+	await this.cd.setCD(vote.user, type === 'topgg' ? 'vote' : 'vote2', 43200 * 1000)
 
 	await this.query(`UPDATE scores SET voteCounter = voteCounter + 1 WHERE userId = ${vote.user}`)
 

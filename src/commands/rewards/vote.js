@@ -24,8 +24,8 @@ function getVotesAvailable(vote1CD, vote2CD) {
 	if (vote1CD) str += `\n\n**Top.gg**: \`${vote1CD}\``
 	else str += '\n\n**Top.gg**: ✅ Available! https://top.gg/bot/493316754689359874/vote'
 
-	if (vote2CD) str += `\n**Bots For Discord**: \`${vote2CD}\``
-	else str += '\n**Bots For Discord**: ✅ Available! https://botsfordiscord.com/bot/493316754689359874/vote'
+	if (vote2CD) str += `\n**Discord Bot List**: \`${vote2CD}\``
+	else str += '\n**Discord Bot List**: ✅ Available! https://discordbotlist.com/bots/lootcord/upvote'
 
 	str += '\n\nVote on both websites for double the reward, you should receive a DM after you vote.'
 
