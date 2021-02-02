@@ -182,7 +182,7 @@
         "rarity": "Uncommon",
         "isWeap": false,
         "isItem": false,
-        "damage": 32,
+        "damage": 16,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
