@@ -58,7 +58,16 @@ module.exports = {
 					embedInfo.addField('🛡️ Passive Shield', `\`${passiveShield}\` [?](https://lootcord.com/faq#what-is-a-passive-shield 'A passive shield is a 24 hour attack shield given to you when you are killed.\n\nThis shield will automatically be removed if you decide to attack someone.')`)
 				}
 
-				embedInfo.addField('Health', `${app.player.getHealthIcon(userRow.health, userRow.maxHealth, true)}\n${userRow.health} / ${userRow.maxHealth}`, true)
+				let healthStr = `**${userRow.health} / ${userRow.maxHealth}** HP${app.player.getHealthIcon(userRow.health, userRow.maxHealth, true)}`
+
+				if (userRow.bleed > 0) {
+					healthStr += `\n🩸 Bleeding: **${userRow.bleed}**`
+				}
+				if (userRow.burn > 0) {
+					healthStr += `\n🔥 Burning: **${userRow.burn}**`
+				}
+
+				embedInfo.addField('Health', healthStr, true)
 
 				embedInfo.addField('Money', `${app.common.formatNumber(userRow.money)}\n${app.common.formatNumber(userRow.scrap, false, true)}`, true)
 

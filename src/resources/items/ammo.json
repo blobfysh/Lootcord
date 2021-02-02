@@ -141,7 +141,7 @@
         "rarity": "Uncommon",
         "isWeap": false,
         "isItem": false,
-        "damage": 34,
+        "damage": 24,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -159,7 +159,7 @@
         },
         "buy": "",
         "sell": 20823,
-        "desc": "High velocity 5.56 rifle ammunition.",
+        "desc": "High velocity 5.56 rifle ammunition that causes bleeding.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/734096778466558002/hv_rifle_bullet.png",
         "icon": "<:hv_rifle_bullet:750105298093473932>",
         "breaksOnUse": "",
@@ -175,7 +175,8 @@
             "hv_rifle",
             "hight_velocity_bullet"
         ],
-        "tier": 3
+        "tier": 3,
+        "bleed": 32
     },
     "explosive_bullet": {
         "rarity": "Uncommon",

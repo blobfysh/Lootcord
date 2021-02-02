@@ -13,6 +13,19 @@ module.exports = {
 	async execute(app, message, { args, prefix }) {
 		const row = await app.player.getRow(message.author.id)
 
-		message.reply(`You currently have: ${app.player.getHealthIcon(row.health, row.maxHealth)} **${row.health} / ${row.maxHealth}** HP (Gain more with the \`upgrade\` command)`)
+		let healthStr = `You currently have: ${app.player.getHealthIcon(row.health, row.maxHealth)} **${row.health} / ${row.maxHealth}** HP (Gain more with the \`upgrade\` command)\n\n__**Effects**__`
+
+		if (row.bleed > 0) {
+			healthStr += `\n🩸 Bleeding: **${row.bleed}** (-5 HP per 5 mins)`
+		}
+		if (row.burn > 0) {
+			healthStr += `\n🔥 Burning: **${row.burn}** (-3 HP per 5 mins)`
+		}
+
+		if (row.bleed === 0 && row.burn === 0) {
+			healthStr += '\nNone, effects such as bleeding or burning will show here.'
+		}
+
+		message.reply(healthStr)
 	}
 }

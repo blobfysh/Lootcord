@@ -42,6 +42,14 @@ module.exports = {
 			const bannersList = `**Equipped:** ${bannerIcon}\`${userRow.banner}\`\n${userItems.banners.join('\n')}`
 			let userStatus = 'Change your status with the `setstatus` command!'
 			let badgeList = ''
+			let healthStr = `**${userRow.health} / ${userRow.maxHealth}** HP${app.player.getHealthIcon(userRow.health, userRow.maxHealth, true)}`
+
+			if (userRow.bleed > 0) {
+				healthStr += `\n🩸 Bleeding: **${userRow.bleed}**`
+			}
+			if (userRow.burn > 0) {
+				healthStr += `\n🔥 Burning: **${userRow.burn}**`
+			}
 
 			if (userRow.status !== '') {
 				userStatus = userRow.status
@@ -66,7 +74,7 @@ module.exports = {
 				.addField('Level', codeWrap(`${userRow.level} (${xp.curLvlXp} / ${xp.neededForLvl})`, 'js'), true)
 				.addField('Power', codeWrap(`${userRow.power} / ${userRow.max_power} Power`, 'js'), true)
 				.addField('K/D Ratio', codeWrap(userRow.deaths === 0 ? `${userRow.kills} Kills\n${userRow.deaths} Deaths (${userRow.kills} K/D)\n` : `${userRow.kills} Kills\n${userRow.deaths} Deaths (${(userRow.kills / userRow.deaths).toFixed(2)} K/D)`, 'fix'))
-				.addField('Health', `${app.player.getHealthIcon(userRow.health, userRow.maxHealth, true)}\n${userRow.health} / ${userRow.maxHealth} HP`, true)
+				.addField('Health', healthStr, true)
 				.addField('Strength', `${parseFloat(userRow.scaledDamage).toFixed(2)}x damage`, true)
 				.addField('Luck', userRow.luck.toString(), true)
 				.addField('Banners', bannersList, true)

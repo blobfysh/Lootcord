@@ -271,6 +271,8 @@ CREATE TABLE IF NOT EXISTS scores (
     prestige INT,
     discoinLimit INT,
     bmLimit INT,
+    bleed INT,
+    burn INT,
     PRIMARY KEY (userId))
     ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
 `

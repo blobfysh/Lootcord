@@ -336,8 +336,8 @@ module.exports = {
 						await app.player.removeMoney(message.author.id, moneyStolen)
 						await app.player.removeScrap(message.author.id, scrapStolen)
 
-						await app.query(`UPDATE scores SET deaths = deaths + 1 WHERE userId = ${message.author.id}`)
-						await app.query(`UPDATE scores SET health = 100 WHERE userId = ${message.author.id}`)
+						await app.query(`UPDATE scores SET deaths = deaths + 1, health = 100, bleed = 0, burn = 0 WHERE userId = ${message.author.id}`)
+
 						if (row.power >= -3) {
 							await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${message.author.id}`)
 						}
@@ -384,6 +384,8 @@ module.exports = {
 				const damageMax = app.itemdata[item].maxDmg
 				let ammoUsed
 				let bonusDamage = 0
+				let bleedDamage = 0
+				let burnDamage = 0
 				let weaponBroke = app.itemdata[item].breaksOnUse
 
 				// check for ammo and remove it
@@ -392,6 +394,8 @@ module.exports = {
 
 					if (ammoUsed) {
 						bonusDamage = app.itemdata[ammoUsed].damage
+						bleedDamage = app.itemdata[ammoUsed].bleed > 0 ? app.itemdata[ammoUsed].bleed : 0
+						burnDamage = app.itemdata[ammoUsed].burn > 0 ? app.itemdata[ammoUsed].burn : 0
 						await app.itm.removeItem(message.author.id, ammoUsed, 1)
 					}
 				}
@@ -475,8 +479,7 @@ module.exports = {
 					await app.player.addPoints(message.author.id, xpGained) // 50 xp for each item stolen
 
 					await app.query(`UPDATE scores SET kills = kills + 1 WHERE userId = ${message.author.id}`) // add 1 to kills
-					await app.query(`UPDATE scores SET deaths = deaths + 1 WHERE userId = ${target.id}`)
-					await app.query(`UPDATE scores SET health = 100 WHERE userId = ${target.id}`)
+					await app.query(`UPDATE scores SET deaths = deaths + 1, health = 100, bleed = 0, burn = 0 WHERE userId = ${target.id}`)
 
 					if (victimRow.power >= -3) {
 						await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${target.id}`)
@@ -544,6 +547,14 @@ module.exports = {
 						message.channel.createMessage(generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg))
 					}
 
+					if (bleedDamage > 0) {
+						await app.query(`UPDATE scores SET bleed = bleed + ${bleedDamage} WHERE userId = ${target.id}`)
+					}
+
+					if (burnDamage > 0) {
+						await app.query(`UPDATE scores SET burn = burn + ${burnDamage} WHERE userId = ${target.id}`)
+					}
+
 					await app.query(`UPDATE scores SET health = health - ${randDmg} WHERE userId = ${target.id}`)
 					if (victimRow.notify2) notifyAttackVictim(app, message, target, item, randDmg, victimRow)
 				}
@@ -584,6 +595,8 @@ module.exports = {
 				const damageMax = app.itemdata[item].maxDmg
 				let ammoUsed
 				let bonusDamage = 0
+				let bleedDamage = 0
+				let burnDamage = 0
 				let weaponBroke = app.itemdata[item].breaksOnUse
 
 				try {
@@ -595,6 +608,8 @@ module.exports = {
 						}
 
 						bonusDamage = app.itemdata[ammoUsed].damage
+						bleedDamage = app.itemdata[ammoUsed].bleed > 0 ? app.itemdata[ammoUsed].bleed : 0
+						burnDamage = app.itemdata[ammoUsed].burn > 0 ? app.itemdata[ammoUsed].burn : 0
 						await app.itm.removeItem(message.author.id, ammoUsed, 1)
 					}
 				}
@@ -670,8 +685,7 @@ module.exports = {
 					await app.player.addPoints(message.author.id, xpGained) // 50 xp for each item stolen
 
 					await app.query(`UPDATE scores SET kills = kills + 1 WHERE userId = ${message.author.id}`) // add 1 to kills
-					await app.query(`UPDATE scores SET deaths = deaths + 1 WHERE userId = ${member.id}`)
-					await app.query(`UPDATE scores SET health = 100 WHERE userId = ${member.id}`)
+					await app.query(`UPDATE scores SET deaths = deaths + 1, health = 100, bleed = 0, burn = 0 WHERE userId = ${member.id}`)
 
 					if (victimRow.power >= -3) {
 						await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${member.id}`)
@@ -740,6 +754,14 @@ module.exports = {
 						console.log(victimArmor)
 						console.log(baseDmg)
 						message.channel.createMessage(generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg))
+					}
+
+					if (bleedDamage > 0) {
+						await app.query(`UPDATE scores SET bleed = bleed + ${bleedDamage} WHERE userId = ${member.id}`)
+					}
+
+					if (burnDamage > 0) {
+						await app.query(`UPDATE scores SET burn = burn + ${burnDamage} WHERE userId = ${member.id}`)
 					}
 
 					await app.query(`UPDATE scores SET health = health - ${randDmg} WHERE userId = ${member.id}`)
@@ -818,6 +840,14 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
 
 	if (ammoUsed === '40mm_smoke_grenade') {
 		finalStr += `\n**${victim.nick || victim.username}** is blinded by the smoke and cannot use any commands for **2** hours!`
+	}
+
+	if (!killed && app.itemdata[ammoUsed].bleed > 0) {
+		finalStr += `\n**${victim.nick || victim.username}** is 🩸 bleeding for **${app.itemdata[ammoUsed].bleed}** damage!`
+	}
+
+	if (!killed && app.itemdata[ammoUsed].burn > 0) {
+		finalStr += `\n**${victim.nick || victim.username}** is 🔥 burning for **${app.itemdata[ammoUsed].burn}** damage!`
 	}
 
 	if (itemBroke) {

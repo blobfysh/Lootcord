@@ -72,7 +72,9 @@ module.exports = {
 
 			if (itemInfo.isWeap) {
 				if (itemInfo.ammo !== '') {
-					embedItem.addField('Damage', itemInfo.ammo.sort(app.itm.sortItemsHighLow.bind(app)).map(ammo => `${app.itemdata[ammo].icon}\`${ammo}\` ${app.itemdata[ammo].damage + itemInfo.minDmg} - ${app.itemdata[ammo].damage + itemInfo.maxDmg}`).join('\n'))
+					embedItem.addField('Damage', itemInfo.ammo.sort(app.itm.sortItemsHighLow.bind(app))
+						.map(ammo => `${app.itemdata[ammo].icon}\`${ammo}\` ${app.itemdata[ammo].damage + itemInfo.minDmg} - ${app.itemdata[ammo].damage + itemInfo.maxDmg}${getStatusEffectStr(app.itemdata[ammo])}`)
+						.join('\n'))
 				}
 				else {
 					embedItem.addField('Damage', `${itemInfo.minDmg} - ${itemInfo.maxDmg}`, true)
@@ -82,7 +84,7 @@ module.exports = {
 			if (itemInfo.category === 'Ammo') {
 				const ammoFor = itemsArraySorted.filter(item => app.itemdata[item].ammo !== '' && app.itemdata[item].ammo.includes(itemSearched))
 
-				embedItem.addField('Damage', itemInfo.damage, true)
+				embedItem.addField('Damage', itemInfo.damage + getStatusEffectStr(itemInfo), true)
 				embedItem.addField('Ammo for:', ammoFor.map(weapon => `${app.itemdata[weapon].icon}\`${weapon}\``).join('\n'), true)
 			}
 
@@ -163,4 +165,15 @@ module.exports = {
 			message.reply(`I don't recognize that item. Use \`${prefix}items\` to see a full list!`)
 		}
 	}
+}
+
+function getStatusEffectStr(item) {
+	if (item.bleed > 0) {
+		return ` + 🩸${item.bleed} bleed`
+	}
+	else if (item.burn > 0) {
+		return ` + 🔥${item.burn} burn`
+	}
+
+	return ''
 }

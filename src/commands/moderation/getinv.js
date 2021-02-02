@@ -47,7 +47,16 @@ module.exports = {
 				embedInfo.addField('🛡️ Passive Shield', `\`${passiveShield}\``)
 			}
 
-			embedInfo.addField('Health', `${app.player.getHealthIcon(row.health, row.maxHealth, true)}\n${row.health} / ${row.maxHealth}`, true)
+			let healthStr = `**${row.health} / ${row.maxHealth}** HP${app.player.getHealthIcon(row.health, row.maxHealth, true)}`
+
+			if (row.bleed > 0) {
+				healthStr += `\n🩸 Bleeding: **${row.bleed}**`
+			}
+			if (row.burn > 0) {
+				healthStr += `\n🔥 Burning: **${row.burn}**`
+			}
+
+			embedInfo.addField('Health', healthStr, true)
 
 			embedInfo.addField('Money', `${app.common.formatNumber(row.money)}\n${app.common.formatNumber(row.scrap, false, true)}`, true)
 
