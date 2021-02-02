@@ -88,6 +88,7 @@
         "minDmg": 0,
         "maxDmg": 4,
         "ammo": [
+            "incen_pistol_bullet",
             "pistol_bullet"
         ],
         "craftedWith": {
@@ -130,6 +131,7 @@
         "minDmg": 17,
         "maxDmg": 28,
         "ammo": [
+            "incen_pistol_bullet",
             "pistol_bullet"
         ],
         "craftedWith": {
@@ -173,6 +175,7 @@
         "minDmg": 21,
         "maxDmg": 30,
         "ammo": [
+            "incen_pistol_bullet",
             "pistol_bullet"
         ],
         "craftedWith": {
@@ -213,6 +216,7 @@
         "minDmg": 11,
         "maxDmg": 21,
         "ammo": [
+            "incen_pistol_bullet",
             "pistol_bullet"
         ],
         "craftedWith": {
@@ -254,6 +258,7 @@
         "minDmg": 25,
         "maxDmg": 33,
         "ammo": [
+            "incen_pistol_bullet",
             "pistol_bullet"
         ],
         "craftedWith": {
@@ -292,6 +297,7 @@
         "minDmg": 13,
         "maxDmg": 20,
         "ammo": [
+            "incen_pistol_bullet",
             "pistol_bullet"
         ],
         "craftedWith": "",
@@ -418,6 +424,7 @@
         "minDmg": 5,
         "maxDmg": 15,
         "ammo": [
+            "incen_pistol_bullet",
             "pistol_bullet"
         ],
         "craftedWith": {

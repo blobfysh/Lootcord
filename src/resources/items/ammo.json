@@ -101,6 +101,51 @@
         ],
         "tier": 1
     },
+    "incen_pistol_bullet": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 21,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 7,
+            "materials": [
+                "gunpowder|3",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": {
+            "materials": []
+        },
+        "buy": "",
+        "sell": 11274,
+        "desc": "Incendiary pistol bullet that bursts into flames upon impact.",
+        "image": "https://cdn.discordapp.com/attachments/610503377679548446/805959692790005822/incendiary_pistol_bullet.png",
+        "icon": "<:incendiary_pistol_bullet:805959572769472512>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo",
+        "aliases": [
+            "incen",
+            "9mm_incen",
+            "9mill_incen",
+            "9x19_incen",
+            "incen_bullet",
+            "incen_pistol_ammo",
+            "incen_ammunition",
+            "incen_ammo",
+            "incendiary",
+            "incendiary_pistol_bullet",
+            "incendiary_bullet",
+            "fire_bullet"
+        ],
+        "tier": 2,
+        "burn": 10
+    },
     "rifle_bullet": {
         "rarity": "Uncommon",
         "isWeap": false,

@@ -227,7 +227,8 @@ class LoopTasks {
 		burn = CASE
 			WHEN burn >= 3 THEN burn - 3
 			ELSE 0
-		END`)
+		END
+		WHERE bleed > 0 OR burn > 0`)
 	}
 
 	async _handleDiscoinTransactions() {

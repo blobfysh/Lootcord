@@ -4,7 +4,7 @@ module.exports = {
 	description: 'Sets preferred ammo type.',
 	long: 'Sets your preferred ammunition. This ammo will be prioritized when using weapons even if you have a better ammo type in your inventory.',
 	args: { item: 'Ammo to set as preferred' },
-	examples: ['setammo 7.62x39_fmj'],
+	examples: ['setammo hv_rifle_bullet'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,
