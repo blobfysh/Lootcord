@@ -96,6 +96,7 @@
         "isHeal": true,
         "healMin": 10,
         "healMax": 19,
+        "healsBleed": 10,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -114,7 +115,7 @@
             "currency": "money"
         },
         "sell": 2982,
-        "desc": "Use this to restore **10 - 19** health.",
+        "desc": "Use this to restore **10 - 19** health and reduce bleeding by **10**.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732929515080384592/bandage.png",
         "icon": "<:bandage:732858488652431480>",
         "breaksOnUse": "",
@@ -202,6 +203,7 @@
         "isHeal": true,
         "healMin": 50,
         "healMax": 60,
+        "healsBleed": 100,
         "damage": "",
         "minDmg": "",
         "maxDmg": "",
@@ -221,7 +223,7 @@
             "currency": "money"
         },
         "sell": 21254,
-        "desc": "Use this to restore **50 - 60** health.",
+        "desc": "Use this to restore **50 - 60** health and reduce bleeding by **100**.",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733220182331359313/large_medkit.png",
         "icon": "<:large_medkit:750105123497312347>",
         "breaksOnUse": "",

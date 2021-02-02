@@ -110,25 +110,27 @@ module.exports = {
 
 				const minHeal = app.itemdata[item].healMin
 				const maxHeal = app.itemdata[item].healMax
+				const itemBleedHeal = app.itemdata[item].healsBleed
 
 				const randHeal = Math.floor(Math.random() * (maxHeal - minHeal + 1)) + minHeal
-				const userMaxHeal = row.maxHealth - row.health
+				const userMaxHeal = Math.min(row.maxHealth - row.health, randHeal)
+				const healBleed = itemBleedHeal && row.bleed > 0
 
-				if (userMaxHeal === 0) {
+				if (userMaxHeal === 0 && !healBleed) {
 					return message.reply('❌ You are already at max health!')
 				}
 
 				await app.cd.setCD(message.author.id, 'heal', app.itemdata[item].cooldown.seconds * 1000)
+				await app.itm.removeItem(message.author.id, item, 1)
 
-				if (userMaxHeal > randHeal) {
-					await app.query(`UPDATE scores SET health = health + ${randHeal} WHERE userId = '${message.author.id}'`)
-					await app.itm.removeItem(message.author.id, item, 1)
-					message.reply(`You have healed for **${randHeal}** health! You now have ${app.player.getHealthIcon(row.health + randHeal, row.maxHealth)} ${row.health + randHeal} / ${row.maxHealth} HP`)
+				if (healBleed) {
+					const bleedingVal = row.bleed - itemBleedHeal <= 0 ? 0 : row.bleed - itemBleedHeal
+					await app.query(`UPDATE scores SET health = health + ${userMaxHeal}, bleed = ${bleedingVal} WHERE userId = '${message.author.id}'`)
+					message.reply(`You have healed for **${userMaxHeal}** health! You now have ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} ${row.health + userMaxHeal} / ${row.maxHealth} HP. Bleeding reduced from 🩸**${row.bleed}** to 🩸**${bleedingVal}**.`)
 				}
-				else if (userMaxHeal <= randHeal) {
+				else {
 					await app.query(`UPDATE scores SET health = health + ${userMaxHeal} WHERE userId = '${message.author.id}'`)
-					await app.itm.removeItem(message.author.id, item, 1)
-					message.reply(`You have healed for **${userMaxHeal}** health! You now have ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} ${row.health + userMaxHeal} / ${row.maxHealth} HP`)
+					message.reply(`You have healed for **${userMaxHeal}** health! You now have ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} ${row.health + userMaxHeal} / ${row.maxHealth} HP.`)
 				}
 			}
 			else if (app.itemdata[item].givesMoneyOnUse) {
