@@ -229,6 +229,24 @@ class LoopTasks {
 			ELSE 0
 		END
 		WHERE bleed > 0 OR burn > 0`)
+
+		await this.app.query(`UPDATE spawns SET health = CASE
+			WHEN bleed >= 5 AND burn >= 3 AND health > 8 THEN health - 8
+			WHEN bleed >= 5 AND burn >= 3 THEN 1
+			WHEN bleed < 5 AND burn < 3 AND health > (bleed + burn) THEN health - (bleed + burn)
+			WHEN bleed < 5 AND health > (bleed + 3) THEN health - (bleed + 3)
+			WHEN burn < 3 AND health > (5 + burn) THEN health - (5 + burn)
+			ELSE 1
+		END,
+		bleed = CASE
+			WHEN bleed >= 5 THEN bleed - 5
+			ELSE 0
+		END,
+		burn = CASE
+			WHEN burn >= 3 THEN burn - 3
+			ELSE 0
+		END
+		WHERE bleed > 0 OR burn > 0`)
 	}
 
 	async _handleDiscoinTransactions() {

@@ -12,6 +12,8 @@
         "maxDamage": 23,
         "minMoney": 12000,
         "maxMoney": 23000,
+        "canBurn": true,
+        "canBleed": true,
         "xp": 70,
         "weapon": {
             "name": "m92_pistol",
@@ -75,6 +77,8 @@
         "maxDamage": 30,
         "minMoney": 17000,
         "maxMoney": 40000,
+        "canBurn": true,
+        "canBleed": true,
         "xp": 80,
         "weapon": {
             "name": "lr-300",
@@ -143,6 +147,8 @@
         "maxDamage": 33,
         "minMoney": 22000,
         "maxMoney": 40000,
+        "canBurn": true,
+        "canBleed": true,
         "xp": 85,
         "weapon": {
             "name": "mp5",
@@ -211,6 +217,8 @@
         "maxDamage": 46,
         "minMoney": 30000,
         "maxMoney": 70000,
+        "canBurn": true,
+        "canBleed": true,
         "xp": 70,
         "weapon": {
             "name": "m249",
@@ -285,6 +293,8 @@
         "maxDamage": 64,
         "minMoney": 140000,
         "maxMoney": 175000,
+        "canBurn": true,
+        "canBleed": false,
         "xp": 230,
         "weapon": {
             "name": "m249",
@@ -349,6 +359,8 @@
         "maxDamage": 72,
         "minMoney": 230000,
         "maxMoney": 320000,
+        "canBurn": true,
+        "canBleed": false,
         "xp": 240,
         "weapon": {
             "name": "rocket_launcher",

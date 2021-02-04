@@ -221,6 +221,8 @@ module.exports = {
 				const monster = app.mobdata[monsterRow.monster]
 				let ammoUsed
 				let bonusDamage = 0
+				let bleedDamage = 0
+				let burnDamage = 0
 				let weaponBroke = app.itemdata[item].breaksOnUse
 
 				try {
@@ -228,6 +230,8 @@ module.exports = {
 
 					if (ammoUsed) {
 						bonusDamage = app.itemdata[ammoUsed].damage
+						bleedDamage = monster.canBleed && app.itemdata[ammoUsed].bleed > 0 ? app.itemdata[ammoUsed].bleed : 0
+						burnDamage = monster.canBurn && app.itemdata[ammoUsed].burn > 0 ? app.itemdata[ammoUsed].burn : 0
 						await app.itm.removeItem(message.author.id, ammoUsed, 1)
 					}
 					else if (!ammoUsed && monster.title === 'Patrol Helicopter') { return message.reply('❌ The Patrol Helicopter is immune to melee weapons!') }
@@ -310,6 +314,13 @@ module.exports = {
 					await app.monsters.subHealth(message.channel.id, randDmg)
 
 					await app.player.addMoney(message.author.id, mobMoneyStolen)
+
+					if (bleedDamage > 0) {
+						await app.monsters.addBleed(message.channel.id, bleedDamage)
+					}
+					if (burnDamage > 0) {
+						await app.monsters.addBurn(message.channel.id, burnDamage)
+					}
 
 					message.channel.createMessage({
 						content: generateAttackMobString(app, message, monsterRow, randDmg, item, ammoUsed, weaponBroke, false, mobMoneyStolen),
@@ -864,6 +875,7 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
 
 function generateAttackMobString(app, message, monsterRow, damage, itemUsed, ammoUsed, itemBroke, killed, moneyStolen) {
 	const monster = app.mobdata[monsterRow.monster]
+	const monsterDisplay = monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)
 	let finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
 		.replace('{victim}', monster.mentioned)
 		.replace('{weaponIcon}', app.itemdata[itemUsed].icon)
@@ -873,18 +885,25 @@ function generateAttackMobString(app, message, monsterRow, damage, itemUsed, amm
 		.replace('{damage}', damage)
 
 	if (killed) {
-		finalStr += `\n${app.icons.death_skull} ${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} DIED!`
+		finalStr += `\n${app.icons.death_skull} ${monsterDisplay} DIED!`
 	}
 	else {
-		finalStr += `\n${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} is left with ${app.icons.health.full} **${monsterRow.health - damage}** health.`
+		finalStr += `\n${monsterDisplay} is left with ${app.icons.health.full} **${monsterRow.health - damage}** health.`
 	}
 
 	if (ammoUsed === '40mm_smoke_grenade') {
-		finalStr += `\n${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} resisted the effects of the ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\`!`
+		finalStr += `\n${monsterDisplay} resisted the effects of the ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\`!`
 	}
 
 	if (moneyStolen) {
 		finalStr += `\n\n**${message.member.nick || message.member.username}** dealt **${Math.floor((damage / monsterRow.health).toFixed(2) * 100)}%** of ${monster.mentioned}'s current health and managed to steal **${app.common.formatNumber(moneyStolen)}**.`
+	}
+
+	if (!killed && monster.canBleed && app.itemdata[ammoUsed].bleed > 0) {
+		finalStr += `\n${monsterDisplay} is 🩸 bleeding for **${app.itemdata[ammoUsed].bleed}** damage!`
+	}
+	if (!killed && monster.canBurn && app.itemdata[ammoUsed].burn > 0) {
+		finalStr += `\n${monsterDisplay} is 🔥 burning for **${app.itemdata[ammoUsed].burn}** damage!`
 	}
 
 	if (itemBroke && moneyStolen) {

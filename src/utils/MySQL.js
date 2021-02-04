@@ -195,6 +195,8 @@ CREATE TABLE IF NOT EXISTS spawns (
     monster VARCHAR(255),
     health INT,
     money BIGINT,
+    bleed INT,
+    burn INT,
     PRIMARY KEY (channelId))
     ENGINE = InnoDB
 `

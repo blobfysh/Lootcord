@@ -32,7 +32,7 @@ class Monsters {
 
 			const randMoney = Math.floor(Math.random() * (this.mobdata[monster].maxMoney - this.mobdata[monster].minMoney + 1)) + this.mobdata[monster].minMoney
 
-			await this.app.query('INSERT INTO spawns (channelId, guildId, start, monster, health, money) VALUES (?, ?, ?, ?, ?, ?)', [channelId, spawnInfo.guildId, Date.now(), monster, this.mobdata[monster].health, randMoney])
+			await this.app.query('INSERT INTO spawns (channelId, guildId, start, monster, health, money, bleed, burn) VALUES (?, ?, ?, ?, ?, ?, 0, 0)', [channelId, spawnInfo.guildId, Date.now(), monster, this.mobdata[monster].health, randMoney])
 
 			await this.app.cd.setCD(channelId, 'mob', this.mobdata[monster].staysFor.seconds * 1000, undefined, () => {
 				this.onFinished(channelId)
@@ -74,11 +74,20 @@ class Monsters {
 			}
 		}
 
+		let healthStr = `**${health} / ${monster.health}** HP${this.app.player.getHealthIcon(health, monster.health, true)}`
+
+		if (spawnInfo.bleed > 0) {
+			healthStr += `\n🩸 Bleeding: **${spawnInfo.bleed}**`
+		}
+		if (spawnInfo.burn > 0) {
+			healthStr += `\n🔥 Burning: **${spawnInfo.burn}**`
+		}
+
 		const mobEmbed = new this.app.Embed()
 			.setTitle(monster.title)
 			.setDescription(`Attack with \`${guildPrefix}use <weapon> ${monster.title.toLowerCase()}\`\n\nYou have \`${remaining}\` to defeat ${monster.mentioned} before ${monster.pronoun} leaves the server.${monster.special !== '' ? `\n\n**Special:** ${monster.special}` : ''}`)
 			.setColor(13451564)
-			.addField('Health', `${this.app.player.getHealthIcon(health, monster.health, true)}\n${health} / ${monster.health}`, true)
+			.addField('Health', healthStr, true)
 			.addField('Damage', `${monster.weapon.icon}\`${monster.weapon.name}\` ${monster.minDamage} - ${monster.maxDamage}`, true)
 			.addBlankField()
 			.addField('Has a chance of dropping:', this.app.itm.getDisplay(loot.sort(this.app.itm.sortItemsHighLow.bind(this.app))).join('\n'), true)
@@ -141,6 +150,14 @@ class Monsters {
 
 	async subMoney(channelId, amount) {
 		await this.app.query('UPDATE spawns SET money = money - ? WHERE channelId = ?', [amount, channelId])
+	}
+
+	async addBurn(channelId, amount) {
+		await this.app.query('UPDATE spawns SET burn = burn + ? WHERE channelId = ?', [amount, channelId])
+	}
+
+	async addBleed(channelId, amount) {
+		await this.app.query('UPDATE spawns SET bleed = bleed + ? WHERE channelId = ?', [amount, channelId])
 	}
 }
 
