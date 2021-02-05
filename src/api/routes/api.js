@@ -11,6 +11,7 @@ const ammo = require('../../resources/items/ammo')
 const materials = require('../../resources/items/materials')
 const storage = require('../../resources/items/storage')
 const banners = require('../../resources/items/banners')
+const monsters = require('../../resources/json/monsters')
 
 let client
 
@@ -93,6 +94,12 @@ router.post('/items', async(req, res) => {
 		...storage,
 		...banners
 	})
+})
+
+router.post('/monsters', async(req, res) => {
+	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
+
+	res.status(200).json(monsters)
 })
 
 router.get('/bans', async(req, res) => {
