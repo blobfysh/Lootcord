@@ -855,11 +855,11 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
 		finalStr += `\n**${victim.nick || victim.username}** is blinded by the smoke and cannot use any commands for **2** hours!`
 	}
 
-	if (!killed && app.itemdata[ammoUsed].bleed > 0) {
+	if (!killed && ammoUsed && app.itemdata[ammoUsed].bleed > 0) {
 		finalStr += `\n**${victim.nick || victim.username}** is 🩸 bleeding for **${app.itemdata[ammoUsed].bleed}** damage!`
 	}
 
-	if (!killed && app.itemdata[ammoUsed].burn > 0) {
+	if (!killed && ammoUsed && app.itemdata[ammoUsed].burn > 0) {
 		finalStr += `\n**${victim.nick || victim.username}** is 🔥 burning for **${app.itemdata[ammoUsed].burn}** damage!`
 	}
 
@@ -899,10 +899,10 @@ function generateAttackMobString(app, message, monsterRow, damage, itemUsed, amm
 		finalStr += `\n\n**${message.member.nick || message.member.username}** dealt **${Math.floor((damage / monsterRow.health).toFixed(2) * 100)}%** of ${monster.mentioned}'s current health and managed to steal **${app.common.formatNumber(moneyStolen)}**.`
 	}
 
-	if (!killed && monster.canBleed && app.itemdata[ammoUsed].bleed > 0) {
+	if (!killed && ammoUsed && monster.canBleed && app.itemdata[ammoUsed].bleed > 0) {
 		finalStr += `\n${monsterDisplay} is 🩸 bleeding for **${app.itemdata[ammoUsed].bleed}** damage!`
 	}
-	if (!killed && monster.canBurn && app.itemdata[ammoUsed].burn > 0) {
+	if (!killed && ammoUsed && monster.canBurn && app.itemdata[ammoUsed].burn > 0) {
 		finalStr += `\n${monsterDisplay} is 🔥 burning for **${app.itemdata[ammoUsed].burn}** damage!`
 	}
 
