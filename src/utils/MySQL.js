@@ -107,6 +107,83 @@ class MySQL {
 	}
 
 	/**
+	 * Returns a database connection. MAKE SURE TO RELEASE THE CONNECTION
+	 */
+	getConnection() {
+		return new Promise((resolve, reject) => {
+			this.db.getConnection((err, connection) => {
+				if (err) {
+					return reject(err)
+				}
+
+				resolve(connection)
+			})
+		})
+	}
+
+	/**
+	 * Begins a database transaction, should typically be finished with the transactionCommit function
+	 * @param {*} connection
+	 */
+	beginTransaction(connection) {
+		return new Promise((resolve, reject) => {
+			connection.beginTransaction(err => {
+				if (err) {
+					connection.rollback(() => {
+						connection.release()
+						return reject(err)
+					})
+				}
+				else {
+					resolve(connection)
+				}
+			})
+		})
+	}
+
+	/**
+	 * Runs a query inside a transaction, rolls back changes if query fails.
+	 * @param {*} connection
+	 * @param {*} sql
+	 * @param {*} args
+	 */
+	transactionQuery(connection, sql, args) {
+		return new Promise((resolve, reject) => {
+			connection.query(sql, args, (err, rows) => {
+				if (err) {
+					console.log('ROLLING BACK!')
+					// rollback transaction if query fails
+					connection.rollback(() => {
+						connection.release()
+						return reject(err)
+					})
+				}
+				else {
+					resolve(rows)
+				}
+			})
+		})
+	}
+
+	transactionCommit(connection) {
+		return new Promise((resolve, reject) => {
+			connection.commit(err => {
+				if (err) {
+					// rollback transaction
+					connection.rollback(() => {
+						connection.release()
+						return reject(err)
+					})
+				}
+				else {
+					connection.release()
+					resolve('Success')
+				}
+			})
+		})
+	}
+
+	/**
      * Performs an escaped update, changing the column to value
      * @param {string} table
      * @param {string} column
@@ -204,7 +281,8 @@ CREATE TABLE IF NOT EXISTS spawns (
 const createItemsSQL = `
 CREATE TABLE IF NOT EXISTS user_items (
     userId BIGINT,
-    item VARCHAR(255))
+	item VARCHAR(255),
+	KEY (userId))
     ENGINE = InnoDB
 `
 

@@ -28,12 +28,18 @@ module.exports = {
 		}
 
 		if (isMoney) {
-			const hasMoney = await app.clans.hasMoney(scoreRow.clanId, itemAmnt)
+			const connection = await app.mysql.getConnection()
+			await app.mysql.beginTransaction(connection)
+			const clanRow = await app.clans.getRowForUpdate(connection, scoreRow.clanId)
 
-			if (!hasMoney) return message.reply(`Your clan bank only has ${app.common.formatNumber((await app.clans.getRow(scoreRow.clanId)).money)}...`)
+			if (clanRow.money < itemAmnt) {
+				await app.mysql.transactionCommit(connection)
+				return message.reply(`Your clan bank only has ${app.common.formatNumber(clanRow.money)}...`)
+			}
 
-			await app.clans.removeMoney(scoreRow.clanId, itemAmnt)
-			await app.player.addMoney(message.author.id, itemAmnt)
+			await app.clans.removeMoneySafely(connection, scoreRow.clanId, itemAmnt)
+			await app.player.addMoneySafely(connection, message.author.id, itemAmnt)
+			await app.mysql.transactionCommit(connection)
 
 			app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} withdrew ${app.common.formatNumber(itemAmnt, true)}`)
 
@@ -47,21 +53,33 @@ module.exports = {
 			return message.reply('❌ I don\'t recognize that item.')
 		}
 
-		const clanItems = await app.itm.getItemObject(scoreRow.clanId)
+		const connection = await app.mysql.getConnection()
+		await app.mysql.beginTransaction(connection)
+		const clanItems = await app.itm.getItemObjectForUpdate(connection, scoreRow.clanId)
+
 		const hasItems = await app.itm.hasItems(clanItems, itemName, itemAmnt)
 
-		if (!hasItems) return message.reply(`Your clan vault has **${clanItems[itemName] !== undefined ? `${clanItems[itemName]}x` : '0'}** ${app.itemdata[itemName].icon}\`${itemName}\`${!clanItems[itemName] || clanItems[itemName] > 1 ? '\'s' : ''}...`)
+		if (!hasItems) {
+			await app.mysql.transactionCommit(connection)
+			return message.reply(`Your clan vault has **${clanItems[itemName] !== undefined ? `${clanItems[itemName]}x` : '0'}** ${app.itemdata[itemName].icon}\`${itemName}\`${!clanItems[itemName] || clanItems[itemName] > 1 ? '\'s' : ''}...`)
+		}
 
-		const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), scoreRow)
+		const itemCt = await app.itm.getItemCount(await app.itm.getItemObjectForUpdate(connection, message.author.id), scoreRow)
 		const hasSpace = await app.itm.hasSpace(itemCt, itemAmnt)
-		if (!hasSpace) return message.reply(`❌ **You don't have enough space in your inventory!** (You need **${itemAmnt}** open slot${itemAmnt > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
 
-		await app.itm.removeItem(scoreRow.clanId, itemName, itemAmnt)
-		await app.itm.addItem(message.author.id, itemName, itemAmnt)
+		if (!hasSpace) {
+			await app.mysql.transactionCommit(connection)
+			return message.reply(`❌ **You don't have enough space in your inventory!** (You need **${itemAmnt}** open slot${itemAmnt > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
+		}
+
+		await app.itm.removeItemSafely(connection, scoreRow.clanId, itemName, itemAmnt)
+		await app.itm.addItemSafely(connection, message.author.id, itemName, itemAmnt)
+		await app.mysql.transactionCommit(connection)
 
 		app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} withdrew ${itemAmnt}x ${itemName}`)
 
 		const clanPow = await app.clans.getClanData(await app.clans.getRow(scoreRow.clanId))
+
 
 		message.reply(`Withdrew ${itemAmnt}x ${app.itemdata[itemName].icon}\`${itemName}\` from your clan vault.\n\nThe vault now has **${clanItems[itemName] - itemAmnt}x** ${app.itemdata[itemName].icon}\`${itemName}\` and is using **${`${clanPow.usedPower}/${clanPow.currPower}`}** power.`)
 	}

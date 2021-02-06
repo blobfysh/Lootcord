@@ -34,6 +34,15 @@ class Player {
 		return (await this.app.query('SELECT * FROM scores WHERE userId = ? AND userId > 0', [id]))[0]
 	}
 
+	/**
+     * Retrieve row for user and prevents queries from updating the row.
+	 * @param {*} connection
+     * @param {string} id ID of player to get information for
+     */
+	async getRowForUpdate(connection, id) {
+		return (await this.app.mysql.transactionQuery(connection, 'SELECT * FROM scores WHERE userId = ? AND userId > 0 FOR UPDATE', [id]))[0]
+	}
+
 	async createAccount(id) {
 		await this.app.query(insertScoreSQL, [id, new Date().getTime(), 100, 1, 100, 100, 1.00, 'none', 'none', 'none', 'none'])
 		await this.app.itm.addItem(id, 'crate', 1)
@@ -171,11 +180,35 @@ class Player {
 
 	/**
      *
+	 * @param {*} connection The transaction connection to use
+     * @param {string} id ID of player to remove from
+     * @param {number} amount Amount to remove
+     */
+	async removeMoneySafely(connection, id, amount) {
+		await this.app.mysql.transactionQuery(connection, `UPDATE scores SET money = money - ${parseInt(amount)} WHERE userId = ${id}`)
+
+		this.app.query(insertTransaction, [id, 0, amount])
+	}
+
+	/**
+     *
      * @param {*} id ID of user to add money to.
      * @param {*} amount Amount of money to add.
      */
 	async addMoney(id, amount) {
 		await this.app.query(`UPDATE scores SET money = money + ${parseInt(amount)} WHERE userId = ${id}`)
+
+		this.app.query(insertTransaction, [id, amount, 0])
+	}
+
+	/**
+     *
+	 * @param {*} connection The transaction connection to use
+     * @param {*} id ID of user to add money to.
+     * @param {*} amount Amount of money to add.
+     */
+	async addMoneySafely(connection, id, amount) {
+		await this.app.mysql.transactionQuery(connection, `UPDATE scores SET money = money + ${parseInt(amount)} WHERE userId = ${id}`)
 
 		this.app.query(insertTransaction, [id, amount, 0])
 	}

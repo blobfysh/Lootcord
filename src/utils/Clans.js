@@ -11,6 +11,15 @@ class Clans {
 		return (await this.app.query('SELECT * FROM clans WHERE clanId = ?', [id]))[0]
 	}
 
+	/**
+     * Retrieves row for a clan and prevents queries from updating the clan.
+	 * @param {*} connection
+     * @param {string} id ID of clan to get information for
+     */
+	async getRowForUpdate(connection, id) {
+		return (await this.app.mysql.transactionQuery(connection, 'SELECT * FROM clans WHERE clanId = ? FOR UPDATE', [id]))[0]
+	}
+
 	async searchClanRow(search) {
 		if (!search.match(/^[a-zA-Z0-9 ]+$/)) return undefined
 
@@ -96,20 +105,8 @@ class Clans {
 		}
 	}
 
-	async hasPower(clanId, amount) {
-		const clanPower = await this.getClanData(await this.getRow(clanId))
-
-		if ((clanPower.currPower - clanPower.usedPower) >= amount) {
-			return true
-		}
-
-		return false
-	}
-
-	async hasMoney(clanId, amount) {
-		const clan = await this.getRow(clanId)
-
-		if (clan.money >= amount) {
+	async hasPower(clanData, amount) {
+		if ((clanData.currPower - clanData.usedPower) >= amount) {
 			return true
 		}
 
@@ -136,8 +133,16 @@ class Clans {
 		await this.app.query(`UPDATE clans SET money = money - ${parseInt(amount)} WHERE clanId = ${clanId}`)
 	}
 
+	async removeMoneySafely(connection, clanId, amount) {
+		await this.app.mysql.transactionQuery(connection, `UPDATE clans SET money = money - ${parseInt(amount)} WHERE clanId = ${clanId}`)
+	}
+
 	async addMoney(clanId, amount) {
 		await this.app.query(`UPDATE clans SET money = money + ${parseInt(amount)} WHERE clanId = ${clanId}`)
+	}
+
+	async addMoneySafely(connection, clanId, amount) {
+		await this.app.mysql.transactionQuery(connection, `UPDATE clans SET money = money + ${parseInt(amount)} WHERE clanId = ${clanId}`)
 	}
 
 	async addLog(clanId, details) {

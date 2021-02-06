@@ -31,13 +31,19 @@ module.exports = {
 		}
 
 		if (isMoney) {
-			const clanRow = await app.clans.getRow(scoreRow.clanId)
+			const connection = await app.mysql.getConnection()
+			await app.mysql.beginTransaction(connection)
+			const userRow = await app.player.getRowForUpdate(connection, message.author.id)
+			const clanRow = await app.clans.getRowForUpdate(connection, scoreRow.clanId)
 			const bankLimit = app.clans.getBankLimit((await app.clans.getMembers(scoreRow.clanId)).count)
 
-			if (!await app.player.hasMoney(message.author.id, itemAmnt)) {
-				return message.reply(`❌ You don't have that much money! You currently have **${app.common.formatNumber(scoreRow.money)}**`)
+			if (itemAmnt > userRow.money) {
+				await app.mysql.transactionCommit(connection)
+				return message.reply(`❌ You don't have that much money! You currently have **${app.common.formatNumber(userRow.money)}**`)
 			}
 			else if (clanRow.money + itemAmnt > bankLimit) {
+				await app.mysql.transactionCommit(connection)
+
 				if (bankLimit - clanRow.money <= 0) {
 					return message.reply(`**Your clan bank is packed!**\n\nThe bank cannot hold more than **${app.common.formatNumber(bankLimit)}**. You can increase this amount by inviting more members to the clan.`)
 				}
@@ -45,8 +51,9 @@ module.exports = {
 				return message.reply(`Your clan can only hold **${app.common.formatNumber(bankLimit - clanRow.money)}** more in the bank. You can increase this by inviting more members to the clan.`)
 			}
 
-			await app.player.removeMoney(message.author.id, itemAmnt)
-			await depositItem(app, 'money', itemAmnt, scoreRow.clanId)
+			await app.clans.addMoneySafely(connection, scoreRow.clanId, itemAmnt)
+			await app.player.removeMoneySafely(connection, message.author.id, itemAmnt)
+			await app.mysql.transactionCommit(connection)
 
 			app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} deposited ${app.common.formatNumber(itemAmnt, true)} Lootcoin`)
 
@@ -62,18 +69,27 @@ module.exports = {
 		else if (!app.itemdata[itemName].canBeStolen) {
 			return message.reply(`\`${itemName}\`'s are bound to the player, meaning you can't trade them or put them in the clan vault.`)
 		}
-		else if (!await app.clans.hasPower(scoreRow.clanId, itemAmnt)) {
-			const clanPow = await app.clans.getClanData(await app.clans.getRow(scoreRow.clanId))
-			return message.reply(`Theres not enough power available in the clan! Your vault is currently using **${clanPow.usedPower}** power and only has **${clanPow.currPower}** current power.`)
+
+		const connection = await app.mysql.getConnection()
+		await app.mysql.beginTransaction(connection)
+		const clanData = await app.clans.getClanData(await app.clans.getRowForUpdate(connection, scoreRow.clanId))
+
+		if (!await app.clans.hasPower(clanData, itemAmnt)) {
+			await app.mysql.transactionCommit(connection)
+			return message.reply(`Theres not enough power available in the clan! Your vault is currently using **${clanData.usedPower}** power and only has **${clanData.currPower}** current power.`)
 		}
 
-		const userItems = await app.itm.getItemObject(message.author.id)
+		const userItems = await app.itm.getItemObjectForUpdate(connection, message.author.id)
 		const hasItems = await app.itm.hasItems(userItems, itemName, itemAmnt)
 
-		if (!hasItems) return message.reply(`❌ You don't have enough of that item! You have **${userItems[itemName] || 0}x** ${app.itemdata[itemName].icon}\`${itemName}\``)
+		if (!hasItems) {
+			await app.mysql.transactionCommit(connection)
+			return message.reply(`❌ You don't have enough of that item! You have **${userItems[itemName] || 0}x** ${app.itemdata[itemName].icon}\`${itemName}\``)
+		}
 
-		await app.itm.removeItem(message.author.id, itemName, itemAmnt)
-		await depositItem(app, itemName, itemAmnt, scoreRow.clanId)
+		await app.itm.addItemSafely(connection, scoreRow.clanId, itemName, itemAmnt)
+		await app.itm.removeItemSafely(connection, message.author.id, itemName, itemAmnt)
+		await app.mysql.transactionCommit(connection)
 
 		app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} deposited ${itemAmnt}x ${itemName}`)
 
@@ -81,14 +97,5 @@ module.exports = {
 		const clanPow = await app.clans.getClanData(await app.clans.getRow(scoreRow.clanId))
 
 		message.reply(`Deposited ${itemAmnt}x ${app.itemdata[itemName].icon}\`${itemName}\` to your clan vault.\n\nThe vault now has **${clanItems[itemName]}x** ${app.itemdata[itemName].icon}\`${itemName}\` and is using **${`${clanPow.usedPower}/${clanPow.currPower}`}** power.`)
-	}
-}
-
-async function depositItem(app, item, amount, clanId) {
-	if (item === 'money') {
-		await app.query(`UPDATE clans SET money = money + ${parseInt(amount)} WHERE clanId = ${clanId}`)
-	}
-	else {
-		await app.itm.addItem(clanId, item, parseInt(amount))
 	}
 }
