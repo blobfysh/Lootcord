@@ -146,6 +146,47 @@
         "tier": 2,
         "burn": 10
     },
+    "hv_pistol_bullet": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 19,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 8,
+            "materials": [
+                "gunpowder|4",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": {
+            "materials": [
+                "gunpowder|1"
+            ]
+        },
+        "buy": "",
+        "sell": 13420,
+        "desc": "High velocity pistol bullet. Its high speed is known to cause bleed damage.",
+        "image": "https://cdn.discordapp.com/attachments/610503377679548446/807802922645192704/hv_pistol_bullet.png",
+        "icon": "<:hv_pistol_bullet:807801706788159509>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo",
+        "aliases": [
+            "9mm_hv",
+            "9mill_hv",
+            "9x19_hv",
+            "hv_pistol",
+            "hv_ammunition",
+            "high_velocity_pistol"
+        ],
+        "tier": 2,
+        "bleed": 15
+    },
     "rifle_bullet": {
         "rarity": "Uncommon",
         "isWeap": false,

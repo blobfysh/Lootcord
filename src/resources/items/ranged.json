@@ -88,6 +88,7 @@
         "minDmg": 0,
         "maxDmg": 4,
         "ammo": [
+            "hv_pistol_bullet",
             "incen_pistol_bullet",
             "pistol_bullet"
         ],
@@ -131,6 +132,7 @@
         "minDmg": 17,
         "maxDmg": 28,
         "ammo": [
+            "hv_pistol_bullet",
             "incen_pistol_bullet",
             "pistol_bullet"
         ],
@@ -175,6 +177,7 @@
         "minDmg": 21,
         "maxDmg": 30,
         "ammo": [
+            "hv_pistol_bullet",
             "incen_pistol_bullet",
             "pistol_bullet"
         ],
@@ -216,6 +219,7 @@
         "minDmg": 11,
         "maxDmg": 21,
         "ammo": [
+            "hv_pistol_bullet",
             "incen_pistol_bullet",
             "pistol_bullet"
         ],
@@ -258,6 +262,7 @@
         "minDmg": 25,
         "maxDmg": 33,
         "ammo": [
+            "hv_pistol_bullet",
             "incen_pistol_bullet",
             "pistol_bullet"
         ],
@@ -297,6 +302,7 @@
         "minDmg": 13,
         "maxDmg": 20,
         "ammo": [
+            "hv_pistol_bullet",
             "incen_pistol_bullet",
             "pistol_bullet"
         ],
@@ -424,6 +430,7 @@
         "minDmg": 5,
         "maxDmg": 15,
         "ammo": [
+            "hv_pistol_bullet",
             "incen_pistol_bullet",
             "pistol_bullet"
         ],

@@ -240,7 +240,8 @@
                         "spas-12|1",
                         "grenade_launcher|1",
                         "40mm_smoke_grenade|1",
-                        "incen_pistol_bullet|1"
+                        "incen_pistol_bullet|1",
+                        "hv_pistol_bullet|1"
                     ]
                 },
                 "55": {
@@ -331,7 +332,8 @@
                 "15": {
                     "items": [
                         "hv_rifle_bullet|1",
-                        "incen_pistol_bullet|1"
+                        "incen_pistol_bullet|1",
+                        "hv_pistol_bullet|1"
                     ]
                 },
                 "10": {
@@ -396,7 +398,8 @@
                     "items": [
                         "bolt_rifle|1",
                         "rocket_launcher|1",
-                        "incen_pistol_bullet|1"
+                        "incen_pistol_bullet|1",
+                        "hv_pistol_bullet|1"
                     ]
                 },
                 "15": {

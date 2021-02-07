@@ -375,7 +375,8 @@
                     "gunpowder|1",
                     "semi_rifle|1",
                     "large_medkit|1",
-                    "incen_pistol_bullet|1"
+                    "incen_pistol_bullet|1",
+                    "hv_pistol_bullet|1"
                 ]
             },
             "60": {
@@ -468,7 +469,8 @@
                     "m92_pistol|1",
                     "spas-12|1",
                     "custom_smg|1",
-                    "incen_pistol_bullet|1"
+                    "incen_pistol_bullet|1",
+                    "hv_pistol_bullet|1"
                 ]
             }
         },
