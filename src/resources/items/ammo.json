@@ -264,6 +264,44 @@
         "tier": 3,
         "bleed": 32
     },
+    "incen_rifle_bullet": {
+        "rarity": "Uncommon",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 25,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 9,
+            "materials": [
+                "gunpowder|5",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": {
+            "materials": [
+                "gunpowder|1"
+            ]
+        },
+        "buy": "",
+        "sell": 22148,
+        "desc": "Incendiary rifle bullet. Bursts into flames upon impact causing burn damage.",
+        "image": "https://cdn.discordapp.com/attachments/610503377679548446/807832046491664397/incen_rifle_bullet.png",
+        "icon": "<:incen_rifle_bullet:807831993252970536>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo",
+        "aliases": [
+            "incen_rifle",
+            "incendiary_rifle",
+            "incendiary_rifle_bullet"
+        ],
+        "tier": 3,
+        "burn": 12
+    },
     "explosive_bullet": {
         "rarity": "Uncommon",
         "isWeap": false,

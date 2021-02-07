@@ -332,6 +332,7 @@
                 "15": {
                     "items": [
                         "hv_rifle_bullet|1",
+                        "incen_rifle_bullet|1",
                         "incen_pistol_bullet|1",
                         "hv_pistol_bullet|1"
                     ]
@@ -389,6 +390,7 @@
                     "items": [
                         "large_medkit|1",
                         "hv_rifle_bullet|1",
+                        "incen_rifle_bullet|1",
                         "thompson|1",
                         "assault_rifle|1",
                         "gunpowder|1"
