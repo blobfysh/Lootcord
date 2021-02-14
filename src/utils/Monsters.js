@@ -61,18 +61,14 @@ class Monsters {
 
 		const guildPrefix = await this.app.common.getPrefix(spawnInfo.guildId)
 
-		const loot = []
-
-		for (const rate of Object.keys(monster.loot.main)) {
-			for (const item of monster.loot.main[rate].items) {
-				loot.push(item)
-			}
-		}
-		for (const rate of Object.keys(monster.loot.extras)) {
-			for (const item of monster.loot.extras[rate].items) {
-				loot.push(item)
-			}
-		}
+		const mainLoot = Object.keys(monster.loot.main).reduce((arr, curr) => {
+			arr.push(...monster.loot.main[curr].items)
+			return arr
+		}, [])
+		const extraLoot = Object.keys(monster.loot.extras).reduce((arr, curr) => {
+			arr.push(...monster.loot.extras[curr].items)
+			return arr
+		}, [])
 
 		let healthStr = `**${health} / ${monster.health}** HP${this.app.player.getHealthIcon(health, monster.health, true)}`
 
@@ -88,10 +84,12 @@ class Monsters {
 			.setDescription(`Attack with \`${guildPrefix}use <weapon> ${monster.title.toLowerCase()}\`\n\nYou have \`${remaining}\` to defeat ${monster.mentioned} before ${monster.pronoun} leaves the server.${monster.special !== '' ? `\n\n**Special:** ${monster.special}` : ''}`)
 			.setColor(13451564)
 			.addField('Health', healthStr, true)
+			.addField('Balance', this.app.common.formatNumber(money), true)
 			.addField('Damage', `${monster.weapon.icon}\`${monster.weapon.name}\` ${monster.minDamage} - ${monster.maxDamage}`, true)
 			.addBlankField()
-			.addField('Has a chance of dropping:', this.app.itm.getDisplay(loot.sort(this.app.itm.sortItemsHighLow.bind(this.app))).join('\n'), true)
-			.addField('Balance', this.app.common.formatNumber(money), true)
+			.addField('Main Loot Drops:', this.app.itm.getDisplay(mainLoot.sort(this.app.itm.sortItemsHighLow.bind(this.app))).join('\n'), true)
+			.addField('Extra Loot Drops:', this.app.itm.getDisplay(extraLoot.sort(this.app.itm.sortItemsHighLow.bind(this.app))).join('\n'), true)
+			.setFooter(`https://lootcord.com/enemy/${spawnInfo.monster}`)
 			.setImage(monster.image)
 
 		return mobEmbed
