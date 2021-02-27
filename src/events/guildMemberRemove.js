@@ -6,7 +6,7 @@ exports.run = async function(guild, member) {
 		this.patreonHandler.checkPatronLeft(member)
 	}
 
-	if (await this.cd.getCD(member.id, 'attack')) {
+	if (await this.cd.getCD(member.id, `activate|${guild.id}`) && await this.cd.getCD(member.id, 'attack')) {
 		// cooldown dodged... >:(
 		const randomItems = await this.itm.getRandomUserItems(member.id, 1)
 		await this.itm.removeItem(member.id, randomItems.amounts)
