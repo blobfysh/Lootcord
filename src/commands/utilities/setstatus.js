@@ -1,4 +1,6 @@
 const Filter = require('bad-words')
+const emojiRegex = require('emoji-regex/RGI_Emoji')
+const regex = new RegExp(`^(${emojiRegex().source})(${/[\w!$%^&*()\-+=~`'";<>,.?|\\{}[\]: ]/.source})*$`)
 const filter = new Filter()
 
 module.exports = {
@@ -19,8 +21,8 @@ module.exports = {
 		if (statusToSet.length > 120) {
 			return message.reply(`Your status can only be up to 120 characters long! You tried to set one that was ${statusToSet.length} characters long.`)
 		}
-		else if (/['"`]/g.test(statusToSet)) {
-			return message.reply('Statuses cannot contain the characters \', ", `')
+		else if (!regex.test(statusToSet)) {
+			return message.reply('❌ New lines and some special characters (@, #) are not supported in statuses. 😺 Emojis are supported!')
 		}
 
 		statusToSet = filter.clean(statusToSet)

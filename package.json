@@ -24,6 +24,7 @@
     "canvas": "^2.6.1",
     "cron": "^1.8.2",
     "dotenv": "^8.2.0",
+    "emoji-regex": "^9.2.1",
     "eris": "^0.13.3",
     "eris-reactions": "^0.1.2",
     "eris-sharder": "^1.10.0",

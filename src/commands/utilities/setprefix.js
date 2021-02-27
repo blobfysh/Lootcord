@@ -16,6 +16,9 @@ module.exports = {
 		if (prefixString === undefined || prefixString === '' || prefixString.length > 5) {
 			return message.reply(`Please enter a prefix up to 5 characters long! \`${prefix}setprefix *****\``)
 		}
+		else if (!/^[\w!$%^&*()\-+=~'";<>,.?|\\{}[\]:]+$/.test(prefixString)) {
+			return message.reply('❌ White space and some special characters (@, #, `) are not supported in prefixes.')
+		}
 
 		const prefixRow = (await app.query(`SELECT * FROM guildPrefix WHERE guildId = "${message.channel.guild.id}"`))[0]
 
