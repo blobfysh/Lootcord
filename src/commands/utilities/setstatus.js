@@ -1,6 +1,6 @@
 const Filter = require('bad-words')
 const emojiRegex = require('emoji-regex/RGI_Emoji')
-const regex = new RegExp(`^(${emojiRegex().source})(${/[\w!$%^&*()\-+=~`'";<>,.?|\\{}[\]: ]/.source})*$`)
+const regex = new RegExp(`^(${emojiRegex().source})?(${/[\w!$%^&*()\-+=~`'";<>,.?|\\{}[\]: ]/.source})*$`)
 const filter = new Filter()
 
 module.exports = {
