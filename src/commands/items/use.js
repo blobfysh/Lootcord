@@ -14,6 +14,7 @@ module.exports = {
 
 	async execute(app, message, { args, prefix }) {
 		const row = await app.player.getRow(message.author.id)
+		const rawArgs = args.slice()
 		const item = app.parse.items(args)[0]
 		const member = app.parse.members(message, args)[0]
 		let amount = app.parse.numbers(args)[0] || 1
@@ -157,7 +158,7 @@ module.exports = {
 				message.reply(`You read the ${app.itemdata.reroll_scroll.icon}\`reroll_scroll\` and feel a sense of renewal. Your skills have been reset.`)
 			}
 			else if (item === 'c4') {
-				const clanName = args
+				const clanName = rawArgs.slice(1)
 
 				if (!clanName.length) {
 					return message.reply(`You need to specify a clan to use your explosive on! \`${prefix}use c4 <clan name>\``)
