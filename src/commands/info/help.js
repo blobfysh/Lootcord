@@ -1,4 +1,4 @@
-const tips = require('../../resources/json/tips')
+// const tips = require('../../resources/json/tips')
 
 module.exports = {
 	name: 'help',
@@ -58,7 +58,7 @@ module.exports = {
 		const todaysMonth = converted.getMonth()
 		let description = '**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**' +
 		`\nFor details on using clan commands, you can type \`${prefix}clan help\`, or check this [link](https://lootcord.com/guides/clans).` +
-        `\n\n__**Tip:**__\n${tips[Math.floor(Math.random() * tips.length)]}`
+        '\n\n**Check out [Lootcord Monthly](https://discord.com/oauth2/authorize?client_id=755926417954308106&permissions=388160&scope=bot%20applications.commands \'Click to invite Lootcord Monthly\')! A new version of Lootcord that wipes items/money every month.**'
 
 		converted.setDate(converted.getDate() + 10)
 
