@@ -60,7 +60,7 @@ class Player {
         \`sell\` - Sell your items for Lootcoin.
         \`leaderboard\` - View the best players in your server or globally.
         \`mysettings\` - Manage your settings such as notifications.
-        \`hourly\` - Claim a ${this.app.itemdata.crate.icon}\`crate\` every hour.
+        \`farm\` - Go farming for loot every hour.
         \`daily\` - Claim a ${this.app.itemdata.military_crate.icon}\`military_crate\` every day.
         \`cooldowns\` - View all your command cooldowns.
 

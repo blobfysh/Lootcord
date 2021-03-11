@@ -1,7 +1,7 @@
 const QUOTES = [
-	'**Oh look, I found this {icon}{item} for you!** Open it to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `hourly`, `vote` commands.',
-	'**Here\'s a free {icon}{item}!** Open it to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `hourly`, `vote` commands.',
-	'**You earned a free {icon}{item}!** Open it to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `hourly`, `vote` commands.'
+	'**Oh look, I found this {icon}{item} for you!** Open it to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `farm`, `vote` commands.',
+	'**Here\'s a free {icon}{item}!** Open it to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `farm`, `vote` commands.',
+	'**You earned a free {icon}{item}!** Open it to see what\'s inside: `{prefix}use military_crate`\n\nWant more? Try the `farm`, `vote` commands.'
 ]
 const OFFICIAL_QUOTES = [
 	'You gained **2x** {icon}{item} for playing in the official Lootcord server! 😎'
