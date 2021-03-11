@@ -48,7 +48,7 @@ class BlackMarket {
 				true)
 		}
 
-		if (!listings.length) embed.setDescription('There are no listings for that item...')
+		if (!listings.length) embed.setDescription('No listings found...')
 	}
 }
 
