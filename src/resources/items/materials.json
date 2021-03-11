@@ -140,6 +140,37 @@
         ],
         "tier": 0
     },
+    "high_quality_metal": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": []
+        },
+        "buy": "",
+        "sell": 29696,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785297363959902/816841446711492618/high_quality_metal.png",
+        "icon": "<:high_quality_metal:742083808614154262>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Material",
+        "aliases": [
+            "hq_metal",
+            "hqm",
+            "high_qual",
+            "high_quality"
+        ],
+        "tier": 0
+    },
     "smg_body": {
         "rarity": "Rare",
         "isWeap": false,
