@@ -6,7 +6,6 @@
     Lootcord
   </h1>
   <p align="center">
-    <a href="https://discordbots.org/bot/493316754689359874"><img src="https://discordbots.org/api/widget/lib/493316754689359874.svg"/></a>
     <a href="https://discordbots.org/bot/493316754689359874"><img src="https://discordbots.org/api/widget/upvotes/493316754689359874.svg"/></a>
     <a href="https://discordbots.org/bot/493316754689359874"><img src="https://discordbots.org/api/widget/servers/493316754689359874.svg"/></a>
   </p>
@@ -15,8 +14,8 @@
 
 ## About
 Website: https://lootcord.com<br>
-Invite: https://discord.com/oauth2/authorize?client_id=493316754689359874&permissions=519232&scope=bot<br>
-Discord Server: https://discord.gg/7XNbdzP<br>
+Invite: https://discord.com/oauth2/authorize?client_id=493316754689359874&permissions=388160&scope=bot%20applications.commands<br>
+Discord Server: https://discord.gg/apKSxuE<br>
 
 ## Commands
 Commands can be found [here](https://lootcord.com/commands).
