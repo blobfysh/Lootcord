@@ -350,7 +350,7 @@
             "materials": [
                 "rifle_body|2",
                 "metal_spring|1",
-                "high_quality_metal|1"
+                "high_quality_metal|2"
             ]
         },
         "recyclesTo": {
