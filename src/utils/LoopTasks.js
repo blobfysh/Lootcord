@@ -1,11 +1,12 @@
 const CronJob = require('cron').CronJob
 const shopData = require('../resources/json/shop')
 const STATUS_LIST = [
-	'Looting {users} players',
-	'{users} loot goblins',
+	'🐰 Looting {users} players',
+	'{users} egg hunters 🐰',
 	'{guilds} servers!',
 	'Join the discord!',
-	'lootcord.com 👀'
+	'lootcord.com 👀',
+	'🥚 Use t-daily for a surprise!'
 ]
 
 class LoopTasks {
