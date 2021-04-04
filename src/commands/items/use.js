@@ -235,7 +235,16 @@ module.exports = {
 						burnDamage = monster.canBurn && app.itemdata[ammoUsed].burn > 0 ? app.itemdata[ammoUsed].burn : 0
 						await app.itm.removeItem(message.author.id, ammoUsed, 1)
 					}
-					else if (!ammoUsed && monster.title === 'Patrol Helicopter') { return message.reply('❌ The Patrol Helicopter is immune to melee weapons!') }
+					// apply specific effects for spawns
+					// melee weapon used
+					else if (monster.title === 'Patrol Helicopter') {
+						return message.reply('❌ The Patrol Helicopter is immune to melee weapons!')
+					}
+
+					if (monster.title === 'Bradley' && ammoUsed === 'hv_rocket') {
+						// 3x damage
+						bonusDamage *= 3
+					}
 				}
 				catch (err) {
 					return message.reply('❌ You don\'t have any ammo for that weapon!')

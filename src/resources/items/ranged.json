@@ -739,7 +739,8 @@
         "minDmg": 0,
         "maxDmg": 40,
         "ammo": [
-            "rocket"
+            "rocket",
+            "hv_rocket"
         ],
         "craftedWith": {
             "level": 10,

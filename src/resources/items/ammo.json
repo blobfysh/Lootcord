@@ -481,6 +481,42 @@
         "aliases": [],
         "tier": 3
     },
+    "hv_rocket": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 60,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": {
+            "level": 9,
+            "materials": [
+                "gunpowder|4",
+                "metal|2"
+            ]
+        },
+        "recyclesTo": {
+            "display": "1x gunpowder",
+            "materials": [
+                "gunpowder|1"
+            ]
+        },
+        "buy": "",
+        "sell": 80270,
+        "desc": "High velocity rocket, deals 3x damage to Bradley.",
+        "image": "https://cdn.discordapp.com/attachments/610502203672756295/828263475729006653/hv_rocket.png",
+        "unboxImage": "https://cdn.discordapp.com/attachments/610502203672756295/828263475729006653/hv_rocket.png",
+        "icon": "<:hv_rocket:828263600119480321>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo",
+        "aliases": [],
+        "tier": 3,
+        "bleed": 5
+    },
     "40mm_smoke_grenade": {
         "rarity": "Legendary",
         "isWeap": false,
