@@ -895,6 +895,141 @@
         ],
         "tier": 0
     },
+    "egg_basket": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": []
+        },
+        "buy": "",
+        "sell": 490,
+        "desc": "Use this basket for a surprise!\n**Easter item.**",
+        "image": "https://cdn.discordapp.com/attachments/610502203672756295/828095205081219072/egg_basket.png",
+        "icon": "<:egg_basket:828095305089286184>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "rates": {
+            "5": {
+                "xp": 45,
+                "items": [
+                    "gold_egg|1",
+                    "elite_crate|1"
+                ]
+            },
+            "35": {
+                "xp": 25,
+                "items": [
+                    "silver_egg|1",
+                    "supply_drop|1",
+                    "bunny_suit|1"
+                ]
+            },
+            "60": {
+                "xp": 20,
+                "items": [
+                    "candy_bar|1",
+                    "bronze_egg|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item",
+        "aliases": [
+            "basket"
+        ],
+        "tier": 0
+    },
+    "bronze_egg": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": true,
+        "givesMoneyOnUse": true,
+        "itemMin": 1000,
+        "itemMax": 2000,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": []
+        },
+        "buy": "",
+        "sell": 1100,
+        "desc": "Has a chance to contain 1,000 - 2,000 Lootcoin\n**Easter item.**",
+        "image": "https://cdn.discordapp.com/attachments/610502203672756295/828113613386154034/bronze_egg.png",
+        "icon": "<:bronze_egg:828113669698355200>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item",
+        "aliases": [],
+        "tier": 0
+    },
+    "silver_egg": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": true,
+        "givesMoneyOnUse": true,
+        "itemMin": 9000,
+        "itemMax": 20000,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": []
+        },
+        "buy": "",
+        "sell": 9900,
+        "desc": "Has a chance to contain 9,000 - 20,000 Lootcoin\n**Easter item.**",
+        "image": "https://cdn.discordapp.com/attachments/610502203672756295/828113623171334194/silver_egg.png",
+        "icon": "<:silver_egg:828113686690136104>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item",
+        "aliases": [],
+        "tier": 0
+    },
+    "gold_egg": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": true,
+        "givesMoneyOnUse": true,
+        "itemMin": 90000,
+        "itemMax": 150000,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": []
+        },
+        "buy": "",
+        "sell": 92000,
+        "desc": "Has a chance to contain 90,000 - 150,000 Lootcoin\n**Easter item.**",
+        "image": "https://cdn.discordapp.com/attachments/610502203672756295/828113636778180618/gold_egg.png",
+        "icon": "<:gold_egg:828113726539431976>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item",
+        "aliases": [],
+        "tier": 0
+    },
     "santa_hat": {
         "rarity": "Limited",
         "isWeap": false,
@@ -1018,7 +1153,7 @@
         "tier": 0
     },
     "candy_bar": {
-        "rarity": "Limited",
+        "rarity": "Common",
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
@@ -1034,7 +1169,7 @@
         },
         "buy": "",
         "sell": 1587,
-        "desc": "A king-sized candy bar! Heals **13 - 23** HP.\n**Halloween event item.**",
+        "desc": "A king-sized candy bar! Heals **13 - 23** HP.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/734408436682326037/chocolate_bar.png",
         "icon": "<:candy_bar:734408335108997181>",
         "breaksOnUse": "",
@@ -1232,6 +1367,38 @@
         "category": "Item",
         "aliases": [
             "scarecrow"
+        ],
+        "tier": 0
+    },
+    "bunny_suit": {
+        "rarity": "Common",
+        "isWeap": false,
+        "isItem": true,
+        "isShield": true,
+        "shieldInfo": {
+            "seconds": 14400,
+            "protection": 0.3
+        },
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": []
+        },
+        "buy": "",
+        "sell": 13026,
+        "desc": "Use this armor to reduce damage taken from attacks by **30%** for **4 hours**.",
+        "image": "https://cdn.discordapp.com/attachments/610502203672756295/828164178061557770/bunny_suit.png",
+        "icon": "<:bunny_suit:828164317350199297>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item",
+        "aliases": [
+            "bunny"
         ],
         "tier": 0
     }
