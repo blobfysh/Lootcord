@@ -10,9 +10,8 @@
         "craftedWith": {
             "level": 2,
             "materials": [
-                "rock|1",
-                "wood|1",
-                "cloth|1"
+                "stone|1",
+                "wood|1"
             ]
         },
         "recyclesTo": {
@@ -352,7 +351,7 @@
             "level": 3,
             "materials": [
                 "gunpowder|1",
-                "rock|1"
+                "stone|1"
             ]
         },
         "recyclesTo": {

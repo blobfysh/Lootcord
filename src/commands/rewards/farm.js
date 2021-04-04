@@ -40,9 +40,13 @@ module.exports = {
 				await app.itm.addItem(message.author.id, 'crate', 1)
 				message.reply(`You decide to scavenge for loot and find **1x** ${app.itemdata.crate.icon}\`crate\`!`)
 			}
-			else if (rand < 0.8) {
+			else if (rand < 0.7) {
 				await app.itm.addItem(message.author.id, 'metal', 1)
 				message.reply(`You decide to go ⛏️ mining and bring back **1x** ${app.itemdata.metal.icon}\`metal\`!`)
+			}
+			else if (rand < 0.85) {
+				await app.itm.addItem(message.author.id, 'stone', 1)
+				message.reply(`You decide to go ⛏️ mining and bring back **1x** ${app.itemdata.stone.icon}\`stone\`!`)
 			}
 			else {
 				await app.itm.addItem(message.author.id, 'wood', 1)

@@ -171,6 +171,32 @@
         ],
         "tier": 0
     },
+    "stone": {
+        "rarity": "Rare",
+        "isWeap": false,
+        "isItem": false,
+        "isMaterial": true,
+        "damage": "",
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": []
+        },
+        "buy": "",
+        "sell": 1023,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/610502203672756295/828178344565801011/stone.png",
+        "icon": "<:stone:828178382390689812>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Material",
+        "aliases": [],
+        "tier": 0
+    },
     "smg_body": {
         "rarity": "Rare",
         "isWeap": false,

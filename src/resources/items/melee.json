@@ -29,6 +29,40 @@
         ],
         "tier": 0
     },
+    "stone_spear": {
+        "rarity": "Common",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "22 - 26",
+        "minDmg": 22,
+        "maxDmg": 26,
+        "ammo": "",
+        "craftedWith": {
+            "level": 3,
+            "materials": [
+                "wood|2",
+                "stone|1"
+            ]
+        },
+        "recyclesTo": {
+            "materials": []
+        },
+        "buy": "",
+        "sell": 3365,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/610502203672756295/828257796604428308/stone_spear.png",
+        "icon": "<:stone_spear:828257772936232991>",
+        "breaksOnUse": true,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 1753
+        },
+        "phrase": "{attacker} stabbed {victim} with a {weaponIcon}`{weapon}` dealing **{damage}** damage!",
+        "artist": "",
+        "category": "Melee",
+        "aliases": [],
+        "tier": 0
+    },
     "bone_knife": {
         "rarity": "Common",
         "isWeap": true,
