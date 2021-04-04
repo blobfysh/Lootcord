@@ -38,7 +38,7 @@ module.exports = {
 
 			const embedInfo = new app.Embed()
 				.setTitle(`${userInfo.username}#${userInfo.discriminator}'s Inventory`)
-				.setColor(13451564)
+				.setColor('#e6b8e9')
 
 			if (armorLeft) {
 				embedInfo.addField(armor ? 'Armor' : '🛡️ Armor', armor ? `${app.itemdata[armor].icon}\`${armorLeft}\`` : `\`${armorLeft}\``)

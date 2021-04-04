@@ -96,7 +96,7 @@ module.exports = {
 
 		const embedLeader = new app.Embed()
 			.setTitle('Server Leaderboard')
-			.setColor(13451564)
+			.setColor('#e6b8e9')
 			.setFooter(`Top ${leaders.length}`)
 
 		if (leaders.length) {

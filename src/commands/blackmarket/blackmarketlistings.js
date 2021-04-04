@@ -35,7 +35,7 @@ function generatePages(app, message, listings) {
 		const pageEmbed = new app.Embed()
 			.setAuthor(`${message.author.username}'s Listings`, message.author.avatarURL)
 			.setDescription('List more with `bmlist`\nRemove a listing with `bmremove <listing ID>`')
-			.setColor(13451564)
+			.setColor('#e6b8e9')
 
 		app.bm.displayListings(pageEmbed, selectedListings)
 
