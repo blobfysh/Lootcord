@@ -326,7 +326,8 @@
                         "large_medkit|1",
                         "rocket_launcher|1",
                         "tech_trash|1",
-                        "medical_syringe|2"
+                        "medical_syringe|2",
+                        "high_quality_metal|1"
                     ]
                 },
                 "15": {
@@ -401,7 +402,8 @@
                         "bolt_rifle|1",
                         "rocket_launcher|1",
                         "incen_pistol_bullet|1",
-                        "hv_pistol_bullet|1"
+                        "hv_pistol_bullet|1",
+                        "high_quality_metal|1"
                     ]
                 },
                 "15": {
