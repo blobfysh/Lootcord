@@ -63,6 +63,7 @@ class MySQL {
 			// create monsters table
 			await this.query(createSpawnChannels)
 			await this.query(createSpawnsSQL)
+			await this.query(createSpawnsDamageSQL)
 
 			// userGuilds table for keeping track of which servers users are activated in
 			await this.query('CREATE TABLE IF NOT EXISTS userGuilds (userId bigint, guildId bigint) ENGINE = InnoDB')
@@ -275,6 +276,17 @@ CREATE TABLE IF NOT EXISTS spawns (
     bleed INT,
     burn INT,
     PRIMARY KEY (channelId))
+    ENGINE = InnoDB
+`
+
+const createSpawnsDamageSQL = `
+CREATE TABLE IF NOT EXISTS spawnsDamage (
+    channelId BIGINT,
+    userId BIGINT,
+    damage INT,
+    PRIMARY KEY(channelId, userId),
+	FOREIGN KEY (channelId) REFERENCES spawns (channelId),
+	FOREIGN KEY (userId) REFERENCES scores (userId))
     ENGINE = InnoDB
 `
 

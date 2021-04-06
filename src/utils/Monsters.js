@@ -11,6 +11,7 @@ class Monsters {
 		}
 		else if (activeMob) {
 			// monster was removed from mobdata, need to restart the spawning process
+			await this.app.query('DELETE FROM spawnsDamage WHERE channelId = ?', [channelId])
 			await this.app.query('DELETE FROM spawns WHERE channelId = ?', [channelId])
 			await this.app.cd.clearCD(channelId, 'mob')
 			await this.app.cd.clearCD(channelId, 'mobHalf')
@@ -46,6 +47,7 @@ class Monsters {
 			await this.app.bot.createMessage(channelId, { content: 'An enemy has spawned...', embed: mobEmbed.embed })
 		}
 		catch (err) {
+			await this.app.query('DELETE FROM spawnsDamage WHERE channelId = ?', [channelId])
 			await this.app.query('DELETE FROM spawnChannels WHERE channelId = ?', [channelId])
 			await this.app.query('DELETE FROM spawns WHERE channelId = ?', [channelId])
 			await this.app.cd.clearCD(channelId, 'mob')
@@ -57,7 +59,7 @@ class Monsters {
 	async genMobEmbed(channelId, monster, health, money) {
 		const spawnInfo = await this.app.mysql.select('spawns', 'channelId', channelId)
 		const remaining = await this.app.cd.getCD(channelId, 'mob')
-
+		const topDamageDealers = await this.getTopDamageDealt(channelId)
 
 		const guildPrefix = await this.app.common.getPrefix(spawnInfo.guildId)
 
@@ -71,12 +73,17 @@ class Monsters {
 		}, [])
 
 		let healthStr = `**${health} / ${monster.health}** HP${this.app.player.getHealthIcon(health, monster.health, true)}`
+		let topDamageStr = `Nobody has attacked ${monster.mentioned} yet. The top **3** damage dealers will receive loot!`
 
 		if (spawnInfo.bleed > 0) {
 			healthStr += `\n🩸 Bleeding: **${spawnInfo.bleed}**`
 		}
 		if (spawnInfo.burn > 0) {
 			healthStr += `\n🔥 Burning: **${spawnInfo.burn}**`
+		}
+
+		if (topDamageDealers.length) {
+			topDamageStr = `${topDamageDealers.map((user, i) => `${i + 1}. <@${user.userId}> - **${user.damage}** damage`).join('\n')}\nThe top **3** damage dealers will receive loot!`
 		}
 
 		const mobEmbed = new this.app.Embed()
@@ -87,12 +94,22 @@ class Monsters {
 			.addField('Balance', this.app.common.formatNumber(money), true)
 			.addField('Damage', `${monster.weapon.icon}\`${monster.weapon.name}\` ${monster.minDamage} - ${monster.maxDamage}`, true)
 			.addBlankField()
+			.addField('Top Damage Dealers', topDamageStr)
 			.addField('Main Loot Drops:', this.app.itm.getDisplay(mainLoot.sort(this.app.itm.sortItemsHighLow.bind(this.app))).join('\n'), true)
 			.addField('Extra Loot Drops:', this.app.itm.getDisplay(extraLoot.sort(this.app.itm.sortItemsHighLow.bind(this.app))).join('\n'), true)
 			.setFooter(`https://lootcord.com/enemy/${spawnInfo.monster}`)
 			.setImage(monster.image)
 
 		return mobEmbed
+	}
+
+	async playerDealtDamage(userId, channelId, damage) {
+		await this.app.query('INSERT INTO spawnsDamage (userId, channelId, damage) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE damage = damage + ?',
+			[userId, channelId, damage, damage])
+	}
+
+	async getTopDamageDealt(channelId, limit = 3) {
+		return this.app.query('SELECT * FROM spawnsDamage WHERE channelId = ? ORDER BY damage DESC LIMIT ?', [channelId, limit])
 	}
 
 	mobLeftEmbed(monster) {
@@ -108,6 +125,7 @@ class Monsters {
 	async onFinished(channelId, left = true) {
 		try {
 			const monsterStats = await this.app.mysql.select('spawns', 'channelId', channelId)
+			await this.app.query('DELETE FROM spawnsDamage WHERE channelId = ?', [channelId])
 			await this.app.query('DELETE FROM spawns WHERE channelId = ?', [channelId])
 
 			if (left) await this.app.bot.createMessage(channelId, this.mobLeftEmbed(this.mobdata[monsterStats.monster]))
@@ -130,6 +148,7 @@ class Monsters {
 		catch (err) {
 			console.log(err)
 			await this.app.cd.clearCD(channelId, 'mob')
+			await this.app.query('DELETE FROM spawnsDamage WHERE channelId = ?', [channelId])
 			await this.app.query('DELETE FROM spawns WHERE channelId = ?', [channelId])
 			await this.app.query('DELETE FROM spawnChannels WHERE channelId = ?', [channelId])
 		}
@@ -140,6 +159,45 @@ class Monsters {
 		const rewards = monster.loot[type][rand].items
 
 		return rewards[Math.floor(Math.random() * rewards.length)]
+	}
+
+	async disperseRewards(channelId, monster, money) {
+		const topDamageDealers = await this.getTopDamageDealt(channelId)
+		const weightedMain = this.app.itm.generateWeightedArray(monster.loot.main)
+		const weightedExtras = this.app.itm.generateWeightedArray(monster.loot.extras)
+		const rewardsArr = []
+		const moneyReward = Math.floor(money / topDamageDealers.length)
+
+		for (let i = 0; i < topDamageDealers.length; i++) {
+			let loot
+
+			if (i === 0) {
+				loot = [this.pickRandomLoot(monster, 'main', weightedMain), this.pickRandomLoot(monster, 'extras', weightedExtras)]
+				await this.app.player.addPoints(topDamageDealers[i].userId, monster.xp)
+
+				rewardsArr.push(`**${topDamageDealers[i].damage}** damage - <@${topDamageDealers[i].userId}>,\n${this.app.common.formatNumber(moneyReward)}\n${this.app.itm.getDisplay(loot).join('\n')}\n...and \`⭐ ${monster.xp} XP\`!`)
+			}
+			else if (i === 1) {
+				loot = [this.pickRandomLoot(monster, 'main', weightedMain), this.pickRandomLoot(monster, 'extras', weightedExtras)]
+
+				rewardsArr.push(`**${topDamageDealers[i].damage}** damage - <@${topDamageDealers[i].userId}>,\n${this.app.common.formatNumber(moneyReward)}\n${this.app.itm.getDisplay(loot).join('\n')}`)
+			}
+			else {
+				loot = [this.pickRandomLoot(monster, 'extras', weightedExtras)]
+
+				rewardsArr.push(`**${topDamageDealers[i].damage}** damage - <@${topDamageDealers[i].userId}>,\n${this.app.common.formatNumber(moneyReward)}\n${this.app.itm.getDisplay(loot).join('\n')}`)
+			}
+
+			await this.app.player.addMoney(topDamageDealers[i].userId, moneyReward)
+			await this.app.itm.addItem(topDamageDealers[i].userId, loot)
+		}
+
+		const killedReward = new this.app.Embed()
+			.setTitle('Rewards')
+			.setColor(7274496)
+			.setDescription(rewardsArr.join('\n\n'))
+
+		return killedReward
 	}
 
 	async subHealth(channelId, amount) {

@@ -230,6 +230,7 @@ class Lootcord extends Base {
 				else if (cdInfo.type === 'mob') {
 					// delete mob
 					await this.query(`DELETE FROM cooldown WHERE userId = '${cdInfo.userId}' AND type = '${cdInfo.type}'`)
+					await this.query('DELETE FROM spawnsDamage WHERE channelId = ?', [cdInfo.userId])
 					await this.query('DELETE FROM spawns WHERE channelId = ?', [cdInfo.userId])
 				}
 				else if (cdInfo.type === 'explosion') {

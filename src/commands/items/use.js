@@ -278,23 +278,15 @@ module.exports = {
 				await app.cd.setCD(message.author.id, 'attack', app.itemdata[item].cooldown.seconds * 1000)
 
 				const randDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage)
+				// track players damage to spawn
+				await app.monsters.playerDealtDamage(message.author.id, message.channel.id, randDmg)
 
 				if (monsterRow.health - randDmg <= 0) {
 					await app.cd.clearCD(message.channel.id, 'mob')
 					await app.cd.clearCD(message.channel.id, 'mobHalf')
+
+					const rewardsEmbed = await app.monsters.disperseRewards(message.channel.id, monster, monsterRow.money)
 					await app.monsters.onFinished(message.channel.id, false)
-
-					const bestItem = app.monsters.pickRandomLoot(monster, 'main', app.itm.generateWeightedArray(monster.loot.main))
-					const extras = []
-					const weightedExtras = app.itm.generateWeightedArray(monster.loot.extras)
-
-					for (let i = 0; i < monster.extraDrops; i++) {
-						extras.push(app.monsters.pickRandomLoot(monster, 'extras', weightedExtras))
-					}
-
-					await app.itm.addItem(message.author.id, [bestItem, ...extras])
-					await app.player.addMoney(message.author.id, monsterRow.money)
-					await app.player.addPoints(message.author.id, monster.xp)
 
 					await app.query(`UPDATE scores SET kills = kills + 1 WHERE userId = ${message.author.id}`) // add 1 to kills
 
@@ -305,25 +297,13 @@ module.exports = {
 						await app.itm.addBadge(message.author.id, 'executioner')
 					}
 
-					const killedReward = new app.Embed()
-						.setTitle('Loot Received')
-						.setColor(7274496)
-						.addField('Lootcoin Stolen', app.common.formatNumber(monsterRow.money))
-						.addField('Items', `${app.itm.getDisplay([bestItem])}\n\n**and...**\n${app.itm.getDisplay(extras.sort(app.itm.sortItemsHighLow.bind(app))).join('\n')}`)
-						.setFooter(`⭐ ${monster.xp} XP earned!`)
-
 					message.channel.createMessage({
 						content: generateAttackMobString(app, message, monsterRow, randDmg, item, ammoUsed, weaponBroke, true),
-						embed: killedReward.embed
+						embed: rewardsEmbed.embed
 					})
 				}
 				else {
-					const mobMoneyStolen = Math.floor((randDmg / monsterRow.health) * monsterRow.money)
-
-					await app.monsters.subMoney(message.channel.id, mobMoneyStolen)
 					await app.monsters.subHealth(message.channel.id, randDmg)
-
-					await app.player.addMoney(message.author.id, mobMoneyStolen)
 
 					if (bleedDamage > 0) {
 						await app.monsters.addBleed(message.channel.id, bleedDamage)
@@ -333,8 +313,8 @@ module.exports = {
 					}
 
 					message.channel.createMessage({
-						content: generateAttackMobString(app, message, monsterRow, randDmg, item, ammoUsed, weaponBroke, false, mobMoneyStolen),
-						embed: (await app.monsters.genMobEmbed(message.channel.id, monster, monsterRow.health - randDmg, monsterRow.money - mobMoneyStolen)).embed
+						content: generateAttackMobString(app, message, monsterRow, randDmg, item, ammoUsed, weaponBroke, false),
+						embed: (await app.monsters.genMobEmbed(message.channel.id, monster, monsterRow.health - randDmg, monsterRow.money)).embed
 					})
 
 					// mob attacks player
@@ -349,7 +329,7 @@ module.exports = {
 					if (row.health - mobDmg <= 0) {
 						// player was killed
 						const randomItems = await app.itm.getRandomUserItems(message.author.id)
-						const moneyStolen = Math.floor((row.money + mobMoneyStolen) * 0.75)
+						const moneyStolen = Math.floor(row.money * 0.75)
 						const scrapStolen = Math.floor(row.scrap * 0.5)
 
 						// passive shield, protects same player from being attacked for 24 hours
@@ -883,7 +863,7 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
 	return finalStr
 }
 
-function generateAttackMobString(app, message, monsterRow, damage, itemUsed, ammoUsed, itemBroke, killed, moneyStolen) {
+function generateAttackMobString(app, message, monsterRow, damage, itemUsed, ammoUsed, itemBroke, killed) {
 	const monster = app.mobdata[monsterRow.monster]
 	const monsterDisplay = monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)
 	let finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
@@ -905,10 +885,6 @@ function generateAttackMobString(app, message, monsterRow, damage, itemUsed, amm
 		finalStr += `\n${monsterDisplay} resisted the effects of the ${app.itemdata[ammoUsed].icon}\`${ammoUsed}\`!`
 	}
 
-	if (moneyStolen) {
-		finalStr += `\n\n**${message.member.nick || message.member.username}** dealt **${Math.floor((damage / monsterRow.health).toFixed(2) * 100)}%** of ${monster.mentioned}'s current health and managed to steal **${app.common.formatNumber(moneyStolen)}**.`
-	}
-
 	if (!killed && ammoUsed && monster.canBleed && app.itemdata[ammoUsed].bleed > 0) {
 		finalStr += `\n${monsterDisplay} is 🩸 bleeding for **${app.itemdata[ammoUsed].bleed}** damage!`
 	}
@@ -916,10 +892,7 @@ function generateAttackMobString(app, message, monsterRow, damage, itemUsed, amm
 		finalStr += `\n${monsterDisplay} is 🔥 burning for **${app.itemdata[ammoUsed].burn}** damage!`
 	}
 
-	if (itemBroke && moneyStolen) {
-		finalStr += `\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[itemUsed].icon}\`${itemUsed}\` broke.`
-	}
-	else if (itemBroke) {
+	if (itemBroke) {
 		finalStr += `\n\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[itemUsed].icon}\`${itemUsed}\` broke.`
 	}
 
