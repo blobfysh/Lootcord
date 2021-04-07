@@ -20,7 +20,6 @@
             "icon": "<:m92_pistol:732853706294558720>"
         },
         "ammo": "pistol_bullet",
-        "extraDrops": 3,
         "loot": {
             "main": {
                 "40": {
@@ -85,7 +84,6 @@
             "icon": "<:lr300:732853687222927400>"
         },
         "ammo": "rifle_bullet",
-        "extraDrops": 3,
         "loot": {
             "main": {
                 "30": {
@@ -155,7 +153,6 @@
             "icon": "<:mp5:732853715966623794>"
         },
         "ammo": "pistol_bullet",
-        "extraDrops": 3,
         "loot": {
             "main": {
                 "35": {
@@ -225,7 +222,6 @@
             "icon": "<:m249:732853728146882675>"
         },
         "ammo": "rifle_bullet",
-        "extraDrops": 3,
         "loot": {
             "main": {
                 "15": {
@@ -302,7 +298,6 @@
             "icon": "<:m249:732853728146882675>"
         },
         "ammo": "rifle_bullet",
-        "extraDrops": 3,
         "loot": {
             "main": {
                 "40": {
@@ -371,7 +366,6 @@
             "icon": "<:rocket_launcher:732853816675926066>"
         },
         "ammo": "rocket",
-        "extraDrops": 3,
         "loot": {
             "main": {
                 "55": {
