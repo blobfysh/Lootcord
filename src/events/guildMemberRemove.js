@@ -6,7 +6,7 @@ exports.run = async function(guild, member) {
 		this.patreonHandler.checkPatronLeft(member)
 	}
 
-	if (await this.cd.getCD(member.id, `activate|${guild.id}`) && await this.cd.getCD(member.id, 'attack')) {
+	if (await this.cd.getCD(member.id, `activate|${guild.id}`)) {
 		// cooldown dodged... >:(
 		const randomItems = await this.itm.getRandomUserItems(member.id, 1)
 		await this.itm.removeItem(member.id, randomItems.amounts)
@@ -20,7 +20,7 @@ exports.run = async function(guild, member) {
 
 		const warnEmbed = new this.Embed()
 			.setTitle('🤯 What are you doing?!')
-			.setDescription('Leaving a server you are activated in after attacking someone is against the rules!' +
+			.setDescription('Leaving a server you are activated in to avoid the deactivate cooldown is against the rules!' +
 			`\n\n${randomItems.items.length ? `A random item was removed from your inventory:\n${randomItems.display.join(', ')}\n\nand your death count has increased by 1.` : 'Your death count has increased by 1.'}` +
 			'\n\nThese rules help keep the game fair for everyone. If you continue to cooldown dodge, you will be banned!')
 			.setColor(16734296)
