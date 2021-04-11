@@ -49,7 +49,7 @@ class Player {
 
 		const newPlayer = new this.app.Embed()
 			.setTitle('Thanks for playing Lootcord!')
-			.setColor('#e6b8e9')
+			.setColor(13451564)
 			.setThumbnail(this.app.bot.user.avatarURL)
 			.setDescription(`Here's a list of commands you'll use the most:\n
         \`inv\` - View your items, health, money, and currently equipped storage container.

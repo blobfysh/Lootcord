@@ -39,7 +39,7 @@ module.exports = {
 		membersRanksList.sort((a, b) => b[1] - a[1]) // Sort clan members by rank.
 
 		const baseEmbed = new app.Embed()
-			.setColor('#e6b8e9')
+			.setColor(13451564)
 			.setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
 			.addField('Clan ID', `\`\`\`\n${clanRow.clanId}\`\`\``)
 			.addField(`Members (${clanMembers.count})`, membersRanksList.map(member => member[0]).join('\n'))
