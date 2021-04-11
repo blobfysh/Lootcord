@@ -78,7 +78,7 @@ module.exports = {
 			}
 		}
 
-		embed.setDescription(`🐰 **HAPPY EASTER!**\n\n${description}`)
+		embed.setDescription(description)
 
 		const categoriesArr = Object.keys(categories)
 
