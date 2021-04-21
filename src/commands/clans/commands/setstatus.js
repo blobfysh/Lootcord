@@ -1,7 +1,7 @@
 const Filter = require('bad-words')
 const emojiRegex = require('emoji-regex/RGI_Emoji')
-const regex = new RegExp(`^(${emojiRegex().source})?(${/[\w!$%^&*()\-+=~`'";<>,.?|\\{}[\]: ]/.source})*$`)
-const filter = new Filter()
+const regex = new RegExp(`^(${emojiRegex().source}|${/[\w!$%^&*()\-+=~`'";<>,.?|\\{}[\]: ]/.source})*$`)
+const filter = new Filter({ placeHolder: 'x' })
 
 module.exports = {
 	name: 'setstatus',
@@ -26,7 +26,11 @@ module.exports = {
 			return message.reply('❌ New lines and some special characters (@, #) are not supported in statuses. 😺 Emojis are supported!')
 		}
 
-		statusToSet = filter.clean(statusToSet)
+		// TODO update bad-words once this gets fixed
+		// adding a random letter and removing as work around for badwords issue when string only contains emoji:
+		// https://github.com/web-mech/badwords/issues/93
+		statusToSet = filter.clean(`a ${statusToSet}`)
+		statusToSet = statusToSet.slice(2)
 
 		try {
 			await app.query('UPDATE clans SET status = ? WHERE clanId = ?', [!statusToSet ? '' : statusToSet, scoreRow.clanId])
