@@ -1,3 +1,13 @@
+const axios = require('axios')
+let scrambleFile
+
+try {
+	scrambleFile = require('../../resources/json/scramble_words.json')
+}
+catch (err) {
+	scrambleFile = require('../../resources/json/scramble_words_example.json')
+}
+
 module.exports = {
 	name: 'scramble',
 	aliases: [''],
@@ -19,16 +29,12 @@ module.exports = {
 
 		const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), await app.player.getRow(message.author.id))
 		const option = args[0] ? args[0].toLowerCase() : undefined
-		const scrambleJSONlength = Object.keys(app.scramble_words).length
-		const chance = Math.floor(Math.random() * scrambleJSONlength) // returns value 0 between 32 (1 of 10)
-		const scrambleWord = app.scramble_words[chance].word // json data word to scramble
-		const scrambleDifficulty = app.scramble_words[chance].difficulty
-		const finalWord = scrambleWord.toLowerCase() // final word to check if user got correct
+		const { word, rhymesWith, difficulty, definition } = await getWord()
 		const reward = {}
-		let scrambleHint = app.scramble_words[chance].define
+		let scrambleHint = definition
 
 		if (Math.random() <= 0.7) {
-			scrambleHint = app.scramble_words[chance].hint
+			scrambleHint = `Rhymes with ${rhymesWith.map(rhyme => `\`${rhyme}\``)}.`
 		}
 
 		if (!option || (option !== 'easy' && option !== 'hard')) {
@@ -39,8 +45,8 @@ module.exports = {
 			.setFooter('You have 30 seconds to unscramble this word.')
 
 		if (option === 'easy') {
-			embedScramble.setDescription(`**Hint:** ${scrambleHint}\nWord: \`\`\`fix\n${shuffleWordNoDupe(scrambleWord)}\`\`\``)
-			if (scrambleDifficulty === 'hard') {
+			embedScramble.setDescription(`**Hint:** ${scrambleHint}\nWord: \`\`\`fix\n${shuffleWordNoDupe(word)}\`\`\``)
+			if (difficulty === 'hard') {
 				const hasEnough = await app.itm.hasSpace(itemCt, 1)
 
 				if (hasEnough) {
@@ -54,7 +60,7 @@ module.exports = {
 					reward.amount = 2750
 				}
 			}
-			else if (scrambleDifficulty === 'medium') {
+			else if (difficulty === 'medium') {
 				const hasEnough = await app.itm.hasSpace(itemCt, 1)
 
 				if (hasEnough) {
@@ -84,9 +90,9 @@ module.exports = {
 			}
 		}
 		else if (option === 'hard') {
-			embedScramble.setDescription(`Word: \`\`\`fix\n${shuffleWordNoDupe(scrambleWord.toLowerCase())}\`\`\``)
+			embedScramble.setDescription(`Word: \`\`\`fix\n${shuffleWordNoDupe(word.toLowerCase())}\`\`\``)
 
-			if (scrambleDifficulty === 'hard') {
+			if (difficulty === 'hard') {
 				const hasEnough = await app.itm.hasSpace(itemCt, 1)
 
 				if (hasEnough) {
@@ -100,7 +106,7 @@ module.exports = {
 					reward.amount = 8500
 				}
 			}
-			else if (scrambleDifficulty === 'medium') {
+			else if (difficulty === 'medium') {
 				const hasEnough = await app.itm.hasSpace(itemCt, 1)
 
 				if (hasEnough) {
@@ -132,10 +138,10 @@ module.exports = {
 
 		embedScramble.addField('Reward', reward.display)
 
-		if (scrambleDifficulty === 'hard') {
+		if (difficulty === 'hard') {
 			embedScramble.setColor(16734296)
 		}
-		else if (scrambleDifficulty === 'medium') {
+		else if (difficulty === 'medium') {
 			embedScramble.setColor(15531864)
 		}
 		else {
@@ -150,7 +156,7 @@ module.exports = {
 			message.channel.createMessage(embedScramble)
 
 			collectorObj.collector.on('collect', async m => {
-				if (m.content.toLowerCase() === finalWord) {
+				if (m.content.toLowerCase() === word.toLowerCase()) {
 					app.msgCollector.stopCollector(collectorObj)
 
 					if (reward.item === 'money') {
@@ -173,7 +179,7 @@ module.exports = {
 				if (reason === 'time') {
 					const lostScramble = new app.Embed()
 						.setTitle('You didn\'t get it in time!')
-						.setDescription(`The word was: \`\`\`\n${scrambleWord}\`\`\``)
+						.setDescription(`The word was: \`\`\`\n${word}\`\`\``)
 						.setColor(16734296)
 
 					message.channel.createMessage(lostScramble)
@@ -183,6 +189,22 @@ module.exports = {
 		catch (err) {
 			message.reply('❌ You already have a command waiting for your input! If you believe this is the bot\'s fault, join our support discord! `discord`')
 		}
+	}
+}
+
+async function getWord() {
+	try {
+		const res = await axios.get('http://scrambledwords.xyz/api/random')
+
+		if (res.status !== 200) {
+			throw new Error('Failed to fetch scramble word')
+		}
+
+		return res.data
+	}
+	catch (err) {
+		// use local scramble words file
+		return scrambleFile[Math.floor(Math.random() * scrambleFile.length)]
 	}
 }
 

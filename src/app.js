@@ -45,7 +45,6 @@ class Lootcord extends Base {
 		this.mobdata = require('./resources/json/monsters')
 		this.clan_ranks = require('./resources/json/clan_ranks')
 		this.trivia_questions = this.loadTrivia()
-		this.scramble_words = this.loadScramble()
 		this.commands = this.loadCommands()
 		this.clanCommands = this.loadClanCommands()
 		this.sets = this.loadSets()
@@ -167,15 +166,6 @@ class Lootcord extends Base {
 		}
 		catch (err) {
 			return require('./resources/json/trivia_questions_example')
-		}
-	}
-
-	loadScramble() {
-		try {
-			return require('./resources/json/scramble_words')
-		}
-		catch (err) {
-			return require('./resources/json/scramble_words_example')
 		}
 	}
 

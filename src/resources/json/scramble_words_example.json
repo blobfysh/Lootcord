@@ -1,14 +1,21 @@
 [
     {
-        "word": "Crack",
-        "difficulty": "easy",
-        "hint": "Rhymes with `back`, `black`, `track`.",
-        "define": "a blemish resulting from a break without complete separation of the parts"
+        "rhymesWith": [
+            "charge",
+            "discharge",
+            "large"
+        ],
+        "word": "Enlarge",
+        "difficulty": "medium",
+        "definition": "make larger"
     },
     {
-        "word": "House",
-        "difficulty": "easy",
-        "hint": "Rhymes with `mouse`, `espouse`, `louse`.",
-        "define": "a building for human habitation, especially one that is lived in by a family or small group of people"
+        "rhymesWith": [
+            "envelope",
+            "antelope"
+        ],
+        "word": "Microscope",
+        "difficulty": "medium",
+        "definition": "an instrument that makes an enlarged image of a small object"
     }
 ]
