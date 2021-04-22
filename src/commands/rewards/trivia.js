@@ -1,3 +1,14 @@
+const axios = require('axios')
+const { decode } = require('html-entities')
+let triviaFile
+
+try {
+	triviaFile = require('../../resources/json/trivia_questions.json')
+}
+catch (err) {
+	triviaFile = require('../../resources/json/trivia_questions_example.json')
+}
+
 module.exports = {
 	name: 'trivia',
 	aliases: [''],
@@ -19,13 +30,10 @@ module.exports = {
 
 		await app.cd.setCD(message.author.id, 'trivia', app.config.cooldowns.trivia * 1000)
 
-		const chance = Math.floor(Math.random() * Object.keys(app.trivia_questions).length) // returns value 0 between LENGTH OF JSON FILE
+		const { question, correct_answer, incorrect_answers, category } = await getQuestion()
 
-		const questionInfo = app.trivia_questions[chance].question
-		const questionA = app.trivia_questions[chance].a
-		const questionB = app.trivia_questions[chance].b
-		const questionC = app.trivia_questions[chance].c
-		const questionD = app.trivia_questions[chance].d
+		// combine correct answer and incorrect answers and shuffle them
+		const [questionA, questionB, questionC, questionD] = app.common.shuffleArr([correct_answer, ...incorrect_answers])
 
 		const chanceR = Math.floor(Math.random() * 10) // returns 0-9 (10% chance)
 		const reward = {}
@@ -50,10 +58,10 @@ module.exports = {
 		}
 
 		const embedTrivia = new app.Embed()
-			.setAuthor(`Category - ${app.trivia_questions[chance].category}`)
-			.setTitle(questionInfo)
+			.setAuthor(`Category - ${category}`)
+			.setTitle(decode(question))
 			.setColor(16777215)
-			.setDescription(`🇦 ${questionA}\n🇧 ${questionB}\n🇨 ${questionC}\n🇩 ${questionD}`)
+			.setDescription(`🇦 ${decode(questionA)}\n🇧 ${decode(questionB)}\n🇨 ${decode(questionC)}\n🇩 ${decode(questionD)}`)
 			.addField('Reward', reward.display)
 			.setFooter('You have 20 seconds to answer.')
 
@@ -62,16 +70,16 @@ module.exports = {
 		try {
 			const collected = await app.react.getFirstReaction(message.author.id, botMessage, 20000, ['🇦', '🇧', '🇨', '🇩'])
 
-			if (collected === '🇦' && app.trivia_questions[chance].correct_answer === 'a') {
+			if (collected === '🇦' && questionA === correct_answer) {
 				triviaReward()
 			}
-			else if (collected === '🇧' && app.trivia_questions[chance].correct_answer === 'b') {
+			else if (collected === '🇧' && questionB === correct_answer) {
 				triviaReward()
 			}
-			else if (collected === '🇨' && app.trivia_questions[chance].correct_answer === 'c') {
+			else if (collected === '🇨' && questionC === correct_answer) {
 				triviaReward()
 			}
-			else if (collected === '🇩' && app.trivia_questions[chance].correct_answer === 'd') {
+			else if (collected === '🇩' && questionD === correct_answer) {
 				triviaReward()
 			}
 			else {
@@ -98,10 +106,26 @@ module.exports = {
 			}
 
 			const embedReward = new app.Embed()
-				.setTitle(`${app.trivia_questions[chance][app.trivia_questions[chance].correct_answer]} is correct!`)
+				.setTitle(`${decode(correct_answer)} is correct!`)
 				.setColor(720640)
 				.addField('Reward:', reward.display)
 			botMessage.edit(embedReward)
 		}
+	}
+}
+
+async function getQuestion() {
+	try {
+		const res = await axios.get('https://opentdb.com/api.php?amount=1&type=multiple')
+
+		if (res.status !== 200 || (res.data && res.data.response_code !== 0)) {
+			throw new Error('Failed to fetch trivia')
+		}
+
+		return res.data.results[0]
+	}
+	catch (err) {
+		// use local trivia file
+		return triviaFile[Math.floor(Math.random() * triviaFile.length)]
 	}
 }

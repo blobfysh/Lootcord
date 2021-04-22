@@ -44,7 +44,6 @@ class Lootcord extends Base {
 		this.badgedata = require('./resources/json/badges')
 		this.mobdata = require('./resources/json/monsters')
 		this.clan_ranks = require('./resources/json/clan_ranks')
-		this.trivia_questions = this.loadTrivia()
 		this.commands = this.loadCommands()
 		this.clanCommands = this.loadClanCommands()
 		this.sets = this.loadSets()
@@ -157,15 +156,6 @@ class Lootcord extends Base {
 		return {
 			adminUsers: new Set(this.config.adminUsers),
 			disabledCommands: new Set()
-		}
-	}
-
-	loadTrivia() {
-		try {
-			return require('./resources/json/trivia_questions')
-		}
-		catch (err) {
-			return require('./resources/json/trivia_questions_example')
 		}
 	}
 
