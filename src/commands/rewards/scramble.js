@@ -42,6 +42,7 @@ module.exports = {
 		}
 
 		await app.cd.setCD(message.author.id, 'scramble', app.config.cooldowns.scramble * 1000)
+		await app.player.addStat(message.author.id, 'scrambles', 1)
 
 		const embedScramble = new app.Embed()
 			.setFooter('You have 15 seconds to unscramble this word.')
@@ -164,6 +165,8 @@ module.exports = {
 				else {
 					await app.itm.addItem(message.author.id, reward.item, reward.amount)
 				}
+
+				await app.player.addStat(message.author.id, 'scramblesCorrect', 1)
 
 				const winScramble = new app.Embed()
 					.setTitle('You got it correct!')

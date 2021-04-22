@@ -37,6 +37,10 @@ module.exports = {
 			const userItems = await app.itm.getUserItems(await app.itm.getItemObject(member.id), { onlyBanners: true })
 			const badges = await app.itm.getBadges(member.id)
 			const xp = app.common.calculateXP(userRow.points, userRow.level)
+			const trivias = await app.player.getStat(message.author.id, 'trivias')
+			const triviasCorrect = await app.player.getStat(message.author.id, 'triviasCorrect')
+			const scrambles = await app.player.getStat(message.author.id, 'scrambles')
+			const scramblesCorrect = await app.player.getStat(message.author.id, 'scramblesCorrect')
 
 			const bannerIcon = app.itemdata[userRow.banner] !== undefined ? app.itemdata[userRow.banner].icon : ''
 			const bannersList = `**Equipped:** ${bannerIcon}\`${userRow.banner}\`\n${userItems.banners.join('\n')}`
@@ -73,7 +77,9 @@ module.exports = {
 				.addField('Clan', codeWrap(userRow.clanId !== 0 ? (await app.clans.getRow(userRow.clanId)).name : 'None', 'js'), true)
 				.addField('Level', codeWrap(`${userRow.level} (${xp.curLvlXp} / ${xp.neededForLvl})`, 'js'), true)
 				.addField('Power', codeWrap(`${userRow.power} / ${userRow.max_power} Power`, 'js'), true)
-				.addField('K/D Ratio', codeWrap(userRow.deaths === 0 ? `${userRow.kills} Kills\n${userRow.deaths} Deaths (${userRow.kills} K/D)\n` : `${userRow.kills} Kills\n${userRow.deaths} Deaths (${(userRow.kills / userRow.deaths).toFixed(2)} K/D)`, 'fix'))
+				.addField('K/D Ratio', userRow.deaths === 0 ? `${userRow.kills} Kills\n${userRow.deaths} Deaths (${userRow.kills} K/D)\n` : `${userRow.kills} Kills\n${userRow.deaths} Deaths (${(userRow.kills / userRow.deaths).toFixed(2)} K/D)`, true)
+				.addField('Trivia Stats', `Attempts: ${trivias}\nCorrect: ${triviasCorrect}`, true)
+				.addField('Scramble Stats', `Attempts: ${scrambles}\nCorrect: ${scramblesCorrect}`, true)
 				.addField('Health', healthStr, true)
 				.addField('Strength', `${parseFloat(userRow.scaledDamage).toFixed(2)}x damage`, true)
 				.addField('Luck', userRow.luck.toString(), true)

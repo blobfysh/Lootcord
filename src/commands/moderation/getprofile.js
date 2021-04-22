@@ -30,6 +30,10 @@ module.exports = {
 			const userItems = await app.itm.getUserItems(await app.itm.getItemObject(userID), { onlyBanners: true })
 			const badges = await app.itm.getBadges(userID)
 			const xp = app.common.calculateXP(row.points, row.level)
+			const trivias = await app.player.getStat(message.author.id, 'trivias')
+			const triviasCorrect = await app.player.getStat(message.author.id, 'triviasCorrect')
+			const scrambles = await app.player.getStat(message.author.id, 'scrambles')
+			const scramblesCorrect = await app.player.getStat(message.author.id, 'scramblesCorrect')
 
 			const bannerIcon = app.itemdata[row.banner] !== undefined ? app.itemdata[row.banner].icon : ''
 			const bannersList = `**Equipped:** ${bannerIcon}\`${row.banner}\`\n${userItems.banners.join('\n')}`
@@ -64,9 +68,11 @@ module.exports = {
 				.setAuthor(`${userInfo.username}#${userInfo.discriminator}'s Profile`, app.common.getAvatar(userInfo))
 				.setDescription(userStatus)
 				.addField('Clan', codeWrap(row.clanId !== 0 ? (await app.clans.getRow(row.clanId)).name : 'None', 'js'), true)
-				.addField('Level', codeWrap(`${row.level} (XP: ${xp.curLvlXp} / ${xp.neededForLvl})`, 'js'), true)
+				.addField('Level', codeWrap(`${row.level} (${xp.curLvlXp} / ${xp.neededForLvl})`, 'js'), true)
 				.addField('Power', codeWrap(`${row.power} / ${row.max_power} Power`, 'js'), true)
-				.addField('K/D Ratio', codeWrap(row.deaths === 0 ? `${row.kills} Kills\n${row.deaths} Deaths (${row.kills} K/D)\n` : `${row.kills} Kills\n${row.deaths} Deaths (${(row.kills / row.deaths).toFixed(2)} K/D)`, 'fix'))
+				.addField('K/D Ratio', row.deaths === 0 ? `${row.kills} Kills\n${row.deaths} Deaths (${row.kills} K/D)\n` : `${row.kills} Kills\n${row.deaths} Deaths (${(row.kills / row.deaths).toFixed(2)} K/D)`, true)
+				.addField('Trivia Stats', `Attempts: ${trivias}\nCorrect: ${triviasCorrect}`, true)
+				.addField('Scramble Stats', `Attempts: ${scrambles}\nCorrect: ${scramblesCorrect}`, true)
 				.addField('Health', healthStr, true)
 				.addField('Strength', `${parseFloat(row.scaledDamage).toFixed(2)}x damage`, true)
 				.addField('Luck', row.luck.toString(), true)

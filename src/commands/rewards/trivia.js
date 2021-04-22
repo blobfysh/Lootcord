@@ -29,6 +29,7 @@ module.exports = {
 		}
 
 		await app.cd.setCD(message.author.id, 'trivia', app.config.cooldowns.trivia * 1000)
+		await app.player.addStat(message.author.id, 'trivias', 1)
 
 		const { question, correct_answer, incorrect_answers, category } = await getQuestion()
 
@@ -98,6 +99,8 @@ module.exports = {
 				else {
 					await app.itm.addItem(message.author.id, reward.item, reward.amount)
 				}
+
+				await app.player.addStat(message.author.id, 'triviasCorrect', 1)
 
 				const embedReward = new app.Embed()
 					.setTitle(`${decode(correct_answer)} is correct!`)
