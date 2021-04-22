@@ -12,7 +12,7 @@ module.exports = {
 	name: 'scramble',
 	aliases: [''],
 	description: 'Unscramble a random word!',
-	long: 'Unscramble a random word for a reward! Rewards vary depending on difficulty you choose, and the difficulty of the word.',
+	long: 'Unscramble a random word for a reward! Rewards vary depending on difficulty you choose, and the difficulty of the word. Submit your own words for the scramble command [here](https://scrambledwords.xyz/)!',
 	args: { difficulty: 'easy or hard' },
 	examples: ['scramble easy'],
 	ignoreHelp: false,
@@ -44,7 +44,7 @@ module.exports = {
 		await app.cd.setCD(message.author.id, 'scramble', app.config.cooldowns.scramble * 1000)
 
 		const embedScramble = new app.Embed()
-			.setFooter('You have 30 seconds to unscramble this word.')
+			.setFooter('You have 15 seconds to unscramble this word.')
 
 		if (option === 'easy') {
 			embedScramble.setDescription(`**Hint:** ${scrambleHint}\nWord: \`\`\`fix\n${shuffleWordNoDupe(word)}\`\`\``)
@@ -150,7 +150,7 @@ module.exports = {
 			embedScramble.setColor(9043800)
 		}
 
-		const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 30000 })
+		const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 15000 })
 
 		message.reply(embedScramble)
 
