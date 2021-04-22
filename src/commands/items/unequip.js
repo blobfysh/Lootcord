@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'unequip',
-	aliases: [''],
+	aliases: [],
 	description: 'Unequip an item.',
 	long: 'Unequip your current storage container or banner.',
 	args: { 'item/banner': 'Item to unequip.' },

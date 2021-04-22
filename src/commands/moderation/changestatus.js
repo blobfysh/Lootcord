@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'changestatus',
-	aliases: [''],
+	aliases: [],
 	description: 'Change status for a user.',
 	long: 'Change status for a user. Should be used if you see a status that goes against Discord TOS.',
 	args: {

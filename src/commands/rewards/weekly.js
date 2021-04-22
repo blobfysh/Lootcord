@@ -5,7 +5,7 @@ const QUOTES = [
 
 module.exports = {
 	name: 'weekly',
-	aliases: [''],
+	aliases: [],
 	description: 'Receive a free supply_drop every week!',
 	long: 'Use this command to receive a free supply_drop every week.\n\nThe weekly command is exclusive to patreon donators: https://www.patreon.com/lootcord.',
 	args: {},

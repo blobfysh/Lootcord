@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'unmod',
-	aliases: [''],
+	aliases: [],
 	description: 'Take away moderator rights from a user.',
 	long: 'Take away moderator rights from a user.',
 	args: {

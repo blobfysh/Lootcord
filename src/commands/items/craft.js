@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'craft',
-	aliases: [''],
+	aliases: [],
 	description: 'Craft new items!',
 	long: 'Use components from recycling to craft items such as:\n`semi_pistol`\n`wood_box`\n`rifle_bullet`.',
 	args: { item: 'Item to craft.', amount: '**OPTIONAL** Amount of items to craft.' },

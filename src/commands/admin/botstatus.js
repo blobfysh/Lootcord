@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'botstatus',
-	aliases: [''],
+	aliases: [],
 	description: 'Changes the bot\'s status.',
 	long: 'Changes status on all shards. Content is auto-formatted after the t-help |\n\nTypes:\n0 - playing\n1 - streaming\n2 - listening\n3 - watching\n\n**If you set the type to 2 (listening), the bot won\'t auto-update the status.** Once you are done broadcasting a status, you can allow the bot to auto-update by changing the type to online/etc.',
 	args: {

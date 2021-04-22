@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'getbans',
-	aliases: [''],
+	aliases: [],
 	description: 'Get a list of all banned players.',
 	long: 'Get a list of all banned players.',
 	args: {

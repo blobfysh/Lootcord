@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'sell',
-	aliases: [''],
+	aliases: [],
 	description: 'Sell items for Lootcoin.',
 	long: 'Sell items for Lootcoin. Use the `item` command to see how much an item can be sold for. You can also sell multiple items at once, check the examples to see how.',
 	args: { item: 'Item to sell.', amount: '**OPTIONAL** Amount of item to sell.' },

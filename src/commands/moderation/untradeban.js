@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'untradeban',
-	aliases: [''],
+	aliases: [],
 	description: 'Unbans a user from trading.',
 	long: 'Lifts a user\'s tradeban.',
 	args: {

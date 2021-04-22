@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'disablecommand',
-	aliases: [''],
+	aliases: [],
 	description: 'Disables a command.',
 	long: 'Disables a command across all shards. Use this if a command is broken and needs fixing.\n\n**Will re-enable a command if it\'s already disabled.**',
 	args: {

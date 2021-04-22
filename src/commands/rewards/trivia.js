@@ -11,7 +11,7 @@ catch (err) {
 
 module.exports = {
 	name: 'trivia',
-	aliases: [''],
+	aliases: [],
 	description: 'Answer a random question for a reward!',
 	long: 'Answer a random trivia question for a reward! Submit your own questions for the trivia command [here](https://opentdb.com/)!',
 	args: {},

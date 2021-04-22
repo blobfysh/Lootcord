@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'refreshpatrons',
-	aliases: [''],
+	aliases: [],
 	description: 'Remove patrons without patreon donator role.',
 	long: 'Remove patrons without patreon donator role.',
 	args: {},

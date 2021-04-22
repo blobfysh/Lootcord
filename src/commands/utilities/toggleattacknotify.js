@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'toggleattacknotify',
-	aliases: [''],
+	aliases: [],
 	description: 'Toggle this to enable DMs when you are attacked.',
 	long: 'Toggle notifications whenever you get attacked.',
 	args: { prefix: 'Input to change server prefix to. Must be 1-3 characters long.' },

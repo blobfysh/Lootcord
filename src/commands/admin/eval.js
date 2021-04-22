@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'eval',
-	aliases: [''],
+	aliases: [],
 	description: 'Admin-only command.',
 	long: 'Runs code on the bot.',
 	args: { input: 'Code to run.' },

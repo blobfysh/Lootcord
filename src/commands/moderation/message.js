@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'message',
-	aliases: [''],
+	aliases: [],
 	description: 'Messages a user.',
 	long: 'Messages a user. Supports attachments such as .mp4, .mp3, .gif, .png, .jpg',
 	args: {

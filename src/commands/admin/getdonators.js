@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'getdonators',
-	aliases: [''],
+	aliases: [],
 	description: 'Get a list of all donators.',
 	long: 'Get a list of all donators.',
 	args: {},

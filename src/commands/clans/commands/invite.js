@@ -2,7 +2,7 @@ const MEMBER_LIMIT = 20
 
 module.exports = {
 	name: 'invite',
-	aliases: [''],
+	aliases: [],
 	description: 'Invite a user to join your clan.',
 	long: 'Invite a user to join your clan.',
 	args: { '@user/discord#tag': 'User to invite.' },

@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'open',
-	aliases: [''],
+	aliases: [],
 	description: 'Opens a specified box.',
 	long: 'Opens a specified box. You can also open boxes with the use command.',
 	args: { item: 'Box to open.', amount: 'Amount to open.' },

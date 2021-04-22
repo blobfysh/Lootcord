@@ -2,7 +2,7 @@ const upgrOptions = ['health', 'strength', 'luck']
 
 module.exports = {
 	name: 'upgrade',
-	aliases: [''],
+	aliases: [],
 	description: 'Upgrade your skills!',
 	long: 'Allows user to upgrade skills. Skills include Health, Strength, and Luck.\nHealth - Increases max health.\nStrength - Increases damage multiplier.\nLuck - Better loot drops and chance to dodge attacks.',
 	args: { skill: '**OPTIONAL** Will upgrade selected skill when command is called', amount: '**OPTIONAL** Will upgrade selected skill x amount of times.' },

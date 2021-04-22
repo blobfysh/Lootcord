@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'revokepremium',
-	aliases: [''],
+	aliases: [],
 	description: 'Revokes user Lootcord premium.',
 	long: 'Revokes user Lootcord premium.',
 	args: {

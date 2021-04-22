@@ -3,7 +3,7 @@ const flagged_threshold = 50000
 
 module.exports = {
 	name: 'trade',
-	aliases: [''],
+	aliases: [],
 	description: 'Trade items and money with another player.',
 	long: 'Lvl Required: 3+\nStart a trade with another user. Trade commands include:\n\n`add <item> <amount>` - Item to add to trade\n`remove <item>` - Remove item from trade\n`addmoney <amount>` - Amount of Lootcoin to add\n`accept`\n`cancel`',
 	args: { '@user': 'User to trade with.' },

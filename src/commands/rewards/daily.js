@@ -9,7 +9,7 @@ const OFFICIAL_QUOTES = [
 
 module.exports = {
 	name: 'daily',
-	aliases: [''],
+	aliases: [],
 	description: 'Receive a free military_crate every day!',
 	long: 'Use this command to receive a free military_crate every day.\n\n**Receive double the reward when used in the official Discord!**',
 	args: {},

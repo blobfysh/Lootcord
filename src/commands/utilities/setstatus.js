@@ -5,7 +5,7 @@ const filter = new Filter({ placeHolder: 'x' })
 
 module.exports = {
 	name: 'setstatus',
-	aliases: [''],
+	aliases: [],
 	description: 'Sets the users status to display in commands.',
 	long: 'Changes your status in the profile command. Supports Discord unicode emoji.',
 	args: { status: 'Status to set in the profile command.' },

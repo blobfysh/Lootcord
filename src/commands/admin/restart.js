@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'restart',
-	aliases: [''],
+	aliases: [],
 	description: 'Restarts a cluster.',
 	long: 'Restarts a cluster.',
 	args: {

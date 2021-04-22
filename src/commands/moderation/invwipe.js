@@ -2,7 +2,7 @@ const shortid = require('shortid')
 
 module.exports = {
 	name: 'invwipe',
-	aliases: [''],
+	aliases: [],
 	description: 'Wipes a users inventory.',
 	long: 'Wipes a users inventory (specifically all items and money). Will generate a wipe ID that can be used to restore the player\'s inventory.\nNotifies user',
 	args: {

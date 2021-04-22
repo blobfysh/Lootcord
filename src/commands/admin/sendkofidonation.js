@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'sendkofidonation',
-	aliases: [''],
+	aliases: [],
 	description: 'Gives user Ko-fi donation rewards.',
 	long: 'Gives user Ko-fi donation rewards.',
 	args: {

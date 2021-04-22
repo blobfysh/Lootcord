@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'getmods',
-	aliases: [''],
+	aliases: [],
 	description: 'Get a list of all moderators.',
 	long: 'Get a list of all moderators.',
 	args: {},

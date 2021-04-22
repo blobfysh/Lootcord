@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'vote',
-	aliases: [''],
+	aliases: [],
 	description: 'Vote for the bot to collect a reward!',
 	long: 'Vote for the bot to receive a reward.',
 	args: {},

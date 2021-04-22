@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'ping',
-	aliases: [''],
+	aliases: [],
 	description: 'Check the bot\'s ping',
 	long: 'Check the bot\'s ping',
 	args: {},

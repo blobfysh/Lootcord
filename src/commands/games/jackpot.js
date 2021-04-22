@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'jackpot',
-	aliases: [''],
+	aliases: [],
 	description: 'Start a jackpot prize pool that other users can enter for a chance to win it all!',
 	long: 'Start a server jackpot that lasts 2 minutes! Other players can join the jackpot with the join command. The more you put into the pot, the higher your chance of winning it all.',
 	args: { amount: 'Amount of Scrap to gamble.' },

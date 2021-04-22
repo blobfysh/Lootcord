@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'rules',
-	aliases: [''],
+	aliases: [],
 	description: 'View the rules of Lootcord.',
 	long: 'Displays official Lootcord rules.',
 	args: {},

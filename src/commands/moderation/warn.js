@@ -10,7 +10,7 @@ const ordinals = {
 
 module.exports = {
 	name: 'warn',
-	aliases: [''],
+	aliases: [],
 	description: 'Warns a user.',
 	long: 'Warns a user and sends them a message containing the reason. You must provide one of the following rules:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts\n**6** - False reports',
 	args: {

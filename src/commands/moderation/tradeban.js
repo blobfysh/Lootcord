@@ -2,7 +2,7 @@ const { RULES } = require('../../resources/constants')
 
 module.exports = {
 	name: 'tradeban',
-	aliases: [''],
+	aliases: [],
 	description: 'Bans a user from trading.',
 	long: 'Bans a user from being able to use the trade command as well as the black market, clan vaults, and Discoin conversions. You must provide one of the following rules:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts\n**6** - False reports',
 	args: {

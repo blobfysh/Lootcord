@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'silentban',
-	aliases: [''],
+	aliases: [],
 	description: 'Bans a user without notifying them.',
 	long: 'Bans a user without notifying them. Banning will make the bot ignore every message from user.',
 	args: {

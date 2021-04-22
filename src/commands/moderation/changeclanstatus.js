@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'changeclanstatus',
-	aliases: [''],
+	aliases: [],
 	description: 'Change status for a clan.',
 	long: 'Change status for a clan. Should be used if you see a status that goes against Discord TOS.',
 	args: {

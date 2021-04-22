@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'help',
-	aliases: [''],
+	aliases: [],
 	description: 'Show all clan commands.',
 	long: 'Shows all clan commands.',
 	args: { command: 'Command to lookup info for.' },

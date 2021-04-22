@@ -2,7 +2,7 @@ const { RULES } = require('../../resources/constants')
 
 module.exports = {
 	name: 'tempban',
-	aliases: [''],
+	aliases: [],
 	description: 'Bans a user.',
 	long: 'Temporarily bans a user and sends them a message containing the reason. The time can be either m (minutes), h (hours) or d (days). You must provide one of the following rules:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts\n**6** - False reports',
 	args: {

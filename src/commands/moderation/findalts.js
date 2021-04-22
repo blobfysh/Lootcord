@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'findalts',
-	aliases: [''],
+	aliases: [],
 	description: 'Attempt to find alts of a user.',
 	long: 'Attempt to find alts of a user.',
 	args: {

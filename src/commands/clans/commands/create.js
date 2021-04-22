@@ -4,7 +4,7 @@ const CREATION_COST = 100000
 
 module.exports = {
 	name: 'create',
-	aliases: [''],
+	aliases: [],
 	description: 'Create a clan.',
 	long: 'Create a clan. Costs 100,000 Lootcoin.',
 	args: { name: 'Desired name of your clan.' },

@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'clankick',
-	aliases: [''],
+	aliases: [],
 	description: 'Kick a user from a clan using ID.',
 	long: 'Kick a user from a clan using their ID.',
 	args: {

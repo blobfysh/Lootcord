@@ -2,7 +2,7 @@ const SCRAP_BONUS_RATE = 1.5
 
 module.exports = {
 	name: 'scrap',
-	aliases: [''],
+	aliases: [],
 	description: 'Get Scrap for your items.',
 	long: 'Exchange your items for Scrap! Scrapping your items gives you 1.5x their sell value.',
 	args: { item: 'Item to scrap.', amount: '**OPTIONAL** Amount of item to scrap.' },

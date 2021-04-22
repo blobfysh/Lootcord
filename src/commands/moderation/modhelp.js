@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'modhelp',
-	aliases: [''],
+	aliases: [],
 	description: 'Shows moderation commands.',
 	long: 'Shows moderation commands.',
 	args: {

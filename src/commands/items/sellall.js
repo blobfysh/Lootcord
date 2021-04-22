@@ -2,7 +2,7 @@ const { ITEM_TYPES } = require('../../resources/constants')
 
 module.exports = {
 	name: 'sellall',
-	aliases: [''],
+	aliases: [],
 	description: 'Sell multiple items at once.',
 	long: `Sell all items of a category. If no category is specified, it will sell all items in your inventory. Categories include:\n\n${Object.keys(ITEM_TYPES).map(type => `- ${ITEM_TYPES[type].name}`).join('\n')}`,
 	args: { rarity: '**OPTIONAL** Rarity of items you want to sell ie. common, rare...' },

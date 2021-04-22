@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'promote',
-	aliases: [''],
+	aliases: [],
 	description: 'Promote a user in your clan.',
 	long: 'Promote a user in your clan.',
 	args: { '@user/discord#tag': 'User to promote.' },

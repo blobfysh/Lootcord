@@ -14,7 +14,7 @@ module.exports = {
 		const scoreRow = await app.player.getRow(message.author.id)
 
 		const commandName = args[0] ? args[0].toLowerCase() : undefined
-		const command = app.clanCommands.find(cmd => cmd.name === commandName || (cmd.aliases && cmd.aliases.includes(commandName)))
+		const command = app.clanCommands.find(cmd => cmd.name === commandName || (cmd.aliases.length && cmd.aliases.includes(commandName)))
 
 		if (!command) {
 			try {

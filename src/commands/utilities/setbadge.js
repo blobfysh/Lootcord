@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'setbadge',
-	aliases: [''],
+	aliases: [],
 	description: 'Sets a badge to display.',
 	long: 'Sets your display badge. This badge will be displayed next to your name on the leaderboard, active player list, clan member list, random attack selection list, and more.',
 	args: { badge: 'Badge to display' },

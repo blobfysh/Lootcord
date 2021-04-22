@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'raid',
-	aliases: [''],
+	aliases: [],
 	description: 'Raid another clan.',
 	long: 'Raid another clan.',
 	args: { clan: 'Name of clan to raid.' },

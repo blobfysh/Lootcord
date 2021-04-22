@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'roulette',
-	aliases: [''],
+	aliases: [],
 	description: 'Play a game of Russian roulette.',
 	long: 'Play a game of Russian roulette.\nIf you survive, you win **1.2x** what you bet.\nIf you lose, you\'ll be shot for **20 - 50** damage (depending on your bet) and lose your bet amount.',
 	args: { amount: 'Amount of Scrap to gamble.' },

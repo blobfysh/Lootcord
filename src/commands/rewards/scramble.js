@@ -10,7 +10,7 @@ catch (err) {
 
 module.exports = {
 	name: 'scramble',
-	aliases: [''],
+	aliases: [],
 	description: 'Unscramble a random word!',
 	long: 'Unscramble a random word for a reward! Rewards vary depending on difficulty you choose, and the difficulty of the word. Submit your own words for the scramble command [here](https://scrambledwords.xyz/)!',
 	args: { difficulty: 'easy or hard' },

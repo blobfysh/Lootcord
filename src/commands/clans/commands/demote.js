@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'demote',
-	aliases: [''],
+	aliases: [],
 	description: 'Demote a user in your clan.',
 	long: 'Demote a user in your clan.',
 	args: { '@user/discord#tag': 'User to demote.' },

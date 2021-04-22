@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'leave',
-	aliases: [''],
+	aliases: [],
 	description: 'Leave your current clan.',
 	long: 'Leave your current clan.',
 	args: {},

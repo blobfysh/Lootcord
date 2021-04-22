@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'unban',
-	aliases: [''],
+	aliases: [],
 	description: 'Unbans a user.',
 	long: 'Unbans a user and sends them a message that they were unbanned.',
 	args: {

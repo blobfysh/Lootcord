@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'getbotstats',
-	aliases: [''],
+	aliases: [],
 	description: 'Displays information about the bot.',
 	long: 'Displays statistics about the bot.',
 	args: {},

@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'addmod',
-	aliases: [''],
+	aliases: [],
 	description: 'Makes user a Lootcord moderator.',
 	long: 'Makes user a Lootcord moderator.',
 	args: {

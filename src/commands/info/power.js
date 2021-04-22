@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'power',
-	aliases: [''],
+	aliases: [],
 	description: 'View your current power.',
 	long: 'View your current power.',
 	args: {},

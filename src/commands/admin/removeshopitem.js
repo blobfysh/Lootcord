@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'removeshopitem',
-	aliases: [''],
+	aliases: [],
 	description: 'Remove a shop item from the database.',
 	long: 'Remove a shop item from the database.',
 	args: {
