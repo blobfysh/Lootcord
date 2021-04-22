@@ -63,23 +63,24 @@ module.exports = {
 			.setColor(16777215)
 			.setDescription(`🇦 ${decode(questionA)}\n🇧 ${decode(questionB)}\n🇨 ${decode(questionC)}\n🇩 ${decode(questionD)}`)
 			.addField('Reward', reward.display)
-			.setFooter('You have 20 seconds to answer.')
+			.setFooter('You have 20 seconds to answer. Type A, B, C, or D to pick.')
+		await message.channel.createMessage(embedTrivia)
 
-		const botMessage = await message.channel.createMessage(embedTrivia)
+		const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id && ['a', 'b', 'c', 'd'].includes(m.content.toLowerCase()), { time: 20000, maxMatches: 1 })
 
-		try {
-			const collected = await app.react.getFirstReaction(message.author.id, botMessage, 20000, ['🇦', '🇧', '🇨', '🇩'])
+		collectorObj.collector.on('collect', async m => {
+			const collected = m.content.toLowerCase()
 
-			if (collected === '🇦' && questionA === correct_answer) {
+			if (collected === 'a' && questionA === correct_answer) {
 				triviaReward()
 			}
-			else if (collected === '🇧' && questionB === correct_answer) {
+			else if (collected === 'b' && questionB === correct_answer) {
 				triviaReward()
 			}
-			else if (collected === '🇨' && questionC === correct_answer) {
+			else if (collected === 'c' && questionC === correct_answer) {
 				triviaReward()
 			}
-			else if (collected === '🇩' && questionD === correct_answer) {
+			else if (collected === 'd' && questionD === correct_answer) {
 				triviaReward()
 			}
 			else {
@@ -87,30 +88,33 @@ module.exports = {
 					.setTitle('Incorrect')
 					.setColor(13632027)
 					.addField('Reward:', '`shame`')
-				botMessage.edit(embedWrong)
-			}
-		}
-		catch (err) {
-			const errorEmbed = new app.Embed()
-				.setColor(16734296)
-				.setDescription('❌ You ran out of time!')
-			botMessage.edit(errorEmbed)
-		}
-
-		async function triviaReward() {
-			if (reward.item === 'money') {
-				await app.player.addMoney(message.author.id, reward.amount)
-			}
-			else {
-				await app.itm.addItem(message.author.id, reward.item, reward.amount)
+				m.reply(embedWrong)
 			}
 
-			const embedReward = new app.Embed()
-				.setTitle(`${decode(correct_answer)} is correct!`)
-				.setColor(720640)
-				.addField('Reward:', reward.display)
-			botMessage.edit(embedReward)
-		}
+			async function triviaReward() {
+				if (reward.item === 'money') {
+					await app.player.addMoney(message.author.id, reward.amount)
+				}
+				else {
+					await app.itm.addItem(message.author.id, reward.item, reward.amount)
+				}
+
+				const embedReward = new app.Embed()
+					.setTitle(`${decode(correct_answer)} is correct!`)
+					.setColor(720640)
+					.addField('Reward:', reward.display)
+				m.reply(embedReward)
+			}
+		})
+
+		collectorObj.collector.on('end', reason => {
+			if (reason === 'time') {
+				const errorEmbed = new app.Embed()
+					.setColor(16734296)
+					.setDescription('❌ You ran out of time!')
+				message.reply(errorEmbed)
+			}
+		})
 	}
 }
 

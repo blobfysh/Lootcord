@@ -41,6 +41,8 @@ module.exports = {
 			return message.reply(`You need to choose a difficulty \`${prefix}scramble easy/hard\`\nEasy: Hint but less reward\nHard: Better reward, no hint`)
 		}
 
+		await app.cd.setCD(message.author.id, 'scramble', app.config.cooldowns.scramble * 1000)
+
 		const embedScramble = new app.Embed()
 			.setFooter('You have 30 seconds to unscramble this word.')
 
@@ -148,47 +150,40 @@ module.exports = {
 			embedScramble.setColor(9043800)
 		}
 
-		try {
-			const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 30000 })
+		const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 30000 })
 
-			await app.cd.setCD(message.author.id, 'scramble', app.config.cooldowns.scramble * 1000)
+		message.reply(embedScramble)
 
-			message.channel.createMessage(embedScramble)
+		collectorObj.collector.on('collect', async m => {
+			if (m.content.toLowerCase() === word.toLowerCase()) {
+				app.msgCollector.stopCollector(collectorObj)
 
-			collectorObj.collector.on('collect', async m => {
-				if (m.content.toLowerCase() === word.toLowerCase()) {
-					app.msgCollector.stopCollector(collectorObj)
-
-					if (reward.item === 'money') {
-						await app.player.addMoney(message.author.id, reward.amount)
-					}
-					else {
-						await app.itm.addItem(message.author.id, reward.item, reward.amount)
-					}
-
-					const winScramble = new app.Embed()
-						.setTitle('You got it correct!')
-						.addField('Reward', reward.display)
-						.setColor(9043800)
-
-					message.channel.createMessage(winScramble)
+				if (reward.item === 'money') {
+					await app.player.addMoney(message.author.id, reward.amount)
 				}
-			})
-
-			collectorObj.collector.on('end', reason => {
-				if (reason === 'time') {
-					const lostScramble = new app.Embed()
-						.setTitle('You didn\'t get it in time!')
-						.setDescription(`The word was: \`\`\`\n${word}\`\`\``)
-						.setColor(16734296)
-
-					message.channel.createMessage(lostScramble)
+				else {
+					await app.itm.addItem(message.author.id, reward.item, reward.amount)
 				}
-			})
-		}
-		catch (err) {
-			message.reply('❌ You already have a command waiting for your input! If you believe this is the bot\'s fault, join our support discord! `discord`')
-		}
+
+				const winScramble = new app.Embed()
+					.setTitle('You got it correct!')
+					.addField('Reward', reward.display)
+					.setColor(9043800)
+
+				m.reply(winScramble)
+			}
+		})
+
+		collectorObj.collector.on('end', reason => {
+			if (reason === 'time') {
+				const lostScramble = new app.Embed()
+					.setTitle('You didn\'t get it in time!')
+					.setDescription(`The word was: \`\`\`\n${word}\`\`\``)
+					.setColor(16734296)
+
+				message.reply(lostScramble)
+			}
+		})
 	}
 }
 
