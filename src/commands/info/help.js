@@ -90,7 +90,7 @@ module.exports = {
 		if (categoriesArr.includes('utilities')) embed.addField('⚙ Utility', categories.utilities.map(cmd => `\`${cmd}\``).join(' '))
 		if (categoriesArr.includes('other')) embed.addField('📈 Other', categories.other.map(cmd => `\`${cmd}\``).join(' '))
 
-		embed.addField('⚔️ Clans', Array.from(app.clanCommands.keys()).map(cmd => `\`${cmd}\``).join(' '))
+		embed.addField('⚔️ Clans', app.clanCommands.map(cmd => `\`${cmd.name}\``).join(' '))
 
 		message.channel.createMessage(embed)
 	}

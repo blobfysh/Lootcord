@@ -1,5 +1,4 @@
 const Base = require('eris-sharder').Base
-const Eris = require('eris')
 
 const fs = require('fs')
 const path = require('path')
@@ -31,7 +30,6 @@ require('./utils/MessageUtils')
 
 const events = fs.readdirSync(path.join(__dirname, '/events'))
 const ipcEvents = fs.readdirSync(path.join(__dirname, '/ipc'))
-const categories = fs.readdirSync(path.join(__dirname, '/commands'))
 
 class Lootcord extends Base {
 	constructor(bot) {
@@ -96,7 +94,8 @@ class Lootcord extends Base {
 	}
 
 	loadCommands() {
-		const commands = new Eris.Collection()
+		const categories = fs.readdirSync(path.join(__dirname, '/commands'))
+		const commands = []
 
 		for (const category of categories) {
 			const commandFiles = fs.readdirSync(path.join(__dirname, `/commands/${category}`)).filter(file => file.endsWith('.js'))
@@ -109,7 +108,7 @@ class Lootcord extends Base {
 				// set command category based on which folder it's in
 				command.category = category
 
-				commands.set(command.name, command)
+				commands.push(command)
 			}
 		}
 
@@ -117,7 +116,7 @@ class Lootcord extends Base {
 	}
 
 	loadClanCommands() {
-		const commands = new Eris.Collection()
+		const commands = []
 
 		const clanFiles = fs.readdirSync(path.join(__dirname, '/commands/clans/commands'))
 
@@ -126,7 +125,7 @@ class Lootcord extends Base {
 
 			command.category = 'clans'
 
-			commands.set(command.name, command)
+			commands.push(command)
 		}
 
 		return commands
