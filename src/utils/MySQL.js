@@ -71,7 +71,7 @@ class MySQL {
 			await this.query('CREATE TABLE IF NOT EXISTS guildPrefix (guildId bigint, prefix VARCHAR(5)) ENGINE = InnoDB')
 
 			// guildInfo table for keeping information about specific guild
-			await this.query('CREATE TABLE IF NOT EXISTS guildInfo (guildId bigint, killChan bigint, levelChan bigint, dropChan bigint, dropItemChan bigint, dropItem VARCHAR(255), randomOnly BOOLEAN) ENGINE = InnoDB')
+			await this.query('CREATE TABLE IF NOT EXISTS guildInfo (guildId bigint, killChan bigint, levelChan bigint, dropChan bigint, dropItemChan bigint, dropItem VARCHAR(255), randomOnly BOOLEAN, serverOnly BOOLEAN) ENGINE = InnoDB')
 
 			// mods table
 			await this.query('CREATE TABLE IF NOT EXISTS mods (userId bigint) ENGINE = InnoDB')
