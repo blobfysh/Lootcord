@@ -89,6 +89,10 @@ module.exports = {
 					.setTitle('Incorrect')
 					.setColor(13632027)
 					.addField('Reward:', '`shame`')
+
+				// check if user recieves idiot badge
+				idiotBadgeCheck(app, message.author.id)
+
 				m.reply(embedWrong)
 			}
 
@@ -101,6 +105,9 @@ module.exports = {
 				}
 
 				await app.player.addStat(message.author.id, 'triviasCorrect', 1)
+
+				// check if user receives genius badge
+				await geniusBadgeCheck(app, message.author.id)
 
 				const embedReward = new app.Embed()
 					.setTitle(`${decode(correct_answer)} is correct!`)
@@ -115,9 +122,28 @@ module.exports = {
 				const errorEmbed = new app.Embed()
 					.setColor(16734296)
 					.setDescription('❌ You ran out of time!')
+
+				// check if user receives idiot badge
+				idiotBadgeCheck(app, message.author.id)
+
 				message.reply(errorEmbed)
 			}
 		})
+	}
+}
+
+async function idiotBadgeCheck(app, userId) {
+	const correct = await app.player.getStat(userId, 'triviasCorrect')
+	const attempts = await app.player.getStat(userId, 'trivias')
+
+	if (attempts - correct >= 200) {
+		await app.itm.addBadge(userId, 'idiot')
+	}
+}
+
+async function geniusBadgeCheck(app, userId) {
+	if (await app.player.getStat(userId, 'triviasCorrect') >= 100) {
+		await app.itm.addBadge(userId, 'genius')
 	}
 }
 

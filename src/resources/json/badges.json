@@ -64,5 +64,17 @@
         "description": "An exclusive badge for Loot Lord patreon donators!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/754010748115615844/gem-stone_1f48e.png",
         "artist": ""
+    },
+    "genius": {
+        "icon": "🧠",
+        "description": "Answer 100 trivia questions correctly.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/834962159951544320/brain_1f9e0.png",
+        "artist": ""
+    },
+    "idiot": {
+        "icon": "<:idiot:834962733563904021>",
+        "description": "Answer 200 trivia questions incorrectly.",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/834962601359835146/5821_brainless.png",
+        "artist": ""
     }
 }
