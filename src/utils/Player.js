@@ -36,11 +36,11 @@ class Player {
 
 	/**
      * Retrieve row for user and prevents queries from updating the row.
-	 * @param {*} connection
+	 * @param {*} query
      * @param {string} id ID of player to get information for
      */
-	async getRowForUpdate(connection, id) {
-		return (await this.app.mysql.transactionQuery(connection, 'SELECT * FROM scores WHERE userId = ? AND userId > 0 FOR UPDATE', [id]))[0]
+	async getRowForUpdate(query, id) {
+		return (await query('SELECT * FROM scores WHERE userId = ? AND userId > 0 FOR UPDATE', [id]))[0]
 	}
 
 	async createAccount(id) {
@@ -180,12 +180,12 @@ class Player {
 
 	/**
      *
-	 * @param {*} connection The transaction connection to use
+	 * @param {*} query The transaction query to use
      * @param {string} id ID of player to remove from
      * @param {number} amount Amount to remove
      */
-	async removeMoneySafely(connection, id, amount) {
-		await this.app.mysql.transactionQuery(connection, `UPDATE scores SET money = money - ${parseInt(amount)} WHERE userId = ${id}`)
+	async removeMoneySafely(query, id, amount) {
+		await query(`UPDATE scores SET money = money - ${parseInt(amount)} WHERE userId = ${id}`)
 
 		this.app.query(insertTransaction, [id, 0, amount])
 	}
@@ -203,29 +203,14 @@ class Player {
 
 	/**
      *
-	 * @param {*} connection The transaction connection to use
+	 * @param {*} query The transaction query to use
      * @param {*} id ID of user to add money to.
      * @param {*} amount Amount of money to add.
      */
-	async addMoneySafely(connection, id, amount) {
-		await this.app.mysql.transactionQuery(connection, `UPDATE scores SET money = money + ${parseInt(amount)} WHERE userId = ${id}`)
+	async addMoneySafely(query, id, amount) {
+		await query(`UPDATE scores SET money = money + ${parseInt(amount)} WHERE userId = ${id}`)
 
 		this.app.query(insertTransaction, [id, amount, 0])
-	}
-
-	/**
-     * Checks if players has the amount specified
-     * @param {string} id ID of player to check
-     * @param {number} amount Amount of scrap to check
-     */
-	async hasScrap(id, amount) {
-		const row = await this.getRow(id)
-
-		if (row.scrap >= amount) {
-			return true
-		}
-
-		return false
 	}
 
 	/**

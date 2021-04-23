@@ -31,12 +31,12 @@ class Items {
 
 	/**
      *
-	 * @param {*} connection The transaction connection to use
+	 * @param {*} query The transaction query to use
      * @param {*} id ID of user to add item to.
      * @param {*} item   Item to add, can be array ex.(["crate|2","semi_rifle|1"])
      * @param {*} amount Amount of item to add, must be number.
      */
-	async addItemSafely(connection, id, item, amount) {
+	async addItemSafely(query, id, item, amount) {
 		if (Array.isArray(item)) {
 			if (item.length === 0) {
 				return
@@ -47,12 +47,13 @@ class Items {
 				// Store id and item in array to bulk insert x times # of items.
 				const insertValues = Array(parseInt(itemToCheck[1])).fill([id, itemToCheck[0]])
 
-				await this.app.mysql.transactionQuery(connection, 'INSERT INTO user_items (userId, item) VALUES ?', [insertValues])
+				await query('INSERT INTO user_items (userId, item) VALUES ?', [insertValues])
 			}
 		}
 		else {
 			const insertValues = Array(parseInt(amount)).fill([id, item])
-			return this.app.mysql.transactionQuery(connection, 'INSERT INTO user_items (userId, item) VALUES ?', [insertValues])
+
+			return query('INSERT INTO user_items (userId, item) VALUES ?', [insertValues])
 		}
 	}
 
@@ -81,12 +82,12 @@ class Items {
 
 	/**
      *
-	 * @param {*} connection The transaction connection to use
+	 * @param {*} query The transaction query to use
      * @param {*} id ID of user to remove item from.
      * @param {*} item   Item to remove, can be an array ex.(["crate|2","semi_rifle|3"])
      * @param {*} amount Amount of item to remove.
      */
-	async removeItemSafely(connection, id, item, amount) {
+	async removeItemSafely(query, id, item, amount) {
 		if (Array.isArray(item)) {
 			if (item.length === 0) {
 				return
@@ -95,11 +96,11 @@ class Items {
 				// store amounts in array as ["rock|5","assault_rifle|2"] then use split("|")
 				const itemToCheck = item[i].split('|')
 
-				await this.app.mysql.transactionQuery(connection, `DELETE FROM user_items WHERE userId = ${id} AND item = '${itemToCheck[0]}' LIMIT ${parseInt(itemToCheck[1])}`)
+				await query(`DELETE FROM user_items WHERE userId = ${id} AND item = '${itemToCheck[0]}' LIMIT ${parseInt(itemToCheck[1])}`)
 			}
 		}
 		else {
-			await this.app.mysql.transactionQuery(connection, `DELETE FROM user_items WHERE userId = ${id} AND item = '${item}' LIMIT ${parseInt(amount)}`)
+			await query(`DELETE FROM user_items WHERE userId = ${id} AND item = '${item}' LIMIT ${parseInt(amount)}`)
 		}
 	}
 
@@ -189,11 +190,11 @@ class Items {
 
 	/**
      * Retrieves items for a user and prevents queries from updating the items.
-	 * @param {*} connection
+	 * @param {*} query
      * @param {*} id User to retrieve items for (in an object format).
      */
-	async getItemObjectForUpdate(connection, id) {
-		const itemRows = await this.app.mysql.transactionQuery(connection, `SELECT item, COUNT(item) AS amount FROM user_items WHERE userId = "${id}" GROUP BY item FOR UPDATE`)
+	async getItemObjectForUpdate(query, id) {
+		const itemRows = await query(`SELECT item, COUNT(item) AS amount FROM user_items WHERE userId = "${id}" GROUP BY item FOR UPDATE`)
 		const itemObj = {}
 
 		for (let i = 0; i < itemRows.length; i++) {

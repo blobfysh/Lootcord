@@ -13,13 +13,13 @@ class MySQL {
 			charset: 'utf8mb4'
 		})
 		/*
-        this.db.on('acquire', connection => {
-            console.log('[MYSQL] Used an existing connection from the pool');
-        });
-        this.db.on('release', connection => {
-            console.log('Connection ' + connection.threadId + ' released');
-        });
-        */
+		this.db.on('acquire', connection => {
+			console.log('[MYSQL] Used an existing connection from the pool')
+		})
+		this.db.on('release', connection => {
+			console.log(`Connection ${connection.threadId} released`)
+		})
+		*/
 		this.db.on('connection', connection => {
 			console.log(`[MYSQL][${connection.threadId}] Created a new connection in the pool`)
 		})
@@ -108,78 +108,59 @@ class MySQL {
 	}
 
 	/**
-	 * Returns a database connection. MAKE SURE TO RELEASE THE CONNECTION
+	 * Begins a database transaction, returns methods to query and commit transaction
 	 */
-	getConnection() {
+	beginTransaction() {
 		return new Promise((resolve, reject) => {
-			this.db.getConnection((err, connection) => {
-				if (err) {
-					return reject(err)
+			this.db.getConnection((conError, connection) => {
+				if (conError) {
+					return reject(conError)
 				}
 
-				resolve(connection)
-			})
-		})
-	}
+				connection.beginTransaction(transactionError => {
+					if (transactionError) {
+						connection.rollback(() => {
+							connection.release()
+							reject(transactionError)
+						})
+					}
+					else {
+						// transaction started successfully
+						const query = (sql, args) => new Promise((resolveQuery, rejectQuery) => {
+							connection.query(sql, args, (queryError, rows) => {
+								if (queryError) {
+									// there was an error processing query, rollback transaction and release
+									connection.rollback(() => {
+										connection.release()
+										rejectQuery(queryError)
+									})
+								}
+								else {
+									resolveQuery(rows)
+								}
+							})
+						})
 
-	/**
-	 * Begins a database transaction, should typically be finished with the transactionCommit function
-	 * @param {*} connection
-	 */
-	beginTransaction(connection) {
-		return new Promise((resolve, reject) => {
-			connection.beginTransaction(err => {
-				if (err) {
-					connection.rollback(() => {
-						connection.release()
-						return reject(err)
-					})
-				}
-				else {
-					resolve(connection)
-				}
-			})
-		})
-	}
+						const commit = () => new Promise((resolveCommit, rejectCommit) => {
+							connection.commit(err => {
+								if (err) {
+									// rollback transaction
+									connection.rollback(() => {
+										connection.release()
+										rejectCommit(err)
+									})
+								}
+								else {
+									console.log(`RELEASING CONNECTION ${connection.threadId}`)
+									connection.release()
+									resolveCommit('success')
+								}
+							})
+						})
 
-	/**
-	 * Runs a query inside a transaction, rolls back changes if query fails.
-	 * @param {*} connection
-	 * @param {*} sql
-	 * @param {*} args
-	 */
-	transactionQuery(connection, sql, args) {
-		return new Promise((resolve, reject) => {
-			connection.query(sql, args, (err, rows) => {
-				if (err) {
-					console.log('ROLLING BACK!')
-					// rollback transaction if query fails
-					connection.rollback(() => {
-						connection.release()
-						return reject(err)
-					})
-				}
-				else {
-					resolve(rows)
-				}
-			})
-		})
-	}
-
-	transactionCommit(connection) {
-		return new Promise((resolve, reject) => {
-			connection.commit(err => {
-				if (err) {
-					// rollback transaction
-					connection.rollback(() => {
-						connection.release()
-						return reject(err)
-					})
-				}
-				else {
-					connection.release()
-					resolve('Success')
-				}
+						resolve({ query, commit })
+					}
+				})
 			})
 		})
 	}
