@@ -13,7 +13,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const guildID = args[0]
 		const reason = args.slice(1).join(' ')
 
@@ -30,11 +30,11 @@ module.exports = {
 			return message.reply('❌ Guild is already banned.')
 		}
 
-		const guildInfo = await app.common.fetchGuild(guildID)
+		const fetchedGuildInfo = await app.common.fetchGuild(guildID)
 
-		if (!guildInfo) return message.reply('❌ I am not in a guild with that ID.')
+		if (!fetchedGuildInfo) return message.reply('❌ I am not in a guild with that ID.')
 
-		const botMessage = await message.reply(`Ban and remove Lootcord from **${guildInfo.name}**?`)
+		const botMessage = await message.reply(`Ban and remove Lootcord from **${fetchedGuildInfo.name}**?`)
 
 		try {
 			const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
@@ -48,7 +48,7 @@ module.exports = {
 						guildId: guildID
 					})
 
-					botMessage.edit(`Successfully banned guild **${guildInfo.name}**.`)
+					botMessage.edit(`Successfully banned guild **${fetchedGuildInfo.name}**.`)
 				}
 				catch (err) {
 					botMessage.edit(`Error banning guild: \`\`\`js\n${err}\`\`\``)

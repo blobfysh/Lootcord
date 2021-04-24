@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const clusterID = args[0]
 
 		if (clusterID === undefined) {

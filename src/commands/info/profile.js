@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const memberArg = app.parse.members(message, args)[0]
 
 		if (!memberArg) {

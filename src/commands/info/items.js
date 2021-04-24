@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const itemsArraySorted = Object.keys(app.itemdata).sort(app.itm.sortItemsHighLow.bind(app))
 		const itemSearched = app.parse.items(args)[0]
 		const itemChoice = (args[0] || '').toLowerCase()

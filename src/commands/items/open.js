@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const row = await app.player.getRow(message.author.id)
 		const item = app.parse.items(args)[0]
 		let amount = app.parse.numbers(args)[0] || 1

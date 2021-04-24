@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		if (args[0] === 'g' || args[0] === 'global') {
 			const leaders = await getGlobalLB(app)
 

@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		if (args[0]) {
 			const command = args[0].toLowerCase()
 			const cmd = app.commands.find(c => c.name === command && c.category === 'moderation') || app.commands.find(c => c.aliases && c.aliases.includes(command) && c.category === 'moderation')

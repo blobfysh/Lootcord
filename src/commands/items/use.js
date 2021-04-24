@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const row = await app.player.getRow(message.author.id)
 		const rawArgs = args.slice()
 		const item = app.parse.items(args)[0]
@@ -195,7 +195,6 @@ module.exports = {
 		}
 		else if (app.itemdata[item].isWeap) {
 			const userItems = await app.itm.getItemObject(message.author.id)
-			const serverInfo = await app.common.getGuildInfo(message.channel.guild.id)
 			const attackCD = await app.cd.getCD(message.author.id, 'attack')
 			const armorCD = await app.cd.getCD(message.author.id, 'shield')
 			const armor = await app.player.getArmor(message.author.id)
@@ -360,8 +359,8 @@ module.exports = {
 						})
 
 						// send notifications
-						if (serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== '') {
-							sendToKillFeed(app, { username: monster.title, discriminator: '0000', id: monsterRow.monster }, serverInfo.killChan, message.member, monster.weapon.name, mobDmg, randomItems, moneyStolen, scrapStolen, true)
+						if (guildInfo.killChan !== undefined && guildInfo.killChan !== 0 && guildInfo.killChan !== '') {
+							sendToKillFeed(app, { username: monster.title, discriminator: '0000', id: monsterRow.monster }, guildInfo.killChan, message.member, monster.weapon.name, mobDmg, randomItems, moneyStolen, scrapStolen, true)
 						}
 						logKill(app, message.channel.guild.id, { username: monster.title, discriminator: '0000', id: monsterRow.monster }, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, scrapStolen, randomItems, 0)
 					}
@@ -373,10 +372,10 @@ module.exports = {
 			}
 
 			// check if attack is random
-			else if (serverInfo.randomOnly === 1 && member) {
+			else if (guildInfo.randomOnly === 1 && member) {
 				return message.reply(`❌ This server allows only random attacks, specifying a target will not work. You can use the item without a mention to attack a random player: \`${prefix}use <item>\``)
 			}
-			else if (['rand', 'random'].some(str => args.map(arg => arg.toLowerCase()).includes(str)) || serverInfo.randomOnly === 1) {
+			else if (['rand', 'random'].some(str => args.map(arg => arg.toLowerCase()).includes(str)) || guildInfo.randomOnly === 1) {
 				const randUsers = await getRandomPlayers(app, message.author.id, message.channel.guild, item)
 
 				if (randUsers.users[0] === undefined) {
@@ -520,8 +519,8 @@ module.exports = {
 
 					// send notifications
 					if (victimRow.notify2) notifyDeathVictim(app, message, target, item, randDmg, randomItems.items.length !== 0 ? randomItems.display : ['You had nothing they could steal!'])
-					if (serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== '') {
-						sendToKillFeed(app, message.author, serverInfo.killChan, target, item, randDmg, randomItems, moneyStolen, scrapStolen)
+					if (guildInfo.killChan !== undefined && guildInfo.killChan !== 0 && guildInfo.killChan !== '') {
+						sendToKillFeed(app, message.author, guildInfo.killChan, target, item, randDmg, randomItems, moneyStolen, scrapStolen)
 					}
 					logKill(app, message.channel.guild.id, message.member, target, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems, bountyMoney)
 
@@ -727,8 +726,8 @@ module.exports = {
 
 					// send notifications
 					if (victimRow.notify2) notifyDeathVictim(app, message, member, item, randDmg, randomItems.items.length !== 0 ? randomItems.display : ['You had nothing they could steal!'])
-					if (serverInfo.killChan !== undefined && serverInfo.killChan !== 0 && serverInfo.killChan !== '') {
-						sendToKillFeed(app, message.author, serverInfo.killChan, member, item, randDmg, randomItems, moneyStolen, scrapStolen)
+					if (guildInfo.killChan !== undefined && guildInfo.killChan !== 0 && guildInfo.killChan !== '') {
+						sendToKillFeed(app, message.author, guildInfo.killChan, member, item, randDmg, randomItems, moneyStolen, scrapStolen)
 					}
 					logKill(app, message.channel.guild.id, message.member, member, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems, bountyMoney)
 

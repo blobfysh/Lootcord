@@ -13,7 +13,7 @@ module.exports = {
 	guildModsOnly: false,
 	levelReq: 3,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const row = await app.player.getRow(message.author.id)
 
 		const convertAmnt = app.parse.numbers(args)[0]

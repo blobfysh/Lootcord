@@ -14,7 +14,7 @@ module.exports = {
 	requiresActive: true,
 	minimumRank: 2,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 
 		let statusToSet = message.cleanContent.slice(prefix.length).split(/ +/).slice(2).join(' ')

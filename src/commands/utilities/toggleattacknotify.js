@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const row = await app.player.getRow(message.author.id)
 
 		if (row.notify2 === 0) {

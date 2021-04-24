@@ -10,10 +10,8 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: true,
 
-	async execute(app, message, { args, prefix }) {
-		const guildRow = await app.common.getGuildInfo(message.channel.guild.id)
-
-		if (guildRow.levelChan === 0) {
+	async execute(app, message, { args, prefix, guildInfo }) {
+		if (guildInfo.levelChan === 0) {
 			await app.query(`UPDATE guildInfo SET levelChan = "${message.channel.id}" WHERE guildId = "${message.channel.guild.id}"`)
 
 			message.reply('✅ Now sending level up messages to this channel!')

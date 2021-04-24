@@ -63,9 +63,10 @@ class CommandHandler {
 		else if (command.category === 'moderation' && (!await this.app.cd.getCD(message.author.id, 'mod') && !this.app.sets.adminUsers.has(message.author.id))) { return }
 
 		const account = await this.app.player.getRow(message.author.id)
+		const guildInfo = await this.app.common.getGuildInfo(message.channel.guild.id)
 
 		// check if player leveled up
-		if (account) await this.app.player.checkLevelXP(message, account)
+		if (account) await this.checkLevelXP(message, account, guildInfo)
 
 		if (Math.random() <= 0.02) this.app.eventHandler.initEvent(message, { prefix })
 
@@ -94,7 +95,15 @@ class CommandHandler {
 			this.app.cache.incr('commands')
 			this.app.query(`UPDATE scores SET lastActive = NOW() WHERE userId = ${message.author.id}`)
 
-			command.execute(this.app, message, { args, prefix })
+			command.execute(this.app, message, {
+				args,
+				prefix,
+				guildInfo,
+
+				// useful property for passing to addItem/addMoney methods so I dont have to do it inside every command
+				serverSideGuildID: guildInfo.serverOnly ? message.channel.guild.id : undefined
+			})
+
 			console.log(`${message.author.username}#${message.author.discriminator} (${message.author.id}) ran command: ${command.name} in guild: ${message.channel.guild.name} (${message.channel.guild.id})`)
 
 			// dont add spamCooldown if in debug mode or user is admin
@@ -133,6 +142,86 @@ class CommandHandler {
 		}
 
 		return true
+	}
+
+	async checkLevelXP(message, row, guildInfo) {
+		try {
+			const xp = this.app.common.calculateXP(row.points, row.level)
+
+			if (row.points >= xp.totalNeeded) {
+				const craftables = Object.keys(this.app.itemdata).filter(item => this.app.itemdata[item].craftedWith !== '' && this.app.itemdata[item].craftedWith.level === row.level + 1)
+				let levelItem = ''
+
+				craftables.sort(this.app.itm.sortItemsHighLow.bind(this.app))
+
+				await this.app.query(`UPDATE scores SET points = points + 1, level = level + 1 WHERE userId = ${message.author.id}`)
+
+				if ((row.level + 1) % 5 === 0 && row.level + 1 >= 10) {
+					levelItem = `${this.app.itemdata.elite_crate.icon}\`elite_crate\``
+					await this.app.itm.addItem(message.author.id, 'elite_crate', 1)
+				}
+				else if ((row.level + 1) > 15) {
+					levelItem = `${this.app.itemdata.supply_signal.icon}\`supply_signal\``
+					await this.app.itm.addItem(message.author.id, 'supply_signal', 1)
+				}
+				else if ((row.level + 1) > 10) {
+					levelItem = `2x ${this.app.itemdata.military_crate.icon}\`military_crate\``
+					await this.app.itm.addItem(message.author.id, 'military_crate', 2)
+				}
+				else if ((row.level + 1) > 5) {
+					levelItem = `${this.app.itemdata.military_crate.icon}\`military_crate\``
+					await this.app.itm.addItem(message.author.id, 'military_crate', 1)
+				}
+				else {
+					levelItem = `1x ${this.app.itemdata.crate.icon}\`crate\``
+					await this.app.itm.addItem(message.author.id, 'crate', 1)
+				}
+
+				if (row.level + 1 >= 5) {
+					await this.app.itm.addBadge(message.author.id, 'loot_goblin')
+				}
+				if (row.level + 1 >= 10) {
+					await this.app.itm.addBadge(message.author.id, 'loot_fiend')
+				}
+				if (row.level + 1 >= 20) {
+					await this.app.itm.addBadge(message.author.id, 'loot_legend')
+				}
+
+				try {
+					const lvlUpImage = await this.app.player.getLevelImage(message.author.avatarURL, row.level + 1)
+
+					if (guildInfo.levelChan !== undefined && guildInfo.levelChan !== '' && guildInfo.levelChan !== 0) {
+						try {
+							await this.app.bot.createMessage(guildInfo.levelChan, {
+								content: `<@${message.author.id}> leveled up!\n**Reward:** ${levelItem}${craftables.length ? `\n\nYou can now craft the following items:\n${craftables.map(item => `${this.app.itemdata[item].icon}\`${item}\``).join(', ')}` : ''}`
+							}, {
+								file: lvlUpImage,
+								name: 'userLvl.jpeg'
+							})
+						}
+						catch (err) {
+							// level channel not found
+							console.warn('Could not find level channel.')
+						}
+					}
+					else {
+						message.channel.createMessage({
+							content: `<@${message.author.id}> level up!\n**Reward:** ${levelItem}${craftables.length ? `\n\nYou can now craft the following items:\n${craftables.map(item => `${this.app.itemdata[item].icon}\`${item}\``).join(', ')}` : ''}`
+						}, {
+							file: lvlUpImage,
+							name: 'userLvl.jpeg'
+						})
+					}
+				}
+				catch (err) {
+					console.log(err)
+					// error creating level up image
+				}
+			}
+		}
+		catch (err) {
+			console.log(err)
+		}
 	}
 }
 

@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 
 		const commandName = args[0] ? args[0].toLowerCase() : undefined
@@ -18,7 +18,7 @@ module.exports = {
 
 		if (!command) {
 			try {
-				return app.clanCommands.find(cmd => cmd.name === 'info').execute(app, message, { args, prefix })
+				return app.clanCommands.find(cmd => cmd.name === 'info').execute(app, message, { args, prefix, guildInfo })
 			}
 			catch (err) {
 				console.log(err)

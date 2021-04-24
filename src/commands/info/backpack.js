@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const row = await app.player.getRow(message.author.id)
 		const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), row)
 

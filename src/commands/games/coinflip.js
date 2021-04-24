@@ -14,7 +14,7 @@ module.exports = {
 	guildModsOnly: false,
 
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const row = await app.player.getRow(message.author.id)
 		const coinflipCD = await app.cd.getCD(message.author.id, 'coinflip')
 		let gambleAmount = app.parse.numbers(args)[0]

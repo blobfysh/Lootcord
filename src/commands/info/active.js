@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const guildUsers = []
 		const clans = []
 		const rows = await app.query(`SELECT scores.userId, badge

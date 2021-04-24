@@ -14,7 +14,7 @@ module.exports = {
 	guildModsOnly: false,
 	levelReq: 3,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const user = app.parse.members(message, args)[0]
 
 		if (!user) {

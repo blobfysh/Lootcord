@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const hourlyCD = await app.cd.getCD(message.author.id, 'hourly')
 
 		if (hourlyCD) {

@@ -12,7 +12,7 @@ module.exports = {
 	guildModsOnly: true,
 	patronTier1Only: true,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const userSpawns = await app.mysql.select('spawnChannels', 'userId', message.author.id, true)
 		const tier3Patron = await app.patreonHandler.isPatron(message.author.id, 3)
 		const tier2Patron = await app.cd.getCD(message.author.id, 'patron2')

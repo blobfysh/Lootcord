@@ -14,7 +14,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	execute(app, message, { args, prefix }) {
+	execute(app, message, { args, prefix, guildInfo }) {
 		const memberArg = app.parse.members(message, args)[0]
 
 		// no member found in ArgParser

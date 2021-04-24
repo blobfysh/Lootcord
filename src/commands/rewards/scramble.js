@@ -20,7 +20,7 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const scrambleCD = await app.cd.getCD(message.author.id, 'scramble')
 
 		if (scrambleCD) {

@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const row = await app.player.getRow(message.author.id)
 		const userItems = await app.itm.getItemObject(message.author.id)
 		const itemsSorted = Object.keys(app.itemdata).sort(app.itm.sortItemsHighLow.bind(app))

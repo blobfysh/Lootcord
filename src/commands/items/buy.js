@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const shopItems = await getShopData(app)
 		let buyItem = app.parse.items(args)[0]
 		let buyAmount = app.parse.numbers(args)[0] || 1

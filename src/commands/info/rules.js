@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	execute(app, message, { args, prefix }) {
+	execute(app, message, { args, prefix, guildInfo }) {
 		const ruleInfo = new app.Embed()
 			.setTitle('Official Lootcord Bot Rules')
 			.setDescription(`1. **Do NOT exploit bugs.** Bugs, if found, should be reported to the moderators so we can remove it.\n

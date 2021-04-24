@@ -9,7 +9,7 @@ module.exports = {
 	requiresActive: false,
 	minimumRank: 0,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		if (args[0]) {
 			const cmd = app.clanCommands.find(c => c.name === args[0] || (c.aliases.length && c.aliases.includes(args[0])))
 

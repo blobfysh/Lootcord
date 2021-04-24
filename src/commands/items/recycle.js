@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const sellItem = app.parse.items(args)[0]
 		let sellAmount = app.parse.numbers(args)[0] || 1
 

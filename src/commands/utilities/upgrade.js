@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const row = await app.player.getRow(message.author.id)
 		const upgrOpt = args[0] !== undefined ? args[0].toLowerCase() : ''
 		const upgrAmnt = upgrOptions.includes(upgrOpt) ? app.parse.numbers(args)[0] || 1 : 1

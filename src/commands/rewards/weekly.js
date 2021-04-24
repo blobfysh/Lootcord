@@ -17,7 +17,7 @@ module.exports = {
 	guildModsOnly: false,
 	patronTier1Only: true,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const weeklyCD = await app.cd.getCD(message.author.id, 'weekly')
 
 		if (weeklyCD) {

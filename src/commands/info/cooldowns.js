@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const isDonor = await app.patreonHandler.isPatron(message.author.id)
 		const attackCD = await app.cd.getCD(message.author.id, 'attack')
 		const healCD = await app.cd.getCD(message.author.id, 'heal')

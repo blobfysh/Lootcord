@@ -10,10 +10,8 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: true,
 
-	async execute(app, message, { args, prefix }) {
-		const guildRow = await app.common.getGuildInfo(message.channel.guild.id)
-
-		if (guildRow.randomOnly === 0) {
+	async execute(app, message, { args, prefix, guildInfo }) {
+		if (guildInfo.randomOnly === 0) {
 			await app.query(`UPDATE guildInfo SET randomOnly = 1 WHERE guildId = ${message.channel.guild.id}`)
 
 			message.reply('✅ This server is now in random-only mode.')

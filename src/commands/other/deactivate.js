@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const activateCD = await app.cd.getCD(message.author.id, `activate|${message.channel.guild.id}`)
 		const attackCD = await app.cd.getCD(message.author.id, 'attack')
 

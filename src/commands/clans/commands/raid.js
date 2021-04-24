@@ -9,7 +9,7 @@ module.exports = {
 	requiresActive: true,
 	minimumRank: 1,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 		const raidCD = await app.cd.getCD(scoreRow.clanId, 'raid')
 

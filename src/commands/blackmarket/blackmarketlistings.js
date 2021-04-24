@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const listings = await app.query(`SELECT * FROM blackmarket WHERE sellerId = ${message.author.id}`)
 
 		if (listings.length <= ITEMS_PER_PAGE) {

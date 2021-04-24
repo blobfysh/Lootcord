@@ -13,7 +13,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const category = args[0] || ''
 		const item = app.parse.items(args)[0]
 

@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const used = process.memoryUsage().heapUsed / 1024 / 1024
 		const stats = JSON.parse(await app.cache.get('stats')) || {}
 

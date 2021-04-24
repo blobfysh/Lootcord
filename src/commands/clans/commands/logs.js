@@ -11,7 +11,7 @@ module.exports = {
 	requiresActive: false,
 	minimumRank: 0,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 		const user = app.parse.members(message, args)[0]
 

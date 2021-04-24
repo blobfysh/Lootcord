@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const allItems = Object.keys(app.itemdata).filter(item => app.itemdata[item].buy.currency !== undefined)
 
 		allItems.sort(app.itm.sortItemsHighLow.bind(app))

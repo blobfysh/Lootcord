@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const playerBadges = await app.itm.getBadges(message.author.id)
 		const badgeToSet = app.parse.badges(args)[0]
 

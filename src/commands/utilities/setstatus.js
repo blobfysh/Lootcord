@@ -15,7 +15,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		let statusToSet = message.cleanContent.slice(prefix.length).split(/ +/).slice(1).join(' ')
 
 		if (statusToSet.length > 120) {

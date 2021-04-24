@@ -14,7 +14,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix }) {
+	async execute(app, message, { args, prefix, guildInfo }) {
 		const itemName = app.parse.items(args)[0]
 		const itemAmnt = app.parse.numbers(args)[0]
 		const itemCost = app.parse.numbers(args)[1]
