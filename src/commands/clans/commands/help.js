@@ -11,7 +11,7 @@ module.exports = {
 
 	async execute(app, message, { args, prefix }) {
 		if (args[0]) {
-			const cmd = app.clanCommands.get(args[0]) || app.clanCommands.find(c => c.aliases && c.aliases.includes(args[0]))
+			const cmd = app.clanCommands.find(c => c.name === args[0] || (c.aliases.length && c.aliases.includes(args[0])))
 
 			if (!cmd) return message.reply('❌ That isn\'t a clan command, use `clan help` to see available clan commands.')
 

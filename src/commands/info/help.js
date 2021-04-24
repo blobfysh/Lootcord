@@ -16,7 +16,7 @@ module.exports = {
 
 	async execute(app, message, { args, prefix }) {
 		if (args[0]) {
-			const cmd = app.commands.get(args[0]) || app.commands.find(c => c.aliases && c.aliases.includes(args[0]))
+			const cmd = app.commands.find(c => c.name === args[0] || (c.aliases.length && c.aliases.includes(args[0])))
 
 			if (!cmd) return message.reply('❌ That command doesn\'t exist!')
 
