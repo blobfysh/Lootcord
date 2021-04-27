@@ -44,7 +44,7 @@ module.exports = {
 			if (amount === 1) {
 				console.log(bestItem[0])
 
-				openStr = `You open the ${app.itemdata[item].icon}\`${item}\` and find... **${app.common.getA(bestItem[0])} ${app.itemdata[bestItem[0]].icon}\`${bestItem[0]}\` and \`⭐ ${results.xp} XP\`!**`
+				openStr = `You open the ${app.itemdata[item].icon}\`${item}\` and find... **1x ${app.itemdata[bestItem[0]].icon}\`${bestItem[0]}\` and \`⭐ ${results.xp} XP\`!**`
 			}
 			else {
 				openStr = `You open **${amount}x** ${app.itemdata[item].icon}\`${item}\`'s and find:\n\n${app.itm.getDisplay(results.itemAmounts).join('\n')}\n\n...and \`⭐ ${results.xp} XP\`!`

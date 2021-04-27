@@ -33,7 +33,7 @@ module.exports = {
 					return message.reply(`❌ You can't sell ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`'s!`)
 				}
 				else if (!userItems[itemAmnt[0]]) {
-					return message.reply(`❌ You don't have ${app.common.getA(itemAmnt[0])} ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`.`)
+					return message.reply(`❌ You have **0x** ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`.`)
 				}
 				else if (userItems[itemAmnt[0]] < itemAmnt[1]) {
 					return message.reply(`❌ You only have **${userItems[itemAmnt[0]]}x** ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`.`)
@@ -87,7 +87,7 @@ module.exports = {
 			const itemPrice = app.itemdata[sellItem].sell
 
 			if (!hasItems) {
-				return message.reply(userItems[sellItem] ? `❌ You don't have enough of that item! You have **${userItems[sellItem]}x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.` : `❌ You don't have ${app.common.getA(sellItem)} ${app.itemdata[sellItem].icon}\`${sellItem}\`.`)
+				return message.reply(userItems[sellItem] ? `❌ You don't have enough of that item! You have **${userItems[sellItem]}x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.` : `❌ You have **0x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.`)
 			}
 
 			if (itemPrice !== '') {
