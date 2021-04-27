@@ -11,7 +11,7 @@ class Monsters {
 		}
 		else if (activeMob) {
 			// monster was removed from mobdata, need to restart the spawning process
-			await this.app.query('DELETE FROM spawnsDamage WHERE channelId = ?', [channelId])
+			await this.app.query('DELETE FROM spawnsdamage WHERE channelId = ?', [channelId])
 			await this.app.query('DELETE FROM spawns WHERE channelId = ?', [channelId])
 			await this.app.cd.clearCD(channelId, 'mob')
 			await this.app.cd.clearCD(channelId, 'mobHalf')
@@ -26,7 +26,7 @@ class Monsters {
 
 	async spawnMob(channelId, monster) {
 		try {
-			const spawnInfo = await this.app.mysql.select('spawnChannels', 'channelId', channelId)
+			const spawnInfo = await this.app.mysql.select('spawnchannels', 'channelId', channelId)
 			if (!spawnInfo) throw new Error('No spawn channel.')
 
 			if (!await this.app.patreonHandler.isPatron(spawnInfo.userId) && !this.app.sets.adminUsers.has(spawnInfo.userId)) throw new Error('User is not a patron.')
@@ -47,8 +47,8 @@ class Monsters {
 			await this.app.bot.createMessage(channelId, { content: 'An enemy has spawned...', embed: mobEmbed.embed })
 		}
 		catch (err) {
-			await this.app.query('DELETE FROM spawnsDamage WHERE channelId = ?', [channelId])
-			await this.app.query('DELETE FROM spawnChannels WHERE channelId = ?', [channelId])
+			await this.app.query('DELETE FROM spawnsdamage WHERE channelId = ?', [channelId])
+			await this.app.query('DELETE FROM spawnchannels WHERE channelId = ?', [channelId])
 			await this.app.query('DELETE FROM spawns WHERE channelId = ?', [channelId])
 			await this.app.cd.clearCD(channelId, 'mob')
 			await this.app.cd.clearCD(channelId, 'mobHalf')
@@ -104,12 +104,12 @@ class Monsters {
 	}
 
 	async playerDealtDamage(userId, channelId, damage) {
-		await this.app.query('INSERT INTO spawnsDamage (userId, channelId, damage) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE damage = damage + ?',
+		await this.app.query('INSERT INTO spawnsdamage (userId, channelId, damage) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE damage = damage + ?',
 			[userId, channelId, damage, damage])
 	}
 
 	async getTopDamageDealt(channelId, limit = 3) {
-		return this.app.query('SELECT * FROM spawnsDamage WHERE channelId = ? ORDER BY damage DESC LIMIT ?', [channelId, limit])
+		return this.app.query('SELECT * FROM spawnsdamage WHERE channelId = ? ORDER BY damage DESC LIMIT ?', [channelId, limit])
 	}
 
 	mobLeftEmbed(monster) {
@@ -125,7 +125,7 @@ class Monsters {
 	async onFinished(channelId, left = true) {
 		try {
 			const monsterStats = await this.app.mysql.select('spawns', 'channelId', channelId)
-			await this.app.query('DELETE FROM spawnsDamage WHERE channelId = ?', [channelId])
+			await this.app.query('DELETE FROM spawnsdamage WHERE channelId = ?', [channelId])
 			await this.app.query('DELETE FROM spawns WHERE channelId = ?', [channelId])
 
 			if (left) await this.app.bot.createMessage(channelId, this.mobLeftEmbed(this.mobdata[monsterStats.monster]))
@@ -133,7 +133,7 @@ class Monsters {
 			this.initSpawn(channelId)
 		}
 		catch (err) {
-			await this.app.query('DELETE FROM spawnChannels WHERE channelId = ?', [channelId])
+			await this.app.query('DELETE FROM spawnchannels WHERE channelId = ?', [channelId])
 		}
 	}
 
@@ -148,9 +148,9 @@ class Monsters {
 		catch (err) {
 			console.log(err)
 			await this.app.cd.clearCD(channelId, 'mob')
-			await this.app.query('DELETE FROM spawnsDamage WHERE channelId = ?', [channelId])
+			await this.app.query('DELETE FROM spawnsdamage WHERE channelId = ?', [channelId])
 			await this.app.query('DELETE FROM spawns WHERE channelId = ?', [channelId])
-			await this.app.query('DELETE FROM spawnChannels WHERE channelId = ?', [channelId])
+			await this.app.query('DELETE FROM spawnchannels WHERE channelId = ?', [channelId])
 		}
 	}
 

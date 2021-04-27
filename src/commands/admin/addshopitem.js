@@ -27,7 +27,7 @@ module.exports = {
 			return message.reply('ERROR ADDING ITEM:\n`addshopitem <game_sql_name> <Amount to sell> <game price> <currency to purchase with> <game name to display>`')
 		}
 
-		await app.query('INSERT INTO shopData (itemName, itemAmount, itemPrice, itemCurrency, itemDisplay, item) VALUES (?, ?, ?, ?, ?, ?)', [itemName, parseInt(itemAmount), parseInt(itemPrice), itemCurrency, itemDisplay, app.parse.items(args.slice(4))[0] || ''])
+		await app.query('INSERT INTO shopdata (itemName, itemAmount, itemPrice, itemCurrency, itemDisplay, item) VALUES (?, ?, ?, ?, ?, ?)', [itemName, parseInt(itemAmount), parseInt(itemPrice), itemCurrency, itemDisplay, app.parse.items(args.slice(4))[0] || ''])
 
 		message.reply(`Successfully added \`${itemName}\` to the shop database.`)
 	}

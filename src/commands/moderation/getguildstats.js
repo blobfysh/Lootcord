@@ -39,8 +39,8 @@ module.exports = {
 			}
 
 			const guildRow = await app.common.getGuildInfo(guildID)
-			const prefixRow = (await app.query(`SELECT * FROM guildPrefix WHERE guildId ="${guildID}"`))[0]
-			const activeRows = await app.query('SELECT * FROM userGuilds WHERE guildId = ?', [guildID])
+			const prefixRow = (await app.query(`SELECT * FROM guildprefix WHERE guildId ="${guildID}"`))[0]
+			const activeRows = await app.query('SELECT * FROM userguilds WHERE guildId = ?', [guildID])
 			const guildCreated = codeWrap(`${new Date(Math.floor((guildID / 4194304) + 1420070400000)).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'America/New_York' })}\n${new Date(Math.floor((guildID / 4194304) + 1420070400000)).toLocaleTimeString('en-US', { timeZone: 'America/New_York' })} (EST)`, 'fix')
 			const joinedGuild = codeWrap(`${new Date(fetchedGuildInfo.joinedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'America/New_York' })}\n${new Date(fetchedGuildInfo.joinedAt).toLocaleTimeString('en-US', { timeZone: 'America/New_York' })} (EST)`, 'fix')
 			const cachedChannels = fetchedGuildInfo.channels instanceof Map ? fetchedGuildInfo.channels : createCollection(fetchedGuildInfo.channels)

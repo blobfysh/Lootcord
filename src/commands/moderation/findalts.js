@@ -17,12 +17,12 @@ module.exports = {
 
 		try {
 			const userInfo = await app.common.fetchUser(userID, { cacheIPC: false })
-			const activeGuilds = await app.query(`SELECT * FROM userGuilds WHERE userId = '${userID}'`)
+			const activeGuilds = await app.query(`SELECT * FROM userguilds WHERE userId = '${userID}'`)
 
 			const userPool = {}
 
 			for (const guild of activeGuilds) {
-				const guildPlayers = await app.query(`SELECT * FROM userGuilds WHERE guildId = '${guild.guildId}'`)
+				const guildPlayers = await app.query(`SELECT * FROM userguilds WHERE guildId = '${guild.guildId}'`)
 
 				for (const player of guildPlayers) {
 					if (guildPlayers.length === 2) {

@@ -11,7 +11,7 @@ module.exports = {
 	guildModsOnly: false,
 
 	async execute(app, message, { args, prefix, guildInfo }) {
-		const activatedGuilds = await app.query('SELECT * FROM userGuilds WHERE userId = ?', [message.author.id])
+		const activatedGuilds = await app.query('SELECT * FROM userguilds WHERE userId = ?', [message.author.id])
 
 		for (let i = 0; i < activatedGuilds.length; i++) {
 			if (activatedGuilds[i].guildId === message.channel.guild.id) return message.reply('❌ Your account is already active on this server!')

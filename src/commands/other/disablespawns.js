@@ -13,12 +13,12 @@ module.exports = {
 	patronTier1Only: true,
 
 	async execute(app, message, { args, prefix, guildInfo }) {
-		const userSpawns = await app.mysql.select('spawnChannels', 'userId', message.author.id, true)
+		const userSpawns = await app.mysql.select('spawnchannels', 'userId', message.author.id, true)
 		if (userSpawns.length === 0) return message.reply('❌ You don\'t have any active spawn channels. You can spawn enemies with `enablespawns`.')
 
 		for (let i = 0; i < userSpawns.length; i++) {
 			await app.cd.clearCD(userSpawns[i].channelId, 'spawnCD')
-			await app.query('DELETE FROM spawnChannels WHERE channelId = ?', [userSpawns[i].channelId])
+			await app.query('DELETE FROM spawnchannels WHERE channelId = ?', [userSpawns[i].channelId])
 		}
 
 		message.reply(`✅ Successfully stopped \`${userSpawns.length}\` active spawn channels.`)

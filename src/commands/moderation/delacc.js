@@ -53,7 +53,7 @@ module.exports = {
 				await app.query(`DELETE FROM scores WHERE userId ="${userID}"`)
 				await app.query(`DELETE FROM user_items WHERE userId ="${userID}"`)
 				await app.query(`DELETE FROM badges WHERE userId = ${userID}`)
-				await app.query(`DELETE FROM userGuilds WHERE userId = ${userID}`)
+				await app.query(`DELETE FROM userguilds WHERE userId = ${userID}`)
 				await app.query(`DELETE FROM blackmarket WHERE sellerId ="${userID}"`)
 				await app.cd.clearCD(userID, 'shield')
 

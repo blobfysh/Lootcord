@@ -11,7 +11,7 @@ module.exports = {
 	guildModsOnly: true,
 
 	async execute(app, message, { args, prefix, guildInfo }) {
-		await app.query(`UPDATE guildInfo SET killChan = 0 WHERE guildId = "${message.channel.guild.id}"`)
+		await app.query(`UPDATE guildinfo SET killChan = 0 WHERE guildId = "${message.channel.guild.id}"`)
 
 		message.reply('✅ Disabled kill feed for this server!')
 	}

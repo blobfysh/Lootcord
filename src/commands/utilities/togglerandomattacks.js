@@ -12,12 +12,12 @@ module.exports = {
 
 	async execute(app, message, { args, prefix, guildInfo }) {
 		if (guildInfo.randomOnly === 0) {
-			await app.query(`UPDATE guildInfo SET randomOnly = 1 WHERE guildId = ${message.channel.guild.id}`)
+			await app.query(`UPDATE guildinfo SET randomOnly = 1 WHERE guildId = ${message.channel.guild.id}`)
 
 			message.reply('✅ This server is now in random-only mode.')
 		}
 		else {
-			await app.query(`UPDATE guildInfo SET randomOnly = 0 WHERE guildId = "${message.channel.guild.id}"`)
+			await app.query(`UPDATE guildinfo SET randomOnly = 0 WHERE guildId = "${message.channel.guild.id}"`)
 
 			message.reply('❌ Server no longer in random-only mode.')
 		}

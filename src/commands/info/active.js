@@ -21,26 +21,26 @@ module.exports = {
 		if (serverSideGuildId) {
 			userRows = await app.query(`SELECT server_scores.userId, badge
 				FROM server_scores
-				INNER JOIN userGuilds
-				ON server_scores.userId = userGuilds.userId
-				WHERE userGuilds.guildId = "${message.channel.guild.id}" AND server_scores.guildId = "${message.channel.guild.id}"
+				INNER JOIN userguilds
+				ON server_scores.userId = userguilds.userId
+				WHERE userguilds.guildId = "${message.channel.guild.id}" AND server_scores.guildId = "${message.channel.guild.id}"
 				ORDER BY LOWER(server_scores.userId)`)
 		}
 		else {
 			clanRows = await app.query(`SELECT DISTINCT clans.name FROM (
 				SELECT scores.clanId
-				FROM userGuilds
+				FROM userguilds
 				INNER JOIN scores
-				ON userGuilds.userId = scores.userId
-				WHERE userGuilds.guildId = ${message.channel.guild.id}
+				ON userguilds.userId = scores.userId
+				WHERE userguilds.guildId = ${message.channel.guild.id}
 			) c
 			INNER JOIN clans
 			ON c.clanId = clans.clanId`)
 
 			userRows = await app.query(`SELECT scores.userId, badge
 				FROM scores
-				INNER JOIN userGuilds
-				ON scores.userId = userGuilds.userId
+				INNER JOIN userguilds
+				ON scores.userId = userguilds.userId
 				WHERE guildId = "${message.channel.guild.id}"
 				ORDER BY LOWER(scores.userId)`)
 		}

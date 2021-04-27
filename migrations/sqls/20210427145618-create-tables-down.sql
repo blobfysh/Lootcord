@@ -1,0 +1,32 @@
+/* drop tables with foreign keys first */
+DROP TABLE IF EXISTS bounties;
+DROP TABLE IF EXISTS spawnsdamage;
+
+DROP TABLE IF EXISTS scores;
+DROP TABLE IF EXISTS patrons;
+DROP TABLE IF EXISTS spawnchannels;
+DROP TABLE IF EXISTS spawns;
+DROP TABLE IF EXISTS badges;
+DROP TABLE IF EXISTS stats;
+DROP TABLE IF EXISTS user_items;
+DROP TABLE IF EXISTS cooldown;
+DROP TABLE IF EXISTS clans;
+DROP TABLE IF EXISTS blackmarket;
+DROP TABLE IF EXISTS blackmarket_transactions;
+DROP TABLE IF EXISTS transactions;
+DROP TABLE IF EXISTS clan_logs;
+DROP TABLE IF EXISTS mods;
+DROP TABLE IF EXISTS banned;
+DROP TABLE IF EXISTS bannedguilds;
+DROP TABLE IF EXISTS tradebanned;
+DROP TABLE IF EXISTS warnings;
+DROP TABLE IF EXISTS wiped_data;
+DROP TABLE IF EXISTS guildinfo;
+DROP TABLE IF EXISTS guildprefix;
+DROP TABLE IF EXISTS userguilds;
+DROP TABLE IF EXISTS shopdata;
+DROP TABLE IF EXISTS server_scores;
+DROP TABLE IF EXISTS server_user_items;
+DROP TABLE IF EXISTS server_cooldown;
+DROP TABLE IF EXISTS server_stats;
+DROP TABLE IF EXISTS server_badges;

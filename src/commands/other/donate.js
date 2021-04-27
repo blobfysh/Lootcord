@@ -17,7 +17,7 @@ module.exports = {
             \nhttps://www.patreon.com/lootcord`)
 		}
 
-		const spawnsInfo = await app.mysql.select('spawnChannels', 'userId', message.author.id, true)
+		const spawnsInfo = await app.mysql.select('spawnchannels', 'userId', message.author.id, true)
 		const activeSpawnChannels = []
 
 		for (let i = 0; i < spawnsInfo.length; i++) {

@@ -364,7 +364,7 @@ module.exports = {
 }
 
 async function boughtGame(app, user, itemRow) {
-	app.query(`UPDATE shopData SET itemAmount = itemAmount - 1 WHERE itemName = '${itemRow.itemName}'`)
+	app.query(`UPDATE shopdata SET itemAmount = itemAmount - 1 WHERE itemName = '${itemRow.itemName}'`)
 
 	if (itemRow.item && itemRow.item !== '') {
 		return app.itm.addItem(user.id, itemRow.item, 1)
@@ -395,7 +395,7 @@ async function boughtGame(app, user, itemRow) {
 }
 
 async function getShopData(app) {
-	const itemRows = await app.query('SELECT * FROM shopData')
+	const itemRows = await app.query('SELECT * FROM shopdata')
 	let itemCount = 0
 	const itemData = {}
 

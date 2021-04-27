@@ -87,19 +87,19 @@ class LoopTasks {
 		await this.app.query('UPDATE scores SET discoinLimit = 0, bmLimit = 0 WHERE discoinLimit != 0 OR bmLimit != 0')
 
 		// auto-deactivate players who have not played for 7 days
-		const globalInactiveUsers = await this.app.query(`SELECT scores.userId, userGuilds.guildId, lastActive
-			FROM userGuilds
+		const globalInactiveUsers = await this.app.query(`SELECT scores.userId, userguilds.guildId, lastActive
+			FROM userguilds
 			INNER JOIN scores
-			ON userGuilds.userId = scores.userId
-			INNER JOIN guildInfo
-			ON userGuilds.guildId = guildInfo.guildId
+			ON userguilds.userId = scores.userId
+			INNER JOIN guildinfo
+			ON userguilds.guildId = guildinfo.guildId
 			WHERE scores.lastActive < NOW() - INTERVAL 7 DAY AND serverOnly = 0`)
-		const serverSideInactiveUsers = await this.app.query(`SELECT server_scores.userId, userGuilds.guildId, lastActive
-			FROM userGuilds
+		const serverSideInactiveUsers = await this.app.query(`SELECT server_scores.userId, userguilds.guildId, lastActive
+			FROM userguilds
 			INNER JOIN server_scores
-			ON userGuilds.userId = server_scores.userId
-			INNER JOIN guildInfo
-			ON userGuilds.guildId = guildInfo.guildId
+			ON userguilds.userId = server_scores.userId
+			INNER JOIN guildinfo
+			ON userguilds.guildId = guildinfo.guildId
 			WHERE server_scores.lastActive < NOW() - INTERVAL 7 DAY AND serverOnly = 1`)
 		let activeRolesRemoved = 0
 
@@ -129,19 +129,19 @@ class LoopTasks {
 
 		console.log(`[LOOPTASKS] Removed active role from ${activeRolesRemoved} players.`)
 
-		await this.app.query(`DELETE FROM userGuilds
-			USING userGuilds
+		await this.app.query(`DELETE FROM userguilds
+			USING userguilds
 			INNER JOIN scores
-			ON userGuilds.userId = scores.userId
-			INNER JOIN guildInfo
-			ON userGuilds.guildId = guildInfo.guildId
+			ON userguilds.userId = scores.userId
+			INNER JOIN guildinfo
+			ON userguilds.guildId = guildinfo.guildId
 			WHERE scores.lastActive < NOW() - INTERVAL 7 DAY AND serverOnly = 0`)
-		await this.app.query(`DELETE FROM userGuilds
-			USING userGuilds
+		await this.app.query(`DELETE FROM userguilds
+			USING userguilds
 			INNER JOIN server_scores
-			ON userGuilds.userId = server_scores.userId
-			INNER JOIN guildInfo
-			ON userGuilds.guildId = guildInfo.guildId
+			ON userguilds.userId = server_scores.userId
+			INNER JOIN guildinfo
+			ON userguilds.guildId = guildinfo.guildId
 			WHERE server_scores.lastActive < NOW() - INTERVAL 7 DAY AND serverOnly = 1`)
 
 		const dailyEmbed = new this.app.Embed()
@@ -152,7 +152,7 @@ class LoopTasks {
 	}
 
 	async restockShop() {
-		await this.app.query('DELETE FROM shopData WHERE item != \'\'')
+		await this.app.query('DELETE FROM shopdata WHERE item != \'\'')
 
 		const items = this.app.common.shuffleArr(Object.keys(shopData)).slice(0, 3)
 
@@ -161,7 +161,7 @@ class LoopTasks {
 			const price = Math.floor((Math.random() * (itemInfo.maxPrice - itemInfo.minPrice + 1)) + itemInfo.minPrice)
 			const stock = Math.floor((Math.random() * (itemInfo.maxStock - itemInfo.minStock + 1)) + itemInfo.minStock)
 
-			await this.app.query('INSERT INTO shopData (itemName, itemAmount, itemPrice, itemCurrency, itemDisplay, item) VALUES (?, ?, ?, ?, ?, ?)',
+			await this.app.query('INSERT INTO shopdata (itemName, itemAmount, itemPrice, itemCurrency, itemDisplay, item) VALUES (?, ?, ?, ?, ?, ?)',
 				[itemInfo.buyName, stock, price, 'scrap', item, item])
 		}
 	}

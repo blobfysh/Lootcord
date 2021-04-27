@@ -16,7 +16,7 @@ module.exports = {
 		const itemName = args[0]
 
 		try {
-			await app.query(`DELETE FROM shopData WHERE itemName = '${itemName}'`)
+			await app.query(`DELETE FROM shopdata WHERE itemName = '${itemName}'`)
 			message.reply(`Successfully removed \`${itemName}\` from shop database.`)
 		}
 		catch (err) {

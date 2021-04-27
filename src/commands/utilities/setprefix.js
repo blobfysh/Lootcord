@@ -20,13 +20,13 @@ module.exports = {
 			return message.reply('❌ White space and some special characters (@, #, `) are not supported in prefixes.')
 		}
 
-		const prefixRow = (await app.query(`SELECT * FROM guildPrefix WHERE guildId = "${message.channel.guild.id}"`))[0]
+		const prefixRow = (await app.query(`SELECT * FROM guildprefix WHERE guildId = "${message.channel.guild.id}"`))[0]
 
-		if (prefixRow) await app.query(`DELETE FROM guildPrefix WHERE guildId = "${message.channel.guild.id}"`)
+		if (prefixRow) await app.query(`DELETE FROM guildprefix WHERE guildId = "${message.channel.guild.id}"`)
 
 		prefixString = prefixString.toLowerCase()
 
-		await app.query('INSERT IGNORE INTO guildPrefix (guildId, prefix) VALUES (?, ?)', [message.channel.guild.id, prefixString])
+		await app.query('INSERT IGNORE INTO guildprefix (guildId, prefix) VALUES (?, ?)', [message.channel.guild.id, prefixString])
 		await app.cache.set(`prefix|${message.channel.guild.id}`, prefixString, 43200)
 
 		message.reply(`Server prefix successfully changed to \`${prefixString}\``)

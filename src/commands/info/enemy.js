@@ -12,7 +12,7 @@ module.exports = {
 	guildModsOnly: false,
 
 	async execute(app, message, { args, prefix, guildInfo }) {
-		const monsterRow = await app.mysql.select('spawnChannels', 'channelId', message.channel.id)
+		const monsterRow = await app.mysql.select('spawnchannels', 'channelId', message.channel.id)
 		const monsterSpawn = await app.mysql.select('spawns', 'channelId', message.channel.id)
 
 		if (!monsterRow && !monsterSpawn) { return message.reply('❌ Enemies won\'t spawn in this channel.') }

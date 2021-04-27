@@ -1,6 +1,6 @@
 exports.run = async function(guild, member) {
 	// / deactivate user
-	this.query(`DELETE FROM userGuilds WHERE userId = ${member.id} AND guildId = ${guild.id}`)
+	this.query(`DELETE FROM userguilds WHERE userId = ${member.id} AND guildId = ${guild.id}`)
 
 	if (guild.id === this.config.supportGuildID) {
 		this.patreonHandler.checkPatronLeft(member)

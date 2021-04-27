@@ -23,7 +23,7 @@ module.exports = {
 			const row = await app.player.getRow(userID)
 
 			const userInfo = await app.common.fetchUser(userID, { cacheIPC: false })
-			const activeRows = await app.query('SELECT * FROM userGuilds WHERE userId = ?', [userID])
+			const activeRows = await app.query('SELECT * FROM userguilds WHERE userId = ?', [userID])
 			const warnings = await app.query('SELECT * FROM warnings WHERE userId = ?', [userID])
 			const banned = await app.cd.getCD(userID, 'banned')
 			const tradebanned = await app.cd.getCD(userID, 'tradeban')

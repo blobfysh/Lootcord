@@ -62,7 +62,7 @@ async function generatePages(app, allItems, prefix, itemsPerPage, isServerSideEc
 }
 
 async function getHomePage(app, prefix) {
-	const shopRows = await app.query('SELECT * FROM shopData')
+	const shopRows = await app.query('SELECT * FROM shopdata')
 	const date = new Date()
 	const converted = new Date(date.toLocaleString('en-US', {
 		timeZone: 'America/New_York'

@@ -70,7 +70,6 @@ class Lootcord extends Base {
 	}
 
 	async launch() {
-		await this.mysql.createDB() // create database structure
 		this.initIPC()
 		this.loopTasks.start()
 
@@ -210,7 +209,7 @@ class Lootcord extends Base {
 				else if (cdInfo.type === 'mob') {
 					// delete mob
 					await this.query(`DELETE FROM cooldown WHERE userId = '${cdInfo.userId}' AND type = '${cdInfo.type}'`)
-					await this.query('DELETE FROM spawnsDamage WHERE channelId = ?', [cdInfo.userId])
+					await this.query('DELETE FROM spawnsdamage WHERE channelId = ?', [cdInfo.userId])
 					await this.query('DELETE FROM spawns WHERE channelId = ?', [cdInfo.userId])
 				}
 				else if (cdInfo.type === 'explosion') {
@@ -312,7 +311,7 @@ class Lootcord extends Base {
 	}
 
 	async startSpawns() {
-		const spawnChannels = await this.query('SELECT * FROM spawnChannels')
+		const spawnChannels = await this.query('SELECT * FROM spawnchannels')
 
 		for (let i = 0; i < spawnChannels.length; i++) {
 			await this.monsters.initSpawn(spawnChannels[i].channelId)

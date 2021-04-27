@@ -41,12 +41,12 @@ class Common {
 	}
 
 	async getGuildInfo(guildId) {
-		let guildInfo = (await this.app.query('SELECT * FROM guildInfo WHERE guildId = ?', [guildId]))[0]
+		let guildInfo = (await this.app.query('SELECT * FROM guildinfo WHERE guildId = ?', [guildId]))[0]
 
 		if (!guildInfo) {
 			console.warn('Creating new guildInfo row')
-			await this.app.query('INSERT IGNORE INTO guildInfo (guildId, killChan, levelChan, dropChan, dropItemChan, dropItem, randomOnly, serverOnly) VALUES (?, 0, 0, 0, 0, \'\', 0, 0)', [guildId])
-			guildInfo = (await this.app.query('SELECT * FROM guildInfo WHERE guildId = ?', [guildId]))[0]
+			await this.app.query('INSERT IGNORE INTO guildinfo (guildId, killChan, levelChan, dropChan, dropItemChan, dropItem, randomOnly, serverOnly) VALUES (?, 0, 0, 0, 0, \'\', 0, 0)', [guildId])
+			guildInfo = (await this.app.query('SELECT * FROM guildinfo WHERE guildId = ?', [guildId]))[0]
 		}
 
 		return guildInfo
@@ -243,7 +243,7 @@ class Common {
 
 		if (!cachePrefix) {
 			try {
-				const prefixRow = (await this.app.query(`SELECT * FROM guildPrefix WHERE guildId = ${guildId}`))[0]
+				const prefixRow = (await this.app.query(`SELECT * FROM guildprefix WHERE guildId = ${guildId}`))[0]
 
 				if (prefixRow) {
 					await this.app.cache.set(`prefix|${guildId}`, prefixRow.prefix, 43200)

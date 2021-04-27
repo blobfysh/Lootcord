@@ -116,7 +116,7 @@ class Player {
      * @param {string} guild ID of guild to activate player in
      */
 	async activate(id, guild) {
-		await this.app.query(`INSERT INTO userGuilds (userId, guildId) VALUES (${id}, ${guild})`)
+		await this.app.query(`INSERT INTO userguilds (userId, guildId) VALUES (${id}, ${guild})`)
 	}
 
 	/**
@@ -126,7 +126,7 @@ class Player {
      */
 	async deactivate(id, guild) {
 		// delete user from server
-		await this.app.query(`DELETE FROM userGuilds WHERE userId = ${id} AND guildId = ${guild}`)
+		await this.app.query(`DELETE FROM userguilds WHERE userId = ${id} AND guildId = ${guild}`)
 	}
 
 	/**
@@ -135,7 +135,7 @@ class Player {
      * @param {string} guild Guild to check if user is active in
      */
 	async isActive(id, guild) {
-		if ((await this.app.query(`SELECT * FROM userGuilds WHERE userId = ${id} AND guildId = ${guild}`)).length) {
+		if ((await this.app.query(`SELECT * FROM userguilds WHERE userId = ${id} AND guildId = ${guild}`)).length) {
 			return true
 		}
 

@@ -12,12 +12,12 @@ module.exports = {
 
 	async execute(app, message, { args, prefix, guildInfo }) {
 		if (guildInfo.levelChan === 0) {
-			await app.query(`UPDATE guildInfo SET levelChan = "${message.channel.id}" WHERE guildId = "${message.channel.guild.id}"`)
+			await app.query(`UPDATE guildinfo SET levelChan = "${message.channel.id}" WHERE guildId = "${message.channel.guild.id}"`)
 
 			message.reply('✅ Now sending level up messages to this channel!')
 		}
 		else {
-			await app.query(`UPDATE guildInfo SET levelChan = 0 WHERE guildId = "${message.channel.guild.id}"`)
+			await app.query(`UPDATE guildinfo SET levelChan = 0 WHERE guildId = "${message.channel.guild.id}"`)
 
 			message.reply('✅ Disabled level channel for this server!')
 		}

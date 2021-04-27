@@ -426,7 +426,7 @@ module.exports = {
 			else if (guildInfo.randomOnly === 1 || ['rand', 'random'].some(str => args.map(arg => arg.toLowerCase()).includes(str))) {
 				// attack is random, find a random active player
 
-				const activeUsers = await app.query(`SELECT * FROM userGuilds WHERE guildId ="${message.channel.guild.id}" ORDER BY LOWER(userId)`)
+				const activeUsers = await app.query(`SELECT * FROM userguilds WHERE guildId ="${message.channel.guild.id}" ORDER BY LOWER(userId)`)
 				const availableTargets = []
 				const membersInfo = []
 
