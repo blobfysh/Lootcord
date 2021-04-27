@@ -11,6 +11,7 @@ module.exports = {
 	requiresAcc: true,
 	requiresActive: false,
 	guildModsOnly: false,
+	globalEconomyOnly: true,
 
 	async execute(app, message, { args, prefix, guildInfo }) {
 		if (shortid.isValid(args[0])) {

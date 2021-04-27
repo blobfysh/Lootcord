@@ -10,16 +10,23 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
-		const userRow = await app.player.getRow(message.author.id)
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const userRow = await app.player.getRow(message.author.id, serverSideGuildId)
 		const equipitem = app.parse.items(args)[0]
 		const equipBadge = app.parse.badges(args)[0]
 
 		if (userRow.backpack === equipitem || args[0] === 'storage') {
 			if (userRow.backpack !== 'none') {
-				await app.query(`UPDATE scores SET backpack = 'none' WHERE userId = ${message.author.id}`)
-				await app.query(`UPDATE scores SET inv_slots = inv_slots - ${app.itemdata[userRow.backpack].inv_slots} WHERE userId = ${message.author.id}`)
-				await app.itm.addItem(message.author.id, userRow.backpack, 1)
+				if (serverSideGuildId) {
+					await app.query(`UPDATE server_scores SET backpack = 'none' WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+					await app.query(`UPDATE server_scores SET inv_slots = inv_slots - ${app.itemdata[userRow.backpack].inv_slots} WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+					await app.itm.addItem(message.author.id, userRow.backpack, 1, serverSideGuildId)
+				}
+				else {
+					await app.query(`UPDATE scores SET backpack = 'none' WHERE userId = ${message.author.id}`)
+					await app.query(`UPDATE scores SET inv_slots = inv_slots - ${app.itemdata[userRow.backpack].inv_slots} WHERE userId = ${message.author.id}`)
+					await app.itm.addItem(message.author.id, userRow.backpack, 1)
+				}
 
 				message.reply(`✅ Successfully unequipped ${app.itemdata[userRow.backpack].icon}\`${userRow.backpack}\`.\nYour carry capacity is now **${app.config.baseInvSlots + (userRow.inv_slots - app.itemdata[userRow.backpack].inv_slots)}** items.`)
 			}
@@ -30,8 +37,14 @@ module.exports = {
 
 		else if (userRow.banner === equipitem || args[0] === 'banner') {
 			if (userRow.banner !== 'none') {
-				await app.query(`UPDATE scores SET banner = 'none' WHERE userId = ${message.author.id}`)
-				await app.itm.addItem(message.author.id, userRow.banner, 1)
+				if (serverSideGuildId) {
+					await app.query(`UPDATE server_scores SET banner = 'none' WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+					await app.itm.addItem(message.author.id, userRow.banner, 1, serverSideGuildId)
+				}
+				else {
+					await app.query(`UPDATE scores SET banner = 'none' WHERE userId = ${message.author.id}`)
+					await app.itm.addItem(message.author.id, userRow.banner, 1)
+				}
 
 				message.reply(`✅ Successfully unequipped ${app.itemdata[userRow.banner].icon}\`${userRow.banner}\`.`)
 			}
@@ -41,7 +54,12 @@ module.exports = {
 		}
 
 		else if (equipBadge || args[0] === 'badge') {
-			await app.query(`UPDATE scores SET badge = 'none' WHERE userId = ${message.author.id}`)
+			if (serverSideGuildId) {
+				await app.query(`UPDATE server_scores SET badge = 'none' WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+			}
+			else {
+				await app.query(`UPDATE scores SET badge = 'none' WHERE userId = ${message.author.id}`)
+			}
 
 			return message.reply('✅ Successfully unequipped your display badge!')
 		}

@@ -13,6 +13,7 @@ module.exports = {
 	requiresAcc: true,
 	requiresActive: false,
 	guildModsOnly: false,
+	globalEconomyOnly: true,
 
 	async execute(app, message, { args, prefix, guildInfo }) {
 		const itemName = app.parse.items(args)[0]

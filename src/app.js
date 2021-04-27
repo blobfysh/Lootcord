@@ -170,6 +170,7 @@ class Lootcord extends Base {
 
 	async refreshCooldowns() {
 		const rows = await this.query('SELECT * FROM cooldown')
+		const serverRows = await this.query('SELECT * FROM server_cooldown')
 		let cdsAdded = 0
 
 		for (const cdInfo of rows) {
@@ -215,6 +216,26 @@ class Lootcord extends Base {
 				else if (cdInfo.type === 'explosion') {
 					await this.query('UPDATE clans SET reduction = reduction - 5 WHERE clanId = ?', [cdInfo.userId])
 					await this.query('DELETE FROM cooldown WHERE userId = ? AND type = \'explosion\'', [cdInfo.userId])
+				}
+			}
+		}
+
+		// server-side cooldowns
+		for (const cdInfo of serverRows) {
+			if (cdInfo.userId !== undefined) {
+				const timeLeft = cdInfo.length - (new Date().getTime() - cdInfo.start)
+				if (timeLeft > 0) {
+					let callback
+
+					if (cdInfo.type === 'shield') {
+						await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true, armor: cdInfo.info, serverSideGuildId: cdInfo.guildId }, callback)
+
+						continue
+					}
+
+					await this.cd.setCD(cdInfo.userId, cdInfo.type, timeLeft, { ignoreQuery: true, serverSideGuildId: cdInfo.guildId }, callback)
+
+					cdsAdded++
 				}
 			}
 		}

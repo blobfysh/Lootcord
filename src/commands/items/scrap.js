@@ -12,12 +12,12 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const sellItems = app.parse.items(args, 15)
 		const sellAmounts = app.parse.numbers(args)
 
 		if (sellItems.length > 1) {
-			const userItems = await app.itm.getItemObject(message.author.id)
+			const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 			let itemAmounts
 			let sellPrice = 0
 
@@ -50,7 +50,7 @@ module.exports = {
 				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
 
 				if (confirmed) {
-					const userItems2 = await app.itm.getItemObject(message.author.id)
+					const userItems2 = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 
 					for (let i = 0; i < itemAmounts.length; i++) {
 						const itemAmnt = itemAmounts[i].split('|')
@@ -66,9 +66,9 @@ module.exports = {
 						}
 					}
 
-					const row = await app.player.getRow(message.author.id)
-					app.itm.removeItem(message.author.id, itemAmounts)
-					app.player.addScrap(message.author.id, sellPrice)
+					const row = await app.player.getRow(message.author.id, serverSideGuildId)
+					app.itm.removeItem(message.author.id, itemAmounts, null, serverSideGuildId)
+					app.player.addScrap(message.author.id, sellPrice, serverSideGuildId)
 
 					botMessage.edit(`Successfully scrapped ${app.itm.getDisplay(itemAmounts).join(', ')} for ${app.common.formatNumber(sellPrice, false, true)}.\n\nYou now have **${app.common.formatNumber(row.scrap + sellPrice, false, true)}**.`)
 				}
@@ -84,7 +84,7 @@ module.exports = {
 			const sellItem = sellItems[0]
 			let sellAmount = sellAmounts[0] || 1
 
-			const userItems = await app.itm.getItemObject(message.author.id)
+			const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 			const hasItems = await app.itm.hasItems(userItems, sellItem, sellAmount)
 			const itemPrice = app.itemdata[sellItem].sell
 
@@ -105,14 +105,14 @@ module.exports = {
 				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
 
 				if (confirmed) {
-					const vUserItems = await app.itm.getItemObject(message.author.id)
+					const vUserItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 					const vHasItems = await app.itm.hasItems(vUserItems, sellItem, sellAmount)
 
 					if (vHasItems) {
-						const row = await app.player.getRow(message.author.id)
+						const row = await app.player.getRow(message.author.id, serverSideGuildId)
 
-						app.player.addScrap(message.author.id, parseInt(Math.floor(itemPrice * SCRAP_BONUS_RATE) * sellAmount))
-						app.itm.removeItem(message.author.id, sellItem, sellAmount)
+						app.player.addScrap(message.author.id, parseInt(Math.floor(itemPrice * SCRAP_BONUS_RATE) * sellAmount), serverSideGuildId)
+						app.itm.removeItem(message.author.id, sellItem, sellAmount, serverSideGuildId)
 						botMessage.edit(`Successfully scrapped **${sellAmount}x** ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(Math.floor(itemPrice * SCRAP_BONUS_RATE) * sellAmount, false, true)}.\n\nYou now have **${app.common.formatNumber(row.scrap + (Math.floor(itemPrice * SCRAP_BONUS_RATE) * sellAmount), false, true)}**.`)
 					}
 					else {

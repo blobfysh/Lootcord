@@ -10,9 +10,9 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const activateCD = await app.cd.getCD(message.author.id, `activate|${message.channel.guild.id}`)
-		const attackCD = await app.cd.getCD(message.author.id, 'attack')
+		const attackCD = await app.cd.getCD(message.author.id, 'attack', { serverSideGuildId })
 
 		if (activateCD) return message.reply(`You must wait \`${activateCD}\` after activating in order to deactivate`)
 
@@ -24,7 +24,7 @@ module.exports = {
 			const result = await app.react.getConfirmation(message.author.id, botMessage, 15000)
 
 			if (result) {
-				const attackCDAfter = await app.cd.getCD(message.author.id, 'attack')
+				const attackCDAfter = await app.cd.getCD(message.author.id, 'attack', { serverSideGuildId })
 
 				if (attackCDAfter) return botMessage.edit('You can\'t deactivate while you have an attack cooldown!')
 

@@ -10,9 +10,9 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		try {
-			const row = await app.player.getRow(message.author.id)
+			const row = await app.player.getRow(message.author.id, serverSideGuildId)
 			const xp = app.common.calculateXP(row.points, row.level)
 			const craftableItems = Object.keys(app.itemdata).filter(item => app.itemdata[item].craftedWith !== '' && app.itemdata[item].craftedWith.level === row.level + 1)
 			craftableItems.sort(app.itm.sortItemsHighLow.bind(app))

@@ -62,16 +62,17 @@ class CommandHandler {
 		// ignore mod command if user is not a moderator or admin
 		else if (command.category === 'moderation' && (!await this.app.cd.getCD(message.author.id, 'mod') && !this.app.sets.adminUsers.has(message.author.id))) { return }
 
-		const account = await this.app.player.getRow(message.author.id)
 		const guildInfo = await this.app.common.getGuildInfo(message.channel.guild.id)
+		const serverSideGuildId = guildInfo.serverOnly ? message.channel.guild.id : undefined
+		const account = await this.app.player.getRow(message.author.id, serverSideGuildId)
 
 		// check if player leveled up
 		if (account) await this.checkLevelXP(message, account, guildInfo)
 
-		if (Math.random() <= 0.02) this.app.eventHandler.initEvent(message, { prefix })
+		if (Math.random() <= 0.02) this.app.eventHandler.initEvent(message, { prefix, serverSideGuildId })
 
 		// check if command requires an account at all, create new account for player if command requires it.
-		if (command.requiresAcc && !account) await this.app.player.createAccount(message.author.id)
+		if (command.requiresAcc && !account) await this.app.player.createAccount(message.author.id, serverSideGuildId)
 
 		// check if player meets the minimum level required to run the command
 		if (command.levelReq && ((account ? account.level : 1) < command.levelReq)) { return message.channel.createMessage(`❌ You must be at least level \`${command.levelReq}\` to use that command!`) }
@@ -90,10 +91,24 @@ class CommandHandler {
 		// check if user has manage server permission before running guildModsOnly command
 		else if (command.guildModsOnly && !message.member.permission.has('manageGuild')) { return message.channel.createMessage('❌ You need the `Manage Server` permission to use this command!') }
 
+		// check if command can only be used with a server-side economy
+		else if (command.serverEconomyOnly && !guildInfo.serverOnly) {
+			return message.channel.createMessage(`❌ The \`${command.name}\` command requires that server-side economy mode is enabled. You can enable it in your \`serversettings\`.`)
+		}
+		else if (command.globalEconomyOnly && guildInfo.serverOnly) {
+			return message.channel.createMessage(`❌ The \`${command.name}\` command requires that server-side economy mode is disabled.`)
+		}
+
 		// execute command
 		try {
 			this.app.cache.incr('commands')
-			this.app.query(`UPDATE scores SET lastActive = NOW() WHERE userId = ${message.author.id}`)
+
+			if (serverSideGuildId) {
+				this.app.query(`UPDATE server_scores SET lastActive = NOW() WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+			}
+			else {
+				this.app.query(`UPDATE scores SET lastActive = NOW() WHERE userId = ${message.author.id}`)
+			}
 
 			command.execute(this.app, message, {
 				args,
@@ -101,7 +116,7 @@ class CommandHandler {
 				guildInfo,
 
 				// useful property for passing to addItem/addMoney methods so I dont have to do it inside every command
-				serverSideGuildID: guildInfo.serverOnly ? message.channel.guild.id : undefined
+				serverSideGuildId
 			})
 
 			console.log(`${message.author.username}#${message.author.discriminator} (${message.author.id}) ran command: ${command.name} in guild: ${message.channel.guild.name} (${message.channel.guild.id})`)
@@ -154,7 +169,14 @@ class CommandHandler {
 
 				craftables.sort(this.app.itm.sortItemsHighLow.bind(this.app))
 
-				await this.app.query(`UPDATE scores SET points = points + 1, level = level + 1 WHERE userId = ${message.author.id}`)
+				if (guildInfo.serverOnly) {
+					// server-side economy
+					await this.app.query(`UPDATE server_scores SET points = points + 1, level = level + 1 WHERE userId = ${message.author.id} AND guildId = ${message.channel.guild.id}`)
+				}
+				else {
+					// global economy
+					await this.app.query(`UPDATE scores SET points = points + 1, level = level + 1 WHERE userId = ${message.author.id}`)
+				}
 
 				if ((row.level + 1) % 5 === 0 && row.level + 1 >= 10) {
 					levelItem = `${this.app.itemdata.elite_crate.icon}\`elite_crate\``

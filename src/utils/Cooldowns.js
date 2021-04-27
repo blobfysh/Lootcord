@@ -4,6 +4,7 @@ class Cooldown {
 	constructor(app) {
 		this.app = app
 		this.timers = []
+		this.serverTimers = []
 	}
 
 	/**
@@ -12,56 +13,85 @@ class Cooldown {
      * @param {string} userId User to give cooldown, does not have to be a user ID.
      * @param {string} type Type of cooldown
      * @param {number} time Time in milliseconds cooldown lasts
-     * @param {{ignoreQuery: boolean, armor: string}} options ignoreQuery is only used when bot starting up to prevent multiple table entries
+     * @param {{ignoreQuery: boolean, armor: string, serverSideGuildId: string}} options ignoreQuery is only used when bot starting up to prevent multiple table entries
      * @param {function()} callback Callback to run when finished
      */
-	async setCD(userId, type, time, options = { ignoreQuery: false, armor: undefined }, callback = undefined) {
-		const key = `${type}|${userId}`
+	async setCD(userId, type, time, options = { ignoreQuery: false, armor: undefined, serverSideGuildId: undefined }, callback = undefined) {
 		options.ignoreQuery = options.ignoreQuery || false
 
-		if (!options.ignoreQuery && await this.app.cache.get(key)) return false
-
 		const seconds = Math.round(time / 1000)
+		let key = `${type}|${userId}`
+
+		if (options.serverSideGuildId) {
+			key = `${type}|${userId}|${options.serverSideGuildId}`
+		}
+
+		if (!options.ignoreQuery && await this.app.cache.get(key)) return false
 
 		// this is where the cooldown is actually set
 		await this.app.cache.set(key, options.armor ? options.armor : `Set at ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })}`, seconds)
 
 		// add cooldown to cooldown table for persistence (if server were to shut down, this table would be used to set cooldowns for all players)
-		if (!options.ignoreQuery) await this.app.mysql.query('INSERT INTO cooldown (userId, type, start, length, info) VALUES (?, ?, ?, ?, ?)', [userId, type, new Date().getTime(), time, options.armor ? options.armor : ''])
-
-		const timeObj = {
-			userId,
-			type,
-			timer: bt.setTimeout(() => {
-				this.app.mysql.query(`DELETE FROM cooldown WHERE userId = ${userId} AND type = '${type}'`)
-
-				if (type === 'patron') {
-					// do patron stuff
-					this.app.mysql.query(`DELETE FROM user_items WHERE userId = '${userId}' AND item = 'kofi_king'`)
-					this.app.mysql.query(`UPDATE scores SET banner = 'none' WHERE userId = '${userId}' AND banner = 'kofi_king'`)
-					this.app.ipc.broadcast('removeKofiRole', { guildId: this.app.config.supportGuildID, userId })
-
-					const donateEmbed = new this.app.Embed()
-						.setTitle('Perks Ended')
-						.setColor(16734296)
-						.setThumbnail('https://pbs.twimg.com/profile_images/1207570720034701314/dTLz6VR2_400x400.jpg')
-						.setDescription(`\`${userId}\`'s donator perks expried.`)
-
-					this.app.messager.messageLogs(donateEmbed)
-				}
-				else if (type === 'banned') {
-					this.app.mysql.query(`DELETE FROM banned WHERE userId = '${userId}'`)
-				}
-
-				typeof callback === 'function' && callback()
-
-				this.app.cache.del(key)
-				this.clearTimers(userId, type)
-			}, (seconds * 1000) - 1000)
+		if (!options.ignoreQuery && options.serverSideGuildId) {
+			await this.app.mysql.query('INSERT INTO server_cooldown (userId, guildId, type, start, length, info) VALUES (?, ?, ?, ?, ?, ?)', [userId, options.serverSideGuildId, type, new Date().getTime(), time, options.armor ? options.armor : ''])
+		}
+		else if (!options.ignoreQuery) {
+			await this.app.mysql.query('INSERT INTO cooldown (userId, type, start, length, info) VALUES (?, ?, ?, ?, ?)', [userId, type, new Date().getTime(), time, options.armor ? options.armor : ''])
 		}
 
-		// adding to timers array allows me to cancel the timer in the future (ex. player unequips shield, need to be able to cancel shield timeOut)
-		this.timers.push(timeObj)
+		if (options.serverSideGuildId) {
+			// server-side cooldown
+			const timeObj = {
+				userId,
+				guildId: options.serverSideGuildId,
+				type,
+				timer: bt.setTimeout(() => {
+					this.app.mysql.query(`DELETE FROM server_cooldown WHERE userId = ${userId} AND guildId = ${options.serverSideGuildId} AND type = '${type}'`)
+
+					typeof callback === 'function' && callback()
+
+					this.app.cache.del(key)
+					this.clearTimers(userId, type, options.serverSideGuildId)
+				}, (seconds * 1000) - 1000)
+			}
+
+			this.serverTimers.push(timeObj)
+		}
+		else {
+			const timeObj = {
+				userId,
+				type,
+				timer: bt.setTimeout(() => {
+					this.app.mysql.query(`DELETE FROM cooldown WHERE userId = ${userId} AND type = '${type}'`)
+
+					if (type === 'patron') {
+						// do patron stuff
+						this.app.mysql.query(`DELETE FROM user_items WHERE userId = '${userId}' AND item = 'kofi_king'`)
+						this.app.mysql.query(`UPDATE scores SET banner = 'none' WHERE userId = '${userId}' AND banner = 'kofi_king'`)
+						this.app.ipc.broadcast('removeKofiRole', { guildId: this.app.config.supportGuildID, userId })
+
+						const donateEmbed = new this.app.Embed()
+							.setTitle('Perks Ended')
+							.setColor(16734296)
+							.setThumbnail('https://pbs.twimg.com/profile_images/1207570720034701314/dTLz6VR2_400x400.jpg')
+							.setDescription(`\`${userId}\`'s donator perks expried.`)
+
+						this.app.messager.messageLogs(donateEmbed)
+					}
+					else if (type === 'banned') {
+						this.app.mysql.query(`DELETE FROM banned WHERE userId = '${userId}'`)
+					}
+
+					typeof callback === 'function' && callback()
+
+					this.app.cache.del(key)
+					this.clearTimers(userId, type)
+				}, (seconds * 1000) - 1000)
+			}
+
+			// adding to timers array allows me to cancel the timer in the future (ex. player unequips shield, need to be able to cancel shield timeOut)
+			this.timers.push(timeObj)
+		}
 
 		return 'Success'
 	}
@@ -71,10 +101,17 @@ class Cooldown {
      *
      * @param {string} userId User to get cooldown for
      * @param {string} type Type of cooldown to look for
-     * @param {{getEstimate:boolean}} options Options
+     * @param {{getEstimate:boolean, serverSideGuildId: string}} options Options
      */
-	async getCD(userId, type, options = { getEstimate: false }) {
-		const key = `${type}|${userId}`
+	async getCD(userId, type, options = { getEstimate: false, serverSideGuildId: undefined }) {
+		options.getEstimate = options.getEstimate || false
+
+		let key = `${type}|${userId}`
+
+		if (options.serverSideGuildId) {
+			key = `${type}|${userId}|${options.serverSideGuildId}`
+		}
+
 		const endTime = await this.app.cache.getTTL(key, { getEPOCH: true })
 
 		// return undefined if user is not on cooldown
@@ -102,21 +139,42 @@ class Cooldown {
 		return this.convertTime(duration)
 	}
 
-	async clearTimers(userId, type) {
-		for (let i = 0; i < this.timers.length; i++) {
-			if (this.timers[i].userId === userId && this.timers[i].type === type) {
-				console.log(`Clearing timers for ${userId} | ${type}`)
-				bt.clearTimeout(this.timers[i].timer)
+	async clearTimers(userId, type, guildId = undefined) {
+		if (guildId) {
+			// server-side cooldown
+			for (let i = 0; i < this.serverTimers.length; i++) {
+				if (this.serverTimers[i].userId === userId && this.serverTimers[i].guildId === guildId && this.serverTimers[i].type === type) {
+					console.log(`Clearing timers for ${userId} | ${type}`)
+					bt.clearTimeout(this.serverTimers[i].timer)
 
-				this.timers.splice(i, 1)
+					this.serverTimers.splice(i, 1)
+				}
+			}
+		}
+		else {
+			for (let i = 0; i < this.timers.length; i++) {
+				if (this.timers[i].userId === userId && this.timers[i].type === type) {
+					console.log(`Clearing timers for ${userId} | ${type}`)
+					bt.clearTimeout(this.timers[i].timer)
+
+					this.timers.splice(i, 1)
+				}
 			}
 		}
 	}
 
-	async clearCD(userId, type) {
-		await this.app.mysql.query(`DELETE FROM cooldown WHERE userId = '${userId}' AND type = '${type}'`)
-		await this.app.ipc.broadcast('clearCD', { userId, type }) // sends message to all shards to clear cooldown timers (stops the setTimeout from running)
-		await this.app.cache.del(`${type}|${userId}`) // delete key from cache, this is what actually stops the cooldown shown in commands
+	async clearCD(userId, type, guildId = undefined) {
+		if (guildId) {
+			// server-side economy
+			await this.app.mysql.query(`DELETE FROM server_cooldown WHERE userId = '${userId}' AND guildId = '${guildId}' AND type = '${type}'`)
+			await this.app.ipc.broadcast('clearCD', { userId, type, guildId })
+			await this.app.cache.del(`${type}|${userId}|${guildId}`)
+		}
+		else {
+			await this.app.mysql.query(`DELETE FROM cooldown WHERE userId = '${userId}' AND type = '${type}'`)
+			await this.app.ipc.broadcast('clearCD', { userId, type }) // sends message to all shards to clear cooldown timers (stops the setTimeout from running)
+			await this.app.cache.del(`${type}|${userId}`) // delete key from cache, this is what actually stops the cooldown shown in commands
+		}
 	}
 
 	convertTime(ms) {

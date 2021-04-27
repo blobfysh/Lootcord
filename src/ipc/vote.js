@@ -16,11 +16,11 @@ exports.run = async function({ vote, type }) {
 	let itemReward
 	if ((account.voteCounter + 1) % 6 === 0) {
 		itemReward = `✨ You received a ${this.itemdata.supply_signal.icon}\`supply_signal\` for voting 6 days in a row! 😃`
-		await this.itm.addItem(vote.user, 'supply_signal', 1)
+		await this.itm.addItemGlobally(vote.user, 'supply_signal', 1)
 	}
 	else {
 		itemReward = `📦 You received 1x ${this.itemdata.military_crate.icon}\`military_crate\`!`
-		await this.itm.addItem(vote.user, 'military_crate', 1)
+		await this.itm.addItemGlobally(vote.user, 'military_crate', 1)
 	}
 
 	// add vote cooldown

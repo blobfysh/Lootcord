@@ -10,26 +10,26 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const isDonor = await app.patreonHandler.isPatron(message.author.id)
-		const attackCD = await app.cd.getCD(message.author.id, 'attack')
-		const healCD = await app.cd.getCD(message.author.id, 'heal')
-		const hourlyCD = await app.cd.getCD(message.author.id, 'hourly')
-		const dailyCD = await app.cd.getCD(message.author.id, 'daily')
-		const weeklyCD = await app.cd.getCD(message.author.id, 'weekly')
-		const triviaCD = await app.cd.getCD(message.author.id, 'trivia')
-		const scrambleCD = await app.cd.getCD(message.author.id, 'scramble')
+		const attackCD = await app.cd.getCD(message.author.id, 'attack', { serverSideGuildId })
+		const healCD = await app.cd.getCD(message.author.id, 'heal', { serverSideGuildId })
+		const hourlyCD = await app.cd.getCD(message.author.id, 'hourly', { serverSideGuildId })
+		const dailyCD = await app.cd.getCD(message.author.id, 'daily', { serverSideGuildId })
+		const weeklyCD = await app.cd.getCD(message.author.id, 'weekly', { serverSideGuildId })
+		const triviaCD = await app.cd.getCD(message.author.id, 'trivia', { serverSideGuildId })
+		const scrambleCD = await app.cd.getCD(message.author.id, 'scramble', { serverSideGuildId })
 		const voteCD = await app.cd.getCD(message.author.id, 'vote')
 		const vote2CD = await app.cd.getCD(message.author.id, 'vote2')
-		const blackjackCD = await app.cd.getCD(message.author.id, 'blackjack')
-		const slotsCD = await app.cd.getCD(message.author.id, 'slots')
-		const rouletteCD = await app.cd.getCD(message.author.id, 'roulette')
-		const coinflipCD = await app.cd.getCD(message.author.id, 'coinflip')
-		const jackpotCD = await app.cd.getCD(message.author.id, 'jackpot')
-		const xp_potionCD = await app.cd.getCD(message.author.id, 'xp_potion')
-		const armorCD = await app.cd.getCD(message.author.id, 'shield')
-		const armor = await app.player.getArmor(message.author.id)
-		const passiveShield = await app.cd.getCD(message.author.id, 'passive_shield')
+		const blackjackCD = await app.cd.getCD(message.author.id, 'blackjack', { serverSideGuildId })
+		const slotsCD = await app.cd.getCD(message.author.id, 'slots', { serverSideGuildId })
+		const rouletteCD = await app.cd.getCD(message.author.id, 'roulette', { serverSideGuildId })
+		const coinflipCD = await app.cd.getCD(message.author.id, 'coinflip', { serverSideGuildId })
+		const jackpotCD = await app.cd.getCD(message.author.id, 'jackpot', { serverSideGuildId })
+		const xp_potionCD = await app.cd.getCD(message.author.id, 'xp_potion', { serverSideGuildId })
+		const armorCD = await app.cd.getCD(message.author.id, 'shield', { serverSideGuildId })
+		const armor = await app.player.getArmor(message.author.id, serverSideGuildId)
+		const passiveShield = await app.cd.getCD(message.author.id, 'passive_shield', { serverSideGuildId })
 
 		const hourlyReady = hourlyCD ? `❌ ${hourlyCD}` : '✅ ready'
 		const dailyReady = dailyCD ? `❌ ${dailyCD}` : '✅ ready'

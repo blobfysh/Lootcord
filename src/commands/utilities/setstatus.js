@@ -15,7 +15,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		let statusToSet = message.cleanContent.slice(prefix.length).split(/ +/).slice(1).join(' ')
 
 		if (statusToSet.length > 120) {
@@ -32,7 +32,12 @@ module.exports = {
 		statusToSet = statusToSet.slice(2)
 
 		try {
-			await app.query('UPDATE scores SET status = ? WHERE userId = ?', [!statusToSet ? '' : statusToSet, message.author.id])
+			if (serverSideGuildId) {
+				await app.query('UPDATE server_scores SET status = ? WHERE userId = ? AND guildId = ?', [!statusToSet ? '' : statusToSet, message.author.id, serverSideGuildId])
+			}
+			else {
+				await app.query('UPDATE scores SET status = ? WHERE userId = ?', [!statusToSet ? '' : statusToSet, message.author.id])
+			}
 
 			message.reply(`✅ Successfully set status to: ${!statusToSet ? 'Nothing?' : statusToSet}`)
 
@@ -41,6 +46,7 @@ module.exports = {
 				.setThumbnail(message.author.avatarURL)
 				.setDescription(`${`${message.author.username}#${message.author.discriminator}`} ID: \`\`\`\n${message.author.id}\`\`\``)
 				.addField('Status Changed', !statusToSet ? 'Nothing?' : statusToSet)
+				.addField('Server-side Economy?', serverSideGuildId ? `Yes, server ID: ${serverSideGuildId}` : 'No (global)')
 				.setColor('#8C8C8C')
 				.setFooter('Make sure status does not violate TOS or is vulgar')
 			app.messager.messageLogs(logEmbed)

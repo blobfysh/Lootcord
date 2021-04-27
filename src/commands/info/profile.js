@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const memberArg = app.parse.members(message, args)[0]
 
 		if (!memberArg) {
@@ -28,19 +28,19 @@ module.exports = {
 		}
 
 		async function userProfile(member) {
-			const userRow = await app.player.getRow(member.id)
+			const userRow = await app.player.getRow(member.id, serverSideGuildId)
 
 			if (!userRow) {
 				return message.reply('❌ The person you\'re trying to search doesn\'t have an account!')
 			}
 
-			const userItems = await app.itm.getUserItems(await app.itm.getItemObject(member.id), { onlyBanners: true })
-			const badges = await app.itm.getBadges(member.id)
+			const userItems = await app.itm.getUserItems(await app.itm.getItemObject(member.id, serverSideGuildId), { onlyBanners: true })
+			const badges = await app.itm.getBadges(member.id, serverSideGuildId)
 			const xp = app.common.calculateXP(userRow.points, userRow.level)
-			const trivias = await app.player.getStat(message.author.id, 'trivias')
-			const triviasCorrect = await app.player.getStat(message.author.id, 'triviasCorrect')
-			const scrambles = await app.player.getStat(message.author.id, 'scrambles')
-			const scramblesCorrect = await app.player.getStat(message.author.id, 'scramblesCorrect')
+			const trivias = await app.player.getStat(message.author.id, 'trivias', serverSideGuildId)
+			const triviasCorrect = await app.player.getStat(message.author.id, 'triviasCorrect', serverSideGuildId)
+			const scrambles = await app.player.getStat(message.author.id, 'scrambles', serverSideGuildId)
+			const scramblesCorrect = await app.player.getStat(message.author.id, 'scramblesCorrect', serverSideGuildId)
 
 			const bannerIcon = app.itemdata[userRow.banner] !== undefined ? app.itemdata[userRow.banner].icon : ''
 			const bannersList = `**Equipped:** ${bannerIcon}\`${userRow.banner}\`\n${userItems.banners.join('\n')}`

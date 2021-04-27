@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const sellItem = args[0] || ''
 
 		if (Object.keys(ITEM_TYPES).includes(sellItem.toLowerCase())) {
@@ -25,7 +25,7 @@ module.exports = {
 				return message.reply(`You need to enter a valid type to sell! \`${prefix}sellall <type>\``)
 			}
 
-			const itemRow = await app.itm.getItemObject(message.author.id)
+			const itemRow = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 			// iterate array and sell
 			for (let i = 0; i < itemsToCheck.length; i++) {
 				if (itemRow[itemsToCheck[i]] >= 1) {
@@ -42,7 +42,7 @@ module.exports = {
 				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
 
 				if (confirmed) {
-					const itemRow2 = await app.itm.getItemObject(message.author.id)
+					const itemRow2 = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 
 					let testAmount = 0 // used to verify user didnt alter inventory while selling.
 					let testTotalItems = 0
@@ -54,12 +54,12 @@ module.exports = {
 					}
 
 					if (testTotalItems === totalAmount && testAmount === commonTotal) {
-						const row = await app.player.getRow(message.author.id)
+						const row = await app.player.getRow(message.author.id, serverSideGuildId)
 
 						for (let i = 0; i < itemsToCheck.length; i++) {
-							if (itemRow2[itemsToCheck[i]] !== undefined) await app.itm.removeItem(message.author.id, itemsToCheck[i], itemRow2[itemsToCheck[i]])
+							if (itemRow2[itemsToCheck[i]] !== undefined) await app.itm.removeItem(message.author.id, itemsToCheck[i], itemRow2[itemsToCheck[i]], serverSideGuildId)
 						}
-						await app.player.addMoney(message.author.id, parseInt(commonTotal))
+						await app.player.addMoney(message.author.id, parseInt(commonTotal), serverSideGuildId)
 
 						botMessage.edit(`Successfully sold all ${ITEM_TYPES[sellItem.toLowerCase()].name}.\n\nYou now have ${app.common.formatNumber(row.money + commonTotal)}.`)
 					}
@@ -82,7 +82,7 @@ module.exports = {
 			// filter out limited items and banners
 			const itemsToCheck = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category !== 'Banner')
 
-			const itemRow = await app.itm.getItemObject(message.author.id)
+			const itemRow = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 
 			for (let i = 0; i < itemsToCheck.length; i++) {
 				if (itemRow[itemsToCheck[i]] >= 1) {
@@ -101,7 +101,7 @@ module.exports = {
 				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
 
 				if (confirmed) {
-					const itemRow2 = await app.itm.getItemObject(message.author.id)
+					const itemRow2 = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 
 					let testAmount = 0
 					let testTotalItems = 0
@@ -114,11 +114,11 @@ module.exports = {
 
 					if (testTotalItems === totalAmount && testAmount === commonTotal) {
 						for (let i = 0; i < itemsToCheck.length; i++) {
-							if (itemRow2[itemsToCheck[i]] !== undefined) await app.itm.removeItem(message.author.id, itemsToCheck[i], itemRow2[itemsToCheck[i]])
+							if (itemRow2[itemsToCheck[i]] !== undefined) await app.itm.removeItem(message.author.id, itemsToCheck[i], itemRow2[itemsToCheck[i]], serverSideGuildId)
 						}
-						const row = await app.player.getRow(message.author.id)
+						const row = await app.player.getRow(message.author.id, serverSideGuildId)
 
-						await app.player.addMoney(message.author.id, parseInt(commonTotal))
+						await app.player.addMoney(message.author.id, parseInt(commonTotal), serverSideGuildId)
 
 						botMessage.edit(`Successfully sold all items.\n\nYou now have ${app.common.formatNumber(row.money + commonTotal)}.`)
 					}

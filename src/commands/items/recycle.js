@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const sellItem = app.parse.items(args)[0]
 		let sellAmount = app.parse.numbers(args)[0] || 1
 
@@ -35,8 +35,8 @@ module.exports = {
 				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
 
 				if (confirmed) {
-					const userItems = await app.itm.getItemObject(message.author.id)
-					const itemCt = await app.itm.getItemCount(userItems, await app.player.getRow(message.author.id))
+					const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
+					const itemCt = await app.itm.getItemCount(userItems, await app.player.getRow(message.author.id, serverSideGuildId))
 
 					if (!await app.itm.hasItems(userItems, sellItem, sellAmount)) {
 						embedInfo.setColor(16734296)
@@ -54,8 +54,8 @@ module.exports = {
 						return botMessage.edit(embedInfo)
 					}
 
-					await app.itm.addItem(message.author.id, itemMats)
-					await app.itm.removeItem(message.author.id, sellItem, sellAmount)
+					await app.itm.addItem(message.author.id, itemMats, null, serverSideGuildId)
+					await app.itm.removeItem(message.author.id, sellItem, sellAmount, serverSideGuildId)
 
 					embedInfo.setColor(9043800)
 					embedInfo.setDescription(`Successfully recycled **${sellAmount}x** ${app.itemdata[sellItem].icon}\`${sellItem}\` for:\n\n${app.itm.getDisplay(itemMats).join('\n')}`)

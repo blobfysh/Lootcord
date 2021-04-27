@@ -21,15 +21,15 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
-		const triviaCD = await app.cd.getCD(message.author.id, 'trivia')
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const triviaCD = await app.cd.getCD(message.author.id, 'trivia', { serverSideGuildId })
 
 		if (triviaCD) {
 			return message.reply(`You just played a game of trivia! Please wait \`${triviaCD}\` before playing another.`)
 		}
 
-		await app.cd.setCD(message.author.id, 'trivia', app.config.cooldowns.trivia * 1000)
-		await app.player.addStat(message.author.id, 'trivias', 1)
+		await app.cd.setCD(message.author.id, 'trivia', app.config.cooldowns.trivia * 1000, { serverSideGuildId })
+		await app.player.addStat(message.author.id, 'trivias', 1, serverSideGuildId)
 
 		const { question, correct_answer, incorrect_answers, category } = await getQuestion()
 
@@ -39,7 +39,7 @@ module.exports = {
 		const chanceR = Math.floor(Math.random() * 10) // returns 0-9 (10% chance)
 		const reward = {}
 
-		const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), await app.player.getRow(message.author.id))
+		const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id, serverSideGuildId), await app.player.getRow(message.author.id, serverSideGuildId))
 		const hasEnough = await app.itm.hasSpace(itemCt, 1)
 
 		if (chanceR <= 0 && hasEnough) {
@@ -91,23 +91,23 @@ module.exports = {
 					.addField('Reward:', '`shame`')
 
 				// check if user recieves idiot badge
-				idiotBadgeCheck(app, message.author.id)
+				idiotBadgeCheck(app, message.author.id, serverSideGuildId)
 
 				m.reply(embedWrong)
 			}
 
 			async function triviaReward() {
 				if (reward.item === 'money') {
-					await app.player.addMoney(message.author.id, reward.amount)
+					await app.player.addMoney(message.author.id, reward.amount, serverSideGuildId)
 				}
 				else {
-					await app.itm.addItem(message.author.id, reward.item, reward.amount)
+					await app.itm.addItem(message.author.id, reward.item, reward.amount, serverSideGuildId)
 				}
 
-				await app.player.addStat(message.author.id, 'triviasCorrect', 1)
+				await app.player.addStat(message.author.id, 'triviasCorrect', 1, serverSideGuildId)
 
 				// check if user receives genius badge
-				await geniusBadgeCheck(app, message.author.id)
+				await geniusBadgeCheck(app, message.author.id, serverSideGuildId)
 
 				const embedReward = new app.Embed()
 					.setTitle(`${decode(correct_answer)} is correct!`)
@@ -124,7 +124,7 @@ module.exports = {
 					.setDescription('❌ You ran out of time!')
 
 				// check if user receives idiot badge
-				idiotBadgeCheck(app, message.author.id)
+				idiotBadgeCheck(app, message.author.id, serverSideGuildId)
 
 				message.reply(errorEmbed)
 			}
@@ -132,18 +132,18 @@ module.exports = {
 	}
 }
 
-async function idiotBadgeCheck(app, userId) {
-	const correct = await app.player.getStat(userId, 'triviasCorrect')
-	const attempts = await app.player.getStat(userId, 'trivias')
+async function idiotBadgeCheck(app, userId, serverSideGuildId) {
+	const correct = await app.player.getStat(userId, 'triviasCorrect', serverSideGuildId)
+	const attempts = await app.player.getStat(userId, 'trivias', serverSideGuildId)
 
 	if (attempts - correct >= 200) {
-		await app.itm.addBadge(userId, 'idiot')
+		await app.itm.addBadge(userId, 'idiot', serverSideGuildId)
 	}
 }
 
-async function geniusBadgeCheck(app, userId) {
-	if (await app.player.getStat(userId, 'triviasCorrect') >= 100) {
-		await app.itm.addBadge(userId, 'genius')
+async function geniusBadgeCheck(app, userId, serverSideGuildId) {
+	if (await app.player.getStat(userId, 'triviasCorrect', serverSideGuildId) >= 100) {
+		await app.itm.addBadge(userId, 'genius', serverSideGuildId)
 	}
 }
 

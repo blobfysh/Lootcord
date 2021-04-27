@@ -12,9 +12,9 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
-		const row = await app.player.getRow(message.author.id)
-		const userItems = await app.itm.getItemObject(message.author.id)
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const row = await app.player.getRow(message.author.id, serverSideGuildId)
+		const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 		const itemsSorted = Object.keys(app.itemdata).sort(app.itm.sortItemsHighLow.bind(app))
 		const craftableItems = itemsSorted.filter(item => app.itemdata[item].craftedWith !== '' && app.itemdata[item].craftedWith.level <= row.level)
 		const craftables = []

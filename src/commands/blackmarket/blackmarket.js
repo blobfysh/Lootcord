@@ -12,6 +12,7 @@ module.exports = {
 	requiresAcc: true,
 	requiresActive: false,
 	guildModsOnly: false,
+	globalEconomyOnly: true,
 
 	async execute(app, message, { args, prefix, guildInfo }) {
 		const category = args[0] || ''

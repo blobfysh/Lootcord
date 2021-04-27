@@ -14,9 +14,9 @@ module.exports = {
 	guildModsOnly: false,
 
 
-	async execute(app, message, { args, prefix, guildInfo }) {
-		const row = await app.player.getRow(message.author.id)
-		const coinflipCD = await app.cd.getCD(message.author.id, 'coinflip')
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const row = await app.player.getRow(message.author.id, serverSideGuildId)
+		const coinflipCD = await app.cd.getCD(message.author.id, 'coinflip', { serverSideGuildId })
 		let gambleAmount = app.parse.numbers(args)[0]
 
 		if (!gambleAmount && args[0] && args[0].toLowerCase() === 'all') {
@@ -41,19 +41,19 @@ module.exports = {
 
 
 		if (Math.random() < 0.5) {
-			await app.player.addScrap(message.author.id, gambleAmount)
+			await app.player.addScrap(message.author.id, gambleAmount, serverSideGuildId)
 
 			if (gambleAmount >= 1000000) {
-				await app.itm.addBadge(message.author.id, 'gambler')
+				await app.itm.addBadge(message.author.id, 'gambler', serverSideGuildId)
 			}
 
 			message.reply(WIN_QUOTES[Math.floor(Math.random() * WIN_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount * 2, false, true)))
 		}
 		else {
-			await app.player.removeScrap(message.author.id, gambleAmount)
+			await app.player.removeScrap(message.author.id, gambleAmount, serverSideGuildId)
 			message.reply(LOSE_QUOTES[Math.floor(Math.random() * LOSE_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount, false, true)))
 		}
 
-		await app.cd.setCD(message.author.id, 'coinflip', app.config.cooldowns.coinflip * 1000)
+		await app.cd.setCD(message.author.id, 'coinflip', app.config.cooldowns.coinflip * 1000, { serverSideGuildId })
 	}
 }

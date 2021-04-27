@@ -2,7 +2,7 @@ module.exports = {
 	name: 'airdrop',
 	cooldown: 3600 * 1000 * 6,
 
-	async execute(app, message, { prefix }) {
+	async execute(app, message, { prefix, serverSideGuildId }) {
 		console.log('[EVENT] Airdrop started')
 
 		const collectorObj = app.msgCollector.createChannelCollector(message, m => m.channel.id === message.channel.id &&
@@ -40,7 +40,7 @@ module.exports = {
 				if (participants.length) {
 					const winner = participants[Math.floor(Math.random() * participants.length)]
 
-					await app.itm.addItem(winner, 'supply_drop', 1)
+					await app.itm.addItem(winner, 'supply_drop', 1, serverSideGuildId)
 
 					const resultsEmb = new app.Embed()
 						.setColor(13451564)

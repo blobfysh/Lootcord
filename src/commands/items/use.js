@@ -12,22 +12,527 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
-		const row = await app.player.getRow(message.author.id)
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const rawArgs = args.slice()
 		const item = app.parse.items(args)[0]
+		const itemInfo = app.itemdata[item]
 		const member = app.parse.members(message, args)[0]
 		let amount = app.parse.numbers(args)[0] || 1
 
 		if (!item) {
 			return message.reply(`❌ You need to specify an item to use! \`${prefix}use <item>\`. For more information and examples, type \`${prefix}help use\`.`)
 		}
-		else if (member && !app.itemdata[item].isWeap) {
-			// tried using item on someone
+		else if (['Ranged', 'Melee'].includes(itemInfo.category)) {
+			// used weapon
+			const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
+			const attackCD = await app.cd.getCD(message.author.id, 'attack', { serverSideGuildId })
+			const damageMin = itemInfo.minDmg
+			const damageMax = itemInfo.maxDmg
+			let weaponBreaks = itemInfo.breaksOnUse
+			let ammoUsed
+			let ammoDamage = 0
+			let bleedDamage = 0
+			let burnDamage = 0
+
+			if (!app.itm.hasItems(userItems, item, 1)) {
+				return message.reply(`❌ You don't have a ${itemInfo.icon}\`${item}\`.`)
+			}
+			else if (attackCD) {
+				return message.reply(`❌ You need to wait \`${attackCD}\` before attacking again.`)
+			}
+
+			// check for ammo and add ammo damage
+			if (itemInfo.category === 'Ranged') {
+				// check for prioritized ammo
+				if (itemInfo.ammo.includes(row.ammo) && app.itm.hasItems(userItems, row.ammo, 1)) {
+					ammoUsed = row.ammo
+					ammoDamage = app.itemdata[ammoUsed].damage
+					bleedDamage = app.itemdata[ammoUsed].bleed > 0 ? app.itemdata[ammoUsed].bleed : 0
+					burnDamage = app.itemdata[ammoUsed].burn > 0 ? app.itemdata[ammoUsed].burn : 0
+				}
+				else {
+					for (const ammo of itemInfo.ammo) {
+						if (app.itm.hasItems(userItems, ammo, 1)) {
+							ammoUsed = ammo
+							ammoDamage = app.itemdata[ammo].damage
+							bleedDamage = app.itemdata[ammoUsed].bleed > 0 ? app.itemdata[ammoUsed].bleed : 0
+							burnDamage = app.itemdata[ammoUsed].burn > 0 ? app.itemdata[ammoUsed].burn : 0
+						}
+					}
+				}
+
+				if (!ammoUsed) {
+					return message.reply('❌ You don\'t have any ammo for that weapon!')
+				}
+			}
+
+			// regardless if the attack was random or not, this function is used to attack players
+			const attackUser = async(victim, victimRow, victimItems) => {
+				const passiveShieldCD = await app.cd.getCD(message.author.id, 'passive_shield', { serverSideGuildId })
+				const victimArmor = await app.player.getArmor(victim.id, serverSideGuildId)
+				const victimLuck = victimRow.luck >= 10 ? 10 : victimRow.luck
+				const totalDamage = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + ammoDamage) * row.scaledDamage)
+				let finalDamage = totalDamage
+
+				// player attacked, remove passive shield
+				if (passiveShieldCD) await app.cd.clearCD(message.author.id, 'passive_shield', serverSideGuildId)
+
+				await app.cd.setCD(message.author.id, 'attack', itemInfo.cooldown.seconds * 1000, { serverSideGuildId })
+
+				// Check if victim has armor and if the ammo penetrates armor
+				if (victimArmor && (!ammoUsed || !app.itemdata[ammoUsed].penetratesArmor)) {
+					finalDamage -= Math.floor(totalDamage * app.itemdata[victimArmor].shieldInfo.protection)
+				}
+
+				if (Math.floor(Math.random() * 100) + 1 <= victimLuck) {
+					// victim dodged attack
+					if (weaponBreaks) {
+						return message.channel.createMessage(`🍀 <@${victim.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!\n\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${itemInfo.icon}\`${item}\` broke.`)
+					}
+
+					return message.channel.createMessage(`🍀 <@${victim.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!`)
+				}
+				else if (victimRow.health - finalDamage <= 0) {
+					// player was killed
+					const randomItems = await app.itm.getRandomUserItems(victimItems)
+					const xpGained = randomItems.items.length * 50
+					const moneyStolen = Math.floor(victimRow.money * 0.75)
+					const scrapStolen = Math.floor(victimRow.scrap * 0.5)
+
+					// passive shield, protects same player from being attacked for 24 hours
+					await app.cd.setCD(victim.id, 'passive_shield', app.config.cooldowns.daily * 1000, { serverSideGuildId })
+
+					await app.itm.removeItem(victim.id, randomItems.amounts, null, serverSideGuildId)
+					await app.itm.addItem(message.author.id, randomItems.amounts, null, serverSideGuildId)
+					await app.player.removeMoney(victim.id, moneyStolen, serverSideGuildId)
+					await app.player.addMoney(message.author.id, moneyStolen, serverSideGuildId)
+					await app.player.removeScrap(victim.id, scrapStolen, serverSideGuildId)
+					await app.player.addScrap(message.author.id, scrapStolen, serverSideGuildId)
+
+					// 50 xp for each item stolen
+					await app.player.addPoints(message.author.id, xpGained, serverSideGuildId)
+
+					if (serverSideGuildId) {
+						await app.query(`UPDATE server_scores SET kills = kills + 1 WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`) // add 1 to kills
+						await app.query(`UPDATE server_scores SET deaths = deaths + 1, health = 100, bleed = 0, burn = 0 WHERE userId = ${victim.id} AND guildId = ${serverSideGuildId}`)
+
+						if (victimRow.power >= -3) {
+							await app.query(`UPDATE server_scores SET power = power - 2 WHERE userId = ${victim.id} AND guildId = ${serverSideGuildId}`)
+						}
+						else {
+							await app.query(`UPDATE server_scores SET power = -5 WHERE userId = ${victim.id} AND guildId = ${serverSideGuildId}`)
+						}
+					}
+					else {
+						await app.query(`UPDATE scores SET kills = kills + 1 WHERE userId = ${message.author.id}`) // add 1 to kills
+						await app.query(`UPDATE scores SET deaths = deaths + 1, health = 100, bleed = 0, burn = 0 WHERE userId = ${victim.id}`)
+
+						if (victimRow.power >= -3) {
+							await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${victim.id}`)
+						}
+						else {
+							await app.query(`UPDATE scores SET power = -5 WHERE userId = ${victim.id}`)
+						}
+					}
+
+					// add badges
+					if (row.kills + 1 >= 20) {
+						await app.itm.addBadge(message.author.id, 'specialist', serverSideGuildId)
+					}
+					if (row.kills + 1 >= 100) {
+						await app.itm.addBadge(message.author.id, 'executioner', serverSideGuildId)
+					}
+					if (victim.id === '168958344361541633') {
+						await app.itm.addBadge(message.author.id, 'dev_slayer', serverSideGuildId)
+					}
+
+					// send notifications
+					if (victimRow.notify2) notifyDeathVictim(app, message, victim, item, finalDamage, randomItems.items.length !== 0 ? randomItems.display : ['You had nothing they could steal!'])
+
+					// log to kill feed
+					if (guildInfo.killChan !== undefined && guildInfo.killChan !== 0 && guildInfo.killChan !== '') {
+						const killEmbed = new app.Embed()
+							.setDescription(`<@${message.author.id}> 🗡 <@${victim.id}> 💀`)
+							.addField('Weapon Used', `${itemInfo.icon}\`${item}\` - **${finalDamage} damage**`)
+							.addField('Items Stolen', randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'Nothing', true)
+							.addField('Balance Stolen', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`, true)
+							.setColor(16734296)
+							.setTimestamp()
+
+						try {
+							await app.bot.createMessage(guildInfo.killChan, killEmbed)
+						}
+						catch (err) {
+							// no killfeed channel found
+						}
+					}
+
+					logKill(app, message.channel.guild.id, message.member, victim, item, ammoUsed, finalDamage, moneyStolen, scrapStolen, randomItems)
+
+					// deactivate victim if they had nothing to loot
+					if (randomItems.items.length === 0 && moneyStolen <= 1000 && scrapStolen <= 1000) {
+						await app.player.deactivate(victim.id, message.channel.guild.id)
+
+						if (Object.keys(app.config.activeRoleGuilds).includes(message.channel.guild.id)) {
+							try {
+								await victim.removeRole(app.config.activeRoleGuilds[message.channel.guild.id].activeRoleID)
+							}
+							catch (err) {
+								console.warn('Failed to add active role.')
+							}
+						}
+					}
+
+					const killedReward = new app.Embed()
+						.setTitle('Loot Received')
+						.setColor(7274496)
+						.addField('Balance Stolen', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`)
+						.addField(`Items (${randomItems.items.length})`, randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
+						.setFooter(`⭐ ${xpGained} XP earned!`)
+
+					await message.channel.createMessage({
+						content: await generateAttackString(app, message, victim, victimRow, finalDamage, item, ammoUsed, weaponBreaks, true, victimArmor, totalDamage),
+						embed: killedReward.embed
+					})
+				}
+				else {
+					// normal attack
+					await app.player.subHealth(victim.id, finalDamage, serverSideGuildId)
+
+					if (ammoUsed === '40mm_smoke_grenade') {
+						await app.cd.setCD(victim.id, 'blinded', 7200 * 1000, { serverSideGuildId })
+
+						await message.channel.createMessage(generateAttackString(app, message, victim, victimRow, finalDamage, item, ammoUsed, weaponBreaks, false, victimArmor, totalDamage))
+					}
+					else {
+						await message.channel.createMessage(generateAttackString(app, message, victim, victimRow, finalDamage, item, ammoUsed, weaponBreaks, false, victimArmor, totalDamage))
+					}
+
+					if (bleedDamage > 0 && serverSideGuildId) {
+						await app.query(`UPDATE server_scores SET bleed = bleed + ${bleedDamage} WHERE userId = ${victim.id} AND guildId = ${serverSideGuildId}`)
+					}
+					else if (bleedDamage > 0) {
+						await app.query(`UPDATE scores SET bleed = bleed + ${bleedDamage} WHERE userId = ${victim.id}`)
+					}
+
+					if (burnDamage > 0 && serverSideGuildId) {
+						await app.query(`UPDATE server_scores SET burn = burn + ${burnDamage} WHERE userId = ${victim.id} AND guildId = ${serverSideGuildId}`)
+					}
+					else if (burnDamage > 0) {
+						await app.query(`UPDATE scores SET burn = burn + ${burnDamage} WHERE userId = ${victim.id}`)
+					}
+
+					if (victimRow.notify2) notifyAttackVictim(app, message, victim, item, finalDamage, victimRow)
+				}
+			}
+
+			const attackMonster = async monsterRow => {
+				const monster = app.mobdata[monsterRow.monster]
+				const passiveShieldCD = await app.cd.getCD(message.author.id, 'passive_shield', { serverSideGuildId })
+				const armor = await app.player.getArmor(message.author.id, serverSideGuildId)
+
+				// adjust damage based on ammo used
+				if (!monster.canBleed && ammoUsed && app.itemdata[ammoUsed].bleed > 0) {
+					bleedDamage = 0
+				}
+				if (!monster.canBurn && ammoUsed && app.itemdata[ammoUsed].burn > 0) {
+					burnDamage = 0
+				}
+				if (monster.title === 'Bradley' && ammoUsed && ammoUsed === 'hv_rocket') {
+					// multiply hv_rocket damage by 3 when used against bradley
+					ammoDamage *= 3
+				}
+
+				const totalDamage = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + ammoDamage) * row.scaledDamage)
+
+				// player attacked, remove passive shield
+				if (passiveShieldCD) await app.cd.clearCD(message.author.id, 'passive_shield', serverSideGuildId)
+
+				await app.cd.setCD(message.author.id, 'attack', itemInfo.cooldown.seconds * 1000, { serverSideGuildId })
+
+				// track damage for kill rewards
+				await app.monsters.playerDealtDamage(message.author.id, message.channel.id, totalDamage)
+
+				if (monsterRow.health - totalDamage <= 0) {
+					await app.cd.clearCD(message.channel.id, 'mob')
+					await app.cd.clearCD(message.channel.id, 'mobHalf')
+
+					const rewardsEmbed = await app.monsters.disperseRewards(message.channel.id, monster, monsterRow.money, serverSideGuildId)
+					await app.monsters.onFinished(message.channel.id, false)
+
+					if (serverSideGuildId) {
+						await app.query(`UPDATE server_scores SET kills = kills + 1 WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`) // add 1 to kills
+					}
+					else {
+						await app.query(`UPDATE scores SET kills = kills + 1 WHERE userId = ${message.author.id}`) // add 1 to kills
+					}
+
+					if (row.kills + 1 >= 20) {
+						await app.itm.addBadge(message.author.id, 'specialist', serverSideGuildId)
+					}
+					if (row.kills + 1 >= 100) {
+						await app.itm.addBadge(message.author.id, 'executioner', serverSideGuildId)
+					}
+
+					message.channel.createMessage({
+						content: generateAttackMobString(app, message, monsterRow, totalDamage, item, ammoUsed, weaponBreaks, true),
+						embed: rewardsEmbed.embed
+					})
+				}
+				else {
+					await app.monsters.subHealth(message.channel.id, totalDamage)
+
+					if (bleedDamage > 0) {
+						await app.monsters.addBleed(message.channel.id, bleedDamage)
+					}
+					if (burnDamage > 0) {
+						await app.monsters.addBurn(message.channel.id, burnDamage)
+					}
+
+					message.channel.createMessage({
+						content: generateAttackMobString(app, message, monsterRow, totalDamage, item, ammoUsed, weaponBreaks, false),
+						embed: (await app.monsters.genMobEmbed(message.channel.id, monster, monsterRow.health - totalDamage, monsterRow.money)).embed
+					})
+
+					// mob attacks player
+					const baseDmg = Math.floor(Math.random() * (monster.maxDamage - monster.minDamage + 1)) + monster.minDamage
+					let mobDmg = baseDmg
+
+					if (armor) {
+						mobDmg -= Math.floor(baseDmg * app.itemdata[armor].shieldInfo.protection)
+					}
+
+					if (row.health - mobDmg <= 0) {
+						// player was killed
+						const randomItems = await app.itm.getRandomUserItems(userItems)
+						const moneyStolen = Math.floor(row.money * 0.75)
+						const scrapStolen = Math.floor(row.scrap * 0.5)
+
+						// passive shield, protects same player from being attacked for 24 hours
+						await app.cd.setCD(message.author.id, 'passive_shield', app.config.cooldowns.daily * 1000, { serverSideGuildId })
+
+						await app.itm.removeItem(message.author.id, randomItems.amounts, null, serverSideGuildId)
+						await app.player.removeMoney(message.author.id, moneyStolen, serverSideGuildId)
+						await app.player.removeScrap(message.author.id, scrapStolen, serverSideGuildId)
+
+						if (serverSideGuildId) {
+							await app.query(`UPDATE server_scores SET deaths = deaths + 1, health = 100, bleed = 0, burn = 0 WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+
+							if (row.power >= -3) {
+								await app.query(`UPDATE server_scores SET power = power - 2 WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+							}
+							else {
+								await app.query(`UPDATE server_scores SET power = -5 WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+							}
+						}
+						else {
+							await app.query(`UPDATE scores SET deaths = deaths + 1, health = 100, bleed = 0, burn = 0 WHERE userId = ${message.author.id}`)
+
+							if (row.power >= -3) {
+								await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${message.author.id}`)
+							}
+							else {
+								await app.query(`UPDATE scores SET power = -5 WHERE userId = ${message.author.id}`)
+							}
+						}
+
+						// send notifications
+						if (guildInfo.killChan !== undefined && guildInfo.killChan !== 0 && guildInfo.killChan !== '') {
+							const killEmbed = new app.Embed()
+								.setDescription(`${monster.title} 🗡 <@${message.author.id}> 💀`)
+								.addField('Weapon Used', `${app.itemdata[monster.weapon].icon}\`${monster.weapon}\` - **${mobDmg} damage**`)
+								.addField('Items Stolen', randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'Nothing', true)
+								.addField('Balance Stolen', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`, true)
+								.setColor(16734296)
+								.setTimestamp()
+
+							try {
+								await app.bot.createMessage(guildInfo.killChan, killEmbed)
+							}
+							catch (err) {
+								// no killfeed channel found
+							}
+						}
+
+						logKill(app, message.channel.guild.id, { username: monster.title, discriminator: '0000', id: monsterRow.monster }, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, scrapStolen, randomItems, 0)
+
+						const killedReward = new app.Embed()
+							.setTitle('Loot Lost')
+							.setColor(7274496)
+							.addField('Balance', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`)
+							.addField(`Items (${randomItems.items.length})`, randomItems.items.length !== 0 ? randomItems.display.join('\n') : `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} did not find anything on you!`)
+
+						message.channel.createMessage({
+							content: generateMobAttack(app, message, monsterRow, row, mobDmg, monster.weapon, monster.ammo, true, armor, baseDmg),
+							embed: killedReward.embed
+						})
+					}
+					else {
+						await app.player.subHealth(message.author.id, mobDmg, serverSideGuildId)
+						message.channel.createMessage(generateMobAttack(app, message, monsterRow, row, mobDmg, monster.weapon, monster.ammo, false, armor, baseDmg))
+					}
+				}
+			}
+
+			// used to remove the attackers weapon/ammo before an attack
+			const removeWeapon = async() => {
+				if (ammoUsed) {
+					await app.itm.removeItem(message.author.id, ammoUsed, 1, serverSideGuildId)
+				}
+
+				// check if ranged weapon breaks
+				if (itemInfo.category === 'Ranged' && Math.random() <= parseFloat(itemInfo.chanceToBreak)) {
+					weaponBreaks = true
+					await app.itm.removeItem(message.author.id, item, 1, serverSideGuildId)
+					await app.itm.addItem(message.author.id, itemInfo.recyclesTo.materials, null, serverSideGuildId)
+
+					const brokeEmbed = new app.Embed()
+						.setTitle(`💥 Unfortunately, your ${itemInfo.icon}\`${item}\` broke from your last attack!`)
+						.setDescription(`After rummaging through the pieces you were able to find:\n${app.itm.getDisplay(itemInfo.recyclesTo.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n')}`)
+						.setColor(14831897)
+
+					try {
+						const dm = await message.author.getDMChannel()
+						await dm.createMessage(brokeEmbed)
+					}
+					catch (err) {
+						// dm's disabled
+					}
+				}
+				// item breaks if its melee
+				else if (weaponBreaks) {
+					await app.itm.removeItem(message.author.id, item, 1, serverSideGuildId)
+				}
+			}
+
+			// check if attacking monster
+			if (args.map(arg => arg.toLowerCase()).some(arg => ['@spawn', 'spawn', '@enemy', 'enemy', '@bounty', 'bounty'].includes(arg)) || Object.keys(app.mobdata).some(monster => args.map(arg => arg.toLowerCase()).join(' ').includes(app.mobdata[monster].title.toLowerCase()))) {
+				const monsterRow = await app.mysql.select('spawns', 'channelId', message.channel.id)
+
+				if (!monsterRow) {
+					return message.reply(`❌ There are no enemies in this channel! You can check when one will spawn with \`${prefix}enemy\``)
+				}
+				else if (itemInfo.category === 'Melee' && app.mobdata[monsterRow.monster].title === 'Patrol Helicopter') {
+					return message.reply('❌ The Patrol Helicopter is immune to melee weapons!')
+				}
+
+				await removeWeapon()
+				await attackMonster(monsterRow)
+			}
+			else if (guildInfo.randomOnly === 1 && member) {
+				return message.reply(`❌ This server allows only random attacks, specifying a target will not work. You can use the item without a mention to attack a random player: \`${prefix}use <item>\``)
+			}
+			else if (guildInfo.randomOnly === 1 || ['rand', 'random'].some(str => args.map(arg => arg.toLowerCase()).includes(str))) {
+				// attack is random, find a random active player
+
+				const activeUsers = await app.query(`SELECT * FROM userGuilds WHERE guildId ="${message.channel.guild.id}" ORDER BY LOWER(userId)`)
+				const availableTargets = []
+				const membersInfo = []
+
+				for (const user of activeUsers) {
+					if (user.userId === message.author.id) {
+						// don't add self to list of random targets
+						continue
+					}
+					else if (await app.cd.getCD(user.userId, 'passive_shield', { serverSideGuildId })) {
+						// user has passive shield
+						continue
+					}
+					else if (ammoUsed === '40mm_smoke_grenade' && await app.cd.getCD(user.userId, 'blinded', { serverSideGuildId })) {
+						// user already blinded
+						continue
+					}
+
+					const randUserRow = await app.player.getRow(user.userId, serverSideGuildId)
+
+					if (row.clanId !== 0 && randUserRow.clanId === row.clanId) {
+						// users are in same clan
+						continue
+					}
+
+					// pushing the row with the id so I don't have to fetch the row again to retrieve the users badge during random selection
+					availableTargets.push({ row: randUserRow, id: user.userId })
+				}
+
+				const shuffled = app.common.shuffleArr(availableTargets)
+				const rand = shuffled.slice(0, 3) // Pick 3 random id's
+
+				for (const randUser of rand) {
+					const randomMember = await app.common.fetchMember(message.channel.guild, randUser.id)
+					const memberItems = await app.player.getRow(randUser.id, serverSideGuildId)
+
+					if (randomMember) {
+						membersInfo.push({ member: randomMember, row: randUser.row, items: memberItems })
+					}
+				}
+
+				if (membersInfo[0] === undefined) {
+					return message.reply('❌ There aren\'t any players you can attack in this server!')
+				}
+				else if (activeUsers.length < RANDOM_SELECTION_MINIMUM || membersInfo.length < 3) {
+					await removeWeapon()
+					await attackUser(membersInfo[0].member, membersInfo[0].row, membersInfo[0].items)
+				}
+				else {
+					// random target selection
+
+					// have to remove weapon and ammo before choosing target to prevent inventory changes during selection
+					await removeWeapon()
+
+					// show selection menu
+					const target = await pickTarget(app, message, membersInfo)
+
+					if (!target) {
+						return message.channel.createMessage('❌ There was an error trying to find someone to attack! Please try again or report this in the support server.')
+					}
+
+					// refetching row and items because time has passed since target was chosen
+					await attackUser(target.member, await app.player.getRow(target.member.id, serverSideGuildId), await app.itm.getItemObject(target.member.id, serverSideGuildId))
+				}
+			}
+			else if (!member) {
+				return message.reply('❌ You need to mention someone to attack.')
+			}
+			else {
+				// verify chosen target can be attacked
+
+				const victimRow = await app.player.getRow(member.id, serverSideGuildId)
+				const victimPassiveShield = await app.cd.getCD(member.id, 'passive_shield', { serverSideGuildId })
+				const victimBlindedCD = await app.cd.getCD(member.id, 'blinded', { serverSideGuildId })
+
+				if (member.id === app.bot.user.id) {
+					return message.channel.createMessage('ow...')
+				}
+				else if (member.id === message.author.id) {
+					return message.reply('❌ You can\'t attack yourself!')
+				}
+				else if (!victimRow) {
+					return message.reply('❌ The person you\'re trying to attack doesn\'t have an account!')
+				}
+				else if (row.clanId !== 0 && victimRow.clanId === row.clanId) {
+					return message.reply('❌ You can\'t attack members of your own clan!')
+				}
+				else if (!await app.player.isActive(member.id, message.channel.guild.id)) {
+					return message.reply(`❌ **${member.nick || member.username}** has not activated their account in this server!`)
+				}
+				else if (victimPassiveShield) {
+					return message.reply(`🛡 **${member.nick || member.username}** was killed recently and has a **passive shield**!\nThey are untargetable for \`${victimPassiveShield}\`.`)
+				}
+				else if (ammoUsed === '40mm_smoke_grenade' && victimBlindedCD) {
+					return message.reply(`❌ **${member.nick || member.username}** is already blinded by a ${app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`!`)
+				}
+
+				await removeWeapon()
+				await attackUser(member, victimRow, await app.itm.getItemObject(member.id, serverSideGuildId))
+			}
+		}
+		else if (member) {
+			// tried to use non-weapon on someone
 			return message.reply('❌ That item cannot be used to attack another player.')
 		}
-		else if (app.itemdata[item].isItem) {
-			const userItems = await app.itm.getItemObject(message.author.id)
+		else if (itemInfo.category === 'Item') {
+			const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 			const itemCt = await app.itm.getItemCount(userItems, row)
 			if (amount > 10) amount = 10
 
@@ -47,15 +552,15 @@ module.exports = {
 					return message.reply(`❌ **You don't have enough space in your inventory!** (You have **${itemCt.open}** open slots)\n\nYou can clear up space by selling some items.`)
 				}
 
-				await app.itm.removeItem(message.author.id, item, amount)
+				await app.itm.removeItem(message.author.id, item, amount, serverSideGuildId)
 
 				const results = app.itm.openBox(item, amount, row.luck)
 				const bestItem = results.items.sort(app.itm.sortItemsHighLow.bind(app))
 
 				let openStr = ''
 
-				await app.itm.addItem(message.author.id, results.itemAmounts)
-				await app.player.addPoints(message.author.id, results.xp)
+				await app.itm.addItem(message.author.id, results.itemAmounts, null, serverSideGuildId)
+				await app.player.addPoints(message.author.id, results.xp, serverSideGuildId)
 
 				if (amount === 1) {
 					console.log(bestItem[0])
@@ -69,7 +574,7 @@ module.exports = {
 				message.channel.createMessage(`<@${message.author.id}>, ${openStr}`)
 			}
 			else if (item === 'supply_signal') {
-				await app.itm.removeItem(message.author.id, item, 1)
+				await app.itm.removeItem(message.author.id, item, 1, serverSideGuildId)
 
 				message.reply('📻 Requesting immediate airdrop...').then(msg => {
 					setTimeout(() => {
@@ -85,33 +590,33 @@ module.exports = {
 						message.channel.createMessage('**📻 `3`...**')
 					}, 10000)
 					setTimeout(() => {
-						app.eventHandler.events.get('airdrop').execute(app, message, { prefix })
+						app.eventHandler.events.get('airdrop').execute(app, message, { prefix, serverSideGuildId })
 					}, 13000)
 				})
 			}
-			else if (app.itemdata[item].isShield) {
-				const armorCD = await app.cd.getCD(message.author.id, 'shield')
-				const armor = await app.player.getArmor(message.author.id)
+			else if (itemInfo.isShield) {
+				const armorCD = await app.cd.getCD(message.author.id, 'shield', { serverSideGuildId })
+				const armor = await app.player.getArmor(message.author.id, serverSideGuildId)
 
 				if (armorCD) {
 					return message.reply(`Your ${armor ? `${app.itemdata[armor].icon}\`${armor}\`` : 'current armor'} is still active for \`${armorCD}\`!`)
 				}
 
 				await app.itm.removeItem(message.author.id, item, 1)
-				await app.cd.setCD(message.author.id, 'shield', app.itemdata[item].shieldInfo.seconds * 1000, { armor: item })
+				await app.cd.setCD(message.author.id, 'shield', itemInfo.shieldInfo.seconds * 1000, { armor: item })
 
-				message.reply(`You put on the ${app.itemdata[item].icon}\`${item}\`. You now take **${Math.floor(app.itemdata[item].shieldInfo.protection * 100)}%** less damage from attacks for \`${app.cd.convertTime(app.itemdata[item].shieldInfo.seconds * 1000)}\``)
+				message.reply(`You put on the ${itemInfo.icon}\`${item}\`. You now take **${Math.floor(itemInfo.shieldInfo.protection * 100)}%** less damage from attacks for \`${app.cd.convertTime(itemInfo.shieldInfo.seconds * 1000)}\``)
 			}
-			else if (app.itemdata[item].isHeal) {
-				const healCD = await app.cd.getCD(message.author.id, 'heal')
+			else if (itemInfo.isHeal) {
+				const healCD = await app.cd.getCD(message.author.id, 'heal', { serverSideGuildId })
 
 				if (healCD) {
 					return message.reply(`You need to wait \`${healCD}\` before healing again.`)
 				}
 
-				const minHeal = app.itemdata[item].healMin
-				const maxHeal = app.itemdata[item].healMax
-				const itemBleedHeal = app.itemdata[item].healsBleed
+				const minHeal = itemInfo.healMin
+				const maxHeal = itemInfo.healMax
+				const itemBleedHeal = itemInfo.healsBleed
 
 				const randHeal = Math.floor(Math.random() * (maxHeal - minHeal + 1)) + minHeal
 				const userMaxHeal = Math.min(row.maxHealth - row.health, randHeal)
@@ -121,41 +626,62 @@ module.exports = {
 					return message.reply('❌ You are already at max health!')
 				}
 
-				await app.cd.setCD(message.author.id, 'heal', app.itemdata[item].cooldown.seconds * 1000)
-				await app.itm.removeItem(message.author.id, item, 1)
+				await app.cd.setCD(message.author.id, 'heal', itemInfo.cooldown.seconds * 1000, { serverSideGuildId })
+				await app.itm.removeItem(message.author.id, item, 1, serverSideGuildId)
 
 				if (healBleed) {
 					const bleedingVal = row.bleed - itemBleedHeal <= 0 ? 0 : row.bleed - itemBleedHeal
-					await app.query(`UPDATE scores SET health = health + ${userMaxHeal}, bleed = ${bleedingVal} WHERE userId = '${message.author.id}'`)
+
+					if (serverSideGuildId) {
+						await app.query(`UPDATE server_scores SET health = health + ${userMaxHeal}, bleed = ${bleedingVal} WHERE userId = '${message.author.id}' AND guildId = ${serverSideGuildId}`)
+					}
+					else {
+						await app.query(`UPDATE scores SET health = health + ${userMaxHeal}, bleed = ${bleedingVal} WHERE userId = '${message.author.id}'`)
+					}
+
 					message.reply(`You have healed for **${userMaxHeal}** health! You now have ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} ${row.health + userMaxHeal} / ${row.maxHealth} HP. Bleeding reduced from 🩸**${row.bleed}** to 🩸**${bleedingVal}**.`)
 				}
 				else {
-					await app.query(`UPDATE scores SET health = health + ${userMaxHeal} WHERE userId = '${message.author.id}'`)
+					await app.player.addHealth(message.author.id, userMaxHeal, serverSideGuildId)
 					message.reply(`You have healed for **${userMaxHeal}** health! You now have ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} ${row.health + userMaxHeal} / ${row.maxHealth} HP.`)
 				}
 			}
-			else if (app.itemdata[item].givesMoneyOnUse) {
-				const minAmt = app.itemdata[item].itemMin
-				const maxAmt = app.itemdata[item].itemMax
+			else if (itemInfo.givesMoneyOnUse) {
+				const minAmt = itemInfo.itemMin
+				const maxAmt = itemInfo.itemMax
 
 				const randAmt = Math.floor((Math.random() * (maxAmt - minAmt + 1)) + minAmt)
 
-				await app.player.addMoney(message.author.id, randAmt)
-				await app.itm.removeItem(message.author.id, item, 1)
-				message.reply(`You open the ${app.itemdata[item].icon}\`${item}\` and find... **${app.common.formatNumber(randAmt)}**`)
+				await app.player.addMoney(message.author.id, randAmt, serverSideGuildId)
+				await app.itm.removeItem(message.author.id, item, 1, serverSideGuildId)
+				message.reply(`You open the ${itemInfo.icon}\`${item}\` and find... **${app.common.formatNumber(randAmt)}**`)
 			}
 			else if (item === 'reroll_scroll') {
-				await app.itm.removeItem(message.author.id, item, 1)
+				await app.itm.removeItem(message.author.id, item, 1, serverSideGuildId)
 
-				await app.query(`UPDATE scores SET maxHealth = 100 WHERE userId = ${message.author.id}`)
-				await app.query(`UPDATE scores SET luck = 0 WHERE userId = ${message.author.id}`)
-				await app.query(`UPDATE scores SET scaledDamage = 1.00 WHERE userId = ${message.author.id}`)
-				await app.query(`UPDATE scores SET used_stats = 0 WHERE userId = ${message.author.id}`)
-				if (row.health > 100) {
-					await app.query(`UPDATE scores SET health = 100 WHERE userId = ${message.author.id}`)
+				if (serverSideGuildId) {
+					await app.query(`UPDATE server_scores SET maxHealth = 100 WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+					await app.query(`UPDATE server_scores SET luck = 0 WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+					await app.query(`UPDATE server_scores SET scaledDamage = 1.00 WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+					await app.query(`UPDATE server_scores SET used_stats = 0 WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+					if (row.health > 100) {
+						await app.query(`UPDATE server_scores SET health = 100 WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+					}
+				}
+				else {
+					await app.query(`UPDATE scores SET maxHealth = 100 WHERE userId = ${message.author.id}`)
+					await app.query(`UPDATE scores SET luck = 0 WHERE userId = ${message.author.id}`)
+					await app.query(`UPDATE scores SET scaledDamage = 1.00 WHERE userId = ${message.author.id}`)
+					await app.query(`UPDATE scores SET used_stats = 0 WHERE userId = ${message.author.id}`)
+					if (row.health > 100) {
+						await app.query(`UPDATE scores SET health = 100 WHERE userId = ${message.author.id}`)
+					}
 				}
 
 				message.reply(`You read the ${app.itemdata.reroll_scroll.icon}\`reroll_scroll\` and feel a sense of renewal. Your skills have been reset.`)
+			}
+			else if (item === 'c4' && serverSideGuildId) {
+				return message.reply('❌ You cannot use explosives with server-side economy mode enabled.')
 			}
 			else if (item === 'c4') {
 				const clanName = rawArgs.slice(1)
@@ -193,632 +719,25 @@ module.exports = {
 				message.channel.createMessage(msgEmbed)
 			}
 		}
-		else if (app.itemdata[item].isWeap) {
-			const userItems = await app.itm.getItemObject(message.author.id)
-			const attackCD = await app.cd.getCD(message.author.id, 'attack')
-			const armorCD = await app.cd.getCD(message.author.id, 'shield')
-			const armor = await app.player.getArmor(message.author.id)
-			const passiveShieldCD = await app.cd.getCD(message.author.id, 'passive_shield')
-			// item is a weapon, start checking for member
-
-			if (!await app.itm.hasItems(userItems, item, 1)) {
-				return message.reply(`❌ You don't have a ${app.itemdata[item].icon}\`${item}\`.`)
-			}
-			else if (attackCD) {
-				return message.reply(`❌ You need to wait \`${attackCD}\` before attacking again.`)
-			}
-
-			// check if attacking monster
-			if (args.map(arg => arg.toLowerCase()).some(arg => ['@spawn', 'spawn', '@enemy', 'enemy', '@bounty', 'bounty'].includes(arg)) || Object.keys(app.mobdata).some(monster => args.map(arg => arg.toLowerCase()).join(' ').includes(app.mobdata[monster].title.toLowerCase()))) {
-				const monsterRow = await app.mysql.select('spawns', 'channelId', message.channel.id)
-
-				if (!monsterRow) {
-					return message.reply(`❌ There are no enemies in this channel! You can check when one will spawn with \`${prefix}enemy\``)
-				}
-
-				const damageMin = app.itemdata[item].minDmg
-				const damageMax = app.itemdata[item].maxDmg
-				const monster = app.mobdata[monsterRow.monster]
-				let ammoUsed
-				let bonusDamage = 0
-				let bleedDamage = 0
-				let burnDamage = 0
-				let weaponBroke = app.itemdata[item].breaksOnUse
-
-				try {
-					ammoUsed = getAmmo(app, item, row, userItems)
-
-					if (ammoUsed) {
-						bonusDamage = app.itemdata[ammoUsed].damage
-						bleedDamage = monster.canBleed && app.itemdata[ammoUsed].bleed > 0 ? app.itemdata[ammoUsed].bleed : 0
-						burnDamage = monster.canBurn && app.itemdata[ammoUsed].burn > 0 ? app.itemdata[ammoUsed].burn : 0
-						await app.itm.removeItem(message.author.id, ammoUsed, 1)
-					}
-					// apply specific effects for spawns
-					// melee weapon used
-					else if (monster.title === 'Patrol Helicopter') {
-						return message.reply('❌ The Patrol Helicopter is immune to melee weapons!')
-					}
-
-					if (monster.title === 'Bradley' && ammoUsed === 'hv_rocket') {
-						// 3x damage
-						bonusDamage *= 3
-					}
-				}
-				catch (err) {
-					return message.reply('❌ You don\'t have any ammo for that weapon!')
-				}
-
-				// player attacked, remove passive shield
-				if (passiveShieldCD) await app.cd.clearCD(message.author.id, 'passive_shield')
-
-				if (app.itemdata[item].breaksOnUse === true) {
-					await app.itm.removeItem(message.author.id, item, 1)
-				}
-				else if (Math.random() <= parseFloat(app.itemdata[item].chanceToBreak)) {
-					weaponBroke = true
-					await app.itm.removeItem(message.author.id, item, 1)
-					await app.itm.addItem(message.author.id, app.itemdata[item].recyclesTo.materials)
-
-					const brokeEmbed = new app.Embed()
-						.setTitle(`💥 Unfortunately, your ${app.itemdata[item].icon}\`${item}\` broke from your last attack!`)
-						.setDescription(`After rummaging through the pieces you were able to find:\n${app.itm.getDisplay(app.itemdata[item].recyclesTo.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n')}`)
-						.setColor(14831897)
-
-					try {
-						const dm = await message.author.getDMChannel()
-						await dm.createMessage(brokeEmbed)
-					}
-					catch (err) {
-						// dm's disabled
-					}
-				}
-
-				await app.cd.setCD(message.author.id, 'attack', app.itemdata[item].cooldown.seconds * 1000)
-
-				const randDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage)
-				// track players damage to spawn
-				await app.monsters.playerDealtDamage(message.author.id, message.channel.id, randDmg)
-
-				if (monsterRow.health - randDmg <= 0) {
-					await app.cd.clearCD(message.channel.id, 'mob')
-					await app.cd.clearCD(message.channel.id, 'mobHalf')
-
-					const rewardsEmbed = await app.monsters.disperseRewards(message.channel.id, monster, monsterRow.money)
-					await app.monsters.onFinished(message.channel.id, false)
-
-					await app.query(`UPDATE scores SET kills = kills + 1 WHERE userId = ${message.author.id}`) // add 1 to kills
-
-					if (row.kills + 1 >= 20) {
-						await app.itm.addBadge(message.author.id, 'specialist')
-					}
-					if (row.kills + 1 >= 100) {
-						await app.itm.addBadge(message.author.id, 'executioner')
-					}
-
-					message.channel.createMessage({
-						content: generateAttackMobString(app, message, monsterRow, randDmg, item, ammoUsed, weaponBroke, true),
-						embed: rewardsEmbed.embed
-					})
-				}
-				else {
-					await app.monsters.subHealth(message.channel.id, randDmg)
-
-					if (bleedDamage > 0) {
-						await app.monsters.addBleed(message.channel.id, bleedDamage)
-					}
-					if (burnDamage > 0) {
-						await app.monsters.addBurn(message.channel.id, burnDamage)
-					}
-
-					message.channel.createMessage({
-						content: generateAttackMobString(app, message, monsterRow, randDmg, item, ammoUsed, weaponBroke, false),
-						embed: (await app.monsters.genMobEmbed(message.channel.id, monster, monsterRow.health - randDmg, monsterRow.money)).embed
-					})
-
-					// mob attacks player
-					const baseDmg = Math.floor(Math.random() * (monster.maxDamage - monster.minDamage + 1)) + monster.minDamage
-
-					let mobDmg = baseDmg
-
-					if (armorCD) {
-						mobDmg -= Math.floor(baseDmg * app.itemdata[armor].shieldInfo.protection)
-					}
-
-					if (row.health - mobDmg <= 0) {
-						// player was killed
-						const randomItems = await app.itm.getRandomUserItems(message.author.id)
-						const moneyStolen = Math.floor(row.money * 0.75)
-						const scrapStolen = Math.floor(row.scrap * 0.5)
-
-						// passive shield, protects same player from being attacked for 24 hours
-						await app.cd.setCD(message.author.id, 'passive_shield', app.config.cooldowns.daily * 1000)
-
-						await app.itm.removeItem(message.author.id, randomItems.amounts)
-						await app.player.removeMoney(message.author.id, moneyStolen)
-						await app.player.removeScrap(message.author.id, scrapStolen)
-
-						await app.query(`UPDATE scores SET deaths = deaths + 1, health = 100, bleed = 0, burn = 0 WHERE userId = ${message.author.id}`)
-
-						if (row.power >= -3) {
-							await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${message.author.id}`)
-						}
-						else {
-							await app.query(`UPDATE scores SET power = -5 WHERE userId = ${message.author.id}`)
-						}
-
-						const killedReward = new app.Embed()
-							.setTitle('Loot Lost')
-							.setColor(7274496)
-							.addField('Balance', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`)
-							.addField(`Items (${randomItems.items.length})`, randomItems.items.length !== 0 ? randomItems.display.join('\n') : `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} did not find anything on you!`)
-
-						message.channel.createMessage({
-							content: generateMobAttack(app, message, monsterRow, row, mobDmg, monster.weapon, monster.ammo, true, armor, baseDmg),
-							embed: killedReward.embed
-						})
-
-						// send notifications
-						if (guildInfo.killChan !== undefined && guildInfo.killChan !== 0 && guildInfo.killChan !== '') {
-							sendToKillFeed(app, { username: monster.title, discriminator: '0000', id: monsterRow.monster }, guildInfo.killChan, message.member, monster.weapon.name, mobDmg, randomItems, moneyStolen, scrapStolen, true)
-						}
-						logKill(app, message.channel.guild.id, { username: monster.title, discriminator: '0000', id: monsterRow.monster }, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, scrapStolen, randomItems, 0)
-					}
-					else {
-						await app.query(`UPDATE scores SET health = health - ${mobDmg} WHERE userId = ${message.author.id}`)
-						message.channel.createMessage(generateMobAttack(app, message, monsterRow, row, mobDmg, monster.weapon, monster.ammo, false, armor, baseDmg))
-					}
-				}
-			}
-
-			// check if attack is random
-			else if (guildInfo.randomOnly === 1 && member) {
-				return message.reply(`❌ This server allows only random attacks, specifying a target will not work. You can use the item without a mention to attack a random player: \`${prefix}use <item>\``)
-			}
-			else if (['rand', 'random'].some(str => args.map(arg => arg.toLowerCase()).includes(str)) || guildInfo.randomOnly === 1) {
-				const randUsers = await getRandomPlayers(app, message.author.id, message.channel.guild, item)
-
-				if (randUsers.users[0] === undefined) {
-					return message.reply('❌ There aren\'t any players you can attack in this server!')
-				}
-
-				const damageMin = app.itemdata[item].minDmg
-				const damageMax = app.itemdata[item].maxDmg
-				let ammoUsed
-				let bonusDamage = 0
-				let bleedDamage = 0
-				let burnDamage = 0
-				let weaponBroke = app.itemdata[item].breaksOnUse
-
-				// check for ammo and remove it
-				try {
-					ammoUsed = getAmmo(app, item, row, userItems)
-
-					if (ammoUsed) {
-						bonusDamage = app.itemdata[ammoUsed].damage
-						bleedDamage = app.itemdata[ammoUsed].bleed > 0 ? app.itemdata[ammoUsed].bleed : 0
-						burnDamage = app.itemdata[ammoUsed].burn > 0 ? app.itemdata[ammoUsed].burn : 0
-						await app.itm.removeItem(message.author.id, ammoUsed, 1)
-					}
-				}
-				catch (err) {
-					return message.reply('❌ You don\'t have any ammo for that weapon!')
-				}
-
-				// player attacked, remove passive shield
-				if (passiveShieldCD) await app.cd.clearCD(message.author.id, 'passive_shield')
-
-				if (app.itemdata[item].breaksOnUse === true) {
-					await app.itm.removeItem(message.author.id, item, 1)
-				}
-				else if (Math.random() <= parseFloat(app.itemdata[item].chanceToBreak)) {
-					weaponBroke = true
-					await app.itm.removeItem(message.author.id, item, 1)
-					await app.itm.addItem(message.author.id, app.itemdata[item].recyclesTo.materials)
-
-					const brokeEmbed = new app.Embed()
-						.setTitle(`💥 Unfortunately, your ${app.itemdata[item].icon}\`${item}\` broke from your last attack!`)
-						.setDescription(`After rummaging through the pieces you were able to find:\n${app.itm.getDisplay(app.itemdata[item].recyclesTo.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n')}`)
-						.setColor(14831897)
-
-					try {
-						const dm = await message.author.getDMChannel()
-						await dm.createMessage(brokeEmbed)
-					}
-					catch (err) {
-						// dm's disabled
-					}
-				}
-
-				await app.cd.setCD(message.author.id, 'attack', app.itemdata[item].cooldown.seconds * 1000)
-
-				const baseDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage)
-				let randDmg = baseDmg
-
-				const target = await pickTarget(app, message, randUsers)
-
-				if (!target) {
-					return message.channel.createMessage('❌ There was an error trying to find someone to attack! Please try again or report this in the support server.')
-				}
-
-				const victimRow = await app.player.getRow(target.id)
-				const victimArmorCD = await app.cd.getCD(target.id, 'shield')
-				const victimArmor = await app.player.getArmor(target.id)
-				const chance = Math.floor(Math.random() * 100) + 1 // 1-100
-				const luck = victimRow.luck >= 10 ? 10 : victimRow.luck
-
-				// Check if victim has armor and if the ammo penetrates armor
-				if (victimArmorCD && (!ammoUsed || !app.itemdata[ammoUsed].penetratesArmor)) {
-					randDmg -= Math.floor(baseDmg * app.itemdata[victimArmor].shieldInfo.protection)
-				}
-
-				if (chance <= luck) {
-					if (weaponBroke) {
-						return message.channel.createMessage(`🍀 <@${target.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!\n\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[item].icon}\`${item}\` broke.`)
-					}
-
-					return message.channel.createMessage(`🍀 <@${target.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!`)
-				}
-				else if (victimRow.health - randDmg <= 0) {
-					// player was killed
-
-					const randomItems = await app.itm.getRandomUserItems(target.id)
-					const xpGained = randomItems.items.length * 50
-					const moneyStolen = Math.floor(victimRow.money * 0.75)
-					const scrapStolen = Math.floor(victimRow.scrap * 0.5)
-					const bountyMoney = await app.bountyHandler.getBounty(target.id)
-
-					// passive shield, protects same player from being attacked for 24 hours
-					await app.cd.setCD(target.id, 'passive_shield', app.config.cooldowns.daily * 1000)
-
-					await app.itm.removeItem(target.id, randomItems.amounts)
-					await app.itm.addItem(message.author.id, randomItems.amounts)
-					await app.player.removeMoney(target.id, moneyStolen)
-					await app.player.addMoney(message.author.id, moneyStolen + bountyMoney)
-					await app.player.removeScrap(target.id, scrapStolen)
-					await app.player.addScrap(message.author.id, scrapStolen)
-
-					await app.player.addPoints(message.author.id, xpGained) // 50 xp for each item stolen
-
-					await app.query(`UPDATE scores SET kills = kills + 1 WHERE userId = ${message.author.id}`) // add 1 to kills
-					await app.query(`UPDATE scores SET deaths = deaths + 1, health = 100, bleed = 0, burn = 0 WHERE userId = ${target.id}`)
-
-					if (victimRow.power >= -3) {
-						await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${target.id}`)
-					}
-					else {
-						await app.query(`UPDATE scores SET power = -5 WHERE userId = ${target.id}`)
-					}
-
-					if (row.kills + 1 >= 20) {
-						await app.itm.addBadge(message.author.id, 'specialist')
-					}
-					if (row.kills + 1 >= 100) {
-						await app.itm.addBadge(message.author.id, 'executioner')
-					}
-					if (target.id === '168958344361541633') {
-						await app.itm.addBadge(message.author.id, 'dev_slayer')
-					}
-
-					const killedReward = new app.Embed()
-						.setTitle('Loot Received')
-						.setColor(7274496)
-						.addField('Balance Stolen', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`)
-						.addField(`Items (${randomItems.items.length})`, randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
-						.setFooter(`⭐ ${xpGained} XP earned!`)
-
-					if (bountyMoney) {
-						await app.bountyHandler.removeBounties(target.id, false)
-						killedReward.addField('Bounty Claimed', app.common.formatNumber(bountyMoney))
-					}
-
-					message.channel.createMessage({
-						content: await generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, true, victimArmor, baseDmg),
-						embed: killedReward.embed
-					})
-
-					// send notifications
-					if (victimRow.notify2) notifyDeathVictim(app, message, target, item, randDmg, randomItems.items.length !== 0 ? randomItems.display : ['You had nothing they could steal!'])
-					if (guildInfo.killChan !== undefined && guildInfo.killChan !== 0 && guildInfo.killChan !== '') {
-						sendToKillFeed(app, message.author, guildInfo.killChan, target, item, randDmg, randomItems, moneyStolen, scrapStolen)
-					}
-					logKill(app, message.channel.guild.id, message.member, target, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems, bountyMoney)
-
-					// deactivate victim if they had nothing to loot
-					if (randomItems.items.length === 0 && moneyStolen <= 1000 && scrapStolen <= 1000) {
-						await app.player.deactivate(target.id, message.channel.guild.id)
-
-						if (Object.keys(app.config.activeRoleGuilds).includes(message.channel.guild.id)) {
-							try {
-								target.removeRole(app.config.activeRoleGuilds[message.channel.guild.id].activeRoleID)
-							}
-							catch (err) {
-								console.warn('Failed to add active role.')
-							}
-						}
-					}
-				}
-				else {
-					// normal attack
-					if (ammoUsed === '40mm_smoke_grenade') {
-						await app.cd.setCD(target.id, 'blinded', 7200 * 1000)
-
-						message.channel.createMessage(generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg))
-					}
-					else {
-						message.channel.createMessage(generateAttackString(app, message, target, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg))
-					}
-
-					if (bleedDamage > 0) {
-						await app.query(`UPDATE scores SET bleed = bleed + ${bleedDamage} WHERE userId = ${target.id}`)
-					}
-
-					if (burnDamage > 0) {
-						await app.query(`UPDATE scores SET burn = burn + ${burnDamage} WHERE userId = ${target.id}`)
-					}
-
-					await app.query(`UPDATE scores SET health = health - ${randDmg} WHERE userId = ${target.id}`)
-					if (victimRow.notify2) notifyAttackVictim(app, message, target, item, randDmg, victimRow)
-				}
-			}
-
-			// attack is not random, requires a target
-			else if (!member) {
-				return message.reply('❌ You need to mention someone to attack.')
-			}
-			else {
-				const victimRow = await app.player.getRow(member.id)
-				const playRow = await app.query(`SELECT * FROM userGuilds WHERE userId ="${member.id}" AND guildId = "${message.channel.guild.id}"`)
-				const victimArmorCD = await app.cd.getCD(member.id, 'shield')
-				const victimArmor = await app.player.getArmor(member.id)
-				const victimPassiveShield = await app.cd.getCD(member.id, 'passive_shield')
-				const victimBlindedCD = await app.cd.getCD(member.id, 'blinded')
-
-				if (member.id === app.bot.user.id) {
-					return message.channel.createMessage('ow...')
-				}
-				else if (member.id === message.author.id) {
-					return message.reply('❌ You can\'t attack yourself!')
-				}
-				else if (!victimRow) {
-					return message.reply('❌ The person you\'re trying to attack doesn\'t have an account!')
-				}
-				else if (row.clanId !== 0 && victimRow.clanId === row.clanId) {
-					return message.reply('❌ You can\'t attack members of your own clan!')
-				}
-				else if (!playRow.length) {
-					return message.reply(`❌ **${member.nick || member.username}** has not activated their account in this server!`)
-				}
-				else if (victimPassiveShield) {
-					return message.reply(`🛡 **${member.nick || member.username}** was killed recently and has a **passive shield**!\nThey are untargetable for \`${victimPassiveShield}\`.`)
-				}
-
-				const damageMin = app.itemdata[item].minDmg
-				const damageMax = app.itemdata[item].maxDmg
-				let ammoUsed
-				let bonusDamage = 0
-				let bleedDamage = 0
-				let burnDamage = 0
-				let weaponBroke = app.itemdata[item].breaksOnUse
-
-				try {
-					ammoUsed = getAmmo(app, item, row, userItems)
-
-					if (ammoUsed) {
-						if (ammoUsed === '40mm_smoke_grenade' && victimBlindedCD) {
-							return message.reply(`❌ **${member.nick || member.username}** is already blinded by a ${app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`!`)
-						}
-
-						bonusDamage = app.itemdata[ammoUsed].damage
-						bleedDamage = app.itemdata[ammoUsed].bleed > 0 ? app.itemdata[ammoUsed].bleed : 0
-						burnDamage = app.itemdata[ammoUsed].burn > 0 ? app.itemdata[ammoUsed].burn : 0
-						await app.itm.removeItem(message.author.id, ammoUsed, 1)
-					}
-				}
-				catch (err) {
-					return message.reply('❌ You don\'t have any ammo for that weapon!')
-				}
-
-				// player attacked, remove passive shield
-				if (passiveShieldCD) await app.cd.clearCD(message.author.id, 'passive_shield')
-
-				// remove ammo here
-				if (app.itemdata[item].breaksOnUse === true) {
-					await app.itm.removeItem(message.author.id, item, 1)
-				}
-				else if (Math.random() <= parseFloat(app.itemdata[item].chanceToBreak)) {
-					weaponBroke = true
-					await app.itm.removeItem(message.author.id, item, 1)
-					await app.itm.addItem(message.author.id, app.itemdata[item].recyclesTo.materials)
-
-					const brokeEmbed = new app.Embed()
-						.setTitle(`💥 Unfortunately, your ${app.itemdata[item].icon}\`${item}\` broke from your last attack!`)
-						.setDescription(`After rummaging through the pieces you were able to find:\n${app.itm.getDisplay(app.itemdata[item].recyclesTo.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n')}`)
-						.setColor(14831897)
-
-					try {
-						const dm = await message.author.getDMChannel()
-						await dm.createMessage(brokeEmbed)
-					}
-					catch (err) {
-						// dm's disabled
-					}
-				}
-
-				await app.cd.setCD(message.author.id, 'attack', app.itemdata[item].cooldown.seconds * 1000)
-
-				const baseDmg = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + bonusDamage) * row.scaledDamage)
-				const chance = Math.floor(Math.random() * 100) + 1 // 1-100
-				const luck = victimRow.luck >= 10 ? 10 : victimRow.luck
-
-				let randDmg = baseDmg
-
-				// Check if victim has armor and if the ammo penetrates armor
-				if (victimArmorCD && (!ammoUsed || !app.itemdata[ammoUsed].penetratesArmor)) {
-					randDmg -= Math.floor(baseDmg * app.itemdata[victimArmor].shieldInfo.protection)
-				}
-
-				if (chance <= luck) {
-					if (weaponBroke) {
-						return message.channel.createMessage(`🍀 <@${member.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!\n\n${app.icons.minus}**${message.member.nick || message.member.username}**'s ${app.itemdata[item].icon}\`${item}\` broke.`)
-					}
-
-					return message.channel.createMessage(`🍀 <@${member.id}> EVADED **${message.member.nick || message.member.username}**'s attack! How lucky!`)
-				}
-				else if (victimRow.health - randDmg <= 0) {
-					// player was killed
-
-					const randomItems = await app.itm.getRandomUserItems(member.id)
-					const xpGained = randomItems.items.length * 50
-					const moneyStolen = Math.floor(victimRow.money * 0.75)
-					const scrapStolen = Math.floor(victimRow.scrap * 0.5)
-					const bountyMoney = await app.bountyHandler.getBounty(member.id)
-
-					// passive shield, protects same player from being attacked for 24 hours
-					await app.cd.setCD(member.id, 'passive_shield', app.config.cooldowns.daily * 1000)
-
-					await app.itm.removeItem(member.id, randomItems.amounts)
-					await app.itm.addItem(message.author.id, randomItems.amounts)
-					await app.player.removeMoney(member.id, moneyStolen)
-					await app.player.addMoney(message.author.id, moneyStolen + bountyMoney)
-					await app.player.removeScrap(member.id, scrapStolen)
-					await app.player.addScrap(message.author.id, scrapStolen)
-
-					await app.player.addPoints(message.author.id, xpGained) // 50 xp for each item stolen
-
-					await app.query(`UPDATE scores SET kills = kills + 1 WHERE userId = ${message.author.id}`) // add 1 to kills
-					await app.query(`UPDATE scores SET deaths = deaths + 1, health = 100, bleed = 0, burn = 0 WHERE userId = ${member.id}`)
-
-					if (victimRow.power >= -3) {
-						await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${member.id}`)
-					}
-					else {
-						await app.query(`UPDATE scores SET power = -5 WHERE userId = ${member.id}`)
-					}
-
-					// add badges
-					if (row.kills + 1 >= 20) {
-						await app.itm.addBadge(message.author.id, 'specialist')
-					}
-					if (row.kills + 1 >= 100) {
-						await app.itm.addBadge(message.author.id, 'executioner')
-					}
-					if (member.id === '168958344361541633') {
-						await app.itm.addBadge(message.author.id, 'dev_slayer')
-					}
-
-					const killedReward = new app.Embed()
-						.setTitle('Loot Received')
-						.setColor(7274496)
-						.addField('Balance Stolen', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`)
-						.addField(`Items (${randomItems.items.length})`, randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
-						.setFooter(`⭐ ${xpGained} XP earned!`)
-
-					if (bountyMoney) {
-						await app.bountyHandler.removeBounties(member.id, false)
-						killedReward.addField('Bounty Claimed', app.common.formatNumber(bountyMoney))
-					}
-
-					message.channel.createMessage({
-						content: await generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, true, victimArmor, baseDmg),
-						embed: killedReward.embed
-					})
-
-					// send notifications
-					if (victimRow.notify2) notifyDeathVictim(app, message, member, item, randDmg, randomItems.items.length !== 0 ? randomItems.display : ['You had nothing they could steal!'])
-					if (guildInfo.killChan !== undefined && guildInfo.killChan !== 0 && guildInfo.killChan !== '') {
-						sendToKillFeed(app, message.author, guildInfo.killChan, member, item, randDmg, randomItems, moneyStolen, scrapStolen)
-					}
-					logKill(app, message.channel.guild.id, message.member, member, item, ammoUsed, randDmg, moneyStolen, scrapStolen, randomItems, bountyMoney)
-
-					// deactivate victim if they had nothing to loot
-					if (randomItems.items.length === 0 && moneyStolen <= 1000 && scrapStolen <= 1000) {
-						await app.player.deactivate(member.id, message.channel.guild.id)
-
-						if (Object.keys(app.config.activeRoleGuilds).includes(message.channel.guild.id)) {
-							try {
-								member.removeRole(app.config.activeRoleGuilds[message.channel.guild.id].activeRoleID)
-							}
-							catch (err) {
-								console.warn('Failed to add active role.')
-							}
-						}
-					}
-				}
-				else {
-					// normal attack
-					if (ammoUsed === '40mm_smoke_grenade') {
-						await app.cd.setCD(member.id, 'blinded', 7200 * 1000)
-
-						message.channel.createMessage(generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg))
-					}
-					else {
-						console.log(victimArmor)
-						console.log(baseDmg)
-						message.channel.createMessage(generateAttackString(app, message, member, victimRow, randDmg, item, ammoUsed, weaponBroke, false, victimArmor, baseDmg))
-					}
-
-					if (bleedDamage > 0) {
-						await app.query(`UPDATE scores SET bleed = bleed + ${bleedDamage} WHERE userId = ${member.id}`)
-					}
-
-					if (burnDamage > 0) {
-						await app.query(`UPDATE scores SET burn = burn + ${burnDamage} WHERE userId = ${member.id}`)
-					}
-
-					await app.query(`UPDATE scores SET health = health - ${randDmg} WHERE userId = ${member.id}`)
-					if (victimRow.notify2) notifyAttackVictim(app, message, member, item, randDmg, victimRow)
-				}
-			}
-		}
 		else {
 			return message.reply(`❌ That item cannot be used on yourself or other players. \`${prefix}use <item> <@user>\``)
 		}
 	}
 }
 
-function getAmmo(app, item, row, userItems) {
-	if (app.itemdata[item].ammo.length >= 1) {
-		if (app.itemdata[item].ammo.includes(row.ammo) && userItems[row.ammo] >= 1) {
-			return row.ammo
-		}
+function logKill(app, guildID, killer, victim, item, ammo, damage, moneyStolen, scrapStolen, itemsLost) {
+	const embed = new app.Embed()
+		.setTitle('Kill Log')
+		.setColor(2713128)
+		.setDescription(`**Weapon**: \`${item}\` - **${damage} damage**\n**Ammo**: ${ammo ? `\`${ammo}\`` : 'Not required'}`)
+		.addField('Killer', `${killer.username}#${killer.discriminator} ID: \`\`\`\n${killer.id}\`\`\``)
+		.addField('Victim', `${victim.username}#${victim.discriminator} ID: \`\`\`\n${victim.id}\`\`\``)
+		.addField('Items Stolen', itemsLost.items.length !== 0 ? itemsLost.display.join('\n') : 'Nothing', true)
+		.addField('Balance Stolen', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`, true)
+		.setTimestamp()
+		.setFooter(`Guild ID: ${guildID}`)
 
-		for (const ammo of app.itemdata[item].ammo) {
-			if (userItems[ammo] >= 1) {
-				return ammo
-			}
-		}
-
-		if (app.itemdata[item].ammoOptional !== true) {
-			throw new Error('No Ammo')
-		}
-
-		return undefined
-	}
-
-	return undefined
-}
-
-function logKill(app, guildID, killer, victim, item, ammo, damage, moneyStolen, scrapStolen, itemsLost, bountyMoney) {
-	try {
-		const embed = new app.Embed()
-			.setTitle('Kill Log')
-			.setColor(2713128)
-			.setDescription(`**Weapon**: \`${item}\` - **${damage} damage**\n**Ammo**: ${ammo ? `\`${ammo}\`` : 'Not required'}`)
-			.addField('Killer', `${killer.username}#${killer.discriminator} ID: \`\`\`\n${killer.id}\`\`\``)
-			.addField('Victim', `${victim.username}#${victim.discriminator} ID: \`\`\`\n${victim.id}\`\`\``)
-			.addField('Items Stolen', itemsLost.items.length !== 0 ? itemsLost.display.join('\n') : 'Nothing', true)
-			.addField('Balance Stolen', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`, true)
-			.setTimestamp()
-			.setFooter(`Guild ID: ${guildID}`)
-
-		if (bountyMoney) embed.addField('Bounty Claimed', app.common.formatNumber(bountyMoney))
-
-		app.messager.messageLogs(embed)
-	}
-	catch (err) {
-		console.warn(err)
-	}
+	app.messager.messageLogs(embed)
 }
 
 function generateAttackString(app, message, victim, victimRow, damage, itemUsed, ammoUsed, itemBroke, killed, armor, baseDamage) {
@@ -925,76 +844,17 @@ function generateMobAttack(app, message, monsterRow, playerRow, damage, itemUsed
 	return finalStr
 }
 
-async function getRandomPlayers(app, userId, guild, item = '') { // returns a random userId from the attackers guild
-	const userRows = await app.query(`SELECT * FROM userGuilds WHERE guildId ="${guild.id}" ORDER BY LOWER(userId)`)
-	const userClan = await app.player.getRow(userId)
-	const guildUsers = []
-	const members = []
-
-	for (let i = 0; i < userRows.length; i++) {
-		try {
-			const passiveShield = await app.cd.getCD(userRows[i].userId, 'passive_shield')
-			const userClanId = (await app.query(`SELECT clanId FROM scores WHERE userId ="${userRows[i].userId}"`))[0]
-			let blinded = false
-
-			if (item === 'grenade_launcher') {
-				blinded = await app.cd.getCD(userRows[i].userId, 'blinded')
-			}
-
-			if (userRows[i].userId !== userId) {
-				if (!blinded && !passiveShield && (userClan.clanId === 0 || userClan.clanId !== userClanId.clanId)) {
-					guildUsers.push(userRows[i].userId)
-				}
-			}
-		}
-		catch (err) {
-			console.log(err)
-		}
-	}
-
-	const shuffled = guildUsers.sort(() => 0.5 - Math.random()) // Shuffle
-	const rand = shuffled.slice(0, 3) // Pick 3 random id's
-
-	for (const id of rand) {
-		const member = await app.common.fetchMember(guild, id)
-
-		if (!member) {
-			rand.splice(rand.indexOf(id), 1)
-			console.log(`${id} member not found.`)
-		}
-		else {
-			members.push(member)
-		}
-	}
-
-	return {
-		users: rand,
-		members,
-		activeCount: userRows.length
-	}
-}
-
-async function pickTarget(app, message, selection) {
-	if (selection.activeCount < RANDOM_SELECTION_MINIMUM || selection.users.length < 3) {
-		return selection.members[0]
-	}
-
+async function pickTarget(app, message, membersInfo) {
 	try {
 		const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 16000 })
-
-		const userdata = {
-			user1: await app.player.getRow(selection.users[0]),
-			user2: await app.player.getRow(selection.users[1]),
-			user3: await app.player.getRow(selection.users[2])
-		}
 
 		const atkEmbed = new app.Embed()
 			.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
 			.setTitle('Pick someone to attack!')
 			.setDescription(`Type 1, 2, or 3 to select.\n
-            1. ${app.player.getBadge(userdata.user1.badge)} **${`${selection.members[0].username}#${selection.members[0].discriminator}`}** ${app.icons.health.full} ${userdata.user1.health} - ${app.common.formatNumber(userdata.user1.money)} - ${(await app.itm.getItemCount(await app.itm.getItemObject(selection.users[0]), userdata.user1)).itemCt} items\n
-            2. ${app.player.getBadge(userdata.user2.badge)} **${`${selection.members[1].username}#${selection.members[1].discriminator}`}** ${app.icons.health.full} ${userdata.user2.health} - ${app.common.formatNumber(userdata.user2.money)} - ${(await app.itm.getItemCount(await app.itm.getItemObject(selection.users[1]), userdata.user2)).itemCt} items\n
-            3. ${app.player.getBadge(userdata.user3.badge)} **${`${selection.members[2].username}#${selection.members[2].discriminator}`}** ${app.icons.health.full} ${userdata.user3.health} - ${app.common.formatNumber(userdata.user3.money)} - ${(await app.itm.getItemCount(await app.itm.getItemObject(selection.users[2]), userdata.user3)).itemCt} items`)
+			1. ${app.player.getBadge(membersInfo[0].row.badge)} **${`${membersInfo[0].member.username}#${membersInfo[0].member.discriminator}`}** ${app.icons.health.full} ${membersInfo[0].row.health} - ${app.common.formatNumber(membersInfo[0].row.money)} - ${(await app.itm.getItemCount(membersInfo[0].items, membersInfo[0].row)).itemCt} items\n
+			2. ${app.player.getBadge(membersInfo[1].row.badge)} **${`${membersInfo[1].member.username}#${membersInfo[1].member.discriminator}`}** ${app.icons.health.full} ${membersInfo[1].row.health} - ${app.common.formatNumber(membersInfo[1].row.money)} - ${(await app.itm.getItemCount(membersInfo[1].items, membersInfo[1].row)).itemCt} items\n
+			3. ${app.player.getBadge(membersInfo[2].row.badge)} **${`${membersInfo[2].member.username}#${membersInfo[2].member.discriminator}`}** ${app.icons.health.full} ${membersInfo[2].row.health} - ${app.common.formatNumber(membersInfo[2].row.money)} - ${(await app.itm.getItemCount(membersInfo[2].items, membersInfo[2].row)).itemCt} items`)
 			.setColor(13451564)
 			.setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
 
@@ -1005,23 +865,23 @@ async function pickTarget(app, message, selection) {
 				if (m.content === '1') {
 					botMessage.delete()
 					app.msgCollector.stopCollector(collectorObj)
-					resolve(selection.members[0])
+					resolve(membersInfo[0])
 				}
 				else if (m.content === '2') {
 					botMessage.delete()
 					app.msgCollector.stopCollector(collectorObj)
-					resolve(selection.members[1])
+					resolve(membersInfo[1])
 				}
 				else if (m.content === '3') {
 					botMessage.delete()
 					app.msgCollector.stopCollector(collectorObj)
-					resolve(selection.members[2])
+					resolve(membersInfo[2])
 				}
 			})
 			collectorObj.collector.on('end', reason => {
 				if (reason === 'time') {
 					botMessage.delete()
-					resolve(selection.members[Math.floor(Math.random() * selection.members.length)])
+					resolve(membersInfo[Math.floor(Math.random() * membersInfo.length)])
 				}
 			})
 		})
@@ -1061,22 +921,5 @@ async function notifyDeathVictim(app, message, victim, itemUsed, damage, itemsLo
 	}
 	catch (err) {
 		// user disabled DMs
-	}
-}
-
-async function sendToKillFeed(app, killer, channelID, victim, itemName, itemDmg, itemsStolen, moneyStolen, scrapStolen, monster = false) {
-	const killEmbed = new app.Embed()
-		.setDescription(`${monster ? killer.username : `<@${killer.id}>`} 🗡 <@${victim.user.id}> 💀`)
-		.addField('Weapon Used', `${monster ? app.mobdata[killer.id].weapon.icon : app.itemdata[itemName].icon}\`${itemName}\` - **${itemDmg} damage**`)
-		.addField('Items Stolen', itemsStolen.items.length !== 0 ? itemsStolen.display.join('\n') : 'Nothing', true)
-		.addField('Balance Stolen', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`, true)
-		.setColor(16734296)
-		.setTimestamp()
-
-	try {
-		await app.bot.createMessage(channelID, killEmbed)
-	}
-	catch (err) {
-		// no killfeed channel found
 	}
 }

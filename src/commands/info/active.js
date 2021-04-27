@@ -12,31 +12,44 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const guildUsers = []
 		const clans = []
-		const rows = await app.query(`SELECT scores.userId, badge
-        FROM scores
-        INNER JOIN userGuilds
-        ON scores.userId = userGuilds.userId
-        WHERE guildId = "${message.channel.guild.id}"
-        ORDER BY LOWER(scores.userId)`)
+		let clanRows = []
+		let userRows
 
-		const clanRows = await app.query(`SELECT DISTINCT clans.name FROM (
-            SELECT scores.clanId
-            FROM userGuilds
-            INNER JOIN scores
-            ON userGuilds.userId = scores.userId
-            WHERE userGuilds.guildId = ${message.channel.guild.id}
-        ) c
-        INNER JOIN clans
-        ON c.clanId = clans.clanId`)
+		if (serverSideGuildId) {
+			userRows = await app.query(`SELECT server_scores.userId, badge
+				FROM server_scores
+				INNER JOIN userGuilds
+				ON server_scores.userId = userGuilds.userId
+				WHERE userGuilds.guildId = "${message.channel.guild.id}" AND server_scores.guildId = "${message.channel.guild.id}"
+				ORDER BY LOWER(server_scores.userId)`)
+		}
+		else {
+			clanRows = await app.query(`SELECT DISTINCT clans.name FROM (
+				SELECT scores.clanId
+				FROM userGuilds
+				INNER JOIN scores
+				ON userGuilds.userId = scores.userId
+				WHERE userGuilds.guildId = ${message.channel.guild.id}
+			) c
+			INNER JOIN clans
+			ON c.clanId = clans.clanId`)
 
-		for (let i = 0; i < rows.length; i++) {
+			userRows = await app.query(`SELECT scores.userId, badge
+				FROM scores
+				INNER JOIN userGuilds
+				ON scores.userId = userGuilds.userId
+				WHERE guildId = "${message.channel.guild.id}"
+				ORDER BY LOWER(scores.userId)`)
+		}
+
+		for (let i = 0; i < userRows.length; i++) {
 			try {
-				const member = await app.common.fetchMember(message.channel.guild, rows[i].userId)
+				const member = await app.common.fetchMember(message.channel.guild, userRows[i].userId)
 
-				guildUsers.push(`${app.player.getBadge(rows[i].badge)} ${member.nick || member.username}`)
+				guildUsers.push(`${app.player.getBadge(userRows[i].badge)} ${member.nick || member.username}`)
 			}
 			catch (err) {
 				// continue

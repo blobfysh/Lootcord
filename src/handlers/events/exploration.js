@@ -4,7 +4,7 @@ module.exports = {
 	name: 'exploration',
 	cooldown: 3600 * 1000,
 
-	async execute(app, message, { prefix }) {
+	async execute(app, message, { prefix, serverSideGuildId }) {
 		console.log('[EVENT] Exploration started')
 
 		const collectorObj = app.msgCollector.createChannelCollector(message, m => m.channel.id === message.channel.id &&
@@ -44,9 +44,9 @@ module.exports = {
 				const results = []
 
 				for (const user in joined) {
-					const userRow = await app.player.getRow(user)
-					const userItems = await app.itm.getItemObject(user)
-					const armor = await app.player.getArmor(user)
+					const userRow = await app.player.getRow(user, serverSideGuildId)
+					const userItems = await app.itm.getItemObject(user, serverSideGuildId)
+					const armor = await app.player.getArmor(user, serverSideGuildId)
 					let successRate = monument.successRate[userRow.level] !== undefined ? monument.successRate[userRow.level] : monument.successRate[successRates[successRates.length - 1]]
 
 					// check for monument requirements such as items/armor
@@ -55,7 +55,7 @@ module.exports = {
 							successRate += monument.requirement.bonus
 						}
 						else if (monument.requirement.type === 'item' && userItems[monument.requirement.value] >= 1) {
-							await app.itm.removeItem(user, monument.requirement.value, 1)
+							await app.itm.removeItem(user, monument.requirement.value, 1, serverSideGuildId)
 
 							successRate += monument.requirement.bonus
 						}
@@ -83,13 +83,13 @@ module.exports = {
 								healthReduct = userRow.health - 1
 							}
 
-							await app.mysql.updateDecr('scores', 'health', healthReduct, 'userId', user)
+							await app.player.subHealth(user, healthReduct, serverSideGuildId)
 
 							quote = quote.replace('{damage}', armor ? `💥~~${outcome.loss.value}~~ ${app.itemdata[armor].icon}${healthReduct}` : `💥${healthReduct}`)
 						}
 
 						if (hasEnough && Math.random() < 0.9) {
-							await app.itm.addItem(user, rewardItem[0], rewardItem[1])
+							await app.itm.addItem(user, rewardItem[0], rewardItem[1], serverSideGuildId)
 
 							rewardDisplay = `**${rewardItem[1]}x** ${app.itemdata[rewardItem[0]].icon}\`${rewardItem[0]}\``
 						}
@@ -98,7 +98,7 @@ module.exports = {
 							const moneyMax = outcome.reward.money.max
 							const winnings = Math.floor((Math.random() * (moneyMax - moneyMin + 1)) + moneyMin)
 
-							await app.player.addMoney(user, winnings)
+							await app.player.addMoney(user, winnings, serverSideGuildId)
 
 							rewardDisplay = `**${app.common.formatNumber(winnings)}**`
 						}
@@ -125,21 +125,33 @@ module.exports = {
 
 							if (userRow.health - healthReduct <= 0) {
 								// player was killed
-								const randomItems = await app.itm.getRandomUserItems(user, 2)
+								const randomItems = await app.itm.getRandomUserItems(userItems, 2)
 								const minSteal = Math.floor(userRow.money * 0.15)
 								const maxSteal = Math.floor(userRow.money * 0.55)
 								const moneyStolen = Math.floor((Math.random() * (maxSteal - minSteal + 1)) + minSteal)
 
-								await app.itm.removeItem(user, randomItems.amounts)
-								await app.player.removeMoney(user, moneyStolen)
+								await app.itm.removeItem(user, randomItems.amounts, null, serverSideGuildId)
+								await app.player.removeMoney(user, moneyStolen, serverSideGuildId)
 
-								await app.query(`UPDATE scores SET deaths = deaths + 1 WHERE userId = ${user}`)
-								await app.query(`UPDATE scores SET health = 100 WHERE userId = ${user}`)
-								if (userRow.power >= -3) {
-									await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${user}`)
+								if (serverSideGuildId) {
+									await app.query(`UPDATE server_scores SET deaths = deaths + 1 WHERE userId = ${user} AND guildId = ${serverSideGuildId}`)
+									await app.query(`UPDATE server_scores SET health = 100 WHERE userId = ${user} AND guildId = ${serverSideGuildId}`)
+									if (userRow.power >= -3) {
+										await app.query(`UPDATE server_scores SET power = power - 2 WHERE userId = ${user} AND guildId = ${serverSideGuildId}`)
+									}
+									else {
+										await app.query(`UPDATE server_scores SET power = -5 WHERE userId = ${user} AND guildId = ${serverSideGuildId}`)
+									}
 								}
 								else {
-									await app.query(`UPDATE scores SET power = -5 WHERE userId = ${user}`)
+									await app.query(`UPDATE scores SET deaths = deaths + 1 WHERE userId = ${user}`)
+									await app.query(`UPDATE scores SET health = 100 WHERE userId = ${user}`)
+									if (userRow.power >= -3) {
+										await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${user}`)
+									}
+									else {
+										await app.query(`UPDATE scores SET power = -5 WHERE userId = ${user}`)
+									}
 								}
 
 								if (randomItems.items.length) {
@@ -150,13 +162,13 @@ module.exports = {
 								}
 							}
 							else {
-								await app.mysql.updateDecr('scores', 'health', healthReduct, 'userId', user)
+								await app.player.subHealth(user, healthReduct, serverSideGuildId)
 
 								if (outcome.loss.item) {
-									const randomItem = await app.itm.getRandomUserItems(user, 1)
+									const randomItem = await app.itm.getRandomUserItems(userItems, 1)
 
 									if (randomItem.items.length) {
-										await app.itm.removeItem(user, randomItem.amounts)
+										await app.itm.removeItem(user, randomItem.amounts, null, serverSideGuildId)
 
 										quote += `\n${app.icons.minus} **${joined[user].username}** lost ${randomItem.display[0]} and now has ${app.icons.health.full} **${userRow.health - healthReduct}** health.`
 									}

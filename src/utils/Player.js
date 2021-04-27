@@ -18,64 +18,95 @@ class Player {
 
 	/**
      *
-     * @param {string} id ID to check if account exists
-     */
-	async hasAccount(id) {
-		if (await this.getRow(id)) return true
-
-		return false
-	}
-
-	/**
-     *
      * @param {string} id ID of player to get information for
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async getRow(id) {
-		return (await this.app.query('SELECT * FROM scores WHERE userId = ? AND userId > 0', [id]))[0]
+	async getRow(id, serverSideGuildId = undefined) {
+		return serverSideGuildId ?
+			(await this.app.query('SELECT * FROM server_scores WHERE userId = ? AND guildId = ? AND userId > 0', [id, serverSideGuildId]))[0] :
+			(await this.app.query('SELECT * FROM scores WHERE userId = ? AND userId > 0', [id]))[0]
 	}
 
 	/**
      * Retrieve row for user and prevents queries from updating the row.
 	 * @param {*} query
      * @param {string} id ID of player to get information for
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async getRowForUpdate(query, id) {
-		return (await query('SELECT * FROM scores WHERE userId = ? AND userId > 0 FOR UPDATE', [id]))[0]
+	async getRowForUpdate(query, id, serverSideGuildId = undefined) {
+		return serverSideGuildId ?
+			(await query('SELECT * FROM server_scores WHERE userId = ? AND guildId = ? AND userId > 0 FOR UPDATE', [id, serverSideGuildId]))[0] :
+			(await query('SELECT * FROM scores WHERE userId = ? AND userId > 0 FOR UPDATE', [id]))[0]
 	}
 
-	async createAccount(id) {
-		await this.app.query(insertScoreSQL, [id, new Date().getTime(), 100, 1, 100, 100, 1.00, 'none', 'none', 'none', 'none'])
-		await this.app.itm.addItem(id, 'crate', 1)
+	async createAccount(id, serverSideGuildId = undefined) {
+		let message
 
-		const newPlayer = new this.app.Embed()
-			.setTitle('Thanks for playing Lootcord!')
-			.setColor(13451564)
-			.setThumbnail(this.app.bot.user.avatarURL)
-			.setDescription(`Here's a list of commands you'll use the most:\n
-        \`inv\` - View your items, health, money, and currently equipped storage container.
-        \`profile\` - View various statistic about yourself or another player.
-        \`use\` - Uses an item on yourself or attacks another player with said item.
-        \`items\` - View a full list of items. Specify an item to see specific information about it.
-        \`buy\` - Purchase items, you can also specify an amount to purchase.
-        \`sell\` - Sell your items for Lootcoin.
-        \`leaderboard\` - View the best players in your server or globally.
-        \`mysettings\` - Manage your settings such as notifications.
-        \`farm\` - Go farming for loot every hour.
-        \`daily\` - Claim a ${this.app.itemdata.military_crate.icon}\`military_crate\` every day.
-        \`cooldowns\` - View all your command cooldowns.
+		if (serverSideGuildId) {
+			await this.app.query(insertServerScoreSQL, [id, serverSideGuildId, new Date().getTime(), 100, 1, 100, 100, 1.00, 'none', 'none', 'none', 'none'])
 
-        You can also use \`t-help <command>\` to see detailed command information and examples.
+			message = new this.app.Embed()
+				.setTitle('Thanks for playing Lootcord!')
+				.setColor(13451564)
+				.setThumbnail(this.app.bot.user.avatarURL)
+				.setDescription(`__Here's a list of useful commands:__
+				\`inv\` - View your items, health, money, and currently equipped storage container.
+				\`profile\` - View various statistic about yourself or another player.
+				\`use\` - Uses an item on yourself or attacks another player with said item.
+				\`items\` - View a full list of items. Specify an item to see specific information about it.
+				\`buy\` - Purchase items, you can also specify an amount to purchase.
+				\`sell\` - Sell your items for Lootcoin.
+				\`leaderboard\` - View the best players in your server or globally.
+				\`mysettings\` - Manage your settings such as notifications.
+				\`farm\` - Go farming for loot every hour.
+				\`daily\` - Claim a ${this.app.itemdata.military_crate.icon}\`military_crate\` every day.
+				\`cooldowns\` - View all your command cooldowns.
 
-        ⚠️ **ALT ACCOUNTS ARE NOT ALLOWED**, make sure to follow these [rules](https://lootcord.com/rules)!
-        Check out the [faq](https://lootcord.com/rules) and these [guides](https://lootcord.com/guides) if you are confused!
+				You can also use \`t-help <command>\` to see detailed command information and examples.
 
-        Join the [support server](https://discord.gg/apKSxuE) if you need more help!`)
-			.addField('Items Received', `1x ${this.app.itemdata.crate.icon}\`crate\`\nOpen it by __using__ it: \`t-use crate\`\n\nOnce you get a weapon, you can attack another player by __using__ a weapon on them: \`t-use rock @user\``)
-			.setFooter('This message will only be sent the first time your account is created.')
-		this.app.common.messageUser(id, newPlayer)
+				Confused? Check out the [faq](https://lootcord.com/rules) and these [guides](https://lootcord.com/guides)!
+
+				Join the [support server](https://discord.gg/apKSxuE) if you need more help!`)
+				.addField('Items Received', `1x ${this.app.itemdata.crate.icon}\`crate\`\nOpen it by __using__ it: \`t-use crate\`\n\nOnce you get a weapon, you can attack another player by __using__ a weapon on them: \`t-use rock @user\``)
+				.setFooter('This message means that you have created an account in a server with server-side economy enabled.')
+		}
+		else {
+			await this.app.query(insertScoreSQL, [id, new Date().getTime(), 100, 1, 100, 100, 1.00, 'none', 'none', 'none', 'none'])
+
+			message = new this.app.Embed()
+				.setTitle('Thanks for playing Lootcord!')
+				.setColor(13451564)
+				.setThumbnail(this.app.bot.user.avatarURL)
+				.setDescription(`Here's a list of useful commands:\n
+				\`inv\` - View your items, health, money, and currently equipped storage container.
+				\`profile\` - View various statistic about yourself or another player.
+				\`use\` - Uses an item on yourself or attacks another player with said item.
+				\`items\` - View a full list of items. Specify an item to see specific information about it.
+				\`buy\` - Purchase items, you can also specify an amount to purchase.
+				\`sell\` - Sell your items for Lootcoin.
+				\`leaderboard\` - View the best players in your server or globally.
+				\`mysettings\` - Manage your settings such as notifications.
+				\`farm\` - Go farming for loot every hour.
+				\`daily\` - Claim a ${this.app.itemdata.military_crate.icon}\`military_crate\` every day.
+				\`cooldowns\` - View all your command cooldowns.
+
+				You can also use \`t-help <command>\` to see detailed command information and examples.
+
+				⚠️ **ALT ACCOUNTS ARE NOT ALLOWED**, make sure to follow these [rules](https://lootcord.com/rules)!
+				Confused? Check out the [faq](https://lootcord.com/rules) and these [guides](https://lootcord.com/guides)!
+
+				Join the [support server](https://discord.gg/apKSxuE) if you need more help!`)
+				.addField('Items Received', `1x ${this.app.itemdata.crate.icon}\`crate\`\nOpen it by __using__ it: \`t-use crate\`\n\nOnce you get a weapon, you can attack another player by __using__ a weapon on them: \`t-use rock @user\``)
+				.setFooter('This message will only be sent the first time your account is created.')
+		}
+
+		// free item!
+		await this.app.itm.addItem(id, 'crate', 1, serverSideGuildId)
+
+		this.app.common.messageUser(id, message)
 
 		if (oldPlayers.includes(id)) {
-			await this.app.itm.addBadge(id, 'og_looter')
+			await this.app.itm.addBadge(id, 'og_looter', serverSideGuildId)
 		}
 	}
 
@@ -153,29 +184,20 @@ class Player {
 	}
 
 	/**
-     * Checks if players has the amount specified
-     * @param {string} id ID of player to check
-     * @param {number} amount Amount of money to check
+     *
+     * @param {string} id ID of player to remove from
+     * @param {number} amount Amount to remove
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async hasMoney(id, amount) {
-		const row = await this.getRow(id)
-
-		if (row.money >= amount) {
-			return true
+	async removeMoney(id, amount, serverSideGuildId = undefined) {
+		if (serverSideGuildId) {
+			await this.app.query(`UPDATE server_scores SET money = money - ${parseInt(amount)} WHERE userId = ${id} AND guildId = ${serverSideGuildId}`)
 		}
+		else {
+			await this.app.query(`UPDATE scores SET money = money - ${parseInt(amount)} WHERE userId = ${id}`)
 
-		return false
-	}
-
-	/**
-     *
-     * @param {string} id ID of player to remove from
-     * @param {number} amount Amount to remove
-     */
-	async removeMoney(id, amount) {
-		await this.app.query(`UPDATE scores SET money = money - ${parseInt(amount)} WHERE userId = ${id}`)
-
-		this.app.query(insertTransaction, [id, 0, amount])
+			this.app.query(insertTransaction, [id, 0, amount])
+		}
 	}
 
 	/**
@@ -183,22 +205,34 @@ class Player {
 	 * @param {*} query The transaction query to use
      * @param {string} id ID of player to remove from
      * @param {number} amount Amount to remove
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async removeMoneySafely(query, id, amount) {
-		await query(`UPDATE scores SET money = money - ${parseInt(amount)} WHERE userId = ${id}`)
+	async removeMoneySafely(query, id, amount, serverSideGuildId = undefined) {
+		if (serverSideGuildId) {
+			await query(`UPDATE server_scores SET money = money - ${parseInt(amount)} WHERE userId = ${id} AND guildId = ${serverSideGuildId}`)
+		}
+		else {
+			await query(`UPDATE scores SET money = money - ${parseInt(amount)} WHERE userId = ${id}`)
 
-		this.app.query(insertTransaction, [id, 0, amount])
+			this.app.query(insertTransaction, [id, 0, amount])
+		}
 	}
 
 	/**
      *
      * @param {*} id ID of user to add money to.
      * @param {*} amount Amount of money to add.
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async addMoney(id, amount) {
-		await this.app.query(`UPDATE scores SET money = money + ${parseInt(amount)} WHERE userId = ${id}`)
+	async addMoney(id, amount, serverSideGuildId = undefined) {
+		if (serverSideGuildId) {
+			await this.app.query(`UPDATE server_scores SET money = money + ${parseInt(amount)} WHERE userId = ${id} AND guildId = ${serverSideGuildId}`)
+		}
+		else {
+			await this.app.query(`UPDATE scores SET money = money + ${parseInt(amount)} WHERE userId = ${id}`)
 
-		this.app.query(insertTransaction, [id, amount, 0])
+			this.app.query(insertTransaction, [id, amount, 0])
+		}
 	}
 
 	/**
@@ -206,38 +240,80 @@ class Player {
 	 * @param {*} query The transaction query to use
      * @param {*} id ID of user to add money to.
      * @param {*} amount Amount of money to add.
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async addMoneySafely(query, id, amount) {
-		await query(`UPDATE scores SET money = money + ${parseInt(amount)} WHERE userId = ${id}`)
+	async addMoneySafely(query, id, amount, serverSideGuildId = undefined) {
+		if (serverSideGuildId) {
+			await query(`UPDATE server_scores SET money = money + ${parseInt(amount)} WHERE userId = ${id} AND guildId = ${serverSideGuildId}`)
+		}
+		else {
+			await query(`UPDATE scores SET money = money + ${parseInt(amount)} WHERE userId = ${id}`)
 
-		this.app.query(insertTransaction, [id, amount, 0])
+			this.app.query(insertTransaction, [id, amount, 0])
+		}
 	}
 
 	/**
      *
      * @param {string} id ID of player to remove from
      * @param {number} amount Scrap to remove
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async removeScrap(id, amount) {
-		await this.app.query(`UPDATE scores SET scrap = scrap - ${parseInt(amount)} WHERE userId = ${id}`)
+	async removeScrap(id, amount, serverSideGuildId = undefined) {
+		if (serverSideGuildId) {
+			await this.app.query(`UPDATE server_scores SET scrap = scrap - ${parseInt(amount)} WHERE userId = ${id} AND guildId = ${serverSideGuildId}`)
+		}
+		else {
+			await this.app.query(`UPDATE scores SET scrap = scrap - ${parseInt(amount)} WHERE userId = ${id}`)
+		}
 	}
 
 	/**
      *
      * @param {*} id ID of user to add money to.
      * @param {*} amount Amount of scrap to add.
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async addScrap(id, amount) {
-		await this.app.query(`UPDATE scores SET scrap = scrap + ${parseInt(amount)} WHERE userId = ${id}`)
+	async addScrap(id, amount, serverSideGuildId = undefined) {
+		if (serverSideGuildId) {
+			await this.app.query(`UPDATE server_scores SET scrap = scrap + ${parseInt(amount)} WHERE userId = ${id} AND guildId = ${serverSideGuildId}`)
+		}
+		else {
+			await this.app.query(`UPDATE scores SET scrap = scrap + ${parseInt(amount)} WHERE userId = ${id}`)
+		}
 	}
 
 	/**
      *
      * @param {*} id ID of user to add xp to.
      * @param {*} amount Amount of xp to add.
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async addPoints(id, amount) {
-		await this.app.query(`UPDATE scores SET points = points + ${parseInt(amount)} WHERE userId = ${id}`)
+	async addPoints(id, amount, serverSideGuildId = undefined) {
+		if (serverSideGuildId) {
+			await this.app.query(`UPDATE server_scores SET points = points + ${parseInt(amount)} WHERE userId = ${id} AND guildId = ${serverSideGuildId}`)
+		}
+		else {
+			await this.app.query(`UPDATE scores SET points = points + ${parseInt(amount)} WHERE userId = ${id}`)
+		}
+	}
+
+	async subHealth(id, amount, serverSideGuildId = undefined) {
+		if (serverSideGuildId) {
+			await this.app.query('UPDATE server_scores SET health = health - ? WHERE userId = ? AND guildId = ?', [amount, id, serverSideGuildId])
+		}
+		else {
+			await this.app.query('UPDATE scores SET health = health - ? WHERE userId = ?', [amount, id])
+		}
+	}
+
+	async addHealth(id, amount, serverSideGuildId = undefined) {
+		if (serverSideGuildId) {
+			await this.app.query('UPDATE server_scores SET health = health + ? WHERE userId = ? AND guildId = ?', [amount, id, serverSideGuildId])
+		}
+		else {
+			await this.app.query('UPDATE scores SET health = health + ? WHERE userId = ?', [amount, id])
+		}
 	}
 
 	/**
@@ -245,18 +321,32 @@ class Player {
      * @param {*} id ID of user
      * @param {*} stat Stat to increase
      * @param {*} value Value to increase stat by
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async addStat(id, stat, value) {
-		await this.app.query('INSERT INTO stats (userId, stat, value) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE value = value + ?', [id, stat, value, value])
+	async addStat(id, stat, value, serverSideGuildId = undefined) {
+		if (serverSideGuildId) {
+			await this.app.query('INSERT INTO server_stats (userId, guildId, stat, value) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE value = value + ?', [id, serverSideGuildId, stat, value, value])
+		}
+		else {
+			await this.app.query('INSERT INTO stats (userId, stat, value) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE value = value + ?', [id, stat, value, value])
+		}
 	}
 
 	/**
      * Obtain the value of a stat for a given player
      * @param {*} id ID of user
      * @param {*} stat Stat to retrieve value of
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async getStat(id, stat) {
-		const stats = (await this.app.query('SELECT * FROM stats WHERE userId = ? AND stat = ?', [id, stat]))[0]
+	async getStat(id, stat, serverSideGuildId = undefined) {
+		let stats
+
+		if (serverSideGuildId) {
+			stats = (await this.app.query('SELECT * FROM server_stats WHERE userId = ? AND guildId = ? AND stat = ?', [id, serverSideGuildId, stat]))[0]
+		}
+		else {
+			stats = (await this.app.query('SELECT * FROM stats WHERE userId = ? AND stat = ?', [id, stat]))[0]
+		}
 
 		return stats ? stats.value : 0
 	}
@@ -277,9 +367,18 @@ class Player {
 	/**
      * Get the armor user is wearing.
      * @param {*} id ID of user
+	 * @param {string|undefined} [serverSideGuildId] server-side economy guild id to retrieve users armor for
+	 * @returns {Promise<string|undefined>}
      */
-	async getArmor(id) {
-		const armor = await this.app.cache.get(`shield|${id}`)
+	async getArmor(id, serverSideGuildId = undefined) {
+		let armor
+
+		if (serverSideGuildId) {
+			armor = await this.app.cache.get(`shield|${id}|${serverSideGuildId}`)
+		}
+		else {
+			armor = await this.app.cache.get(`shield|${id}`)
+		}
 
 		if (this.app.itemdata[armor]) {
 			return armor
@@ -360,6 +459,64 @@ INSERT IGNORE INTO scores (
 	burn)
     VALUES (
         ?,
+        ?,
+        ?,
+        500,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        0, 0, 0, 0, 0, 0, 0, '', 'recruit', 'en-us',
+        0, 5, 5, 0, 0, NOW(), 0, 0, 0, 0, 0, 0, 0, 0
+    )
+`
+
+const insertServerScoreSQL = `
+INSERT IGNORE INTO server_scores (
+    userId,
+	guildId,
+    createdAt,
+    money,
+    scrap,
+    level,
+    health,
+    maxHealth,
+    scaledDamage,
+    backpack,
+    armor,
+    ammo,
+    badge,
+    inv_slots,
+    points,
+    kills,
+    deaths,
+    stats,
+    luck,
+    used_stats,
+    status,
+    banner,
+    language,
+    voteCounter,
+    power,
+    max_power,
+    clanId,
+    clanRank,
+    lastActive,
+    notify1,
+    notify2,
+    notify3,
+    prestige,
+    discoinLimit,
+	bmLimit,
+	bleed,
+	burn)
+    VALUES (
+        ?,
+		?,
         ?,
         ?,
         500,

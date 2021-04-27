@@ -10,9 +10,9 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
-		const row = await app.player.getRow(message.author.id)
-		const slotsCD = await app.cd.getCD(message.author.id, 'slots')
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const row = await app.player.getRow(message.author.id, serverSideGuildId)
+		const slotsCD = await app.cd.getCD(message.author.id, 'slots', { serverSideGuildId })
 		let gambleAmount = app.parse.numbers(args)[0]
 
 		if (!gambleAmount && args[0] && args[0].toLowerCase() === 'all') {
@@ -35,7 +35,7 @@ module.exports = {
 			return message.reply(`You cannot gamble more than **${app.common.formatNumber(1000000, false, true)}**`)
 		}
 
-		await app.player.removeScrap(message.author.id, gambleAmount)
+		await app.player.removeScrap(message.author.id, gambleAmount, serverSideGuildId)
 		const mainRowGif = app.icons.slots_midrow_gif
 		const topRowGif = app.icons.slots_botrow_gif
 		const botRowGif = app.icons.slots_toprow_gif
@@ -111,10 +111,10 @@ module.exports = {
 		}
 
 		winnings = Math.floor(gambleAmount * rewardMltp)
-		await app.player.addScrap(message.author.id, winnings)
+		await app.player.addScrap(message.author.id, winnings, serverSideGuildId)
 
 		if (winnings >= 2000000) {
-			await app.itm.addBadge(message.author.id, 'gambler')
+			await app.itm.addBadge(message.author.id, 'gambler', serverSideGuildId)
 		}
 
 		const template = `⬛${topRowGif} ${topRowGif} ${topRowGif}⬛\n▶${mainRowGif} ${mainRowGif} ${mainRowGif}◀\n⬛${botRowGif} ${botRowGif} ${botRowGif}⬛`
@@ -163,6 +163,6 @@ module.exports = {
 			botMsg.edit(slotEmbed)
 		}, 3400)
 
-		await app.cd.setCD(message.author.id, 'slots', app.config.cooldowns.slots * 1000)
+		await app.cd.setCD(message.author.id, 'slots', app.config.cooldowns.slots * 1000, { serverSideGuildId })
 	}
 }

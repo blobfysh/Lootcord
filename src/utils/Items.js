@@ -5,23 +5,42 @@ class Items {
 
 	/**
      *
-     * @param {*} id ID of user to add item to.
-     * @param {*} item   Item to add, can be array ex.(["crate|2","semi_rifle|1"])
-     * @param {*} amount Amount of item to add, must be number.
+     * @param {string} id ID of user to add item to.
+     * @param {string|Array<string>} item Item to add, can be array ex.(["crate|2","semi_rifle|1"])
+     * @param {string|number|null} amount Amount of item to add, must be number.
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async addItem(id, item, amount) {
+	async addItem(id, item, amount, serverSideGuildId = undefined) {
 		if (Array.isArray(item)) {
 			if (item.length === 0) {
-				return
+				return 'item must be an array of items. ex. ["rock|1"]'
 			}
-			for (let i = 0; i < item.length; i++) {
-				// store amounts in array as ["rock|5","assault_rifle|2"] then use split("|")
-				const itemToCheck = item[i].split('|')
-				// Store id and item in array to bulk insert x times # of items.
-				const insertValues = Array(parseInt(itemToCheck[1])).fill([id, itemToCheck[0]])
+			else if (serverSideGuildId) {
+				for (let i = 0; i < item.length; i++) {
+					// store amounts in array as ["rock|5","assault_rifle|2"] then use split("|")
+					const itemToCheck = item[i].split('|')
 
-				await this.app.query('INSERT INTO user_items (userId, item) VALUES ?', [insertValues])
+					// Store id and item in array to bulk insert x times # of items.
+					const insertValues = Array(parseInt(itemToCheck[1])).fill([id, serverSideGuildId, itemToCheck[0]])
+
+					await this.app.query('INSERT INTO server_user_items (userId, guildId, item) VALUES ?', [insertValues])
+				}
 			}
+			else {
+				for (let i = 0; i < item.length; i++) {
+					// store amounts in array as ["rock|5","assault_rifle|2"] then use split("|")
+					const itemToCheck = item[i].split('|')
+
+					// Store id and item in array to bulk insert x times # of items.
+					const insertValues = Array(parseInt(itemToCheck[1])).fill([id, itemToCheck[0]])
+
+					await this.app.query('INSERT INTO user_items (userId, item) VALUES ?', [insertValues])
+				}
+			}
+		}
+		else if (serverSideGuildId) {
+			const insertValues = Array(parseInt(amount)).fill([id, serverSideGuildId, item])
+			return this.app.query('INSERT INTO server_user_items (userId, guildId, item) VALUES ?', [insertValues])
 		}
 		else {
 			const insertValues = Array(parseInt(amount)).fill([id, item])
@@ -30,50 +49,102 @@ class Items {
 	}
 
 	/**
+     * Adds an item to user on global economy and all server-side economies
+     * @param {string} id ID of user to add item to.
+     * @param {string|Array<string>} item Item to add, can be array ex.(["crate|2","semi_rifle|1"])
+     * @param {string|number|null} amount Amount of item to add, must be number.
+     */
+	async addItemGlobally(id, item, amount) {
+		await this.addItem(id, item, amount)
+
+		const serverSideEconomies = await this.app.query('SELECT guildId FROM server_scores WHERE userId = ?', [id])
+		let added = 0
+
+		for (const server of serverSideEconomies) {
+			await this.addItem(id, item, amount, server.guildId)
+			added++
+		}
+
+		return `Added items to global and ${added} server-side economies`
+	}
+
+	/**
      *
 	 * @param {*} query The transaction query to use
-     * @param {*} id ID of user to add item to.
-     * @param {*} item   Item to add, can be array ex.(["crate|2","semi_rifle|1"])
-     * @param {*} amount Amount of item to add, must be number.
+     * @param {string} id ID of user to add item to.
+     * @param {string|Array<string>} item   Item to add, can be array ex.(["crate|2","semi_rifle|1"])
+     * @param {string|number|null} amount Amount of item to add, must be number.
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async addItemSafely(query, id, item, amount) {
+	async addItemSafely(query, id, item, amount, serverSideGuildId = undefined) {
 		if (Array.isArray(item)) {
 			if (item.length === 0) {
-				return
+				return 'item must be an array of items. ex. ["rock|1"]'
 			}
-			for (let i = 0; i < item.length; i++) {
-				// store amounts in array as ["rock|5","assault_rifle|2"] then use split("|")
-				const itemToCheck = item[i].split('|')
-				// Store id and item in array to bulk insert x times # of items.
-				const insertValues = Array(parseInt(itemToCheck[1])).fill([id, itemToCheck[0]])
+			else if (serverSideGuildId) {
+				for (let i = 0; i < item.length; i++) {
+					// store amounts in array as ["rock|5","assault_rifle|2"] then use split("|")
+					const itemToCheck = item[i].split('|')
 
-				await query('INSERT INTO user_items (userId, item) VALUES ?', [insertValues])
+					// Store id and item in array to bulk insert x times # of items.
+					const insertValues = Array(parseInt(itemToCheck[1])).fill([id, serverSideGuildId, itemToCheck[0]])
+
+					await query('INSERT INTO server_user_items (userId, guildId, item) VALUES ?', [insertValues])
+				}
 			}
+			else {
+				for (let i = 0; i < item.length; i++) {
+					// store amounts in array as ["rock|5","assault_rifle|2"] then use split("|")
+					const itemToCheck = item[i].split('|')
+
+					// Store id and item in array to bulk insert x times # of items.
+					const insertValues = Array(parseInt(itemToCheck[1])).fill([id, itemToCheck[0]])
+
+					await query('INSERT INTO user_items (userId, item) VALUES ?', [insertValues])
+				}
+			}
+		}
+		else if (serverSideGuildId) {
+			const insertValues = Array(parseInt(amount)).fill([id, serverSideGuildId, item])
+			return query('INSERT INTO server_user_items (userId, guildId, item) VALUES ?', [insertValues])
 		}
 		else {
 			const insertValues = Array(parseInt(amount)).fill([id, item])
-
 			return query('INSERT INTO user_items (userId, item) VALUES ?', [insertValues])
 		}
 	}
 
 	/**
      *
-     * @param {*} id ID of user to remove item from.
-     * @param {*} item   Item to remove, can be an array ex.(["crate|2","semi_rifle|3"])
-     * @param {*} amount Amount of item to remove.
+     * @param {string} id ID of user to remove item from.
+     * @param {string|Array<string>} item   Item to remove, can be an array ex.(["crate|2","semi_rifle|3"])
+     * @param {string|number|null} amount Amount of item to remove.
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async removeItem(id, item, amount) {
+	async removeItem(id, item, amount, serverSideGuildId = undefined) {
 		if (Array.isArray(item)) {
 			if (item.length === 0) {
-				return
+				return 'item must be an array of items. ex. ["rock|1"]'
 			}
-			for (let i = 0; i < item.length; i++) {
-				// store amounts in array as ["rock|5","assault_rifle|2"] then use split("|")
-				const itemToCheck = item[i].split('|')
+			else if (serverSideGuildId) {
+				for (let i = 0; i < item.length; i++) {
+					// store amounts in array as ["rock|5","assault_rifle|2"] then use split("|")
+					const itemToCheck = item[i].split('|')
 
-				await this.app.query(`DELETE FROM user_items WHERE userId = ${id} AND item = '${itemToCheck[0]}' LIMIT ${parseInt(itemToCheck[1])}`)
+					await this.app.query(`DELETE FROM server_user_items WHERE userId = ${id} AND guildId = ${serverSideGuildId} AND item = '${itemToCheck[0]}' LIMIT ${parseInt(itemToCheck[1])}`)
+				}
 			}
+			else {
+				for (let i = 0; i < item.length; i++) {
+					// store amounts in array as ["rock|5","assault_rifle|2"] then use split("|")
+					const itemToCheck = item[i].split('|')
+
+					await this.app.query(`DELETE FROM user_items WHERE userId = ${id} AND item = '${itemToCheck[0]}' LIMIT ${parseInt(itemToCheck[1])}`)
+				}
+			}
+		}
+		else if (serverSideGuildId) {
+			return this.app.query(`DELETE FROM server_user_items WHERE userId = ${id} AND guildId = ${serverSideGuildId} AND item = '${item}' LIMIT ${parseInt(amount)}`)
 		}
 		else {
 			return this.app.query(`DELETE FROM user_items WHERE userId = ${id} AND item = '${item}' LIMIT ${parseInt(amount)}`)
@@ -83,21 +154,35 @@ class Items {
 	/**
      *
 	 * @param {*} query The transaction query to use
-     * @param {*} id ID of user to remove item from.
-     * @param {*} item   Item to remove, can be an array ex.(["crate|2","semi_rifle|3"])
-     * @param {*} amount Amount of item to remove.
+     * @param {string} id ID of user to remove item from.
+     * @param {string|Array<string>} item Item to remove, can be an array ex.(["crate|2","semi_rifle|3"])
+     * @param {string|number|null} amount Amount of item to remove.
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async removeItemSafely(query, id, item, amount) {
+	async removeItemSafely(query, id, item, amount, serverSideGuildId = undefined) {
 		if (Array.isArray(item)) {
 			if (item.length === 0) {
-				return
+				return 'item must be an array of items. ex. ["rock|1"]'
 			}
-			for (let i = 0; i < item.length; i++) {
-				// store amounts in array as ["rock|5","assault_rifle|2"] then use split("|")
-				const itemToCheck = item[i].split('|')
+			else if (serverSideGuildId) {
+				for (let i = 0; i < item.length; i++) {
+					// store amounts in array as ["rock|5","assault_rifle|2"] then use split("|")
+					const itemToCheck = item[i].split('|')
 
-				await query(`DELETE FROM user_items WHERE userId = ${id} AND item = '${itemToCheck[0]}' LIMIT ${parseInt(itemToCheck[1])}`)
+					await query(`DELETE FROM server_user_items WHERE userId = ${id} AND guildId = ${serverSideGuildId} AND item = '${itemToCheck[0]}' LIMIT ${parseInt(itemToCheck[1])}`)
+				}
 			}
+			else {
+				for (let i = 0; i < item.length; i++) {
+					// store amounts in array as ["rock|5","assault_rifle|2"] then use split("|")
+					const itemToCheck = item[i].split('|')
+
+					await query(`DELETE FROM user_items WHERE userId = ${id} AND item = '${itemToCheck[0]}' LIMIT ${parseInt(itemToCheck[1])}`)
+				}
+			}
+		}
+		else if (serverSideGuildId) {
+			await query(`DELETE FROM server_user_items WHERE userId = ${id} AND guildId = ${serverSideGuildId} AND item = '${item}' LIMIT ${parseInt(amount)}`)
 		}
 		else {
 			await query(`DELETE FROM user_items WHERE userId = ${id} AND item = '${item}' LIMIT ${parseInt(amount)}`)
@@ -110,7 +195,7 @@ class Items {
      * @param {*} item   Item to check user has, can be an array ex.(["assault_rifle|1","rock|2"])
      * @param {*} amount Amount of item check for.
      */
-	async hasItems(userItems, item, amount) {
+	hasItems(userItems, item, amount) {
 		if (Array.isArray(item)) {
 			if (item.length === 0) {
 				return true
@@ -175,11 +260,19 @@ class Items {
 
 	/**
      *
-     * @param {*} id User to retrieve items for (in an object format).
+     * @param {string} id User to retrieve items for (in an object format).
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async getItemObject(id) {
-		const itemRows = await this.app.query(`SELECT item, COUNT(item) AS amount FROM user_items WHERE userId = "${id}" GROUP BY item`)
+	async getItemObject(id, serverSideGuildId = undefined) {
 		const itemObj = {}
+		let itemRows
+
+		if (serverSideGuildId) {
+			itemRows = await this.app.query(`SELECT item, COUNT(item) AS amount FROM server_user_items WHERE userId = "${id}" AND guildId = "${serverSideGuildId}" GROUP BY item`)
+		}
+		else {
+			itemRows = await this.app.query(`SELECT item, COUNT(item) AS amount FROM user_items WHERE userId = "${id}" GROUP BY item`)
+		}
 
 		for (let i = 0; i < itemRows.length; i++) {
 			if (this.app.itemdata[itemRows[i].item]) itemObj[itemRows[i].item] = itemRows[i].amount
@@ -191,11 +284,19 @@ class Items {
 	/**
      * Retrieves items for a user and prevents queries from updating the items.
 	 * @param {*} query
-     * @param {*} id User to retrieve items for (in an object format).
+     * @param {string} id User to retrieve items for (in an object format).
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async getItemObjectForUpdate(query, id) {
-		const itemRows = await query(`SELECT item, COUNT(item) AS amount FROM user_items WHERE userId = "${id}" GROUP BY item FOR UPDATE`)
+	async getItemObjectForUpdate(query, id, serverSideGuildId = undefined) {
 		const itemObj = {}
+		let itemRows
+
+		if (serverSideGuildId) {
+			itemRows = await query(`SELECT item, COUNT(item) AS amount FROM server_user_items WHERE userId = "${id}" AND guildId = "${serverSideGuildId}" GROUP BY item FOR UPDATE`)
+		}
+		else {
+			itemRows = await query(`SELECT item, COUNT(item) AS amount FROM user_items WHERE userId = "${id}" GROUP BY item FOR UPDATE`)
+		}
 
 		for (let i = 0; i < itemRows.length; i++) {
 			if (this.app.itemdata[itemRows[i].item]) itemObj[itemRows[i].item] = itemRows[i].amount
@@ -279,11 +380,19 @@ class Items {
 
 	/**
      *
-     * @param {*} id User to retrieve badges for (in an array format).
+     * @param {string} id User to retrieve badges for (in an array format).
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async getBadges(id) {
-		const badges = await this.app.query(`SELECT badge FROM badges WHERE userId = "${id}"`)
+	async getBadges(id, serverSideGuildId = undefined) {
 		const badgeArr = []
+		let badges
+
+		if (serverSideGuildId) {
+			badges = await this.app.query(`SELECT badge FROM server_badges WHERE userId = "${id}" AND guildId = "${serverSideGuildId}"`)
+		}
+		else {
+			badges = await this.app.query(`SELECT badge FROM badges WHERE userId = "${id}"`)
+		}
 
 		for (const badge of badges) {
 			if (this.app.badgedata[badge.badge]) badgeArr.push(badge.badge)
@@ -294,19 +403,28 @@ class Items {
 
 	/**
      *
-     * @param {*} userId ID of user to add badge to.
-     * @param {*} badge Badge to add
+     * @param {string} userId ID of user to add badge to.
+     * @param {string} badge Badge to add
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async addBadge(userId, badge) {
-		return this.app.query(`INSERT IGNORE INTO badges (userId, badge, earned) VALUES (${userId}, '${badge}', ${new Date().getTime()})`)
+	async addBadge(userId, badge, serverSideGuildId = undefined) {
+		return serverSideGuildId ?
+			this.app.query(`INSERT IGNORE INTO server_badges (userId, guildId, badge, earned) VALUES (${userId}, ${serverSideGuildId}, '${badge}', ${new Date().getTime()})`) :
+			this.app.query(`INSERT IGNORE INTO badges (userId, badge, earned) VALUES (${userId}, '${badge}', ${new Date().getTime()})`)
 	}
 
 	/**
      *
-     * @param {*} userId ID of user to remove badge from.
-     * @param {*} badge Badge to remove
+     * @param {string} userId ID of user to remove badge from.
+     * @param {string} badge Badge to remove
+	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async removeBadge(userId, badge) {
+	async removeBadge(userId, badge, serverSideGuildId = undefined) {
+		if (serverSideGuildId) {
+			await this.app.query(`UPDATE server_scores SET badge = 'none' WHERE userId = ${userId} AND guildId = ${serverSideGuildId} AND badge = '${badge}'`)
+			return this.app.query(`DELETE FROM server_badges WHERE userId = ${userId} AND guildId = ${serverSideGuildId} AND badge = '${badge}'`)
+		}
+
 		await this.app.query(`UPDATE scores SET badge = 'none' WHERE userId = ${userId} AND badge = '${badge}'`)
 		return this.app.query(`DELETE FROM badges WHERE userId = ${userId} AND badge = '${badge}'`)
 	}
@@ -383,17 +501,15 @@ class Items {
 
 	/**
      * Gets random items from a user, can also return multiple of the same item.
-     * @param {*} userId User to get random items from
-     * @param {*} amount Amount of items to get
+     * @param {object} userItems User's item object.
+     * @param {number} amount Amount of items to get
      */
-	async getRandomUserItems(userId, amount) {
-		const items = await this.getItemObject(userId)
-
+	async getRandomUserItems(userItems, amount) {
 		let randArr = []
 
-		for (const item in items) {
+		for (const item in userItems) {
 			if (this.app.itemdata[item].canBeStolen) {
-				for (let i = 0; i < items[item]; i++) {
+				for (let i = 0; i < userItems[item]; i++) {
 					randArr.push(item)
 				}
 			}

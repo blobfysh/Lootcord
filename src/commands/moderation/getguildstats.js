@@ -50,6 +50,7 @@ module.exports = {
 			const killFeedChan = cachedChannels.get(guildRow.killChan) ? `${cachedChannels.get(guildRow.killChan).name} (ID: \`${guildRow.killChan}\`)` : 'None set'
 			const levelChan = cachedChannels.get(guildRow.levelChan) ? `${cachedChannels.get(guildRow.levelChan).name} (ID: \`${guildRow.levelChan}\`)` : 'None set'
 			const attackMode = guildRow.randomOnly ? 'Random only' : 'Selectable'
+			const serverSideMode = guildRow.serverOnly ? 'Enabled' : 'Disabled (global)'
 
 			const statEmbed = new app.Embed()
 				.setColor(13451564)
@@ -58,11 +59,12 @@ module.exports = {
 				.addField('Guild Created', guildCreated, true)
 				.addField('Lootcord Joined', joinedGuild, true)
 				.setDescription(`**Owner**: ${owner.username}#${owner.discriminator} (ID: \`${fetchedGuildInfo.ownerID}\`)
-            **Member Count**: ${fetchedGuildInfo.memberCount}
-            **Prefix**: ${prefixRow ? prefixRow.prefix : app.config.prefix}
-            **Killfeed**: ${killFeedChan}
-            **Levelling Channel**: ${levelChan}
-            **Attack Mode**: ${attackMode}`)
+				**Member Count**: ${fetchedGuildInfo.memberCount}
+				**Prefix**: ${prefixRow ? prefixRow.prefix : app.config.prefix}
+				**Killfeed**: ${killFeedChan}
+				**Levelling Channel**: ${levelChan}
+				**Attack Mode**: ${attackMode}
+				**Server-side Economy**: ${serverSideMode}`)
 				.addField(`Channels - ${cachedChannels.size}`, cachedChannels.filter(chan => chan.type !== 4).map(chan => `${getChannelType(app.icons, chan, guildID)} ${chan.name} (ID: \`${chan.id}\`)`).slice(0, 10).join('\n') || 'None')
 				.addField(`Cached Members - ${cachedMembers.size}`, codeWrap(cachedMembers.filter(user => !user.user.bot).map(user => `${user.user.username}#${user.user.discriminator} (${user.user.id})`).slice(0, 15).join('\n') || 'None (cached bots are not shown)', ''))
 				.addField(`Activated Players - ${activeRows.length}`, codeWrap(activeRows.map(row => row.userId).slice(0, 15).join('\n') || 'None', ''))

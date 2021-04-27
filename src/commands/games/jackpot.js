@@ -10,9 +10,9 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
-		const jackpotCD = await app.cd.getCD(message.author.id, 'jackpot')
-		const row = await app.player.getRow(message.author.id)
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const jackpotCD = await app.cd.getCD(message.author.id, 'jackpot', { serverSideGuildId })
+		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		let gambleAmount = app.parse.numbers(args)[0]
 
 		if (!gambleAmount && args[0] && args[0].toLowerCase() === 'all') {
@@ -39,10 +39,10 @@ module.exports = {
 
 		try {
 			const result = await app.react.getConfirmation(message.author.id, botMessage, 15000)
-			const verifyRow = await app.player.getRow(message.author.id)
+			const verifyRow = await app.player.getRow(message.author.id, serverSideGuildId)
 
 			if (result && gambleAmount <= verifyRow.scrap) {
-				startJackpot(app, message, prefix, gambleAmount)
+				startJackpot(app, message, prefix, gambleAmount, serverSideGuildId)
 			}
 			else {
 				botMessage.delete()
@@ -54,7 +54,7 @@ module.exports = {
 	}
 }
 
-async function startJackpot(app, message, prefix, gambleAmount) {
+async function startJackpot(app, message, prefix, gambleAmount, serverSideGuildId) {
 	const jackpotObj = {}
 
 	try {
@@ -67,8 +67,8 @@ async function startJackpot(app, message, prefix, gambleAmount) {
 		message.channel.createMessage('**A jackpot has started! A winner will be chosen in `2 minutes`**')
 		message.channel.createMessage(refreshEmbed(app, jackpotObj, prefix))
 
-		await app.player.removeScrap(message.author.id, gambleAmount)
-		await app.cd.setCD(message.author.id, 'jackpot', app.config.cooldowns.jackpot * 1000)
+		await app.player.removeScrap(message.author.id, gambleAmount, serverSideGuildId)
+		await app.cd.setCD(message.author.id, 'jackpot', app.config.cooldowns.jackpot * 1000, { serverSideGuildId })
 
 		setTimeout(() => {
 			message.channel.createMessage(`⏱ **\`1 minute\` remaining to enter the jackpot! Use \`${prefix}join <amount>\` to enter!**`)
@@ -93,10 +93,14 @@ async function startJackpot(app, message, prefix, gambleAmount) {
 		collectorObj.collector.on('collect', async m => {
 			if (!await app.player.isActive(m.author.id, m.channel.guild.id)) return m.channel.createMessage(`Your account is not active in this server! Use \`${prefix}play\` to activate it here`)
 			const userArgs = m.content.slice(prefix.length).split(/ +/).slice(1)
-			const userRow = await app.player.getRow(m.author.id)
+			const userRow = await app.player.getRow(m.author.id, serverSideGuildId)
 			let gambleAmnt = app.parse.numbers(userArgs)[0]
 
-			if (!gambleAmnt && userArgs[0] && userArgs[0].toLowerCase() === 'all') {
+			if (!userRow) {
+				// in case server-side economy gets disabled mid-jackpot, user might have global account but not server-side account
+				return
+			}
+			else if (!gambleAmnt && userArgs[0] && userArgs[0].toLowerCase() === 'all') {
 				gambleAmnt = userRow.scrap >= 100000 ? 100000 : userRow.scrap
 			}
 
@@ -129,7 +133,7 @@ async function startJackpot(app, message, prefix, gambleAmount) {
 				}
 			}
 
-			await app.player.removeScrap(m.author.id, gambleAmnt)
+			await app.player.removeScrap(m.author.id, gambleAmnt, serverSideGuildId)
 			m.channel.createMessage(refreshEmbed(app, jackpotObj, prefix))
 		})
 
@@ -137,7 +141,7 @@ async function startJackpot(app, message, prefix, gambleAmount) {
 			const winnerId = pickWinner(jackpotObj)
 			const winAmount = getJackpotTotal(jackpotObj)
 
-			await app.player.addScrap(winnerId, winAmount)
+			await app.player.addScrap(winnerId, winAmount, serverSideGuildId)
 
 			message.channel.createMessage(`**${jackpotObj[winnerId].name}** won the ${app.common.formatNumber(winAmount, false, true)} jackpot with a ${(jackpotObj[winnerId].amount / getJackpotTotal(jackpotObj) * 100).toFixed(1)}% chance of winning!`)
 		})

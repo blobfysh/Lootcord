@@ -10,8 +10,8 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
-		const row = await app.player.getRow(message.author.id)
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const item = app.parse.items(args)[0]
 		let amount = app.parse.numbers(args)[0] || 1
 
@@ -19,7 +19,7 @@ module.exports = {
 			return message.reply(`❌ You need to specify a box to open! \`${prefix}open <item>\`.`)
 		}
 		else if (['crate', 'military_crate', 'candy_pail', 'small_present', 'medium_present', 'large_present', 'supply_drop', 'elite_crate', 'small_loot_bag', 'medium_loot_bag', 'large_loot_bag', 'egg_basket'].includes(item)) {
-			const userItems = await app.itm.getItemObject(message.author.id)
+			const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 			const itemCt = await app.itm.getItemCount(userItems, row)
 			if (amount > 10) amount = 10
 
@@ -32,14 +32,14 @@ module.exports = {
 				return message.reply(`❌ **You don't have enough space in your inventory!** (You have **${itemCt.open}** open slots)\n\nYou can clear up space by selling some items.`)
 			}
 
-			await app.itm.removeItem(message.author.id, item, amount)
+			await app.itm.removeItem(message.author.id, item, amount, serverSideGuildId)
 
 			const results = app.itm.openBox(item, amount, row.luck)
 			const bestItem = results.items.sort(app.itm.sortItemsHighLow.bind(app))
 			let openStr = ''
 
-			await app.itm.addItem(message.author.id, results.itemAmounts)
-			await app.player.addPoints(message.author.id, results.xp)
+			await app.itm.addItem(message.author.id, results.itemAmounts, null, serverSideGuildId)
+			await app.player.addPoints(message.author.id, results.xp, serverSideGuildId)
 
 			if (amount === 1) {
 				console.log(bestItem[0])

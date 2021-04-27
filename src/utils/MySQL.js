@@ -65,6 +65,13 @@ class MySQL {
 			await this.query(createSpawnsSQL)
 			await this.query(createSpawnsDamageSQL)
 
+			// server-side economy tables
+			await this.query(createServerScoreSQL)
+			await this.query(createServerItemsSQL)
+			await this.query(createServerCooldownsSQL)
+			await this.query(createServerStatsSQL)
+			await this.query(createServerBadgesSQL)
+
 			// userGuilds table for keeping track of which servers users are activated in
 			await this.query('CREATE TABLE IF NOT EXISTS userGuilds (userId bigint, guildId bigint) ENGINE = InnoDB')
 
@@ -151,7 +158,6 @@ class MySQL {
 									})
 								}
 								else {
-									console.log(`RELEASING CONNECTION ${connection.threadId}`)
 									connection.release()
 									resolveCommit('success')
 								}
@@ -418,6 +424,90 @@ CREATE TABLE IF NOT EXISTS transactions (
     date DATETIME,
     gained BIGINT,
     lost BIGINT)
+    ENGINE = InnoDB
+`
+
+// SERVER-SIDE ECONOMY TABLES
+const createServerScoreSQL = `
+CREATE TABLE IF NOT EXISTS server_scores (
+    userId BIGINT,
+	guildId BIGINT,
+    createdAt BIGINT,
+    level INT,
+    health INT,
+    maxHealth INT,
+    scaledDamage DECIMAL(3,2),
+    inv_slots INT,
+    backpack VARCHAR(255),
+    armor VARCHAR(255),
+    ammo VARCHAR(255),
+    badge VARCHAR(255),
+    money BIGINT,
+    scrap BIGINT,
+    points BIGINT,
+    kills INT,
+    deaths INT,
+    stats INT,
+    luck INT,
+    used_stats INT,
+    status VARCHAR(255),
+    banner VARCHAR(255),
+    language VARCHAR(30),
+    voteCounter INT,
+    power INT,
+    max_power INT,
+    clanId BIGINT,
+    clanRank TINYINT,
+    lastActive DATETIME,
+    notify1 BOOLEAN,
+    notify2 BOOLEAN,
+    notify3 BOOLEAN,
+    prestige INT,
+    discoinLimit INT,
+    bmLimit INT,
+    bleed INT,
+    burn INT,
+    PRIMARY KEY (userId, guildId))
+    ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
+`
+
+const createServerItemsSQL = `
+CREATE TABLE IF NOT EXISTS server_user_items (
+    userId BIGINT,
+	guildId BIGINT,
+	item VARCHAR(255),
+	KEY (userId, guildId))
+    ENGINE = InnoDB
+`
+
+const createServerCooldownsSQL = `
+CREATE TABLE IF NOT EXISTS server_cooldown (
+    userId BIGINT,
+	guildId BIGINT,
+    type VARCHAR(255),
+    start BIGINT,
+    length BIGINT,
+    info VARCHAR(255))
+    ENGINE = InnoDB
+`
+
+const createServerStatsSQL = `
+CREATE TABLE IF NOT EXISTS server_stats (
+    userId BIGINT,
+	guildId BIGINT,
+    stat VARCHAR(255),
+    value INT,
+    PRIMARY KEY(userId, guildId, stat))
+    ENGINE = InnoDB
+`
+
+const createServerBadgesSQL = `
+CREATE TABLE IF NOT EXISTS server_badges (
+    userId BIGINT,
+	guildId BIGINT,
+    badge VARCHAR(255),
+    earned BIGINT,
+    UNIQUE user_badge(userId, guildId, badge))
     ENGINE = InnoDB
 `
 

@@ -20,14 +20,14 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
-		const scrambleCD = await app.cd.getCD(message.author.id, 'scramble')
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const scrambleCD = await app.cd.getCD(message.author.id, 'scramble', { serverSideGuildId })
 
 		if (scrambleCD) {
 			return message.reply(`You need to wait \`${scrambleCD}\` before playing another game of scramble.`)
 		}
 
-		const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), await app.player.getRow(message.author.id))
+		const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id, serverSideGuildId), await app.player.getRow(message.author.id, serverSideGuildId))
 		const option = args[0] ? args[0].toLowerCase() : undefined
 		const { word, rhymesWith, difficulty, definition } = await getWord()
 		const reward = {}
@@ -41,8 +41,8 @@ module.exports = {
 			return message.reply(`You need to choose a difficulty \`${prefix}scramble easy/hard\`\nEasy: Hint but less reward\nHard: Better reward, no hint`)
 		}
 
-		await app.cd.setCD(message.author.id, 'scramble', app.config.cooldowns.scramble * 1000)
-		await app.player.addStat(message.author.id, 'scrambles', 1)
+		await app.cd.setCD(message.author.id, 'scramble', app.config.cooldowns.scramble * 1000, { serverSideGuildId })
+		await app.player.addStat(message.author.id, 'scrambles', 1, serverSideGuildId)
 
 		const embedScramble = new app.Embed()
 			.setFooter('You have 15 seconds to unscramble this word.')
@@ -160,13 +160,13 @@ module.exports = {
 				app.msgCollector.stopCollector(collectorObj)
 
 				if (reward.item === 'money') {
-					await app.player.addMoney(message.author.id, reward.amount)
+					await app.player.addMoney(message.author.id, reward.amount, serverSideGuildId)
 				}
 				else {
-					await app.itm.addItem(message.author.id, reward.item, reward.amount)
+					await app.itm.addItem(message.author.id, reward.item, reward.amount, serverSideGuildId)
 				}
 
-				await app.player.addStat(message.author.id, 'scramblesCorrect', 1)
+				await app.player.addStat(message.author.id, 'scramblesCorrect', 1, serverSideGuildId)
 
 				const winScramble = new app.Embed()
 					.setTitle('You got it correct!')

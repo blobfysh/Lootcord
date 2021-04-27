@@ -13,9 +13,9 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
-		const row = await app.player.getRow(message.author.id)
-		const blackjackCD = await app.cd.getCD(message.author.id, 'blackjack')
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const row = await app.player.getRow(message.author.id, serverSideGuildId)
+		const blackjackCD = await app.cd.getCD(message.author.id, 'blackjack', { serverSideGuildId })
 		let gambleAmount = app.parse.numbers(args)[0]
 
 		if (!gambleAmount && args[0] && args[0].toLowerCase() === 'all') {
@@ -53,8 +53,8 @@ module.exports = {
 			}
 			dealerCards.push(drawCard(deck))
 
-			await app.player.removeScrap(message.author.id, gambleAmount)
-			await app.cd.setCD(message.author.id, 'blackjack', app.config.cooldowns.blackjack * 1000)
+			await app.player.removeScrap(message.author.id, gambleAmount, serverSideGuildId)
+			await app.cd.setCD(message.author.id, 'blackjack', app.config.cooldowns.blackjack * 1000, { serverSideGuildId })
 
 			message.channel.createMessage(genEmbed(app, message, playerCards, dealerCards, gambleAmount))
 
@@ -97,16 +97,16 @@ module.exports = {
 					}
 
 					if (dealerFinal > 21) {
-						message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, `The dealer busted! You won **${app.common.formatNumber(gambleAmount * 2, false, true)}**`, gambleAmount))
+						message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, `The dealer busted! You won **${app.common.formatNumber(gambleAmount * 2, false, true)}**`, gambleAmount, serverSideGuildId))
 					}
 					else if (playerFinal > dealerFinal) {
-						message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, `You won **${app.common.formatNumber(gambleAmount * 2, false, true)}**!`, gambleAmount))
+						message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, `You won **${app.common.formatNumber(gambleAmount * 2, false, true)}**!`, gambleAmount, serverSideGuildId))
 					}
 					else if (playerFinal < dealerFinal) {
 						message.channel.createMessage(loserEmbed(app, message, playerCards, dealerCards, `You lost **${app.common.formatNumber(gambleAmount, false, true)}**...`, gambleAmount))
 					}
 					else { // player and dealer tied...
-						message.channel.createMessage(tieEmbed(app, message, playerCards, dealerCards, `Tied with dealer (You lose **${app.common.formatNumber(0, false, true)}**)`, gambleAmount))
+						message.channel.createMessage(tieEmbed(app, message, playerCards, dealerCards, `Tied with dealer (You lose **${app.common.formatNumber(0, false, true)}**)`, gambleAmount, serverSideGuildId))
 					}
 				}
 			})
@@ -208,13 +208,13 @@ function genEmbed(app, message, playerCards, dealerCards, gambleAmount, dealerEm
 	return embed
 }
 
-function winnerEmbed(app, message, playerCards, dealerCards, quote, gambleAmount) {
+function winnerEmbed(app, message, playerCards, dealerCards, quote, gambleAmount, serverSideGuildId) {
 	const embed = genEmbed(app, message, playerCards, dealerCards, gambleAmount, app.icons.blackjack_dealer_lost)
 
 	embed.setDescription(quote)
 	embed.setColor(720640)
 	embed.embed.footer = undefined
-	app.player.addScrap(message.author.id, gambleAmount * 2)
+	app.player.addScrap(message.author.id, gambleAmount * 2, serverSideGuildId)
 
 	if (gambleAmount * 2 >= 2000000) {
 		app.itm.addBadge(message.author.id, 'gambler')
@@ -233,13 +233,13 @@ function loserEmbed(app, message, playerCards, dealerCards, quote, gambleAmount)
 	return embed
 }
 
-function tieEmbed(app, message, playerCards, dealerCards, quote, gambleAmount) {
+function tieEmbed(app, message, playerCards, dealerCards, quote, gambleAmount, serverSideGuildId) {
 	const embed = genEmbed(app, message, playerCards, dealerCards, gambleAmount, app.icons.blackjack_dealer_lost)
 
 	embed.setDescription(quote)
 	embed.setColor(10395294)
 	embed.embed.footer = undefined
-	app.player.addScrap(message.author.id, gambleAmount)
+	app.player.addScrap(message.author.id, gambleAmount, serverSideGuildId)
 
 	return embed
 }

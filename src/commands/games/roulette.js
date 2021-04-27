@@ -10,9 +10,9 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
-		const row = await app.player.getRow(message.author.id)
-		const rouletteCD = await app.cd.getCD(message.author.id, 'roulette')
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const row = await app.player.getRow(message.author.id, serverSideGuildId)
+		const rouletteCD = await app.cd.getCD(message.author.id, 'roulette', { serverSideGuildId })
 		let gambleAmount = app.parse.numbers(args)[0]
 
 		if (!gambleAmount && args[0] && args[0].toLowerCase() === 'all') {
@@ -39,7 +39,7 @@ module.exports = {
 			return message.reply(`You cannot gamble more than **${app.common.formatNumber(1000000, false, true)}**`)
 		}
 
-		await app.player.removeScrap(message.author.id, gambleAmount)
+		await app.player.removeScrap(message.author.id, gambleAmount, serverSideGuildId)
 
 		const multiplier = 1.2
 		const winnings = Math.floor(gambleAmount * multiplier)
@@ -50,12 +50,9 @@ module.exports = {
 
 			if (row.health <= healthDeduct) {
 				healthDeduct = row.health - 1
+			}
 
-				await app.mysql.update('scores', 'health', 1, 'userId', message.author.id)
-			}
-			else {
-				await app.mysql.updateDecr('scores', 'health', healthDeduct, 'userId', message.author.id)
-			}
+			await app.player.subHealth(message.author.id, healthDeduct, serverSideGuildId)
 
 			message.reply('***Click***').then(msg => {
 				setTimeout(() => {
@@ -64,7 +61,7 @@ module.exports = {
 			})
 		}
 		else {
-			await app.player.addScrap(message.author.id, winnings)
+			await app.player.addScrap(message.author.id, winnings, serverSideGuildId)
 
 			message.reply('***Click***').then(msg => {
 				setTimeout(() => {
@@ -73,7 +70,7 @@ module.exports = {
 			})
 		}
 
-		await app.cd.setCD(message.author.id, 'roulette', 1000 * app.config.cooldowns.roulette)
+		await app.cd.setCD(message.author.id, 'roulette', 1000 * app.config.cooldowns.roulette, { serverSideGuildId })
 	}
 }
 

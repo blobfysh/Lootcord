@@ -19,27 +19,27 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
-		const dailyCD = await app.cd.getCD(message.author.id, 'daily')
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const dailyCD = await app.cd.getCD(message.author.id, 'daily', { serverSideGuildId })
 
 		if (dailyCD) {
 			return message.reply(`You've already claimed your daily reward today! Wait \`${dailyCD}\` before claiming another.`)
 		}
 
-		const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), await app.player.getRow(message.author.id))
+		const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id, serverSideGuildId), await app.player.getRow(message.author.id, serverSideGuildId))
 		const hasEnough = await app.itm.hasSpace(itemCt, 1)
 		if (!hasEnough) return message.reply(`❌ **You don't have enough space in your inventory!** (You need **1** open slot, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
 
-		await app.cd.setCD(message.author.id, 'daily', app.config.cooldowns.daily * 1000)
+		await app.cd.setCD(message.author.id, 'daily', app.config.cooldowns.daily * 1000, { serverSideGuildId })
 
 		if (message.channel.guild.id === app.config.supportGuildID) {
-			await app.itm.addItem(message.author.id, 'military_crate', 2)
+			await app.itm.addItem(message.author.id, 'military_crate', 2, serverSideGuildId)
 			message.reply(OFFICIAL_QUOTES[Math.floor(Math.random() * OFFICIAL_QUOTES.length)]
 				.replace('{icon}', app.itemdata.military_crate.icon)
 				.replace('{item}', '`military_crate`'))
 		}
 		else {
-			await app.itm.addItem(message.author.id, 'military_crate', 1)
+			await app.itm.addItem(message.author.id, 'military_crate', 1, serverSideGuildId)
 			message.reply(QUOTES[Math.floor(Math.random() * QUOTES.length)]
 				.replace('{icon}', app.itemdata.military_crate.icon)
 				.replace('{item}', '`military_crate`')

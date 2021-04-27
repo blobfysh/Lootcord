@@ -10,7 +10,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		if (args[0] === 'g' || args[0] === 'global') {
 			const leaders = await getGlobalLB(app)
 
@@ -31,31 +31,63 @@ module.exports = {
 		const levelLeaders = []
 		const killLeaders = []
 		const scrapLeaders = []
+		let moneyRows
+		let scrapRows
+		let levelRows
+		let killRows
 
-		const moneyRows = await app.query(`SELECT scores.userId, money, badge
-            FROM userGuilds
-            INNER JOIN scores
-            ON userGuilds.userId = scores.userId
-            WHERE userGuilds.guildId ="${message.channel.guild.id}"
-            ORDER BY money DESC LIMIT 3`)
-		const scrapRows = await app.query(`SELECT scores.userId, scrap, badge
-            FROM userGuilds
-            INNER JOIN scores
-            ON userGuilds.userId = scores.userId
-            WHERE userGuilds.guildId ="${message.channel.guild.id}"
-            ORDER BY scrap DESC LIMIT 3`)
-		const levelRows = await app.query(`SELECT scores.userId, level, badge
-            FROM userGuilds
-            INNER JOIN scores
-            ON userGuilds.userId = scores.userId
-            WHERE userGuilds.guildId ="${message.channel.guild.id}"
-            ORDER BY level DESC LIMIT 3`)
-		const killRows = await app.query(`SELECT scores.userId, kills, badge
-            FROM userGuilds
-            INNER JOIN scores
-            ON userGuilds.userId = scores.userId
-            WHERE userGuilds.guildId ="${message.channel.guild.id}"
-            ORDER BY kills DESC LIMIT 3`)
+		if (serverSideGuildId) {
+			moneyRows = await app.query(`SELECT server_scores.userId, money, badge
+				FROM userGuilds
+				INNER JOIN server_scores
+				ON userGuilds.userId = server_scores.userId
+				WHERE userGuilds.guildId ="${message.channel.guild.id}"
+				ORDER BY money DESC LIMIT 3`)
+			scrapRows = await app.query(`SELECT server_scores.userId, scrap, badge
+				FROM userGuilds
+				INNER JOIN server_scores
+				ON userGuilds.userId = server_scores.userId
+				WHERE userGuilds.guildId ="${message.channel.guild.id}"
+				ORDER BY scrap DESC LIMIT 3`)
+			levelRows = await app.query(`SELECT server_scores.userId, level, badge
+				FROM userGuilds
+				INNER JOIN server_scores
+				ON userGuilds.userId = server_scores.userId
+				WHERE userGuilds.guildId ="${message.channel.guild.id}"
+				ORDER BY level DESC LIMIT 3`)
+			killRows = await app.query(`SELECT server_scores.userId, kills, badge
+				FROM userGuilds
+				INNER JOIN server_scores
+				ON userGuilds.userId = server_scores.userId
+				WHERE userGuilds.guildId ="${message.channel.guild.id}"
+				ORDER BY kills DESC LIMIT 3`)
+		}
+		else {
+			moneyRows = await app.query(`SELECT scores.userId, money, badge
+				FROM userGuilds
+				INNER JOIN scores
+				ON userGuilds.userId = scores.userId
+				WHERE userGuilds.guildId ="${message.channel.guild.id}"
+				ORDER BY money DESC LIMIT 3`)
+			scrapRows = await app.query(`SELECT scores.userId, scrap, badge
+				FROM userGuilds
+				INNER JOIN scores
+				ON userGuilds.userId = scores.userId
+				WHERE userGuilds.guildId ="${message.channel.guild.id}"
+				ORDER BY scrap DESC LIMIT 3`)
+			levelRows = await app.query(`SELECT scores.userId, level, badge
+				FROM userGuilds
+				INNER JOIN scores
+				ON userGuilds.userId = scores.userId
+				WHERE userGuilds.guildId ="${message.channel.guild.id}"
+				ORDER BY level DESC LIMIT 3`)
+			killRows = await app.query(`SELECT scores.userId, kills, badge
+				FROM userGuilds
+				INNER JOIN scores
+				ON userGuilds.userId = scores.userId
+				WHERE userGuilds.guildId ="${message.channel.guild.id}"
+				ORDER BY kills DESC LIMIT 3`)
+		}
 
 		for (const key in moneyRows) {
 			try {

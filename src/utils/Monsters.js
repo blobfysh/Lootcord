@@ -161,7 +161,7 @@ class Monsters {
 		return rewards[Math.floor(Math.random() * rewards.length)]
 	}
 
-	async disperseRewards(channelId, monster, money) {
+	async disperseRewards(channelId, monster, money, serverSideGuildId) {
 		const topDamageDealers = await this.getTopDamageDealt(channelId)
 		const weightedMain = this.app.itm.generateWeightedArray(monster.loot.main)
 		const weightedExtras = this.app.itm.generateWeightedArray(monster.loot.extras)
@@ -173,7 +173,7 @@ class Monsters {
 
 			if (i === 0) {
 				loot = [this.pickRandomLoot(monster, 'main', weightedMain), this.pickRandomLoot(monster, 'extras', weightedExtras)]
-				await this.app.player.addPoints(topDamageDealers[i].userId, monster.xp)
+				await this.app.player.addPoints(topDamageDealers[i].userId, monster.xp, serverSideGuildId)
 
 				rewardsArr.push(`**${topDamageDealers[i].damage}** damage - <@${topDamageDealers[i].userId}>,\n${this.app.common.formatNumber(moneyReward)}\n${this.app.itm.getDisplay(loot).join('\n')}\n...and \`⭐ ${monster.xp} XP\`!`)
 			}
@@ -188,8 +188,8 @@ class Monsters {
 				rewardsArr.push(`**${topDamageDealers[i].damage}** damage - <@${topDamageDealers[i].userId}>,\n${this.app.common.formatNumber(moneyReward)}\n${this.app.itm.getDisplay(loot).join('\n')}`)
 			}
 
-			await this.app.player.addMoney(topDamageDealers[i].userId, moneyReward)
-			await this.app.itm.addItem(topDamageDealers[i].userId, loot)
+			await this.app.player.addMoney(topDamageDealers[i].userId, moneyReward, serverSideGuildId)
+			await this.app.itm.addItem(topDamageDealers[i].userId, loot, null, serverSideGuildId)
 		}
 
 		const killedReward = new this.app.Embed()

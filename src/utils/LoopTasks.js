@@ -43,7 +43,7 @@ class LoopTasks {
 	}
 
 	async monthlyTasks() {
-		await this.app.query('UPDATE scores SET points = 0, level = 1')
+		await this.app.query('UPDATE scores, server_scores SET scores.points = 0, scores.level = 1, server_scores.points = 0, server_scores.level = 1')
 	}
 
 	async dailyTasks() {
@@ -67,7 +67,8 @@ class LoopTasks {
 				decayingClans++
 			}
 			else if (clanData.usedPower >= 1) {
-				const randomItem = await this.app.itm.getRandomUserItems(clans[i].clanId, 1)
+				const clanitems = await this.app.itm.getItemObject(clans[i].clanId)
+				const randomItem = await this.app.itm.getRandomUserItems(clanitems, 1)
 				await this.app.itm.removeItem(clans[i].clanId, randomItem.items[0], 1)
 				await this.app.clans.addLog(clans[i].clanId, `The vault lost 1x ${randomItem.items[0]} due to cost of upkeep`)
 				itemsRemoved++
@@ -86,23 +87,62 @@ class LoopTasks {
 		await this.app.query('UPDATE scores SET discoinLimit = 0, bmLimit = 0 WHERE discoinLimit != 0 OR bmLimit != 0')
 
 		// auto-deactivate players who have not played for 7 days
-		const InactiveUsers = await this.app.query('SELECT scores.userId, guildId, lastActive FROM userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 7 DAY')
+		const globalInactiveUsers = await this.app.query(`SELECT scores.userId, userGuilds.guildId, lastActive
+			FROM userGuilds
+			INNER JOIN scores
+			ON userGuilds.userId = scores.userId
+			INNER JOIN guildInfo
+			ON userGuilds.guildId = guildInfo.guildId
+			WHERE scores.lastActive < NOW() - INTERVAL 7 DAY AND serverOnly = 0`)
+		const serverSideInactiveUsers = await this.app.query(`SELECT server_scores.userId, userGuilds.guildId, lastActive
+			FROM userGuilds
+			INNER JOIN server_scores
+			ON userGuilds.userId = server_scores.userId
+			INNER JOIN guildInfo
+			ON userGuilds.guildId = guildInfo.guildId
+			WHERE server_scores.lastActive < NOW() - INTERVAL 7 DAY AND serverOnly = 1`)
 		let activeRolesRemoved = 0
 
-		for (let i = 0; i < InactiveUsers.length; i++) {
-			if (Object.keys(this.app.config.activeRoleGuilds).includes(InactiveUsers[i].guildId)) {
+		for (const inactiveUser of globalInactiveUsers) {
+			if (Object.keys(this.app.config.activeRoleGuilds).includes(inactiveUser.guildId)) {
 				this.app.ipc.broadcast('removeActiveRole', {
-					guildId: InactiveUsers[i].guildId,
-					userId: InactiveUsers[i].userId,
-					roleId: this.app.config.activeRoleGuilds[InactiveUsers[i].guildId].activeRoleID
+					guildId: inactiveUser.guildId,
+					userId: inactiveUser.userId,
+					roleId: this.app.config.activeRoleGuilds[inactiveUser.guildId].activeRoleID
 				})
 
 				activeRolesRemoved++
 			}
 		}
+		// remove role from server-side users
+		for (const inactiveUser of serverSideInactiveUsers) {
+			if (Object.keys(this.app.config.activeRoleGuilds).includes(inactiveUser.guildId)) {
+				this.app.ipc.broadcast('removeActiveRole', {
+					guildId: inactiveUser.guildId,
+					userId: inactiveUser.userId,
+					roleId: this.app.config.activeRoleGuilds[inactiveUser.guildId].activeRoleID
+				})
+
+				activeRolesRemoved++
+			}
+		}
+
 		console.log(`[LOOPTASKS] Removed active role from ${activeRolesRemoved} players.`)
 
-		await this.app.query('DELETE FROM userGuilds USING userGuilds INNER JOIN scores ON userGuilds.userId = scores.userId WHERE scores.lastActive < NOW() - INTERVAL 7 DAY')
+		await this.app.query(`DELETE FROM userGuilds
+			USING userGuilds
+			INNER JOIN scores
+			ON userGuilds.userId = scores.userId
+			INNER JOIN guildInfo
+			ON userGuilds.guildId = guildInfo.guildId
+			WHERE scores.lastActive < NOW() - INTERVAL 7 DAY AND serverOnly = 0`)
+		await this.app.query(`DELETE FROM userGuilds
+			USING userGuilds
+			INNER JOIN server_scores
+			ON userGuilds.userId = server_scores.userId
+			INNER JOIN guildInfo
+			ON userGuilds.guildId = guildInfo.guildId
+			WHERE server_scores.lastActive < NOW() - INTERVAL 7 DAY AND serverOnly = 1`)
 
 		const dailyEmbed = new this.app.Embed()
 			.setTitle('Daily Tasks')
@@ -138,12 +178,15 @@ class LoopTasks {
 		console.log('[LOOPTASKS] Running bi-hourly tasks...')
 		// add 1 power to all active players every 2 hours
 		await this.app.query('UPDATE scores SET power = power + 1 WHERE power < max_power AND lastActive > NOW() - INTERVAL 14 DAY;')
+		await this.app.query('UPDATE server_scores SET power = power + 1 WHERE power < max_power AND lastActive > NOW() - INTERVAL 14 DAY;')
 
 		// remove 1 power for players inactve over 2 weeks, down to minimum of 0
 		await this.app.query('UPDATE scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 14 DAY')
+		await this.app.query('UPDATE server_scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 14 DAY')
 
-		// clean up cooldown table
+		// clean up cooldown tables
 		this.app.query('DELETE FROM cooldown WHERE UNIX_TIMESTAMP() * 1000 > start + length')
+		this.app.query('DELETE FROM server_cooldown WHERE UNIX_TIMESTAMP() * 1000 > start + length')
 	}
 
 	async hourlyTasks() {
@@ -213,6 +256,24 @@ class LoopTasks {
 
 	async bleedTask() {
 		await this.app.query(`UPDATE scores SET health = CASE
+			WHEN bleed >= 5 AND burn >= 3 AND health > 8 THEN health - 8
+			WHEN bleed >= 5 AND burn >= 3 THEN 1
+			WHEN bleed < 5 AND burn < 3 AND health > (bleed + burn) THEN health - (bleed + burn)
+			WHEN bleed < 5 AND health > (bleed + 3) THEN health - (bleed + 3)
+			WHEN burn < 3 AND health > (5 + burn) THEN health - (5 + burn)
+			ELSE 1
+		END,
+		bleed = CASE
+			WHEN bleed >= 5 THEN bleed - 5
+			ELSE 0
+		END,
+		burn = CASE
+			WHEN burn >= 3 THEN burn - 3
+			ELSE 0
+		END
+		WHERE bleed > 0 OR burn > 0`)
+
+		await this.app.query(`UPDATE server_scores SET health = CASE
 			WHEN bleed >= 5 AND burn >= 3 AND health > 8 THEN health - 8
 			WHEN bleed >= 5 AND burn >= 3 THEN 1
 			WHEN bleed < 5 AND burn < 3 AND health > (bleed + burn) THEN health - (bleed + burn)

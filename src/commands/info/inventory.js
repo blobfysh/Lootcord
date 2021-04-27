@@ -14,7 +14,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	execute(app, message, { args, prefix, guildInfo }) {
+	execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const memberArg = app.parse.members(message, args)[0]
 
 		// no member found in ArgParser
@@ -33,19 +33,19 @@ module.exports = {
 
 		async function makeInventory(member) {
 			try {
-				const userRow = await app.player.getRow(member.id)
+				const userRow = await app.player.getRow(member.id, serverSideGuildId)
 
 				if (!userRow) {
 					return message.reply('❌ The person you\'re trying to search doesn\'t have an account!')
 				}
 
 				const isActive = await app.player.isActive(member.id, member.guild.id)
-				const itemObject = await app.itm.getItemObject(member.id)
+				const itemObject = await app.itm.getItemObject(member.id, serverSideGuildId)
 				const usersItems = await app.itm.getUserItems(itemObject)
 				const itemCt = await app.itm.getItemCount(itemObject, userRow)
-				const armorLeft = await app.cd.getCD(member.id, 'shield')
-				const armor = await app.player.getArmor(member.id)
-				const passiveShield = await app.cd.getCD(member.id, 'passive_shield')
+				const armorLeft = await app.cd.getCD(member.id, 'shield', { serverSideGuildId })
+				const armor = await app.player.getArmor(member.id, serverSideGuildId)
+				const passiveShield = await app.cd.getCD(member.id, 'passive_shield', { serverSideGuildId })
 
 				const embedInfo = new app.Embed()
 					.setTitle(`${isActive ? app.icons.accounts.active : app.icons.accounts.inactive} ${`${member.username}#${member.discriminator}`}'s Inventory`)

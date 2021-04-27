@@ -12,8 +12,8 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
-		const row = await app.player.getRow(message.author.id)
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const upgrOpt = args[0] !== undefined ? args[0].toLowerCase() : ''
 		const upgrAmnt = upgrOptions.includes(upgrOpt) ? app.parse.numbers(args)[0] || 1 : 1
 
@@ -31,19 +31,21 @@ module.exports = {
 				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
 
 				if (confirmed) {
-					if (!await app.player.hasMoney(message.author.id, price)) {
+					const vRow = await app.player.getRow(message.author.id, serverSideGuildId)
+
+					if (vRow.money < price) {
 						botMessage.edit(`You don't have enough money! You currently have ${app.common.formatNumber(row.money)}`)
 					}
-					else if (row.used_stats !== (await app.player.getRow(message.author.id)).used_stats) {
+					else if (row.used_stats !== vRow.used_stats) {
 						botMessage.edit('❌ Error: did your stats change while upgrading?')
 					}
 					else if (row.used_stats + upgrAmnt > 30) {
 						botMessage.edit('❌ Upgrading that much would put you over the max (30 skills upgraded). You can use a `reroll_scroll` to reset your skills.')
 					}
 					else {
-						await app.query(`UPDATE scores SET used_stats = used_stats + ${upgrAmnt} WHERE userId = "${message.author.id}"`)
-						await app.player.removeMoney(message.author.id, price)
-						await purchaseSkills(app, message, type.title, upgrAmnt)
+						await incrUsedStats(app, message.author.id, upgrAmnt, serverSideGuildId)
+						await app.player.removeMoney(message.author.id, price, serverSideGuildId)
+						await purchaseSkills(app, message, type.title, upgrAmnt, serverSideGuildId)
 
 						botMessage.edit(`Successfully allocated ${upgrAmnt} points to ${type.display}.`)
 					}
@@ -71,26 +73,27 @@ module.exports = {
 
 			try {
 				const collected = await app.react.getFirstReaction(message.author.id, botMessage, 15000, ['💗', '💥', '🍀', '❌'])
+				const vRow = await app.player.getRow(message.author.id, serverSideGuildId)
 
 				if (collected === '💗') {
 					type = getType('health')
 
-					if (!await app.player.hasMoney(message.author.id, price)) {
+					if (vRow.money < price) {
 						const errorEmbed = new app.Embed()
 							.setColor(16734296)
-							.setDescription(`❌ You don't have enough money! You currently have ${app.common.formatNumber(row.money)}`)
+							.setDescription(`❌ You don't have enough money! You currently have ${app.common.formatNumber(vRow.money)}`)
 						botMessage.edit(errorEmbed)
 					}
-					else if (row.used_stats !== (await app.player.getRow(message.author.id)).used_stats) {
+					else if (row.used_stats !== vRow.used_stats) {
 						const errorEmbed = new app.Embed()
 							.setColor(16734296)
 							.setDescription('❌ Error: did your stats change while upgrading?')
 						botMessage.edit(errorEmbed)
 					}
 					else {
-						await app.query(`UPDATE scores SET used_stats = used_stats + ${upgrAmnt} WHERE userId = "${message.author.id}"`)
-						await app.player.removeMoney(message.author.id, price)
-						await purchaseSkills(app, message, type.title, upgrAmnt)
+						await incrUsedStats(app, message.author.id, upgrAmnt, serverSideGuildId)
+						await app.player.removeMoney(message.author.id, price, serverSideGuildId)
+						await purchaseSkills(app, message, type.title, upgrAmnt, serverSideGuildId)
 
 
 						const upgradedEmbed = new app.Embed()
@@ -105,22 +108,22 @@ module.exports = {
 				else if (collected === '💥') {
 					type = getType('strength')
 
-					if (!await app.player.hasMoney(message.author.id, price)) {
+					if (vRow.money < price) {
 						const errorEmbed = new app.Embed()
 							.setColor(16734296)
-							.setDescription(`❌ You don't have enough money! You currently have ${app.common.formatNumber(row.money)}`)
+							.setDescription(`❌ You don't have enough money! You currently have ${app.common.formatNumber(vRow.money)}`)
 						botMessage.edit(errorEmbed)
 					}
-					else if (row.used_stats !== (await app.player.getRow(message.author.id)).used_stats) {
+					else if (row.used_stats !== vRow.used_stats) {
 						const errorEmbed = new app.Embed()
 							.setColor(16734296)
 							.setDescription('❌ Error: did your stats change while upgrading?')
 						botMessage.edit(errorEmbed)
 					}
 					else {
-						await app.query(`UPDATE scores SET used_stats = used_stats + ${upgrAmnt} WHERE userId = "${message.author.id}"`)
-						await app.player.removeMoney(message.author.id, price)
-						await purchaseSkills(app, message, type.title, upgrAmnt)
+						await incrUsedStats(app, message.author.id, upgrAmnt, serverSideGuildId)
+						await app.player.removeMoney(message.author.id, price, serverSideGuildId)
+						await purchaseSkills(app, message, type.title, upgrAmnt, serverSideGuildId)
 
 
 						const upgradedEmbed = new app.Embed()
@@ -136,22 +139,22 @@ module.exports = {
 				else if (collected === '🍀') {
 					type = getType('luck')
 
-					if (!await app.player.hasMoney(message.author.id, price)) {
+					if (vRow.money < price) {
 						const errorEmbed = new app.Embed()
 							.setColor(16734296)
-							.setDescription(`❌ You don't have enough money! You currently have ${app.common.formatNumber(row.money)}`)
+							.setDescription(`❌ You don't have enough money! You currently have ${app.common.formatNumber(vRow.money)}`)
 						botMessage.edit(errorEmbed)
 					}
-					else if (row.used_stats !== (await app.player.getRow(message.author.id)).used_stats) {
+					else if (row.used_stats !== vRow.used_stats) {
 						const errorEmbed = new app.Embed()
 							.setColor(16734296)
 							.setDescription('❌ Error: did your stats change while upgrading?')
 						botMessage.edit(errorEmbed)
 					}
 					else {
-						await app.query(`UPDATE scores SET used_stats = used_stats + ${upgrAmnt} WHERE userId = "${message.author.id}"`)
-						await app.player.removeMoney(message.author.id, price)
-						await purchaseSkills(app, message, type.title, upgrAmnt)
+						await incrUsedStats(app, message.author.id, upgrAmnt, serverSideGuildId)
+						await app.player.removeMoney(message.author.id, price, serverSideGuildId)
+						await purchaseSkills(app, message, type.title, upgrAmnt, serverSideGuildId)
 
 
 						const upgradedEmbed = new app.Embed()
@@ -178,12 +181,31 @@ module.exports = {
 	}
 }
 
-async function purchaseSkills(app, message, type, amount) {
-	if (type === 'Health') {
+async function incrUsedStats(app, userId, amount, serverSideGuildId = undefined) {
+	if (serverSideGuildId) {
+		await app.query(`UPDATE server_scores SET used_stats = used_stats + ${amount} WHERE userId = "${userId}" AND guildId = "${serverSideGuildId}"`)
+	}
+	else {
+		await app.query(`UPDATE scores SET used_stats = used_stats + ${amount} WHERE userId = "${userId}"`)
+	}
+}
+
+async function purchaseSkills(app, message, type, amount, serverSideGuildId = undefined) {
+	if (type === 'Health' && serverSideGuildId) {
+		await app.query(`UPDATE server_scores SET maxHealth = maxHealth + ${5 * amount} WHERE userId = "${message.author.id}" AND guildId = "${serverSideGuildId}"`)
+	}
+	else if (type === 'Health') {
 		await app.query(`UPDATE scores SET maxHealth = maxHealth + ${5 * amount} WHERE userId = "${message.author.id}"`)
+	}
+	else if (type === 'Strength' && serverSideGuildId) {
+		await app.query(`UPDATE server_scores SET scaledDamage = scaledDamage + ${(0.03 * amount).toFixed(2)} WHERE userId = "${message.author.id}" AND guildId = "${serverSideGuildId}"`)
 	}
 	else if (type === 'Strength') {
 		await app.query(`UPDATE scores SET scaledDamage = scaledDamage + ${(0.03 * amount).toFixed(2)} WHERE userId = "${message.author.id}"`)
+	}
+	else if (serverSideGuildId) {
+		// server-side luck
+		await app.query(`UPDATE server_scores SET luck = luck + ${2 * amount} WHERE userId = "${message.author.id}" AND guildId = "${serverSideGuildId}"`)
 	}
 	else {
 		// luck

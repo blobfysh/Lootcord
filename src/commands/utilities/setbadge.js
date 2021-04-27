@@ -10,12 +10,17 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
-		const playerBadges = await app.itm.getBadges(message.author.id)
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const playerBadges = await app.itm.getBadges(message.author.id, serverSideGuildId)
 		const badgeToSet = app.parse.badges(args)[0]
 
 		if (args[0] && args[0].toLowerCase() === 'none') {
-			await app.query(`UPDATE scores SET badge = 'none' WHERE userId = ${message.author.id}`)
+			if (serverSideGuildId) {
+				await app.query(`UPDATE server_scores SET badge = 'none' WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+			}
+			else {
+				await app.query(`UPDATE scores SET badge = 'none' WHERE userId = ${message.author.id}`)
+			}
 
 			return message.reply('✅ Successfully cleared your display badge!')
 		}
@@ -26,7 +31,12 @@ module.exports = {
 			return message.reply('❌ You don\'t own that badge!')
 		}
 
-		await app.query(`UPDATE scores SET badge = '${badgeToSet}' WHERE userId = ${message.author.id}`)
+		if (serverSideGuildId) {
+			await app.query(`UPDATE server_scores SET badge = '${badgeToSet}' WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+		}
+		else {
+			await app.query(`UPDATE scores SET badge = '${badgeToSet}' WHERE userId = ${message.author.id}`)
+		}
 
 		message.reply(`✅ Successfully made ${app.badgedata[badgeToSet].icon}\`${badgeToSet}\` your display badge!`)
 	}

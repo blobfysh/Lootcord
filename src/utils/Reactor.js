@@ -33,6 +33,10 @@ class Reactor {
      * @param {number} time Time in milliseconds bot listens for reactions
      */
 	async paginate(message, embeds, time = 60000) {
+		if (embeds.length === 1) {
+			return message.channel.createMessage(embeds[0])
+		}
+
 		let page = 0
 		embeds[0].setFooter(`Page 1/${embeds.length}`)
 		const botMessage = await message.channel.createMessage(embeds[0])

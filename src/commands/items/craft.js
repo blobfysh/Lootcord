@@ -10,8 +10,8 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
-		const row = await app.player.getRow(message.author.id)
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const craftItem = app.parse.items(args)[0]
 		let craftAmount = app.parse.numbers(args)[0] || 1
 
@@ -38,11 +38,11 @@ module.exports = {
 				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
 
 				if (confirmed) {
-					const userItems = await app.itm.getItemObject(message.author.id)
+					const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 
 					if (await app.itm.hasItems(userItems, itemMats)) {
-						await app.itm.removeItem(message.author.id, itemMats)
-						await app.itm.addItem(message.author.id, craftItem, craftAmount)
+						await app.itm.removeItem(message.author.id, itemMats, null, serverSideGuildId)
+						await app.itm.addItem(message.author.id, craftItem, craftAmount, serverSideGuildId)
 
 						embedInfo.setColor(9043800)
 						embedInfo.setDescription(`Successfully crafted **${craftAmount}x** ${app.itemdata[craftItem].icon}\`${craftItem}\``)

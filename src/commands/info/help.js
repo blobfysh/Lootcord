@@ -14,7 +14,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		if (args[0]) {
 			const cmd = app.commands.find(c => c.name === args[0] || (c.aliases.length && c.aliases.includes(args[0])))
 
@@ -41,7 +41,7 @@ module.exports = {
 		const categories = {}
 
 		app.commands.forEach(cmd => {
-			if (cmd.ignoreHelp) return
+			if (cmd.ignoreHelp || (cmd.globalEconomyOnly && serverSideGuildId)) return
 
 			if (categories[cmd.category]) {
 				categories[cmd.category].push(cmd.premiumCmd ? `✨${cmd.name}` : cmd.name)
@@ -86,11 +86,10 @@ module.exports = {
 		if (categoriesArr.includes('rewards')) embed.addField('🎉 Free Loot', categories.rewards.map(cmd => `\`${cmd}\``).join(' '))
 		if (categoriesArr.includes('games')) embed.addField('🎲 Gambling', categories.games.map(cmd => `\`${cmd}\``).join(' '))
 		if (categoriesArr.includes('info')) embed.addField('📋 Info', categories.info.map(cmd => `\`${cmd}\``).join(' '))
-		if (categoriesArr.includes('blackmarket')) embed.addField('💰 Black Market', categories.blackmarket.map(cmd => `\`${cmd}\``).join(' '))
+		if (categoriesArr.includes('blackmarket') && !serverSideGuildId) embed.addField('💰 Black Market', categories.blackmarket.map(cmd => `\`${cmd}\``).join(' '))
 		if (categoriesArr.includes('utilities')) embed.addField('⚙ Utility', categories.utilities.map(cmd => `\`${cmd}\``).join(' '))
 		if (categoriesArr.includes('other')) embed.addField('📈 Other', categories.other.map(cmd => `\`${cmd}\``).join(' '))
-
-		embed.addField('⚔️ Clans', app.clanCommands.map(cmd => `\`${cmd.name}\``).join(' '))
+		if (!serverSideGuildId) embed.addField('⚔️ Clans', app.clanCommands.map(cmd => `\`${cmd.name}\``).join(' '))
 
 		message.channel.createMessage(embed)
 	}

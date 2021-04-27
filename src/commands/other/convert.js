@@ -12,6 +12,7 @@ module.exports = {
 	requiresActive: true,
 	guildModsOnly: false,
 	levelReq: 3,
+	globalEconomyOnly: true,
 
 	async execute(app, message, { args, prefix, guildInfo }) {
 		const row = await app.player.getRow(message.author.id)

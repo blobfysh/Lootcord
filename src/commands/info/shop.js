@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const allItems = Object.keys(app.itemdata).filter(item => app.itemdata[item].buy.currency !== undefined)
 
 		allItems.sort(app.itm.sortItemsHighLow.bind(app))
@@ -24,16 +24,18 @@ module.exports = {
 			else if (aCurr === 'money' && bCurr === 'scrap') return -1
 		})
 
-		app.react.paginate(message, await generatePages(app, allItems, prefix, max_items_per_page))
+		app.react.paginate(message, await generatePages(app, allItems, prefix, max_items_per_page, serverSideGuildId))
 	}
 }
 
 // returns an array of embeds
-async function generatePages(app, allItems, prefix, itemsPerPage) {
+async function generatePages(app, allItems, prefix, itemsPerPage, isServerSideEconomy) {
 	const pages = []
 	const maxPage = Math.ceil(allItems.length / itemsPerPage)
 
-	pages.push(await getHomePage(app, prefix))
+	if (!isServerSideEconomy) {
+		pages.push(await getHomePage(app, prefix))
+	}
 
 	for (let i = 1; i < maxPage + 1; i++) {
 		const indexFirst = (itemsPerPage * i) - itemsPerPage

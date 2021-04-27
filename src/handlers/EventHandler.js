@@ -8,7 +8,7 @@ class EventHandler {
 		this.events = this.loadEvents()
 	}
 
-	async initEvent(message, { prefix }) {
+	async initEvent(message, { prefix, serverSideGuildId }) {
 		// prevent an event from occuring in the same guild within timeframe
 		if (await this.app.cd.getCD(message.channel.guild.id, 'event')) return
 
@@ -28,7 +28,7 @@ class EventHandler {
 		await this.app.cd.setCD(message.channel.guild.id, 'event', event.cooldown)
 
 		// start event after 5 seconds so that it seems like the event randomly started
-		setTimeout(() => { event.execute(this.app, message, { prefix }) }, 5 * 1000)
+		setTimeout(() => { event.execute(this.app, message, { prefix, serverSideGuildId }) }, 5 * 1000)
 	}
 
 	loadEvents() {

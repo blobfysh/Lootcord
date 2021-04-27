@@ -10,11 +10,16 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const equipItem = app.parse.items(args)[0]
 
 		if (args[0] && args[0].toLowerCase() === 'none') {
-			await app.query(`UPDATE scores SET ammo = 'none' WHERE userId = ${message.author.id}`)
+			if (serverSideGuildId) {
+				await app.query(`UPDATE server_scores SET ammo = 'none' WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+			}
+			else {
+				await app.query(`UPDATE scores SET ammo = 'none' WHERE userId = ${message.author.id}`)
+			}
 
 			return message.reply('✅ Successfully cleared your preferred ammo type. (Best ammo available will be used.)')
 		}
@@ -28,7 +33,12 @@ module.exports = {
 			return message.reply(`❌ You don't own any ${app.itemdata[equipItem].icon}\`${equipItem}\`.`)
 		}
 
-		await app.query(`UPDATE scores SET ammo = '${equipItem}' WHERE userId = ${message.author.id}`)
+		if (serverSideGuildId) {
+			await app.query(`UPDATE server_scores SET ammo = '${equipItem}' WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
+		}
+		else {
+			await app.query(`UPDATE scores SET ammo = '${equipItem}' WHERE userId = ${message.author.id}`)
+		}
 
 		message.reply(`✅ Successfully set ${app.itemdata[equipItem].icon}\`${equipItem}\` as your preferred ammo type. (Will prioritize over other ammo types.)`)
 	}

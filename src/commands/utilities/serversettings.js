@@ -21,6 +21,7 @@ module.exports = {
 			.addField(`Killfeed Channel\n${killfeedStr}`, message.channel.guild.channels.get(guildInfo.killChan) ? message.channel.guild.channels.get(guildInfo.killChan).mention : 'None set')
 			.addField(`Level-up Channel\n${lvlChanStr}`, message.channel.guild.channels.get(guildInfo.levelChan) ? message.channel.guild.channels.get(guildInfo.levelChan).mention : 'None set')
 			.addField('Attack Mode\n(Change with `togglerandomattacks`)', guildInfo.randomOnly ? 'Random only' : 'Selectable')
+			.addField('Server-side Economy Mode\n(Change with `toggleservereconomy`)', guildInfo.serverOnly ? 'Enabled' : 'Disabled (global economy mode)')
 
 		if (message.channel.guild.iconURL) settings.setThumbnail(message.channel.guild.iconURL)
 		message.channel.createMessage(settings)

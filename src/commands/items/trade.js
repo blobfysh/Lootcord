@@ -14,14 +14,14 @@ module.exports = {
 	guildModsOnly: false,
 	levelReq: 3,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const user = app.parse.members(message, args)[0]
 
 		if (!user) {
 			return message.reply('❌ You need to mention the user you want to trade with.')
 		}
 
-		const victimRow = await app.player.getRow(user.id)
+		const victimRow = await app.player.getRow(user.id, serverSideGuildId)
 
 		if (user.id === app.bot.user.id) {
 			return message.reply('I respectfully DECLINE')
@@ -53,7 +53,7 @@ module.exports = {
 		else if (victimRow.level < this.levelReq) {
 			return message.reply(`❌ **${user.nick || user.username}** is not level 3. The target player must be at least level 3.`)
 		}
-		else if (await app.cd.getCD(user.id, 'blinded')) {
+		else if (await app.cd.getCD(user.id, 'blinded', { serverSideGuildId })) {
 			return message.reply(`❌ **${user.nick || user.username}** is blinded by a ${app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`!`)
 		}
 
@@ -116,11 +116,14 @@ module.exports = {
 										const player1Val = getValue(app, player1Money, player1Items)
 										const player2Val = getValue(app, player2Money, player2Items)
 
-										await tradeItems(app, message.member, player1Money, player1Items, user, player2Money, player2Items)
+										await tradeItems(app, message.member, player1Money, player1Items, user, player2Money, player2Items, serverSideGuildId)
 
 										acceptMessage.edit('✅ Trade completed!')
 
-										tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, prefix, true), message.channel.guild.id, message.member, user, player1Val, player2Val, player1Items, player2Items)
+										if (!serverSideGuildId) {
+											// only log trade if in global economy mode
+											tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, prefix, true), message.channel.guild.id, message.member, user, player1Val, player2Val, player1Items, player2Items)
+										}
 									}
 									catch (err) {
 										acceptMessage.edit(err.message)
@@ -145,11 +148,14 @@ module.exports = {
 										const player1Val = getValue(app, player1Money, player1Items)
 										const player2Val = getValue(app, player2Money, player2Items)
 
-										await tradeItems(app, message.member, player1Money, player1Items, user, player2Money, player2Items)
+										await tradeItems(app, message.member, player1Money, player1Items, user, player2Money, player2Items, serverSideGuildId)
 
 										acceptMessage.edit('✅ Trade completed!')
 
-										tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, prefix, true), message.channel.guild.id, message.member, user, player1Val, player2Val, player1Items, player2Items)
+										if (!serverSideGuildId) {
+											// log trade when in global economy mode
+											tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, prefix, true), message.channel.guild.id, message.member, user, player1Val, player2Val, player1Items, player2Items)
+										}
 									}
 									catch (err) {
 										acceptMessage.edit(err.message)
@@ -165,7 +171,7 @@ module.exports = {
 						}
 					}
 					else if (command.toLowerCase() === 'addmoney') {
-						const row = await app.player.getRow(m.author.id)
+						const row = await app.player.getRow(m.author.id, serverSideGuildId)
 						const amount = app.parse.numbers(userArgs)[0]
 
 						if (!amount) {
@@ -199,7 +205,7 @@ module.exports = {
 							if (listHasItem(player1Items, item)) {
 								return m.channel.createMessage('❌ That item is already in the trade.')
 							}
-							if (!await app.itm.hasItems(await app.itm.getItemObject(m.author.id), item, amount)) {
+							if (!await app.itm.hasItems(await app.itm.getItemObject(m.author.id, serverSideGuildId), item, amount)) {
 								return m.channel.createMessage('❌ You don\'t have enough of that item.')
 							}
 
@@ -209,7 +215,7 @@ module.exports = {
 							if (listHasItem(player2Items, item)) {
 								return m.channel.createMessage('❌ That item is already in the trade.')
 							}
-							if (!await app.itm.hasItems(await app.itm.getItemObject(m.author.id), item, amount)) {
+							if (!await app.itm.hasItems(await app.itm.getItemObject(m.author.id, serverSideGuildId), item, amount)) {
 								return m.channel.createMessage('❌ You don\'t have enough of that item.')
 							}
 
@@ -326,10 +332,10 @@ function listHasItem(itemList, item) {
 	return false
 }
 
-async function tradeItems(app, player1, player1Money, player1Items, player2, player2Money, player2Items) {
+async function tradeItems(app, player1, player1Money, player1Items, player2, player2Money, player2Items, serverSideGuildId) {
 	const transaction = await app.mysql.beginTransaction()
-	const player1Row = await app.player.getRowForUpdate(transaction.query, player1.id)
-	const player2Row = await app.player.getRowForUpdate(transaction.query, player2.id)
+	const player1Row = await app.player.getRowForUpdate(transaction.query, player1.id, serverSideGuildId)
+	const player2Row = await app.player.getRowForUpdate(transaction.query, player2.id, serverSideGuildId)
 
 	if (player1Row.money < player1Money) {
 		await transaction.commit()
@@ -340,8 +346,8 @@ async function tradeItems(app, player1, player1Money, player1Items, player2, pla
 		throw new Error(`❌ **${player2.nick || player2.username}** does not have the money they wanted to trade.`)
 	}
 
-	const player1ItemObj = await app.itm.getItemObjectForUpdate(transaction.query, player1.id)
-	const player2ItemObj = await app.itm.getItemObjectForUpdate(transaction.query, player2.id)
+	const player1ItemObj = await app.itm.getItemObjectForUpdate(transaction.query, player1.id, serverSideGuildId)
+	const player2ItemObj = await app.itm.getItemObjectForUpdate(transaction.query, player2.id, serverSideGuildId)
 	const player1ItemCt = await app.itm.getItemCount(player1ItemObj, player1Row)
 	const player2ItemCt = await app.itm.getItemCount(player2ItemObj, player2Row)
 
@@ -362,17 +368,17 @@ async function tradeItems(app, player1, player1Money, player1Items, player2, pla
 		throw new Error(`❌ **${player2.nick || player2.username}** does not have enough space in their inventory.`)
 	}
 
-	await app.player.removeMoneySafely(transaction.query, player1.id, player1Money)
-	await app.player.removeMoneySafely(transaction.query, player2.id, player2Money)
+	await app.player.removeMoneySafely(transaction.query, player1.id, player1Money, serverSideGuildId)
+	await app.player.removeMoneySafely(transaction.query, player2.id, player2Money, serverSideGuildId)
 
-	await app.itm.removeItemSafely(transaction.query, player1.id, player1Items)
-	await app.itm.removeItemSafely(transaction.query, player2.id, player2Items)
+	await app.itm.removeItemSafely(transaction.query, player1.id, player1Items, null, serverSideGuildId)
+	await app.itm.removeItemSafely(transaction.query, player2.id, player2Items, null, serverSideGuildId)
 
-	await app.player.addMoneySafely(transaction.query, player1.id, player2Money)
-	await app.player.addMoneySafely(transaction.query, player2.id, player1Money)
+	await app.player.addMoneySafely(transaction.query, player1.id, player2Money, serverSideGuildId)
+	await app.player.addMoneySafely(transaction.query, player2.id, player1Money, serverSideGuildId)
 
-	await app.itm.addItemSafely(transaction.query, player1.id, player2Items)
-	await app.itm.addItemSafely(transaction.query, player2.id, player1Items)
+	await app.itm.addItemSafely(transaction.query, player1.id, player2Items, null, serverSideGuildId)
+	await app.itm.addItemSafely(transaction.query, player2.id, player1Items, null, serverSideGuildId)
 
 	// finish trade
 	await transaction.commit()

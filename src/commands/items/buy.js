@@ -12,7 +12,7 @@ module.exports = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const shopItems = await getShopData(app)
 		let buyItem = app.parse.items(args)[0]
 		let buyAmount = app.parse.numbers(args)[0] || 1
@@ -34,8 +34,8 @@ module.exports = {
 					const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
 
 					if (confirmed) {
-						const row = await app.player.getRow(message.author.id)
-						const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), row)
+						const row = await app.player.getRow(message.author.id, serverSideGuildId)
+						const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id, serverSideGuildId), row)
 						const hasSpace = await app.itm.hasSpace(itemCt, buyAmount)
 
 						if (row.money < itemPrice * buyAmount) {
@@ -45,8 +45,8 @@ module.exports = {
 							return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${buyAmount}** open slot${buyAmount > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
 						}
 
-						await app.player.removeMoney(message.author.id, itemPrice * buyAmount)
-						await app.itm.addItem(message.author.id, buyItem, buyAmount)
+						await app.player.removeMoney(message.author.id, itemPrice * buyAmount, serverSideGuildId)
+						await app.itm.addItem(message.author.id, buyItem, buyAmount, serverSideGuildId)
 
 						botMessage.edit(`Successfully bought ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\`!\n\nYou now have ${app.common.formatNumber(row.money - (itemPrice * buyAmount))}.`)
 					}
@@ -65,8 +65,8 @@ module.exports = {
 					const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
 
 					if (confirmed) {
-						const row = await app.player.getRow(message.author.id)
-						const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), row)
+						const row = await app.player.getRow(message.author.id, serverSideGuildId)
+						const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id, serverSideGuildId), row)
 						const hasSpace = await app.itm.hasSpace(itemCt, buyAmount)
 
 						if (row.scrap < itemPrice * buyAmount) {
@@ -76,8 +76,8 @@ module.exports = {
 							return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${buyAmount}** open slot${buyAmount > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
 						}
 
-						await app.player.removeScrap(message.author.id, itemPrice * buyAmount)
-						await app.itm.addItem(message.author.id, buyItem, buyAmount)
+						await app.player.removeScrap(message.author.id, itemPrice * buyAmount, serverSideGuildId)
+						await app.itm.addItem(message.author.id, buyItem, buyAmount, serverSideGuildId)
 
 						botMessage.edit(`Successfully bought ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\`!\n\nYou now have ${app.common.formatNumber(row.scrap - (itemPrice * buyAmount), false, true)}.`)
 					}
@@ -98,8 +98,8 @@ module.exports = {
 					if (confirmed) {
 						// if user bought 3 rocks at 5 tokens each, they would need 3 - 15 = -12 space in their inventory
 						// if they had 20/10 slots at time of purchasing, this would return true because 20 - 12 = 8/10 slots
-						const userItems = await app.itm.getItemObject(message.author.id)
-						const itemCt = await app.itm.getItemCount(userItems, await app.player.getRow(message.author.id))
+						const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
+						const itemCt = await app.itm.getItemCount(userItems, await app.player.getRow(message.author.id, serverSideGuildId))
 						const hasItems = await app.itm.hasItems(userItems, currency, itemPrice * buyAmount)
 						const hasSpace = await app.itm.hasSpace(itemCt, buyAmount - (buyAmount * itemPrice))
 
@@ -110,8 +110,8 @@ module.exports = {
 							return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${buyAmount - (buyAmount * itemPrice)}** open slot${buyAmount - (buyAmount * itemPrice) > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
 						}
 
-						await app.itm.removeItem(message.author.id, currency, itemPrice * buyAmount)
-						await app.itm.addItem(message.author.id, buyItem, buyAmount)
+						await app.itm.removeItem(message.author.id, currency, itemPrice * buyAmount, serverSideGuildId)
+						await app.itm.addItem(message.author.id, buyItem, buyAmount, serverSideGuildId)
 
 						botMessage.edit(`Successfully bought ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\`!`)
 					}
@@ -125,7 +125,7 @@ module.exports = {
 			}
 		}
 		else if (args.map(arg => arg.toLowerCase()).includes('scrap')) {
-			const row = await app.player.getRow(message.author.id)
+			const row = await app.player.getRow(message.author.id, serverSideGuildId)
 
 			if (args[1] && args[1].toLowerCase() === 'all') {
 				buyAmount = row.money
@@ -145,14 +145,14 @@ module.exports = {
 				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
 
 				if (confirmed) {
-					const verifyRow = await app.player.getRow(message.author.id)
+					const verifyRow = await app.player.getRow(message.author.id, serverSideGuildId)
 
 					if (verifyRow.money < scrapPrice) {
 						return botMessage.edit(`You don't have enough Lootcoin for that purchase! You only have **${app.common.formatNumber(verifyRow.money)}**.`)
 					}
 
-					await app.player.removeMoney(message.author.id, scrapPrice)
-					await app.player.addScrap(message.author.id, buyAmount)
+					await app.player.removeMoney(message.author.id, scrapPrice, serverSideGuildId)
+					await app.player.addScrap(message.author.id, buyAmount, serverSideGuildId)
 
 					botMessage.edit(`Successfully traded **${app.common.formatNumber(scrapPrice)}** Lootcoin for **${app.common.formatNumber(buyAmount, false, true)}** Scrap.\n\nYou now have **${app.common.formatNumber(verifyRow.money - scrapPrice)}** Lootcoin and **${app.common.formatNumber(verifyRow.scrap + buyAmount, false, true)}** Scrap`)
 				}
@@ -174,7 +174,10 @@ module.exports = {
 			const itemName = shopItems[buyItem].itemDisplay
 			buyAmount = 1
 
-			if (itemAmount <= 0) {
+			if (serverSideGuildId) {
+				return message.reply('❌ Global shop deals are not available for server-side economies.')
+			}
+			else if (itemAmount <= 0) {
 				return message.reply('That item is sold out! 😞')
 			}
 
@@ -260,7 +263,10 @@ module.exports = {
 		else if (shortid.isValid(args[0]) && await app.bm.getListingInfo(args[0])) {
 			buyItem = args[0]
 
-			if (await app.cd.getCD(message.author.id, 'tradeban')) {
+			if (serverSideGuildId) {
+				return message.reply('❌ The black market is disabled for server-side economies.')
+			}
+			else if (await app.cd.getCD(message.author.id, 'tradeban')) {
 				return message.reply('❌ You are trade banned and cannot use the black market.')
 			}
 			else if (Math.floor((message.author.id / 4194304) + 1420070400000) > Date.now() - (30 * 24 * 60 * 60 * 1000)) {

@@ -8,9 +8,18 @@ exports.run = async function(guild, member) {
 
 	if (await this.cd.getCD(member.id, `activate|${guild.id}`)) {
 		// cooldown dodged... >:(
-		const randomItems = await this.itm.getRandomUserItems(member.id, 1)
-		await this.itm.removeItem(member.id, randomItems.amounts)
-		await this.query(`UPDATE scores SET deaths = deaths + 1 WHERE userId = ${member.id}`)
+		const guildInfo = await this.app.common.getGuildInfo(guild.id)
+		const serverSideGuildId = guildInfo.serverOnly ? guild.id : undefined
+		const userItems = await this.itm.getItemObject(member.id, serverSideGuildId)
+		const randomItems = await this.itm.getRandomUserItems(userItems, 1)
+		await this.itm.removeItem(member.id, randomItems.amounts, null, serverSideGuildId)
+
+		if (serverSideGuildId) {
+			await this.query(`UPDATE server_scores SET deaths = deaths + 1 WHERE userId = ${member.id} AND guildId = ${serverSideGuildId}`)
+		}
+		else {
+			await this.query(`UPDATE scores SET deaths = deaths + 1 WHERE userId = ${member.id}`)
+		}
 
 		const logEmbed = new this.Embed()
 			.setTitle('Cooldown Dodger')
@@ -33,6 +42,10 @@ exports.run = async function(guild, member) {
 		}
 		else {
 			logEmbed.setDescription(`ID: \`\`\`\n${member.id}\`\`\``)
+		}
+
+		if (serverSideGuildId) {
+			logEmbed.setFooter('Server-side economy mode was enabled in this server.')
 		}
 
 		try {
