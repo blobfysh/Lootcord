@@ -896,7 +896,7 @@
         "tier": 0
     },
     "egg_basket": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "damage": "",
@@ -947,7 +947,7 @@
         "tier": 0
     },
     "bronze_egg": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "givesMoneyOnUse": true,
@@ -975,7 +975,7 @@
         "tier": 0
     },
     "silver_egg": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "givesMoneyOnUse": true,
@@ -1003,7 +1003,7 @@
         "tier": 0
     },
     "gold_egg": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "givesMoneyOnUse": true,
@@ -1153,7 +1153,7 @@
         "tier": 0
     },
     "candy_bar": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "isHeal": true,
@@ -1371,7 +1371,7 @@
         "tier": 0
     },
     "bunny_suit": {
-        "rarity": "Common",
+        "rarity": "Limited",
         "isWeap": false,
         "isItem": true,
         "isShield": true,
