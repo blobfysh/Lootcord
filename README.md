@@ -30,13 +30,17 @@ Requirements:
 - MySQL or MariaDB
 - Redis (tested on Windows using Memurai)
 
-Create a .env file with your secrets (you can refer to the .env.example for what is needed), then create a database with the same name you specified in your .env.
+Create a .env file with your secrets (you can refer to the .env.example for what is needed), then create a database with the same name you specified in your .env file.
 
 Install dependencies:
 ```javascript
 npm install
 ```
-Run sql migrations and start bot:
+Run SQL migrations (creates database schema):
+```
+npm run migrate:up
+```
+Start bot:
 ```
 npm start
 ```
