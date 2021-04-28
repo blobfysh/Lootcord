@@ -124,7 +124,7 @@ exports.command = {
 			if (itemInfo.craftedWith !== '' || itemInfo.recyclesTo.materials.length || craftItems.length || recycledFrom.length) embedItem.addBlankField()
 
 			if (itemInfo.craftedWith !== '') {
-				embedItem.addField('🔩 Crafted with:', `⭐ __Level **${itemInfo.craftedWith.level}**+__\n\n${app.itm.getDisplay(itemInfo.craftedWith.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n')}`, true)
+				embedItem.addField('🔩 Crafting:', `Required Level: **${itemInfo.craftedWith.level}**+\nReward: \`⭐ ${itemInfo.craftedWith.xpReward} XP\`\n\nRecipe:\n${app.itm.getDisplay(itemInfo.craftedWith.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n')}`, true)
 			}
 			if (itemInfo.recyclesTo.materials.length) {
 				embedItem.addField('♻ Recycles into:', app.itm.getDisplay(itemInfo.recyclesTo.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n'), true)

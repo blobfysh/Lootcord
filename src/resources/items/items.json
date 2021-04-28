@@ -101,6 +101,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+			"xpReward": 5,
             "level": 2,
             "materials": [
                 "cloth|2"
@@ -208,6 +209,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+			"xpReward": 15,
             "level": 6,
             "materials": [
                 "bandage|2",
@@ -523,6 +525,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+			"xpReward": 60,
             "level": 10,
             "materials": [
                 "gunpowder|10",
@@ -564,6 +567,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+			"xpReward": 10,
             "level": 4,
             "materials": [
                 "cloth|1",
@@ -604,6 +608,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+			"xpReward": 12,
             "level": 5,
             "materials": [
                 "cloth|4",
@@ -791,6 +796,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+			"xpReward": 5,
             "level": 1,
             "materials": [
                 "small_present|10"
@@ -852,6 +858,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+			"xpReward": 15,
             "level": 1,
             "materials": [
                 "medium_present|10"
@@ -1241,6 +1248,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+			"xpReward": 5,
             "level": 1,
             "materials": [
                 "small_loot_bag|10"
@@ -1298,6 +1306,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+			"xpReward": 15,
             "level": 1,
             "materials": [
                 "medium_loot_bag|10"

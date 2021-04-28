@@ -8,6 +8,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+			"xpReward": 5,
             "level": 3,
             "materials": [
                 "cloth|2"
@@ -45,6 +46,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+			"xpReward": 10,
             "level": 6,
             "materials": [
                 "small_stash|1",
@@ -86,6 +88,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
+			"xpReward": 30,
             "level": 9,
             "materials": [
                 "wood_box|1",

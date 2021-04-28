@@ -42,11 +42,13 @@ exports.command = {
 					const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 
 					if (await app.itm.hasItems(userItems, itemMats)) {
+						const xpReward = app.itemdata[craftItem].craftedWith.xpReward * craftAmount
 						await app.itm.removeItem(message.author.id, itemMats, null, serverSideGuildId)
 						await app.itm.addItem(message.author.id, craftItem, craftAmount, serverSideGuildId)
+						await app.player.addPoints(message.author.id, xpReward, serverSideGuildId)
 
 						embedInfo.setColor(9043800)
-						embedInfo.setDescription(`Successfully crafted **${craftAmount}x** ${app.itemdata[craftItem].icon}\`${craftItem}\``)
+						embedInfo.setDescription(`Successfully crafted **${craftAmount}x** ${app.itemdata[craftItem].icon}\`${craftItem}\` (\`⭐ ${xpReward} XP EARNED\`)`)
 						botMessage.edit(embedInfo)
 					}
 					else {

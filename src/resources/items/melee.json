@@ -38,6 +38,7 @@
         "maxDmg": 26,
         "ammo": "",
         "craftedWith": {
+			"xpReward": 6,
             "level": 3,
             "materials": [
                 "wood|2",

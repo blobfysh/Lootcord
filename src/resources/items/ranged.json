@@ -54,6 +54,7 @@
             "arrow"
         ],
         "craftedWith": {
+			"xpReward": 5,
             "level": 2,
             "materials": [
                 "wood|2",
@@ -94,6 +95,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
+			"xpReward": 7,
             "level": 3,
             "materials": [
                 "metal_pipe|1",
@@ -138,6 +140,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
+			"xpReward": 10,
             "level": 6,
             "materials": [
                 "smg_body|1",
@@ -183,6 +186,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
+			"xpReward": 14,
             "level": 7,
             "materials": [
                 "smg_body|1",
@@ -224,6 +228,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
+			"xpReward": 9,
             "level": 5,
             "materials": [
                 "smg_body|1",
@@ -268,6 +273,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
+			"xpReward": 10,
             "level": 6,
             "materials": [
                 "metal_spring|1",
@@ -346,6 +352,7 @@
             "rifle_bullet"
         ],
         "craftedWith": {
+			"xpReward": 25,
             "level": 9,
             "materials": [
                 "rifle_body|2",
@@ -393,6 +400,7 @@
             "rifle_bullet"
         ],
         "craftedWith": {
+			"xpReward": 10,
             "level": 6,
             "materials": [
                 "semi_body|1",
@@ -438,6 +446,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
+			"xpReward": 8,
             "level": 4,
             "materials": [
                 "semi_body|1",
@@ -481,6 +490,7 @@
             "arrow"
         ],
         "craftedWith": {
+			"xpReward": 5,
             "level": 3,
             "materials": [
                 "wood|2",
@@ -525,6 +535,7 @@
             "handmade_shell"
         ],
         "craftedWith": {
+			"xpReward": 10,
             "level": 6,
             "materials": [
                 "metal_spring|1",
@@ -649,6 +660,7 @@
             "rifle_bullet"
         ],
         "craftedWith": {
+			"xpReward": 20,
             "level": 9,
             "materials": [
                 "rifle_body|2",
@@ -697,6 +709,7 @@
             "handmade_shell"
         ],
         "craftedWith": {
+			"xpReward": 5,
             "level": 3,
             "materials": [
                 "metal_pipe|1",
@@ -743,6 +756,7 @@
             "hv_rocket"
         ],
         "craftedWith": {
+			"xpReward": 30,
             "level": 10,
             "materials": [
                 "metal_pipe|2",
