@@ -29,7 +29,7 @@ class CommandHandler {
 		else if (await this.app.cd.getCD(message.author.id, 'banned')) { return }
 
 		// global permissions required for all commands, used for level-up message and events
-		const globalPerms = this.getNeededPermissions(message, ['sendMessages', 'externalEmojis', 'addReactions', 'embedLinks'])
+		const globalPerms = this.getNeededPermissions(message, ['sendMessages', 'externalEmojis', 'addReactions', 'embedLinks', 'readMessageHistory'])
 
 		if (globalPerms.neededPerms.length) {
 			if (globalPerms.neededPerms.includes('sendMessages')) {
