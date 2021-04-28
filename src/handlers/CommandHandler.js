@@ -78,7 +78,7 @@ class CommandHandler {
 
 
 		// check if player leveled up
-		if (account) await this.checkLevelXP(message, account, guildInfo)
+		if (account) await this.checkLevelXP(message, account, guildInfo, serverSideGuildId)
 
 		if (Math.random() <= 0.02) this.app.eventHandler.initEvent(message, { prefix, serverSideGuildId })
 
@@ -170,7 +170,7 @@ class CommandHandler {
 		return { neededPerms, permsString }
 	}
 
-	async checkLevelXP(message, row, guildInfo) {
+	async checkLevelXP(message, row, guildInfo, serverSideGuildId) {
 		try {
 			const xp = this.app.common.calculateXP(row.points, row.level)
 
@@ -180,7 +180,7 @@ class CommandHandler {
 
 				craftables.sort(this.app.itm.sortItemsHighLow.bind(this.app))
 
-				if (guildInfo.serverOnly) {
+				if (serverSideGuildId) {
 					// server-side economy
 					await this.app.query(`UPDATE server_scores SET points = points + 1, level = level + 1 WHERE userId = ${message.author.id} AND guildId = ${message.channel.guild.id}`)
 				}
@@ -191,39 +191,40 @@ class CommandHandler {
 
 				if ((row.level + 1) % 5 === 0 && row.level + 1 >= 10) {
 					levelItem = `${this.app.itemdata.elite_crate.icon}\`elite_crate\``
-					await this.app.itm.addItem(message.author.id, 'elite_crate', 1)
+					await this.app.itm.addItem(message.author.id, 'elite_crate', 1, serverSideGuildId)
 				}
 				else if ((row.level + 1) > 15) {
 					levelItem = `${this.app.itemdata.supply_signal.icon}\`supply_signal\``
-					await this.app.itm.addItem(message.author.id, 'supply_signal', 1)
+					await this.app.itm.addItem(message.author.id, 'supply_signal', 1, serverSideGuildId)
 				}
 				else if ((row.level + 1) > 10) {
 					levelItem = `2x ${this.app.itemdata.military_crate.icon}\`military_crate\``
-					await this.app.itm.addItem(message.author.id, 'military_crate', 2)
+					await this.app.itm.addItem(message.author.id, 'military_crate', 2, serverSideGuildId)
 				}
 				else if ((row.level + 1) > 5) {
 					levelItem = `${this.app.itemdata.military_crate.icon}\`military_crate\``
-					await this.app.itm.addItem(message.author.id, 'military_crate', 1)
+					await this.app.itm.addItem(message.author.id, 'military_crate', 1, serverSideGuildId)
 				}
 				else {
 					levelItem = `1x ${this.app.itemdata.crate.icon}\`crate\``
-					await this.app.itm.addItem(message.author.id, 'crate', 1)
+					await this.app.itm.addItem(message.author.id, 'crate', 1, serverSideGuildId)
 				}
 
 				if (row.level + 1 >= 5) {
-					await this.app.itm.addBadge(message.author.id, 'loot_goblin')
+					await this.app.itm.addBadge(message.author.id, 'loot_goblin', serverSideGuildId)
 				}
 				if (row.level + 1 >= 10) {
-					await this.app.itm.addBadge(message.author.id, 'loot_fiend')
+					await this.app.itm.addBadge(message.author.id, 'loot_fiend', serverSideGuildId)
 				}
 				if (row.level + 1 >= 20) {
-					await this.app.itm.addBadge(message.author.id, 'loot_legend')
+					await this.app.itm.addBadge(message.author.id, 'loot_legend', serverSideGuildId)
 				}
 
 				try {
 					const hasFilePerm = this.getNeededPermissions(message, ['attachFiles'])
 					let lvlFile
 
+					// only attach level up image if bot has attachFiles permission
 					if (!hasFilePerm.neededPerms.length) {
 						const lvlUpImage = await this.app.player.getLevelImage(message.author.avatarURL, row.level + 1)
 

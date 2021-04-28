@@ -218,7 +218,7 @@ function winnerEmbed(app, message, playerCards, dealerCards, quote, gambleAmount
 	app.player.addScrap(message.author.id, gambleAmount * 2, serverSideGuildId)
 
 	if (gambleAmount * 2 >= 2000000) {
-		app.itm.addBadge(message.author.id, 'gambler')
+		app.itm.addBadge(message.author.id, 'gambler', serverSideGuildId)
 	}
 
 	return embed
