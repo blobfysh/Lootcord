@@ -42,8 +42,9 @@ class Lootcord extends Base {
 		this.badgedata = require('./resources/json/badges')
 		this.mobdata = require('./resources/json/monsters')
 		this.clan_ranks = require('./resources/json/clan_ranks')
-		this.commands = this.loadCommands()
-		this.clanCommands = this.loadClanCommands()
+		this.commands = []
+		this.clanCommands = []
+		this.slashCommands = []
 		this.sets = this.loadSets()
 		this.cache = require('./utils/cache')
 		this.mysql = new MySQL(config)
@@ -73,6 +74,9 @@ class Lootcord extends Base {
 		this.initIPC()
 		this.loopTasks.start()
 
+		this.commands = this.loadCommands()
+		this.clanCommands = this.loadClanCommands()
+		this.slashCommands = this.loadSlashCommands()
 
 		if (this.clusterID === 0) {
 			// only run these on main cluster, cooldowns only need to be refreshed once for all other clusters
@@ -102,7 +106,7 @@ class Lootcord extends Base {
 			for (const file of commandFiles) {
 				if (file === 'convert.js' && this.config.debug) continue // removes convert command to prevent issues with Discoin api
 
-				const command = require(`./commands/${category}/${file}`)
+				const { command } = require(`./commands/${category}/${file}`)
 
 				// set command category based on which folder it's in
 				command.category = category
@@ -115,14 +119,27 @@ class Lootcord extends Base {
 	}
 
 	loadClanCommands() {
+		const clanFiles = fs.readdirSync(path.join(__dirname, '/commands/clans/commands'))
 		const commands = []
 
-		const clanFiles = fs.readdirSync(path.join(__dirname, '/commands/clans/commands'))
-
 		for (const file of clanFiles) {
-			const command = require(`./commands/clans/commands/${file}`)
+			const { command } = require(`./commands/clans/commands/${file}`)
 
 			command.category = 'clans'
+
+			commands.push(command)
+		}
+
+		return commands
+	}
+
+	loadSlashCommands() {
+		const commandFiles = fs.readdirSync(path.join(__dirname, '/slash-commands'))
+		const commands = []
+
+		// loop through slash-commands files and create interactions
+		for (const file of commandFiles) {
+			const { command } = require(`./slash-commands/${file}`)
 
 			commands.push(command)
 		}

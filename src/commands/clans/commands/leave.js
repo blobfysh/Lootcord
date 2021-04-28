@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'leave',
 	aliases: [],
 	description: 'Leave your current clan.',

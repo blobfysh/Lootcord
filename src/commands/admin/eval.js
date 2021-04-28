@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'eval',
 	aliases: [],
 	description: 'Admin-only command.',

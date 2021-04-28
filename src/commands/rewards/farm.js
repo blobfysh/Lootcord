@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'farm',
 	aliases: ['mine', 'chop', 'hourly'],
 	description: 'Go farming for materials/loot.',

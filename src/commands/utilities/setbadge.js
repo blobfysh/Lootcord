@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'setbadge',
 	aliases: [],
 	description: 'Sets a badge to display.',

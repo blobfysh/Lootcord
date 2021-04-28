@@ -3,7 +3,7 @@ const QUOTES = [
 	'{ez} Here\'s a free {icon}{item} and {icon2}{item2}!'
 ]
 
-module.exports = {
+exports.command = {
 	name: 'weekly',
 	aliases: [],
 	description: 'Receive a free supply_drop every week!',

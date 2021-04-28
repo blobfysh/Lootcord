@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'setammo',
 	aliases: [],
 	description: 'Sets preferred ammo type.',

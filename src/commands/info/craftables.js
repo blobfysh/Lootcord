@@ -1,6 +1,6 @@
 const { ITEM_TYPES } = require('../../resources/constants')
 
-module.exports = {
+exports.command = {
 	name: 'craftables',
 	aliases: ['craftable'],
 	description: 'Shows all items you can currently craft.',

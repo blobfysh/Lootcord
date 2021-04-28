@@ -43,7 +43,16 @@ class CommandHandler {
 			return message.channel.createMessage('❌ That command has been disabled to prevent issues! Sorry about that...')
 		}
 
-		const blindedCD = await this.app.cd.getCD(message.author.id, 'blinded')
+		// check if user is admin before running admin command
+		else if (command.category === 'admin' && !this.app.sets.adminUsers.has(message.author.id)) { return }
+
+		// ignore mod command if user is not a moderator or admin
+		else if (command.category === 'moderation' && (!await this.app.cd.getCD(message.author.id, 'mod') && !this.app.sets.adminUsers.has(message.author.id))) { return }
+
+		const guildInfo = await this.app.common.getGuildInfo(message.channel.guild.id)
+		const serverSideGuildId = guildInfo.serverOnly ? message.channel.guild.id : undefined
+		const account = await this.app.player.getRow(message.author.id, serverSideGuildId)
+		const blindedCD = await this.app.cd.getCD(message.author.id, 'blinded', { serverSideGuildId })
 
 		// check if user is under effects of 40mm_smoke_grenade
 		if (blindedCD && command.category !== 'admin' && command.category !== 'moderation') {
@@ -56,15 +65,6 @@ class CommandHandler {
 			return message.channel.createMessage(smokedEmbed)
 		}
 
-		// chcek if user is admin before running admin command
-		else if (command.category === 'admin' && !this.app.sets.adminUsers.has(message.author.id)) { return }
-
-		// ignore mod command if user is not a moderator or admin
-		else if (command.category === 'moderation' && (!await this.app.cd.getCD(message.author.id, 'mod') && !this.app.sets.adminUsers.has(message.author.id))) { return }
-
-		const guildInfo = await this.app.common.getGuildInfo(message.channel.guild.id)
-		const serverSideGuildId = guildInfo.serverOnly ? message.channel.guild.id : undefined
-		const account = await this.app.player.getRow(message.author.id, serverSideGuildId)
 
 		// check if player leveled up
 		if (account) await this.checkLevelXP(message, account, guildInfo)

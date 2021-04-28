@@ -1,6 +1,6 @@
 const upgrOptions = ['health', 'strength', 'luck']
 
-module.exports = {
+exports.command = {
 	name: 'upgrade',
 	aliases: [],
 	description: 'Upgrade your skills!',

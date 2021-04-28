@@ -1,7 +1,7 @@
 const suits = ['♥', '♠', '♦', '♣']
 const faces = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q']
 
-module.exports = {
+exports.command = {
 	name: 'blackjack',
 	aliases: ['bj'],
 	description: 'Play a game of blackjack, get a higher total than the dealer without busting and you win!',

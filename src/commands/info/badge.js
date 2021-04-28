@@ -1,6 +1,6 @@
 const BADGES_PER_PAGE = 20
 
-module.exports = {
+exports.command = {
 	name: 'badge',
 	aliases: ['badges'],
 	description: 'Shows information about a badge.',

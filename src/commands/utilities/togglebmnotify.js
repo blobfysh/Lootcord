@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'togglebmnotify',
 	aliases: ['toggleblackmarketnotify'],
 	description: 'Toggle this to enable DMs when you sell an item on the Black Market.',

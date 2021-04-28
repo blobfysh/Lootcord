@@ -2,7 +2,7 @@ const Filter = require('bad-words')
 const filter = new Filter()
 const CREATION_COST = 100000
 
-module.exports = {
+exports.command = {
 	name: 'create',
 	aliases: [],
 	description: 'Create a clan.',

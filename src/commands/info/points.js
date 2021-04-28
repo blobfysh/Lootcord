@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'points',
 	aliases: ['xp'],
 	description: 'Shows experience towards the next level.',

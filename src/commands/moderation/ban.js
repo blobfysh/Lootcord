@@ -1,6 +1,6 @@
 const { RULES } = require('../../resources/constants')
 
-module.exports = {
+exports.command = {
 	name: 'ban',
 	aliases: [],
 	description: 'Bans a user.',

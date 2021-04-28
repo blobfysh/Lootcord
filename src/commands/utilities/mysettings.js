@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'mysettings',
 	aliases: ['usersettings', 'settings'],
 	description: 'View your settings and how to change them.',

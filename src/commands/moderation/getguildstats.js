@@ -1,6 +1,6 @@
 const Eris = require('eris')
 
-module.exports = {
+exports.command = {
 	name: 'getguildstats',
 	aliases: ['getguildinfo', 'guildstats'],
 	description: 'Shows statistics about a server.',

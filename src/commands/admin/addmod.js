@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'addmod',
 	aliases: [],
 	description: 'Makes user a Lootcord moderator.',

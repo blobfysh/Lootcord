@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'activate',
 	aliases: ['play'],
 	description: 'Activate your account!',

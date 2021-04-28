@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'message',
 	aliases: [],
 	description: 'Messages a user.',

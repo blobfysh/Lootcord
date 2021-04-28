@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'unmod',
 	aliases: [],
 	description: 'Take away moderator rights from a user.',

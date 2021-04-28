@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'refreshpatrons',
 	aliases: [],
 	description: 'Remove patrons without patreon donator role.',

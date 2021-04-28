@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'unban',
 	aliases: [],
 	description: 'Unbans a user.',

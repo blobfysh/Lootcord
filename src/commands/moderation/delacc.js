@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'delacc',
 	aliases: [],
 	description: 'Deletes a user account.',

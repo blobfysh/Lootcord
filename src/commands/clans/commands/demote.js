@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'demote',
 	aliases: [],
 	description: 'Demote a user in your clan.',

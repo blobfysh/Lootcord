@@ -1,6 +1,6 @@
 const RANDOM_SELECTION_MINIMUM = 8 // # of active players required for an attack menu to show when using random
 
-module.exports = {
+exports.command = {
 	name: 'use',
 	aliases: ['attack', 'heal'],
 	description: 'Use items on yourself or use weapons to attack others!',

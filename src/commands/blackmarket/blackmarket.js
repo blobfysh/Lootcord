@@ -1,7 +1,7 @@
 const { ITEM_TYPES } = require('../../resources/constants')
 const ITEMS_PER_PAGE = 9
 
-module.exports = {
+exports.command = {
 	name: 'blackmarket',
 	aliases: ['bm'],
 	description: 'Search for Black Market listings by other players.',

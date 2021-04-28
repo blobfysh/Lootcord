@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'sendkofidonation',
 	aliases: [],
 	description: 'Gives user Ko-fi donation rewards.',

@@ -1,6 +1,6 @@
 const { ITEM_TYPES } = require('../../resources/constants')
 
-module.exports = {
+exports.command = {
 	name: 'getinv',
 	aliases: ['geti'],
 	description: 'Fetches a users inventory.',

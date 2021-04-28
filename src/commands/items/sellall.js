@@ -1,6 +1,6 @@
 const { ITEM_TYPES } = require('../../resources/constants')
 
-module.exports = {
+exports.command = {
 	name: 'sellall',
 	aliases: [],
 	description: 'Sell multiple items at once.',

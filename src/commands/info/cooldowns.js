@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'cooldowns',
 	aliases: ['cooldown', 'cd'],
 	description: 'Displays all command cooldowns.',

@@ -1,6 +1,6 @@
 const shortid = require('shortid')
 
-module.exports = {
+exports.command = {
 	name: 'blackmarketremove',
 	aliases: ['bmremove', 'bmrecall', 'bmr'],
 	description: 'Remove a listing from the Black Market.',

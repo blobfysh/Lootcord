@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'balance',
 	aliases: ['cash', 'money', 'bal', 'lootcoin'],
 	description: 'Displays your current balance.',

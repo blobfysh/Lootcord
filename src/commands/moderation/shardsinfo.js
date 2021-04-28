@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'shardsinfo',
 	aliases: ['shardinfo'],
 	description: 'Displays information about all shards.',

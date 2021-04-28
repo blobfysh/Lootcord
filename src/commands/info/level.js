@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'level',
 	aliases: ['lvl'],
 	description: 'Displays level.',

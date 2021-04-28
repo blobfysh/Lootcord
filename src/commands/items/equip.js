@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'equip',
 	aliases: ['wear'],
 	description: 'Equip an item.',

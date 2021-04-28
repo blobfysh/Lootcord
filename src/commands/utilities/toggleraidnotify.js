@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'toggleraidnotify',
 	aliases: ['toggleclannotify'],
 	description: 'Toggle this to enable DMs when your clan is raided.',

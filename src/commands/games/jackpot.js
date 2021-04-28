@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'jackpot',
 	aliases: [],
 	description: 'Start a jackpot prize pool that other users can enter for a chance to win it all!',

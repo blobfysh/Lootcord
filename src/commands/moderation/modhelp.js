@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'modhelp',
 	aliases: [],
 	description: 'Shows moderation commands.',

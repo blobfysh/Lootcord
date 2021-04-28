@@ -9,7 +9,7 @@ catch (err) {
 	triviaFile = require('../../resources/json/trivia_questions_example.json')
 }
 
-module.exports = {
+exports.command = {
 	name: 'trivia',
 	aliases: [],
 	description: 'Answer a random question for a reward!',
@@ -31,7 +31,7 @@ module.exports = {
 		await app.cd.setCD(message.author.id, 'trivia', app.config.cooldowns.trivia * 1000, { serverSideGuildId })
 		await app.player.addStat(message.author.id, 'trivias', 1, serverSideGuildId)
 
-		const { question, correct_answer, incorrect_answers, category } = await getQuestion()
+		const { question, correct_answer, incorrect_answers } = await getQuestion()
 
 		// combine correct answer and incorrect answers and shuffle them
 		const [questionA, questionB, questionC, questionD] = app.common.shuffleArr([correct_answer, ...incorrect_answers])
@@ -59,7 +59,6 @@ module.exports = {
 		}
 
 		const embedTrivia = new app.Embed()
-			.setAuthor(`Category - ${category}`)
 			.setTitle(decode(question))
 			.setColor(16777215)
 			.setDescription(`🇦 ${decode(questionA)}\n🇧 ${decode(questionB)}\n🇨 ${decode(questionC)}\n🇩 ${decode(questionD)}`)
@@ -132,7 +131,7 @@ module.exports = {
 	}
 }
 
-async function idiotBadgeCheck(app, userId, serverSideGuildId) {
+const idiotBadgeCheck = exports.idiotBadgeCheck = async function idiotBadgeCheck(app, userId, serverSideGuildId) {
 	const correct = await app.player.getStat(userId, 'triviasCorrect', serverSideGuildId)
 	const attempts = await app.player.getStat(userId, 'trivias', serverSideGuildId)
 
@@ -141,13 +140,13 @@ async function idiotBadgeCheck(app, userId, serverSideGuildId) {
 	}
 }
 
-async function geniusBadgeCheck(app, userId, serverSideGuildId) {
+const geniusBadgeCheck = exports.geniusBadgeCheck = async function geniusBadgeCheck(app, userId, serverSideGuildId) {
 	if (await app.player.getStat(userId, 'triviasCorrect', serverSideGuildId) >= 100) {
 		await app.itm.addBadge(userId, 'genius', serverSideGuildId)
 	}
 }
 
-async function getQuestion() {
+const getQuestion = exports.getQuestion = async function getQuestion() {
 	try {
 		const res = await axios.get('https://opentdb.com/api.php?amount=1&type=multiple')
 

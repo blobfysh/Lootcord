@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'kick',
 	aliases: [],
 	description: 'Kick a user from your clan.',

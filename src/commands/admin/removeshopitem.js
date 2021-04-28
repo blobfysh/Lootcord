@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'removeshopitem',
 	aliases: [],
 	description: 'Remove a shop item from the database.',

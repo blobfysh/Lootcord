@@ -1,6 +1,6 @@
 const LOGS_PER_PAGE = 5
 
-module.exports = {
+exports.command = {
 	name: 'logs',
 	aliases: ['log'],
 	description: 'Shows logs of a clan.',

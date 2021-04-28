@@ -3,7 +3,7 @@ const emojiRegex = require('emoji-regex/RGI_Emoji')
 const regex = new RegExp(`^(${emojiRegex().source}|${/[\w!$%^&*()\-+=~`'";<>,.?|\\{}[\]: ]/.source})*$`)
 const filter = new Filter({ placeHolder: 'x' })
 
-module.exports = {
+exports.command = {
 	name: 'setstatus',
 	aliases: [],
 	description: 'Sets the users status to display in commands.',

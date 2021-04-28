@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'getmods',
 	aliases: [],
 	description: 'Get a list of all moderators.',

@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'donate',
 	aliases: ['patreon'],
 	description: 'Help support the bot!',

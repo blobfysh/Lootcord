@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'silentban',
 	aliases: [],
 	description: 'Bans a user without notifying them.',

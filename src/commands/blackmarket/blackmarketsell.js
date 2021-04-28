@@ -2,7 +2,7 @@ const shortid = require('shortid')
 const listing_fee = 0.10
 const max_listings = 15
 
-module.exports = {
+exports.command = {
 	name: 'blackmarketsell',
 	aliases: ['blackmarketlist', 'bmlist', 'bmsell', 'bms'],
 	description: 'Add a new listing to the Black Market.',

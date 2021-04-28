@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'craft',
 	aliases: [],
 	description: 'Craft new items!',

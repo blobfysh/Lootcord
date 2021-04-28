@@ -7,7 +7,7 @@ const OFFICIAL_QUOTES = [
 	'You gained **2x** {icon}{item} for playing in the official Lootcord server! 😎'
 ]
 
-module.exports = {
+exports.command = {
 	name: 'daily',
 	aliases: [],
 	description: 'Receive a free military_crate every day!',

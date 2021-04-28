@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'recycle',
 	aliases: [],
 	description: 'Break items down into parts!',

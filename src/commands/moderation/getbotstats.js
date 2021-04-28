@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'getbotstats',
 	aliases: [],
 	description: 'Displays information about the bot.',

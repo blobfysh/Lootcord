@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'disablelevelchannel',
 	aliases: ['disablelevelchan'],
 	description: 'Disables the dedicated channel for level-up messages.',

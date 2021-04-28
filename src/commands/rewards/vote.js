@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'vote',
 	aliases: [],
 	description: 'Vote for the bot to collect a reward!',
@@ -18,7 +18,7 @@ module.exports = {
 	}
 }
 
-function getVotesAvailable(vote1CD, vote2CD) {
+const getVotesAvailable = exports.getVotesAvailable = function getVotesAvailable(vote1CD, vote2CD) {
 	let str = '🎟 Vote for the bot to collect a reward!'
 
 	if (vote1CD) str += `\n\n**Top.gg**: \`${vote1CD}\``

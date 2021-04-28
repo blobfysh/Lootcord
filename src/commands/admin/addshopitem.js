@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'addshopitem',
 	aliases: ['addgamecode'],
 	description: 'Add a game key or shop item to the database.',

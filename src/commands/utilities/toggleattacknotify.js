@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'toggleattacknotify',
 	aliases: [],
 	description: 'Toggle this to enable DMs when you are attacked.',

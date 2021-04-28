@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'sell',
 	aliases: [],
 	description: 'Sell items for Lootcoin.',

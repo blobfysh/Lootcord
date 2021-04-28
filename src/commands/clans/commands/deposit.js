@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'deposit',
 	aliases: ['put'],
 	description: 'Deposit items into your clans vault.',

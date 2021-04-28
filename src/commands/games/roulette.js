@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'roulette',
 	aliases: [],
 	description: 'Play a game of Russian roulette.',

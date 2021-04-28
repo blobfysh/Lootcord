@@ -1,7 +1,7 @@
 const max_disparity = 2
 const flagged_threshold = 50000
 
-module.exports = {
+exports.command = {
 	name: 'trade',
 	aliases: [],
 	description: 'Trade items and money with another player.',

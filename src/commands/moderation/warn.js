@@ -8,7 +8,7 @@ const ordinals = {
 	4: 'fifth'
 }
 
-module.exports = {
+exports.command = {
 	name: 'warn',
 	aliases: [],
 	description: 'Warns a user.',

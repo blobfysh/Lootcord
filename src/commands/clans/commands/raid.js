@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'raid',
 	aliases: [],
 	description: 'Raid another clan.',

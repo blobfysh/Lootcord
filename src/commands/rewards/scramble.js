@@ -8,7 +8,7 @@ catch (err) {
 	scrambleFile = require('../../resources/json/scramble_words_example.json')
 }
 
-module.exports = {
+exports.command = {
 	name: 'scramble',
 	aliases: [],
 	description: 'Unscramble a random word!',
@@ -190,7 +190,7 @@ module.exports = {
 	}
 }
 
-async function getWord() {
+const getWord = exports.getWord = async function getWord() {
 	try {
 		const res = await axios.get('http://scrambledwords.xyz/api/random')
 
@@ -215,7 +215,7 @@ function shuffle(word) {
 	return shuffledWord
 }
 
-function shuffleWordNoDupe(word) {
+const shuffleWordNoDupe = exports.shuffleWordNoDupe = function shuffleWordNoDupe(word) {
 	let shuffled = shuffle(word)
 
 	while (shuffled === word) {

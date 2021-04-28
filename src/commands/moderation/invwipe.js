@@ -1,6 +1,6 @@
 const shortid = require('shortid')
 
-module.exports = {
+exports.command = {
 	name: 'invwipe',
 	aliases: [],
 	description: 'Wipes a users inventory.',

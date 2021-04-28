@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'getbans',
 	aliases: [],
 	description: 'Get a list of all banned players.',

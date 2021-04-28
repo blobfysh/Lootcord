@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'backpack',
 	aliases: ['bp'],
 	description: 'View your currently equipped backpack and stats.',

@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'rules',
 	aliases: [],
 	description: 'View the rules of Lootcord.',

@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'slots',
 	aliases: ['slot'],
 	description: 'Put some Scrap in the slot machine!',

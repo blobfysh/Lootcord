@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'getstats',
 	aliases: ['getinfo'],
 	description: 'Shows statistics about a user.',

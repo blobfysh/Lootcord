@@ -1,7 +1,7 @@
 const WIN_QUOTES = ['You just won **{0}**!', 'Wow you\'re pretty good at flipping this coin 👀 You won **{0}**!', 'Congratulations! You just won **{0}**!']
 const LOSE_QUOTES = ['You just lost **{0}**!', 'Congratulations! You just lost **{0}**!']
 
-module.exports = {
+exports.command = {
 	name: 'coinflip',
 	aliases: ['cf'],
 	description: 'Flip a coin for a chance to win!',

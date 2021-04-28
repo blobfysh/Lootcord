@@ -1,6 +1,6 @@
 const MEMBER_LIMIT = 20
 
-module.exports = {
+exports.command = {
 	name: 'invite',
 	aliases: [],
 	description: 'Invite a user to join your clan.',

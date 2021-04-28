@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'disablekillfeed',
 	aliases: [],
 	description: 'Removes the kill feed channel for the server.',

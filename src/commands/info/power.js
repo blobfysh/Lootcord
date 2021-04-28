@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'power',
 	aliases: [],
 	description: 'View your current power.',

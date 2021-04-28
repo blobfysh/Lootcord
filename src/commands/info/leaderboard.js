@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'leaderboard',
 	aliases: ['lb'],
 	description: 'Show the best players overall or in the current server.',

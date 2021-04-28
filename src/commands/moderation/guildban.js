@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'guildban',
 	aliases: ['banguild'],
 	description: 'Bans a guild.',

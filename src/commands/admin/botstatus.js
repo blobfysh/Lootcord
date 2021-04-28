@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'botstatus',
 	aliases: [],
 	description: 'Changes the bot\'s status.',

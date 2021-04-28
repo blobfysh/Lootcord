@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'enemy',
 	aliases: ['boss', 'spawn', 'spawns'],
 	description: 'Displays the enemy present in the channel, if there is one.',

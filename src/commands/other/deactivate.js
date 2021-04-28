@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'deactivate',
 	aliases: [],
 	description: 'Deactivate your account in a server.',

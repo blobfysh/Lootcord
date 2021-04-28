@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'findalts',
 	aliases: [],
 	description: 'Attempt to find alts of a user.',

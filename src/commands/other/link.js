@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'link',
 	aliases: ['invite'],
 	description: 'Sends a link to invite the bot.',

@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'restart',
 	aliases: [],
 	description: 'Restarts a cluster.',

@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'disablespawns',
 	aliases: ['disablebounty', 'disablespawn'],
 	description: 'Stop your active spawn channels.',

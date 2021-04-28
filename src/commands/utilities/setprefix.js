@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'setprefix',
 	aliases: ['prefix'],
 	description: 'Changes bot prefix for server.',

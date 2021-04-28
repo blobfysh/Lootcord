@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'ping',
 	aliases: [],
 	description: 'Check the bot\'s ping',

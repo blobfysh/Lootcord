@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'getprofile',
 	aliases: ['getp'],
 	description: 'Fetches a users profile.',

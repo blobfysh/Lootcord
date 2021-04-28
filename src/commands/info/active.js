@@ -1,6 +1,6 @@
 const usersPerPage = 10
 
-module.exports = {
+exports.command = {
 	name: 'active',
 	aliases: ['players'],
 	description: 'Displays all active users on the server.',

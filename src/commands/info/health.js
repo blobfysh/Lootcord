@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'health',
 	aliases: ['hp'],
 	description: 'Displays current health.',

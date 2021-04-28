@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'serversettings',
 	aliases: ['guildsettings'],
 	description: 'View the servers settings and how to change them.',

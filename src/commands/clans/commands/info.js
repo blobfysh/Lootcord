@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'info',
 	aliases: ['i', 'inf'],
 	description: 'Show information about a clan.',

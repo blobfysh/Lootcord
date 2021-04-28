@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'getdonators',
 	aliases: [],
 	description: 'Get a list of all donators.',

@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'getclan',
 	aliases: ['getclaninfo', 'getclanid'],
 	description: 'Get metadata of a clan.',

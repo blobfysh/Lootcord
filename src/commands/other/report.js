@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'report',
 	aliases: [],
 	description: 'Report another player for breaking the rules.',

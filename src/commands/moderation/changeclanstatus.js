@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'changeclanstatus',
 	aliases: [],
 	description: 'Change status for a clan.',

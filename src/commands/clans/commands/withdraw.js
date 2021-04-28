@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'withdraw',
 	aliases: ['take'],
 	description: 'Withdraw items from your clans vault.',

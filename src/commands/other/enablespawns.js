@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'enablespawns',
 	aliases: ['enablebounty', 'enablespawn'],
 	description: 'Lure strong enemies to your server.',

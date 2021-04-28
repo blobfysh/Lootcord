@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'discord',
 	aliases: ['disc', 'support', 'server'],
 	description: 'Sends a link to the Lootcord server.',

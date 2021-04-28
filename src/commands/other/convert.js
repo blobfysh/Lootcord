@@ -1,6 +1,6 @@
 // const CONVERT_LIMIT = 100000
 
-module.exports = {
+exports.command = {
 	name: 'convert',
 	aliases: [],
 	description: 'Convert Lootcord Lootcoin to another bot\'s currency using Discoin.',

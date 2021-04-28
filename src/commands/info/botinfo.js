@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'botinfo',
 	aliases: ['update', 'info', 'version', 'stats'],
 	description: 'Displays various information about the bot.',

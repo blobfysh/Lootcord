@@ -1,6 +1,6 @@
 const max_items_per_page = 16
 
-module.exports = {
+exports.command = {
 	name: 'shop',
 	aliases: ['store', 'market', 'outpost'],
 	description: 'Shows all items that can be bought.',

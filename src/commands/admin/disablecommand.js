@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'disablecommand',
 	aliases: [],
 	description: 'Disables a command.',

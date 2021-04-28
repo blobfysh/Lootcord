@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'unguildban',
 	aliases: ['guildunban', 'unbanguild'],
 	description: 'Unbans a guild.',

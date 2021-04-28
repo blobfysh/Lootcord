@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'revokepremium',
 	aliases: [],
 	description: 'Revokes user Lootcord premium.',

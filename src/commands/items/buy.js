@@ -1,6 +1,6 @@
 const shortid = require('shortid')
 
-module.exports = {
+exports.command = {
 	name: 'buy',
 	aliases: ['purchase'],
 	description: 'Purchase items and games with currency.',

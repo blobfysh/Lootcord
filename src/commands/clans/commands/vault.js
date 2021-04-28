@@ -1,6 +1,6 @@
 const { ITEM_TYPES } = require('../../../resources/constants')
 
-module.exports = {
+exports.command = {
 	name: 'vault',
 	aliases: ['inv', 'v'],
 	description: 'Show the items in a clans vault.',

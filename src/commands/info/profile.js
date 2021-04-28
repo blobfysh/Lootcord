@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'profile',
 	aliases: ['p', 'kills', 'deaths', 'banners'],
 	description: 'Check your stats.',

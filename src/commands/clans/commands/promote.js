@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'promote',
 	aliases: [],
 	description: 'Promote a user in your clan.',

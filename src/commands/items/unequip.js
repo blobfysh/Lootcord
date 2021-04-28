@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'unequip',
 	aliases: [],
 	description: 'Unequip an item.',

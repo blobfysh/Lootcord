@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'togglerandomattacks',
 	aliases: ['randomonly', 'togglerandomattack', 'togglerandattacks', 'togglerandattack', 'togglerandonly'],
 	description: 'Toggles the server to only allow random attacks.',

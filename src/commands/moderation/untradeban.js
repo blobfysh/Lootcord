@@ -1,4 +1,4 @@
-module.exports = {
+exports.command = {
 	name: 'untradeban',
 	aliases: [],
 	description: 'Unbans a user from trading.',

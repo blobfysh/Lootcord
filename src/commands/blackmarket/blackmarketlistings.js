@@ -1,6 +1,6 @@
 const ITEMS_PER_PAGE = 9
 
-module.exports = {
+exports.command = {
 	name: 'blackmarketlistings',
 	aliases: ['bmlistings', 'bmlisting', 'bml'],
 	description: 'View your Black Market listings.',

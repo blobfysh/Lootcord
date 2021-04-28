@@ -1,6 +1,6 @@
 const SCRAP_BONUS_RATE = 1.5
 
-module.exports = {
+exports.command = {
 	name: 'scrap',
 	aliases: [],
 	description: 'Get Scrap for your items.',
