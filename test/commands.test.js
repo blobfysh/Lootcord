@@ -10,13 +10,17 @@ const clanCommands = []
 for (const category of categories) {
 	const categoryCmds = fs.readdirSync(path.join(__dirname, `../src/commands/${category}`)).filter(file => file.endsWith('.js'))
 
-	for (const command of categoryCmds) {
-		commands.push(require(`../src/commands/${category}/${command}`))
+	for (const commandFile of categoryCmds) {
+		const { command } = require(`../src/commands/${category}/${commandFile}`)
+
+		commands.push(command)
 	}
 }
 
-for (const command of clanFiles) {
-	clanCommands.push(require(`../src/commands/clans/commands/${command}`))
+for (const commandFile of clanFiles) {
+	const { command } = require(`../src/commands/clans/commands/${commandFile}`)
+
+	clanCommands.push(command)
 }
 
 describe('commands', () => {
