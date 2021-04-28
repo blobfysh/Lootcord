@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Remove patrons without patreon donator role.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

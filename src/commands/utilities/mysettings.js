@@ -5,6 +5,7 @@ exports.command = {
 	long: 'View your current settings and how to change them.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

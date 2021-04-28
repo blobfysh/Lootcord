@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Vote for the bot to receive a reward.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

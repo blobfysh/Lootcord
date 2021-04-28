@@ -9,6 +9,7 @@ exports.command = {
 		command: 'Command to lookup info for.'
 	},
 	examples: ['help inv'],
+	permissions: ['sendMessages', 'embedLinks'],
 	ignoreHelp: true,
 	requiresAcc: false,
 	requiresActive: false,

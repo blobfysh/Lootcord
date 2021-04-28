@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Sends a link to invite the bot.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'embedLinks'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

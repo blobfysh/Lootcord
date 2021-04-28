@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Sets your display badge. This badge will be displayed next to your name on the leaderboard, active player list, clan member list, random attack selection list, and more.',
 	args: { badge: 'Badge to display' },
 	examples: ['setbadge loot_fiend'],
+	permissions: ['sendMessages', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

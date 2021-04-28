@@ -8,6 +8,7 @@ exports.command = {
 	long: 'Play a game of blackjack. Type hit to draw a random card from the deck or type stand to stop drawing cards and see if the dealer gets closer to 21 than you. Whoever gets closer to 21 without going over, wins!',
 	args: { amount: 'Amount of Scrap to gamble.' },
 	examples: ['blackjack 1000'],
+	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: true,

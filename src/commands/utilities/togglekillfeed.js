@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Toggle the current channel as the kill feed channel, will log all kills from the server in that channel.\nUser **MUST** have the Manage Server permission.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages'],
 	ignoreHelp: true,
 	requiresAcc: true,
 	requiresActive: false,

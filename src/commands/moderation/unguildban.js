@@ -7,6 +7,7 @@ exports.command = {
 		'Guild ID': 'ID of guild to unban.'
 	},
 	examples: ['unguildban 497302646521069568'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

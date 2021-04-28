@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Play a game of slots.\n\n💵 💵 - **0.8x** multiplier\n💸 💸 - **1.5x** multiplier\n💰 💰 - **3x** multiplier\n💎 💎 - **5x** multiplier\n💵 💵 💵 - **2x** multiplier\n💸 💸 💸 - **3x** multiplier\n💰 💰 💰 - **6x** multiplier\n💎 💎 💎 - **10x** multiplier',
 	args: { amount: 'Amount of Scrap to gamble.' },
 	examples: ['slots 1000'],
+	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: true,

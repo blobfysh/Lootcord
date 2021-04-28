@@ -8,6 +8,7 @@ exports.command = {
 		'reason': 'Reason for banning this guild.'
 	},
 	examples: ['guildban 497302646521069568 Farming airdrops'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

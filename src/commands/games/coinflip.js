@@ -8,6 +8,7 @@ exports.command = {
 	long: 'Gamble your Scrap for a 50% chance of winning 2x what you bet!',
 	args: { amount: 'Amount of Scrap to gamble.' },
 	examples: ['cf 1000'],
+	permissions: ['sendMessages', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: true,

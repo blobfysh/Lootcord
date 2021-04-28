@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Displays official Lootcord rules.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'embedLinks'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

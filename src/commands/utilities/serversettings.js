@@ -5,6 +5,7 @@ exports.command = {
 	long: 'View current settings for the server and see how to change them.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'embedLinks'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

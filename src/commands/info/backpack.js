@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Shows currently equipped backpack and current inventory space.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

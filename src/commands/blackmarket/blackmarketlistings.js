@@ -5,6 +5,7 @@ exports.command = {
 	aliases: ['bmlistings', 'bmlisting', 'bml'],
 	description: 'View your Black Market listings.',
 	long: 'Show all listings on the Black Market that you own.',
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	args: {},
 	examples: [],
 	ignoreHelp: false,

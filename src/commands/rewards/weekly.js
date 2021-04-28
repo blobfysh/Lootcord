@@ -10,6 +10,7 @@ exports.command = {
 	long: 'Use this command to receive a free supply_drop every week.\n\nThe weekly command is exclusive to patreon donators: https://www.patreon.com/lootcord.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	premiumCmd: true,
 	requiresAcc: true,

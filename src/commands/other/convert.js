@@ -7,6 +7,7 @@ exports.command = {
 	long: 'Lvl Required: 3+\nConvert your Lootcord Lootcoin to another bot\'s currency using [Discoin](https://discoin.gitbook.io/docs/users-guide). You can find participating bots and their currency codes [here](https://dash.discoin.zws.im/#/currencies).',
 	args: { amount: 'Amount of Lootcoin to convert.', currency: '3-Letter currency code of currency you want to convert to.' },
 	examples: ['convert 1000 DTS'],
+	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: true,

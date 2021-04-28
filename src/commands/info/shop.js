@@ -7,6 +7,7 @@ exports.command = {
 	long: 'Visit the Outpost and see what items can be bought. The homepage sales may change so be sure to check often!',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

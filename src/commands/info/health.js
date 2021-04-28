@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Displays your current health and your maximum possible health.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

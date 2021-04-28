@@ -7,6 +7,7 @@ exports.command = {
 		'Cluster ID': 'ID of cluster to reboot.'
 	},
 	examples: ['restart 0'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

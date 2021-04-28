@@ -7,6 +7,7 @@ exports.command = {
 		'Clan ID': 'ID of clan to edit status of.'
 	},
 	examples: ['changeclanstatus 12 pls'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

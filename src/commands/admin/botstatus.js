@@ -9,6 +9,7 @@ exports.command = {
 		content: 'Content of status.'
 	},
 	examples: ['botstatus online 0 Hello!'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

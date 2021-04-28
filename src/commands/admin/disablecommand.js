@@ -7,6 +7,7 @@ exports.command = {
 		command: 'The full name of the command to disable (NOT ALIAS).'
 	},
 	examples: ['disablecommand inventory'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

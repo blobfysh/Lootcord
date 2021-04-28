@@ -5,6 +5,7 @@ exports.command = {
 	long: 'The base command for all clan commands. For a detailed look at all the clan commands and how clans work check out: https://lootcord.com/guides/clans.',
 	args: {},
 	examples: ['clan info mod squad'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: true,
 	requiresAcc: true,
 	requiresActive: false,

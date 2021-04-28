@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Recycle items for components. You can check what an item will recycle to with the `item` command.',
 	args: { item: 'Item to recycle.', amount: '**OPTIONAL** Amount of item to recycle.' },
 	examples: ['recycle semi_rifle 2'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

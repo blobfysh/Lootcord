@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Displays statistics about the bot.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

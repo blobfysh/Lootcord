@@ -9,6 +9,7 @@ exports.command = {
 		'@user/discord#tag': 'User\'s profile to check.'
 	},
 	examples: ['inv blobfysh#4679'],
+	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

@@ -7,6 +7,7 @@ exports.command = {
 	long: `Sell all items of a category. If no category is specified, it will sell all items in your inventory. Categories include:\n\n${Object.keys(ITEM_TYPES).map(type => `- ${ITEM_TYPES[type].name}`).join('\n')}`,
 	args: { rarity: '**OPTIONAL** Rarity of items you want to sell ie. common, rare...' },
 	examples: ['sellall ranged'],
+	permissions: ['sendMessages', 'addReactions', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

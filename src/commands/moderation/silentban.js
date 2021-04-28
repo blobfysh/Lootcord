@@ -8,6 +8,7 @@ exports.command = {
 		'reason': 'Reason for ban.'
 	},
 	examples: ['silentban 168958344361541633 cheating'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

@@ -7,6 +7,7 @@ exports.command = {
 	long: 'Displays all active users on the server.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: true,

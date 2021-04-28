@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Displays information about the current update and the bot.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'embedLinks'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

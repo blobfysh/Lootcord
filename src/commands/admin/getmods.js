@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Get a list of all moderators.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

@@ -10,6 +10,7 @@ exports.command = {
 	long: 'Changes your status in the profile command. Supports Discord unicode emoji.',
 	args: { status: 'Status to set in the profile command.' },
 	examples: ['setstatus I am very cool'],
+	permissions: ['sendMessages', 'embedLinks'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

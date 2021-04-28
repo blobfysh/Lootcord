@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Displays your level along with your current scaled damage.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'embedLinks', 'externalEmojis', 'attachFiles'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

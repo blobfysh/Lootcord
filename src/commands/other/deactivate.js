@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Deactivates your account on server it\'s used in. Deactivating prevents you from being attacked in that server **BUT** also prevents you from being able to attack or use items.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'addReactions'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: true,

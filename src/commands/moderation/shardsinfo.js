@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Displays information about all shards.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

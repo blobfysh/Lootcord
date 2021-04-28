@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Stop all active spawn channels you created. Using this will not cause any existing enemies to leave, only prevent future spawns.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages'],
 	ignoreHelp: true,
 	premiumCmd: true,
 	requiresAcc: true,

@@ -8,6 +8,7 @@ exports.command = {
 	long: 'Search the Black Market for item listings.\n\nThe Black Market is a shop where players can list their own items for their own price and anyone can buy them using the `buy` command. You can also search the black market here: https://lootcord.com/blackmarket',
 	args: { 'item/category': 'Item or category to search for. Possible categories: ranged, melee, items, ammo, materials, storage, banners' },
 	examples: ['blackmarket assault_rifle', 'blackmarket ranged', 'blackmarket items'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

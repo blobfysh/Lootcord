@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Toggle a channel to send all level up messages to.\nUser **MUST** have the Manage Server permission.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages'],
 	ignoreHelp: true,
 	requiresAcc: true,
 	requiresActive: false,

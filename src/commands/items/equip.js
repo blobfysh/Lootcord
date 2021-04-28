@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Allows user to equip different storage containers and inventory banners. You can also equip a badge to set it as your display badge.',
 	args: { 'item/banner': 'Item to equip.' },
 	examples: ['equip wood_box', 'equip recruit'],
+	permissions: ['sendMessages', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

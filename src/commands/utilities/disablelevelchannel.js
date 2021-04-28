@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Removes the level channel from the server, will cause the bot to default back to replying when users level up.\nUser **MUST** have the Manage Server permission.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages'],
 	ignoreHelp: true,
 	requiresAcc: true,
 	requiresActive: false,

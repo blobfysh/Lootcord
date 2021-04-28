@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Check the bot\'s ping',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages'],
 	ignoreHelp: true,
 	requiresAcc: false,
 	requiresActive: false,

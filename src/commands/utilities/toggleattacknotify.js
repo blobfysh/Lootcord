@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Toggle notifications whenever you get attacked.',
 	args: { prefix: 'Input to change server prefix to. Must be 1-3 characters long.' },
 	examples: [],
+	permissions: ['sendMessages'],
 	ignoreHelp: true,
 	requiresAcc: true,
 	requiresActive: false,

@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Displays your current Lootcoin and Scrap balance.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

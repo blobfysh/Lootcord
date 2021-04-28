@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Send a report to the moderators. Examples include cheaters, alt accounts or just general errors you have with the bot. Supports image attachments.',
 	args: { message: 'The content of your report.' },
 	examples: ['report blobfysh#4679 looked at me funny'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

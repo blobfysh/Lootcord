@@ -5,6 +5,7 @@ exports.command = {
 	long: 'View your current power.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

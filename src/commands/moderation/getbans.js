@@ -7,6 +7,7 @@ exports.command = {
 		page: 'Page number.'
 	},
 	examples: [],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

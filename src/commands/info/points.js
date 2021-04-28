@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Shows your current experience towards the next level.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

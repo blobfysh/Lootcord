@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Runs code on the bot.',
 	args: { input: 'Code to run.' },
 	examples: ['eval 2+2'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

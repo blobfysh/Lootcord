@@ -7,6 +7,7 @@ exports.command = {
 	long: 'Use an item on yourself or attack another user with a weapon. If you\'re opening a box, you can specify an amount to open.',
 	args: { 'item': 'Item to use.', '@user': 'User to attack item with.' },
 	examples: ['use assault rifle @blobfysh', 'use medkit', 'use rock random', 'use crate 4'],
+	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: true,

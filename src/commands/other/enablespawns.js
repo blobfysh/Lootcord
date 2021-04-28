@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Lure strong enemies to randomly spawn in this channel. Defeat them to steal their items and Lootcoin!\nUser **MUST** have the Manage Server permission.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: true,
 	premiumCmd: true,
 	requiresAcc: true,

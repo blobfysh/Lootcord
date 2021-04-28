@@ -7,6 +7,7 @@ exports.command = {
 		name: 'Name of game.'
 	},
 	examples: ['removeshopitem fortnite'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Start a server jackpot that lasts 2 minutes! Other players can join the jackpot with the join command. The more you put into the pot, the higher your chance of winning it all.',
 	args: { amount: 'Amount of Scrap to gamble.' },
 	examples: ['jackpot 1000'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: true,

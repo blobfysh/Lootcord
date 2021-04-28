@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Sets your preferred ammunition. This ammo will be prioritized when using weapons even if you have a better ammo type in your inventory.',
 	args: { item: 'Ammo to set as preferred' },
 	examples: ['setammo hv_rifle_bullet'],
+	permissions: ['sendMessages', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,
@@ -29,7 +30,7 @@ exports.command = {
 		else if (app.itemdata[equipItem].category !== 'Ammo') {
 			return message.reply('❌ That isn\'t a type of ammunition.')
 		}
-		else if (!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), equipItem, 1)) {
+		else if (!await app.itm.hasItems(await app.itm.getItemObject(message.author.id, serverSideGuildId), equipItem, 1)) {
 			return message.reply(`❌ You don't own any ${app.itemdata[equipItem].icon}\`${equipItem}\`.`)
 		}
 

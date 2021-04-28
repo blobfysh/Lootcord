@@ -11,6 +11,7 @@ exports.command = {
 		display: 'The title of the product to display in the shop, can contain spaces.'
 	},
 	examples: ['addshopitem fortnite 1 100 scrap Fortnite (POGGERS)'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

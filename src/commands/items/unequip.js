@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Unequip your current storage container or banner.',
 	args: { 'item/banner': 'Item to unequip.' },
 	examples: ['unequip wood_box', 'unequip banner', 'unequip storage'],
+	permissions: ['sendMessages', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

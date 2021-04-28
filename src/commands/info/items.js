@@ -7,6 +7,7 @@ exports.command = {
 	long: 'Specify an item to see detailed information about it.',
 	args: { item: 'Item to search.' },
 	examples: ['item assault_rifle'],
+	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

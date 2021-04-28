@@ -7,6 +7,7 @@ exports.command = {
 	long: 'Specify a badge to see detailed information about it.',
 	args: { badge: 'Badge to search.' },
 	examples: ['badge elitist'],
+	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

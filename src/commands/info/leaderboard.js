@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Displays a leaderboard of all players with the highest level and amount of money.',
 	args: { g: '**OPTIONAL** Will show the global leaderboard' },
 	examples: [],
+	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Toggle notifications whenever you sell an item on the Black Market.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages'],
 	ignoreHelp: true,
 	requiresAcc: true,
 	requiresActive: false,

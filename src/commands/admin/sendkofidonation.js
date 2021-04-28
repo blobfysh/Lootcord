@@ -8,6 +8,7 @@ exports.command = {
 		'coffees': 'Number of coffees to send.'
 	},
 	examples: ['sendkofidonation 168958344361541633 2'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

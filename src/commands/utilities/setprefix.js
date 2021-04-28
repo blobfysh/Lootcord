@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Used to change the prefix for the server.\nUser **MUST** have the Manage Server permission.',
 	args: { prefix: 'Input to change server prefix to. Can be 1-5 characters long.' },
 	examples: ['setprefix t!'],
+	permissions: ['sendMessages'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

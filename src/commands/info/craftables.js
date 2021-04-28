@@ -7,6 +7,7 @@ exports.command = {
 	long: 'Shows all items you can currently craft using the items in your inventory.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

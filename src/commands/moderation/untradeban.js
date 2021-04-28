@@ -7,6 +7,7 @@ exports.command = {
 		'User ID': 'ID of user to unban.'
 	},
 	examples: ['untradeban 168958344361541633'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

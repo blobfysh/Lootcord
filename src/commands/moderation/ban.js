@@ -10,6 +10,7 @@ exports.command = {
 		'rule': 'Rule broken.'
 	},
 	examples: ['ban 168958344361541633 5'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

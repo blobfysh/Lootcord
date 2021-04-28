@@ -14,6 +14,7 @@ exports.command = {
 	long: 'Use this command to receive a free military_crate every day.\n\n**Receive double the reward when used in the official Discord!**',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: true,

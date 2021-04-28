@@ -7,6 +7,7 @@ exports.command = {
 	long: 'Remove a listing from the Black Market.',
 	args: { 'listing ID': 'ID of listing you want to remove.' },
 	examples: ['bmremove Jq0cG_YY'],
+	permissions: ['sendMessages', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

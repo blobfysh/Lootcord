@@ -7,6 +7,7 @@ exports.command = {
 	long: 'Exchange your items for Scrap! Scrapping your items gives you 1.5x their sell value.',
 	args: { item: 'Item to scrap.', amount: '**OPTIONAL** Amount of item to scrap.' },
 	examples: ['scrap assault_rifle 2', 'scrap rock 1 assault_rifle 3 crate 2'],
+	permissions: ['sendMessages', 'addReactions', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

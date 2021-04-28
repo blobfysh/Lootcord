@@ -7,6 +7,7 @@ exports.command = {
 	long: 'Purchase items with currency. Check the `shop` to see what can be bought.',
 	args: { item: 'Item to buy.', amount: '**OPTIONAL** Amount of items to purchase.' },
 	examples: ['buy crate 2'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

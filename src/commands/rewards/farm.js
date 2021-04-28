@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Use this command every hour to go farm for materials/loot.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: true,

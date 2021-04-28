@@ -7,6 +7,7 @@ exports.command = {
 		clan: 'Clan to search.'
 	},
 	examples: ['getclan Mod Squad'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

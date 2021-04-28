@@ -11,6 +11,7 @@ exports.command = {
 		'rule': 'Rule broken.'
 	},
 	examples: ['tempban 168958344361541633 24h 5', 'tempban 168958344361541633 10m 5', 'tempban 168958344361541633 7d 5'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

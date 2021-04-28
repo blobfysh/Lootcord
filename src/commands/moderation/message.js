@@ -8,6 +8,7 @@ exports.command = {
 		'message': 'Message to send.'
 	},
 	examples: ['message 168958344361541633 hello!'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

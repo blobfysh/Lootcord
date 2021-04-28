@@ -1,3 +1,5 @@
+const { PERMISSIONS } = require('../resources/constants')
+
 class CommandHandler {
 	constructor(app) {
 		this.app = app
@@ -18,7 +20,7 @@ class CommandHandler {
 		if (!command) { return }
 
 		// makes sure command wasn't used in DM's
-		else if (!message.channel.guild) { return message }
+		else if (!message.channel.guild) { return }
 
 		// check if bot should ignore guild entirely
 		else if (this.app.config.ignoredGuilds.includes(message.channel.guild.id)) { return }
@@ -26,8 +28,23 @@ class CommandHandler {
 		// check if user is banned from bot
 		else if (await this.app.cd.getCD(message.author.id, 'banned')) { return }
 
-		// makes sure bot has all permissions from config (prevents permission-related errors)
-		else if (!this.botHasPermissions(message)) { return }
+		// global permissions required for all commands, used for level-up message and events
+		const globalPerms = this.getNeededPermissions(message, ['sendMessages', 'externalEmojis', 'addReactions', 'embedLinks'])
+
+		if (globalPerms.neededPerms.length) {
+			if (globalPerms.neededPerms.includes('sendMessages')) {
+				return
+			}
+
+			return message.channel.createMessage(`I don't have permission to ${globalPerms.permsString}... Please reinvite me or give me those permissions 🥺`)
+		}
+
+		// check to make sure bot has permissions to run command
+		const commandPerms = this.getNeededPermissions(message, command.permissions)
+
+		if (commandPerms.neededPerms.length) {
+			return message.channel.createMessage(`I am missing the following permissions to run that command: ${commandPerms.permsString}... Please reinvite me or give me those permissions 🥺`)
+		}
 
 		// check if user has spam cooldown
 		else if (this.spamCooldown.has(message.author.id)) {
@@ -56,13 +73,7 @@ class CommandHandler {
 
 		// check if user is under effects of 40mm_smoke_grenade
 		if (blindedCD && command.category !== 'admin' && command.category !== 'moderation') {
-			const smokedEmbed = new this.app.Embed()
-				.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
-				.setDescription(`❌ You are blinded by a ${this.app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`!`)
-				.setColor(16734296)
-				.setFooter(`The smoke will clear in ${blindedCD}.`)
-
-			return message.channel.createMessage(smokedEmbed)
+			return message.reply(`❌ You are blinded by a ${this.app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`! The smoke will clear in \`${blindedCD}\`.`)
 		}
 
 
@@ -89,7 +100,7 @@ class CommandHandler {
 		}
 
 		// check if user has manage server permission before running guildModsOnly command
-		else if (command.guildModsOnly && !message.member.permission.has('manageGuild')) { return message.channel.createMessage('❌ You need the `Manage Server` permission to use this command!') }
+		else if (command.guildModsOnly && !message.member.permissions.has('manageGuild')) { return message.channel.createMessage('❌ You need the `Manage Server` permission to use this command!') }
 
 		// check if command can only be used with a server-side economy
 		else if (command.serverEconomyOnly && !guildInfo.serverOnly) {
@@ -138,25 +149,25 @@ class CommandHandler {
 		}
 	}
 
-	// check that bot has all permissions specificed in config before running a command.
-	botHasPermissions(message) {
+	getNeededPermissions(message, requiredPerms) {
 		const botPerms = message.channel.permissionsOf(this.app.bot.user.id)
 		const neededPerms = []
 
-		for (const perm of Object.keys(this.app.config.requiredPerms)) {
+		for (const perm of requiredPerms) {
 			if (!botPerms.has(perm)) {
-				neededPerms.push(this.app.config.requiredPerms[perm])
+				neededPerms.push(perm)
 			}
 		}
 
-		if (neededPerms.length) {
-			const permsString = neededPerms.map(perm => neededPerms.length > 1 && neededPerms.indexOf(perm) === (neededPerms.length - 1) ? `or \`${perm}\`` : `\`${perm}\``).join(', ')
-			if (!neededPerms.includes('Send Messages')) message.channel.createMessage(`I don't have permission to ${permsString}... Please reinvite me or give me those permissions :(`)
+		const permsString = neededPerms.map(perm => {
+			if (neededPerms.length > 1 && neededPerms.indexOf(perm) === (neededPerms.length - 1)) {
+				return `and \`${PERMISSIONS[perm]}\``
+			}
 
-			return false
-		}
+			return `\`${PERMISSIONS[perm]}\``
+		}).join(', ')
 
-		return true
+		return { neededPerms, permsString }
 	}
 
 	async checkLevelXP(message, row, guildInfo) {
@@ -210,16 +221,23 @@ class CommandHandler {
 				}
 
 				try {
-					const lvlUpImage = await this.app.player.getLevelImage(message.author.avatarURL, row.level + 1)
+					const hasFilePerm = this.getNeededPermissions(message, ['attachFiles'])
+					let lvlFile
+
+					if (!hasFilePerm.neededPerms.length) {
+						const lvlUpImage = await this.app.player.getLevelImage(message.author.avatarURL, row.level + 1)
+
+						lvlFile = {
+							file: lvlUpImage,
+							name: 'userLvl.jpeg'
+						}
+					}
 
 					if (guildInfo.levelChan !== undefined && guildInfo.levelChan !== '' && guildInfo.levelChan !== 0) {
 						try {
 							await this.app.bot.createMessage(guildInfo.levelChan, {
 								content: `<@${message.author.id}> leveled up!\n**Reward:** ${levelItem}${craftables.length ? `\n\nYou can now craft the following items:\n${craftables.map(item => `${this.app.itemdata[item].icon}\`${item}\``).join(', ')}` : ''}`
-							}, {
-								file: lvlUpImage,
-								name: 'userLvl.jpeg'
-							})
+							}, lvlFile)
 						}
 						catch (err) {
 							// level channel not found
@@ -229,10 +247,7 @@ class CommandHandler {
 					else {
 						message.channel.createMessage({
 							content: `<@${message.author.id}> level up!\n**Reward:** ${levelItem}${craftables.length ? `\n\nYou can now craft the following items:\n${craftables.map(item => `${this.app.itemdata[item].icon}\`${item}\``).join(', ')}` : ''}`
-						}, {
-							file: lvlUpImage,
-							name: 'userLvl.jpeg'
-						})
+						}, lvlFile)
 					}
 				}
 				catch (err) {

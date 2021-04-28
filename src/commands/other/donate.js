@@ -5,6 +5,7 @@ exports.command = {
 	long: '[Help support the development of Lootcord and get some cool rewards!](https://www.patreon.com/lootcord)',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

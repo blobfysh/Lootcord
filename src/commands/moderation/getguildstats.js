@@ -10,6 +10,7 @@ exports.command = {
 		'-fetchall': '**OPTIONAL** Fetches all members of the guild.'
 	},
 	examples: ['getguildstats 454163538055790604', 'getguildstats 454163538055790604 -fetchall'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

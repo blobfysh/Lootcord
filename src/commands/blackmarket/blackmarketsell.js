@@ -9,6 +9,7 @@ exports.command = {
 	long: 'Sell an item of your own on the Black Market for other players to buy! Listing an item has a fee of 10% of the price.',
 	args: {},
 	examples: ['bmlist box 1 2000', 'bmlist'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

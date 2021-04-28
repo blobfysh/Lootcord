@@ -10,6 +10,7 @@ exports.command = {
 		'reason': 'Reason for wiping.'
 	},
 	examples: ['invwipe 168958344361541633 cheating'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

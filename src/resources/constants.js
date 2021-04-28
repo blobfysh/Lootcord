@@ -56,7 +56,18 @@ const RULES = {
 	}
 }
 
+const PERMISSIONS = {
+	sendMessages: 'Send Messages',
+	addReactions: 'Add Reactions',
+	manageMessages: 'Manage Messages',
+	embedLinks: 'Embed Links',
+	attachFiles: 'Attach Files',
+	externalEmojis: 'Use External Emoji',
+	readMessageHistory: 'Read Message History'
+}
+
 module.exports = {
 	ITEM_TYPES,
-	RULES
+	RULES,
+	PERMISSIONS
 }

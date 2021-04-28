@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Activates your account on the server.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages'],
 	ignoreHelp: false,
 	requiresAcc: true,
 	requiresActive: false,

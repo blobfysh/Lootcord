@@ -7,6 +7,7 @@ exports.command = {
 		'User ID': 'ID of user to delete.'
 	},
 	examples: ['delacc 168958344361541633'],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,

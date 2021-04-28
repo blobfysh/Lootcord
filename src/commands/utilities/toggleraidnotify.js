@@ -5,6 +5,7 @@ exports.command = {
 	long: 'Toggle notifications whenever your clan gets raided.',
 	args: {},
 	examples: [],
+	permissions: ['sendMessages'],
 	ignoreHelp: true,
 	requiresAcc: true,
 	requiresActive: false,

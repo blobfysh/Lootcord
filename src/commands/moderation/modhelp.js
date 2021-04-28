@@ -7,6 +7,7 @@ exports.command = {
 		command: 'Command to lookup info for.'
 	},
 	examples: [],
+	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: false,
 	requiresActive: false,
