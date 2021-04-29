@@ -461,7 +461,7 @@ exports.command = {
 
 				for (const randUser of rand) {
 					const randomMember = await app.common.fetchMember(message.channel.guild, randUser.id)
-					const memberItems = await app.player.getRow(randUser.id, serverSideGuildId)
+					const memberItems = await app.itm.getItemObject(randUser.id, serverSideGuildId)
 
 					if (randomMember) {
 						membersInfo.push({ member: randomMember, row: randUser.row, items: memberItems })
