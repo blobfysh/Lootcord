@@ -24,6 +24,8 @@ Commands can be found [here](https://lootcord.com/commands).
 
 ### I will not help you set up self-hosting, do not message me asking.
 
+⚠️ If you plan to make your own version of the bot and submit it to bot lists, I am okay with that **AS LONG AS YOU MAKE SIGNIFICANT CHANGES**. Don't just copy paste the project and publish it as your own. For example, changing all of the items or giving the bot a whole new theme are significant changes. **AS PER THE LICENSE, YOU ARE REQUIRED TO MAKE THE SOURCE CODE AVAILABLE**. Also credit would be nice :)
+
 Requirements:
 
 - Node.js 10.x or 12.x
