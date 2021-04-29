@@ -10,6 +10,7 @@ exports.command = {
 	requiresAcc: true,
 	requiresActive: false,
 	guildModsOnly: false,
+	worksInDMs: true,
 
 	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		try {

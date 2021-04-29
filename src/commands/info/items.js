@@ -12,6 +12,7 @@ exports.command = {
 	requiresAcc: false,
 	requiresActive: false,
 	guildModsOnly: false,
+	worksInDMs: true,
 
 	async execute(app, message, { args, prefix, guildInfo }) {
 		const itemsArraySorted = Object.keys(app.itemdata).sort(app.itm.sortItemsHighLow.bind(app))

@@ -10,6 +10,7 @@ exports.command = {
 	requiresAcc: false,
 	requiresActive: false,
 	guildModsOnly: false,
+	worksInDMs: true,
 
 	execute(app, message, { args, prefix, guildInfo }) {
 		const invite = new app.Embed()

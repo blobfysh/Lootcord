@@ -10,6 +10,7 @@ exports.command = {
 	requiresAcc: true,
 	requiresActive: false,
 	guildModsOnly: false,
+	worksInDMs: true,
 
 	async execute(app, message, { args, prefix, guildInfo }) {
 		const voteCD = await app.cd.getCD(message.author.id, 'vote')

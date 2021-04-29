@@ -19,35 +19,67 @@ class CommandHandler {
 		// no command was found
 		if (!command) { return }
 
-		// makes sure command wasn't used in DM's
-		else if (!message.channel.guild) { return }
-
-		// check if bot should ignore guild entirely
-		else if (this.app.config.ignoredGuilds.includes(message.channel.guild.id)) { return }
-
 		// check if user is banned from bot
 		else if (await this.app.cd.getCD(message.author.id, 'banned')) { return }
 
-		// global permissions required for all commands, used for level-up message and events
-		const globalPerms = this.getNeededPermissions(message, ['sendMessages', 'externalEmojis', 'addReactions', 'embedLinks', 'readMessageHistory'])
+		// check if user is admin before running admin command
+		else if (command.category === 'admin' && !this.app.sets.adminUsers.has(message.author.id)) { return }
 
-		if (globalPerms.neededPerms.length) {
-			if (globalPerms.neededPerms.includes('sendMessages')) {
-				return
+		// ignore mod command if user is not a moderator or admin
+		else if (command.category === 'moderation' && (!await this.app.cd.getCD(message.author.id, 'mod') && !this.app.sets.adminUsers.has(message.author.id))) { return }
+
+		let guildInfo = {}
+		let serverSideGuildId
+
+		if (message.channel.guild) {
+			// command was used in guild
+
+			// check if bot should ignore guild entirely
+			if (this.app.config.ignoredGuilds.includes(message.channel.guild.id)) { return }
+
+			// global permissions required for all commands, used for level-up message and events
+			const globalPerms = this.getNeededPermissions(message, ['sendMessages', 'externalEmojis', 'addReactions', 'embedLinks', 'readMessageHistory'])
+
+			if (globalPerms.neededPerms.length) {
+				if (globalPerms.neededPerms.includes('sendMessages')) {
+					return
+				}
+
+				return message.channel.createMessage(`I don't have permission to ${globalPerms.permsString}... Please reinvite me or give me those permissions 🥺`)
 			}
 
-			return message.channel.createMessage(`I don't have permission to ${globalPerms.permsString}... Please reinvite me or give me those permissions 🥺`)
+			// check to make sure bot has permissions to run command
+			const commandPerms = this.getNeededPermissions(message, command.permissions)
+
+			if (commandPerms.neededPerms.length) {
+				return message.channel.createMessage(`I am missing the following permissions to run that command: ${commandPerms.permsString}... Please reinvite me or give me those permissions 🥺`)
+			}
+
+			// check if user has manage server permission before running guildModsOnly command
+			else if (command.guildModsOnly && !message.member.permissions.has('manageGuild')) {
+				return message.channel.createMessage('❌ You need the `Manage Server` permission to use this command!')
+			}
+
+			// check if command can only be used with a server-side economy
+			else if (command.serverEconomyOnly && !guildInfo.serverOnly) {
+				return message.channel.createMessage(`❌ The \`${command.name}\` command requires that server-side economy mode is enabled. You can enable it in your \`serversettings\`.`)
+			}
+			else if (command.globalEconomyOnly && guildInfo.serverOnly) {
+				return message.channel.createMessage(`❌ The \`${command.name}\` command requires that server-side economy mode is disabled.`)
+			}
+
+			guildInfo = await this.app.common.getGuildInfo(message.channel.guild.id)
+			serverSideGuildId = guildInfo.serverOnly ? message.channel.guild.id : undefined
+
+			if (Math.random() <= 0.02) this.app.eventHandler.initEvent(message, { prefix, serverSideGuildId })
 		}
-
-		// check to make sure bot has permissions to run command
-		const commandPerms = this.getNeededPermissions(message, command.permissions)
-
-		if (commandPerms.neededPerms.length) {
-			return message.channel.createMessage(`I am missing the following permissions to run that command: ${commandPerms.permsString}... Please reinvite me or give me those permissions 🥺`)
+		else if (!command.worksInDMs) {
+			// command does not support being run in DMs
+			return message.channel.createMessage(`❌ That command does not work in DMs! Try using it in a server.\n\nCommands that work in DMs: ${this.app.commands.filter(cmd => cmd.worksInDMs).map(cmd => `\`${cmd.name}\``).join(', ')}`)
 		}
 
 		// check if user has spam cooldown
-		else if (this.spamCooldown.has(message.author.id)) {
+		if (this.spamCooldown.has(message.author.id)) {
 			const botMsg = await message.channel.createMessage('⏱ **You\'re talking too fast, I can\'t understand! Please slow down...** `2 seconds`')
 			setTimeout(() => {
 				botMsg.delete()
@@ -60,14 +92,6 @@ class CommandHandler {
 			return message.channel.createMessage('❌ That command has been disabled to prevent issues! Sorry about that...')
 		}
 
-		// check if user is admin before running admin command
-		else if (command.category === 'admin' && !this.app.sets.adminUsers.has(message.author.id)) { return }
-
-		// ignore mod command if user is not a moderator or admin
-		else if (command.category === 'moderation' && (!await this.app.cd.getCD(message.author.id, 'mod') && !this.app.sets.adminUsers.has(message.author.id))) { return }
-
-		const guildInfo = await this.app.common.getGuildInfo(message.channel.guild.id)
-		const serverSideGuildId = guildInfo.serverOnly ? message.channel.guild.id : undefined
 		const account = await this.app.player.getRow(message.author.id, serverSideGuildId)
 		const blindedCD = await this.app.cd.getCD(message.author.id, 'blinded', { serverSideGuildId })
 
@@ -76,11 +100,8 @@ class CommandHandler {
 			return message.reply(`❌ You are blinded by a ${this.app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`! The smoke will clear in \`${blindedCD}\`.`)
 		}
 
-
 		// check if player leveled up
 		if (account) await this.checkLevelXP(message, account, guildInfo, serverSideGuildId)
-
-		if (Math.random() <= 0.02) this.app.eventHandler.initEvent(message, { prefix, serverSideGuildId })
 
 		// check if command requires an account at all, create new account for player if command requires it.
 		if (command.requiresAcc && !account) await this.app.player.createAccount(message.author.id, serverSideGuildId)
@@ -97,17 +118,6 @@ class CommandHandler {
 		}
 		else if (command.patronTier2Only && !await this.app.patreonHandler.isPatron(message.author.id, 2) && !this.app.sets.adminUsers.has(message.author.id)) {
 			return message.channel.createMessage(`❌ \`${command.name}\` is exclusive for **Loot Hoarder**+ patreon donators. Support Lootcord on patreon to get access: https://www.patreon.com/lootcord`)
-		}
-
-		// check if user has manage server permission before running guildModsOnly command
-		else if (command.guildModsOnly && !message.member.permissions.has('manageGuild')) { return message.channel.createMessage('❌ You need the `Manage Server` permission to use this command!') }
-
-		// check if command can only be used with a server-side economy
-		else if (command.serverEconomyOnly && !guildInfo.serverOnly) {
-			return message.channel.createMessage(`❌ The \`${command.name}\` command requires that server-side economy mode is enabled. You can enable it in your \`serversettings\`.`)
-		}
-		else if (command.globalEconomyOnly && guildInfo.serverOnly) {
-			return message.channel.createMessage(`❌ The \`${command.name}\` command requires that server-side economy mode is disabled.`)
 		}
 
 		// execute command
@@ -130,7 +140,12 @@ class CommandHandler {
 				serverSideGuildId
 			})
 
-			console.log(`${message.author.username}#${message.author.discriminator} (${message.author.id}) ran command: ${command.name} in guild: ${message.channel.guild.name} (${message.channel.guild.id})`)
+			if (message.channel.guild) {
+				console.log(`${message.author.username}#${message.author.discriminator} (${message.author.id}) ran command: ${command.name} in guild: ${message.channel.guild.name} (${message.channel.guild.id})`)
+			}
+			else {
+				console.log(`${message.author.username}#${message.author.discriminator} (${message.author.id}) ran command: ${command.name} in DMs`)
+			}
 
 			// dont add spamCooldown if in debug mode or user is admin
 			if (this.app.config.debug || this.app.sets.adminUsers.has(message.author.id)) return

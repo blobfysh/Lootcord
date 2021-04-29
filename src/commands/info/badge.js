@@ -12,6 +12,7 @@ exports.command = {
 	requiresAcc: false,
 	requiresActive: false,
 	guildModsOnly: false,
+	worksInDMs: true,
 
 	async execute(app, message, { args, prefix, guildInfo }) {
 		const badgeSearched = app.parse.badges(args)[0]
