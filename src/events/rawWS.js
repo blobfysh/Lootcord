@@ -64,16 +64,11 @@ exports.run = async function(packet, id) {
 
 		// check if user is under effects of 40mm_smoke_grenade
 		if (blindedCD) {
-			const smokedEmbed = new this.Embed()
-				.setDescription(`❌ You are blinded by a ${this.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`!`)
-				.setColor(16734296)
-				.setFooter(`The smoke will clear in ${blindedCD}.`)
-
-			// embeds still dont work with ephemeral messages :((
 			return interaction.respond({
 				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 				data: {
-					embeds: [smokedEmbed.embed]
+					content: `❌ You are blinded by a ${this.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`! The smoke will clear in \`${blindedCD}\`.`,
+					flags: MessageFlags.EPHEMERAL
 				}
 			})
 		}
