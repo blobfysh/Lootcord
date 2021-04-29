@@ -40,8 +40,12 @@ exports.command = {
 
 				if (confirmed) {
 					const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
+					const itemCt = await app.itm.getItemCount(userItems, row)
 
-					if (await app.itm.hasItems(userItems, itemMats)) {
+					if (app.itemdata[craftItem].isBanner && itemCt.bannerCt + craftAmount >= 100) {
+						botMessage.edit('❌ **Crafting that will put you over the banner limit!** (100)')
+					}
+					else if (await app.itm.hasItems(userItems, itemMats)) {
 						const xpReward = app.itemdata[craftItem].craftedWith.xpReward * craftAmount
 						await app.itm.removeItem(message.author.id, itemMats, null, serverSideGuildId)
 						await app.itm.addItem(message.author.id, craftItem, craftAmount, serverSideGuildId)

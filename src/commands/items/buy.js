@@ -42,8 +42,11 @@ exports.command = {
 						if (row.money < itemPrice * buyAmount) {
 							return botMessage.edit(`You don't have enough Lootcoin for that purchase! You only have **${app.common.formatNumber(row.money)}**.`)
 						}
-						if (!hasSpace && !app.itemdata[buyItem].isBanner) {
+						else if (!hasSpace && !app.itemdata[buyItem].isBanner) {
 							return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${buyAmount}** open slot${buyAmount > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
+						}
+						else if (app.itemdata[buyItem].isBanner && itemCt.bannerCt + buyAmount >= 100) {
+							return botMessage.edit('❌ **Buying that will put you over the banner limit!** (100)')
 						}
 
 						await app.player.removeMoney(message.author.id, itemPrice * buyAmount, serverSideGuildId)
@@ -73,8 +76,11 @@ exports.command = {
 						if (row.scrap < itemPrice * buyAmount) {
 							return botMessage.edit(`You don't have enough Scrap for that purchase! You only have **${app.common.formatNumber(row.scrap, false, true)}**.`)
 						}
-						if (!hasSpace && !app.itemdata[buyItem].isBanner) {
+						else if (!hasSpace && !app.itemdata[buyItem].isBanner) {
 							return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${buyAmount}** open slot${buyAmount > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
+						}
+						else if (app.itemdata[buyItem].isBanner && itemCt.bannerCt + buyAmount >= 100) {
+							return botMessage.edit('❌ **Buying that will put you over the banner limit!** (100)')
 						}
 
 						await app.player.removeScrap(message.author.id, itemPrice * buyAmount, serverSideGuildId)

@@ -235,23 +235,29 @@ class Items {
 	}
 
 	async getItemCount(userItems, userRow, options = { cntBanners: false }) {
-		options.cntBanners = (options && options.cntBanners) || false
+		options.cntBanners = options.cntBanners || false
 
 		let totalItemCt = 0
+		let bannerCt = 0
 
-		Object.keys(this.app.itemdata).forEach(key => {
-			if (userItems[key] > 0) {
-				if (this.app.itemdata[key].isBanner && options.cntBanners) {
-					totalItemCt += userItems[key]
+		for (const item in userItems) {
+			if (this.app.itemdata[item] && userItems[item] > 0) {
+				if (this.app.itemdata[item].isBanner && options.cntBanners) {
+					totalItemCt += userItems[item]
+					bannerCt += userItems[item]
 				}
-				else if (key !== 'token' && !this.app.itemdata[key].isBanner) {
-					totalItemCt += userItems[key]
+				else if (this.app.itemdata[item].isBanner) {
+					bannerCt += userItems[item]
+				}
+				else if (!this.app.itemdata[item].isBanner) {
+					totalItemCt += userItems[item]
 				}
 			}
-		})
+		}
 
 		return {
 			itemCt: totalItemCt,
+			bannerCt,
 			maxCt: this.app.config.baseInvSlots + userRow.inv_slots,
 			open: Math.max(0, (this.app.config.baseInvSlots + userRow.inv_slots) - totalItemCt),
 			capacity: `${totalItemCt} / ${this.app.config.baseInvSlots + userRow.inv_slots}`
