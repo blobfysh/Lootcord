@@ -95,7 +95,7 @@ exports.cooldowns = {
 	blackjack: 180,
 	coinflip: 180,
 	scramble: 900,
-	trivia: 900,
+	trivia: 600,
 	roulette: 180,
 	slots: 180,
 	jackpot: 300,
