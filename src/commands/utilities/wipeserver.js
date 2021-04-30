@@ -1,3 +1,24 @@
+const resetData = {
+	money: 100,
+	scrap: 500,
+	backpack: '"none"',
+	badge: '"none"',
+	inv_slots: 0,
+	health: 100,
+	maxHealth: 100,
+	bleed: 0,
+	burn: 0,
+	power: 5,
+	banner: '"recruit"',
+	scaledDamage: 1.00,
+	luck: 0,
+	used_stats: 0,
+	level: 1,
+	points: 0,
+	kills: 0,
+	deaths: 0
+}
+
 exports.command = {
 	name: 'wipeserver',
 	aliases: [],
@@ -20,7 +41,7 @@ exports.command = {
 
 			if (result) {
 				// server-side economies
-				await app.query('DELETE FROM server_scores WHERE guildId = ?', [serverSideGuildId])
+				await app.query(`UPDATE server_scores SET ${Object.keys(resetData).map(key => `${key} = ${resetData[key]}`).join(', ')} WHERE guildId = ?`, [serverSideGuildId])
 				await app.query('DELETE FROM server_user_items WHERE guildId = ?', [serverSideGuildId])
 				await app.query('DELETE FROM server_stats WHERE guildId = ?', [serverSideGuildId])
 				await app.query('DELETE FROM server_badges WHERE guildId = ?', [serverSideGuildId])
