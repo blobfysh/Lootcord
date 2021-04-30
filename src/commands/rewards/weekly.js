@@ -29,7 +29,7 @@ exports.command = {
 		const hasEnough = await app.itm.hasSpace(itemCt, 2)
 		if (!hasEnough) return message.reply(`❌ **You don't have enough space in your inventory!** (You need **2** open slot, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
 
-		await app.cd.setCD(message.author.id, 'weekly', app.config.cooldowns.daily * 1000 * 7, { serverSideGuildId })
+		await app.cd.setCD(message.author.id, 'weekly', app.config.cooldowns.weekly * 1000, { serverSideGuildId })
 
 		await app.itm.addItem(message.author.id, 'supply_drop', 1, serverSideGuildId)
 		await app.itm.addItem(message.author.id, 'reroll_scroll', 1, serverSideGuildId)

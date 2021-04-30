@@ -54,8 +54,16 @@ exports.command = {
 				await app.query(`DELETE FROM scores WHERE userId ="${userID}"`)
 				await app.query(`DELETE FROM user_items WHERE userId ="${userID}"`)
 				await app.query(`DELETE FROM badges WHERE userId = ${userID}`)
+				await app.query(`DELETE FROM stats WHERE userId = ${userID}`)
 				await app.query(`DELETE FROM userguilds WHERE userId = ${userID}`)
 				await app.query(`DELETE FROM blackmarket WHERE sellerId ="${userID}"`)
+
+				// server-side economies
+				await app.query(`DELETE FROM server_scores WHERE userId ="${userID}"`)
+				await app.query(`DELETE FROM server_user_items WHERE userId ="${userID}"`)
+				await app.query(`DELETE FROM server_stats WHERE userId ="${userID}"`)
+				await app.query(`DELETE FROM server_badges WHERE userId ="${userID}"`)
+
 				await app.cd.clearCD(userID, 'shield')
 
 				botMessage.edit(`Successfully deleted **${user.username}#${user.discriminator}**'s account data.`)

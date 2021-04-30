@@ -88,18 +88,6 @@ exports.activeRoleGuilds = {
 	}
 }
 
-// Permissions required for the bot to work
-// TODO check for permissions needed based on command being used
-exports.requiredPerms = {
-	sendMessages: 'Send Messages',
-	addReactions: 'Add Reactions',
-	manageMessages: 'Manage Messages',
-	embedLinks: 'Embed Links',
-	attachFiles: 'Attach Files',
-	externalEmojis: 'Use External Emoji',
-	readMessageHistory: 'Read Message History'
-}
-
 // cooldowns in seconds for some commands
 exports.cooldowns = {
 	hourly: 3600,
@@ -111,5 +99,6 @@ exports.cooldowns = {
 	roulette: 180,
 	slots: 180,
 	jackpot: 300,
-	xp_potion: 180
+	weekly: 86400 * 7,
+	server_side_toggle: 86400 * 3
 }

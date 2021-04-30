@@ -43,7 +43,11 @@ exports.command = {
 		const categories = {}
 
 		app.commands.forEach(cmd => {
-			if (cmd.ignoreHelp || (cmd.globalEconomyOnly && serverSideGuildId)) return
+			if (
+				cmd.ignoreHelp ||
+				(cmd.globalEconomyOnly && serverSideGuildId) ||
+				(cmd.serverEconomyOnly && !serverSideGuildId)
+			) return
 
 			if (categories[cmd.category]) {
 				categories[cmd.category].push(cmd.premiumCmd ? `✨${cmd.name}` : cmd.name)

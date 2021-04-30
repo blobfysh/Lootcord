@@ -60,16 +60,16 @@ class CommandHandler {
 				return message.channel.createMessage('❌ You need the `Manage Server` permission to use this command!')
 			}
 
+			guildInfo = await this.app.common.getGuildInfo(message.channel.guild.id)
+			serverSideGuildId = guildInfo.serverOnly ? message.channel.guild.id : undefined
+
 			// check if command can only be used with a server-side economy
-			else if (command.serverEconomyOnly && !guildInfo.serverOnly) {
+			if (command.serverEconomyOnly && !guildInfo.serverOnly) {
 				return message.channel.createMessage(`❌ The \`${command.name}\` command requires that server-side economy mode is enabled. You can enable it in your \`serversettings\`.`)
 			}
 			else if (command.globalEconomyOnly && guildInfo.serverOnly) {
 				return message.channel.createMessage(`❌ The \`${command.name}\` command requires that server-side economy mode is disabled.`)
 			}
-
-			guildInfo = await this.app.common.getGuildInfo(message.channel.guild.id)
-			serverSideGuildId = guildInfo.serverOnly ? message.channel.guild.id : undefined
 
 			if (Math.random() <= 0.02) this.app.eventHandler.initEvent(message, { prefix, serverSideGuildId })
 		}

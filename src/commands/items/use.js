@@ -603,8 +603,8 @@ exports.command = {
 					return message.reply(`Your ${armor ? `${app.itemdata[armor].icon}\`${armor}\`` : 'current armor'} is still active for \`${armorCD}\`!`)
 				}
 
-				await app.itm.removeItem(message.author.id, item, 1)
-				await app.cd.setCD(message.author.id, 'shield', itemInfo.shieldInfo.seconds * 1000, { armor: item })
+				await app.itm.removeItem(message.author.id, item, 1, serverSideGuildId)
+				await app.cd.setCD(message.author.id, 'shield', itemInfo.shieldInfo.seconds * 1000, { armor: item, serverSideGuildId })
 
 				message.reply(`You put on the ${itemInfo.icon}\`${item}\`. You now take **${Math.floor(itemInfo.shieldInfo.protection * 100)}%** less damage from attacks for \`${app.cd.convertTime(itemInfo.shieldInfo.seconds * 1000)}\``)
 			}
