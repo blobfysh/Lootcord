@@ -4,9 +4,9 @@ exports.command = {
 	description: 'Used by server moderators to give players items. Can only be used if server-side economy mode is enabled.',
 	long: 'Used by server moderators to give players items.\nCan only be used if server-side economy mode is enabled.\n\nUser **MUST** have the Manage Server permission.',
 	args: {
-		'item': 'Item to use.',
+		'item': 'Item to give.',
 		'amount': 'Amount of item to give.',
-		'@user': 'User to attack item with.'
+		'@user': 'User to give item to.'
 	},
 	examples: ['giveitem assault rifle 3 @blobfysh'],
 	permissions: ['sendMessages', 'externalEmojis'],
