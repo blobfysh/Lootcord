@@ -255,6 +255,10 @@ class Items {
 			}
 		}
 
+		if (this.app.itemdata[userRow.banner] !== undefined) {
+			bannerCt++
+		}
+
 		return {
 			itemCt: totalItemCt,
 			bannerCt,

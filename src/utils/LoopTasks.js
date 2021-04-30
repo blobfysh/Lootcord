@@ -43,7 +43,7 @@ class LoopTasks {
 	}
 
 	async monthlyTasks() {
-		await this.app.query('UPDATE scores, server_scores SET scores.points = 0, scores.level = 1, server_scores.points = 0, server_scores.level = 1')
+		await this.app.query('UPDATE scores SET points = 0, level = 1')
 	}
 
 	async dailyTasks() {

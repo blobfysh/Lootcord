@@ -48,7 +48,7 @@ exports.command = {
 			await transaction.commit()
 			return message.reply(`❌ **${member.username} is out of inventory space!** (Open slots: **${itemCt.open}** Required: **${amount}**)\nHave them clear space by selling some items.`)
 		}
-		else if (app.itemdata[item].isBanner && itemCt.bannerCt + amount >= 100) {
+		else if (app.itemdata[item].isBanner && itemCt.bannerCt + amount > 100) {
 			await transaction.commit()
 			return message.reply(`❌ **${member.username} cannot hold that many banners!** (100 max).`)
 		}

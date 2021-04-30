@@ -73,7 +73,7 @@ exports.command = {
 			.setFooter(`To see more about a command, use ${prefix}help <command>`)
 			.setColor(13451564)
 
-		if (todaysMonth !== converted.getMonth()) {
+		if (!serverSideGuildId && todaysMonth !== converted.getMonth()) {
 			const daysUntilWipe = 10 - converted.getDate()
 
 			if (daysUntilWipe <= 0) {

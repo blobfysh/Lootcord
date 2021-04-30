@@ -45,7 +45,7 @@ exports.command = {
 						else if (!hasSpace && !app.itemdata[buyItem].isBanner) {
 							return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${buyAmount}** open slot${buyAmount > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
 						}
-						else if (app.itemdata[buyItem].isBanner && itemCt.bannerCt + buyAmount >= 100) {
+						else if (app.itemdata[buyItem].isBanner && itemCt.bannerCt + buyAmount > 100) {
 							return botMessage.edit('❌ **Buying that will put you over the banner limit!** (100)')
 						}
 
@@ -79,7 +79,7 @@ exports.command = {
 						else if (!hasSpace && !app.itemdata[buyItem].isBanner) {
 							return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${buyAmount}** open slot${buyAmount > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
 						}
-						else if (app.itemdata[buyItem].isBanner && itemCt.bannerCt + buyAmount >= 100) {
+						else if (app.itemdata[buyItem].isBanner && itemCt.bannerCt + buyAmount > 100) {
 							return botMessage.edit('❌ **Buying that will put you over the banner limit!** (100)')
 						}
 
