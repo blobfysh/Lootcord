@@ -14,7 +14,7 @@ exports.command = {
 	async execute(app, message, { args, prefix, guildInfo }) {
 		const activatedUsers = await app.query('SELECT userId FROM userguilds WHERE guildId = ?', [message.channel.guild.id])
 		const monsterSpawn = await app.mysql.select('spawns', 'channelId', message.channel.id)
-		const toggleCD = await app.cd.getCD(message.author.id, 'serversidetoggle')
+		const toggleCD = await app.cd.getCD(message.channel.guild.id, 'serversidetoggle')
 
 		if (toggleCD) {
 			return message.reply(`You must wait \`${toggleCD}\` before toggling server-side economy mode. This is because the command deactivates everyone in the server and would be abused if we didn't have this cooldown.`)
@@ -35,7 +35,7 @@ exports.command = {
 			}
 		}
 
-		await app.cd.setCD(message.author.id, 'serversidetoggle', app.config.cooldowns.server_side_toggle * 1000)
+		await app.cd.setCD(message.channel.guild.id, 'serversidetoggle', app.config.cooldowns.server_side_toggle * 1000)
 
 		// deactivate all users in guild to prevent issues with some commands (the bot assumes activated users have an account but switching from global to server-side means nobody will have an account)
 		await app.query('DELETE FROM userguilds WHERE guildId = ?', [message.channel.guild.id])
