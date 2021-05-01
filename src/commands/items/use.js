@@ -558,15 +558,12 @@ exports.command = {
 			return message.reply('❌ That item cannot be used to attack another player.')
 		}
 		else if (itemInfo.category === 'Item') {
-			const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
+			let userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 			const itemCt = await app.itm.getItemCount(userItems, row)
 			if (amount > 10) amount = 10
 
 			if (!userItems[item]) {
 				return message.reply(`❌ You don't have a ${app.itemdata[item].icon}\`${item}\`!`)
-			}
-			else if (item === 'c4' && userItems[item] < 1) {
-				return message.reply(`❌ You don't have enough of that item! You have **${userItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\`.`)
 			}
 			else if (item !== 'c4' && userItems[item] < amount) {
 				return message.reply(`❌ You don't have enough of that item! You have **${userItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\`.`)
@@ -711,11 +708,16 @@ exports.command = {
 			}
 			else if (item === 'c4') {
 				await message.reply(`What clan do you want to use ${app.itemdata.c4.icon}\`c4\` on?\n\nType the name of the clan:`)
+
 				const result = await app.msgCollector.awaitMessages(message.author.id, message.channel.id, m => m.author.id === message.author.id)
 				const clanName = result[0].content.split(/ +/)
+				userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 
 				if (!clanName.length) {
 					return message.reply(`You need to specify a clan to use your explosive on! \`${prefix}use c4 <clan name>\``)
+				}
+				else if (!userItems[item]) {
+					return message.reply(`❌ You don't have a ${app.itemdata[item].icon}\`${item}\`!`)
 				}
 
 				const clanRow = await app.clans.searchClanRow(clanName.join(' '))
