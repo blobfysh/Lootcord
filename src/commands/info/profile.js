@@ -95,7 +95,6 @@ const makeProfile = exports.makeProfile = async function makeProfile(app, user, 
 			.addField('Luck', userRow.luck.toString(), true)
 			.addField('Banners', bannersList, true)
 			.addField('Badges', badgeList, true)
-			.addField('Preferred Ammo', app.itemdata[userRow.ammo] ? `${app.itemdata[userRow.ammo].icon}\`${userRow.ammo}\`` : 'Not set', true)
 			.setFooter(`🌟 Skills upgraded ${userRow.used_stats} times`)
 
 		if (userRow.banner !== 'none') {
