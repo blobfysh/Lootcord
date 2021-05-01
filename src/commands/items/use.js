@@ -15,7 +15,6 @@ exports.command = {
 
 	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
-		const rawArgs = args.slice()
 		const item = app.parse.items(args)[0]
 		const itemInfo = app.itemdata[item]
 		const member = app.parse.members(message, args)[0]
@@ -26,7 +25,7 @@ exports.command = {
 		}
 		else if (['Ranged', 'Melee'].includes(itemInfo.category)) {
 			// used weapon
-			const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
+			let userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 			const attackCD = await app.cd.getCD(message.author.id, 'attack', { serverSideGuildId })
 			const damageMin = itemInfo.minDmg
 			const damageMax = itemInfo.maxDmg
@@ -45,27 +44,53 @@ exports.command = {
 
 			// check for ammo and add ammo damage
 			if (itemInfo.category === 'Ranged') {
-				// check for prioritized ammo
-				if (itemInfo.ammo.includes(row.ammo) && app.itm.hasItems(userItems, row.ammo, 1)) {
-					ammoUsed = row.ammo
-					ammoDamage = app.itemdata[ammoUsed].damage
-					bleedDamage = app.itemdata[ammoUsed].bleed > 0 ? app.itemdata[ammoUsed].bleed : 0
-					burnDamage = app.itemdata[ammoUsed].burn > 0 ? app.itemdata[ammoUsed].burn : 0
-				}
-				else {
-					for (const ammo of itemInfo.ammo) {
-						if (app.itm.hasItems(userItems, ammo, 1)) {
-							ammoUsed = ammo
-							ammoDamage = app.itemdata[ammo].damage
-							bleedDamage = app.itemdata[ammoUsed].bleed > 0 ? app.itemdata[ammoUsed].bleed : 0
-							burnDamage = app.itemdata[ammoUsed].burn > 0 ? app.itemdata[ammoUsed].burn : 0
-						}
+				const possibleAmmo = []
+
+				for (const ammo of itemInfo.ammo.sort(app.itm.sortItemsHighLow.bind(app))) {
+					if (app.itm.hasItems(userItems, ammo, 1)) {
+						possibleAmmo.push(ammo)
 					}
 				}
 
-				if (!ammoUsed) {
+				if (!possibleAmmo.length) {
 					return message.reply('❌ You don\'t have any ammo for that weapon!')
 				}
+				else if (possibleAmmo.length > 1) {
+					await message.reply(`You have multiple ammo types for that weapon! Which ammo do you want to use?\n\n${possibleAmmo.map(ammo => `${app.itemdata[ammo].icon}\`${ammo}\``).join(', ')}`)
+
+					const result = await app.msgCollector.awaitMessages(message.author.id, message.channel.id, m => m.author.id === message.author.id)
+
+					if (result === 'time') {
+						return message.reply('❌ You ran out of time to choose your ammo.')
+					}
+
+					const ammoChoice = app.parse.items(result[0].content.split(/ +/))[0]
+
+					if (!ammoChoice) {
+						return result[0].reply('❌ That isn\'t a valid ammo choice!')
+					}
+					else if (!possibleAmmo.includes(ammoChoice)) {
+						return result[0].reply(`❌ ${app.itemdata[ammoChoice].icon}\`${ammoChoice}\` isn't a valid ammo choice!`)
+					}
+
+					userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
+
+					if (!app.itm.hasItems(userItems, ammoChoice, 1)) {
+						return message.reply(`❌ You have **0x** ${app.itemdata[ammoChoice].icon}\`${ammoChoice}\`.`)
+					}
+					else if (!app.itm.hasItems(userItems, item, 1)) {
+						return message.reply(`❌ You don't have a ${itemInfo.icon}\`${item}\`.`)
+					}
+
+					ammoUsed = ammoChoice
+				}
+				else {
+					ammoUsed = possibleAmmo[0]
+				}
+
+				ammoDamage = app.itemdata[ammoUsed].damage
+				bleedDamage = app.itemdata[ammoUsed].bleed > 0 ? app.itemdata[ammoUsed].bleed : 0
+				burnDamage = app.itemdata[ammoUsed].burn > 0 ? app.itemdata[ammoUsed].burn : 0
 			}
 
 			// regardless if the attack was random or not, this function is used to attack players
@@ -685,7 +710,9 @@ exports.command = {
 				return message.reply('❌ You cannot use explosives with server-side economy mode enabled.')
 			}
 			else if (item === 'c4') {
-				const clanName = rawArgs.slice(1)
+				await message.reply(`What clan do you want to use ${app.itemdata.c4.icon}\`c4\` on?\n\nType the name of the clan:`)
+				const result = await app.msgCollector.awaitMessages(message.author.id, message.channel.id, m => m.author.id === message.author.id)
+				const clanName = result[0].content.split(/ +/)
 
 				if (!clanName.length) {
 					return message.reply(`You need to specify a clan to use your explosive on! \`${prefix}use c4 <clan name>\``)
@@ -760,7 +787,7 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
 	else if (Math.random() <= 0.5) { finalStr += `\n**${victim.nick || victim.username}** is spared with ${app.player.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage}** health.` }
 	else { finalStr += `\n**${victim.nick || victim.username}** is left with ${app.player.getHealthIcon(victimRow.health - damage, victimRow.maxHealth)} **${victimRow.health - damage}** health.` }
 
-	if (ammoUsed === '40mm_smoke_grenade') {
+	if (!killed && ammoUsed === '40mm_smoke_grenade') {
 		finalStr += `\n**${victim.nick || victim.username}** is blinded by the smoke and cannot use any commands for **2** hours!`
 	}
 
