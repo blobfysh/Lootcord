@@ -46,7 +46,7 @@ exports.command = {
 		await app.player.addStat(message.author.id, 'scrambles', 1, serverSideGuildId)
 
 		const embedScramble = new app.Embed()
-			.setFooter('You have 15 seconds to unscramble this word.')
+			.setFooter('You have 20 seconds to unscramble this word.')
 
 		if (option === 'easy') {
 			embedScramble.setDescription(`**Hint:** ${scrambleHint}\nWord: \`\`\`fix\n${shuffleWordNoDupe(word)}\`\`\``)
@@ -152,7 +152,7 @@ exports.command = {
 			embedScramble.setColor(9043800)
 		}
 
-		const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 15000 })
+		const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 20000 })
 
 		message.reply(embedScramble)
 
