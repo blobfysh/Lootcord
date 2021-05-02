@@ -134,12 +134,19 @@ class Lootcord extends Base {
 	}
 
 	loadSlashCommands() {
-		const commandFiles = fs.readdirSync(path.join(__dirname, '/slash-commands'))
+		const globalFiles = fs.readdirSync(path.join(__dirname, '/slash-commands/global'))
+		const guildFiles = fs.readdirSync(path.join(__dirname, '/slash-commands/guild'))
 		const commands = []
 
 		// loop through slash-commands files and create interactions
-		for (const file of commandFiles) {
-			const { command } = require(`./slash-commands/${file}`)
+		for (const file of globalFiles) {
+			const { command } = require(`./slash-commands/global/${file}`)
+
+			commands.push(command)
+		}
+
+		for (const file of guildFiles) {
+			const { command } = require(`./slash-commands/guild/${file}`)
 
 			commands.push(command)
 		}

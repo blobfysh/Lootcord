@@ -1,5 +1,5 @@
 const { InteractionResponseType, ApplicationCommandOptionType } = require('slash-commands')
-const { getWord, shuffleWordNoDupe } = require('../commands/rewards/scramble')
+const { getWord, shuffleWordNoDupe } = require('../../commands/rewards/scramble')
 
 exports.command = {
 	name: 'scramble',

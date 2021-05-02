@@ -1,5 +1,5 @@
 const { InteractionResponseType, ApplicationCommandOptionType } = require('slash-commands')
-const { makeInventory } = require('../commands/info/inventory')
+const { makeInventory } = require('../../commands/info/inventory')
 
 exports.command = {
 	name: 'inventory',

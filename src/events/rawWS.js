@@ -4,7 +4,7 @@ const { InteractionType, InteractionResponseType, MessageFlags } = require('slas
 exports.run = async function(packet, id) {
 	if (packet.t === 'INTERACTION_CREATE') {
 		const interaction = new Interaction(packet.d, this.bot.user.id)
-		const command = this.slashCommands.find(cmd => cmd.name === interaction.data.name)
+		const command = this.slashCommands.find(cmd => (cmd.guilds && cmd.guilds.includes(interaction.guild_id) && cmd.name === interaction.data.name) || cmd.name === interaction.data.name)
 
 		if (interaction.type !== InteractionType.APPLICATION_COMMAND) {
 			return

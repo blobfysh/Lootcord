@@ -1,5 +1,5 @@
 const { InteractionResponseType } = require('slash-commands')
-const { getVotesAvailable } = require('../commands/rewards/vote')
+const { getVotesAvailable } = require('../../commands/rewards/vote')
 
 exports.command = {
 	name: 'vote',

@@ -1,5 +1,5 @@
 const { InteractionResponseType } = require('slash-commands')
-const { getQuestion, idiotBadgeCheck, geniusBadgeCheck } = require('../commands/rewards/trivia')
+const { getQuestion, idiotBadgeCheck, geniusBadgeCheck } = require('../../commands/rewards/trivia')
 const { decode } = require('html-entities')
 
 exports.command = {
