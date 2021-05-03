@@ -83,9 +83,9 @@ exports.command = {
 				}
 			}
 
-			if (itemInfo.category === 'Ammo') {
-				const ammoFor = itemsArraySorted.filter(item => app.itemdata[item].ammo !== '' && app.itemdata[item].ammo.includes(itemSearched))
+			const ammoFor = itemsArraySorted.filter(item => app.itemdata[item].ammo !== '' && app.itemdata[item].ammo.includes(itemSearched))
 
+			if (ammoFor.length) {
 				embedItem.addField('Damage', itemInfo.damage + getStatusEffectStr(itemInfo), true)
 				embedItem.addField('Ammo for:', ammoFor.map(weapon => `${app.itemdata[weapon].icon}\`${weapon}\``).join('\n'), true)
 			}

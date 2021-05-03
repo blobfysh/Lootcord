@@ -138,6 +138,7 @@
             "9mill_incen",
             "9x19_incen",
             "incen_bullet",
+			"incen_pistol",
             "incen_pistol_ammo",
             "incen_ammunition",
             "incen_ammo",
@@ -483,7 +484,6 @@
         "sell": 119850,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930781508403280/rocket.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930781508403280/rocket.png",
         "icon": "<:rocket_basic:750105298118901822>",
         "breaksOnUse": "",
         "canBeStolen": true,
@@ -519,7 +519,6 @@
         "sell": 80270,
         "desc": "High velocity rocket, deals 3x damage to Bradley.",
         "image": "https://cdn.discordapp.com/attachments/610502203672756295/828263475729006653/hv_rocket.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/610502203672756295/828263475729006653/hv_rocket.png",
         "icon": "<:hv_rocket:828263600119480321>",
         "breaksOnUse": "",
         "canBeStolen": true,
@@ -529,6 +528,37 @@
         "aliases": [],
         "tier": 3,
         "bleed": 5
+    },
+	"low_grade_fuel": {
+        "rarity": "Legendary",
+        "isWeap": false,
+        "isItem": false,
+        "damage": 6,
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": []
+        },
+        "buy": "",
+        "sell": 3430,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/837141727940182016/low_grade_fuel.png",
+        "icon": "<:low_grade_fuel:837141779459211334>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Ammo",
+        "aliases": [
+			"fuel",
+			"low_grade",
+			"lowgrade",
+			"lgf"
+		],
+        "tier": 0,
+        "burn": 40
     },
     "40mm_smoke_grenade": {
         "rarity": "Legendary",

@@ -24,7 +24,6 @@
         "sell": 248305,
         "desc": "Military light machine gun that can only drop from the Patrol Helicopter and Bradley.",
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/733246776793890897/m249.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/732785161661317224/733246776793890897/m249.png",
         "icon": "<:m249:750105298101993472>",
         "breaksOnUse": false,
         "chanceToBreak": 0.08,
@@ -41,6 +40,49 @@
             "light_machine_gun"
         ],
         "tier": 3
+    },
+	"flame_thrower": {
+        "rarity": "Ultra",
+        "isWeap": true,
+        "isItem": false,
+        "damage": "5 - 15",
+        "minDmg": 5,
+        "maxDmg": 15,
+        "ammo": [
+            "low_grade_fuel"
+        ],
+        "craftedWith": {
+			"xpReward": 11,
+            "level": 5,
+            "materials": [
+                "high_quality_metal|1",
+                "metal_pipe|2",
+				"low_grade_fuel|1"
+            ]
+        },
+        "recyclesTo": {
+            "materials": [
+                "high_quality_metal|1"
+            ]
+        },
+        "buy": "",
+        "sell": 22401,
+        "desc": "It's a flamethrower, for burning people.",
+        "image": "https://cdn.discordapp.com/attachments/610502203672756295/838868059170537472/flamethrower.png",
+        "icon": "<:flamethrower:838867155251363860>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.2,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 3502
+        },
+        "phrase": "{attacker} burns {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Ranged",
+        "aliases": [
+			"flame"
+		],
+        "tier": 2
     },
     "bow": {
         "rarity": "Uncommon",
@@ -772,7 +814,6 @@
         "sell": 112330,
         "desc": "",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930783240519712/rocket_launcher.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930783240519712/rocket_launcher.png",
         "icon": "<:rocket_launcher:750105298122965063>",
         "breaksOnUse": false,
         "chanceToBreak": 0.15,

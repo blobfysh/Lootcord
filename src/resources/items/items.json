@@ -44,7 +44,8 @@
                     "medical_syringe|1",
                     "waterpipe_shotgun|1",
                     "handmade_shell|1",
-                    "bone_armor|1"
+                    "bone_armor|1",
+					"low_grade_fuel|1"
                 ]
             },
             "15": {
@@ -148,7 +149,6 @@
         "sell": 11601,
         "desc": "Use this to reset your skills! Resetting your skills will also reset the cost to purchase skills with the `upgrade` command.",
         "image": "",
-        "unboxImage": "",
         "icon": "<:reroll_scroll:737034981582307469>",
         "breaksOnUse": "",
         "canBeStolen": true,
@@ -473,7 +473,8 @@
                     "spas-12|1",
                     "custom_smg|1",
                     "incen_pistol_bullet|1",
-                    "hv_pistol_bullet|1"
+                    "hv_pistol_bullet|1",
+					"flame_thrower|1"
                 ]
             }
         },
@@ -503,7 +504,6 @@
         "sell": 30258,
         "desc": "Use this signal to call in an airdrop.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930866858295403/supply_signal.png",
-        "unboxImage": "https://cdn.discordapp.com/attachments/497302646521069570/732930866858295403/supply_signal.png",
         "icon": "<:supply_signal:732853749181055027>",
         "breaksOnUse": "",
         "canBeStolen": true,
