@@ -3,7 +3,6 @@
         "rarity": "Ultra",
         "isWeap": true,
         "isItem": false,
-        "damage": "59 - 78",
         "minDmg": 47,
         "maxDmg": 72,
         "ammo": [
@@ -45,7 +44,6 @@
         "rarity": "Ultra",
         "isWeap": true,
         "isItem": false,
-        "damage": "5 - 15",
         "minDmg": 5,
         "maxDmg": 15,
         "ammo": [
@@ -88,7 +86,6 @@
         "rarity": "Uncommon",
         "isWeap": true,
         "isItem": false,
-        "damage": "0 - 7",
         "minDmg": 0,
         "maxDmg": 7,
         "ammo": [
