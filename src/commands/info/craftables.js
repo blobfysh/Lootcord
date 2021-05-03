@@ -59,13 +59,13 @@ exports.command = {
 			return max.sort((a, b) => a - b)[0]
 		}
 
-		const meleeWeapons = craftableItems.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Melee')
-		const rangedWeapons = craftableItems.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Ranged')
-		const items = craftableItems.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Item')
-		const ammo = craftableItems.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Ammo')
-		const material = craftableItems.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Resource')
-		const storage = craftableItems.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Storage')
-		const banners = craftableItems.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Banner')
+		const meleeWeapons = craftableItems.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Melee')
+		const rangedWeapons = craftableItems.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Ranged')
+		const items = craftableItems.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Item')
+		const ammo = craftableItems.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Ammo')
+		const resources = craftableItems.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Resource')
+		const storage = craftableItems.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Storage')
+		const banners = craftableItems.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Banner')
 
 		const craftableEmb = new app.Embed()
 			.setTitle('Craftables')
@@ -76,7 +76,7 @@ exports.command = {
 		craftableEmb.addField(ITEM_TYPES.melee.name, meleeWeapons.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
 		craftableEmb.addField(ITEM_TYPES.items.name, items.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
 		craftableEmb.addField(ITEM_TYPES.ammo.name, ammo.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-		craftableEmb.addField(ITEM_TYPES.resources.name, material.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
+		craftableEmb.addField(ITEM_TYPES.resources.name, resources.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
 		craftableEmb.addField(ITEM_TYPES.storage.name, storage.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
 		craftableEmb.addField(ITEM_TYPES.banners.name, banners.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
 

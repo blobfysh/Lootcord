@@ -81,7 +81,7 @@ exports.command = {
 			let totalAmount = 0
 
 			// filter out limited items and banners
-			const itemsToCheck = Object.keys(app.itemdata).filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category !== 'Banner')
+			const itemsToCheck = Object.keys(app.itemdata).filter(item => !app.itemdata[item].isSpecial && app.itemdata[item].category !== 'Banner')
 
 			const itemRow = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 

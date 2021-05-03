@@ -1,8 +1,5 @@
 {
     "crate": {
-        "rarity": "Common",
-        "isWeap": false,
-        "isItem": true,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -44,7 +41,7 @@
                     "waterpipe_shotgun|1",
                     "handmade_shell|1",
                     "bone_armor|1",
-					"low_grade_fuel|1"
+                    "low_grade_fuel|1"
                 ]
             },
             "15": {
@@ -89,9 +86,6 @@
         "tier": 0
     },
     "bandage": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": true,
         "isHeal": true,
         "healMin": 10,
         "healMax": 19,
@@ -100,7 +94,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 5,
+            "xpReward": 5,
             "level": 2,
             "materials": [
                 "cloth|2"
@@ -128,9 +122,6 @@
         "tier": 0
     },
     "reroll_scroll": {
-        "rarity": "Legendary",
-        "isWeap": false,
-        "isItem": true,
         "minDmg": "",
         "maxDmg": "",
         "isAmmo": [],
@@ -156,9 +147,6 @@
         "tier": 0
     },
     "medical_syringe": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": true,
         "isHeal": true,
         "healMin": 26,
         "healMax": 30,
@@ -193,9 +181,6 @@
         "tier": 1
     },
     "large_medkit": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": true,
         "isHeal": true,
         "healMin": 50,
         "healMax": 60,
@@ -204,7 +189,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 15,
+            "xpReward": 15,
             "level": 6,
             "materials": [
                 "bandage|2",
@@ -236,9 +221,6 @@
         "tier": 2
     },
     "military_crate": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": true,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -330,9 +312,6 @@
         "tier": 0
     },
     "supply_drop": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": true,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -412,9 +391,6 @@
         "tier": 0
     },
     "elite_crate": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": true,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -466,7 +442,7 @@
                     "custom_smg|1",
                     "incen_pistol_bullet|1",
                     "hv_pistol_bullet|1",
-					"flame_thrower|1"
+                    "flame_thrower|1"
                 ]
             }
         },
@@ -478,9 +454,6 @@
         "tier": 0
     },
     "supply_signal": {
-        "rarity": "Legendary",
-        "isWeap": false,
-        "isItem": true,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -508,14 +481,11 @@
         "tier": 0
     },
     "c4": {
-        "rarity": "Ultra",
-        "isWeap": false,
-        "isItem": true,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 60,
+            "xpReward": 60,
             "level": 10,
             "materials": [
                 "gunpowder|10",
@@ -544,9 +514,6 @@
         "tier": 3
     },
     "bone_armor": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": true,
         "isShield": true,
         "shieldInfo": {
             "seconds": 3600,
@@ -556,7 +523,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 10,
+            "xpReward": 10,
             "level": 4,
             "materials": [
                 "cloth|1",
@@ -584,9 +551,6 @@
         "tier": 1
     },
     "hazmat_suit": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": true,
         "isShield": true,
         "shieldInfo": {
             "seconds": 7200,
@@ -596,7 +560,7 @@
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 12,
+            "xpReward": 12,
             "level": 5,
             "materials": [
                 "cloth|4",
@@ -631,9 +595,6 @@
         "tier": 2
     },
     "metal_armor": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": true,
         "isShield": true,
         "shieldInfo": {
             "seconds": 28800,
@@ -665,9 +626,6 @@
         "tier": 3
     },
     "small_stocking": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "givesMoneyOnUse": true,
         "itemMin": 1000,
         "itemMax": 2000,
@@ -691,12 +649,11 @@
         "aliases": [
             "stocking"
         ],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "gingerbread": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "isHeal": true,
         "healMin": 20,
         "healMax": 25,
@@ -720,12 +677,11 @@
         "artist": "",
         "category": "Item",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "small_present": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -742,16 +698,16 @@
         "canBeStolen": true,
         "cooldown": "",
         "rates": {
-            "25": {
-                "xp": 15,
-                "items": [
-                    "coal|1"
-                ]
-            },
             "20": {
                 "xp": 30,
                 "items": [
                     "snowball|1"
+                ]
+            },
+            "25": {
+                "xp": 15,
+                "items": [
+                    "coal|1"
                 ]
             },
             "55": {
@@ -769,17 +725,16 @@
             "small",
             "present"
         ],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "medium_present": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 5,
+            "xpReward": 5,
             "level": 1,
             "materials": [
                 "small_present|10"
@@ -830,17 +785,16 @@
         "aliases": [
             "med_present"
         ],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "large_present": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 15,
+            "xpReward": 15,
             "level": 1,
             "materials": [
                 "medium_present|10"
@@ -882,12 +836,11 @@
         "aliases": [
             "big_present"
         ],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "egg_basket": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -932,12 +885,11 @@
         "aliases": [
             "basket"
         ],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "bronze_egg": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "givesMoneyOnUse": true,
         "itemMin": 1000,
         "itemMax": 2000,
@@ -959,12 +911,11 @@
         "artist": "",
         "category": "Item",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "silver_egg": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "givesMoneyOnUse": true,
         "itemMin": 9000,
         "itemMax": 20000,
@@ -986,12 +937,11 @@
         "artist": "",
         "category": "Item",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "gold_egg": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "givesMoneyOnUse": true,
         "itemMin": 90000,
         "itemMax": 150000,
@@ -1013,12 +963,11 @@
         "artist": "",
         "category": "Item",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "santa_hat": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "isShield": true,
         "shieldInfo": {
             "seconds": 7200,
@@ -1042,12 +991,11 @@
         "artist": "",
         "category": "Item",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "apple": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "isHeal": true,
         "healMin": 9,
         "healMax": 13,
@@ -1073,12 +1021,11 @@
         "artist": "",
         "category": "Item",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "pumpkin": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "isHeal": true,
         "healMin": 10,
         "healMax": 20,
@@ -1102,12 +1049,11 @@
         "artist": "",
         "category": "Item",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "corn": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "isHeal": true,
         "healMin": 9,
         "healMax": 15,
@@ -1131,12 +1077,11 @@
         "artist": "",
         "category": "Item",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "candy_bar": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "isHeal": true,
         "healMin": 13,
         "healMax": 23,
@@ -1164,12 +1109,11 @@
             "chocolate",
             "chocolate_bar"
         ],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "small_loot_bag": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -1209,17 +1153,16 @@
         "aliases": [
             "loot_bag"
         ],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "medium_loot_bag": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 5,
+            "xpReward": 5,
             "level": 1,
             "materials": [
                 "small_loot_bag|10"
@@ -1266,17 +1209,16 @@
         "artist": "",
         "category": "Item",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "large_loot_bag": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 15,
+            "xpReward": 15,
             "level": 1,
             "materials": [
                 "medium_loot_bag|10"
@@ -1315,12 +1257,11 @@
         "artist": "",
         "category": "Item",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "scarecrow_suit": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "isShield": true,
         "shieldInfo": {
             "seconds": 14400,
@@ -1346,12 +1287,11 @@
         "aliases": [
             "scarecrow"
         ],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "bunny_suit": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": true,
         "isShield": true,
         "shieldInfo": {
             "seconds": 14400,
@@ -1377,6 +1317,8 @@
         "aliases": [
             "bunny"
         ],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     }
 }

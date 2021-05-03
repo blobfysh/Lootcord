@@ -1,13 +1,10 @@
 {
     "small_stash": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 5,
+            "xpReward": 5,
             "level": 3,
             "materials": [
                 "cloth|2"
@@ -37,14 +34,11 @@
         "tier": 1
     },
     "wood_box": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 10,
+            "xpReward": 10,
             "level": 6,
             "materials": [
                 "small_stash|1",
@@ -77,14 +71,11 @@
         "tier": 2
     },
     "large_wood_box": {
-        "rarity": "Legendary",
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 30,
+            "xpReward": 30,
             "level": 9,
             "materials": [
                 "wood_box|1",
@@ -118,9 +109,6 @@
         "tier": 3
     },
     "coffin": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -145,12 +133,11 @@
         "artist": "",
         "category": "Storage",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "rolads_pack": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -172,12 +159,11 @@
         "artist": "",
         "category": "Storage",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "neros_crate": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -199,6 +185,8 @@
         "artist": "",
         "category": "Storage",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     }
 }

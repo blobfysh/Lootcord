@@ -27,7 +27,7 @@ exports.command = {
 		else if (!member) {
 			return message.reply('❌ You must specify who you want to give the item to!')
 		}
-		else if (app.itemdata[item].rarity === 'Limited') {
+		else if (app.itemdata[item].isSpecial) {
 			return message.reply('❌ You cannot give limited items.')
 		}
 

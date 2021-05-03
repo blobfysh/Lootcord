@@ -1,8 +1,5 @@
 {
     "wooden_spear": {
-        "rarity": "Common",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 4,
         "maxDmg": 9,
         "ammo": "",
@@ -29,14 +26,11 @@
         "tier": 0
     },
     "stone_spear": {
-        "rarity": "Common",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 22,
         "maxDmg": 26,
         "ammo": "",
         "craftedWith": {
-			"xpReward": 6,
+            "xpReward": 6,
             "level": 3,
             "materials": [
                 "wood|2",
@@ -63,9 +57,6 @@
         "tier": 0
     },
     "bone_knife": {
-        "rarity": "Common",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 5,
         "maxDmg": 10,
         "ammo": "",
@@ -94,9 +85,6 @@
         "tier": 0
     },
     "rock": {
-        "rarity": "Common",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 3,
         "maxDmg": 6,
         "ammo": "",
@@ -121,9 +109,6 @@
         "tier": 0
     },
     "salvaged_cleaver": {
-        "rarity": "Common",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 12,
         "maxDmg": 21,
         "ammo": "",
@@ -151,9 +136,6 @@
         "tier": 0
     },
     "salvaged_sword": {
-        "rarity": "Uncommon",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 10,
         "maxDmg": 20,
         "ammo": "",
@@ -180,9 +162,6 @@
         "tier": 0
     },
     "machete": {
-        "rarity": "Uncommon",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 15,
         "maxDmg": 23,
         "ammo": "",
@@ -207,9 +186,6 @@
         "tier": 0
     },
     "mace": {
-        "rarity": "Uncommon",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 20,
         "maxDmg": 26,
         "ammo": "",
@@ -234,9 +210,6 @@
         "tier": 0
     },
     "pickaxe": {
-        "rarity": "Uncommon",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 6,
         "maxDmg": 11,
         "ammo": "",
@@ -263,9 +236,6 @@
         "tier": 0
     },
     "hatchet": {
-        "rarity": "Uncommon",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 6,
         "maxDmg": 10,
         "ammo": "",
@@ -290,9 +260,6 @@
         "tier": 0
     },
     "f1_grenade": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 19,
         "maxDmg": 30,
         "ammo": "",
@@ -320,9 +287,6 @@
         "tier": 1
     },
     "longsword": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 24,
         "maxDmg": 31,
         "ammo": "",
@@ -349,9 +313,6 @@
         "tier": 0
     },
     "candy_cane": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 3,
         "maxDmg": 15,
         "ammo": "",
@@ -373,12 +334,11 @@
         "artist": "",
         "category": "Melee",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "snowball": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
         "damage": 45,
         "minDmg": 20,
         "maxDmg": 45,
@@ -403,12 +363,11 @@
         "aliases": [
             "snow"
         ],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "butcher_knife": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 13,
         "maxDmg": 19,
         "ammo": "",
@@ -430,12 +389,11 @@
         "artist": "",
         "category": "Melee",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "sickle": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 20,
         "maxDmg": 28,
         "ammo": "",
@@ -457,12 +415,11 @@
         "artist": "",
         "category": "Melee",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "pitchfork": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 35,
         "maxDmg": 40,
         "ammo": "",
@@ -484,12 +441,11 @@
         "artist": "",
         "category": "Melee",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "chainsaw": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 40,
         "maxDmg": 53,
         "ammo": "",
@@ -511,6 +467,8 @@
         "artist": "",
         "category": "Melee",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     }
 }

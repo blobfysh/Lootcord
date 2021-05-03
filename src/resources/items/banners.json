@@ -1,15 +1,12 @@
 {
     "recruit": {
-        "rarity": "Common",
         "isBanner": true,
         "bannerColor": 720640,
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 2,
+            "xpReward": 2,
             "level": 1,
             "materials": [
                 "tech_trash|1"
@@ -33,11 +30,8 @@
         "tier": 0
     },
     "looter": {
-        "rarity": "Uncommon",
         "isBanner": true,
         "bannerColor": 16761856,
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -65,11 +59,8 @@
         "tier": 0
     },
     "killer": {
-        "rarity": "Rare",
         "isBanner": true,
         "bannerColor": 16734464,
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -95,11 +86,8 @@
         "tier": 0
     },
     "elite": {
-        "rarity": "Rare",
         "isBanner": true,
         "bannerColor": "#737373",
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -125,11 +113,8 @@
         "tier": 0
     },
     "hitman": {
-        "rarity": "Legendary",
         "isBanner": true,
         "bannerColor": 16761204,
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -155,11 +140,8 @@
         "tier": 0
     },
     "master": {
-        "rarity": "Legendary",
         "isBanner": true,
         "bannerColor": "#FFFF43",
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -185,11 +167,8 @@
         "tier": 0
     },
     "spooky": {
-        "rarity": "Limited",
         "isBanner": true,
         "bannerColor": 15626817,
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -209,14 +188,13 @@
         "artist": "",
         "category": "Banner",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "sheriff": {
-        "rarity": "Limited",
         "isBanner": true,
         "bannerColor": 10833201,
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -236,14 +214,13 @@
         "artist": "",
         "category": "Banner",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "kofi_king": {
-        "rarity": "Limited",
         "isBanner": true,
         "bannerColor": "#FF6C4E",
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -263,14 +240,13 @@
         "artist": "",
         "category": "Banner",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "patron": {
-        "rarity": "Limited",
         "isBanner": true,
         "bannerColor": "#f96854",
-        "isWeap": false,
-        "isItem": false,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
@@ -290,6 +266,8 @@
         "artist": "",
         "category": "Banner",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     }
 }

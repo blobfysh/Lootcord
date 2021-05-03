@@ -1,8 +1,5 @@
 {
     "m249": {
-        "rarity": "Ultra",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 47,
         "maxDmg": 72,
         "ammo": [
@@ -40,22 +37,19 @@
         ],
         "tier": 3
     },
-	"flame_thrower": {
-        "rarity": "Ultra",
-        "isWeap": true,
-        "isItem": false,
+    "flame_thrower": {
         "minDmg": 5,
         "maxDmg": 15,
         "ammo": [
             "low_grade_fuel"
         ],
         "craftedWith": {
-			"xpReward": 11,
+            "xpReward": 11,
             "level": 5,
             "materials": [
                 "high_quality_metal|1",
                 "metal_pipe|2",
-				"low_grade_fuel|1"
+                "low_grade_fuel|1"
             ]
         },
         "recyclesTo": {
@@ -78,14 +72,11 @@
         "artist": "",
         "category": "Ranged",
         "aliases": [
-			"flame"
-		],
+            "flame"
+        ],
         "tier": 2
     },
     "bow": {
-        "rarity": "Uncommon",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 0,
         "maxDmg": 7,
         "ammo": [
@@ -93,7 +84,7 @@
             "arrow"
         ],
         "craftedWith": {
-			"xpReward": 5,
+            "xpReward": 5,
             "level": 2,
             "materials": [
                 "wood|2",
@@ -123,9 +114,6 @@
         "tier": 0
     },
     "revolver": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 0,
         "maxDmg": 4,
         "ammo": [
@@ -134,7 +122,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-			"xpReward": 7,
+            "xpReward": 7,
             "level": 3,
             "materials": [
                 "metal_pipe|1",
@@ -168,9 +156,6 @@
         "tier": 1
     },
     "thompson": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 17,
         "maxDmg": 28,
         "ammo": [
@@ -179,7 +164,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-			"xpReward": 10,
+            "xpReward": 10,
             "level": 6,
             "materials": [
                 "smg_body|1",
@@ -214,9 +199,6 @@
         "tier": 2
     },
     "mp5": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 21,
         "maxDmg": 30,
         "ammo": [
@@ -225,7 +207,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-			"xpReward": 14,
+            "xpReward": 14,
             "level": 7,
             "materials": [
                 "smg_body|1",
@@ -256,9 +238,6 @@
         "tier": 3
     },
     "custom_smg": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 11,
         "maxDmg": 21,
         "ammo": [
@@ -267,7 +246,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-			"xpReward": 9,
+            "xpReward": 9,
             "level": 5,
             "materials": [
                 "smg_body|1",
@@ -301,9 +280,6 @@
         "tier": 2
     },
     "python": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 25,
         "maxDmg": 33,
         "ammo": [
@@ -312,7 +288,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-			"xpReward": 10,
+            "xpReward": 10,
             "level": 6,
             "materials": [
                 "metal_spring|1",
@@ -342,9 +318,6 @@
         "tier": 2
     },
     "m92_pistol": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 13,
         "maxDmg": 20,
         "ammo": [
@@ -379,9 +352,6 @@
         "tier": 2
     },
     "bolt_rifle": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 54,
         "maxDmg": 59,
         "ammo": [
@@ -391,7 +361,7 @@
             "rifle_bullet"
         ],
         "craftedWith": {
-			"xpReward": 25,
+            "xpReward": 25,
             "level": 9,
             "materials": [
                 "rifle_body|2",
@@ -427,9 +397,6 @@
         "tier": 3
     },
     "semi_rifle": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 5,
         "maxDmg": 17,
         "ammo": [
@@ -439,7 +406,7 @@
             "rifle_bullet"
         ],
         "craftedWith": {
-			"xpReward": 10,
+            "xpReward": 10,
             "level": 6,
             "materials": [
                 "semi_body|1",
@@ -474,9 +441,6 @@
         "tier": 2
     },
     "semi_pistol": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 5,
         "maxDmg": 15,
         "ammo": [
@@ -485,7 +449,7 @@
             "pistol_bullet"
         ],
         "craftedWith": {
-			"xpReward": 8,
+            "xpReward": 8,
             "level": 4,
             "materials": [
                 "semi_body|1",
@@ -519,9 +483,6 @@
         "tier": 2
     },
     "crossbow": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 6,
         "maxDmg": 21,
         "ammo": [
@@ -529,7 +490,7 @@
             "arrow"
         ],
         "craftedWith": {
-			"xpReward": 5,
+            "xpReward": 5,
             "level": 3,
             "materials": [
                 "wood|2",
@@ -563,9 +524,6 @@
         "tier": 1
     },
     "pump_shotgun": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 15,
         "maxDmg": 27,
         "ammo": [
@@ -574,7 +532,7 @@
             "handmade_shell"
         ],
         "craftedWith": {
-			"xpReward": 10,
+            "xpReward": 10,
             "level": 6,
             "materials": [
                 "metal_spring|1",
@@ -611,9 +569,6 @@
         "tier": 2
     },
     "spas-12": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 30,
         "maxDmg": 46,
         "ammo": [
@@ -648,9 +603,6 @@
         "tier": 3
     },
     "lr-300": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 30,
         "maxDmg": 38,
         "ammo": [
@@ -687,9 +639,6 @@
         "tier": 3
     },
     "assault_rifle": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 34,
         "maxDmg": 45,
         "ammo": [
@@ -699,7 +648,7 @@
             "rifle_bullet"
         ],
         "craftedWith": {
-			"xpReward": 20,
+            "xpReward": 20,
             "level": 9,
             "materials": [
                 "rifle_body|2",
@@ -737,9 +686,6 @@
         "tier": 3
     },
     "waterpipe_shotgun": {
-        "rarity": "Rare",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 0,
         "maxDmg": 28,
         "ammo": [
@@ -748,7 +694,7 @@
             "handmade_shell"
         ],
         "craftedWith": {
-			"xpReward": 5,
+            "xpReward": 5,
             "level": 3,
             "materials": [
                 "metal_pipe|1",
@@ -785,9 +731,6 @@
         "tier": 1
     },
     "rocket_launcher": {
-        "rarity": "Legendary",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 0,
         "maxDmg": 40,
         "ammo": [
@@ -795,7 +738,7 @@
             "hv_rocket"
         ],
         "craftedWith": {
-			"xpReward": 30,
+            "xpReward": 30,
             "level": 10,
             "materials": [
                 "metal_pipe|2",
@@ -828,9 +771,6 @@
         "tier": 3
     },
     "grenade_launcher": {
-        "rarity": "Legendary",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 0,
         "maxDmg": 25,
         "ammo": [
@@ -864,9 +804,6 @@
         "tier": 3
     },
     "snowball_gun": {
-        "rarity": "Limited",
-        "isWeap": true,
-        "isItem": false,
         "minDmg": 15,
         "maxDmg": 32,
         "ammo": [
@@ -896,6 +833,8 @@
         "aliases": [
             "snow_gun"
         ],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     }
 }

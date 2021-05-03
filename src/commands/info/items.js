@@ -72,7 +72,7 @@ exports.command = {
 				embedItem.addField('Chance to break', `\`${itemInfo.chanceToBreak * 100}%\``, true)
 			}
 
-			if (itemInfo.isWeap) {
+			if (['Ranged', 'Melee'].includes(itemInfo.category)) {
 				if (itemInfo.ammo !== '') {
 					embedItem.addField('Damage', itemInfo.ammo.sort(app.itm.sortItemsHighLow.bind(app))
 						.map(ammo => `${app.itemdata[ammo].icon}\`${ammo}\` ${app.itemdata[ammo].damage + itemInfo.minDmg} - ${app.itemdata[ammo].damage + itemInfo.maxDmg}${getStatusEffectStr(app.itemdata[ammo])}`)
@@ -141,13 +141,13 @@ exports.command = {
 			message.channel.createMessage(embedItem)
 		}
 		else if (!itemChoice) {
-			const meleeWeapons = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Melee')
-			const rangedWeapons = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Ranged')
-			const items = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Item')
-			const ammo = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Ammo')
-			const material = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Resource')
-			const storage = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Storage')
-			const banners = itemsArraySorted.filter(item => app.itemdata[item].rarity !== 'Limited' && app.itemdata[item].category === 'Banner')
+			const meleeWeapons = itemsArraySorted.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Melee')
+			const rangedWeapons = itemsArraySorted.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Ranged')
+			const items = itemsArraySorted.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Item')
+			const ammo = itemsArraySorted.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Ammo')
+			const material = itemsArraySorted.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Resource')
+			const storage = itemsArraySorted.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Storage')
+			const banners = itemsArraySorted.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Banner')
 
 			const embedInfo = new app.Embed()
 				.setColor(13451564)

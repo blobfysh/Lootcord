@@ -1,8 +1,5 @@
 {
     "wood": {
-        "rarity": "Common",
-        "isWeap": false,
-        "isItem": false,
         "isMaterial": true,
         "minDmg": "",
         "maxDmg": "",
@@ -25,9 +22,6 @@
         "tier": 0
     },
     "cloth": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
         "isMaterial": true,
         "minDmg": "",
         "maxDmg": "",
@@ -50,9 +44,6 @@
         "tier": 0
     },
     "semi_body": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
         "isMaterial": true,
         "minDmg": "",
         "maxDmg": "",
@@ -78,9 +69,6 @@
         "tier": 0
     },
     "bone_fragments": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
         "isMaterial": true,
         "minDmg": "",
         "maxDmg": "",
@@ -106,9 +94,6 @@
         "tier": 0
     },
     "metal": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
         "isMaterial": true,
         "minDmg": "",
         "maxDmg": "",
@@ -136,9 +121,6 @@
         "tier": 0
     },
     "high_quality_metal": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
         "isMaterial": true,
         "minDmg": "",
         "maxDmg": "",
@@ -166,9 +148,6 @@
         "tier": 0
     },
     "stone": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
         "isMaterial": true,
         "minDmg": "",
         "maxDmg": "",
@@ -191,9 +170,6 @@
         "tier": 0
     },
     "smg_body": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
         "isMaterial": true,
         "minDmg": "",
         "maxDmg": "",
@@ -219,9 +195,6 @@
         "tier": 0
     },
     "rifle_body": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
         "isMaterial": true,
         "minDmg": "",
         "maxDmg": "",
@@ -249,9 +222,6 @@
         "tier": 0
     },
     "tech_trash": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": false,
         "isMaterial": true,
         "minDmg": "",
         "maxDmg": "",
@@ -277,9 +247,6 @@
         "tier": 0
     },
     "metal_pipe": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": false,
         "isMaterial": true,
         "minDmg": "",
         "maxDmg": "",
@@ -304,9 +271,6 @@
         "tier": 0
     },
     "metal_spring": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": false,
         "isMaterial": true,
         "minDmg": "",
         "maxDmg": "",
@@ -331,9 +295,6 @@
         "tier": 0
     },
     "gunpowder": {
-        "rarity": "Epic",
-        "isWeap": false,
-        "isItem": false,
         "isMaterial": true,
         "minDmg": "",
         "maxDmg": "",
@@ -360,9 +321,6 @@
         "tier": 0
     },
     "human_skull": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": false,
         "isMaterial": true,
         "minDmg": "",
         "maxDmg": "",
@@ -387,12 +345,11 @@
         "aliases": [
             "skull"
         ],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     },
     "coal": {
-        "rarity": "Limited",
-        "isWeap": false,
-        "isItem": false,
         "isMaterial": true,
         "minDmg": "",
         "maxDmg": "",
@@ -412,6 +369,8 @@
         "artist": "",
         "category": "Resource",
         "aliases": [],
-        "tier": 0
+        "tier": 0,
+        "isHidden": true,
+        "isSpecial": true
     }
 }

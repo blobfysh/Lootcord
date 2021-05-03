@@ -349,8 +349,8 @@ class Items {
 				return false
 			}
 			else if (options.countBanners && !options.countLimited) {
-				if (this.app.itemdata[item].isBanner && this.app.itemdata[item].rarity !== 'Limited') return true
-				else if (!this.app.itemdata[item].isBanner && this.app.itemdata[item].rarity !== 'Limited') return true
+				if (this.app.itemdata[item].isBanner && !this.app.itemdata[item].isSpecial) return true
+				else if (!this.app.itemdata[item].isBanner && !this.app.itemdata[item].isSpecial) return true
 				return false
 			}
 		})

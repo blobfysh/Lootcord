@@ -1,14 +1,11 @@
 {
     "arrow": {
-        "rarity": "Common",
-        "isWeap": false,
-        "isItem": false,
         "damage": 12,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 5,
+            "xpReward": 5,
             "level": 2,
             "materials": [
                 "stone|1",
@@ -32,15 +29,12 @@
         "tier": 0
     },
     "bone_arrow": {
-        "rarity": "Common",
-        "isWeap": false,
-        "isItem": false,
         "damage": 15,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 7,
+            "xpReward": 7,
             "level": 4,
             "materials": [
                 "wood|1",
@@ -64,15 +58,12 @@
         "tier": 0
     },
     "pistol_bullet": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
         "damage": 15,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 7,
+            "xpReward": 7,
             "level": 4,
             "materials": [
                 "gunpowder|2",
@@ -104,15 +95,12 @@
         "tier": 1
     },
     "incen_pistol_bullet": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
         "damage": 21,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 20,
+            "xpReward": 20,
             "level": 7,
             "materials": [
                 "gunpowder|3",
@@ -138,7 +126,7 @@
             "9mill_incen",
             "9x19_incen",
             "incen_bullet",
-			"incen_pistol",
+            "incen_pistol",
             "incen_pistol_ammo",
             "incen_ammunition",
             "incen_ammo",
@@ -151,15 +139,12 @@
         "burn": 10
     },
     "hv_pistol_bullet": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
         "damage": 19,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 25,
+            "xpReward": 25,
             "level": 8,
             "materials": [
                 "gunpowder|4",
@@ -193,15 +178,12 @@
         "bleed": 15
     },
     "rifle_bullet": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
         "damage": 25,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 20,
+            "xpReward": 20,
             "level": 5,
             "materials": [
                 "gunpowder|3",
@@ -230,15 +212,12 @@
         "tier": 2
     },
     "hv_rifle_bullet": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
         "damage": 24,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 30,
+            "xpReward": 30,
             "level": 8,
             "materials": [
                 "gunpowder|5",
@@ -272,15 +251,12 @@
         "bleed": 32
     },
     "incen_rifle_bullet": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
         "damage": 25,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 40,
+            "xpReward": 40,
             "level": 9,
             "materials": [
                 "gunpowder|5",
@@ -311,9 +287,6 @@
         "burn": 12
     },
     "explosive_bullet": {
-        "rarity": "Uncommon",
-        "isWeap": false,
-        "isItem": false,
         "damage": 16,
         "minDmg": "",
         "maxDmg": "",
@@ -349,15 +322,12 @@
         "tier": 3
     },
     "handmade_shell": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
         "damage": 5,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 7,
+            "xpReward": 7,
             "level": 3,
             "materials": [
                 "gunpowder|1",
@@ -384,15 +354,12 @@
         "tier": 0
     },
     "12g_buckshot": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
         "damage": 15,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 10,
+            "xpReward": 10,
             "level": 4,
             "materials": [
                 "gunpowder|2",
@@ -425,15 +392,12 @@
         "tier": 2
     },
     "12g_slug": {
-        "rarity": "Rare",
-        "isWeap": false,
-        "isItem": false,
         "damage": 33,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 30,
+            "xpReward": 30,
             "level": 7,
             "materials": [
                 "gunpowder|4",
@@ -459,15 +423,12 @@
         "tier": 3
     },
     "rocket": {
-        "rarity": "Legendary",
-        "isWeap": false,
-        "isItem": false,
         "damage": 85,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 50,
+            "xpReward": 50,
             "level": 10,
             "materials": [
                 "gunpowder|6",
@@ -494,15 +455,12 @@
         "tier": 3
     },
     "hv_rocket": {
-        "rarity": "Legendary",
-        "isWeap": false,
-        "isItem": false,
         "damage": 60,
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
         "craftedWith": {
-			"xpReward": 40,
+            "xpReward": 40,
             "level": 9,
             "materials": [
                 "gunpowder|4",
@@ -529,10 +487,7 @@
         "tier": 3,
         "bleed": 5
     },
-	"low_grade_fuel": {
-        "rarity": "Legendary",
-        "isWeap": false,
-        "isItem": false,
+    "low_grade_fuel": {
         "damage": 6,
         "minDmg": "",
         "maxDmg": "",
@@ -552,18 +507,15 @@
         "artist": "",
         "category": "Ammo",
         "aliases": [
-			"fuel",
-			"low_grade",
-			"lowgrade",
-			"lgf"
-		],
+            "fuel",
+            "low_grade",
+            "lowgrade",
+            "lgf"
+        ],
         "tier": 0,
         "burn": 40
     },
     "40mm_smoke_grenade": {
-        "rarity": "Legendary",
-        "isWeap": false,
-        "isItem": false,
         "damage": 5,
         "minDmg": "",
         "maxDmg": "",
@@ -593,9 +545,6 @@
         "tier": 3
     },
     "40mm_he_grenade": {
-        "rarity": "Legendary",
-        "isWeap": false,
-        "isItem": false,
         "damage": 82,
         "minDmg": "",
         "maxDmg": "",
