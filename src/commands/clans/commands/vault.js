@@ -75,15 +75,15 @@ async function getVaultInfo(app, clanId) {
 		embedInfo.addField(ITEM_TYPES.ammo.name, clanItems.ammo.join('\n'), true)
 	}
 
-	if (clanItems.materials.length) {
-		embedInfo.addField(ITEM_TYPES.materials.name, clanItems.materials.join('\n'), true)
+	if (clanItems.resources.length) {
+		embedInfo.addField(ITEM_TYPES.resources.name, clanItems.resources.join('\n'), true)
 	}
 
 	if (clanItems.storage.length) {
 		embedInfo.addField(ITEM_TYPES.storage.name, clanItems.storage.join('\n'), true)
 	}
 
-	if (!clanItems.ranged.length && !clanItems.melee.length && !clanItems.usables.length && !clanItems.ammo.length && !clanItems.materials.length && !clanItems.storage.length) {
+	if (!clanItems.ranged.length && !clanItems.melee.length && !clanItems.usables.length && !clanItems.ammo.length && !clanItems.resources.length && !clanItems.storage.length) {
 		embedInfo.addField('This vault is empty!', '\u200b')
 	}
 

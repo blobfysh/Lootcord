@@ -15,9 +15,9 @@ const ITEM_TYPES = {
 		name: 'Ammo',
 		type: 'Ammo'
 	},
-	materials: {
-		name: 'Materials',
-		type: 'Material'
+	resources: {
+		name: 'Resources',
+		type: 'Resource'
 	},
 	storage: {
 		name: 'Storage Containers',

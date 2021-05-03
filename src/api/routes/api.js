@@ -8,7 +8,7 @@ const ranged = require('../../resources/items/ranged')
 const melee = require('../../resources/items/melee')
 const items = require('../../resources/items/items')
 const ammo = require('../../resources/items/ammo')
-const materials = require('../../resources/items/materials')
+const resources = require('../../resources/items/resources')
 const storage = require('../../resources/items/storage')
 const banners = require('../../resources/items/banners')
 const monsters = require('../../resources/json/monsters')
@@ -90,7 +90,7 @@ router.post('/items', async(req, res) => {
 		...melee,
 		...items,
 		...ammo,
-		...materials,
+		...resources,
 		...storage,
 		...banners
 	})

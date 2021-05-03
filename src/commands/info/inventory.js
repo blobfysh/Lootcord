@@ -103,15 +103,15 @@ const makeInventory = exports.makeInventory = async function makeInventory(app, 
 			embedInfo.addField(ITEM_TYPES.ammo.name, usersItems.ammo.join('\n'), true)
 		}
 
-		if (usersItems.materials.length) {
-			embedInfo.addField(ITEM_TYPES.materials.name, usersItems.materials.join('\n'), true)
+		if (usersItems.resources.length) {
+			embedInfo.addField(ITEM_TYPES.resources.name, usersItems.resources.join('\n'), true)
 		}
 
 		if (usersItems.storage.length) {
 			embedInfo.addField(ITEM_TYPES.storage.name, usersItems.storage.join('\n'), true)
 		}
 
-		if (!usersItems.ranged.length && !usersItems.melee.length && !usersItems.usables.length && !usersItems.ammo.length && !usersItems.materials.length && !usersItems.storage.length) {
+		if (!usersItems.ranged.length && !usersItems.melee.length && !usersItems.usables.length && !usersItems.ammo.length && !usersItems.resources.length && !usersItems.storage.length) {
 			embedInfo.addField('This inventory is empty! :(', '\u200b')
 		}
 

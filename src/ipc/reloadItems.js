@@ -4,7 +4,7 @@ exports.run = function(msg) {
 	console.log('[APP] Reloading items')
 	delete require.cache[require.resolve('../resources/items/banners')]
 	delete require.cache[require.resolve('../resources/items/storage')]
-	delete require.cache[require.resolve('../resources/items/materials')]
+	delete require.cache[require.resolve('../resources/items/resources')]
 	delete require.cache[require.resolve('../resources/items/ammo')]
 	delete require.cache[require.resolve('../resources/items/items')]
 	delete require.cache[require.resolve('../resources/items/melee')]

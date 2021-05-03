@@ -1,8 +1,8 @@
 exports.command = {
 	name: 'farm',
 	aliases: ['mine', 'chop', 'hourly'],
-	description: 'Go farming for materials/loot.',
-	long: 'Use this command every hour to go farm for materials/loot.',
+	description: 'Go farming for resources/loot.',
+	long: 'Use this command every hour to go farm for resources/loot.',
 	args: {},
 	examples: [],
 	permissions: ['sendMessages', 'externalEmojis'],

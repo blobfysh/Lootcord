@@ -20,7 +20,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material",
+        "category": "Resource",
         "aliases": [],
         "tier": 0
     },
@@ -45,7 +45,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material",
+        "category": "Resource",
         "aliases": [],
         "tier": 0
     },
@@ -73,7 +73,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material",
+        "category": "Resource",
         "aliases": [],
         "tier": 0
     },
@@ -98,7 +98,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material",
+        "category": "Resource",
         "aliases": [
             "bones",
             "bone_frags"
@@ -126,7 +126,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material",
+        "category": "Resource",
         "aliases": [
             "metal_frags",
             "metal_frag",
@@ -156,7 +156,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material",
+        "category": "Resource",
         "aliases": [
             "hq_metal",
             "hqm",
@@ -186,7 +186,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material",
+        "category": "Resource",
         "aliases": [],
         "tier": 0
     },
@@ -214,7 +214,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material",
+        "category": "Resource",
         "aliases": [],
         "tier": 0
     },
@@ -242,7 +242,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material",
+        "category": "Resource",
         "aliases": [
             "body"
         ],
@@ -269,7 +269,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material",
+        "category": "Resource",
         "aliases": [
             "tech",
             "trash"
@@ -297,7 +297,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material",
+        "category": "Resource",
         "aliases": [
             "pipe"
         ],
@@ -324,7 +324,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material",
+        "category": "Resource",
         "aliases": [
             "spring"
         ],
@@ -351,7 +351,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material",
+        "category": "Resource",
         "aliases": [
             "gp",
             "boom",
@@ -383,7 +383,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material",
+        "category": "Resource",
         "aliases": [
             "skull"
         ],
@@ -410,7 +410,7 @@
         "canBeStolen": true,
         "cooldown": "",
         "artist": "",
-        "category": "Material",
+        "category": "Resource",
         "aliases": [],
         "tier": 0
     }

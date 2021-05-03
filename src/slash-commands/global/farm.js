@@ -2,7 +2,7 @@ const { InteractionResponseType } = require('slash-commands')
 
 exports.command = {
 	name: 'farm',
-	description: 'Go farming for materials/loot.',
+	description: 'Go farming for resources/loot.',
 	requiresAcc: true,
 	requiresActive: true,
 	options: [],

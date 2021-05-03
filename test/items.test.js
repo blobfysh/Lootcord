@@ -3,7 +3,7 @@ const items = {
 	melee: require('../src/resources/items/melee'),
 	items: require('../src/resources/items/items'),
 	ammo: require('../src/resources/items/ammo'),
-	materials: require('../src/resources/items/materials'),
+	resources: require('../src/resources/items/resources'),
 	storage: require('../src/resources/items/storage'),
 	banners: require('../src/resources/items/banners')
 }

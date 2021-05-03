@@ -159,7 +159,7 @@ class Lootcord extends Base {
 		const melee = require('./resources/items/melee')
 		const items = require('./resources/items/items')
 		const ammo = require('./resources/items/ammo')
-		const materials = require('./resources/items/materials')
+		const resources = require('./resources/items/resources')
 		const storage = require('./resources/items/storage')
 		const banners = require('./resources/items/banners')
 
@@ -168,7 +168,7 @@ class Lootcord extends Base {
 			...melee,
 			...items,
 			...ammo,
-			...materials,
+			...resources,
 			...storage,
 			...banners
 		}

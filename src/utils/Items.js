@@ -330,7 +330,7 @@ class Items {
 		const melee = []
 		const usables = []
 		const ammo = []
-		const materials = []
+		const resources = []
 		const storage = []
 		const banners = []
 		let invValue = 0
@@ -365,7 +365,7 @@ class Items {
 				case 'Melee': melee.push(itemDisplay); break
 				case 'Item': usables.push(itemDisplay); break
 				case 'Ammo': ammo.push(itemDisplay); break
-				case 'Material': materials.push(itemDisplay); break
+				case 'Resource': resources.push(itemDisplay); break
 				case 'Storage': storage.push(itemDisplay); break
 				case 'Banner': banners.push(itemDisplay)
 				}
@@ -380,7 +380,7 @@ class Items {
 			melee,
 			usables,
 			ammo,
-			materials,
+			resources,
 			storage,
 			banners,
 			invValue,
