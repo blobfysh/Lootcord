@@ -1,5 +1,5 @@
 const { InteractionResponseType } = require('slash-commands')
-const { getQuestion, idiotBadgeCheck, geniusBadgeCheck } = require('../../commands/rewards/trivia')
+const { getQuestion, idiotBadgeCheck, geniusBadgeCheck, getReward } = require('../../commands/rewards/trivia')
 const { decode } = require('html-entities')
 
 exports.command = {
@@ -24,38 +24,21 @@ exports.command = {
 		await app.cd.setCD(interaction.member.user.id, 'trivia', app.config.cooldowns.trivia * 1000, { serverSideGuildId })
 		await app.player.addStat(interaction.member.user.id, 'trivias', 1, serverSideGuildId)
 
+		const triviaStreak = await app.player.getStat(interaction.member.user.id, 'triviaStreak', serverSideGuildId)
 		const { question, correct_answer, incorrect_answers } = await getQuestion()
 
 		// combine correct answer and incorrect answers and shuffle them
 		const [questionA, questionB, questionC, questionD] = app.common.shuffleArr([correct_answer, ...incorrect_answers])
-
-		const chanceR = Math.floor(Math.random() * 10) // returns 0-9 (10% chance)
-		const reward = {}
-
 		const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(interaction.member.user.id, serverSideGuildId), await app.player.getRow(interaction.member.user.id, serverSideGuildId))
 		const hasEnough = await app.itm.hasSpace(itemCt, 1)
-
-		if (chanceR <= 0 && hasEnough) {
-			reward.display = `${app.itemdata.military_crate.icon}\`military_crate\``
-			reward.item = 'military_crate'
-			reward.amount = 1
-		}
-		else if (hasEnough) {
-			reward.display = `1x ${app.itemdata.crate.icon}\`crate\``
-			reward.item = 'crate'
-			reward.amount = 1
-		}
-		else {
-			reward.display = app.common.formatNumber(5000)
-			reward.item = 'money'
-			reward.amount = 5000
-		}
+		const reward = getReward(app, triviaStreak, hasEnough)
 
 		const embedTrivia = new app.Embed()
 			.setTitle(decode(question))
 			.setColor(16777215)
 			.setDescription(`🇦 ${decode(questionA)}\n🇧 ${decode(questionB)}\n🇨 ${decode(questionC)}\n🇩 ${decode(questionD)}`)
-			.addField('Reward', reward.display)
+			.addField('Reward', `${reward.display}`, true)
+			.addField('Trivia Streak', `${triviaStreak > 2 ? '🔥' : ''} **${triviaStreak}** in a row\nHigher streak = better reward`, true)
 			.setFooter('You have 20 seconds to answer. Type A, B, C, or D to pick.')
 
 		// initial response
@@ -91,6 +74,8 @@ exports.command = {
 
 				// check if user recieves idiot badge
 				idiotBadgeCheck(app, interaction.member.user.id, serverSideGuildId)
+				// reset trivia streak
+				app.player.resetStat(interaction.member.user.id, 'triviaStreak', serverSideGuildId)
 
 				await interaction.followUp({
 					embeds: [embedWrong.embed]
@@ -105,6 +90,7 @@ exports.command = {
 					await app.itm.addItem(interaction.member.user.id, reward.item, reward.amount, serverSideGuildId)
 				}
 
+				await app.player.addStat(interaction.member.user.id, 'triviaStreak', 1, serverSideGuildId)
 				await app.player.addStat(interaction.member.user.id, 'triviasCorrect', 1, serverSideGuildId)
 
 				// check if user receives genius badge
@@ -129,6 +115,8 @@ exports.command = {
 
 				// check if user receives idiot badge
 				idiotBadgeCheck(app, interaction.member.user.id, serverSideGuildId)
+				// reset trivia streak
+				app.player.resetStat(interaction.member.user.id, 'triviaStreak', serverSideGuildId)
 
 				interaction.followUp({
 					embeds: [errorEmbed.embed]

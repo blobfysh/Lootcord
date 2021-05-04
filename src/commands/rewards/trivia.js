@@ -32,38 +32,21 @@ exports.command = {
 		await app.cd.setCD(message.author.id, 'trivia', app.config.cooldowns.trivia * 1000, { serverSideGuildId })
 		await app.player.addStat(message.author.id, 'trivias', 1, serverSideGuildId)
 
+		const triviaStreak = await app.player.getStat(message.author.id, 'triviaStreak', serverSideGuildId)
 		const { question, correct_answer, incorrect_answers } = await getQuestion()
 
 		// combine correct answer and incorrect answers and shuffle them
 		const [questionA, questionB, questionC, questionD] = app.common.shuffleArr([correct_answer, ...incorrect_answers])
-
-		const chanceR = Math.floor(Math.random() * 10) // returns 0-9 (10% chance)
-		const reward = {}
-
 		const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id, serverSideGuildId), await app.player.getRow(message.author.id, serverSideGuildId))
 		const hasEnough = await app.itm.hasSpace(itemCt, 1)
-
-		if (chanceR <= 0 && hasEnough) {
-			reward.display = `${app.itemdata.military_crate.icon}\`military_crate\``
-			reward.item = 'military_crate'
-			reward.amount = 1
-		}
-		else if (hasEnough) {
-			reward.display = `1x ${app.itemdata.crate.icon}\`crate\``
-			reward.item = 'crate'
-			reward.amount = 1
-		}
-		else {
-			reward.display = app.common.formatNumber(5000)
-			reward.item = 'money'
-			reward.amount = 5000
-		}
+		const reward = getReward(app, triviaStreak, hasEnough)
 
 		const embedTrivia = new app.Embed()
 			.setTitle(decode(question))
 			.setColor(16777215)
 			.setDescription(`🇦 ${decode(questionA)}\n🇧 ${decode(questionB)}\n🇨 ${decode(questionC)}\n🇩 ${decode(questionD)}`)
-			.addField('Reward', reward.display)
+			.addField('Reward', `${reward.display}`, true)
+			.addField('Trivia Streak', `${triviaStreak > 2 ? '🔥' : ''} **${triviaStreak}** in a row\nHigher streak = better reward`, true)
 			.setFooter('You have 20 seconds to answer. Type A, B, C, or D to pick.')
 		await message.channel.createMessage(embedTrivia)
 
@@ -92,6 +75,8 @@ exports.command = {
 
 				// check if user recieves idiot badge
 				idiotBadgeCheck(app, message.author.id, serverSideGuildId)
+				// reset trivia streak
+				app.player.resetStat(message.author.id, 'triviaStreak', serverSideGuildId)
 
 				m.reply(embedWrong)
 			}
@@ -104,6 +89,7 @@ exports.command = {
 					await app.itm.addItem(message.author.id, reward.item, reward.amount, serverSideGuildId)
 				}
 
+				await app.player.addStat(message.author.id, 'triviaStreak', 1, serverSideGuildId)
 				await app.player.addStat(message.author.id, 'triviasCorrect', 1, serverSideGuildId)
 
 				// check if user receives genius badge
@@ -125,6 +111,8 @@ exports.command = {
 
 				// check if user receives idiot badge
 				idiotBadgeCheck(app, message.author.id, serverSideGuildId)
+				// reset trivia streak
+				app.player.resetStat(message.author.id, 'triviaStreak', serverSideGuildId)
 
 				message.reply(errorEmbed)
 			}
@@ -161,4 +149,43 @@ const getQuestion = exports.getQuestion = async function getQuestion() {
 		// use local trivia file
 		return triviaFile[Math.floor(Math.random() * triviaFile.length)]
 	}
+}
+
+const getReward = exports.getReward = function getReward(app, streak, hasSpace) {
+	const reward = {
+		display: '',
+		item: '',
+		amount: 1
+	}
+
+	if (streak <= 2) {
+		reward.item = 'crate'
+		reward.display = `${app.itemdata.crate.icon}\`crate\``
+	}
+	else if (streak <= 7) {
+		reward.item = 'military_crate'
+		reward.display = `${app.itemdata.military_crate.icon}\`military_crate\``
+	}
+	else if (streak % 10 === 0) {
+		reward.item = 'elite_crate'
+		reward.display = `${app.itemdata.elite_crate.icon}\`elite_crate\``
+	}
+	else {
+		reward.item = 'supply_drop'
+		reward.display = `${app.itemdata.supply_drop.icon}\`supply_drop\``
+	}
+
+	if (!hasSpace) {
+		let prize = Math.round(app.itemdata[reward.item].sell / 1000) * 1000
+
+		if (prize < 1000) {
+			prize = 1000
+		}
+
+		reward.item = 'money'
+		reward.amount = prize
+		reward.display = app.common.formatNumber(prize)
+	}
+
+	return reward
 }

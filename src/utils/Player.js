@@ -352,6 +352,21 @@ class Player {
 	}
 
 	/**
+	 * Resets stat for user
+	 * @param {string} id ID of user
+	 * @param {string} stat stat to reset to 0
+	 * @param {string|undefined} serverSideGuildId used for server-side economies
+	 */
+	async resetStat(id, stat, serverSideGuildId = undefined) {
+		if (serverSideGuildId) {
+			await this.app.query('UPDATE server_stats SET value = 0 WHERE userId = ? AND guildId = ? AND stat = ?', [id, serverSideGuildId, stat])
+		}
+		else {
+			await this.app.query('UPDATE stats SET value = 0 WHERE userId = ? AND stat = ?', [id, stat])
+		}
+	}
+
+	/**
      *
      * @param {string} badge Badge to get icon for
      */
