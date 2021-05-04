@@ -153,7 +153,15 @@
         "minDmg": "",
         "maxDmg": "",
         "ammo": "",
-        "craftedWith": "",
+        "craftedWith": {
+            "xpReward": 7,
+            "level": 4,
+            "materials": [
+                "metal|1",
+                "low_grade_fuel|1",
+				"cloth|1"
+            ]
+        },
         "recyclesTo": {
             "materials": []
         },
@@ -192,7 +200,7 @@
             "xpReward": 15,
             "level": 6,
             "materials": [
-                "bandage|2",
+                "low_grade_fuel|1",
                 "medical_syringe|2"
             ]
         },
