@@ -44,19 +44,20 @@ exports.command = {
 
 			// check for ammo and add ammo damage
 			if (itemInfo.category === 'Ranged') {
-				const possibleAmmo = []
+				const possibleAmmo = itemInfo.ammo.sort(app.itm.sortItemsHighLow.bind(app))
+				const availableAmmo = []
 
-				for (const ammo of itemInfo.ammo.sort(app.itm.sortItemsHighLow.bind(app))) {
+				for (const ammo of possibleAmmo) {
 					if (app.itm.hasItems(userItems, ammo, 1)) {
-						possibleAmmo.push(ammo)
+						availableAmmo.push(ammo)
 					}
 				}
 
-				if (!possibleAmmo.length) {
-					return message.reply('❌ You don\'t have any ammo for that weapon!')
+				if (!availableAmmo.length) {
+					return message.reply(`❌ You don't have any ammo for that weapon! The ${itemInfo.icon}\`${item}\` uses ${possibleAmmo.map(itm => `${app.itemdata[itm].icon}\`${itm}\``).join(', ')} as ammunition.`)
 				}
-				else if (possibleAmmo.length > 1) {
-					await message.reply(`You have multiple ammo types for that weapon! Which ammo do you want to use?\n\n${possibleAmmo.map(ammo => `${app.itemdata[ammo].icon}\`${ammo}\``).join(', ')}`)
+				else if (availableAmmo.length > 1) {
+					await message.reply(`You have multiple ammo types for that weapon! Which ammo do you want to use?\n\n${availableAmmo.map(ammo => `${app.itemdata[ammo].icon}\`${ammo}\``).join(', ')}`)
 
 					const result = await app.msgCollector.awaitMessages(message.author.id, message.channel.id, m => m.author.id === message.author.id)
 
@@ -69,7 +70,7 @@ exports.command = {
 					if (!ammoChoice) {
 						return result[0].reply('❌ That isn\'t a valid ammo choice!')
 					}
-					else if (!possibleAmmo.includes(ammoChoice)) {
+					else if (!availableAmmo.includes(ammoChoice)) {
 						return result[0].reply(`❌ ${app.itemdata[ammoChoice].icon}\`${ammoChoice}\` isn't a valid ammo choice!`)
 					}
 
@@ -85,7 +86,7 @@ exports.command = {
 					ammoUsed = ammoChoice
 				}
 				else {
-					ammoUsed = possibleAmmo[0]
+					ammoUsed = availableAmmo[0]
 				}
 
 				ammoDamage = app.itemdata[ammoUsed].damage

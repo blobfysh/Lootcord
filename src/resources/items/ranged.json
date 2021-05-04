@@ -44,17 +44,16 @@
             "low_grade_fuel"
         ],
         "craftedWith": {
-            "xpReward": 11,
-            "level": 5,
+            "xpReward": 12,
+            "level": 7,
             "materials": [
-                "high_quality_metal|1",
-                "metal_pipe|2",
-                "low_grade_fuel|1"
+                "high_quality_metal|2",
+                "metal_pipe|1"
             ]
         },
         "recyclesTo": {
             "materials": [
-                "high_quality_metal|1"
+                "metal_pipe|1"
             ]
         },
         "buy": "",
