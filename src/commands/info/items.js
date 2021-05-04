@@ -63,13 +63,23 @@ exports.command = {
 
 			embedItem.addField('Type', itemInfo.category === 'Storage' ? 'Storage Container' : itemInfo.category, true)
 			embedItem.addField('Tier', itemInfo.tier === 0 ? 'None' : `Tier ${app.icons.tiers[itemInfo.tier]}`, true)
-			embedItem.addBlankField(true)
 
 			if (itemInfo.cooldown !== '') {
 				embedItem.addField('Cooldown', `\`${app.cd.convertTime(itemInfo.cooldown.seconds * 1000)}\``, true)
 			}
 			if (itemInfo.chanceToBreak) {
 				embedItem.addField('Chance to break', `\`${itemInfo.chanceToBreak * 100}%\``, true)
+			}
+
+			if (itemInfo.buy.currency !== undefined && (itemInfo.buy.currency === 'money' || itemInfo.buy.currency === 'scrap')) {
+				embedItem.addField('Buy', app.common.formatNumber(itemInfo.buy.amount, false, itemInfo.buy.currency === 'scrap'), true)
+			}
+			else if (itemInfo.buy.currency !== undefined) {
+				embedItem.addField('Buy', `${itemInfo.buy.amount}x ${app.itemdata[itemInfo.buy.currency].icon}\`${itemInfo.buy.currency}\``, true)
+			}
+
+			if (itemInfo.sell !== '') {
+				embedItem.addField('Sell', app.common.formatNumber(itemInfo.sell), true)
 			}
 
 			if (['Ranged', 'Melee'].includes(itemInfo.category)) {
@@ -86,19 +96,9 @@ exports.command = {
 			const ammoFor = itemsArraySorted.filter(item => app.itemdata[item].ammo !== '' && app.itemdata[item].ammo.includes(itemSearched))
 
 			if (ammoFor.length) {
-				embedItem.addField('Damage', itemInfo.damage + getStatusEffectStr(itemInfo), true)
-				embedItem.addField('Ammo for:', ammoFor.map(weapon => `${app.itemdata[weapon].icon}\`${weapon}\``).join('\n'), true)
-			}
-
-			if (itemInfo.buy.currency !== undefined && (itemInfo.buy.currency === 'money' || itemInfo.buy.currency === 'scrap')) {
-				embedItem.addField('Buy', app.common.formatNumber(itemInfo.buy.amount, false, itemInfo.buy.currency === 'scrap'), true)
-			}
-			else if (itemInfo.buy.currency !== undefined) {
-				embedItem.addField('Buy', `${itemInfo.buy.amount}x ${app.itemdata[itemInfo.buy.currency].icon}\`${itemInfo.buy.currency}\``, true)
-			}
-
-			if (itemInfo.sell !== '') {
-				embedItem.addField('Sell', app.common.formatNumber(itemInfo.sell), true)
+				embedItem.addField('Damage', ammoFor.sort(app.itm.sortItemsHighLow.bind(app))
+					.map(weapon => `${app.itemdata[weapon].icon}\`${weapon}\` ${itemInfo.damage + app.itemdata[weapon].minDmg} - ${itemInfo.damage + app.itemdata[weapon].maxDmg}${getStatusEffectStr(itemInfo)}`)
+					.join('\n'))
 			}
 
 			const craftItems = []
@@ -125,7 +125,7 @@ exports.command = {
 			if (itemInfo.craftedWith !== '' || itemInfo.recyclesTo.materials.length || craftItems.length || recycledFrom.length) embedItem.addBlankField()
 
 			if (itemInfo.craftedWith !== '') {
-				embedItem.addField('🔩 Crafting:', `Required Level: **${itemInfo.craftedWith.level}**+\nReward: \`⭐ ${itemInfo.craftedWith.xpReward} XP\`\n\nRecipe:\n${app.itm.getDisplay(itemInfo.craftedWith.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n')}`, true)
+				embedItem.addField('🔩 Crafting:', `Required Level: **${itemInfo.craftedWith.level}+**\nReward: \`⭐ ${itemInfo.craftedWith.xpReward} XP\`\n\nRecipe:\n${app.itm.getDisplay(itemInfo.craftedWith.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n')}`, true)
 			}
 			if (itemInfo.recyclesTo.materials.length) {
 				embedItem.addField('♻ Recycles into:', app.itm.getDisplay(itemInfo.recyclesTo.materials.sort(app.itm.sortItemsHighLow.bind(app))).join('\n'), true)
@@ -171,10 +171,10 @@ exports.command = {
 
 function getStatusEffectStr(item) {
 	if (item.bleed > 0) {
-		return ` + 🩸${item.bleed} bleed`
+		return `** + 🩸 ${item.bleed} bleed**`
 	}
 	else if (item.burn > 0) {
-		return ` + 🔥${item.burn} burn`
+		return `** + 🔥 ${item.burn} burn**`
 	}
 
 	return ''
