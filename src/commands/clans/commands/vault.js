@@ -1,4 +1,6 @@
 const { ITEM_TYPES } = require('../../../resources/constants')
+const { getPageCount } = require('../../info/inventory')
+const ITEMS_PER_PAGE = 15
 
 exports.command = {
 	name: 'vault',
@@ -19,7 +21,7 @@ exports.command = {
 			return message.reply('You are not a member of any clan! You can look up other clans by searching their name.')
 		}
 		else if (!args.length) {
-			message.channel.createMessage(await getVaultInfo(app, scoreRow.clanId))
+			app.react.paginate(message, await generatePages(app, scoreRow.clanId))
 		}
 		else if (mentionedUser !== undefined) {
 			const mentionedScoreRow = await app.player.getRow(mentionedUser.id)
@@ -30,7 +32,7 @@ exports.command = {
 				return message.reply('❌ That user is not in a clan.')
 			}
 
-			message.channel.createMessage(await getVaultInfo(app, mentionedScoreRow.clanId))
+			app.react.paginate(message, await generatePages(app, mentionedScoreRow.clanId))
 		}
 		else {
 			const clanName = args.join(' ')
@@ -40,54 +42,69 @@ exports.command = {
 				return message.reply('I could not find a clan with that name! Maybe you misspelled it?')
 			}
 
-			message.channel.createMessage(await getVaultInfo(app, clanRow.clanId))
+			app.react.paginate(message, await generatePages(app, clanRow.clanId))
 		}
 	}
 }
 
-async function getVaultInfo(app, clanId) {
+async function generatePages(app, clanId) {
+	const messages = []
 	const clanRow = await app.clans.getRow(clanId)
 	const clanItems = await app.itm.getUserItems(await app.itm.getItemObject(clanId))
 
-	const embedInfo = new app.Embed()
-		.setColor(13451564)
-		.setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
-		.setTitle('Vault')
+	const vaultPageCount = getPageCount(clanItems)
 
-	if (clanRow.iconURL) {
-		embedInfo.setThumbnail(clanRow.iconURL)
+	for (let i = 1; i < vaultPageCount + 1; i++) {
+		const indexFirst = (ITEMS_PER_PAGE * i) - ITEMS_PER_PAGE
+		const indexLast = ITEMS_PER_PAGE * i
+
+		const embedInfo = new app.Embed()
+			.setColor(13451564)
+			.setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
+			.setTitle('Vault')
+
+		if (clanRow.iconURL) {
+			embedInfo.setThumbnail(clanRow.iconURL)
+		}
+
+		// item fields
+		if (clanItems.ranged.slice(indexFirst, indexLast).length) {
+			embedInfo.addField(ITEM_TYPES.ranged.name, clanItems.ranged.slice(indexFirst, indexLast).join('\n'), true)
+		}
+
+		if (clanItems.melee.slice(indexFirst, indexLast).length) {
+			embedInfo.addField(ITEM_TYPES.melee.name, clanItems.melee.slice(indexFirst, indexLast).join('\n'), true)
+		}
+
+		if (clanItems.usables.slice(indexFirst, indexLast).length) {
+			embedInfo.addField(ITEM_TYPES.items.name, clanItems.usables.slice(indexFirst, indexLast).join('\n'), true)
+		}
+
+		if (clanItems.ammo.slice(indexFirst, indexLast).length) {
+			embedInfo.addField(ITEM_TYPES.ammo.name, clanItems.ammo.slice(indexFirst, indexLast).join('\n'), true)
+		}
+
+		if (clanItems.resources.slice(indexFirst, indexLast).length) {
+			embedInfo.addField(ITEM_TYPES.resources.name, clanItems.resources.slice(indexFirst, indexLast).join('\n'), true)
+		}
+
+		if (clanItems.storage.slice(indexFirst, indexLast).length) {
+			embedInfo.addField(ITEM_TYPES.storage.name, clanItems.storage.slice(indexFirst, indexLast).join('\n'), true)
+		}
+
+		if (!clanItems.ranged.length && !clanItems.melee.length && !clanItems.usables.length && !clanItems.ammo.length && !clanItems.resources.length && !clanItems.storage.length) {
+			embedInfo.addField('This vault is empty!', '\u200b')
+		}
+
+		// add page count if there are multiple pages
+		if (vaultPageCount > 1) {
+			embedInfo.setFooter(`Page ${i}/${vaultPageCount}`)
+		}
+
+		embedInfo.addField('\u200b', `Power (slots) used: ${clanItems.itemCount} | Vault value: ${app.common.formatNumber(clanItems.invValue)}`)
+
+		messages.push(embedInfo)
 	}
 
-	// item fields
-	if (clanItems.ranged.length) {
-		embedInfo.addField(ITEM_TYPES.ranged.name, clanItems.ranged.join('\n'), true)
-	}
-
-	if (clanItems.melee.length) {
-		embedInfo.addField(ITEM_TYPES.melee.name, clanItems.melee.join('\n'), true)
-	}
-
-	if (clanItems.usables.length) {
-		embedInfo.addField(ITEM_TYPES.items.name, clanItems.usables.join('\n'), true)
-	}
-
-	if (clanItems.ammo.length) {
-		embedInfo.addField(ITEM_TYPES.ammo.name, clanItems.ammo.join('\n'), true)
-	}
-
-	if (clanItems.resources.length) {
-		embedInfo.addField(ITEM_TYPES.resources.name, clanItems.resources.join('\n'), true)
-	}
-
-	if (clanItems.storage.length) {
-		embedInfo.addField(ITEM_TYPES.storage.name, clanItems.storage.join('\n'), true)
-	}
-
-	if (!clanItems.ranged.length && !clanItems.melee.length && !clanItems.usables.length && !clanItems.ammo.length && !clanItems.resources.length && !clanItems.storage.length) {
-		embedInfo.addField('This vault is empty!', '\u200b')
-	}
-
-	embedInfo.addField('\u200b', `Power (slots) used: ${clanItems.itemCount} | Vault value: ${app.common.formatNumber(clanItems.invValue)}`)
-
-	return embedInfo
+	return messages
 }

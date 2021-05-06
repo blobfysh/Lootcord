@@ -89,7 +89,7 @@ exports.command = {
 			await app.clans.addMoney(scoreRow.clanId, moneyStolen)
 
 
-			if ((await app.itm.getUserItems(await app.itm.getItemObject(clanRow.clanId))).itemCount === 0) {
+			if (await app.itm.getItemObject(clanRow.clanId) === {}) {
 				setTimeout(() => {
 					app.msgCollector.stopCollector(collectorObj)
 					message.channel.createMessage(`<@${message.author.id}>, -> Max items stolen. Ending raid.`)

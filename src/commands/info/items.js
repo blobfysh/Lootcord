@@ -1,4 +1,5 @@
 const { ITEM_TYPES } = require('../../resources/constants')
+const ITEMS_PER_PAGE = 15
 
 exports.command = {
 	name: 'items',
@@ -141,32 +142,92 @@ exports.command = {
 			message.channel.createMessage(embedItem)
 		}
 		else if (!itemChoice) {
-			const meleeWeapons = itemsArraySorted.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Melee')
-			const rangedWeapons = itemsArraySorted.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Ranged')
-			const items = itemsArraySorted.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Item')
-			const ammo = itemsArraySorted.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Ammo')
-			const material = itemsArraySorted.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Resource')
-			const storage = itemsArraySorted.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Storage')
-			const banners = itemsArraySorted.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Banner')
-
-			const embedInfo = new app.Embed()
-				.setColor(13451564)
-				.setTitle('Full Items List')
-				.addField(ITEM_TYPES.ranged.name, rangedWeapons.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-				.addField(ITEM_TYPES.melee.name, meleeWeapons.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-				.addField(ITEM_TYPES.items.name, items.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-				.addField(ITEM_TYPES.ammo.name, ammo.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-				.addField(ITEM_TYPES.resources.name, material.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-				.addField(ITEM_TYPES.storage.name, storage.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-				.addField(ITEM_TYPES.banners.name, banners.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-				.setFooter(`Use ${prefix}item <item> to retrieve more information!`)
-
-			message.channel.createMessage(embedInfo)
+			app.react.paginate(message, generatePages(app, itemsArraySorted, prefix))
 		}
 		else {
 			message.reply(`I don't recognize that item. Use \`${prefix}items\` to see a full list!`)
 		}
 	}
+}
+
+function generatePages(app, items, prefix) {
+	const messages = []
+	items = {
+		melee: items.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Melee'),
+		ranged: items.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Ranged'),
+		items: items.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Item'),
+		ammo: items.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Ammo'),
+		resources: items.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Resource'),
+		storage: items.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Storage'),
+		banners: items.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Banner')
+	}
+
+	const itemsPageCount = getItemsPageCount(items)
+
+	for (let i = 1; i < itemsPageCount + 1; i++) {
+		const indexFirst = (ITEMS_PER_PAGE * i) - ITEMS_PER_PAGE
+		const indexLast = ITEMS_PER_PAGE * i
+
+		const embedInfo = new app.Embed()
+			.setColor(13451564)
+			.setTitle('Full Items List')
+			.setDescription(`Use \`${prefix}item <item>\` to retrieve more information!`)
+
+		// item fields
+		if (items.ranged.slice(indexFirst, indexLast).length) {
+			embedInfo.addField(ITEM_TYPES.ranged.name, items.ranged.slice(indexFirst, indexLast).map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
+		}
+
+		if (items.melee.slice(indexFirst, indexLast).length) {
+			embedInfo.addField(ITEM_TYPES.melee.name, items.melee.slice(indexFirst, indexLast).map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
+		}
+
+		if (items.items.slice(indexFirst, indexLast).length) {
+			embedInfo.addField(ITEM_TYPES.items.name, items.items.slice(indexFirst, indexLast).map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
+		}
+
+		if (items.ammo.slice(indexFirst, indexLast).length) {
+			embedInfo.addField(ITEM_TYPES.ammo.name, items.ammo.slice(indexFirst, indexLast).map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
+		}
+
+		if (items.resources.slice(indexFirst, indexLast).length) {
+			embedInfo.addField(ITEM_TYPES.resources.name, items.resources.slice(indexFirst, indexLast).map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
+		}
+
+		if (items.storage.slice(indexFirst, indexLast).length) {
+			embedInfo.addField(ITEM_TYPES.storage.name, items.storage.slice(indexFirst, indexLast).map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
+		}
+
+		if (items.banners.slice(indexFirst, indexLast).length) {
+			embedInfo.addField(ITEM_TYPES.banners.name, items.banners.slice(indexFirst, indexLast).map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
+		}
+
+		messages.push(embedInfo)
+	}
+
+	return messages
+}
+
+function getItemsPageCount(items) {
+	let pages = 1
+
+	const pagesNeeded = {
+		melee: Math.ceil(items.melee.length / ITEMS_PER_PAGE),
+		ranged: Math.ceil(items.ranged.length / ITEMS_PER_PAGE),
+		items: Math.ceil(items.length / ITEMS_PER_PAGE),
+		ammo: Math.ceil(items.ammo.length / ITEMS_PER_PAGE),
+		resources: Math.ceil(items.resources.length / ITEMS_PER_PAGE),
+		storage: Math.ceil(items.storage.length / ITEMS_PER_PAGE),
+		banners: Math.ceil(items.banners.length / ITEMS_PER_PAGE)
+	}
+
+	for (const type in pagesNeeded) {
+		if (pagesNeeded[type] > pages) {
+			pages = pagesNeeded[type]
+		}
+	}
+
+	return pages
 }
 
 function getStatusEffectStr(item) {

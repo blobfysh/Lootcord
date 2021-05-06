@@ -1,4 +1,4 @@
-const { makeInventory } = require('../info/inventory')
+const { generatePages } = require('../info/inventory')
 
 exports.command = {
 	name: 'getinv',
@@ -23,8 +23,7 @@ exports.command = {
 		}
 
 		const userInfo = await app.common.fetchUser(userID, { cacheIPC: false })
-		const inv = await makeInventory(app, userInfo, message.channel.guild.id, undefined)
 
-		message.reply(inv)
+		app.react.paginate(message, await generatePages(app, userInfo, message.channel.guild.id, undefined))
 	}
 }
