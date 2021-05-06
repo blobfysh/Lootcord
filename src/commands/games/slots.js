@@ -2,7 +2,7 @@ exports.command = {
 	name: 'slots',
 	aliases: ['slot'],
 	description: 'Put some Scrap in the slot machine!',
-	long: 'Play a game of slots.\n\n💵 💵 - **0.8x** multiplier\n💸 💸 - **1.5x** multiplier\n💰 💰 - **3x** multiplier\n💎 💎 - **5x** multiplier\n💵 💵 💵 - **2x** multiplier\n💸 💸 💸 - **3x** multiplier\n💰 💰 💰 - **6x** multiplier\n💎 💎 💎 - **10x** multiplier',
+	long: 'Play a game of slots.\n\n💵 💵 - **1x** multiplier\n💸 💸 - **1.5x** multiplier\n💰 💰 - **2.5x** multiplier\n💎 💎 - **5x** multiplier\n💵 💵 💵 - **2x** multiplier\n💸 💸 💸 - **3x** multiplier\n💰 💰 💰 - **5x** multiplier\n💎 💎 💎 - **10x** multiplier',
 	args: { amount: 'Amount of Scrap to gamble.' },
 	examples: ['slots 1000'],
 	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
@@ -24,146 +24,118 @@ exports.command = {
 			return message.reply(`You need to wait \`${slotsCD}\` before playing another game of slots.`)
 		}
 
-		if (!gambleAmount || gambleAmount < 100) {
+		else if (!gambleAmount || gambleAmount < 100) {
 			return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100, false, true)}** to gamble!`)
 		}
 
-		if (gambleAmount > row.scrap) {
+		else if (gambleAmount > row.scrap) {
 			return message.reply(`❌ You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can trade your ${app.icons.money} Lootcoin for ${app.icons.scrap} Scrap: \`${prefix}buy scrap <amount>\``)
 		}
 
-		if (gambleAmount > 1000000) {
+		else if (gambleAmount > 1000000) {
 			return message.reply(`You cannot gamble more than **${app.common.formatNumber(1000000, false, true)}**`)
 		}
 
 		await app.player.removeScrap(message.author.id, gambleAmount, serverSideGuildId)
-		const mainRowGif = app.icons.slots_midrow_gif
-		const topRowGif = app.icons.slots_botrow_gif
-		const botRowGif = app.icons.slots_toprow_gif
-		const slotEmotes = [app.icons.slots_common_icon, app.icons.slots_rare_icon, app.icons.slots_epic_icon, app.icons.slots_legendary_icon]
-		const col = {
-			1: [],
-			2: [],
-			3: []
-		}
-		const slotFinal = []
+		await app.cd.setCD(message.author.id, 'slots', app.config.cooldowns.slots * 1000, { serverSideGuildId })
 
-		let winnings = 0
-		let rewardMltp = 0.00 // used to check if user wins, also multiplies the amount user entered
+		const col1 = getSlot(Math.random())
+		const col2 = getSlot(Math.random())
+		const col3 = getSlot(Math.random())
+		let multiplier = 0
 
-		for (let i = 1; i <= 3; i++) {
-			const chance = Math.floor(Math.random() * 200)
-			if (chance <= 100) {
-				// unbox common
-				col[i].push(slotEmotes[3], slotEmotes[0], slotEmotes[1])
-				slotFinal.push('common')
-			}
-			else if (chance <= 150) {
-				// unbox rare
-				col[i].push(slotEmotes[0], slotEmotes[1], slotEmotes[2])
-				slotFinal.push('rare')
-			}
-			else if (chance <= 180) {
-				col[i].push(slotEmotes[1], slotEmotes[2], slotEmotes[3])
-				slotFinal.push('epic')
-			}
-			else {
-				// legend
-				col[i].push(slotEmotes[2], slotEmotes[3], slotEmotes[0])
-				slotFinal.push('legend')
-			}
+		// all columns match
+		if (col1.multi === col2.multi && col1.multi === col3.multi) {
+			multiplier = col1.multi
 		}
-		if (slotFinal[0] === slotFinal[1] && slotFinal[1] === slotFinal[2]) {
-			// all 3 match
-			if (slotFinal[0] === 'common') {
-				// 1x
-				rewardMltp = 2.00
-			}
-			else if (slotFinal[0] === 'rare') {
-				// 3x
-				rewardMltp = 3.00
-			}
-			else if (slotFinal[0] === 'epic') {
-				// 4x
-				rewardMltp = 6.00
-			}
-			else if (slotFinal[0] === 'legend') {
-				// 10x
-				rewardMltp = 10.00
-			}
-		}
-		else if (slotFinal[0] === slotFinal[1] || slotFinal[1] === slotFinal[2]) {
-			// 2 of the same on left or right sides
-			if (slotFinal[1] === 'common') {
-				rewardMltp = 0.80
-			}
-			else if (slotFinal[1] === 'rare') {
-				// 1.5x
-				rewardMltp = 1.50
-			}
-			else if (slotFinal[1] === 'epic') {
-				// 3x
-				rewardMltp = 3.00
-			}
-			else if (slotFinal[1] === 'legend') {
-				// 4x
-				rewardMltp = 5.00
-			}
+		// only 2 columns match
+		else if (col1.multi === col2.multi || col2.multi === col3.multi) {
+			multiplier = col2.multi / 2
 		}
 
-		winnings = Math.floor(gambleAmount * rewardMltp)
-		await app.player.addScrap(message.author.id, winnings, serverSideGuildId)
+		const winnings = Math.floor(gambleAmount * multiplier)
+
+		if (winnings > 0) {
+			await app.player.addScrap(message.author.id, winnings, serverSideGuildId)
+		}
 
 		if (winnings >= 2000000) {
 			await app.itm.addBadge(message.author.id, 'gambler', serverSideGuildId)
 		}
 
-		const template = `⬛${topRowGif} ${topRowGif} ${topRowGif}⬛\n▶${mainRowGif} ${mainRowGif} ${mainRowGif}◀\n⬛${botRowGif} ${botRowGif} ${botRowGif}⬛`
-
 		const slotEmbed = new app.Embed()
 			.setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
 			.setTitle('Slot Machine')
-			.setDescription(template)
+			.setDescription(`⬛ ${app.icons.slots_toprow_gif.repeat(3)} ⬛\n▶ ${app.icons.slots_midrow_gif.repeat(3)} ◀\n⬛ ${app.icons.slots_botrow_gif.repeat(3)} ⬛`)
 
 		const botMsg = await message.channel.createMessage(slotEmbed)
 
-		const slots1 = `⬛${col['1'][0]} ${topRowGif} ${topRowGif}⬛\n` +
-                        `▶${col['1'][1]} ${mainRowGif} ${mainRowGif}◀\n` +
-                        `⬛${col['1'][2]} ${botRowGif} ${botRowGif}⬛`
-		const slots2 = `⬛${col['1'][0]} ${col['2'][0]} ${topRowGif}⬛\n` +
-                        `▶${col['1'][1]} ${col['2'][1]} ${mainRowGif}◀\n` +
-                        `⬛${col['1'][2]} ${col['2'][2]} ${botRowGif}⬛`
-		let slots3 = ''
-		if (rewardMltp !== 0.00) {
-			slots3 = `⬛${col['1'][0]} ${col['2'][0]} ${col['3'][0]}⬛\n` +
-                        `▶${col['1'][1]} ${col['2'][1]} ${col['3'][1]}◀ You won **${app.common.formatNumber(winnings, false, true)}** Scrap! (${rewardMltp.toFixed(2)}x)\n` +
-                        `⬛${col['1'][2]} ${col['2'][2]} ${col['3'][2]}⬛`
-		}
-		else {
-			slots3 = `⬛${col['1'][0]} ${col['2'][0]} ${col['3'][0]}⬛\n` +
-                        `▶${col['1'][1]} ${col['2'][1]} ${col['3'][1]}◀ You lost!\n` +
-                        `⬛${col['1'][2]} ${col['2'][2]} ${col['3'][2]}⬛ Better luck next time.`
-		}
-
-		slotEmbed.setDescription(slots1)
-
 		setTimeout(() => {
-			botMsg.edit(slotEmbed)
+			const newEmbed = slotEmbed
+				.setDescription(`⬛ ${col1.top} ${app.icons.slots_toprow_gif.repeat(2)} ⬛\n▶ ${col1.mid} ${app.icons.slots_midrow_gif.repeat(2)} ◀\n⬛ ${col1.bot} ${app.icons.slots_botrow_gif.repeat(2)} ⬛`)
 
-			slotEmbed.setDescription(slots2)
+			botMsg.edit(newEmbed)
 		}, 1000)
 
 		setTimeout(() => {
-			botMsg.edit(slotEmbed)
+			const newEmbed = slotEmbed
+				.setDescription(`⬛ ${col1.top} ${col2.top} ${app.icons.slots_toprow_gif} ⬛\n▶ ${col1.mid} ${col2.mid} ${app.icons.slots_midrow_gif} ◀\n⬛ ${col1.bot} ${col2.bot} ${app.icons.slots_botrow_gif} ⬛`)
 
-			slotEmbed.setDescription(slots3)
-			slotEmbed.setColor(rewardMltp !== 0.00 ? 720640 : 13632027)
+			botMsg.edit(newEmbed)
 		}, 2000)
 
 		setTimeout(() => {
-			botMsg.edit(slotEmbed)
-		}, 3400)
+			const newEmbed = slotEmbed
+				.setDescription(`⬛ ${col1.top} ${col2.top} ${col3.top}⬛\n▶ ${col1.mid} ${col2.mid} ${col3.mid} ◀\n⬛ ${col1.bot} ${col2.bot} ${col3.mid} ⬛`)
+			let endString = ''
 
-		await app.cd.setCD(message.author.id, 'slots', app.config.cooldowns.slots * 1000, { serverSideGuildId })
+			if (winnings > 0) {
+				newEmbed.setColor(720640)
+				endString = `You won **${app.common.formatNumber(winnings, false, true)} scrap** (${multiplier}x)`
+			}
+			else {
+				newEmbed.setColor(13632027)
+				endString = 'You lost!'
+			}
+
+			botMsg.edit({
+				embed: newEmbed.embed,
+				content: endString
+			})
+		}, 3500)
+	}
+}
+
+const getSlot = exports.getSlot = function getSlot(randomInt) {
+	if (randomInt < 0.1) {
+		return {
+			top: '💰',
+			mid: '💎',
+			bot: '💵',
+			multi: 10
+		}
+	}
+	else if (randomInt < 0.3) {
+		return {
+			top: '💸',
+			mid: '💰',
+			bot: '💎',
+			multi: 5
+		}
+	}
+	else if (randomInt < 0.6) {
+		return {
+			top: '💵',
+			mid: '💸',
+			bot: '💰',
+			multi: 3
+		}
+	}
+
+	return {
+		top: '💎',
+		mid: '💵',
+		bot: '💸',
+		multi: 2
 	}
 }
