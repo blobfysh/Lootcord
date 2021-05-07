@@ -55,7 +55,7 @@ router.post('/commands', async(req, res) => {
 	function getUsage(command) {
 		let finalStr = `t-${command.name}`
 
-		for (const arg of Object.keys(command.args)) {
+		for (const arg in command.args) {
 			finalStr += ` <${arg}>`
 		}
 
@@ -66,7 +66,7 @@ router.post('/commands', async(req, res) => {
 		const commandFiles = fs.readdirSync(path.join(__dirname, `/../../commands/${category}`)).filter(file => file.endsWith('.js'))
 
 		for (const file of commandFiles) {
-			const command = require(`../../commands/${category}/${file}`)
+			const { command } = require(`../../commands/${category}/${file}`)
 
 			commandInfo.push({
 				command: command.name,
