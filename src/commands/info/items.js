@@ -71,6 +71,9 @@ exports.command = {
 			if (itemInfo.chanceToBreak) {
 				embedItem.addField('Chance to break', `\`${itemInfo.chanceToBreak * 100}%\``, true)
 			}
+			else if (itemInfo.breaksOnUse) {
+				embedItem.addField('Chance to break', '100% (item always breaks)', true)
+			}
 
 			if (itemInfo.buy.currency !== undefined && (itemInfo.buy.currency === 'money' || itemInfo.buy.currency === 'scrap')) {
 				embedItem.addField('Buy', app.common.formatNumber(itemInfo.buy.amount, false, itemInfo.buy.currency === 'scrap'), true)

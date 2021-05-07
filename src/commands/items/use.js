@@ -43,7 +43,7 @@ exports.command = {
 			}
 
 			// check for ammo and add ammo damage
-			if (itemInfo.category === 'Ranged') {
+			if (itemInfo.category === 'Ranged' && itemInfo.ammo !== '') {
 				const possibleAmmo = itemInfo.ammo.sort(app.itm.sortItemsHighLow.bind(app))
 				const availableAmmo = []
 
@@ -409,7 +409,7 @@ exports.command = {
 				}
 
 				// check if ranged weapon breaks
-				if (itemInfo.category === 'Ranged' && Math.random() <= parseFloat(itemInfo.chanceToBreak)) {
+				if (itemInfo.category === 'Ranged' && ammoUsed && Math.random() <= parseFloat(itemInfo.chanceToBreak)) {
 					weaponBreaks = true
 					await app.itm.removeItem(message.author.id, item, 1, serverSideGuildId)
 					await app.itm.addItem(message.author.id, itemInfo.recyclesTo.materials, null, serverSideGuildId)

@@ -259,33 +259,6 @@
         "aliases": [],
         "tier": 0
     },
-    "f1_grenade": {
-        "minDmg": 19,
-        "maxDmg": 30,
-        "ammo": "",
-        "craftedWith": "",
-        "recyclesTo": {
-            "materials": []
-        },
-        "buy": "",
-        "sell": 4278,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930107852980234/f1_grenade.png",
-        "icon": "<:f1_grenade:750105091222143056>",
-        "breaksOnUse": true,
-        "canBeStolen": true,
-        "cooldown": {
-            "seconds": 1862
-        },
-        "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
-        "artist": "",
-        "category": "Melee",
-        "aliases": [
-            "f1",
-            "grenade"
-        ],
-        "tier": 1
-    },
     "longsword": {
         "minDmg": 24,
         "maxDmg": 31,
