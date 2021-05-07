@@ -86,7 +86,7 @@ exports.command = {
 
 		setTimeout(() => {
 			const newEmbed = slotEmbed
-				.setDescription(`⬛ ${col1.top} ${col2.top} ${col3.top}⬛\n▶ ${col1.mid} ${col2.mid} ${col3.mid} ◀\n⬛ ${col1.bot} ${col2.bot} ${col3.mid} ⬛`)
+				.setDescription(`⬛ ${col1.top} ${col2.top} ${col3.top}⬛\n▶ ${col1.mid} ${col2.mid} ${col3.mid} ◀\n⬛ ${col1.bot} ${col2.bot} ${col3.bot} ⬛`)
 			let endString = ''
 
 			if (winnings > 0) {
