@@ -69,7 +69,7 @@ exports.command = {
 				embedItem.addField('Cooldown', `\`${app.cd.convertTime(itemInfo.cooldown.seconds * 1000)}\``, true)
 			}
 			if (itemInfo.chanceToBreak) {
-				embedItem.addField('Chance to break', `\`${itemInfo.chanceToBreak * 100}%\``, true)
+				embedItem.addField('Chance to break', `${itemInfo.chanceToBreak * 100}%`, true)
 			}
 			else if (itemInfo.breaksOnUse) {
 				embedItem.addField('Chance to break', '100% (item always breaks)', true)
@@ -100,7 +100,7 @@ exports.command = {
 			const ammoFor = itemsArraySorted.filter(item => app.itemdata[item].ammo !== '' && app.itemdata[item].ammo.includes(itemSearched))
 
 			if (ammoFor.length) {
-				embedItem.addField('Damage', ammoFor.sort(app.itm.sortItemsHighLow.bind(app))
+				embedItem.addField('Damage (as ammo)', ammoFor.sort(app.itm.sortItemsHighLow.bind(app))
 					.map(weapon => `${app.itemdata[weapon].icon}\`${weapon}\` ${itemInfo.damage + app.itemdata[weapon].minDmg} - ${itemInfo.damage + app.itemdata[weapon].maxDmg}${getStatusEffectStr(itemInfo)}`)
 					.join('\n'))
 			}
