@@ -62,9 +62,11 @@ exports.command = {
 			timeZone: 'America/New_York'
 		}))
 		const todaysMonth = converted.getMonth()
-		let description = '**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**' +
-		`\nFor details on using clan commands, you can type \`${prefix}clan help\`, or check this [link](https://lootcord.com/guides/clans).` +
-        '\n\n**Check out [Lootcord Monthly](https://discord.com/oauth2/authorize?client_id=755926417954308106&permissions=388160&scope=bot%20applications.commands \'Click to invite Lootcord Monthly\')! A new version of Lootcord that wipes items/money every month.**'
+		let description = '**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**'
+
+		if (serverSideGuildId) {
+			description += '\n*Server-side economy enabled*'
+		}
 
 		converted.setDate(converted.getDate() + 10)
 
@@ -95,7 +97,7 @@ exports.command = {
 		if (categoriesArr.includes('blackmarket') && !serverSideGuildId) embed.addField('💰 Black Market', categories.blackmarket.map(cmd => `\`${cmd}\``).join(' '))
 		if (categoriesArr.includes('utilities')) embed.addField('⚙ Utility', categories.utilities.map(cmd => `\`${cmd}\``).join(' '))
 		if (categoriesArr.includes('other')) embed.addField('📈 Other', categories.other.map(cmd => `\`${cmd}\``).join(' '))
-		if (!serverSideGuildId) embed.addField('⚔️ Clans', app.clanCommands.map(cmd => `\`${cmd.name}\``).join(' '))
+		if (!serverSideGuildId) embed.addField('⚔️ Clans', `For details on using clan commands, you can type \`${prefix}clan help\`, or check this [link](https://lootcord.com/guides/clans).\n\n${app.clanCommands.map(cmd => `\`${cmd.name}\``).join(' ')}`)
 
 		message.channel.createMessage(embed)
 	}
