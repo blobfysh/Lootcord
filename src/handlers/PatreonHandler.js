@@ -1,3 +1,5 @@
+const axios = require('axios')
+
 class PatreonHandler {
 	constructor(app) {
 		this.app = app
@@ -63,6 +65,8 @@ class PatreonHandler {
 	}
 
 	async removePatrons(supportGuild) {
+		await this.removePatronRoles(supportGuild)
+
 		const members = supportGuild.members
 		const patronRows = await this.app.query('SELECT * FROM patrons')
 
@@ -79,6 +83,76 @@ class PatreonHandler {
 					this.lostTier(patronRows[i].userId, tier, `\`${patronRows[i].userId}\`'s tier ${tier} pledge was not renewed.`)
 				}
 			}
+		}
+	}
+
+	/**
+	 * Fetches patrons using the patreon API
+	 */
+	async fetchPatrons() {
+		const patrons = []
+		let paginatedLink = `https://www.patreon.com/api/oauth2/v2/campaigns/${this.app.config.patreon.campaignId}/members?include=user,currently_entitled_tiers&fields%5Bmember%5D=patron_status&fields%5Buser%5D=social_connections`
+
+		while (paginatedLink) {
+			const { data } = await axios({
+				method: 'GET',
+				url: paginatedLink,
+				headers: {
+					Authorization: `Bearer ${this.app.config.patreon.creatorToken}`
+				}
+			})
+
+			for (const user of data.data) {
+				const socialConnections = data.included.find(u => u.id === user.relationships.user.data.id).attributes.social_connections || undefined
+
+				const patronData = {
+					patronId: user.relationships.user.data.id,
+					patronTiers: user.relationships.currently_entitled_tiers.data,
+					patronStatus: user.attributes.patron_status,
+					discordId: socialConnections && socialConnections.discord && socialConnections.discord.user_id
+				}
+
+				patrons.push(patronData)
+			}
+
+			paginatedLink = data.links && data.links.next
+		}
+
+		return patrons
+	}
+
+	/**
+	 * Remove the patron role from users who are no longer pledged (doing this because the patreon bot sometimes fails to remove role)
+	 */
+	async removePatronRoles(supportGuild) {
+		try {
+			const patrons = await this.fetchPatrons()
+
+			await supportGuild.fetchAllMembers()
+
+			const patronRoles = [
+				this.app.config.donatorRoles.tier1Patreon,
+				this.app.config.donatorRoles.tier2Patreon,
+				this.app.config.donatorRoles.tier3Patreon,
+				this.app.config.donatorRoles.tier4Patreon
+			]
+			const patronMembers = supportGuild.members.filter(mem => mem.roles.some(role => patronRoles.includes(role)))
+			const activePatrons = patrons.filter(patron => patron.patronStatus === 'active_patron').map(patron => patron.discordId)
+
+			for (const member of patronMembers) {
+				if (!activePatrons.includes(member.id)) {
+					// member has patron role but is no longer a patron (WHY DOES THIS HAPPEN PATREON BOT?)
+					const rolesToRemove = member.roles.filter(role => patronRoles.includes(role))
+
+					for (const role of rolesToRemove) {
+						await member.removeRole(role, 'User is no longer an active patron')
+					}
+				}
+			}
+		}
+		catch (err) {
+			// patreon api error?
+			console.error(`Failed to retrieve active patron from patreon API: ${err.message}`)
 		}
 	}
 

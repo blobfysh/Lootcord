@@ -58,6 +58,11 @@ exports.donatorRoles = {
 	tier4Patreon: process.env.TIER4_PATREON_ROLE_ID
 }
 
+exports.patreon = {
+	campaignId: process.env.PATREON_CAMPAIGN_ID,
+	creatorToken: process.env.PATREON_CREATOR_TOKEN
+}
+
 // Bot lists to post stats to
 exports.botLists = [
 	{
