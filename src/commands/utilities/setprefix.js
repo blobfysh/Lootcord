@@ -30,6 +30,6 @@ exports.command = {
 		await app.query('INSERT IGNORE INTO guildprefix (guildId, prefix) VALUES (?, ?)', [message.channel.guild.id, prefixString])
 		await app.cache.set(`prefix|${message.channel.guild.id}`, prefixString, 43200)
 
-		message.reply(`Server prefix successfully changed to \`${prefixString}\``)
+		message.reply(`Server prefix successfully changed to \`${prefixString}\`. For example, you can now use \`${prefixString}help\``)
 	}
 }
