@@ -42,25 +42,25 @@ exports.command = {
 				FROM userguilds
 				INNER JOIN server_scores
 				ON userguilds.userId = server_scores.userId
-				WHERE userguilds.guildId ="${message.channel.guild.id}"
+				WHERE userguilds.guildId ="${message.channel.guild.id}" AND server_scores.guildId ="${message.channel.guild.id}"
 				ORDER BY money DESC LIMIT 3`)
 			scrapRows = await app.query(`SELECT server_scores.userId, scrap, badge
 				FROM userguilds
 				INNER JOIN server_scores
 				ON userguilds.userId = server_scores.userId
-				WHERE userguilds.guildId ="${message.channel.guild.id}"
+				WHERE userguilds.guildId ="${message.channel.guild.id}" AND server_scores.guildId ="${message.channel.guild.id}"
 				ORDER BY scrap DESC LIMIT 3`)
 			levelRows = await app.query(`SELECT server_scores.userId, level, badge
 				FROM userguilds
 				INNER JOIN server_scores
 				ON userguilds.userId = server_scores.userId
-				WHERE userguilds.guildId ="${message.channel.guild.id}"
+				WHERE userguilds.guildId ="${message.channel.guild.id}" AND server_scores.guildId ="${message.channel.guild.id}"
 				ORDER BY level DESC LIMIT 3`)
 			killRows = await app.query(`SELECT server_scores.userId, kills, badge
 				FROM userguilds
 				INNER JOIN server_scores
 				ON userguilds.userId = server_scores.userId
-				WHERE userguilds.guildId ="${message.channel.guild.id}"
+				WHERE userguilds.guildId ="${message.channel.guild.id}" AND server_scores.guildId ="${message.channel.guild.id}"
 				ORDER BY kills DESC LIMIT 3`)
 		}
 		else {
