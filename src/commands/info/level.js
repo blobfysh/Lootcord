@@ -19,7 +19,7 @@ exports.command = {
 			const craftableItems = Object.keys(app.itemdata).filter(item => app.itemdata[item].craftedWith !== '' && app.itemdata[item].craftedWith.level === row.level + 1)
 			craftableItems.sort(app.itm.sortItemsHighLow.bind(app))
 
-			const recipes = craftableItems ?
+			const recipes = craftableItems.length ?
 				`\n\nCrafting recipes you'll unlock next level:\n${craftableItems.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n')}` :
 				''
 
