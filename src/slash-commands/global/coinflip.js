@@ -4,7 +4,7 @@ const LOSE_QUOTES = ['You just lost **{0}**!', 'Congratulations! You just lost *
 
 exports.command = {
 	name: 'coinflip',
-	description: 'Gamble your scrap for a 50% chance of winning 2x what you bet.',
+	description: 'Flip a coin for a chance to win 2x what you bet.',
 	requiresAcc: true,
 	requiresActive: true,
 	options: [
@@ -57,7 +57,7 @@ exports.command = {
 			})
 		}
 
-		if (Math.random() < 0.5) {
+		if (Math.random() < 0.4) {
 			await app.player.addMoney(interaction.member.user.id, gambleAmount, serverSideGuildId)
 
 			if (gambleAmount >= 100000) {

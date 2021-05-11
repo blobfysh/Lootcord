@@ -5,7 +5,7 @@ exports.command = {
 	name: 'coinflip',
 	aliases: ['cf'],
 	description: 'Flip a coin for a chance to win!',
-	long: 'Gamble your scrap for a 50% chance of winning 2x what you bet!',
+	long: 'Flip a coin for a chance to win 2x what you bet!',
 	args: { amount: 'Amount of scrap to gamble.' },
 	examples: ['cf 1000'],
 	permissions: ['sendMessages', 'externalEmojis'],
@@ -41,7 +41,7 @@ exports.command = {
 		}
 
 
-		if (Math.random() < 0.5) {
+		if (Math.random() < 0.4) {
 			await app.player.addMoney(message.author.id, gambleAmount, serverSideGuildId)
 
 			if (gambleAmount >= 50000) {

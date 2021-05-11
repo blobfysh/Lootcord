@@ -46,7 +46,7 @@ exports.command = {
 		const winnings = Math.floor(gambleAmount * multiplier)
 		const chance = Math.floor(Math.random() * 100) // return 1-100
 
-		if (chance <= 20) {
+		if (chance <= 23) {
 			let healthDeduct = getDamage(gambleAmount)
 
 			if (row.health <= healthDeduct) {
