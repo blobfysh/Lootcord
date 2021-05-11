@@ -3,7 +3,7 @@ exports.command = {
 	aliases: [],
 	description: 'Play a game of Russian roulette.',
 	long: 'Play a game of Russian roulette.\nIf you survive, you win **1.2x** what you bet.\nIf you lose, you\'ll be shot for **20 - 50** damage (depending on your bet) and lose your bet amount.',
-	args: { amount: 'Amount of Scrap to gamble.' },
+	args: { amount: 'Amount of scrap to gamble.' },
 	examples: ['roulette 1000'],
 	permissions: ['sendMessages', 'externalEmojis'],
 	ignoreHelp: false,
@@ -17,7 +17,7 @@ exports.command = {
 		let gambleAmount = app.parse.numbers(args)[0]
 
 		if (!gambleAmount && args[0] && args[0].toLowerCase() === 'all') {
-			gambleAmount = row.scrap >= 1000000 ? 1000000 : row.scrap
+			gambleAmount = row.money >= 50000 ? 50000 : row.money
 		}
 
 		if (rouletteCD) {
@@ -29,18 +29,18 @@ exports.command = {
 		}
 
 		if (!gambleAmount || gambleAmount < 100) {
-			return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100, false, true)}** to gamble!`)
+			return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100)}** to gamble!`)
 		}
 
-		if (gambleAmount > row.scrap) {
-			return message.reply(`❌ You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can trade your ${app.icons.money} Lootcoin for ${app.icons.scrap} Scrap: \`${prefix}buy scrap <amount>\``)
+		if (gambleAmount > row.money) {
+			return message.reply(`❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
 		}
 
-		if (gambleAmount > 1000000) {
-			return message.reply(`You cannot gamble more than **${app.common.formatNumber(1000000, false, true)}**`)
+		if (gambleAmount > 50000) {
+			return message.reply(`You cannot gamble more than **${app.common.formatNumber(50000)}**`)
 		}
 
-		await app.player.removeScrap(message.author.id, gambleAmount, serverSideGuildId)
+		await app.player.removeMoney(message.author.id, gambleAmount, serverSideGuildId)
 
 		const multiplier = 1.2
 		const winnings = Math.floor(gambleAmount * multiplier)
@@ -57,16 +57,16 @@ exports.command = {
 
 			message.reply('***Click***').then(msg => {
 				setTimeout(() => {
-					msg.edit(`<@${message.author.id}>, 💥 The gun fires! You took ***${healthDeduct}*** damage and now have ${app.player.getHealthIcon(row.health - healthDeduct, row.maxHealth)} **${row.health - healthDeduct} / ${row.maxHealth}** health. Oh, and you also lost **${app.common.formatNumber(gambleAmount, false, true)}** Scrap`)
+					msg.edit(`<@${message.author.id}>, 💥 The gun fires! You took ***${healthDeduct}*** damage and now have ${app.player.getHealthIcon(row.health - healthDeduct, row.maxHealth)} **${row.health - healthDeduct} / ${row.maxHealth}** health. Oh, and you also lost **${app.common.formatNumber(gambleAmount)}** scrap`)
 				}, 1500)
 			})
 		}
 		else {
-			await app.player.addScrap(message.author.id, winnings, serverSideGuildId)
+			await app.player.addMoney(message.author.id, winnings, serverSideGuildId)
 
 			message.reply('***Click***').then(msg => {
 				setTimeout(() => {
-					msg.edit(`<@${message.author.id}>, You survived! Your winnings are: **${app.common.formatNumber(winnings, false, true)}**`)
+					msg.edit(`<@${message.author.id}>, You survived! Your winnings are: **${app.common.formatNumber(winnings)}**`)
 				}, 1500)
 			})
 		}
@@ -76,8 +76,8 @@ exports.command = {
 }
 
 function getDamage(bet) {
-	// max damage at 50k+ bets.
-	const percDamageAdded = bet / 50000 > 1 ? 1 : bet / 50000
+	// max damage at 10k+ bets.
+	const percDamageAdded = bet / 10000 > 1 ? 1 : bet / 10000
 
 	return 20 + Math.floor(percDamageAdded * 30)
 }

@@ -41,7 +41,7 @@
         },
         "buy": {
             "amount": 43370,
-            "currency": "scrap"
+            "currency": "money"
         },
         "sell": "",
         "desc": "Inventory banner that can only be bought. Equip this to give your profile a fresh new look!",
@@ -70,7 +70,7 @@
         },
         "buy": {
             "amount": 126731,
-            "currency": "scrap"
+            "currency": "money"
         },
         "sell": "",
         "desc": "Equip this to give your profile a fresh new look!",
@@ -97,7 +97,7 @@
         },
         "buy": {
             "amount": 90817,
-            "currency": "scrap"
+            "currency": "money"
         },
         "sell": "",
         "desc": "Equip this to give your profile a fresh new look!",
@@ -124,7 +124,7 @@
         },
         "buy": {
             "amount": 410015,
-            "currency": "scrap"
+            "currency": "money"
         },
         "sell": "",
         "desc": "For only the best. Equip this to give your profile a fresh new look!",
@@ -151,7 +151,7 @@
         },
         "buy": {
             "amount": 1348700,
-            "currency": "scrap"
+            "currency": "money"
         },
         "sell": "",
         "desc": "Equip this to give your profile a fresh new look!",

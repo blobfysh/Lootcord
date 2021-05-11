@@ -86,7 +86,7 @@ const generatePages = exports.generatePages = async function generatePages(app, 
 
 			embedInfo.addField('Health', healthStr, true)
 
-			embedInfo.addField('Money', `${app.common.formatNumber(userRow.money)}\n${app.common.formatNumber(userRow.scrap, false, true)}`, true)
+			embedInfo.addField('Money', app.common.formatNumber(userRow.money), true)
 
 			if (userRow.backpack === 'none') {
 				embedInfo.addField('Storage Container', 'None equipped', true)

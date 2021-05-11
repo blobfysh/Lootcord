@@ -2,7 +2,7 @@ exports.command = {
 	name: 'enablespawns',
 	aliases: ['enablebounty', 'enablespawn'],
 	description: 'Lure strong enemies to your server.',
-	long: 'Lure strong enemies to randomly spawn in this channel. Defeat them to steal their items and Lootcoin!\nUser **MUST** have the Manage Server permission.',
+	long: 'Lure strong enemies to randomly spawn in this channel. Defeat them to steal their items and scrap!\nUser **MUST** have the Manage Server permission.',
 	args: {},
 	examples: [],
 	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],

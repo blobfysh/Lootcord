@@ -3,7 +3,7 @@ exports.command = {
 	aliases: ['put'],
 	description: 'Deposit items into your clans vault.',
 	long: 'Deposit items into your clans vault.',
-	args: { 'item/money': 'Item to deposit or money to deposit.', 'amount': 'Amount of item or money to deposit.' },
+	args: { 'item/scrap': 'Item to deposit or scrap to deposit.', 'amount': 'Amount of item or scrap to deposit.' },
 	examples: ['clan deposit assault_rifle 1', 'clan deposit 3000'],
 	requiresClan: true,
 	requiresActive: true,
@@ -27,7 +27,7 @@ exports.command = {
 			return message.reply('❌ You are trade banned.')
 		}
 		else if (!itemName && !itemAmnt) {
-			return message.reply('You need to specify an item or money to deposit into the clan! `clan deposit <item/money> <amount>`')
+			return message.reply('You need to specify an item or scrap to deposit into the clan! `clan deposit <item/scrap> <amount>`')
 		}
 
 		if (isMoney) {
@@ -39,7 +39,7 @@ exports.command = {
 
 				if (itemAmnt > userRow.money) {
 					await transaction.commit()
-					return message.reply(`❌ You don't have that much money! You currently have **${app.common.formatNumber(userRow.money)}**`)
+					return message.reply(`❌ You don't have that much scrap! You currently have **${app.common.formatNumber(userRow.money)}**`)
 				}
 				else if (clanRow.money + itemAmnt > bankLimit) {
 					await transaction.commit()
@@ -55,7 +55,7 @@ exports.command = {
 				await app.player.removeMoneySafely(transaction.query, message.author.id, itemAmnt)
 				await transaction.commit()
 
-				app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} deposited ${app.common.formatNumber(itemAmnt, true)} Lootcoin`)
+				app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} deposited ${app.common.formatNumber(itemAmnt, true)} scrap`)
 
 				return message.reply(`Deposited **${app.common.formatNumber(itemAmnt)}**\n\nThe clan bank now has **${app.common.formatNumber(clanRow.money + itemAmnt)}**`)
 			}

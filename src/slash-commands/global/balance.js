@@ -13,7 +13,7 @@ exports.command = {
 		return interaction.respond({
 			type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 			data: {
-				content: `You currently have:\n\nLootcoin: ${app.common.formatNumber(row.money)}\nScrap: ${app.common.formatNumber(row.scrap, false, true)}`
+				content: `You currently have ${app.common.formatNumber(row.money)}`
 			}
 		})
 	}

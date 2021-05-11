@@ -392,8 +392,8 @@ class LoopTasks {
 
 				const logEmbed = new this.app.Embed()
 					.setTitle('Discoin Conversion')
-					.setDescription(`${transaction.from.name}(${transaction.from.id}) to Lootcoin\n\n[Link](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)`)
-					.addField('Lootcoin Payout', `${this.app.common.formatNumber(payout)} (${this.app.common.formatNumber(refunded)} refunded)`, true)
+					.setDescription(`${transaction.from.name}(${transaction.from.id}) to Scrap\n\n[Link](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)`)
+					.addField('Scrap Payout', `${this.app.common.formatNumber(payout)} (${this.app.common.formatNumber(refunded)} refunded)`, true)
 					.addField('User', `\`\`\`\n${transaction.user}\`\`\``)
 					.setFooter(`Transaction ID: ${transaction.id}`)
 					.setColor(13451564)

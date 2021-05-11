@@ -3,7 +3,7 @@ exports.command = {
 	aliases: ['take'],
 	description: 'Withdraw items from your clans vault.',
 	long: 'Withdraw items from your clans vault.',
-	args: { 'item/money': 'Item to withdraw or money to withdraw.', 'amount': 'Amount of item or money to take out.' },
+	args: { 'item/scrap': 'Item to withdraw or scrap to withdraw.', 'amount': 'Amount of item or scrap to take out.' },
 	examples: ['clan withdraw military_crate 2', 'clan withdraw 2000'],
 	requiresClan: true,
 	requiresActive: true,
@@ -24,7 +24,7 @@ exports.command = {
 			return message.reply('Your clan is being raided **RIGHT NOW**, you cannot withdraw items while being raided.')
 		}
 		else if (!itemName && !itemAmnt) {
-			return message.reply('You need to specify an item or money to withdraw from the clan! `clan withdraw <item/money> <amount>`')
+			return message.reply('You need to specify an item or scrap to withdraw from the clan! `clan withdraw <item/scrap> <amount>`')
 		}
 
 		if (isMoney) {

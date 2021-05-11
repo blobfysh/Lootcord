@@ -4,7 +4,7 @@ const LOSE_QUOTES = ['You just lost **{0}**!', 'Congratulations! You just lost *
 
 exports.command = {
 	name: 'coinflip',
-	description: 'Gamble your Scrap for a 50% chance of winning 2x what you bet.',
+	description: 'Gamble your scrap for a 50% chance of winning 2x what you bet.',
 	requiresAcc: true,
 	requiresActive: true,
 	options: [
@@ -34,50 +34,50 @@ exports.command = {
 			return interaction.respond({
 				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 				data: {
-					content: `Please specify an amount of at least **${app.common.formatNumber(100, false, true)}** to gamble!`
+					content: `Please specify an amount of at least **${app.common.formatNumber(100)}** to gamble!`
 				}
 			})
 		}
 
-		else if (gambleAmount > row.scrap) {
+		else if (gambleAmount > row.money) {
 			return interaction.respond({
 				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 				data: {
-					content: `❌ You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can trade your ${app.icons.money} Lootcoin for ${app.icons.scrap} Scrap: \`t-buy scrap <amount>\``
+					content: `❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`
 				}
 			})
 		}
 
-		else if (gambleAmount > 1000000) {
+		else if (gambleAmount > 50000) {
 			return interaction.respond({
 				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 				data: {
-					content: `Woah there high roller, you cannot gamble more than **${app.common.formatNumber(1000000, false, true)}** on coinflip.`
+					content: `Woah there high roller, you cannot gamble more than **${app.common.formatNumber(50000)}** on coinflip.`
 				}
 			})
 		}
 
 		if (Math.random() < 0.5) {
-			await app.player.addScrap(interaction.member.user.id, gambleAmount, serverSideGuildId)
+			await app.player.addMoney(interaction.member.user.id, gambleAmount, serverSideGuildId)
 
-			if (gambleAmount >= 1000000) {
+			if (gambleAmount >= 100000) {
 				await app.itm.addBadge(interaction.member.user.id, 'gambler', serverSideGuildId)
 			}
 
 			await interaction.respond({
 				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 				data: {
-					content: WIN_QUOTES[Math.floor(Math.random() * WIN_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount * 2, false, true))
+					content: WIN_QUOTES[Math.floor(Math.random() * WIN_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount * 2))
 				}
 			})
 		}
 		else {
-			await app.player.removeScrap(interaction.member.user.id, gambleAmount, serverSideGuildId)
+			await app.player.removeMoney(interaction.member.user.id, gambleAmount, serverSideGuildId)
 
 			await interaction.respond({
 				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 				data: {
-					content: LOSE_QUOTES[Math.floor(Math.random() * LOSE_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount, false, true))
+					content: LOSE_QUOTES[Math.floor(Math.random() * LOSE_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount))
 				}
 			})
 		}

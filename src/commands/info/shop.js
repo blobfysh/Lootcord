@@ -34,9 +34,11 @@ async function generatePages(app, allItems, prefix, itemsPerPage, isServerSideEc
 	const pages = []
 	const maxPage = Math.ceil(allItems.length / itemsPerPage)
 
+	/* TODO replace scrap deals with something else
 	if (!isServerSideEconomy) {
 		pages.push(await getHomePage(app, prefix))
 	}
+	*/
 
 	for (let i = 1; i < maxPage + 1; i++) {
 		const indexFirst = (itemsPerPage * i) - itemsPerPage
@@ -74,7 +76,6 @@ async function getHomePage(app, prefix) {
 
 	const firstEmbed = new app.Embed()
 	firstEmbed.setTitle('Welcome to the Outpost!')
-	firstEmbed.setDescription(`We'll give you ${app.icons.scrap} Scrap for your ${app.icons.money} Lootcoin:\n\`${prefix}buy scrap <amount>\``)
 	firstEmbed.setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/733741460868038706/outpost_shop_small.png')
 	firstEmbed.setColor(13451564)
 

@@ -1,6 +1,5 @@
 const resetData = {
 	money: 100,
-	scrap: 500,
 	backpack: '"none"',
 	badge: '"none"',
 	inv_slots: 0,

@@ -1,0 +1,2 @@
+ALTER TABLE scores ADD COLUMN scrap BIGINT AFTER money;
+ALTER TABLE server_scores ADD COLUMN scrap BIGINT AFTER money;

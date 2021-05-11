@@ -125,7 +125,6 @@ exports.command = {
 					const randomItems = await app.itm.getRandomUserItems(victimItems)
 					const xpGained = randomItems.items.length * 50
 					const moneyStolen = Math.floor(victimRow.money * 0.75)
-					const scrapStolen = Math.floor(victimRow.scrap * 0.5)
 
 					// passive shield, protects same player from being attacked for 24 hours
 					await app.cd.setCD(victim.id, 'passive_shield', app.config.cooldowns.daily * 1000, { serverSideGuildId })
@@ -134,8 +133,6 @@ exports.command = {
 					await app.itm.addItem(message.author.id, randomItems.amounts, null, serverSideGuildId)
 					await app.player.removeMoney(victim.id, moneyStolen, serverSideGuildId)
 					await app.player.addMoney(message.author.id, moneyStolen, serverSideGuildId)
-					await app.player.removeScrap(victim.id, scrapStolen, serverSideGuildId)
-					await app.player.addScrap(message.author.id, scrapStolen, serverSideGuildId)
 
 					// 50 xp for each item stolen
 					await app.player.addPoints(message.author.id, xpGained, serverSideGuildId)
@@ -183,7 +180,7 @@ exports.command = {
 							.setDescription(`<@${message.author.id}> 🗡 <@${victim.id}> 💀`)
 							.addField('Weapon Used', `${itemInfo.icon}\`${item}\` - **${finalDamage} damage**`)
 							.addField('Items Stolen', randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'Nothing', true)
-							.addField('Balance Stolen', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`, true)
+							.addField('Balance Stolen', app.common.formatNumber(moneyStolen), true)
 							.setColor(16734296)
 							.setTimestamp()
 
@@ -195,10 +192,10 @@ exports.command = {
 						}
 					}
 
-					logKill(app, message.channel.guild.id, message.member, victim, item, ammoUsed, finalDamage, moneyStolen, scrapStolen, randomItems)
+					logKill(app, message.channel.guild.id, message.member, victim, item, ammoUsed, finalDamage, moneyStolen, randomItems)
 
 					// deactivate victim if they had nothing to loot
-					if (randomItems.items.length === 0 && moneyStolen <= 1000 && scrapStolen <= 1000) {
+					if (randomItems.items.length === 0 && moneyStolen <= 1000) {
 						await app.player.deactivate(victim.id, message.channel.guild.id)
 
 						if (Object.keys(app.config.activeRoleGuilds).includes(message.channel.guild.id)) {
@@ -214,7 +211,7 @@ exports.command = {
 					const killedReward = new app.Embed()
 						.setTitle('Loot Received')
 						.setColor(7274496)
-						.addField('Balance Stolen', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`)
+						.addField('Balance Stolen', app.common.formatNumber(moneyStolen))
 						.addField(`Items (${randomItems.items.length})`, randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'They had no items to steal!')
 						.setFooter(`⭐ ${xpGained} XP earned!`)
 
@@ -334,14 +331,12 @@ exports.command = {
 						// player was killed
 						const randomItems = await app.itm.getRandomUserItems(userItems)
 						const moneyStolen = Math.floor(row.money * 0.75)
-						const scrapStolen = Math.floor(row.scrap * 0.5)
 
 						// passive shield, protects same player from being attacked for 24 hours
 						await app.cd.setCD(message.author.id, 'passive_shield', app.config.cooldowns.daily * 1000, { serverSideGuildId })
 
 						await app.itm.removeItem(message.author.id, randomItems.amounts, null, serverSideGuildId)
 						await app.player.removeMoney(message.author.id, moneyStolen, serverSideGuildId)
-						await app.player.removeScrap(message.author.id, scrapStolen, serverSideGuildId)
 
 						if (serverSideGuildId) {
 							await app.query(`UPDATE server_scores SET deaths = deaths + 1, health = 100, bleed = 0, burn = 0 WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
@@ -370,7 +365,7 @@ exports.command = {
 								.setDescription(`${monster.title} 🗡 <@${message.author.id}> 💀`)
 								.addField('Weapon Used', `${app.itemdata[monster.weapon].icon}\`${monster.weapon}\` - **${mobDmg} damage**`)
 								.addField('Items Stolen', randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'Nothing', true)
-								.addField('Balance Stolen', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`, true)
+								.addField('Balance Stolen', app.common.formatNumber(moneyStolen), true)
 								.setColor(16734296)
 								.setTimestamp()
 
@@ -382,12 +377,12 @@ exports.command = {
 							}
 						}
 
-						logKill(app, message.channel.guild.id, { username: monster.title, discriminator: '0000', id: monsterRow.monster }, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, scrapStolen, randomItems, 0)
+						logKill(app, message.channel.guild.id, { username: monster.title, discriminator: '0000', id: monsterRow.monster }, message.author, monster.weapon.name, monster.ammo, mobDmg, moneyStolen, randomItems, 0)
 
 						const killedReward = new app.Embed()
 							.setTitle('Loot Lost')
 							.setColor(7274496)
-							.addField('Balance', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`)
+							.addField('Balance', app.common.formatNumber(moneyStolen))
 							.addField(`Items (${randomItems.items.length})`, randomItems.items.length !== 0 ? randomItems.display.join('\n') : `${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} did not find anything on you!`)
 
 						message.channel.createMessage({
@@ -756,7 +751,7 @@ exports.command = {
 	}
 }
 
-function logKill(app, guildID, killer, victim, item, ammo, damage, moneyStolen, scrapStolen, itemsLost) {
+function logKill(app, guildID, killer, victim, item, ammo, damage, moneyStolen, itemsLost) {
 	const embed = new app.Embed()
 		.setTitle('Kill Log')
 		.setColor(2713128)
@@ -764,7 +759,7 @@ function logKill(app, guildID, killer, victim, item, ammo, damage, moneyStolen, 
 		.addField('Killer', `${killer.username}#${killer.discriminator} ID: \`\`\`\n${killer.id}\`\`\``)
 		.addField('Victim', `${victim.username}#${victim.discriminator} ID: \`\`\`\n${victim.id}\`\`\``)
 		.addField('Items Stolen', itemsLost.items.length !== 0 ? itemsLost.display.join('\n') : 'Nothing', true)
-		.addField('Balance Stolen', `${app.common.formatNumber(moneyStolen)}\n${app.common.formatNumber(scrapStolen, false, true)}`, true)
+		.addField('Balance Stolen', app.common.formatNumber(moneyStolen), true)
 		.setTimestamp()
 		.setFooter(`Guild ID: ${guildID}`)
 

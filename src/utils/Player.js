@@ -55,7 +55,7 @@ class Player {
 				\`use\` - Uses an item on yourself or attacks another player with said item.
 				\`items\` - View a full list of items. Specify an item to see specific information about it.
 				\`buy\` - Purchase items, you can also specify an amount to purchase.
-				\`sell\` - Sell your items for Lootcoin.
+				\`sell\` - Sell your items for scrap.
 				\`leaderboard\` - View the best players in your server or globally.
 				\`mysettings\` - Manage your settings such as notifications.
 				\`farm\` - Go farming for loot every hour.
@@ -83,7 +83,7 @@ class Player {
 				\`use\` - Uses an item on yourself or attacks another player with said item.
 				\`items\` - View a full list of items. Specify an item to see specific information about it.
 				\`buy\` - Purchase items, you can also specify an amount to purchase.
-				\`sell\` - Sell your items for Lootcoin.
+				\`sell\` - Sell your items for scrap.
 				\`leaderboard\` - View the best players in your server or globally.
 				\`mysettings\` - Manage your settings such as notifications.
 				\`farm\` - Go farming for loot every hour.
@@ -255,36 +255,6 @@ class Player {
 
 	/**
      *
-     * @param {string} id ID of player to remove from
-     * @param {number} amount Scrap to remove
-	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
-     */
-	async removeScrap(id, amount, serverSideGuildId = undefined) {
-		if (serverSideGuildId) {
-			await this.app.query(`UPDATE server_scores SET scrap = scrap - ${parseInt(amount)} WHERE userId = ${id} AND guildId = ${serverSideGuildId}`)
-		}
-		else {
-			await this.app.query(`UPDATE scores SET scrap = scrap - ${parseInt(amount)} WHERE userId = ${id}`)
-		}
-	}
-
-	/**
-     *
-     * @param {*} id ID of user to add money to.
-     * @param {*} amount Amount of scrap to add.
-	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
-     */
-	async addScrap(id, amount, serverSideGuildId = undefined) {
-		if (serverSideGuildId) {
-			await this.app.query(`UPDATE server_scores SET scrap = scrap + ${parseInt(amount)} WHERE userId = ${id} AND guildId = ${serverSideGuildId}`)
-		}
-		else {
-			await this.app.query(`UPDATE scores SET scrap = scrap + ${parseInt(amount)} WHERE userId = ${id}`)
-		}
-	}
-
-	/**
-     *
      * @param {*} id ID of user to add xp to.
      * @param {*} amount Amount of xp to add.
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
@@ -439,7 +409,6 @@ INSERT IGNORE INTO scores (
     userId,
     createdAt,
     money,
-    scrap,
     level,
     health,
     maxHealth,
@@ -476,7 +445,6 @@ INSERT IGNORE INTO scores (
         ?,
         ?,
         ?,
-        500,
         ?,
         ?,
         ?,
@@ -496,7 +464,6 @@ INSERT IGNORE INTO server_scores (
 	guildId,
     createdAt,
     money,
-    scrap,
     level,
     health,
     maxHealth,
@@ -534,7 +501,6 @@ INSERT IGNORE INTO server_scores (
 		?,
         ?,
         ?,
-        500,
         ?,
         ?,
         ?,

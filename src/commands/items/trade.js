@@ -5,7 +5,7 @@ exports.command = {
 	name: 'trade',
 	aliases: [],
 	description: 'Trade items and money with another player.',
-	long: 'Lvl Required: 3+\nStart a trade with another user. Trade commands include:\n\n`add <item> <amount>` - Item to add to trade\n`remove <item>` - Remove item from trade\n`addmoney <amount>` - Amount of Lootcoin to add\n`accept`\n`cancel`',
+	long: 'Lvl Required: 3+\nStart a trade with another user. Trade commands include:\n\n`add <item> <amount>` - Item to add to trade\n`remove <item>` - Remove item from trade\n`addmoney <amount>` - Amount of scrap to add\n`accept`\n`cancel`',
 	args: { '@user': 'User to trade with.' },
 	examples: ['trade @blobfysh'],
 	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
@@ -176,10 +176,10 @@ exports.command = {
 						const amount = app.parse.numbers(userArgs)[0]
 
 						if (!amount) {
-							return m.channel.createMessage(`❌ You should specify an amount of Lootcoin. You currently have **${app.common.formatNumber(row.money)}**`)
+							return m.channel.createMessage(`❌ You should specify an amount of scrap. You currently have **${app.common.formatNumber(row.money)}**`)
 						}
 						else if (row.money < amount) {
-							return m.channel.createMessage(`❌ You don't have that much Lootcoin. You currently have **${app.common.formatNumber(row.money)}**`)
+							return m.channel.createMessage(`❌ You don't have that much scrap. You currently have **${app.common.formatNumber(row.money)}**`)
 						}
 
 						if (player === 1) {

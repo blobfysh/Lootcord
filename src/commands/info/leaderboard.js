@@ -18,8 +18,7 @@ exports.command = {
 			const embedLeader = new app.Embed()
 				.setTitle('Global Leaderboard')
 				.setColor('#000000')
-				.addField('Richest - Lootcoin', leaders.moneyLB.join('\n'), true)
-				.addField('Richest - Scrap', leaders.scrapLB.join('\n'), true)
+				.addField('Richest', leaders.moneyLB.join('\n'), true)
 				.addField('Level', leaders.levelLB.join('\n'))
 				.addField('Kills', leaders.killLB.join('\n'))
 				.addField('Richest Clans', leaders.clanLB.join('\n'))
@@ -31,9 +30,7 @@ exports.command = {
 		const leaders = []
 		const levelLeaders = []
 		const killLeaders = []
-		const scrapLeaders = []
 		let moneyRows
-		let scrapRows
 		let levelRows
 		let killRows
 
@@ -44,12 +41,6 @@ exports.command = {
 				ON userguilds.userId = server_scores.userId
 				WHERE userguilds.guildId ="${message.channel.guild.id}" AND server_scores.guildId ="${message.channel.guild.id}"
 				ORDER BY money DESC LIMIT 3`)
-			scrapRows = await app.query(`SELECT server_scores.userId, scrap, badge
-				FROM userguilds
-				INNER JOIN server_scores
-				ON userguilds.userId = server_scores.userId
-				WHERE userguilds.guildId ="${message.channel.guild.id}" AND server_scores.guildId ="${message.channel.guild.id}"
-				ORDER BY scrap DESC LIMIT 3`)
 			levelRows = await app.query(`SELECT server_scores.userId, level, badge
 				FROM userguilds
 				INNER JOIN server_scores
@@ -70,12 +61,6 @@ exports.command = {
 				ON userguilds.userId = scores.userId
 				WHERE userguilds.guildId ="${message.channel.guild.id}"
 				ORDER BY money DESC LIMIT 3`)
-			scrapRows = await app.query(`SELECT scores.userId, scrap, badge
-				FROM userguilds
-				INNER JOIN scores
-				ON userguilds.userId = scores.userId
-				WHERE userguilds.guildId ="${message.channel.guild.id}"
-				ORDER BY scrap DESC LIMIT 3`)
 			levelRows = await app.query(`SELECT scores.userId, level, badge
 				FROM userguilds
 				INNER JOIN scores
@@ -97,15 +82,6 @@ exports.command = {
 			}
 			catch (err) {
 				console.log(err)
-			}
-		}
-		for (const key in scrapRows) {
-			try {
-				const member = await app.common.fetchMember(message.channel.guild, scrapRows[key].userId)
-				scrapLeaders.push(`${app.player.getBadge(scrapRows[key].badge)} ${`${member.username}#${member.discriminator}`} - ${app.common.formatNumber(scrapRows[key].scrap, false, true)}`)
-			}
-			catch (err) {
-				// continue
 			}
 		}
 		for (const key in levelRows) {
@@ -133,8 +109,7 @@ exports.command = {
 			.setFooter(`Top ${leaders.length}`)
 
 		if (leaders.length) {
-			embedLeader.addField('Richest - Lootcoin', leaders.join('\n'))
-			embedLeader.addField('Richest - Scrap', scrapLeaders.join('\n'))
+			embedLeader.addField('Richest', leaders.join('\n'))
 			embedLeader.addField('Level', levelLeaders.join('\n'))
 			embedLeader.addField('Kills', killLeaders.join('\n'))
 		}

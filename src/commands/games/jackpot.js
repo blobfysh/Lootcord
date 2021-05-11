@@ -3,7 +3,7 @@ exports.command = {
 	aliases: [],
 	description: 'Start a jackpot prize pool that other users can enter for a chance to win it all!',
 	long: 'Start a server jackpot that lasts 2 minutes! Other players can join the jackpot with the join command. The more you put into the pot, the higher your chance of winning it all.',
-	args: { amount: 'Amount of Scrap to gamble.' },
+	args: { amount: 'Amount of scrap to gamble.' },
 	examples: ['jackpot 1000'],
 	permissions: ['sendMessages', 'addReactions', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
@@ -17,7 +17,7 @@ exports.command = {
 		let gambleAmount = app.parse.numbers(args)[0]
 
 		if (!gambleAmount && args[0] && args[0].toLowerCase() === 'all') {
-			gambleAmount = row.scrap >= 100000 ? 100000 : row.scrap
+			gambleAmount = row.money >= 20000 ? 20000 : row.money
 		}
 
 		if (jackpotCD) {
@@ -25,24 +25,24 @@ exports.command = {
 		}
 
 		if (!gambleAmount || gambleAmount < 100) {
-			return message.reply(`Please specify an amount of at least ${app.common.formatNumber(100, false, true)} to gamble!`)
+			return message.reply(`Please specify an amount of at least ${app.common.formatNumber(100)} to gamble!`)
 		}
 
-		if (gambleAmount > row.scrap) {
-			return message.reply(`❌ You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can trade your ${app.icons.money} Lootcoin for ${app.icons.scrap} Scrap: \`${prefix}buy scrap <amount>\``)
+		if (gambleAmount > row.money) {
+			return message.reply(`❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
 		}
 
-		if (gambleAmount > 100000) {
-			return message.reply(`Woah there high roller, you cannot gamble more than ${app.common.formatNumber(100000, false, true)} on jackpot.`)
+		if (gambleAmount > 20000) {
+			return message.reply(`Woah there high roller, you cannot gamble more than ${app.common.formatNumber(20000)} on jackpot.`)
 		}
 
-		const botMessage = await message.reply(`You are about to start a server jackpot with an entry of: ${app.common.formatNumber(gambleAmount, false, true)}\nAre you sure?`)
+		const botMessage = await message.reply(`You are about to start a server jackpot with an entry of: ${app.common.formatNumber(gambleAmount)}\nAre you sure?`)
 
 		try {
 			const result = await app.react.getConfirmation(message.author.id, botMessage, 15000)
 			const verifyRow = await app.player.getRow(message.author.id, serverSideGuildId)
 
-			if (result && gambleAmount <= verifyRow.scrap) {
+			if (result && gambleAmount <= verifyRow.money) {
 				startJackpot(app, message, prefix, gambleAmount, serverSideGuildId)
 			}
 			else {
@@ -68,7 +68,7 @@ async function startJackpot(app, message, prefix, gambleAmount, serverSideGuildI
 		message.channel.createMessage('**A jackpot has started! A winner will be chosen in `2 minutes`**')
 		message.channel.createMessage(refreshEmbed(app, jackpotObj, prefix))
 
-		await app.player.removeScrap(message.author.id, gambleAmount, serverSideGuildId)
+		await app.player.removeMoney(message.author.id, gambleAmount, serverSideGuildId)
 		await app.cd.setCD(message.author.id, 'jackpot', app.config.cooldowns.jackpot * 1000, { serverSideGuildId })
 
 		setTimeout(() => {
@@ -102,23 +102,23 @@ async function startJackpot(app, message, prefix, gambleAmount, serverSideGuildI
 				return
 			}
 			else if (!gambleAmnt && userArgs[0] && userArgs[0].toLowerCase() === 'all') {
-				gambleAmnt = userRow.scrap >= 100000 ? 100000 : userRow.scrap
+				gambleAmnt = userRow.money >= 20000 ? 20000 : userRow.money
 			}
 
 			if (Object.keys(jackpotObj).length >= 15) {
 				return m.channel.createMessage('Sorry, this jackpot is full!')
 			}
 			else if (!gambleAmnt || gambleAmnt < 100) {
-				return m.channel.createMessage(`Please enter an amount of at least ${app.common.formatNumber(100, false, true)}`)
+				return m.channel.createMessage(`Please enter an amount of at least ${app.common.formatNumber(100)}`)
 			}
-			else if (gambleAmnt > userRow.scrap) {
-				return m.channel.createMessage(`❌ You don't have that much Scrap! You currently have ${app.common.formatNumber(userRow.scrap, false, true)}`)
+			else if (gambleAmnt > userRow.money) {
+				return m.channel.createMessage(`❌ You don't have that much scrap! You currently have ${app.common.formatNumber(userRow.money)}`)
 			}
-			else if (gambleAmnt > 100000) {
-				return m.channel.createMessage(`❌ You cannot enter more than ${app.common.formatNumber(100000, false, true)}!`)
+			else if (gambleAmnt > 20000) {
+				return m.channel.createMessage(`❌ You cannot enter more than ${app.common.formatNumber(20000)}!`)
 			}
-			else if (jackpotObj.hasOwnProperty(m.author.id) && (gambleAmnt + jackpotObj[m.author.id].amount) > 100000) {
-				return m.channel.createMessage(`❌ Adding ${app.common.formatNumber(gambleAmnt, false, true)} would put your entry over the ${app.common.formatNumber(100000, false, true)} entry limit!`)
+			else if (jackpotObj.hasOwnProperty(m.author.id) && (gambleAmnt + jackpotObj[m.author.id].amount) > 20000) {
+				return m.channel.createMessage(`❌ Adding ${app.common.formatNumber(gambleAmnt)} would put your entry over the ${app.common.formatNumber(20000)} entry limit!`)
 			}
 
 			if (jackpotObj.hasOwnProperty(m.author.id)) {
@@ -134,7 +134,7 @@ async function startJackpot(app, message, prefix, gambleAmount, serverSideGuildI
 				}
 			}
 
-			await app.player.removeScrap(m.author.id, gambleAmnt, serverSideGuildId)
+			await app.player.removeMoney(m.author.id, gambleAmnt, serverSideGuildId)
 			m.channel.createMessage(refreshEmbed(app, jackpotObj, prefix))
 		})
 
@@ -142,9 +142,9 @@ async function startJackpot(app, message, prefix, gambleAmount, serverSideGuildI
 			const winnerId = pickWinner(jackpotObj)
 			const winAmount = getJackpotTotal(jackpotObj)
 
-			await app.player.addScrap(winnerId, winAmount, serverSideGuildId)
+			await app.player.addMoney(winnerId, winAmount, serverSideGuildId)
 
-			message.channel.createMessage(`**${jackpotObj[winnerId].name}** won the ${app.common.formatNumber(winAmount, false, true)} jackpot with a ${(jackpotObj[winnerId].amount / getJackpotTotal(jackpotObj) * 100).toFixed(1)}% chance of winning!`)
+			message.channel.createMessage(`**${jackpotObj[winnerId].name}** won the ${app.common.formatNumber(winAmount)} jackpot with a ${(jackpotObj[winnerId].amount / getJackpotTotal(jackpotObj) * 100).toFixed(1)}% chance of winning!`)
 		})
 	}
 	catch (err) {
@@ -169,14 +169,14 @@ function refreshEmbed(app, jackpotObj, prefix) {
 		usersArr[i] = `${i + 1}.${usersArr[i]}`
 	}
 
-	usersArr.unshift(`${'Player'.padEnd(22) + 'Bet (Scrap)'.padEnd(15)}Chance`)
+	usersArr.unshift(`${'Player'.padEnd(22) + 'Bet'.padEnd(15)}Chance`)
 
 	const jackpotEmbed = new app.Embed()
 		.setColor(13451564)
 		.setTitle('Jackpot - Win it all!')
 		.setDescription(`Enter or add to your current bet with \`${prefix}join <amount>\`.`)
-		.addField('Current entrants', `\`\`\`cs\n${usersArr.join('\n')}\`\`\``)
-		.addField('Prize pool', app.common.formatNumber(getJackpotTotal(jackpotObj), false, true))
+		.addField('Current entrants', `\`\`\`\n${usersArr.join('\n')}\`\`\``)
+		.addField('Prize pool', app.common.formatNumber(getJackpotTotal(jackpotObj)))
 	return jackpotEmbed
 }
 

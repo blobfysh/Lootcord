@@ -6,7 +6,7 @@ exports.command = {
 	aliases: ['bj'],
 	description: 'Play a game of blackjack, get a higher total than the dealer without busting and you win!',
 	long: 'Play a game of blackjack. Type hit to draw a random card from the deck or type stand to stop drawing cards and see if the dealer gets closer to 21 than you. Whoever gets closer to 21 without going over, wins!',
-	args: { amount: 'Amount of Scrap to gamble.' },
+	args: { amount: 'Amount of scrap to gamble.' },
 	examples: ['blackjack 1000'],
 	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
@@ -20,7 +20,7 @@ exports.command = {
 		let gambleAmount = app.parse.numbers(args)[0]
 
 		if (!gambleAmount && args[0] && args[0].toLowerCase() === 'all') {
-			gambleAmount = row.scrap >= 1000000 ? 1000000 : row.scrap
+			gambleAmount = row.money >= 50000 ? 50000 : row.money
 		}
 
 		if (blackjackCD) {
@@ -28,15 +28,15 @@ exports.command = {
 		}
 
 		if (!gambleAmount || gambleAmount < 100) {
-			return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100, false, true)}** to gamble!`)
+			return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100)}** to gamble!`)
 		}
 
-		if (gambleAmount > row.scrap) {
-			return message.reply(`❌ You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can trade your ${app.icons.money} Lootcoin for ${app.icons.scrap} Scrap: \`${prefix}buy scrap <amount>\``)
+		if (gambleAmount > row.money) {
+			return message.reply(`❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
 		}
 
-		if (gambleAmount > 1000000) {
-			return message.reply(`Woah there high roller, you cannot gamble more than **${app.common.formatNumber(1000000, false, true)}** on blackjack.`)
+		if (gambleAmount > 50000) {
+			return message.reply(`Woah there high roller, you cannot gamble more than **${app.common.formatNumber(50000)}** on blackjack.`)
 		}
 
 		try {
@@ -54,7 +54,7 @@ exports.command = {
 			}
 			dealerCards.push(drawCard(deck))
 
-			await app.player.removeScrap(message.author.id, gambleAmount, serverSideGuildId)
+			await app.player.removeMoney(message.author.id, gambleAmount, serverSideGuildId)
 			await app.cd.setCD(message.author.id, 'blackjack', app.config.cooldowns.blackjack * 1000, { serverSideGuildId })
 
 			message.channel.createMessage(genEmbed(app, message, playerCards, dealerCards, gambleAmount))
@@ -68,7 +68,7 @@ exports.command = {
 					if (playerScore.minScore > 21) {
 						app.msgCollector.stopCollector(collectorObj)
 
-						message.channel.createMessage(loserEmbed(app, message, playerCards, dealerCards, `You busted and lost **${app.common.formatNumber(gambleAmount, false, true)}**...`, gambleAmount))
+						message.channel.createMessage(loserEmbed(app, message, playerCards, dealerCards, `You busted and lost **${app.common.formatNumber(gambleAmount)}**...`, gambleAmount))
 					}
 					else {
 						message.channel.createMessage(genEmbed(app, message, playerCards, dealerCards, gambleAmount))
@@ -98,16 +98,16 @@ exports.command = {
 					}
 
 					if (dealerFinal > 21) {
-						message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, `The dealer busted! You won **${app.common.formatNumber(gambleAmount * 2, false, true)}**`, gambleAmount, serverSideGuildId))
+						message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, `The dealer busted! You won **${app.common.formatNumber(gambleAmount * 2)}**`, gambleAmount, serverSideGuildId))
 					}
 					else if (playerFinal > dealerFinal) {
-						message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, `You won **${app.common.formatNumber(gambleAmount * 2, false, true)}**!`, gambleAmount, serverSideGuildId))
+						message.channel.createMessage(winnerEmbed(app, message, playerCards, dealerCards, `You won **${app.common.formatNumber(gambleAmount * 2)}**!`, gambleAmount, serverSideGuildId))
 					}
 					else if (playerFinal < dealerFinal) {
-						message.channel.createMessage(loserEmbed(app, message, playerCards, dealerCards, `You lost **${app.common.formatNumber(gambleAmount, false, true)}**...`, gambleAmount))
+						message.channel.createMessage(loserEmbed(app, message, playerCards, dealerCards, `You lost **${app.common.formatNumber(gambleAmount)}**...`, gambleAmount))
 					}
 					else { // player and dealer tied...
-						message.channel.createMessage(tieEmbed(app, message, playerCards, dealerCards, `Tied with dealer (You lose **${app.common.formatNumber(0, false, true)}**)`, gambleAmount, serverSideGuildId))
+						message.channel.createMessage(tieEmbed(app, message, playerCards, dealerCards, `Tied with dealer (You lose **${app.common.formatNumber(0)}**)`, gambleAmount, serverSideGuildId))
 					}
 				}
 			})
@@ -199,7 +199,7 @@ function genEmbed(app, message, playerCards, dealerCards, gambleAmount, dealerEm
 	const embed = new app.Embed()
 		.setAuthor('Blackjack', message.author.avatarURL)
 		.setDescription('Type `hit` to draw another card or `stand` to pass.')
-		.addField('Bet: ', app.common.formatNumber(gambleAmount, false, true))
+		.addField('Bet: ', app.common.formatNumber(gambleAmount))
 		.addBlankField()
 		.addField(`${message.author.username} - **${hasAce(playerCards) && playerVal.score <= 21 ? `${playerVal.score}/${playerVal.minScore}` : playerVal.minScore}**`, playerString)
 		.addField(`${dealerEmote} Dealer - **${dealerVal.score > 21 ? dealerVal.minScore : dealerVal.score}**`, dealerString)
@@ -215,9 +215,9 @@ function winnerEmbed(app, message, playerCards, dealerCards, quote, gambleAmount
 	embed.setDescription(quote)
 	embed.setColor(720640)
 	embed.embed.footer = undefined
-	app.player.addScrap(message.author.id, gambleAmount * 2, serverSideGuildId)
+	app.player.addMoney(message.author.id, gambleAmount * 2, serverSideGuildId)
 
-	if (gambleAmount * 2 >= 2000000) {
+	if (gambleAmount * 2 >= 100000) {
 		app.itm.addBadge(message.author.id, 'gambler', serverSideGuildId)
 	}
 
@@ -240,7 +240,7 @@ function tieEmbed(app, message, playerCards, dealerCards, quote, gambleAmount, s
 	embed.setDescription(quote)
 	embed.setColor(10395294)
 	embed.embed.footer = undefined
-	app.player.addScrap(message.author.id, gambleAmount, serverSideGuildId)
+	app.player.addMoney(message.author.id, gambleAmount, serverSideGuildId)
 
 	return embed
 }

@@ -4,12 +4,12 @@ class Common {
 		this.icons = app.icons
 	}
 
-	formatNumber(number, noEmoji = false, scrap = false) {
+	formatNumber(number, noEmoji = false) {
 		if (noEmoji) {
 			return parseInt(number).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,')
 		}
 
-		return `${scrap ? this.icons.scrap : this.icons.money} ${parseInt(number).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,')}`
+		return `${this.icons.money} ${parseInt(number).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,')}`
 	}
 
 	shuffleArr(array) {

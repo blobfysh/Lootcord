@@ -5,8 +5,8 @@ exports.command = {
 	name: 'coinflip',
 	aliases: ['cf'],
 	description: 'Flip a coin for a chance to win!',
-	long: 'Gamble your Scrap for a 50% chance of winning 2x what you bet!',
-	args: { amount: 'Amount of Scrap to gamble.' },
+	long: 'Gamble your scrap for a 50% chance of winning 2x what you bet!',
+	args: { amount: 'Amount of scrap to gamble.' },
 	examples: ['cf 1000'],
 	permissions: ['sendMessages', 'externalEmojis'],
 	ignoreHelp: false,
@@ -21,7 +21,7 @@ exports.command = {
 		let gambleAmount = app.parse.numbers(args)[0]
 
 		if (!gambleAmount && args[0] && args[0].toLowerCase() === 'all') {
-			gambleAmount = row.scrap >= 1000000 ? 1000000 : row.scrap
+			gambleAmount = row.money >= 50000 ? 50000 : row.money
 		}
 
 		if (coinflipCD) {
@@ -29,30 +29,30 @@ exports.command = {
 		}
 
 		if (!gambleAmount || gambleAmount < 100) {
-			return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100, false, true)}** to gamble!`)
+			return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100)}** to gamble!`)
 		}
 
-		if (gambleAmount > row.scrap) {
-			return message.reply(`❌ You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can trade your ${app.icons.money} Lootcoin for ${app.icons.scrap} Scrap: \`${prefix}buy scrap <amount>\``)
+		if (gambleAmount > row.money) {
+			return message.reply(`❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
 		}
 
-		if (gambleAmount > 1000000) {
-			return message.reply(`Woah there high roller, you cannot gamble more than **${app.common.formatNumber(1000000, false, true)}** on coinflip.`)
+		if (gambleAmount > 50000) {
+			return message.reply(`Woah there high roller, you cannot gamble more than **${app.common.formatNumber(50000)}** on coinflip.`)
 		}
 
 
 		if (Math.random() < 0.5) {
-			await app.player.addScrap(message.author.id, gambleAmount, serverSideGuildId)
+			await app.player.addMoney(message.author.id, gambleAmount, serverSideGuildId)
 
-			if (gambleAmount >= 1000000) {
+			if (gambleAmount >= 50000) {
 				await app.itm.addBadge(message.author.id, 'gambler', serverSideGuildId)
 			}
 
-			message.reply(WIN_QUOTES[Math.floor(Math.random() * WIN_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount * 2, false, true)))
+			message.reply(WIN_QUOTES[Math.floor(Math.random() * WIN_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount * 2)))
 		}
 		else {
-			await app.player.removeScrap(message.author.id, gambleAmount, serverSideGuildId)
-			message.reply(LOSE_QUOTES[Math.floor(Math.random() * LOSE_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount, false, true)))
+			await app.player.removeMoney(message.author.id, gambleAmount, serverSideGuildId)
+			message.reply(LOSE_QUOTES[Math.floor(Math.random() * LOSE_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount)))
 		}
 
 		await app.cd.setCD(message.author.id, 'coinflip', app.config.cooldowns.coinflip * 1000, { serverSideGuildId })

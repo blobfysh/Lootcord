@@ -75,8 +75,8 @@ exports.command = {
 				embedItem.addField('Chance to break', '100% (item always breaks)', true)
 			}
 
-			if (itemInfo.buy.currency !== undefined && (itemInfo.buy.currency === 'money' || itemInfo.buy.currency === 'scrap')) {
-				embedItem.addField('Buy', app.common.formatNumber(itemInfo.buy.amount, false, itemInfo.buy.currency === 'scrap'), true)
+			if (itemInfo.buy.currency !== undefined && itemInfo.buy.currency === 'money') {
+				embedItem.addField('Buy', app.common.formatNumber(itemInfo.buy.amount), true)
 			}
 			else if (itemInfo.buy.currency !== undefined) {
 				embedItem.addField('Buy', `${itemInfo.buy.amount}x ${app.itemdata[itemInfo.buy.currency].icon}\`${itemInfo.buy.currency}\``, true)

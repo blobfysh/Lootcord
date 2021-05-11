@@ -1,9 +1,9 @@
 exports.command = {
 	name: 'slots',
 	aliases: ['slot'],
-	description: 'Put some Scrap in the slot machine!',
+	description: 'Put some scrap in the slot machine!',
 	long: 'Play a game of slots.\n\n💵 💵 - **1x** multiplier\n💸 💸 - **1.5x** multiplier\n💰 💰 - **2.5x** multiplier\n💎 💎 - **5x** multiplier\n💵 💵 💵 - **2x** multiplier\n💸 💸 💸 - **3x** multiplier\n💰 💰 💰 - **5x** multiplier\n💎 💎 💎 - **10x** multiplier',
-	args: { amount: 'Amount of Scrap to gamble.' },
+	args: { amount: 'Amount of scrap to gamble.' },
 	examples: ['slots 1000'],
 	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
@@ -17,7 +17,7 @@ exports.command = {
 		let gambleAmount = app.parse.numbers(args)[0]
 
 		if (!gambleAmount && args[0] && args[0].toLowerCase() === 'all') {
-			gambleAmount = row.scrap >= 1000000 ? 1000000 : row.scrap
+			gambleAmount = row.money >= 50000 ? 50000 : row.money
 		}
 
 		if (slotsCD) {
@@ -25,18 +25,18 @@ exports.command = {
 		}
 
 		else if (!gambleAmount || gambleAmount < 100) {
-			return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100, false, true)}** to gamble!`)
+			return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100)}** to gamble!`)
 		}
 
-		else if (gambleAmount > row.scrap) {
-			return message.reply(`❌ You don't have that much Scrap! You currently have **${app.common.formatNumber(row.scrap, false, true)}**. You can trade your ${app.icons.money} Lootcoin for ${app.icons.scrap} Scrap: \`${prefix}buy scrap <amount>\``)
+		else if (gambleAmount > row.money) {
+			return message.reply(`❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
 		}
 
-		else if (gambleAmount > 1000000) {
-			return message.reply(`You cannot gamble more than **${app.common.formatNumber(1000000, false, true)}**`)
+		else if (gambleAmount > 50000) {
+			return message.reply(`You cannot gamble more than **${app.common.formatNumber(50000)}**`)
 		}
 
-		await app.player.removeScrap(message.author.id, gambleAmount, serverSideGuildId)
+		await app.player.removeMoney(message.author.id, gambleAmount, serverSideGuildId)
 		await app.cd.setCD(message.author.id, 'slots', app.config.cooldowns.slots * 1000, { serverSideGuildId })
 
 		const col1 = getSlot(Math.random())
@@ -56,10 +56,10 @@ exports.command = {
 		const winnings = Math.floor(gambleAmount * multiplier)
 
 		if (winnings > 0) {
-			await app.player.addScrap(message.author.id, winnings, serverSideGuildId)
+			await app.player.addMoney(message.author.id, winnings, serverSideGuildId)
 		}
 
-		if (winnings >= 2000000) {
+		if (winnings >= 100000) {
 			await app.itm.addBadge(message.author.id, 'gambler', serverSideGuildId)
 		}
 
@@ -91,7 +91,7 @@ exports.command = {
 
 			if (winnings > 0) {
 				newEmbed.setColor(720640)
-				endString = `You won **${app.common.formatNumber(winnings, false, true)} scrap** (${multiplier}x)`
+				endString = `You won **${app.common.formatNumber(winnings)} scrap** (${multiplier}x)`
 			}
 			else {
 				newEmbed.setColor(13632027)
