@@ -28,7 +28,6 @@ exports.command = {
 		const rouletteCD = await app.cd.getCD(message.author.id, 'roulette', { serverSideGuildId })
 		const coinflipCD = await app.cd.getCD(message.author.id, 'coinflip', { serverSideGuildId })
 		const jackpotCD = await app.cd.getCD(message.author.id, 'jackpot', { serverSideGuildId })
-		const xp_potionCD = await app.cd.getCD(message.author.id, 'xp_potion', { serverSideGuildId })
 		const armorCD = await app.cd.getCD(message.author.id, 'shield', { serverSideGuildId })
 		const armor = await app.player.getArmor(message.author.id, serverSideGuildId)
 		const passiveShield = await app.cd.getCD(message.author.id, 'passive_shield', { serverSideGuildId })
@@ -78,9 +77,6 @@ exports.command = {
 		}
 		if (passiveShield) {
 			embedLeader.addField('🛡 Passive Shield', `\`${passiveShield}\` [?](https://lootcord.com/faq#what-is-a-passive-shield 'A passive shield is a 24 hour attack shield given to you when you are killed.\n\nThis shield will automatically be removed if you decide to attack someone.')`, true)
-		}
-		if (xp_potionCD) {
-			embedLeader.addField('xp_potion', `\`❌ ${xp_potionCD}\``, true)
 		}
 		message.channel.createMessage(embedLeader)
 	}
