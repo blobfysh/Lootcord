@@ -53,7 +53,6 @@ async function generatePages(app, allItems, prefix, itemsPerPage, isServerSideEc
 }
 
 async function getHomePage(app, prefix) {
-	await app.loopTasks.restockShop()
 	const saleItemRows = await app.query('SELECT * FROM sales ORDER BY price ASC')
 	const date = new Date()
 	const converted = new Date(date.toLocaleString('en-US', {
