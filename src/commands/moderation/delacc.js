@@ -27,8 +27,9 @@ exports.command = {
 		}
 
 		const userRow = await app.player.getRow(userID)
+		const serverSideRows = await app.query('SELECT * FROM server_scores WHERE userId = ?', userID)
 
-		if (!userRow) {
+		if (!userRow && !serverSideRows.length) {
 			return message.reply('❌ User has no account.')
 		}
 
@@ -39,32 +40,36 @@ exports.command = {
 
 		try {
 			const userRow2 = await app.player.getRow(userID)
+			const serverSideRows2 = await app.query('SELECT * FROM server_scores WHERE userId = ?', userID)
 			const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
 
 			if (confirmed) {
-				if (!userRow2) {
+				if (!userRow2 && !serverSideRows2.length) {
 					return message.reply('❌ User has no account.')
 				}
-				else if (app.clan_ranks[userRow2.clanRank].title === 'Leader') {
-					app.clans.disbandClan(userRow2.clanId)
+
+				if (userRow2) {
+					// remove global account things
+					if (app.clan_ranks[userRow2.clanRank].title === 'Leader') {
+						app.clans.disbandClan(userRow2.clanId)
+					}
+					await app.bountyHandler.removeBounties(userID)
+					await app.query(`DELETE FROM scores WHERE userId ="${userID}"`)
+					await app.query(`DELETE FROM user_items WHERE userId ="${userID}"`)
+					await app.query(`DELETE FROM badges WHERE userId = ${userID}`)
+					await app.query(`DELETE FROM stats WHERE userId = ${userID}`)
+					await app.query(`DELETE FROM userguilds WHERE userId = ${userID}`)
+					await app.query(`DELETE FROM blackmarket WHERE sellerId ="${userID}"`)
+					await app.cd.clearCD(userID, 'shield')
 				}
 
-				// remove bounties before deleting scores row because of foreign constraints
-				await app.bountyHandler.removeBounties(userID)
-				await app.query(`DELETE FROM scores WHERE userId ="${userID}"`)
-				await app.query(`DELETE FROM user_items WHERE userId ="${userID}"`)
-				await app.query(`DELETE FROM badges WHERE userId = ${userID}`)
-				await app.query(`DELETE FROM stats WHERE userId = ${userID}`)
-				await app.query(`DELETE FROM userguilds WHERE userId = ${userID}`)
-				await app.query(`DELETE FROM blackmarket WHERE sellerId ="${userID}"`)
-
-				// server-side economies
-				await app.query(`DELETE FROM server_scores WHERE userId ="${userID}"`)
-				await app.query(`DELETE FROM server_user_items WHERE userId ="${userID}"`)
-				await app.query(`DELETE FROM server_stats WHERE userId ="${userID}"`)
-				await app.query(`DELETE FROM server_badges WHERE userId ="${userID}"`)
-
-				await app.cd.clearCD(userID, 'shield')
+				if (serverSideRows2.length) {
+					// server-side economies
+					await app.query(`DELETE FROM server_scores WHERE userId ="${userID}"`)
+					await app.query(`DELETE FROM server_user_items WHERE userId ="${userID}"`)
+					await app.query(`DELETE FROM server_stats WHERE userId ="${userID}"`)
+					await app.query(`DELETE FROM server_badges WHERE userId ="${userID}"`)
+				}
 
 				botMessage.edit(`Successfully deleted **${user.username}#${user.discriminator}**'s account data.`)
 

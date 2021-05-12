@@ -45,59 +45,32 @@ class Player {
 		if (serverSideGuildId) {
 			await this.app.query(insertServerScoreSQL, [id, serverSideGuildId, new Date().getTime(), 100, 1, 100, 100, 1.00, 'none', 'none', 'none', 'none'])
 
-			message = new this.app.Embed()
-				.setTitle('Thanks for playing Lootcord!')
-				.setColor(13451564)
-				.setThumbnail(this.app.bot.user.avatarURL)
-				.setDescription(`__Here's a list of useful commands:__
-				\`inv\` - View your items, health, money, and currently equipped storage container.
-				\`profile\` - View various statistic about yourself or another player.
-				\`use\` - Uses an item on yourself or attacks another player with said item.
-				\`items\` - View a full list of items. Specify an item to see specific information about it.
-				\`buy\` - Purchase items, you can also specify an amount to purchase.
-				\`sell\` - Sell your items for scrap.
-				\`leaderboard\` - View the best players in your server or globally.
-				\`mysettings\` - Manage your settings such as notifications.
-				\`farm\` - Go farming for loot every hour.
-				\`daily\` - Claim a ${this.app.itemdata.military_crate.icon}\`military_crate\` every day.
-				\`cooldowns\` - View all your command cooldowns.
-
-				You can also use \`t-help <command>\` to see detailed command information and examples.
-
-				Confused? Check out the [faq](https://lootcord.com/rules) and these [guides](https://lootcord.com/guides)!
-
-				Join the [support server](https://discord.gg/apKSxuE) if you need more help!`)
-				.addField('Items Received', `1x ${this.app.itemdata.crate.icon}\`crate\`\nOpen it by __using__ it: \`t-use crate\`\n\nOnce you get a weapon, you can attack another player by __using__ a weapon on them: \`t-use rock @user\``)
-				.setFooter('This message means that you have created an account in a server with server-side economy enabled.')
+			message = {
+				content: `**Thanks for playing server-side Lootcord in ${this.app.bot.guilds.get(serverSideGuildId).name}!**\n` +
+					'Lootcord is a Rust themed fighting bot where you must collect as much loot as possible. There are many ways to get loot: you can use weapons to ' +
+					'attack other players, gamble scrap, play minigames, trade, and much more. When you kill another player, you\'ll steal some of their loot!\n\n' +
+					`<:hapdogg:841964121858506782> Here, take this ${this.app.itemdata.crate.icon}\`crate\`. ` +
+					'The items it drops aren\'t too great but it should get you started.\nOpen it to see what item you get: `t-use crate`. You\'ll see the item in your `inventory`.\n\n' +
+					'Get more crates by using commands such as `farm` and `daily`. Once you get a weapon, try attacking your friend!\n\n' +
+					'**Some handy guides:**\nGetting started: <https://lootcord.com/guides/getting-started/>\nAttacking: <https://lootcord.com/guides/attacks/>\nIncreasing inventory space: <https://lootcord.com/guides/inventory-space/>\n\n' +
+					'If you still need help we\'re here for you in the support server: https://discord.gg/apKSxuE - We also run monthly challenges where the winner receives <:nitro:841973839659270144> Discord Nitro!\n\n' +
+					'I wish you luck on your journey to become powerful! - 💙 blobfysh'
+			}
 		}
 		else {
 			await this.app.query(insertScoreSQL, [id, new Date().getTime(), 100, 1, 100, 100, 1.00, 'none', 'none', 'none', 'none'])
 
-			message = new this.app.Embed()
-				.setTitle('Thanks for playing Lootcord!')
-				.setColor(13451564)
-				.setThumbnail(this.app.bot.user.avatarURL)
-				.setDescription(`Here's a list of useful commands:\n
-				\`inv\` - View your items, health, money, and currently equipped storage container.
-				\`profile\` - View various statistic about yourself or another player.
-				\`use\` - Uses an item on yourself or attacks another player with said item.
-				\`items\` - View a full list of items. Specify an item to see specific information about it.
-				\`buy\` - Purchase items, you can also specify an amount to purchase.
-				\`sell\` - Sell your items for scrap.
-				\`leaderboard\` - View the best players in your server or globally.
-				\`mysettings\` - Manage your settings such as notifications.
-				\`farm\` - Go farming for loot every hour.
-				\`daily\` - Claim a ${this.app.itemdata.military_crate.icon}\`military_crate\` every day.
-				\`cooldowns\` - View all your command cooldowns.
-
-				You can also use \`t-help <command>\` to see detailed command information and examples.
-
-				⚠️ **ALT ACCOUNTS ARE NOT ALLOWED**, make sure to follow these [rules](https://lootcord.com/rules)!
-				Confused? Check out the [faq](https://lootcord.com/rules) and these [guides](https://lootcord.com/guides)!
-
-				Join the [support server](https://discord.gg/apKSxuE) if you need more help!`)
-				.addField('Items Received', `1x ${this.app.itemdata.crate.icon}\`crate\`\nOpen it by __using__ it: \`t-use crate\`\n\nOnce you get a weapon, you can attack another player by __using__ a weapon on them: \`t-use rock @user\``)
-				.setFooter('This message will only be sent the first time your account is created.')
+			message = {
+				content: '**Thanks for playing Lootcord!**\n' +
+					'Lootcord is a Rust themed fighting bot where you must collect as much loot as possible. There are many ways to get loot: you can use weapons to ' +
+					'attack other players, gamble scrap, play minigames, trade, and much more. When you kill another player, you\'ll steal some of their loot!\n\n' +
+					`<:hapdogg:841964121858506782> Here, take this ${this.app.itemdata.crate.icon}\`crate\`. ` +
+					'The items it drops aren\'t too great but it should get you started.\nOpen it to see what item you get: `t-use crate`. You\'ll see the item in your `inventory`.\n\n' +
+					'Get more crates by using commands such as `farm` and `daily`. Once you get a weapon, try attacking your friend!\n\n' +
+					'**Some handy guides:**\nGetting started: <https://lootcord.com/guides/getting-started/>\nAttacking: <https://lootcord.com/guides/attacks/>\nIncreasing inventory space: <https://lootcord.com/guides/inventory-space/>\n\n' +
+					'If you still need help we\'re here for you in the support server: https://discord.gg/apKSxuE - <:nitro:841973839659270144> We also run monthly challenges where the winner receives Discord Nitro!\n\n' +
+					'I wish you luck on your journey to become powerful! - 💙 blobfysh'
+			}
 		}
 
 		// free item!
