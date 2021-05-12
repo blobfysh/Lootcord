@@ -60,7 +60,11 @@ exports.donatorRoles = {
 
 exports.patreon = {
 	campaignId: process.env.PATREON_CAMPAIGN_ID,
-	creatorToken: process.env.PATREON_CREATOR_TOKEN
+	creatorToken: process.env.PATREON_CREATOR_TOKEN,
+
+	// users that should bypass the automatic patreon role removal,
+	// useful if you want someone to have a patreon role even though they aren't subbed to your patreon
+	userRoleRemovalExceptions: ['168958344361541633']
 }
 
 // Bot lists to post stats to

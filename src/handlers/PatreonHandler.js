@@ -140,7 +140,7 @@ class PatreonHandler {
 			const activePatrons = patrons.filter(patron => patron.patronStatus === 'active_patron').map(patron => patron.discordId)
 
 			for (const member of patronMembers) {
-				if (!activePatrons.includes(member.id)) {
+				if (!activePatrons.includes(member.id) && !this.app.config.patreon.userRoleRemovalExceptions.includes(member.id)) {
 					// member has patron role but is no longer a patron (WHY DOES THIS HAPPEN PATREON BOT?)
 					const rolesToRemove = member.roles.filter(role => patronRoles.includes(role))
 
