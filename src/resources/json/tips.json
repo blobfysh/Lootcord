@@ -6,7 +6,6 @@
 	"Storage containers increase your max inventory slots, and can be equipped with `equip <container>`.",
 	"There are various statistics shown on your `profile`!",
 	"You can check what banners you own on your `profile`.",
-	"You can set a preferred ammo to be used in the case that you have multiple ammo types for a single weapon. If no preferred ammo is set, then the best ammo available for the weapon will be used. Change your preferred ammo with `setammo <ammo>`",
 	"Looking for attack notifications? Black market listing sold notifications? Look at your `settings` to see how to enable these and other options.",
 	"Power passively increases by 1 every 2 hours. However, inactive players will gradually lose power. Use this to your advantage when raiding clans!",
 	"Own a badge? Put it on display with `setbadge`! Display badges are shown on several commands including the leaderboard and clan member list.",
