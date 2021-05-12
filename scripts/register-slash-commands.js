@@ -20,6 +20,8 @@ const guildsWithSlashCommands = ['497302646521069568', '454163538055790604']
 
 async function registerCommands() {
 	await registerGlobal()
+
+	// guild slash commands will be registerd to support guild when debug is enabled so you can test them
 	await registerGuild()
 }
 
@@ -103,20 +105,7 @@ async function registerGuild() {
 
 	for (const guild in guildCommands) {
 		try {
-			const currentInteractions = await interactions.getApplicationCommands(guild)
-
-			// Remove slash commands that don't exist anymore, just in case guild wasn't included in guildsWithSlashCommands.
-			// This one will only catch removed commands IF the guild still has at least 1 slash command, thats why
-			// we rely on guildsWithSlashCommands.
-			for (const interaction of currentInteractions) {
-				const exists = guildCommands[guild].find(cmd => cmd.name === interaction.name)
-
-				if (!exists) {
-					await deleteCommand(interaction.id, guild)
-
-					console.log(`- Removed guild slash command - (${guild}) ${interaction.name}`)
-				}
-			}
+			const currentInteractions = await interactions.getApplicationCommands(debug ? supportGuildID : guild)
 
 			// loop through command files and update/create slash commands
 			for (const command of guildCommands[guild]) {
@@ -124,13 +113,13 @@ async function registerGuild() {
 
 				if (slashCommand) {
 					// slash command already exists
-					await updateCommand(slashCommand.id, command, guild)
+					await updateCommand(slashCommand.id, command, debug ? supportGuildID : guild)
 
 					console.log(`* Updated guild slash command - (${guild}) ${slashCommand.name}`)
 				}
 				else {
 					// create new slash command
-					await createCommand(command, guild)
+					await createCommand(command, debug ? supportGuildID : guild)
 
 					console.log(`+ Created guild slash command - (${guild}) ${command.name}`)
 				}
