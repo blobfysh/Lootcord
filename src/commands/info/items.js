@@ -21,6 +21,7 @@ exports.command = {
 		const itemChoice = (args[0] || '').toLowerCase()
 
 		if (itemSearched) {
+			const saleInfo = (await app.query('SELECT * FROM sales WHERE item = ?', itemSearched))[0]
 			const itemInfo = app.itemdata[itemSearched]
 			let itemDesc = itemInfo.desc
 
@@ -75,7 +76,10 @@ exports.command = {
 				embedItem.addField('Chance to break', '100% (item always breaks)', true)
 			}
 
-			if (itemInfo.buy.currency !== undefined && itemInfo.buy.currency === 'money') {
+			if (saleInfo) {
+				embedItem.addField('Buy', app.common.formatNumber(saleInfo.price), true)
+			}
+			else if (itemInfo.buy.currency !== undefined && itemInfo.buy.currency === 'money') {
 				embedItem.addField('Buy', app.common.formatNumber(itemInfo.buy.amount), true)
 			}
 			else if (itemInfo.buy.currency !== undefined) {

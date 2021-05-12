@@ -16,14 +16,7 @@ exports.command = {
 	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const allItems = Object.keys(app.itemdata).filter(item => app.itemdata[item].buy.currency !== undefined)
 
-		allItems.sort(app.itm.sortItemsHighLow.bind(app))
-		allItems.sort((a, b) => {
-			const aCurr = app.itemdata[a].buy.currency
-			const bCurr = app.itemdata[b].buy.currency
-
-			if (aCurr === 'scrap' && bCurr === 'money') return 1
-			else if (aCurr === 'money' && bCurr === 'scrap') return -1
-		})
+		allItems.sort((a, b) => app.itemdata[a].buy.amount - app.itemdata[b].buy.amount)
 
 		app.react.paginate(message, await generatePages(app, allItems, prefix, max_items_per_page, serverSideGuildId))
 	}
@@ -34,11 +27,7 @@ async function generatePages(app, allItems, prefix, itemsPerPage, isServerSideEc
 	const pages = []
 	const maxPage = Math.ceil(allItems.length / itemsPerPage)
 
-	/* TODO replace scrap deals with something else
-	if (!isServerSideEconomy) {
-		pages.push(await getHomePage(app, prefix))
-	}
-	*/
+	pages.push(await getHomePage(app, prefix))
 
 	for (let i = 1; i < maxPage + 1; i++) {
 		const indexFirst = (itemsPerPage * i) - itemsPerPage
@@ -47,15 +36,14 @@ async function generatePages(app, allItems, prefix, itemsPerPage, isServerSideEc
 
 		const pageEmbed = new app.Embed()
 			.setTitle('The Outpost Shop')
-			.setDescription(`Use \`${prefix}buy <item>\` to purchase.\n\nCan't find the item you want? Try searching the black market: \`${prefix}bm <item>\`.`)
+			.setDescription(`Use \`${prefix}buy <item>\` to purchase.`)
 			.setColor(13451564)
 
 		for (const item of filteredItems) {
-			const itemBuyCurr = app.itemdata[item].buy.currency
+			const sale = (await app.query('SELECT * FROM sales WHERE item = ?', item))[0]
+			const priceDisplay = sale ? `**SALE**: ~~${app.common.formatNumber(app.itemdata[item].buy.amount, true)}~~${app.common.formatNumber(sale.price)}` : `Price: ${app.common.formatNumber(app.itemdata[item].buy.amount)}`
 
-			if (itemBuyCurr !== undefined && (itemBuyCurr === 'money' || itemBuyCurr === 'scrap')) {
-				pageEmbed.addField(`${app.itemdata[item].icon}\`${item}\``, `Price: ${app.common.formatNumber(app.itemdata[item].buy.amount, false, itemBuyCurr === 'scrap')}`, true)
-			}
+			pageEmbed.addField(`${app.itemdata[item].icon}\`${item}\``, priceDisplay, true)
 		}
 
 		pages.push(pageEmbed)
@@ -65,7 +53,8 @@ async function generatePages(app, allItems, prefix, itemsPerPage, isServerSideEc
 }
 
 async function getHomePage(app, prefix) {
-	const shopRows = await app.query('SELECT * FROM shopdata')
+	await app.loopTasks.restockShop()
+	const saleItemRows = await app.query('SELECT * FROM sales ORDER BY price ASC')
 	const date = new Date()
 	const converted = new Date(date.toLocaleString('en-US', {
 		timeZone: 'America/New_York'
@@ -75,29 +64,15 @@ async function getHomePage(app, prefix) {
 	const timeUntilMidnight = midnight.getTime() - converted.getTime()
 
 	const firstEmbed = new app.Embed()
-	firstEmbed.setTitle('Welcome to the Outpost!')
-	firstEmbed.setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/733741460868038706/outpost_shop_small.png')
-	firstEmbed.setColor(13451564)
+		.setTitle('Welcome to the Outpost!')
+		.setDescription(`Use \`${prefix}buy <item>\` to purchase.`)
+		.setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/733741460868038706/outpost_shop_small.png')
+		.setColor(13451564)
 
-	const items = []
-
-	for (const shopRow of shopRows) {
-		const display = app.itemdata[shopRow.item] ? `${app.itemdata[shopRow.item].icon} ${shopRow.itemDisplay}` : shopRow.itemDisplay
-
-		if (shopRow !== null) {
-			if (shopRow.itemCurrency === 'money') {
-				firstEmbed.addField(display, `Price: ${app.common.formatNumber(shopRow.itemPrice)} | **${shopRow.itemAmount}** left! Use \`${prefix}buy ${shopRow.itemName}\` to purchase!`)
-			}
-			else if (shopRow.itemCurrency === 'scrap') {
-				items.push(`**${display}** ─ ${app.common.formatNumber(shopRow.itemPrice, false, true)} (${shopRow.itemAmount} left!)\nUse \`${prefix}buy ${shopRow.itemName}\` to purchase!`)
-			}
-			else {
-				firstEmbed.addField(display, `Price: ${shopRow.itemPrice}x ${app.itemdata[shopRow.itemCurrency].icon}\`${shopRow.itemCurrency}\` | **${shopRow.itemAmount}** left! Use \`${prefix}buy ${shopRow.itemName}\` to purchase!`)
-			}
-		}
-	}
-
-	firstEmbed.addField('\u200b', `__**SCRAP DEALS**__ (restocks in \`${app.cd.convertTime(timeUntilMidnight)}\`)\n${items.join('\n\n')}`)
+	firstEmbed.addField(
+		`__**DAILY SCRAP DEALS**__ (restocks in \`${app.cd.convertTime(timeUntilMidnight)}\`)`,
+		saleItemRows.map(sale => `${app.itemdata[sale.item].icon}\`${sale.item}\`\nPrice: ${app.common.formatNumber(sale.price)}`).join('\n\n')
+	)
 
 	return firstEmbed
 }

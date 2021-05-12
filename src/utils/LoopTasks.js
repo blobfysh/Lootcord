@@ -1,5 +1,5 @@
 const CronJob = require('cron').CronJob
-const shopData = require('../resources/json/shop')
+const salesData = require('../resources/json/sales')
 const STATUS_LIST = [
 	'Looting {users} players',
 	'{users} loot goblins',
@@ -152,17 +152,24 @@ class LoopTasks {
 	}
 
 	async restockShop() {
-		await this.app.query('DELETE FROM shopdata WHERE item != \'\'')
+		await this.app.query('DELETE FROM sales')
 
-		const items = this.app.common.shuffleArr(Object.keys(shopData)).slice(0, 3)
+		const items = this.app.common.shuffleArr(salesData).slice(0, 2)
 
 		for (const item of items) {
-			const itemInfo = shopData[item]
-			const price = Math.floor((Math.random() * (itemInfo.maxPrice - itemInfo.minPrice + 1)) + itemInfo.minPrice)
-			const stock = Math.floor((Math.random() * (itemInfo.maxStock - itemInfo.minStock + 1)) + itemInfo.minStock)
+			// 20 - 30% off
+			const percentOff = Math.floor((Math.random() * (30 - 20 + 1)) + 20)
+			let price
 
-			await this.app.query('INSERT INTO shopdata (itemName, itemAmount, itemPrice, itemCurrency, itemDisplay, item) VALUES (?, ?, ?, ?, ?, ?)',
-				[itemInfo.buyName, stock, price, 'scrap', item, item])
+			if (this.app.itemdata[item].buy.currency) {
+				price = Math.floor(this.app.itemdata[item].buy.amount * (1 - (percentOff / 100)))
+			}
+			else {
+				// item can't normally be bought, multiply sell price by 15 and apply percent off
+				price = Math.floor(this.app.itemdata[item].sell * 15 * (1 - (percentOff / 100)))
+			}
+
+			await this.app.query('INSERT INTO sales (item, price) VALUES (?, ?)', [item, price])
 		}
 	}
 

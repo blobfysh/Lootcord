@@ -14,13 +14,13 @@ exports.command = {
 	guildModsOnly: false,
 
 	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
-		const shopItems = await getShopData(app)
 		let buyItem = app.parse.items(args)[0]
 		let buyAmount = app.parse.numbers(args)[0] || 1
 
 		if (buyItem) {
-			const currency = app.itemdata[buyItem].buy.currency
-			const itemPrice = app.itemdata[buyItem].buy.amount
+			const sale = (await app.query('SELECT * FROM sales WHERE item = ?', buyItem))[0]
+			const currency = sale ? 'money' : app.itemdata[buyItem].buy.currency
+			const itemPrice = sale ? sale.price : app.itemdata[buyItem].buy.amount
 
 			if (itemPrice === undefined) {
 				return message.reply(`That item is not for sale, try checking the black market instead: \`${prefix}bm ${buyItem}\``)
@@ -87,75 +87,6 @@ exports.command = {
 						await app.itm.addItem(message.author.id, buyItem, buyAmount, serverSideGuildId)
 
 						botMessage.edit(`Successfully bought ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\`!`)
-					}
-					else {
-						botMessage.delete()
-					}
-				}
-				catch (err) {
-					botMessage.edit('You ran out of time.')
-				}
-			}
-		}
-		else if (shopItems[args[0]] !== undefined) {
-			// code for buying game here
-			buyItem = args[0]
-			const itemAmount = shopItems[buyItem].itemAmount
-			const currency = shopItems[buyItem].itemCurrency
-			const itemPrice = shopItems[buyItem].itemPrice
-			const itemName = shopItems[buyItem].itemDisplay
-			buyAmount = 1
-
-			if (serverSideGuildId) {
-				return message.reply('❌ Global shop deals are not available for server-side economies.')
-			}
-			else if (itemAmount <= 0) {
-				return message.reply('That item is sold out! 😞')
-			}
-
-			if (currency === 'money') {
-				const botMessage = await message.channel.createMessage(`Purchase \`${itemName}\` for ${app.common.formatNumber(itemPrice)}?`)
-
-				try {
-					const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
-
-					if (confirmed) {
-						const row = await app.player.getRow(message.author.id)
-
-						if (row.money < itemPrice) {
-							return botMessage.edit(`You don't have enough scrap for that purchase! You only have **${app.common.formatNumber(row.money)}**.`)
-						}
-
-						await app.player.removeMoney(message.author.id, itemPrice)
-
-						boughtGame(app, message.author, shopItems[buyItem])
-						botMessage.edit(`Successfully bought ${itemName}!`)
-					}
-					else {
-						botMessage.delete()
-					}
-				}
-				catch (err) {
-					botMessage.edit('You ran out of time.')
-				}
-			}
-			else {
-				const botMessage = await message.channel.createMessage(`Purchase \`${itemName}\` for ${itemPrice}x ${app.itemdata[currency].icon}\`${currency}\`?`)
-
-				try {
-					const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
-
-					if (confirmed) {
-						const hasItems = await app.itm.hasItems(await app.itm.getItemObject(message.author.id), currency, itemPrice)
-
-						if (!hasItems) {
-							return botMessage.edit(`You are missing the following items needed to purchase this: ${itemPrice}x ${app.itemdata[currency].icon}\`${currency}\``)
-						}
-
-						await app.itm.removeItem(message.author.id, currency, itemPrice)
-
-						boughtGame(app, message.author, shopItems[buyItem])
-						botMessage.edit(`Successfully bought ${itemName}!`)
 					}
 					else {
 						botMessage.delete()
@@ -264,54 +195,4 @@ exports.command = {
 			message.reply(`You need to enter a valid item to buy! \`${prefix}buy <item> <amount>\``)
 		}
 	}
-}
-
-async function boughtGame(app, user, itemRow) {
-	app.query(`UPDATE shopdata SET itemAmount = itemAmount - 1 WHERE itemName = '${itemRow.itemName}'`)
-
-	if (itemRow.item && itemRow.item !== '') {
-		return app.itm.addItem(user.id, itemRow.item, 1)
-	}
-
-	try {
-		const buyerEmbed = new app.Embed()
-			.setTitle('✅ Shop Item Purchased!')
-			.setDescription('The moderators have received confirmation that you purchased a product from the shop and will respond with your key soon.')
-			.setFooter('Please do not message asking "Where is my code?" unless at least 12 hours have passed. We have the right to cancel this purchase if we suspect you of cheating.')
-			.setTimestamp()
-
-		const dm = await user.getDMChannel()
-		dm.createMessage(buyerEmbed)
-	}
-	catch (err) {
-		console.warn(err)
-		// user has DM's disabled
-	}
-
-	const soldEmbed = new app.Embed()
-		.setTitle('✅ Shop Item Purchased')
-		.addField('Product Sold', itemRow.itemDisplay)
-		.addField('Buyer', `${user.username}#${user.discriminator} ID: \`\`\`\n${user.id}\`\`\``)
-
-	app.messager.messageMods(soldEmbed)
-	console.warn(`A shop item (${itemRow.itemName}) was sold to id: ${user.id}`)
-}
-
-async function getShopData(app) {
-	const itemRows = await app.query('SELECT * FROM shopdata')
-	let itemCount = 0
-	const itemData = {}
-
-	for (const itemRow of itemRows) {
-		if (itemRow !== null) {
-			itemData[itemRow.itemName] = itemRow
-			itemCount += 1
-		}
-	}
-
-	if (itemCount === 0) {
-		return false
-	}
-
-	return itemData
 }
