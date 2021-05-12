@@ -51,7 +51,8 @@
   "nodemonConfig": {
     "ignore": [
       "test/*",
-      "scripts/*"
+      "scripts/*",
+      "migrations/*"
     ],
     "delay": "2500"
   }
