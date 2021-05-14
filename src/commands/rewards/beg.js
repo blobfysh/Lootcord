@@ -12,6 +12,12 @@ exports.command = {
 	guildModsOnly: false,
 
 	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const begCD = await app.cd.getCD(message.author.id, 'beg', { serverSideGuildId })
+
+		if (begCD) {
+			return message.reply(`${app.icons.banditguard} You must really be struggling, but you should wait \`${begCD}\` before begging for more scrap.`)
+		}
+
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const { itemCt } = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id, serverSideGuildId), row)
 		if (row.money >= 500) {
@@ -29,5 +35,6 @@ exports.command = {
 		await message.reply(`${app.icons.banditguard} dang ur broke lol. Take this **${app.common.formatNumber(randAmt)}** scrap and get outta my face.`)
 
 		await app.player.addMoney(message.author.id, randAmt, serverSideGuildId)
+		await app.cd.setCD(message.author.id, 'beg', 60 * 1000, { serverSideGuildId })
 	}
 }
