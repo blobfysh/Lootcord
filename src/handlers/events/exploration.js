@@ -2,7 +2,7 @@ const monuments = require('../../resources/json/explorations')
 
 module.exports = {
 	name: 'exploration',
-	cooldown: 3600 * 1000,
+	cooldown: 300 * 1000,
 
 	async execute(app, message, { prefix, serverSideGuildId }) {
 		console.log('[EVENT] Exploration started')

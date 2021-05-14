@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'airdrop',
-	cooldown: 3600 * 1000 * 6,
+	cooldown: 3600 * 1000,
 
 	async execute(app, message, { prefix, serverSideGuildId }) {
 		console.log('[EVENT] Airdrop started')
