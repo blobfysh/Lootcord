@@ -13,71 +13,58 @@ exports.command = {
 	worksInDMs: true,
 
 	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
-		const isDonor = await app.patreonHandler.isPatron(message.author.id)
-		const attackCD = await app.cd.getCD(message.author.id, 'attack', { serverSideGuildId })
-		const healCD = await app.cd.getCD(message.author.id, 'heal', { serverSideGuildId })
-		const hourlyCD = await app.cd.getCD(message.author.id, 'hourly', { serverSideGuildId })
-		const dailyCD = await app.cd.getCD(message.author.id, 'daily', { serverSideGuildId })
-		const weeklyCD = await app.cd.getCD(message.author.id, 'weekly', { serverSideGuildId })
-		const triviaCD = await app.cd.getCD(message.author.id, 'trivia', { serverSideGuildId })
-		const scrambleCD = await app.cd.getCD(message.author.id, 'scramble', { serverSideGuildId })
-		const voteCD = await app.cd.getCD(message.author.id, 'vote')
-		const vote2CD = await app.cd.getCD(message.author.id, 'vote2')
-		const blackjackCD = await app.cd.getCD(message.author.id, 'blackjack', { serverSideGuildId })
-		const slotsCD = await app.cd.getCD(message.author.id, 'slots', { serverSideGuildId })
-		const rouletteCD = await app.cd.getCD(message.author.id, 'roulette', { serverSideGuildId })
-		const coinflipCD = await app.cd.getCD(message.author.id, 'coinflip', { serverSideGuildId })
-		const jackpotCD = await app.cd.getCD(message.author.id, 'jackpot', { serverSideGuildId })
-		const armorCD = await app.cd.getCD(message.author.id, 'shield', { serverSideGuildId })
-		const armor = await app.player.getArmor(message.author.id, serverSideGuildId)
-		const passiveShield = await app.cd.getCD(message.author.id, 'passive_shield', { serverSideGuildId })
-
-		const hourlyReady = hourlyCD ? `❌ ${hourlyCD}` : '✅ ready'
-		const dailyReady = dailyCD ? `❌ ${dailyCD}` : '✅ ready'
-		let weeklyReady = '❌ Patreon only'
-		const triviaReady = triviaCD ? `❌ ${triviaCD}` : '✅ ready'
-		const scrambleReady = scrambleCD ? `❌ ${scrambleCD}` : '✅ ready'
-		const attackReady = attackCD ? `❌ ${attackCD}` : '✅ ready'
-		const healReady = healCD ? `❌ ${healCD}` : '✅ ready'
-		const voteReady = voteCD ? `❌ ${voteCD}` : '✅ ready'
-		const vote2Ready = vote2CD ? `❌ ${vote2CD}` : '✅ ready'
-		const blackjackReady = blackjackCD ? `❌ ${blackjackCD}` : '✅ ready'
-		const slotsReady = slotsCD ? `❌ ${slotsCD}` : '✅ ready'
-		const rouletteReady = rouletteCD ? `❌ ${rouletteCD}` : '✅ ready'
-		const coinflipReady = coinflipCD ? `❌ ${coinflipCD}` : '✅ ready'
-		const jackpotReady = jackpotCD ? `❌ ${jackpotCD}` : '✅ ready'
-
-		if (isDonor && weeklyCD) {
-			weeklyReady = `❌ ${weeklyCD}`
-		}
-		else if (isDonor) {
-			weeklyReady = '✅ ready'
-		}
-
-		const embedLeader = new app.Embed()
-			.setAuthor('Cooldowns', message.author.avatarURL)
-			.setColor(13451564)
-			.addField('farm', `\`${hourlyReady}\``, true)
-			.addField('daily', `\`${dailyReady}\``, true)
-			.addField('weekly', `\`${weeklyReady}\``, true)
-			.addField('trivia', `\`${triviaReady}\``, true)
-			.addField('scramble', `\`${scrambleReady}\``, true)
-			.addField('blackjack', `\`${blackjackReady}\``, true)
-			.addField('slots', `\`${slotsReady}\``, true)
-			.addField('coinflip', `\`${coinflipReady}\``, true)
-			.addField('roulette', `\`${rouletteReady}\``, true)
-			.addField('vote', `\`${voteReady}\``, true)
-			.addField('vote2', `\`${vote2Ready}\``, true)
-			.addField('jackpot', `\`${jackpotReady}\``, true)
-			.addField(`Attack (part of \`${prefix}use\`)`, `\`${attackReady}\``, true)
-			.addField(`Heal (part of \`${prefix}use\`)`, `\`${healReady}\``, true)
-
-		if (armorCD) {
-			embedLeader.addField(armor ? 'Armor Active' : '🛡 Armor Active', armor ? `${app.itemdata[armor].icon}\`${armorCD}\`` : `\`${armorCD}\``, true)
-		}
-		if (passiveShield) {
-			embedLeader.addField('🛡 Passive Shield', `\`${passiveShield}\` [?](https://lootcord.com/faq#what-is-a-passive-shield 'A passive shield is a 24 hour attack shield given to you when you are killed.\n\nThis shield will automatically be removed if you decide to attack someone.')`, true)
-		}
-		message.channel.createMessage(embedLeader)
+		await message.channel.createMessage(await getCooldowns(app, message.author, serverSideGuildId, prefix))
 	}
+}
+
+const getCooldowns = exports.getCooldowns = async function getCooldowns(app, user, serverSideGuildId, prefix) {
+	const isDonor = await app.patreonHandler.isPatron(user.id)
+
+	const cds = {
+		attack: await app.cd.getCD(user.id, 'attack', { serverSideGuildId }) || '✅ ready',
+		heal: await app.cd.getCD(user.id, 'attack', { serverSideGuildId }) || '✅ ready',
+		hourly: await app.cd.getCD(user.id, 'hourly', { serverSideGuildId }) || '✅ ready',
+		daily: await app.cd.getCD(user.id, 'daily', { serverSideGuildId }) || '✅ ready',
+		weekly: await app.cd.getCD(user.id, 'weekly', { serverSideGuildId }) || '✅ ready',
+		trivia: await app.cd.getCD(user.id, 'trivia', { serverSideGuildId }) || '✅ ready',
+		scramble: await app.cd.getCD(user.id, 'scramble', { serverSideGuildId }) || '✅ ready',
+		vote: await app.cd.getCD(user.id, 'vote') || '✅ ready',
+		vote2: await app.cd.getCD(user.id, 'vote2') || '✅ ready',
+		blackjack: await app.cd.getCD(user.id, 'blackjack', { serverSideGuildId }) || '✅ ready',
+		slots: await app.cd.getCD(user.id, 'slots', { serverSideGuildId }) || '✅ ready',
+		roulette: await app.cd.getCD(user.id, 'roulette', { serverSideGuildId }) || '✅ ready',
+		coinflip: await app.cd.getCD(user.id, 'coinflip', { serverSideGuildId }) || '✅ ready',
+		jackpot: await app.cd.getCD(user.id, 'jackpot', { serverSideGuildId }) || '✅ ready',
+		armor: await app.cd.getCD(user.id, 'shield', { serverSideGuildId }),
+		passiveShield: await app.cd.getCD(user.id, 'passive_shield', { serverSideGuildId })
+	}
+
+	const cdEmbed = new app.Embed()
+		.setAuthor(`${user.username}#${user.discriminator}'s Cooldowns`, app.common.getAvatar(user))
+		.setColor(13451564)
+		.addField('farm', `\`${cds.hourly}\``, true)
+		.addField('daily', `\`${cds.daily}\``, true)
+		.addField('weekly', isDonor ? `\`${cds.weekly}\`` : '❌ Patreon only', true)
+		.addField('trivia', `\`${cds.trivia}\``, true)
+		.addField('scramble', `\`${cds.scramble}\``, true)
+		.addField('blackjack', `\`${cds.blackjack}\``, true)
+		.addField('slots', `\`${cds.slots}\``, true)
+		.addField('coinflip', `\`${cds.coinflip}\``, true)
+		.addField('roulette', `\`${cds.roulette}\``, true)
+		.addField('vote', `\`${cds.vote}\``, true)
+		.addField('vote2', `\`${cds.vote2}\``, true)
+		.addField('jackpot', `\`${cds.jackpot}\``, true)
+		.addField(`Attack (part of \`${prefix}use\`)`, `\`${cds.attack}\``, true)
+		.addField(`Heal (part of \`${prefix}use\`)`, `\`${cds.heal}\``, true)
+
+	if (cds.armor) {
+		const armor = await app.player.getArmor(user.id, serverSideGuildId)
+
+		cdEmbed.addField(armor ? 'Armor Active' : '🛡 Armor Active', armor ? `${app.itemdata[armor].icon}\`${cds.armor}\`` : `\`${cds.armor}\``, true)
+	}
+	if (cds.passiveShield) {
+		cdEmbed.addField('🛡 Passive Shield', `\`${cds.passiveShield}\` [?](https://lootcord.com/faq#what-is-a-passive-shield 'A passive shield is a 24 hour attack shield given to you when you are killed.\n\nThis shield will automatically be removed if you decide to attack someone.')`, true)
+	}
+
+	return cdEmbed
 }
