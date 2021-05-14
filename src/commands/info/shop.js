@@ -58,9 +58,10 @@ async function getHomePage(app, prefix) {
 	const converted = new Date(date.toLocaleString('en-US', {
 		timeZone: 'America/New_York'
 	}))
-	const midnight = new Date(converted)
-	midnight.setHours(24, 0, 0, 0)
-	const timeUntilMidnight = midnight.getTime() - converted.getTime()
+	const restockTime = new Date(converted)
+	// get time until shop restocks (shop restocks every 2 hours)
+	restockTime.setHours(converted.getHours() % 2 === 0 ? converted.getHours() + 2 : converted.getHours() + 1, 0, 0, 0)
+	const timeUntilRestock = restockTime.getTime() - converted.getTime()
 
 	const firstEmbed = new app.Embed()
 		.setTitle('Welcome to the Outpost!')
@@ -69,7 +70,7 @@ async function getHomePage(app, prefix) {
 		.setColor(13451564)
 
 	firstEmbed.addField(
-		`__**DAILY SCRAP DEALS**__ (restocks in \`${app.cd.convertTime(timeUntilMidnight)}\`)`,
+		`__**DAILY SCRAP DEALS**__ (restocks in \`${app.cd.convertTime(timeUntilRestock)}\`)`,
 		saleItemRows.map(sale => `${app.itemdata[sale.item].icon}\`${sale.item}\`\nPrice: ${app.common.formatNumber(sale.price)}`).join('\n\n')
 	)
 

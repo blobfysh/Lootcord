@@ -48,9 +48,6 @@ class LoopTasks {
 
 	async dailyTasks() {
 		console.log('[LOOPTASKS] Running daily tasks...')
-		// reroll scrap deals in shop
-		await this.restockShop()
-
 		// take clan upkeep costs
 		const clans = await this.app.query('SELECT clanId, money, reduction FROM clans')
 		let moneyRemoved = 0
@@ -183,6 +180,9 @@ class LoopTasks {
 
 	async biHourlyTasks() {
 		console.log('[LOOPTASKS] Running bi-hourly tasks...')
+		// reroll scrap deals in shop
+		await this.restockShop()
+
 		// add 1 power to all active players every 2 hours
 		await this.app.query('UPDATE scores SET power = power + 1 WHERE power < max_power AND lastActive > NOW() - INTERVAL 14 DAY;')
 		await this.app.query('UPDATE server_scores SET power = power + 1 WHERE power < max_power AND lastActive > NOW() - INTERVAL 14 DAY;')
