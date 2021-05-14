@@ -13,7 +13,7 @@ exports.command = {
 
 	async execute(app, message, { args, prefix, guildInfo }) {
 		const activatedUsers = await app.query('SELECT userId FROM userguilds WHERE guildId = ?', [message.channel.guild.id])
-		const monsterSpawn = await app.mysql.select('spawns', 'channelId', message.channel.id)
+		const monsterSpawn = await app.mysql.select('spawns', 'guildId', message.channel.guild.id)
 		const toggleCD = await app.cd.getCD(message.channel.guild.id, 'serversidetoggle')
 
 		if (toggleCD) {
@@ -27,7 +27,7 @@ exports.command = {
 			try {
 				for (const user of activatedUsers) {
 					const member = await app.common.fetchMember(message.channel.guild, user.userId)
-					member.removeRole(app.config.activeRoleGuilds[message.channel.guild.id].activeRoleID)
+					await member.removeRole(app.config.activeRoleGuilds[message.channel.guild.id].activeRoleID)
 				}
 			}
 			catch (err) {
