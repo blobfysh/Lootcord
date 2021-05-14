@@ -28,19 +28,11 @@ exports.command = {
 			return message.channel.createMessage(embed)
 		}
 
-
-		const commands = []
-
-		app.clanCommands.forEach(cmd => {
-			commands.push(`▫\`${cmd.name}\` - ${cmd.description}${cmd.levelReq ? ` (Lvl Required: ${cmd.levelReq}+)` : ''}`)
-		})
-		commands.sort()
-
 		const helpEmbed = new app.Embed()
-			.setTitle('Clan help')
+			.setTitle('Clan Help')
 			.setColor(13451564)
-			.setDescription('Check out this page for specific help: [Clans Guide](https://lootcord.com/guides/clans)\nTo use a clan command: `clan <command>`')
-			.addField('Information', commands.join('\n'))
+			.setDescription(`Check out this [guide](https://lootcord.com/guides/clans) on how to use clans.\nTo use a clan command: \`${prefix}clan <command>\`` +
+				`\n\n${app.clanCommands.map(cmd => `\`${prefix}clan ${cmd.name}\` - ${cmd.description}${cmd.levelReq ? ` (Lvl Required: ${cmd.levelReq}+)` : ''}`).join('\n')}`)
 			.setFooter('To see more about a clan command, use t-clan help <command>')
 
 		message.channel.createMessage(helpEmbed)

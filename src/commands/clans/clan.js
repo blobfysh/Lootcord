@@ -20,6 +20,11 @@ exports.command = {
 
 		if (!command) {
 			try {
+				// show help command if user has no clan and wasn't trying to search for any
+				if (scoreRow.clanId === 0 && !args.length) {
+					return app.clanCommands.find(cmd => cmd.name === 'help').execute(app, message, { args, prefix, guildInfo })
+				}
+
 				return app.clanCommands.find(cmd => cmd.name === 'info').execute(app, message, { args, prefix, guildInfo })
 			}
 			catch (err) {
