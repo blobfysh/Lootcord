@@ -22,7 +22,7 @@ const getCooldowns = exports.getCooldowns = async function getCooldowns(app, use
 
 	const cds = {
 		attack: await app.cd.getCD(user.id, 'attack', { serverSideGuildId }) || '✅ ready',
-		heal: await app.cd.getCD(user.id, 'attack', { serverSideGuildId }) || '✅ ready',
+		heal: await app.cd.getCD(user.id, 'heal', { serverSideGuildId }) || '✅ ready',
 		hourly: await app.cd.getCD(user.id, 'hourly', { serverSideGuildId }) || '✅ ready',
 		daily: await app.cd.getCD(user.id, 'daily', { serverSideGuildId }) || '✅ ready',
 		weekly: await app.cd.getCD(user.id, 'weekly', { serverSideGuildId }) || '✅ ready',
