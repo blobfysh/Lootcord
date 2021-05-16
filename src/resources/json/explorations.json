@@ -375,6 +375,143 @@
             }
         ]
     },
+	"underground_railway": {
+        "title": "Underground Railway",
+        "image": "https://cdn.discordapp.com/attachments/610502203672756295/843501505713930270/underground_railway.png",
+        "suggestedLevel": "2",
+        "successRate": {
+            "1": 0.30,
+            "2": 0.4,
+            "3": 0.45,
+            "4": 0.5,
+            "5": 0.5,
+            "6": 0.52,
+            "7": 0.55,
+            "8": 0.6,
+            "9": 0.62,
+            "10": 0.65
+        },
+        "requirement": {
+            "type": null,
+            "value": "",
+            "bonus": 0
+        },
+        "success": [
+            {
+                "reward": {
+                    "item": "crate|1",
+                    "rareItem": "crate|1",
+                    "money": {
+                        "min": 2500,
+                        "max": 4000
+                    }
+                },
+                "loss": {
+                    "type": null,
+                    "value": 0
+                },
+                "quote": "**{user}** found {reward} on the train tracks!"
+            },
+            {
+                "reward": {
+                    "item": "crate|1",
+                    "rareItem": "crate|1",
+                    "money": {
+                        "min": 2500,
+                        "max": 4000
+                    }
+                },
+                "loss": {
+                    "type": null,
+                    "value": 0
+                },
+                "quote": "**{user}** found {reward}!"
+            },
+            {
+                "reward": {
+                    "item": "crate|1",
+                    "rareItem": "crate|1",
+                    "money": {
+                        "min": 2500,
+                        "max": 4000
+                    }
+                },
+                "loss": {
+                    "type": null,
+                    "value": 0
+                },
+                "quote": "**{user}** found {reward} on a dead tunnel dweller!"
+            },
+            {
+                "reward": {
+                    "item": "crate|1",
+                    "rareItem": "crate|1",
+                    "money": {
+                        "min": 2500,
+                        "max": 4000
+                    }
+                },
+                "loss": {
+                    "type": null,
+                    "value": 0
+                },
+                "quote": "**{user}** explored the tunnels and found {reward}!"
+            },
+            {
+                "reward": {
+                    "item": "crate|1",
+                    "rareItem": "crate|1",
+                    "money": {
+                        "min": 2500,
+                        "max": 4000
+                    }
+                },
+                "loss": {
+                    "type": "health",
+                    "value": 5
+                },
+                "quote": "**{user}** encounters another player and chooses to fight! After taking **{damage}** damage, **{user}** manages to find {reward}."
+            }
+        ],
+        "failed": [
+            {
+                "loss": {
+                    "type": null,
+                    "value": 0
+                },
+                "item": "",
+                "item2": "",
+                "quote": "**{user}** searched the tunnels but found nothing..."
+            },
+			{
+                "loss": {
+                    "type": null,
+                    "value": 0
+                },
+                "item": "",
+                "item2": "",
+                "quote": "**{user}** got lost..."
+            },
+            {
+                "loss": {
+                    "type": null,
+                    "value": 0
+                },
+                "item": "",
+                "item2": "",
+                "quote": "**{user}** saw plenty of dead tunnel dwellers and decided to back off..."
+            },
+            {
+                "loss": {
+                    "type": "health",
+                    "value": 5
+                },
+                "item": "m92_pistol",
+                "item2": "",
+                "quote": "**{user}** was shot at by a tunnel dweller and lost **{damage}** health!"
+            }
+        ]
+    },
     "launch_site": {
         "title": "Launch Site",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/738367055530819665/launch_site2.png",
