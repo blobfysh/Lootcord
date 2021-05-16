@@ -105,8 +105,6 @@ exports.command = {
 				// player attacked, remove passive shield
 				if (passiveShieldCD) await app.cd.clearCD(message.author.id, 'passive_shield', serverSideGuildId)
 
-				await app.cd.setCD(message.author.id, 'attack', itemInfo.cooldown.seconds * 1000, { serverSideGuildId })
-
 				// Check if victim has armor and if the ammo penetrates armor
 				if (victimArmor && (!ammoUsed || !app.itemdata[ammoUsed].penetratesArmor)) {
 					finalDamage -= Math.floor(totalDamage * app.itemdata[victimArmor].shieldInfo.protection)
@@ -259,8 +257,6 @@ exports.command = {
 				// player attacked, remove passive shield
 				if (passiveShieldCD) await app.cd.clearCD(message.author.id, 'passive_shield', serverSideGuildId)
 
-				await app.cd.setCD(message.author.id, 'attack', itemInfo.cooldown.seconds * 1000, { serverSideGuildId })
-
 				// track damage for kill rewards
 				await app.monsters.playerDealtDamage(message.author.id, message.channel.id, totalDamage)
 
@@ -371,9 +367,15 @@ exports.command = {
 
 			// used to remove the attackers weapon/ammo before an attack
 			const removeWeapon = async() => {
-				if (ammoUsed) {
+				if (await app.cd.getCD(message.author.id, 'attack', { serverSideGuildId })) {
+					return message.reply('❌ You need to wait before attacking again.')
+				}
+				else if (ammoUsed) {
 					await app.itm.removeItem(message.author.id, ammoUsed, 1, serverSideGuildId)
 				}
+
+				// weapon removed, add cooldown
+				await app.cd.setCD(message.author.id, 'attack', itemInfo.cooldown.seconds * 1000, { serverSideGuildId })
 
 				// check if ranged weapon breaks
 				if (itemInfo.category === 'Ranged' && ammoUsed && Math.random() <= parseFloat(itemInfo.chanceToBreak)) {
