@@ -466,6 +466,41 @@
         ],
         "tier": 2
     },
+	"m39_rifle": {
+        "minDmg": 38,
+        "maxDmg": 43,
+        "ammo": [
+            "explosive_bullet",
+            "incen_rifle_bullet",
+            "hv_rifle_bullet",
+            "rifle_bullet"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": [
+                "rifle_body|1",
+                "high_quality_metal|1"
+            ]
+        },
+        "buy": "",
+        "sell": 74350,
+        "desc": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/843540960712327168/m39_rifle.png",
+        "icon": "<:m39_rifle:843539216470376508>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.14,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 4342
+        },
+        "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Ranged",
+        "aliases": [
+            "m39"
+        ],
+        "tier": 3
+    },
     "semi_pistol": {
         "minDmg": 5,
         "maxDmg": 15,

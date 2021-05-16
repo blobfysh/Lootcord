@@ -379,7 +379,8 @@
                     "rocket_launcher|1",
                     "hv_rifle_bullet|1",
                     "incen_rifle_bullet|1",
-                    "metal_armor|1"
+                    "metal_armor|1",
+					"m39_rifle|1"
                 ]
             },
             "0.5": {
