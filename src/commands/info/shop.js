@@ -70,7 +70,7 @@ async function getHomePage(app, prefix) {
 		.setColor(13451564)
 
 	firstEmbed.addField(
-		`__**DAILY SCRAP DEALS**__ (restocks in \`${app.cd.convertTime(timeUntilRestock)}\`)`,
+		`__**SCRAP DEALS**__ (restocks in \`${app.cd.convertTime(timeUntilRestock)}\`)`,
 		saleItemRows.map(sale => `${app.itemdata[sale.item].icon}\`${sale.item}\`\nPrice: ${app.common.formatNumber(sale.price)}`).join('\n\n')
 	)
 
