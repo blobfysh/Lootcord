@@ -25,7 +25,7 @@
         "chanceToBreak": 0.08,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 6720
+            "seconds": 7800
         },
         "phrase": "{attacker} mows down {victim} using a {weaponIcon}`{weapon}` loaded with {ammoIcon}`{ammo}`'s! **{damage}** damage dealt!",
         "artist": "",
@@ -409,7 +409,7 @@
         "chanceToBreak": 0.26,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 5626
+            "seconds": 7260
         },
         "phrase": "{attacker} fires a {ammoIcon}`{ammo}` straight at {victim} using a {weaponIcon}`{weapon}`! **{damage}** damage dealt!",
         "artist": "",
@@ -488,7 +488,7 @@
         "image": "https://cdn.discordapp.com/attachments/732785161661317224/843540960712327168/m39_rifle.png",
         "icon": "<:m39_rifle:843539216470376508>",
         "breaksOnUse": false,
-        "chanceToBreak": 0.14,
+        "chanceToBreak": 0.15,
         "canBeStolen": true,
         "cooldown": {
             "seconds": 4342
@@ -854,7 +854,7 @@
         "chanceToBreak": 0.13,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 4957
+            "seconds": 5657
         },
         "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
