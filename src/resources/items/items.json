@@ -500,6 +500,7 @@
                 "tech_trash|2"
             ]
         },
+		"explosiveDamage": 50,
         "recyclesTo": {
             "display": "4x gunpowder",
             "materials": [
@@ -508,7 +509,7 @@
         },
         "buy": "",
         "sell": 312900,
-        "desc": "Use this on another clan to temporarily lower their current power by **5** for 1 hour, making them vulnerable to a raid.\n\nThis effect can stack.",
+        "desc": "Use this on another clan to lower their health by **50**, making them vulnerable to a raid.",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/732930980725260348/c4.png",
         "icon": "<:c4:750105297695014912>",
         "breaksOnUse": "",

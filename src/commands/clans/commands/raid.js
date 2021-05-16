@@ -1,8 +1,10 @@
+const { CLANS } = require('../../../resources/constants')
+
 exports.command = {
 	name: 'raid',
 	aliases: [],
 	description: 'Raid another clan.',
-	long: 'Raid another clan.',
+	long: 'Raid another clan. A clan can be raided if they have 0 health.',
 	args: { clan: 'Name of clan to raid.' },
 	examples: ['clan raid Mod Squad'],
 	requiresClan: true,
@@ -13,10 +15,7 @@ exports.command = {
 		const scoreRow = await app.player.getRow(message.author.id)
 		const raidCD = await app.cd.getCD(scoreRow.clanId, 'raid')
 
-		if (scoreRow.clanId === 0) {
-			return message.reply('❌ You are not a member of any clan.')
-		}
-		else if (!args.length) {
+		if (!args.length) {
 			return message.reply('❌ You need to specify the name of the clan you want to raid.')
 		}
 		else if (raidCD) {
@@ -24,7 +23,6 @@ exports.command = {
 		}
 
 		const clanName = args.join(' ')
-
 		const clanRow = await app.clans.searchClanRow(clanName)
 
 		if (!clanRow) {
@@ -37,147 +35,113 @@ exports.command = {
 			return message.reply('That clan just got raided! Let the clan recuperate before raiding them again.')
 		}
 
-		const raider = await app.clans.getRow(scoreRow.clanId)
-		const clanPower = await app.clans.getClanData(clanRow)
-		const isRaidable = clanPower.usedPower > clanPower.currPower
-		const itemsToSteal = clanPower.usedPower - clanPower.currPower
-
-		const raidEmbed = new app.Embed()
-			.setAuthor(`${message.author.username} | ${raider.name}`, message.author.avatarURL)
-			.setDescription(`Raiding: \`${clanRow.name}\``)
-			.setTitle(app.icons.loading)
-
-		const botmsg = await message.channel.createMessage(raidEmbed)
-
 		try {
-			const raidableEmbed = new app.Embed()
-				.setAuthor(`${message.author.username} | ${raider.name}`, message.author.avatarURL)
+			const transaction = await app.mysql.beginTransaction()
+			const raiderRow = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId)
+			const victimRow = await app.clans.getRowForUpdate(transaction.query, clanRow.clanId)
 
-			if (!isRaidable) {
-				raidableEmbed.setDescription(`❌ Raid failed!\n\n\`${clanRow.name}\` has **${clanPower.currPower}** current power and is only using **${clanPower.usedPower}** power in their vault.\n\nYou can only raid clans whose **used** power is greater than their **current** power.`)
-				raidableEmbed.setColor(15083840)
+			const raidEmbed = new app.Embed()
+				.setAuthor(`${message.author.username} | ${raiderRow.name}`, message.author.avatarURL)
+				.setDescription(`Raiding: \`${clanRow.name}\``)
+				.setTitle(app.icons.loading)
+
+			const botMsg = await message.channel.createMessage(raidEmbed)
+
+			if (victimRow.health > 0) {
+				await transaction.commit()
+
+				const raidableEmbed = new app.Embed()
+					.setAuthor(`${message.author.username} | ${raiderRow.name}`, message.author.avatarURL)
+					.setDescription(`❌ Raid failed!\n\n\`${clanRow.name}\` has ${app.icons.health.full} **${clanRow.health} / ${clanRow.maxHealth}** health.\n\nYou can lower the health of this clan with explosives such as ${app.itemdata.c4.icon}\`c4\`.`)
+					.setColor(15083840)
 
 				setTimeout(() => {
-					botmsg.edit(raidableEmbed)
+					botMsg.edit(raidableEmbed)
 				}, 2000)
-
-				return
 			}
+			else {
+				const raiderItems = await app.itm.getItemObjectForUpdate(transaction.query, scoreRow.clanId)
+				const victimItems = await app.itm.getItemObjectForUpdate(transaction.query, clanRow.clanId)
 
-			const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 120000 })
+				const raiderClanData = await app.clans.getClanData(raiderRow, raiderItems)
+				const itemsToSteal = raiderClanData.vaultSlots - raiderClanData.itemCount
+				const moneyToSteal = Math.max(0, CLANS.levels[raiderRow.level].bankLimit - raiderRow.money)
+				const moneyStolen = Math.min(victimRow.money, moneyToSteal)
+				let itemsStolen
+				let itemsStolenDisplay
 
-			raidableEmbed.setDescription(`Raid successful!\n\nChoose up to **${itemsToSteal}** items to steal from their vault.\n\nExample: \`${prefix}steal crate 2\` to steal 2 crates from the vault. Not sure what items they have? Check with \`${prefix}clan vault ${clanRow.name}\`.`)
-			raidableEmbed.setFooter(`You have 2 minutes to pick the items. | You can type ${prefix}stop to end the raid early.`)
-			raidableEmbed.setColor(8311585)
-			setTimeout(() => {
-				botmsg.edit(raidableEmbed)
-			}, 2000)
+				if (itemsToSteal <= 0 && moneyToSteal === 0) {
+					await transaction.commit()
 
-			console.log('[CLANS] Someone is raiding right now.')
-			app.clans.addLog(scoreRow.clanId, `${message.author.username} raided ${clanRow.name}`)
-			app.clans.addLog(clanRow.clanId, `Raided by ${raider.name} (${`${message.author.username}#${message.author.discriminator}`})`)
+					const raidedEmbed = new app.Embed()
+						.setAuthor(`${message.author.username} | ${raiderRow.name}`, message.author.avatarURL)
+						.setDescription('❌ Raid failed!\n\nYour clan has no room to steal from other clans (your bank and vault are full, you should try to make some space before raiding another clan).')
+						.setColor(15083840)
 
-			const moneyStolen = Math.floor(clanRow.money / 2) <= (clanPower.memberCount * 2000000) ? Math.floor(clanRow.money / 2) : clanPower.memberCount * 2000000
-			let itemsStolen = 0
-			const itemsArray = []
+					setTimeout(() => {
+						botMsg.edit(raidedEmbed)
+					}, 2000)
 
-			await app.cd.setCD(clanRow.clanId, 'getting_raided', 130 * 1000, { ignoreQuery: true })
-			await app.cd.setCD(clanRow.clanId, 'raided', 3600 * 1000 * 24)
-			await app.cd.setCD(scoreRow.clanId, 'raid', 3600 * 1000)
+					return
+				}
 
-			await app.clans.removeMoney(clanRow.clanId, moneyStolen)
-			await app.clans.addMoney(scoreRow.clanId, moneyStolen)
+				if (itemsToSteal > 0) {
+					itemsStolen = await app.itm.getRandomUserItems(victimItems, itemsToSteal)
+
+					itemsStolenDisplay = itemsStolen.items.length !== 0 ? itemsStolen.display.join('\n') : 'No items to steal'
+				}
+				else {
+					itemsStolenDisplay = 'Your clan\'s vault was too full to steal any items!'
+				}
+
+				// all checks passed, add cooldowns
+				await app.cd.setCD(victimRow.clanId, 'raided', 3600 * 1000 * 24)
+				await app.cd.setCD(raiderRow.clanId, 'raid', 3600 * 1000)
+				await app.clans.addLog(raiderRow.clanId, `${message.author.username} raided ${victimRow.name}`)
+				await app.clans.addLog(victimRow.clanId, `Raided by ${raiderRow.name} (${`${message.author.username}#${message.author.discriminator}`})`)
+
+				// transfer money
+				await app.clans.removeMoneySafely(transaction.query, victimRow.clanId, moneyStolen)
+				await app.clans.addMoneySafely(transaction.query, raiderRow.clanId, moneyStolen)
+
+				// transfer items
+				if (itemsStolen && itemsStolen.amounts.length) {
+					await app.itm.removeItemSafely(transaction.query, victimRow.clanId, itemsStolen.amounts)
+					await app.itm.addItemSafely(transaction.query, raiderRow.clanId, itemsStolen.amounts)
+				}
+
+				const raidedEmbed = new app.Embed()
+					.setAuthor(`${message.author.username} | ${raiderRow.name}`, message.author.avatarURL)
+					.setDescription('✅ Raid successful!')
+					.addField('Scrap Stolen', app.common.formatNumber(moneyStolen))
+					.addField(`Items (${itemsStolen ? itemsStolen.items.length : 0})`, itemsStolenDisplay)
+					.setColor(15083840)
 
 
-			if (await app.itm.getItemObject(clanRow.clanId) === {}) {
+				// degrade clans level
+				if (victimRow.level - 1 >= 1) {
+					await transaction.query('UPDATE clans SET level = ?, maxHealth = ? WHERE clanId = ?', [victimRow.level - 1, CLANS.levels[victimRow.level - 1].maxHealth, victimRow.clanId])
+					raidedEmbed.setFooter(`The base of ${victimRow.name} degraded from ${CLANS.levels[victimRow.level].type} to ${CLANS.levels[victimRow.level - 1].type}.`)
+				}
+
+				// finished trading items/money, end transaction
+				await transaction.commit()
+
 				setTimeout(() => {
-					app.msgCollector.stopCollector(collectorObj)
-					message.channel.createMessage(`<@${message.author.id}>, -> Max items stolen. Ending raid.`)
+					botMsg.edit(raidedEmbed)
 				}, 2000)
+
+				await app.clans.raidNotify(victimRow.clanId, raiderRow.name, moneyStolen, itemsStolen ? itemsStolen.display.join('\n') : 'No items were stolen')
 			}
-
-			collectorObj.collector.on('collect', async m => {
-				if (!m.content.toLowerCase().startsWith(prefix)) return
-
-				const userArgs = m.content.slice(prefix.length).split(/ +/)
-				const command = userArgs[0] || ''
-				const itemInput = userArgs.slice(1)
-				const item = app.parse.items(itemInput)[0]
-				const amount = app.parse.numbers(itemInput)[0] || 1
-
-				if (command.toLowerCase() === 'stop' || command.toLowerCase() === 'end') {
-					app.msgCollector.stopCollector(collectorObj)
-					return m.channel.createMessage(`<@${m.author.id}>, -> Ending raid.`)
-				}
-				else if (command.toLowerCase() === 'steal' || command.toLowerCase() === 'take') {
-					if (!item) { return }
-
-					else if (amount + itemsStolen > itemsToSteal) {
-						return m.channel.createMessage(`❌ Too many items! You can only steal ${itemsToSteal - itemsStolen} more items.`)
-					}
-
-					const clanItems = await app.itm.getItemObject(clanRow.clanId)
-
-					if (!await app.itm.hasItems(clanItems, item, amount)) {
-						return m.channel.createMessage(`❌ Their vault doesn't have enough of that item. They have **${clanItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\``)
-					}
-
-					await app.itm.removeItem(clanRow.clanId, item, amount)
-					await app.itm.addItem(scoreRow.clanId, item, amount)
-
-					m.channel.createMessage(`Successfully stole ${amount}x ${app.itemdata[item].icon}\`${item}\`.\n\nYou can steal **${itemsToSteal - (amount + itemsStolen)}** more items.`)
-					itemsArray.push(`${item}|${amount}`)
-					itemsStolen += amount
-
-					if (itemsToSteal - itemsStolen <= 0) {
-						m.channel.createMessage(`<@${m.author.id}>, -> Max items stolen. Ending raid.`)
-						app.msgCollector.stopCollector(collectorObj)
-					}
-				}
-			})
-			collectorObj.collector.on('end', async reason => {
-				await app.cd.clearCD(clanRow.clanId, 'getting_raided')
-
-				const successEmbed = new app.Embed()
-					.setAuthor(`${message.author.username} | ${raider.name}`, message.author.avatarURL)
-					.setDescription(`Money Stolen: ${app.common.formatNumber(moneyStolen)}`)
-					.addField('Items Stolen:', getItemsDisplay(app, itemsArray).join('\n'))
-					.setColor(8311585)
-					.setFooter('These items can be found in your clan vault.')
-
-				message.channel.createMessage(successEmbed)
-
-				app.clans.raidNotify(clanRow.clanId, raider.name, moneyStolen, getItemsDisplay(app, itemsArray))
-			})
 		}
 		catch (err) {
-			return message.reply('❌ You have an active command running!')
+			console.log(err)
+
+			const errorEmbed = new app.Embed()
+				.setAuthor(`${message.author.username} | ${clanRow.name}`, message.author.avatarURL)
+				.setDescription('There was an error while trying to raid, you should probably contact the bot developer.')
+
+			await message.channel.createMessage(errorEmbed).catch(console.log)
 		}
 	}
-}
-
-function getItemsDisplay(app, itemArr) {
-	const nameArr = []
-	const amountArr = []
-	const finalArr = []
-
-	for (let i = 0; i < itemArr.length; i++) {
-		const item = itemArr[i].split('|')
-
-		const nameArrIndex = nameArr.indexOf(item[0])
-
-		if (nameArrIndex !== -1) {
-			amountArr[nameArrIndex] = parseInt(amountArr[nameArrIndex]) + parseInt(item[1])
-		}
-		else {
-			nameArr.push(item[0])
-			amountArr.push(item[1])
-		}
-	}
-
-	for (let i = 0; i < nameArr.length; i++) {
-		finalArr.push(`${amountArr[i]}x ${app.itemdata[nameArr[i]].icon}\`${nameArr[i]}\``)
-	}
-
-	return finalArr.length > 0 ? finalArr : ['Nothing...']
 }

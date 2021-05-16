@@ -36,7 +36,7 @@ exports.command = {
 					app.clans.disbandClan(scoreRow.clanId)
 				}
 
-				app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} left`)
+				await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} left`)
 
 				botMessage.edit(`✅ Successfully left clan: \`${clanRow.name}\``)
 			}

@@ -20,9 +20,6 @@ exports.command = {
 		if (await app.cd.getCD(message.author.id, 'tradeban')) {
 			return message.reply('❌ You are trade banned.')
 		}
-		else if (await app.cd.getCD(scoreRow.clanId.toString(), 'getting_raided')) {
-			return message.reply('Your clan is being raided **RIGHT NOW**, you cannot withdraw items while being raided.')
-		}
 		else if (!itemName && !itemAmnt) {
 			return message.reply('You need to specify an item or scrap to withdraw from the clan! `clan withdraw <item/scrap> <amount>`')
 		}
@@ -41,7 +38,7 @@ exports.command = {
 				await app.player.addMoneySafely(transaction.query, message.author.id, itemAmnt)
 				await transaction.commit()
 
-				app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} withdrew ${app.common.formatNumber(itemAmnt, true)}`)
+				await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} withdrew ${app.common.formatNumber(itemAmnt, true)}`)
 
 				return message.reply(`Withdrew **${app.common.formatNumber(itemAmnt)}**\n\nThe clan bank now has **${app.common.formatNumber(clanRow.money - itemAmnt)}**`)
 			}
@@ -81,12 +78,9 @@ exports.command = {
 			await app.itm.addItemSafely(transaction.query, message.author.id, itemName, itemAmnt)
 			await transaction.commit()
 
-			app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} withdrew ${itemAmnt}x ${itemName}`)
+			await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} withdrew ${itemAmnt}x ${itemName}`)
 
-			const clanPow = await app.clans.getClanData(await app.clans.getRow(scoreRow.clanId))
-
-
-			message.reply(`Withdrew ${itemAmnt}x ${app.itemdata[itemName].icon}\`${itemName}\` from your clan vault.\n\nThe vault now has **${clanItems[itemName] - itemAmnt}x** ${app.itemdata[itemName].icon}\`${itemName}\` and is using **${`${clanPow.usedPower}/${clanPow.currPower}`}** power.`)
+			message.reply(`Withdrew ${itemAmnt}x ${app.itemdata[itemName].icon}\`${itemName}\` from your clan vault.\n\nThe vault now has **${clanItems[itemName] - itemAmnt}x** ${app.itemdata[itemName].icon}\`${itemName}\`.`)
 		}
 		catch (err) {
 			return message.reply('There was an error trying to withdraw.')

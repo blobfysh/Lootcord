@@ -136,22 +136,10 @@ module.exports = {
 								if (serverSideGuildId) {
 									await app.query(`UPDATE server_scores SET deaths = deaths + 1 WHERE userId = ${user} AND guildId = ${serverSideGuildId}`)
 									await app.query(`UPDATE server_scores SET health = 100 WHERE userId = ${user} AND guildId = ${serverSideGuildId}`)
-									if (userRow.power >= -3) {
-										await app.query(`UPDATE server_scores SET power = power - 2 WHERE userId = ${user} AND guildId = ${serverSideGuildId}`)
-									}
-									else {
-										await app.query(`UPDATE server_scores SET power = -5 WHERE userId = ${user} AND guildId = ${serverSideGuildId}`)
-									}
 								}
 								else {
 									await app.query(`UPDATE scores SET deaths = deaths + 1 WHERE userId = ${user}`)
 									await app.query(`UPDATE scores SET health = 100 WHERE userId = ${user}`)
-									if (userRow.power >= -3) {
-										await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${user}`)
-									}
-									else {
-										await app.query(`UPDATE scores SET power = -5 WHERE userId = ${user}`)
-									}
 								}
 
 								if (randomItems.items.length) {

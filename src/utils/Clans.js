@@ -1,3 +1,5 @@
+const { CLANS } = require('../resources/constants')
+
 class Clans {
 	constructor(app) {
 		this.app = app
@@ -49,28 +51,24 @@ class Clans {
 		this.app.query(`DELETE FROM clans WHERE clanId = ${clanId}`)
 	}
 
-	getUpkeep(bank, memberCount, inactiveMembers) {
-		const base = memberCount * 5000
+	getUpkeep(level, bank, memberCount, inactiveMembers) {
+		let upkeep = 0
 
-		if (inactiveMembers > Math.floor(memberCount / 2)) return base + Math.floor(bank / 2)
+		upkeep += CLANS.levels[level].upkeep
 
-		return base
+		if (inactiveMembers > Math.floor(memberCount / 2)) return upkeep + Math.floor(bank / 2)
+
+		return upkeep
 	}
 
-	getBankLimit(memberCount) {
-		return memberCount * 1000000
-	}
-
-	async getClanData(clanRow) {
-		let currPower = 0
-		let maxPower = 0
+	async getClanData(clanRow, clanItems) {
 		let kills = 0
 		let deaths = 0
 		let timePlayed = 0
 		let inactiveMembers = 0
 		const dateTime = Date.now()
 
-		const clanItems = await this.app.itm.getUserItems(await this.app.itm.getItemObject(clanRow.clanId))
+		const { itemCount, invValue } = await this.app.itm.getUserItems(clanItems)
 		const memberRows = await this.app.query(`SELECT * FROM scores WHERE clanId = ${clanRow.clanId}`)
 
 		for (let i = 0; i < memberRows.length; i++) {
@@ -78,53 +76,40 @@ class Clans {
 			deaths += memberRows[i].deaths
 			timePlayed += dateTime - memberRows[i].createdAt
 
-			if (memberRows[i].clanRank >= 1) {
-				currPower += memberRows[i].power
-				maxPower += memberRows[i].max_power
-			}
-
 			// check if member hasn't played in 14+ days
 			if (memberRows[i].lastActive < (Date.now() - (1000 * 60 * 60 * 24 * 14))) {
 				inactiveMembers++
 			}
 		}
 
-		currPower -= clanRow.reduction
-
 		return {
-			usedPower: clanItems.itemCount,
-			currPower,
-			explosion: clanRow.reduction,
-			maxPower,
 			memberCount: memberRows.length,
 			inactiveMemberCount: inactiveMembers,
 			kills,
 			deaths,
 			playtime: timePlayed,
-			vaultValue: clanItems.invValue
+			itemCount,
+			vaultSlots: CLANS.levels[clanRow.level].itemLimit,
+			vaultValue: invValue
 		}
 	}
 
-	async hasPower(clanData, amount) {
-		if ((clanData.currPower - clanData.usedPower) >= amount) {
-			return true
-		}
-
-		return false
+	async hasSpace(clanData, amount) {
+		return clanData.vaultSlots - clanData.itemCount >= amount
 	}
 
-	async raidNotify(victimClanId, raiderClanName, moneyStolen, itemsStolen) {
+	async raidNotify(victimClanId, raiderClanName, moneyStolen, itemsStolenString) {
 		const users = await this.app.query(`SELECT * FROM scores WHERE clanId = ${victimClanId}`)
 
 		for (let i = 0; i < users.length; i++) {
 			if (users[i].notify3) {
 				const raidedEmb = new this.app.Embed()
 					.setTitle(`Your clan was raided by \`${raiderClanName}\`!`)
-					.addField('Money Stolen:', this.app.common.formatNumber(moneyStolen), true)
-					.addField('Items Stolen:', itemsStolen.join('\n'))
+					.addField('Scrap Lost', this.app.common.formatNumber(moneyStolen), true)
+					.addField('Items Lost', itemsStolenString)
 					.setColor(16734296)
 
-				this.app.common.messageUser(users[i].userId, raidedEmb)
+				await this.app.common.messageUser(users[i].userId, raidedEmb)
 			}
 		}
 	}
@@ -146,7 +131,12 @@ class Clans {
 	}
 
 	async addLog(clanId, details) {
-		await this.app.query('INSERT INTO clan_logs (clanId, details, logTime, logDate) VALUES (?, ?, ?, NOW())', [clanId, details, new Date().getTime()])
+		try {
+			await this.app.query('INSERT INTO clan_logs (clanId, details, logTime, logDate) VALUES (?, ?, ?, NOW())', [clanId, details, new Date().getTime()])
+		}
+		catch (err) {
+			// continue
+		}
 	}
 }
 

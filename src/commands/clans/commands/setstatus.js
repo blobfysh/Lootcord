@@ -35,7 +35,7 @@ exports.command = {
 		try {
 			await app.query('UPDATE clans SET status = ? WHERE clanId = ?', [!statusToSet ? '' : statusToSet, scoreRow.clanId])
 
-			app.clans.addLog(scoreRow.clanId, `${message.author.username} set the clan status to: ${!statusToSet ? 'Nothing?' : statusToSet}`)
+			await app.clans.addLog(scoreRow.clanId, `${message.author.username} set the clan status to: ${!statusToSet ? 'Nothing?' : statusToSet}`)
 			message.reply(`✅ Successfully set status to: ${!statusToSet ? 'Nothing?' : statusToSet}`)
 
 			const logEmbed = new app.Embed()

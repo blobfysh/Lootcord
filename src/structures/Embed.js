@@ -1,5 +1,6 @@
 class Embed {
-	constructor() {
+	constructor(options = { maxFieldWidth: undefined }) {
+		this.maxFieldWidith = options.maxFieldWidth
 		this.embed = {
 			fields: [],
 			color: 3092790
@@ -21,6 +22,16 @@ class Embed {
 		}
 		else if (!value) {
 			return false
+		}
+
+		if (this.maxFieldWidith && (this.embed.fields.length + 1) % 3 === this.maxFieldWidith) {
+			for (let i = 0; i < (3 - this.maxFieldWidith); i++) {
+				this.embed.fields.push({
+					name: '\u200B',
+					value: '\u200B',
+					inline: true
+				})
+			}
 		}
 
 		this.embed.fields.push({

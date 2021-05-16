@@ -1,3 +1,5 @@
+const { CLANS } = require('../../../resources/constants')
+
 exports.command = {
 	name: 'info',
 	aliases: ['i', 'inf'],
@@ -47,8 +49,8 @@ exports.command = {
 async function getClanInfo(app, message, clanId) {
 	const clanRow = await app.clans.getRow(clanId)
 	const clanMembers = await app.clans.getMembers(clanId)
-	const clanPower = await app.clans.getClanData(clanRow)
-	const upkeep = app.clans.getUpkeep(clanRow.money, clanMembers.count, clanPower.inactiveMemberCount)
+	const clanData = await app.clans.getClanData(clanRow, await app.itm.getItemObject(clanId))
+	const upkeep = app.clans.getUpkeep(clanRow.level, clanRow.money, clanMembers.count, clanData.inactiveMemberCount)
 	const raidCD = await app.cd.getCD(clanId, 'raid')
 	const raidedCD = await app.cd.getCD(clanId, 'raided')
 
@@ -64,31 +66,26 @@ async function getClanInfo(app, message, clanId) {
 	if (raidedCD) {
 		baseEmbed.addField('Recently Raided', `This clan just got raided and cannot be raided again for \`${raidedCD}\`.`)
 	}
+
+	// clan image
 	if (clanRow.iconURL) {
 		baseEmbed.setThumbnail(clanRow.iconURL)
 	}
-
-	if (clanRow.reduction > 0) {
-		baseEmbed.addField('Clan Power\n(Used / Current / Max)',
-			`${clanPower.usedPower} / 💥 ${clanPower.currPower} / ${clanPower.maxPower}\n\n- **${clanPower.usedPower}** items in the clan vault, using ${clanPower.usedPower} power.\n- **${clanPower.currPower + clanRow.reduction}** current cumulative power among members minus 💥 **${clanRow.reduction}** power from explosions.\n- **${clanPower.maxPower}** maximum possible power (if every member had 5 power).`,
-			true)
-	}
 	else {
-		baseEmbed.addField('Clan Power\n(Used / Current / Max)',
-			`${clanPower.usedPower} / ${clanPower.currPower} / ${clanPower.maxPower}\n\n- **${clanPower.usedPower}** items in the clan vault, using ${clanPower.usedPower} power.\n- **${clanPower.currPower}** current cumulative power among members (5 per member).\n- **${clanPower.maxPower}** maximum possible power (if every member had 5 power).`,
-			true)
+		baseEmbed.setThumbnail(CLANS.levels[clanRow.level].image)
 	}
 
-	baseEmbed.addField('Member Stats', `${`${clanPower.kills} kills | ${clanPower.deaths} deaths`}\n${app.cd.convertTime(clanPower.playtime)} of total playtime`, true)
+	baseEmbed.addField('Health', `**${clanRow.health} / ${clanRow.maxHealth}** HP${app.player.getHealthIcon(clanRow.health, clanRow.maxHealth, true)}`, true)
+	baseEmbed.addField('Clan Stats', `Level: **${clanRow.level} (${CLANS.levels[clanRow.level].type})**\nItems in storage: **${clanData.itemCount} / ${clanData.vaultSlots}**`, true)
 	baseEmbed.addBlankField()
-	baseEmbed.addField('Bank', `${app.common.formatNumber(clanRow.money)} / ${app.common.formatNumber(app.clans.getBankLimit(clanMembers.count), true)} max`, true)
+	baseEmbed.addField('Scrap Bank', `${app.common.formatNumber(clanRow.money)} / ${app.common.formatNumber(CLANS.levels[clanRow.level].bankLimit, true)} max`, true)
 
 	let upkeepStr = app.common.formatNumber(upkeep)
 
 	if (clanRow.money < upkeep) {
 		upkeepStr += '\n\n⚠ **This clan is decaying.**\nItems will be lost from the vault if upkeep is not paid tonight!'
 	}
-	else if (clanPower.inactiveMemberCount > Math.floor(clanPower.memberCount / 2)) {
+	else if (clanData.inactiveMemberCount > Math.floor(clanData.memberCount / 2)) {
 		upkeepStr += '\n\n⚠ **This clan is decaying.**\nThe upkeep is greatly increased because half or more members are inactive!'
 	}
 

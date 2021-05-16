@@ -1,3 +1,5 @@
+const { CLANS } = require('../../../resources/constants')
+
 exports.command = {
 	name: 'deposit',
 	aliases: ['put'],
@@ -35,7 +37,7 @@ exports.command = {
 				const transaction = await app.mysql.beginTransaction()
 				const userRow = await app.player.getRowForUpdate(transaction.query, message.author.id)
 				const clanRow = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId)
-				const bankLimit = app.clans.getBankLimit((await app.clans.getMembers(scoreRow.clanId)).count)
+				const bankLimit = CLANS.levels[clanRow.level].bankLimit
 
 				if (itemAmnt > userRow.money) {
 					await transaction.commit()
@@ -45,17 +47,17 @@ exports.command = {
 					await transaction.commit()
 
 					if (bankLimit - clanRow.money <= 0) {
-						return message.reply(`**Your clan bank is packed!**\n\nThe bank cannot hold more than **${app.common.formatNumber(bankLimit)}**. You can increase this amount by inviting more members to the clan.`)
+						return message.reply(`**Your clan bank is packed!**\n\nThe bank cannot hold more than **${app.common.formatNumber(bankLimit)}**. You can increase this by upgrading the clan with \`${prefix}clan upgrade\`.`)
 					}
 
-					return message.reply(`Your clan can only hold **${app.common.formatNumber(bankLimit - clanRow.money)}** more in the bank. You can increase this by inviting more members to the clan.`)
+					return message.reply(`Your clan can only hold **${app.common.formatNumber(bankLimit - clanRow.money)}** more in the bank. You can increase this by upgrading the clan with \`${prefix}clan upgrade\`.`)
 				}
 
 				await app.clans.addMoneySafely(transaction.query, scoreRow.clanId, itemAmnt)
 				await app.player.removeMoneySafely(transaction.query, message.author.id, itemAmnt)
 				await transaction.commit()
 
-				app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} deposited ${app.common.formatNumber(itemAmnt, true)} scrap`)
+				await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} deposited ${app.common.formatNumber(itemAmnt, true)} scrap`)
 
 				return message.reply(`Deposited **${app.common.formatNumber(itemAmnt)}**\n\nThe clan bank now has **${app.common.formatNumber(clanRow.money + itemAmnt)}**`)
 			}
@@ -76,11 +78,11 @@ exports.command = {
 
 		try {
 			const transaction = await app.mysql.beginTransaction()
-			const clanData = await app.clans.getClanData(await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId))
+			const clanData = await app.clans.getClanData(await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId), await app.itm.getItemObjectForUpdate(transaction.query, scoreRow.clanId))
 
-			if (!await app.clans.hasPower(clanData, itemAmnt)) {
+			if (!await app.clans.hasSpace(clanData, itemAmnt)) {
 				await transaction.commit()
-				return message.reply(`Theres not enough power available in the clan! Your vault is currently using **${clanData.usedPower}** power and only has **${clanData.currPower}** current power.`)
+				return message.reply(`❌ Theres not enough space in the clan vault! Your vault is currently holding **${clanData.itemCount} / ${clanData.vaultSlots}** items.`)
 			}
 
 			const userItems = await app.itm.getItemObjectForUpdate(transaction.query, message.author.id)
@@ -95,12 +97,9 @@ exports.command = {
 			await app.itm.removeItemSafely(transaction.query, message.author.id, itemName, itemAmnt)
 			await transaction.commit()
 
-			app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} deposited ${itemAmnt}x ${itemName}`)
+			await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} deposited ${itemAmnt}x ${itemName}`)
 
-			const clanItems = await app.itm.getItemObject(scoreRow.clanId)
-			const clanPow = await app.clans.getClanData(await app.clans.getRow(scoreRow.clanId))
-
-			message.reply(`Deposited ${itemAmnt}x ${app.itemdata[itemName].icon}\`${itemName}\` to your clan vault.\n\nThe vault now has **${clanItems[itemName]}x** ${app.itemdata[itemName].icon}\`${itemName}\` and is using **${`${clanPow.usedPower}/${clanPow.currPower}`}** power.`)
+			message.reply(`Deposited ${itemAmnt}x ${app.itemdata[itemName].icon}\`${itemName}\` to your clan vault.`)
 		}
 		catch (err) {
 			return message.reply('There was an error trying to deposit.')

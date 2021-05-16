@@ -30,10 +30,6 @@ exports.command = {
 	}
 }
 
-function codeWrap(input, code) {
-	return `\`\`\`${code}\n${input}\`\`\``
-}
-
 const makeProfile = exports.makeProfile = async function makeProfile(app, user, serverSideGuildId) {
 	try {
 		const userRow = await app.player.getRow(user.id, serverSideGuildId)
@@ -84,9 +80,8 @@ const makeProfile = exports.makeProfile = async function makeProfile(app, user, 
 			.setColor(13451564)
 			.setAuthor(`${user.username}#${user.discriminator}'s Profile`, app.common.getAvatar(user))
 			.setDescription(userStatus)
-			.addField('Clan', codeWrap(userRow.clanId !== 0 ? (await app.clans.getRow(userRow.clanId)).name : 'None', 'js'), true)
-			.addField('Level', codeWrap(`${userRow.level} (${xp.curLvlXp} / ${xp.neededForLvl})`, 'js'), true)
-			.addField('Power', codeWrap(`${userRow.power} / ${userRow.max_power} Power`, 'js'), true)
+			.addField('Clan', userRow.clanId !== 0 ? (await app.clans.getRow(userRow.clanId)).name : 'None', true)
+			.addField('Level', `${userRow.level} (${xp.curLvlXp} / ${xp.neededForLvl} XP)`, true)
 			.addField('K/D Ratio', userRow.deaths === 0 ? `${userRow.kills} Kills\n${userRow.deaths} Deaths (${userRow.kills} K/D)\n` : `${userRow.kills} Kills\n${userRow.deaths} Deaths (${(userRow.kills / userRow.deaths).toFixed(2)} K/D)`, true)
 			.addField('Trivia Stats', `Attempts: ${trivias}\nCorrect: ${triviasCorrect}`, true)
 			.addField('Scramble Stats', `Attempts: ${scrambles}\nCorrect: ${scramblesCorrect}`, true)

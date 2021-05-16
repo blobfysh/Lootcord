@@ -29,6 +29,75 @@ const ITEM_TYPES = {
 	}
 }
 
+const CLANS = {
+	levels: {
+		1: {
+			itemLimit: 3,
+			bankLimit: 50000,
+			maxHealth: 50,
+			upkeep: 1000,
+			type: 'Twig',
+			image: 'https://cdn.discordapp.com/attachments/610502203672756295/843342638681423902/base_twig_level1.png'
+		},
+		2: {
+			itemLimit: 5,
+			bankLimit: 150000,
+			maxHealth: 75,
+			upkeep: 5000,
+			type: 'Wood',
+			image: 'https://cdn.discordapp.com/attachments/610502203672756295/843406016098992138/base_wood_level2.png',
+			cost: {
+				money: 50000,
+				materials: [
+					'wood|2'
+				]
+			}
+		},
+		3: {
+			itemLimit: 10,
+			bankLimit: 300000,
+			maxHealth: 100,
+			upkeep: 10000,
+			type: 'Stone',
+			image: 'https://cdn.discordapp.com/attachments/610502203672756295/843406013218029578/base_stone_level3.png',
+			cost: {
+				money: 150000,
+				materials: [
+					'stone|3'
+				]
+			}
+		},
+		4: {
+			itemLimit: 20,
+			bankLimit: 1000000,
+			maxHealth: 200,
+			upkeep: 20000,
+			type: 'Metal',
+			image: 'https://cdn.discordapp.com/attachments/610502203672756295/843406011553415199/base_metal_level4.png',
+			cost: {
+				money: 300000,
+				materials: [
+					'metal|4'
+				]
+			}
+		},
+		5: {
+			itemLimit: 40,
+			bankLimit: 2000000,
+			maxHealth: 300,
+			upkeep: 50000,
+			type: 'High Quality Metal',
+			image: 'https://cdn.discordapp.com/attachments/610502203672756295/843406618120945674/base_hqm_level5.png',
+			cost: {
+				money: 1000000,
+				materials: [
+					'high_quality_metal|4'
+				]
+			}
+		}
+	}
+}
+
 const RULES = {
 	1: {
 		desc: 'Bug exploitation',
@@ -69,5 +138,6 @@ const PERMISSIONS = {
 module.exports = {
 	ITEM_TYPES,
 	RULES,
-	PERMISSIONS
+	PERMISSIONS,
+	CLANS
 }

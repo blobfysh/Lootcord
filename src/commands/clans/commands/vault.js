@@ -1,10 +1,10 @@
-const { ITEM_TYPES } = require('../../../resources/constants')
+const { ITEM_TYPES, CLANS } = require('../../../resources/constants')
 const { getPageCount } = require('../../info/inventory')
 const ITEMS_PER_PAGE = 15
 
 exports.command = {
 	name: 'vault',
-	aliases: ['inv', 'v'],
+	aliases: ['inv', 'v', 'storage'],
 	description: 'Show the items in a clans vault.',
 	long: 'Shows all items in a clans vault.',
 	args: { 'clan/user': 'Clan or user to search, will default to your own clan if none specified.' },
@@ -58,14 +58,18 @@ async function generatePages(app, clanId) {
 		const indexFirst = (ITEMS_PER_PAGE * i) - ITEMS_PER_PAGE
 		const indexLast = ITEMS_PER_PAGE * i
 
-		const embedInfo = new app.Embed()
+		const embedInfo = new app.Embed({ maxFieldWidth: 2 })
 			.setColor(13451564)
 			.setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
-			.setTitle('Vault')
+			.setTitle('Clan Storage')
 
 		if (clanRow.iconURL) {
 			embedInfo.setThumbnail(clanRow.iconURL)
 		}
+		else {
+			embedInfo.setThumbnail(CLANS.levels[clanRow.level].image)
+		}
+
 
 		// item fields
 		if (clanItems.ranged.slice(indexFirst, indexLast).length) {
@@ -101,7 +105,7 @@ async function generatePages(app, clanId) {
 			embedInfo.setFooter(`Page ${i}/${vaultPageCount}`)
 		}
 
-		embedInfo.addField('\u200b', `Power (slots) used: ${clanItems.itemCount} | Vault value: ${app.common.formatNumber(clanItems.invValue)}`)
+		embedInfo.addField('\u200b', `Vault space: ${clanItems.itemCount} / ${CLANS.levels[clanRow.level].itemLimit} max | Value: ${app.common.formatNumber(clanItems.invValue)}`)
 
 		messages.push(embedInfo)
 	}

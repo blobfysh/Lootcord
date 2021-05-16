@@ -1,12 +1,12 @@
 const Filter = require('bad-words')
 const filter = new Filter()
-const CREATION_COST = 100000
+const CREATION_COST = 10000
 
 exports.command = {
 	name: 'create',
 	aliases: [],
 	description: 'Create a clan.',
-	long: 'Create a clan. Costs 100,000 scrap.',
+	long: 'Create a clan. Costs 10,000 scrap.',
 	args: { name: 'Desired name of your clan.' },
 	examples: [],
 	requiresClan: false,
@@ -94,11 +94,10 @@ INSERT IGNORE INTO clans (
     status,
     iconURL,
     clanCreated,
-    clanViews,
-    reduction)
+    clanViews)
     VALUES (
         ?, ?,
         0, '', '',
-        ?, 0, 0
+        ?, 0
     )
 `

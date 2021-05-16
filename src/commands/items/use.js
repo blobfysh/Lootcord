@@ -140,24 +140,10 @@ exports.command = {
 					if (serverSideGuildId) {
 						await app.query(`UPDATE server_scores SET kills = kills + 1 WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`) // add 1 to kills
 						await app.query(`UPDATE server_scores SET deaths = deaths + 1, health = 100, bleed = 0, burn = 0 WHERE userId = ${victim.id} AND guildId = ${serverSideGuildId}`)
-
-						if (victimRow.power >= -3) {
-							await app.query(`UPDATE server_scores SET power = power - 2 WHERE userId = ${victim.id} AND guildId = ${serverSideGuildId}`)
-						}
-						else {
-							await app.query(`UPDATE server_scores SET power = -5 WHERE userId = ${victim.id} AND guildId = ${serverSideGuildId}`)
-						}
 					}
 					else {
 						await app.query(`UPDATE scores SET kills = kills + 1 WHERE userId = ${message.author.id}`) // add 1 to kills
 						await app.query(`UPDATE scores SET deaths = deaths + 1, health = 100, bleed = 0, burn = 0 WHERE userId = ${victim.id}`)
-
-						if (victimRow.power >= -3) {
-							await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${victim.id}`)
-						}
-						else {
-							await app.query(`UPDATE scores SET power = -5 WHERE userId = ${victim.id}`)
-						}
 					}
 
 					// add badges
@@ -340,23 +326,9 @@ exports.command = {
 
 						if (serverSideGuildId) {
 							await app.query(`UPDATE server_scores SET deaths = deaths + 1, health = 100, bleed = 0, burn = 0 WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
-
-							if (row.power >= -3) {
-								await app.query(`UPDATE server_scores SET power = power - 2 WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
-							}
-							else {
-								await app.query(`UPDATE server_scores SET power = -5 WHERE userId = ${message.author.id} AND guildId = ${serverSideGuildId}`)
-							}
 						}
 						else {
 							await app.query(`UPDATE scores SET deaths = deaths + 1, health = 100, bleed = 0, burn = 0 WHERE userId = ${message.author.id}`)
-
-							if (row.power >= -3) {
-								await app.query(`UPDATE scores SET power = power - 2 WHERE userId = ${message.author.id}`)
-							}
-							else {
-								await app.query(`UPDATE scores SET power = -5 WHERE userId = ${message.author.id}`)
-							}
 						}
 
 						// send notifications
@@ -699,49 +671,48 @@ exports.command = {
 
 				message.reply(`You read the ${app.itemdata.reroll_scroll.icon}\`reroll_scroll\` and feel a sense of renewal. Your skills have been reset.`)
 			}
-			else if (item === 'c4' && serverSideGuildId) {
-				return message.reply('❌ You cannot use explosives with server-side economy mode enabled.')
-			}
-			else if (item === 'c4') {
-				await message.reply(`What clan do you want to use ${app.itemdata.c4.icon}\`c4\` on?\n\nType the name of the clan:`)
+			else if (['c4'].includes(item)) {
+				if (serverSideGuildId) {
+					return message.reply('❌ You cannot use explosives with server-side economy mode enabled.')
+				}
+
+				await message.reply(`What clan do you want to use ${app.itemdata[item].icon}\`${item}\` on?\n\nType the name of the clan:`)
 
 				const result = await app.msgCollector.awaitMessages(message.author.id, message.channel.id, m => m.author.id === message.author.id)
+
+				if (result === 'time') {
+					return message.reply('You ran out of time to specify a clan.')
+				}
+
 				const clanName = result[0].content.split(/ +/)
 				userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 
-				if (!clanName.length) {
-					return message.reply(`You need to specify a clan to use your explosive on! \`${prefix}use c4 <clan name>\``)
-				}
-				else if (!userItems[item]) {
+				if (!userItems[item]) {
 					return message.reply(`❌ You don't have a ${app.itemdata[item].icon}\`${item}\`!`)
 				}
 
 				const clanRow = await app.clans.searchClanRow(clanName.join(' '))
 
 				if (!clanRow) {
-					return message.reply('I could not find a clan with that name! Maybe you misspelled it?')
+					return result[0].reply('I could not find a clan with that name! Maybe you misspelled it?')
 				}
 				else if (row.clanId === clanRow.clanId) {
-					return message.reply('❌ You cannot use explosives on your own clan.')
+					return result[0].reply('❌ You cannot use explosives on your own clan.')
+				}
+				else if (clanRow.health <= 0) {
+					return result[0].reply(`❌ That clan can already be raided! Raid them with \`${prefix}clan raid ${clanRow.name}\``)
 				}
 
-				const clanPower = await app.clans.getClanData(clanRow)
+				await app.itm.removeItem(message.author.id, item, 1)
+				await app.query('UPDATE clans SET health = health - ? WHERE clanId = ?', [app.itemdata[item].explosiveDamage, clanRow.clanId])
 
-				await app.itm.removeItem(message.author.id, 'c4', 1)
-				await app.query('UPDATE clans SET reduction = reduction + 5 WHERE clanId = ?', [clanRow.clanId])
-				await app.query('INSERT INTO cooldown (userId, type, start, length) VALUES (?, ?, ?, ?)', [clanRow.clanId, 'explosion', new Date().getTime(), 3600 * 1000])
-				app.clans.addLog(clanRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} used explosives on the clan! (c4)`)
-
-				setTimeout(async() => {
-					await app.query('UPDATE clans SET reduction = reduction - 5 WHERE clanId = ?', [clanRow.clanId])
-					await app.query('DELETE FROM cooldown WHERE userId = ? AND type = \'explosion\'', [clanRow.clanId])
-				}, 3600 * 1000)
+				await app.clans.addLog(clanRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} used explosives on the clan! (${item})`)
 
 				const msgEmbed = new app.Embed()
 					.setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
-					.setDescription(`💥 ***BOOM***\n\nThe current power of \`${clanRow.name}\` drops from **${clanPower.currPower}** to 💥 **${clanPower.currPower - 5}**.`)
-					.setFooter('This effect lasts one hour.')
+					.setDescription(`💥 ***BOOM***\n\nThe health of \`${clanRow.name}\` drops from ${app.icons.health.full} **${clanRow.health}** to ${app.icons.health.full} **${clanRow.health - app.itemdata[item].explosiveDamage}**.`)
 					.setColor(16734296)
+
 				message.channel.createMessage(msgEmbed)
 			}
 		}

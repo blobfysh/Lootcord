@@ -49,23 +49,23 @@ class LoopTasks {
 	async dailyTasks() {
 		console.log('[LOOPTASKS] Running daily tasks...')
 		// take clan upkeep costs
-		const clans = await this.app.query('SELECT clanId, money, reduction FROM clans')
+		const clans = await this.app.query('SELECT clanId, money, level FROM clans')
 		let moneyRemoved = 0
 		let itemsRemoved = 0
 		let decayingClans = 0
 
 		for (let i = 0; i < clans.length; i++) {
-			const clanData = await this.app.clans.getClanData(clans[i])
-			const upkeep = this.app.clans.getUpkeep(clans[i].money, clanData.memberCount, clanData.inactiveMemberCount)
+			const clanItems = await this.app.itm.getItemObject(clans[i].clanId)
+			const clanData = await this.app.clans.getClanData(clans[i], clanItems)
+			const upkeep = this.app.clans.getUpkeep(clans[i].level, clans[i].money, clanData.memberCount, clanData.inactiveMemberCount)
 
 			if (clans[i].money >= upkeep) {
 				await this.app.clans.removeMoney(clans[i].clanId, upkeep)
 				moneyRemoved += upkeep
 				decayingClans++
 			}
-			else if (clanData.usedPower >= 1) {
-				const clanitems = await this.app.itm.getItemObject(clans[i].clanId)
-				const randomItem = await this.app.itm.getRandomUserItems(clanitems, 1)
+			else if (clanData.itemCount >= 1) {
+				const randomItem = await this.app.itm.getRandomUserItems(clanItems, 1)
 				await this.app.itm.removeItem(clans[i].clanId, randomItem.items[0], 1)
 				await this.app.clans.addLog(clans[i].clanId, `The vault lost 1x ${randomItem.items[0]} due to cost of upkeep`)
 				itemsRemoved++
@@ -183,17 +183,12 @@ class LoopTasks {
 		// reroll scrap deals in shop
 		await this.restockShop()
 
-		// add 1 power to all active players every 2 hours
-		await this.app.query('UPDATE scores SET power = power + 1 WHERE power < max_power AND lastActive > NOW() - INTERVAL 14 DAY;')
-		await this.app.query('UPDATE server_scores SET power = power + 1 WHERE power < max_power AND lastActive > NOW() - INTERVAL 14 DAY;')
-
-		// remove 1 power for players inactve over 2 weeks, down to minimum of 0
-		await this.app.query('UPDATE scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 14 DAY')
-		await this.app.query('UPDATE server_scores SET power = power - 1 WHERE power > 0 AND lastActive < NOW() - INTERVAL 14 DAY')
+		// add 5 health to clans every 2 hours
+		await this.app.query('UPDATE clans SET health = health + 5 WHERE health < maxHealth')
 
 		// clean up cooldown tables
-		this.app.query('DELETE FROM cooldown WHERE UNIX_TIMESTAMP() * 1000 > start + length')
-		this.app.query('DELETE FROM server_cooldown WHERE UNIX_TIMESTAMP() * 1000 > start + length')
+		await this.app.query('DELETE FROM cooldown WHERE UNIX_TIMESTAMP() * 1000 > start + length')
+		await this.app.query('DELETE FROM server_cooldown WHERE UNIX_TIMESTAMP() * 1000 > start + length')
 	}
 
 	async hourlyTasks() {
