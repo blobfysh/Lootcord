@@ -792,8 +792,8 @@
         "tier": 1
     },
     "rocket_launcher": {
-        "minDmg": 0,
-        "maxDmg": 40,
+        "minDmg": 15,
+        "maxDmg": 55,
         "ammo": [
             "rocket",
             "hv_rocket"
@@ -820,7 +820,7 @@
         "chanceToBreak": 0.15,
         "canBeStolen": true,
         "cooldown": {
-            "seconds": 5383
+            "seconds": 8683
         },
         "phrase": "{attacker} blew {victim} to bits using a {weaponIcon}`{weapon}` loaded with a {ammoIcon}`{ammo}`! **{damage}** damage dealt!",
         "artist": "",
