@@ -88,7 +88,15 @@ exports.command = {
 				if (itemsToSteal > 0) {
 					itemsStolen = await app.itm.getRandomUserItems(victimItems, itemsToSteal)
 
-					itemsStolenDisplay = itemsStolen.items.length !== 0 ? itemsStolen.display.join('\n') : 'No items to steal'
+					if (itemsStolen.items.length !== 0 && itemsStolen.display.length > 20) {
+						itemsStolenDisplay = `${itemsStolen.display.slice(0, 20).join('\n')}\n...and **${itemsStolen.display.length - 20}** more items.`
+					}
+					else if (itemsStolen.items.length !== 0) {
+						itemsStolenDisplay = itemsStolen.display.join('\n')
+					}
+					else {
+						itemsStolenDisplay = 'No items to steal'
+					}
 				}
 				else {
 					itemsStolenDisplay = 'Your clan\'s vault was too full to steal any items!'
@@ -116,7 +124,6 @@ exports.command = {
 					.addField('Scrap Stolen', app.common.formatNumber(moneyStolen))
 					.addField(`Items (${itemsStolen ? itemsStolen.items.length : 0})`, itemsStolenDisplay)
 					.setColor(15083840)
-
 
 				// degrade clans level
 				if (victimRow.level - 1 >= 1) {
