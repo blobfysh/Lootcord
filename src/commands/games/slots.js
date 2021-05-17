@@ -91,11 +91,11 @@ exports.command = {
 
 			if (winnings > 0) {
 				newEmbed.setColor(720640)
-				endString = `You won **${app.common.formatNumber(winnings)} scrap** (${multiplier}x)`
+				endString = `You won **${app.common.formatNumber(winnings)}** scrap (${multiplier}x)`
 			}
 			else {
 				newEmbed.setColor(13632027)
-				endString = 'You lost!'
+				endString = `You lost **${app.common.formatNumber(gambleAmount)}** scrap!`
 			}
 
 			botMsg.edit({
