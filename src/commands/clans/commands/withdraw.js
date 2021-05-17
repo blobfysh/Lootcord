@@ -1,8 +1,8 @@
 exports.command = {
 	name: 'withdraw',
 	aliases: ['take'],
-	description: 'Withdraw items from your clans vault.',
-	long: 'Withdraw items from your clans vault.',
+	description: 'Withdraw items from your clan\'s storage.',
+	long: 'Withdraw items from your clan\'s storage.',
 	args: { 'item/scrap': 'Item to withdraw or scrap to withdraw.', 'amount': 'Amount of item or scrap to take out.' },
 	examples: ['clan withdraw military_crate 2', 'clan withdraw 2000'],
 	requiresClan: true,
@@ -63,7 +63,7 @@ exports.command = {
 
 			if (!hasItems) {
 				await transaction.commit()
-				return message.reply(`Your clan vault has **${clanItems[itemName] !== undefined ? `${clanItems[itemName]}x` : '0'}** ${app.itemdata[itemName].icon}\`${itemName}\`${!clanItems[itemName] || clanItems[itemName] > 1 ? '\'s' : ''}...`)
+				return message.reply(`Your clan has **${clanItems[itemName] !== undefined ? `${clanItems[itemName]}x` : '0'}** ${app.itemdata[itemName].icon}\`${itemName}\`${!clanItems[itemName] || clanItems[itemName] > 1 ? '\'s' : ''}...`)
 			}
 
 			const itemCt = await app.itm.getItemCount(await app.itm.getItemObjectForUpdate(transaction.query, message.author.id), scoreRow)
@@ -80,7 +80,7 @@ exports.command = {
 
 			await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} withdrew ${itemAmnt}x ${itemName}`)
 
-			message.reply(`Withdrew ${itemAmnt}x ${app.itemdata[itemName].icon}\`${itemName}\` from your clan vault.\n\nThe vault now has **${clanItems[itemName] - itemAmnt}x** ${app.itemdata[itemName].icon}\`${itemName}\`.`)
+			message.reply(`Withdrew ${itemAmnt}x ${app.itemdata[itemName].icon}\`${itemName}\` from your clan.\n\nThe clan storage now has **${clanItems[itemName] - itemAmnt}x** ${app.itemdata[itemName].icon}\`${itemName}\`.`)
 		}
 		catch (err) {
 			return message.reply('There was an error trying to withdraw.')

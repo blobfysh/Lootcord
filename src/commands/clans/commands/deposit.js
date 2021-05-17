@@ -3,8 +3,8 @@ const { CLANS } = require('../../../resources/constants')
 exports.command = {
 	name: 'deposit',
 	aliases: ['put'],
-	description: 'Deposit items into your clans vault.',
-	long: 'Deposit items into your clans vault.',
+	description: 'Deposit items into your clan\'s storage.',
+	long: 'Deposit items into your clan\'s storage.',
 	args: { 'item/scrap': 'Item to deposit or scrap to deposit.', 'amount': 'Amount of item or scrap to deposit.' },
 	examples: ['clan deposit assault_rifle 1', 'clan deposit 3000'],
 	requiresClan: true,
@@ -73,7 +73,7 @@ exports.command = {
 			return message.reply('❌ I don\'t recognize that item.')
 		}
 		else if (!app.itemdata[itemName].canBeStolen) {
-			return message.reply(`\`${itemName}\`'s are bound to the player, meaning you can't trade them or put them in the clan vault.`)
+			return message.reply(`\`${itemName}\`'s are bound to the player, meaning you can't trade them or put them in the clan inventory.`)
 		}
 
 		try {
@@ -82,7 +82,7 @@ exports.command = {
 
 			if (!await app.clans.hasSpace(clanData, itemAmnt)) {
 				await transaction.commit()
-				return message.reply(`❌ Theres not enough space in the clan vault! Your vault is currently holding **${clanData.itemCount} / ${clanData.vaultSlots}** items.`)
+				return message.reply(`❌ Theres not enough space in the clan! Your clan is currently holding **${clanData.itemCount} / ${clanData.vaultSlots}** items.`)
 			}
 
 			const userItems = await app.itm.getItemObjectForUpdate(transaction.query, message.author.id)
@@ -99,7 +99,7 @@ exports.command = {
 
 			await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} deposited ${itemAmnt}x ${itemName}`)
 
-			message.reply(`Deposited ${itemAmnt}x ${app.itemdata[itemName].icon}\`${itemName}\` to your clan vault.`)
+			message.reply(`Deposited ${itemAmnt}x ${app.itemdata[itemName].icon}\`${itemName}\` to the clan storage.`)
 		}
 		catch (err) {
 			return message.reply('There was an error trying to deposit.')

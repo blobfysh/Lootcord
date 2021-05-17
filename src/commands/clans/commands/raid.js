@@ -75,7 +75,7 @@ exports.command = {
 
 					const raidedEmbed = new app.Embed()
 						.setAuthor(`${message.author.username} | ${raiderRow.name}`, message.author.avatarURL)
-						.setDescription('❌ Raid failed!\n\nYour clan has no room to steal from other clans (your bank and vault are full, you should try to make some space before raiding another clan).')
+						.setDescription('❌ Raid failed!\n\nYour clan has no room to steal from other clans (your bank and item storage are full, you should try to clear some space before raiding another clan).')
 						.setColor(15083840)
 
 					setTimeout(() => {
@@ -99,7 +99,7 @@ exports.command = {
 					}
 				}
 				else {
-					itemsStolenDisplay = 'Your clan\'s vault was too full to steal any items!'
+					itemsStolenDisplay = 'Your clan\'s storage was too full to steal any items!'
 				}
 
 				// all checks passed, add cooldowns

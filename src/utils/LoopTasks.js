@@ -67,7 +67,7 @@ class LoopTasks {
 			else if (clanData.itemCount >= 1) {
 				const randomItem = await this.app.itm.getRandomUserItems(clanItems, 1)
 				await this.app.itm.removeItem(clans[i].clanId, randomItem.items[0], 1)
-				await this.app.clans.addLog(clans[i].clanId, `The vault lost 1x ${randomItem.items[0]} due to cost of upkeep`)
+				await this.app.clans.addLog(clans[i].clanId, `The item storage lost 1x ${randomItem.items[0]} due to cost of upkeep`)
 				itemsRemoved++
 				decayingClans++
 			}

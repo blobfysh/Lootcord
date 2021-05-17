@@ -66,7 +66,7 @@ exports.command = {
 
 				await app.player.removeMoney(message.author.id, CREATION_COST)
 				createClan(app, clanName, message.author.id)
-				botMessage.edit(`Congratulations! You are now the proud leader of the \`${clanName}\` clan!\n\nView your clan information with \`${prefix}clan info\` and check the vault with \`${prefix}clan vault\`.`)
+				botMessage.edit(`Congratulations! You are now the proud leader of the \`${clanName}\` clan!\n\nView your clan information with \`${prefix}clan info\` and check the inventory with \`${prefix}clan inv\`.`)
 			}
 			else {
 				botMessage.delete()

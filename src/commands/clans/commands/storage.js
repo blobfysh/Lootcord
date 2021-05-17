@@ -3,12 +3,12 @@ const { getPageCount } = require('../../info/inventory')
 const ITEMS_PER_PAGE = 15
 
 exports.command = {
-	name: 'vault',
-	aliases: ['inv', 'v', 'storage'],
-	description: 'Show the items in a clans vault.',
-	long: 'Shows all items in a clans vault.',
+	name: 'storage',
+	aliases: ['vault', 'inv', 'v', 'inventory'],
+	description: 'Shows all items in a clans storage.',
+	long: 'Shows all items in a clans storage.',
 	args: { 'clan/user': 'Clan or user to search, will default to your own clan if none specified.' },
-	examples: ['clan vault Mod Squad'],
+	examples: ['clan inv Mod Squad', 'clan storage @blobfysh'],
 	requiresClan: false,
 	requiresActive: false,
 	minimumRank: 0,
@@ -97,7 +97,7 @@ async function generatePages(app, clanId) {
 		}
 
 		if (!clanItems.ranged.length && !clanItems.melee.length && !clanItems.usables.length && !clanItems.ammo.length && !clanItems.resources.length && !clanItems.storage.length) {
-			embedInfo.addField('This vault is empty!', '\u200b')
+			embedInfo.addField('The storage is empty!', '\u200b')
 		}
 
 		// add page count if there are multiple pages
@@ -105,7 +105,7 @@ async function generatePages(app, clanId) {
 			embedInfo.setFooter(`Page ${i}/${vaultPageCount}`)
 		}
 
-		embedInfo.addField('\u200b', `Vault space: ${clanItems.itemCount} / ${CLANS.levels[clanRow.level].itemLimit} max | Value: ${app.common.formatNumber(clanItems.invValue)}`)
+		embedInfo.addField('\u200b', `Storage space: ${clanItems.itemCount} / ${CLANS.levels[clanRow.level].itemLimit} max | Value: ${app.common.formatNumber(clanItems.invValue)}`)
 
 		messages.push(embedInfo)
 	}

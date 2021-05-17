@@ -83,7 +83,7 @@ async function getClanInfo(app, message, clanId) {
 	let upkeepStr = app.common.formatNumber(upkeep)
 
 	if (clanRow.money < upkeep) {
-		upkeepStr += '\n\n⚠ **This clan is decaying.**\nItems will be lost from the vault if upkeep is not paid tonight!'
+		upkeepStr += '\n\n⚠ **This clan is decaying.**\nItems will be lost from the clan if upkeep is not paid tonight!'
 	}
 	else if (clanData.inactiveMemberCount > Math.floor(clanData.memberCount / 2)) {
 		upkeepStr += '\n\n⚠ **This clan is decaying.**\nThe upkeep is greatly increased because half or more members are inactive!'

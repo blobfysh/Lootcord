@@ -60,7 +60,7 @@ exports.command = {
 				await joinClan(app, user.id, clanRow.clanId)
 				await app.clans.addLog(clanRow.clanId, `${user.username} joined (inv. by ${message.author.username})`)
 
-				botMessage.edit(`<@${user.id}>, You are now a member of \`${clanRow.name}\`\n\nView your clan information with \`clan info\` and check the vault with \`clan vault\`.`)
+				botMessage.edit(`<@${user.id}>, You are now a member of \`${clanRow.name}\`\n\nView your clan information with \`${prefix}clan info\` and check the inventory with \`${prefix}clan inv\`.`)
 			}
 			else {
 				botMessage.delete()

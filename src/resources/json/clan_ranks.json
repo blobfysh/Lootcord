@@ -8,8 +8,8 @@
   "1": {
     "title": "Trusted",
     "perms": [
-      "Deposit and withdraw from the clan vault.",
-      "Deposit and withdraw from the clan bank."
+      "Deposit and withdraw items from the clan storage.",
+      "Deposit and withdraw scrap from the clan bank."
     ]
   },
   "2": {
