@@ -17,18 +17,21 @@ exports.command = {
 		const itemName = app.parse.items(args)[0]
 		let itemAmnt = app.parse.numbers(args)[0]
 		let isMoney = false
-		if (!itemName && itemAmnt) { isMoney = true }
+		let isAll = false
 
+		if (!itemName && itemAmnt) {
+			isMoney = true
+		}
 		else if (!itemName && !itemAmnt && args[0] && args[0].toLowerCase() === 'all') {
 			isMoney = true
-			itemAmnt = scoreRow.money
+			isAll = true
 		}
 
 
 		if (await app.cd.getCD(message.author.id, 'tradeban')) {
 			return message.reply('❌ You are trade banned.')
 		}
-		else if (!itemName && !itemAmnt) {
+		else if (!itemName && !itemAmnt && !isAll) {
 			return message.reply('You need to specify an item or scrap to deposit into the clan! `clan deposit <item/scrap> <amount>`')
 		}
 
@@ -38,6 +41,10 @@ exports.command = {
 				const userRow = await app.player.getRowForUpdate(transaction.query, message.author.id)
 				const clanRow = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId)
 				const bankLimit = CLANS.levels[clanRow.level].bankLimit
+
+				if (isAll) {
+					itemAmnt = Math.min(bankLimit - clanRow.money, userRow.money)
+				}
 
 				if (itemAmnt > userRow.money) {
 					await transaction.commit()

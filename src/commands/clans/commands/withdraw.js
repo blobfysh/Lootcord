@@ -15,12 +15,20 @@ exports.command = {
 		const itemName = app.parse.items(args)[0]
 		let itemAmnt = app.parse.numbers(args)[0]
 		let isMoney = false
-		if (!itemName && itemAmnt) isMoney = true
+		let isAll = false
+
+		if (!itemName && itemAmnt) {
+			isMoney = true
+		}
+		else if (!itemName && !itemAmnt && args[0] && args[0].toLowerCase() === 'all') {
+			isMoney = true
+			isAll = true
+		}
 
 		if (await app.cd.getCD(message.author.id, 'tradeban')) {
 			return message.reply('❌ You are trade banned.')
 		}
-		else if (!itemName && !itemAmnt) {
+		else if (!itemName && !itemAmnt && !isAll) {
 			return message.reply('You need to specify an item or scrap to withdraw from the clan! `clan withdraw <item/scrap> <amount>`')
 		}
 
@@ -28,6 +36,10 @@ exports.command = {
 			try {
 				const transaction = await app.mysql.beginTransaction()
 				const clanRow = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId)
+
+				if (isAll) {
+					itemAmnt = clanRow.money
+				}
 
 				if (clanRow.money < itemAmnt) {
 					await transaction.commit()
