@@ -3,7 +3,9 @@ exports.command = {
 	aliases: ['cooldown', 'cd'],
 	description: 'Displays all command cooldowns.',
 	long: 'Displays cooldowns for all commands and time remaining on your shield if you have one active.',
-	args: {},
+	args: {
+		'@user/discord#tag': 'User\'s cooldowns to check.'
+	},
 	examples: [],
 	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
 	ignoreHelp: false,
@@ -13,7 +15,21 @@ exports.command = {
 	worksInDMs: true,
 
 	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
-		await message.channel.createMessage(await getCooldowns(app, message.author, serverSideGuildId, prefix))
+		const memberArg = app.parse.members(message, args)[0]
+
+		// no member found in ArgParser
+		if (!memberArg) {
+			// player was trying to search someone
+			if (args.length) {
+				message.reply('❌ Could not find anyone matching that description!\nYou can mention someone, use their Discord#tag, or type their user ID')
+				return
+			}
+
+			await message.channel.createMessage(await getCooldowns(app, message.author, serverSideGuildId, prefix))
+		}
+		else {
+			await message.channel.createMessage(await getCooldowns(app, memberArg, serverSideGuildId, prefix))
+		}
 	}
 }
 
