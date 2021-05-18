@@ -35,7 +35,7 @@ exports.command = {
 		if (result === 'time') {
 			return message.reply('You ran out of time.')
 		}
-		else if (result[0].content === 'no') {
+		else if (result[0].content.toLowerCase() === 'no') {
 			return result[0].reply('Canceled upgrade.')
 		}
 
@@ -44,7 +44,11 @@ exports.command = {
 			const clanRowSafe = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId)
 			const clanItems = await app.itm.getItemObjectForUpdate(transaction.query, scoreRow.clanId)
 
-			if (clanRowSafe.level === 5) {
+			if (clanRow.level !== clanRowSafe.level) {
+				await transaction.commit()
+				return result[0].reply('❌ Upgrade failed.')
+			}
+			else if (clanRowSafe.level === 5) {
 				await transaction.commit()
 				return result[0].reply('❌ Upgrade failed.')
 			}

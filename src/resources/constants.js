@@ -37,6 +37,10 @@ const CLANS = {
 			maxHealth: 50,
 			upkeep: 1000,
 			type: 'Twig',
+			repair: {
+				item: 'wood',
+				heals: 50
+			},
 			image: 'https://cdn.discordapp.com/attachments/610502203672756295/843342638681423902/base_twig_level1.png'
 		},
 		2: {
@@ -45,6 +49,10 @@ const CLANS = {
 			maxHealth: 75,
 			upkeep: 5000,
 			type: 'Wood',
+			repair: {
+				item: 'wood',
+				heals: 50
+			},
 			image: 'https://cdn.discordapp.com/attachments/610502203672756295/843406016098992138/base_wood_level2.png',
 			cost: {
 				money: 50000,
@@ -59,6 +67,10 @@ const CLANS = {
 			maxHealth: 100,
 			upkeep: 10000,
 			type: 'Stone',
+			repair: {
+				item: 'stone',
+				heals: 50
+			},
 			image: 'https://cdn.discordapp.com/attachments/610502203672756295/843406013218029578/base_stone_level3.png',
 			cost: {
 				money: 150000,
@@ -73,6 +85,10 @@ const CLANS = {
 			maxHealth: 200,
 			upkeep: 20000,
 			type: 'Metal',
+			repair: {
+				item: 'metal',
+				heals: 50
+			},
 			image: 'https://cdn.discordapp.com/attachments/610502203672756295/843406011553415199/base_metal_level4.png',
 			cost: {
 				money: 300000,
@@ -87,6 +103,10 @@ const CLANS = {
 			maxHealth: 300,
 			upkeep: 50000,
 			type: 'High Quality Metal',
+			repair: {
+				item: 'high_quality_metal',
+				heals: 100
+			},
 			image: 'https://cdn.discordapp.com/attachments/610502203672756295/843406618120945674/base_hqm_level5.png',
 			cost: {
 				money: 1000000,
