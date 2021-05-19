@@ -1,13 +1,23 @@
-const WIN_QUOTES = ['You just won **{0}**!', 'Wow you\'re pretty good at flipping this coin 👀 You won **{0}**!', 'Congratulations! You just won **{0}**!']
-const LOSE_QUOTES = ['You just lost **{0}**!', 'Congratulations! You just lost **{0}**!']
+const WIN_QUOTES = [
+	'You chose **{choice}** and the coin landed on **{side}**\n\nYou just won **{bet}**!',
+	'You chose **{choice}** and the coin landed on **{side}**\n\nWow you\'re pretty good at flipping this coin 👀 You won **{bet}**!',
+	'You chose **{choice}** and the coin landed on **{side}**\n\nCongratulations! You just won **{bet}**!'
+]
+const LOSE_QUOTES = [
+	'You chose **{choice}** but the coin landed on **{side}**\n\nYou just lost **{bet}**!',
+	'You chose **{choice}** but the coin landed on **{side}**\n\nCongratulations! You just lost **{bet}**!'
+]
 
 exports.command = {
 	name: 'coinflip',
 	aliases: ['cf'],
 	description: 'Flip a coin for a chance to win!',
 	long: 'Flip a coin for a chance to win 2x what you bet!',
-	args: { amount: 'Amount of scrap to gamble.' },
-	examples: ['cf 1000'],
+	args: {
+		choice: 'heads/tails',
+		amount: 'Amount of scrap to gamble.'
+	},
+	examples: ['cf heads 1000', 'cf t 1000'],
 	permissions: ['sendMessages', 'externalEmojis'],
 	ignoreHelp: false,
 	requiresAcc: true,
@@ -18,6 +28,7 @@ exports.command = {
 	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const coinflipCD = await app.cd.getCD(message.author.id, 'coinflip', { serverSideGuildId })
+		const choice = getSide(args[0])
 		let gambleAmount = app.parse.numbers(args)[0]
 
 		if (!gambleAmount && args[0] && args[0].toLowerCase() === 'all') {
@@ -41,20 +52,40 @@ exports.command = {
 		}
 
 
-		if (Math.random() < 0.4) {
+		if (Math.random() < 0.44) {
 			await app.player.addMoney(message.author.id, gambleAmount, serverSideGuildId)
 
 			if (gambleAmount >= 50000) {
 				await app.itm.addBadge(message.author.id, 'gambler', serverSideGuildId)
 			}
 
-			message.reply(WIN_QUOTES[Math.floor(Math.random() * WIN_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount * 2)))
+			message.reply(WIN_QUOTES[Math.floor(Math.random() * WIN_QUOTES.length)]
+				.replace('{bet}', app.common.formatNumber(gambleAmount * 2))
+				.replace('{choice}', choice)
+				.replace('{side}', choice)
+			)
 		}
 		else {
 			await app.player.removeMoney(message.author.id, gambleAmount, serverSideGuildId)
-			message.reply(LOSE_QUOTES[Math.floor(Math.random() * LOSE_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount)))
+			message.reply(LOSE_QUOTES[Math.floor(Math.random() * LOSE_QUOTES.length)]
+				.replace('{bet}', app.common.formatNumber(gambleAmount))
+				.replace('{choice}', choice)
+				.replace('{side}', choice === 'heads' ? 'tails' : 'heads')
+			)
 		}
 
-		await app.cd.setCD(message.author.id, 'coinflip', app.config.cooldowns.coinflip * 1000, { serverSideGuildId })
+		// await app.cd.setCD(message.author.id, 'coinflip', app.config.cooldowns.coinflip * 1000, { serverSideGuildId })
 	}
+}
+
+function getSide(arg) {
+	if (['heads', 'h'].includes(arg)) {
+		return 'heads'
+	}
+	else if (['tails', 't'].includes(arg)) {
+		return 'tails'
+	}
+
+	// default to heads if no choice specified
+	return 'heads'
 }
