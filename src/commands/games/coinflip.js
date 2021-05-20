@@ -74,7 +74,7 @@ exports.command = {
 			)
 		}
 
-		// await app.cd.setCD(message.author.id, 'coinflip', app.config.cooldowns.coinflip * 1000, { serverSideGuildId })
+		await app.cd.setCD(message.author.id, 'coinflip', app.config.cooldowns.coinflip * 1000, { serverSideGuildId })
 	}
 }
 
