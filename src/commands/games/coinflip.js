@@ -28,7 +28,7 @@ exports.command = {
 	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const coinflipCD = await app.cd.getCD(message.author.id, 'coinflip', { serverSideGuildId })
-		const choice = getSide(args[0])
+		const choice = getSide(args)
 		let gambleAmount = app.parse.numbers(args)[0]
 
 		if (!gambleAmount && ((args[0] && args[0].toLowerCase() === 'all') || (args[1] && args[1].toLowerCase() === 'all'))) {
@@ -78,11 +78,11 @@ exports.command = {
 	}
 }
 
-function getSide(arg) {
-	if (['heads', 'h'].includes(arg)) {
+function getSide(args) {
+	if (args.some(arg => ['heads', 'h'].includes(arg))) {
 		return 'heads'
 	}
-	else if (['tails', 't'].includes(arg)) {
+	else if (args.some(arg => ['tails', 't'].includes(arg))) {
 		return 'tails'
 	}
 
