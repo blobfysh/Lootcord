@@ -31,7 +31,7 @@ exports.command = {
 		const choice = getSide(args[0])
 		let gambleAmount = app.parse.numbers(args)[0]
 
-		if (!gambleAmount && args[0] && args[0].toLowerCase() === 'all') {
+		if (!gambleAmount && ((args[0] && args[0].toLowerCase() === 'all') || (args[1] && args[1].toLowerCase() === 'all'))) {
 			gambleAmount = row.money >= 50000 ? 50000 : row.money
 		}
 
