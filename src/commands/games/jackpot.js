@@ -17,7 +17,7 @@ exports.command = {
 		let gambleAmount = app.parse.numbers(args)[0]
 
 		if (!gambleAmount && args[0] && args[0].toLowerCase() === 'all') {
-			gambleAmount = row.money >= 20000 ? 20000 : row.money
+			gambleAmount = row.money >= 50000 ? 50000 : row.money
 		}
 
 		if (jackpotCD) {
@@ -32,8 +32,8 @@ exports.command = {
 			return message.reply(`❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
 		}
 
-		if (gambleAmount > 20000) {
-			return message.reply(`Woah there high roller, you cannot gamble more than ${app.common.formatNumber(20000)} on jackpot.`)
+		if (gambleAmount > 50000) {
+			return message.reply(`Woah there high roller, you cannot gamble more than ${app.common.formatNumber(50000)} on jackpot.`)
 		}
 
 		const botMessage = await message.reply(`You are about to start a server jackpot with an entry of: ${app.common.formatNumber(gambleAmount)}\nAre you sure?`)
@@ -102,7 +102,7 @@ async function startJackpot(app, message, prefix, gambleAmount, serverSideGuildI
 				return
 			}
 			else if (!gambleAmnt && userArgs[0] && userArgs[0].toLowerCase() === 'all') {
-				gambleAmnt = userRow.money >= 20000 ? 20000 : userRow.money
+				gambleAmnt = userRow.money >= 50000 ? 50000 : userRow.money
 			}
 
 			if (Object.keys(jackpotObj).length >= 15) {
@@ -114,11 +114,11 @@ async function startJackpot(app, message, prefix, gambleAmount, serverSideGuildI
 			else if (gambleAmnt > userRow.money) {
 				return m.channel.createMessage(`❌ You don't have that much scrap! You currently have ${app.common.formatNumber(userRow.money)}`)
 			}
-			else if (gambleAmnt > 20000) {
-				return m.channel.createMessage(`❌ You cannot enter more than ${app.common.formatNumber(20000)}!`)
+			else if (gambleAmnt > 50000) {
+				return m.channel.createMessage(`❌ You cannot enter more than ${app.common.formatNumber(50000)}!`)
 			}
-			else if (jackpotObj.hasOwnProperty(m.author.id) && (gambleAmnt + jackpotObj[m.author.id].amount) > 20000) {
-				return m.channel.createMessage(`❌ Adding ${app.common.formatNumber(gambleAmnt)} would put your entry over the ${app.common.formatNumber(20000)} entry limit!`)
+			else if (jackpotObj.hasOwnProperty(m.author.id) && (gambleAmnt + jackpotObj[m.author.id].amount) > 50000) {
+				return m.channel.createMessage(`❌ Adding ${app.common.formatNumber(gambleAmnt)} would put your entry over the ${app.common.formatNumber(50000)} entry limit!`)
 			}
 
 			if (jackpotObj.hasOwnProperty(m.author.id)) {
