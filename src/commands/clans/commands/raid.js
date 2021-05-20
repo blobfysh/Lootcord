@@ -88,8 +88,8 @@ exports.command = {
 				if (itemsToSteal > 0) {
 					itemsStolen = await app.itm.getRandomUserItems(victimItems, itemsToSteal)
 
-					if (itemsStolen.items.length !== 0 && itemsStolen.display.length > 20) {
-						itemsStolenDisplay = `${itemsStolen.display.slice(0, 20).join('\n')}\n...and **${itemsStolen.display.length - 20}** more items.`
+					if (itemsStolen.items.length !== 0 && itemsStolen.display.length > 17) {
+						itemsStolenDisplay = `${itemsStolen.display.slice(0, 17).join('\n')}\n...and **${itemsStolen.display.length - 17}** more items.`
 					}
 					else if (itemsStolen.items.length !== 0) {
 						itemsStolenDisplay = itemsStolen.display.join('\n')
@@ -138,7 +138,7 @@ exports.command = {
 					botMsg.edit(raidedEmbed)
 				}, 2000)
 
-				await app.clans.raidNotify(victimRow.clanId, raiderRow.name, moneyStolen, itemsStolen ? itemsStolen.display.join('\n') : 'No items were stolen')
+				await app.clans.raidNotify(victimRow.clanId, raiderRow.name, moneyStolen, getRaidedItemDisplay(itemsStolen))
 			}
 		}
 		catch (err) {
@@ -151,4 +151,18 @@ exports.command = {
 			await message.channel.createMessage(errorEmbed).catch(console.log)
 		}
 	}
+}
+
+function getRaidedItemDisplay(itemsStolen) {
+	if (!itemsStolen) {
+		return 'Their clan storage was too full of items to steal anything!'
+	}
+	else if (itemsStolen.items.length !== 0 && itemsStolen.display.length > 17) {
+		return `${itemsStolen.display.slice(0, 17).join('\n')}\n...and **${itemsStolen.display.length - 17}** more items.`
+	}
+	else if (itemsStolen.items.length !== 0) {
+		return itemsStolen.display.join('\n')
+	}
+
+	return 'No items to steal'
 }
