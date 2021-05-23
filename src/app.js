@@ -26,6 +26,7 @@ const LoopTasks = require('./utils/LoopTasks')
 const PatreonHandler = require('./handlers/PatreonHandler')
 const EventHandler = require('./handlers/EventHandler')
 const BountyHandler = require('./handlers/BountyHandler')
+const PubSubHandler = require('./handlers/PubSubHandler')
 require('./utils/MessageUtils')
 
 const events = fs.readdirSync(path.join(__dirname, '/events'))
@@ -68,6 +69,7 @@ class Lootcord extends Base {
 		this.commandHandler = new CommandHandler(this)
 		this.eventHandler = new EventHandler(this)
 		this.bountyHandler = new BountyHandler(this)
+		this.pubSub = new PubSubHandler(this)
 	}
 
 	async launch() {
