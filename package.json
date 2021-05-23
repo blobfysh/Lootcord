@@ -36,9 +36,9 @@
     "eris-sharder": "github:discordware/eris-sharder#eris-dev",
     "express": "^4.17.1",
     "html-entities": "^2.3.2",
+    "ioredis": "^4.27.3",
     "js-levenshtein": "^1.1.6",
     "mysql": "^2.18.1",
-    "redis": "^3.1.2",
     "shortid": "^2.2.16",
     "slash-commands": "^1.4.0"
   },

@@ -1,6 +1,6 @@
 const config = require('../config')
-const redis = require('redis')
-const client = new redis.createClient({
+const redis = require('ioredis')
+const client = new redis({
 	host: config.redis.host,
 	password: config.redis.password
 })
