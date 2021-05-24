@@ -47,22 +47,7 @@ module.exports = {
 					const userRow = await app.player.getRow(user, serverSideGuildId)
 					const userItems = await app.itm.getItemObject(user, serverSideGuildId)
 					const armor = await app.player.getArmor(user, serverSideGuildId)
-					let successRate = monument.successRate[userRow.level] !== undefined ? monument.successRate[userRow.level] : monument.successRate[successRates[successRates.length - 1]]
-
-					// check for monument requirements such as items/armor
-					if (monument.requirement.type !== null) {
-						if (monument.requirement.type === 'armor' && armor && armor === monument.requirement.value) {
-							successRate += monument.requirement.bonus
-						}
-						else if (monument.requirement.type === 'item' && userItems[monument.requirement.value] >= 1) {
-							await app.itm.removeItem(user, monument.requirement.value, 1, serverSideGuildId)
-
-							successRate += monument.requirement.bonus
-						}
-						else {
-							successRate -= 1
-						}
-					}
+					const successRate = monument.successRate[userRow.level] !== undefined ? monument.successRate[userRow.level] : monument.successRate[successRates[successRates.length - 1]]
 
 					if (Math.random() < successRate) {
 						const outcome = monument.success[Math.floor(Math.random() * monument.success.length)]
