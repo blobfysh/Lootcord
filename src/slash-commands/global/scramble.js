@@ -37,6 +37,9 @@ exports.command = {
 			})
 		}
 
+		await app.cd.setCD(interaction.member.user.id, 'scramble', app.config.cooldowns.scramble * 1000, { serverSideGuildId })
+		await app.player.addStat(interaction.member.user.id, 'scrambles', 1, serverSideGuildId)
+
 		const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(interaction.member.user.id, serverSideGuildId), await app.player.getRow(interaction.member.user.id, serverSideGuildId))
 		const { word, rhymesWith, difficulty, definition } = await getWord()
 		const option = interaction.data.options[0].value
@@ -46,9 +49,6 @@ exports.command = {
 		if (Math.random() <= 0.7) {
 			scrambleHint = `Rhymes with ${rhymesWith.map(rhyme => `\`${rhyme}\``)}.`
 		}
-
-		await app.cd.setCD(interaction.member.user.id, 'scramble', app.config.cooldowns.scramble * 1000, { serverSideGuildId })
-		await app.player.addStat(interaction.member.user.id, 'scrambles', 1, serverSideGuildId)
 
 		const embedScramble = new app.Embed()
 			.setFooter('You have 15 seconds to unscramble this word.')

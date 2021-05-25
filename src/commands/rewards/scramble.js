@@ -30,13 +30,6 @@ exports.command = {
 
 		const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id, serverSideGuildId), await app.player.getRow(message.author.id, serverSideGuildId))
 		const option = args[0] ? args[0].toLowerCase() : undefined
-		const { word, rhymesWith, difficulty, definition } = await getWord()
-		const reward = {}
-		let scrambleHint = definition
-
-		if (Math.random() <= 0.7) {
-			scrambleHint = `Rhymes with ${rhymesWith.map(rhyme => `\`${rhyme}\``)}.`
-		}
 
 		if (!option || (option !== 'easy' && option !== 'hard')) {
 			return message.reply(`You need to choose a difficulty \`${prefix}scramble easy/hard\`\nEasy: Hint but less reward\nHard: Better reward, no hint`)
@@ -44,6 +37,14 @@ exports.command = {
 
 		await app.cd.setCD(message.author.id, 'scramble', app.config.cooldowns.scramble * 1000, { serverSideGuildId })
 		await app.player.addStat(message.author.id, 'scrambles', 1, serverSideGuildId)
+
+		const { word, rhymesWith, difficulty, definition } = await getWord()
+		const reward = {}
+		let scrambleHint = definition
+
+		if (Math.random() <= 0.7) {
+			scrambleHint = `Rhymes with ${rhymesWith.map(rhyme => `\`${rhyme}\``)}.`
+		}
 
 		const embedScramble = new app.Embed()
 			.setFooter('You have 20 seconds to unscramble this word.')
@@ -193,7 +194,9 @@ exports.command = {
 
 const getWord = exports.getWord = async function getWord() {
 	try {
-		const res = await axios.get('http://scrambledwords.xyz/api/random')
+		const res = await axios.get('http://scrambledwords.xyz/api/random', {
+			timeout: 3000
+		})
 
 		if (res.status !== 200) {
 			throw new Error('Failed to fetch scramble word')

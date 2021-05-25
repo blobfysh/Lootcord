@@ -137,7 +137,9 @@ const geniusBadgeCheck = exports.geniusBadgeCheck = async function geniusBadgeCh
 
 const getQuestion = exports.getQuestion = async function getQuestion() {
 	try {
-		const res = await axios.get('https://opentdb.com/api.php?amount=1&type=multiple')
+		const res = await axios.get('https://opentdb.com/api.php?amount=1&type=multiple', {
+			timeout: 3000
+		})
 
 		if (res.status !== 200 || (res.data && res.data.response_code !== 0)) {
 			throw new Error('Failed to fetch trivia')
