@@ -160,12 +160,7 @@ module.exports = {
 				}
 
 				if (results.length) {
-					const resultsEmb = new app.Embed()
-						.setColor(13451564)
-						.setTitle('Event Results - __IT\'S TIME TO ROAM!__')
-						.setDescription(results.join('\n\n'))
-
-					await message.channel.createMessage(resultsEmb)
+					await message.channel.createMessage(`**Event Results - __IT'S TIME TO ROAM!__**\n\n${results.join('\n\n')}`)
 				}
 			})
 		}
