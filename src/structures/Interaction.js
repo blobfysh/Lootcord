@@ -13,6 +13,7 @@ class Interaction {
 		this.member = i.member
 		this.token = i.token
 		this.version = i.version
+		this.message = i.message
 		this.clientId = clientId
 	}
 
