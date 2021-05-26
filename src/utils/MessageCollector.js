@@ -7,21 +7,6 @@ class MessageCollector {
 		this.userCollectors = []
 
 		this.app.bot.on('messageCreate', this.verify.bind(this))
-
-		setInterval(() => {
-			for (const c of this.channelCollectors) {
-				if (c.maxLength && Date.now() - c.maxLength > c.startedAt) {
-					c.collector.emit('end', 'time')
-					this.channelCollectors.splice(this.channelCollectors.indexOf(c), 1)
-				}
-			}
-			for (const c of this.userCollectors) {
-				if (c.maxLength && Date.now() - c.maxLength > c.startedAt) {
-					c.collector.emit('end', 'time')
-					this.userCollectors.splice(this.userCollectors.indexOf(c), 1)
-				}
-			}
-		}, 1000)
 	}
 
 	verify(msg) {
@@ -59,8 +44,10 @@ class MessageCollector {
 
 		const collectorObj = {
 			channelId: message.channel.id,
-			startedAt: Date.now(),
-			maxLength: options.time || undefined,
+			timeout: options.time && setTimeout(() => {
+				eventCollector.emit('end', 'time')
+				this.channelCollectors.splice(this.channelCollectors.indexOf(collectorObj), 1)
+			}, options.time),
 			collector: eventCollector,
 			filter
 		}
@@ -82,8 +69,10 @@ class MessageCollector {
 		const collectorObj = {
 			userId,
 			channelId,
-			startedAt: Date.now(),
-			maxLength: options.time || undefined,
+			timeout: options.time && setTimeout(() => {
+				eventCollector.emit('end', 'time')
+				this.userCollectors.splice(this.userCollectors.indexOf(collectorObj), 1)
+			}, options.time),
 			collector: eventCollector,
 			collected: [],
 			maxMatches: options.maxMatches,
@@ -109,10 +98,12 @@ class MessageCollector {
      */
 	stopCollector(collectorObj, message = 'forced') {
 		if (this.userCollectors.includes(collectorObj)) {
+			clearTimeout(collectorObj.timeout)
 			collectorObj.collector.emit('end', message)
 			this.userCollectors.splice(this.userCollectors.indexOf(collectorObj), 1)
 		}
 		else if (this.channelCollectors.includes(collectorObj)) {
+			clearTimeout(collectorObj.timeout)
 			collectorObj.collector.emit('end', message)
 			this.channelCollectors.splice(this.channelCollectors.indexOf(collectorObj), 1)
 		}
