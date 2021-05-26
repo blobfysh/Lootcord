@@ -475,7 +475,7 @@
         },
         "buy": "",
         "sell": 80270,
-        "desc": "High velocity rocket, deals 3x damage to Bradley.",
+        "desc": "High velocity rocket, deals 3x damage to [Bradley](https://lootcord.com/enemy/bradley).",
         "image": "https://cdn.discordapp.com/attachments/610502203672756295/828263475729006653/hv_rocket.png",
         "icon": "<:hv_rocket:828263600119480321>",
         "breaksOnUse": "",

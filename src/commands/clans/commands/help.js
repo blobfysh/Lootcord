@@ -33,7 +33,7 @@ exports.command = {
 			.setColor(13451564)
 			.setDescription(`Check out this [guide](https://lootcord.com/guides/clans) on how to use clans.\nTo use a clan command: \`${prefix}clan <command>\`` +
 				`\n\n${app.clanCommands.map(cmd => `\`${prefix}clan ${cmd.name}\` - ${cmd.description}${cmd.levelReq ? ` (Lvl Required: ${cmd.levelReq}+)` : ''}`).join('\n')}`)
-			.setFooter('To see more about a clan command, use t-clan help <command>')
+			.setFooter(`To see more about a clan command, use ${prefix}clan help <command>`)
 
 		message.channel.createMessage(helpEmbed)
 	}
