@@ -33,7 +33,7 @@ exports.command = {
 
 		if (userOpt) {
 			const user = await app.common.fetchUser(userOpt, { cacheIPC: false })
-			const invPages = await generatePages(app, user, interaction.guild_id, serverSideGuildId)
+			const invPages = await generatePages(app, user, interaction.guildID, serverSideGuildId)
 
 			// make sure inventory page exists
 			if (invPages[pageOpt - 1] === undefined) {
@@ -46,7 +46,7 @@ exports.command = {
 			}
 		}
 		else {
-			const invPages = await generatePages(app, interaction.member.user, interaction.guild_id, serverSideGuildId)
+			const invPages = await generatePages(app, interaction.member.user, interaction.guildID, serverSideGuildId)
 
 			if (invPages[pageOpt - 1] === undefined) {
 				response = {

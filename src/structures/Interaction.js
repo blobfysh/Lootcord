@@ -8,9 +8,10 @@ class Interaction {
 		this.id = i.id
 		this.type = i.type
 		this.data = i.data
-		this.guild_id = i.guild_id
-		this.channel_id = i.channel_id
-		this.member = i.member
+		this.guildID = i.guild_id
+		this.channelID = i.channel_id
+		this.user = i.member ? i.member.user : i.user
+		this.member = i.member || undefined
 		this.token = i.token
 		this.version = i.version
 		this.message = i.message

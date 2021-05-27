@@ -71,8 +71,15 @@ class ButtonCollector {
 
 		const collector = this.createCollector(messageId, filter, options)
 
-		return new Promise(resolve => {
-			collector.on('end', resolve)
+		return new Promise((resolve, reject) => {
+			collector.once('end', val => {
+				if (val !== 'time') {
+					resolve(val)
+				}
+				else {
+					reject(val)
+				}
+			})
 		})
 	}
 

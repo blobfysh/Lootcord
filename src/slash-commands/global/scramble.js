@@ -157,7 +157,7 @@ exports.command = {
 			embedScramble.setColor(9043800)
 		}
 
-		const collectorObj = app.msgCollector.createUserCollector(interaction.member.user.id, interaction.channel_id, m => m.author.id === interaction.member.user.id, { time: 15000 })
+		const collectorObj = app.msgCollector.createUserCollector(interaction.member.user.id, interaction.channelID, m => m.author.id === interaction.member.user.id, { time: 15000 })
 
 		await interaction.respond({
 			type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

@@ -40,7 +40,7 @@ exports.command = {
 
 		await app.cd.setCD(interaction.member.user.id, 'daily', app.config.cooldowns.daily * 1000, { serverSideGuildId })
 
-		if (interaction.guild_id === app.config.supportGuildID) {
+		if (interaction.guildID === app.config.supportGuildID) {
 			await app.itm.addItem(interaction.member.user.id, 'military_crate', 2, serverSideGuildId)
 
 			await interaction.respond({

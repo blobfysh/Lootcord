@@ -4,13 +4,13 @@ const { InteractionType, InteractionResponseType, MessageFlags } = require('slas
 exports.run = async function(packet, id) {
 	if (packet.t === 'INTERACTION_CREATE') {
 		const interaction = new Interaction(packet.d, this.bot.user.id)
-		const command = this.slashCommands.find(cmd => (cmd.guilds && cmd.guilds.includes(interaction.guild_id) && cmd.name === interaction.data.name) || cmd.name === interaction.data.name)
+		const command = this.slashCommands.find(cmd => (cmd.guilds && cmd.guilds.includes(interaction.guildID) && cmd.name === interaction.data.name) || cmd.name === interaction.data.name)
 
 		if (interaction.type !== InteractionType.APPLICATION_COMMAND) {
 			return
 		}
 
-		else if (!interaction.guild_id) {
+		else if (!interaction.guildID) {
 			// command was run in DMs
 			return interaction.respond({
 				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -26,7 +26,7 @@ exports.run = async function(packet, id) {
 		}
 
 		// check if bot should ignore guild entirely
-		else if (this.config.ignoredGuilds.includes(interaction.guild_id)) {
+		else if (this.config.ignoredGuilds.includes(interaction.guildID)) {
 			return interaction.respond({
 				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 				data: {
@@ -57,8 +57,8 @@ exports.run = async function(packet, id) {
 			})
 		}
 
-		const guildInfo = await this.common.getGuildInfo(interaction.guild_id)
-		const serverSideGuildId = guildInfo.serverOnly ? interaction.guild_id : undefined
+		const guildInfo = await this.common.getGuildInfo(interaction.guildID)
+		const serverSideGuildId = guildInfo.serverOnly ? interaction.guildID : undefined
 		const account = await this.player.getRow(interaction.member.user.id, serverSideGuildId)
 		const blindedCD = await this.cd.getCD(interaction.member.user.id, 'blinded', { serverSideGuildId })
 
@@ -88,7 +88,7 @@ exports.run = async function(packet, id) {
 		}
 
 		// check if command requires an active account (player would be elligible to be attacked) in the server
-		else if (command.requiresAcc && command.requiresActive && !await this.player.isActive(interaction.member.user.id, interaction.guild_id)) {
+		else if (command.requiresAcc && command.requiresActive && !await this.player.isActive(interaction.member.user.id, interaction.guildID)) {
 			return interaction.respond({
 				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 				data: {
@@ -117,7 +117,7 @@ exports.run = async function(packet, id) {
 				serverSideGuildId
 			})
 
-			console.log(`${interaction.member.user.username}#${interaction.member.user.discriminator} (${interaction.member.user.id}) ran command: ${command.name} in guild: ${interaction.guild_id}`)
+			console.log(`${interaction.member.user.username}#${interaction.member.user.discriminator} (${interaction.member.user.id}) ran command: ${command.name} in guild: ${interaction.guildID}`)
 		}
 		catch (err) {
 			console.error(err)

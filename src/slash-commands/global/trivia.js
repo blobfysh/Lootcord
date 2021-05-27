@@ -49,7 +49,7 @@ exports.command = {
 			}
 		})
 
-		const collectorObj = app.msgCollector.createUserCollector(interaction.member.user.id, interaction.channel_id, m => m.author.id === interaction.member.user.id && ['a', 'b', 'c', 'd'].includes(m.content.toLowerCase()), { time: 20000, maxMatches: 1 })
+		const collectorObj = app.msgCollector.createUserCollector(interaction.member.user.id, interaction.channelID, m => m.author.id === interaction.member.user.id && ['a', 'b', 'c', 'd'].includes(m.content.toLowerCase()), { time: 20000, maxMatches: 1 })
 
 		collectorObj.collector.on('collect', async m => {
 			const collected = m.content.toLowerCase()
