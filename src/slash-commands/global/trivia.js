@@ -1,4 +1,3 @@
-const { InteractionResponseType } = require('slash-commands')
 const { getQuestion, idiotBadgeCheck, geniusBadgeCheck, getReward } = require('../../commands/rewards/trivia')
 const { decode } = require('html-entities')
 
@@ -14,10 +13,7 @@ exports.command = {
 
 		if (triviaCD) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: `You just played a game of trivia! Please wait \`${triviaCD}\` before playing another.`
-				}
+				content: `You just played a game of trivia! Please wait \`${triviaCD}\` before playing another.`
 			})
 		}
 
@@ -43,10 +39,7 @@ exports.command = {
 
 		// initial response
 		await interaction.respond({
-			type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-			data: {
-				embeds: [embedTrivia.embed]
-			}
+			embeds: [embedTrivia.embed]
 		})
 
 		const collectorObj = app.msgCollector.createUserCollector(interaction.member.user.id, interaction.channelID, m => m.author.id === interaction.member.user.id && ['a', 'b', 'c', 'd'].includes(m.content.toLowerCase()), { time: 20000, maxMatches: 1 })

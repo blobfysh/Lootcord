@@ -1,4 +1,3 @@
-const { InteractionResponseType } = require('slash-commands')
 const QUOTES = [
 	'**Oh look, I found this {icon}{item} for you!** Open it to see what\'s inside: `t-use military_crate`\n\nWant more? Try the `farm`, `vote` commands.',
 	'**Here\'s a free {icon}{item}!** Open it to see what\'s inside: `t-use military_crate`\n\nWant more? Try the `farm`, `vote` commands.',
@@ -20,10 +19,7 @@ exports.command = {
 
 		if (dailyCD) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: `You've already claimed your daily reward today! Wait \`${dailyCD}\` before claiming another.`
-				}
+				content: `You've already claimed your daily reward today! Wait \`${dailyCD}\` before claiming another.`
 			})
 		}
 
@@ -31,10 +27,7 @@ exports.command = {
 		const hasEnough = await app.itm.hasSpace(itemCt, 1)
 		if (!hasEnough) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: `❌ **You don't have enough space in your inventory!** (You need **1** open slot, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`
-				}
+				content: `❌ **You don't have enough space in your inventory!** (You need **1** open slot, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`
 			})
 		}
 
@@ -44,24 +37,18 @@ exports.command = {
 			await app.itm.addItem(interaction.member.user.id, 'military_crate', 2, serverSideGuildId)
 
 			await interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: OFFICIAL_QUOTES[Math.floor(Math.random() * OFFICIAL_QUOTES.length)]
-						.replace('{icon}', app.itemdata.military_crate.icon)
-						.replace('{item}', '`military_crate`')
-				}
+				content: OFFICIAL_QUOTES[Math.floor(Math.random() * OFFICIAL_QUOTES.length)]
+					.replace('{icon}', app.itemdata.military_crate.icon)
+					.replace('{item}', '`military_crate`')
 			})
 		}
 		else {
 			await app.itm.addItem(interaction.member.user.id, 'military_crate', 1, serverSideGuildId)
 
 			await interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: QUOTES[Math.floor(Math.random() * QUOTES.length)]
-						.replace('{icon}', app.itemdata.military_crate.icon)
-						.replace('{item}', '`military_crate`')
-				}
+				content: QUOTES[Math.floor(Math.random() * QUOTES.length)]
+					.replace('{icon}', app.itemdata.military_crate.icon)
+					.replace('{item}', '`military_crate`')
 			})
 		}
 	}

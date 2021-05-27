@@ -1,4 +1,4 @@
-const { InteractionResponseType, ApplicationCommandOptionType } = require('slash-commands')
+const { ApplicationCommandOptionType } = require('slash-commands')
 const { getWord, shuffleWordNoDupe } = require('../../commands/rewards/scramble')
 
 exports.command = {
@@ -30,10 +30,7 @@ exports.command = {
 
 		if (scrambleCD) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: `You need to wait \`${scrambleCD}\` before playing another game of scramble.`
-				}
+				content: `You need to wait \`${scrambleCD}\` before playing another game of scramble.`
 			})
 		}
 
@@ -160,10 +157,7 @@ exports.command = {
 		const collectorObj = app.msgCollector.createUserCollector(interaction.member.user.id, interaction.channelID, m => m.author.id === interaction.member.user.id, { time: 15000 })
 
 		await interaction.respond({
-			type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-			data: {
-				embeds: [embedScramble.embed]
-			}
+			embeds: [embedScramble.embed]
 		})
 
 		collectorObj.collector.on('collect', async m => {

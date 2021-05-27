@@ -1,4 +1,4 @@
-const { InteractionResponseType, ApplicationCommandOptionType } = require('slash-commands')
+const { ApplicationCommandOptionType } = require('slash-commands')
 const { generatePages } = require('../../commands/info/inventory')
 
 exports.command = {
@@ -27,9 +27,7 @@ exports.command = {
 		pageOpt = pageOpt || 1
 
 		// defer response because fetching user may take time
-		await interaction.respond({
-			type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE
-		})
+		await interaction.defer()
 
 		if (userOpt) {
 			const user = await app.common.fetchUser(userOpt, { cacheIPC: false })

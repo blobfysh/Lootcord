@@ -1,4 +1,4 @@
-const { InteractionResponseType, ApplicationCommandOptionType } = require('slash-commands')
+const { ApplicationCommandOptionType } = require('slash-commands')
 const WIN_QUOTES = ['You just won **{0}**!', 'Wow you\'re pretty good at flipping this coin 👀 You won **{0}**!', 'Congratulations! You just won **{0}**!']
 const LOSE_QUOTES = ['You just lost **{0}**!', 'Congratulations! You just lost **{0}**!']
 
@@ -23,37 +23,25 @@ exports.command = {
 
 		if (coinflipCD) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: `You need to wait \`${coinflipCD}\` before flipping another coin.`
-				}
+				content: `You need to wait \`${coinflipCD}\` before flipping another coin.`
 			})
 		}
 
 		else if (!gambleAmount || gambleAmount < 100) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: `Please specify an amount of at least **${app.common.formatNumber(100)}** to gamble!`
-				}
+				content: `Please specify an amount of at least **${app.common.formatNumber(100)}** to gamble!`
 			})
 		}
 
 		else if (gambleAmount > row.money) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: `❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`
-				}
+				content: `❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`
 			})
 		}
 
 		else if (gambleAmount > 50000) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: `Woah there high roller, you cannot gamble more than **${app.common.formatNumber(50000)}** on coinflip.`
-				}
+				content: `Woah there high roller, you cannot gamble more than **${app.common.formatNumber(50000)}** on coinflip.`
 			})
 		}
 
@@ -65,20 +53,14 @@ exports.command = {
 			}
 
 			await interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: WIN_QUOTES[Math.floor(Math.random() * WIN_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount * 2))
-				}
+				content: WIN_QUOTES[Math.floor(Math.random() * WIN_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount * 2))
 			})
 		}
 		else {
 			await app.player.removeMoney(interaction.member.user.id, gambleAmount, serverSideGuildId)
 
 			await interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: LOSE_QUOTES[Math.floor(Math.random() * LOSE_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount))
-				}
+				content: LOSE_QUOTES[Math.floor(Math.random() * LOSE_QUOTES.length)].replace('{0}', app.common.formatNumber(gambleAmount))
 			})
 		}
 

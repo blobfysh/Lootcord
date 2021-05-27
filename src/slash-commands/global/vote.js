@@ -1,4 +1,3 @@
-const { InteractionResponseType } = require('slash-commands')
 const { getVotesAvailable } = require('../../commands/rewards/vote')
 
 exports.command = {
@@ -13,10 +12,7 @@ exports.command = {
 		const vote2CD = await app.cd.getCD(interaction.member.user.id, 'vote2')
 
 		return interaction.respond({
-			type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-			data: {
-				content: getVotesAvailable(voteCD, vote2CD)
-			}
+			content: getVotesAvailable(voteCD, vote2CD)
 		})
 	}
 }

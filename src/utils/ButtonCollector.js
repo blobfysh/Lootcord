@@ -24,9 +24,7 @@ class ButtonCollector {
 
 		if (colObj) {
 			if (!colObj.filter(interaction)) {
-				return interaction.respond({
-					type: 6
-				})
+				return interaction.defer()
 			}
 
 			colObj.collected.push(interaction)

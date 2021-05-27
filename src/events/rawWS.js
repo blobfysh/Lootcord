@@ -1,5 +1,5 @@
 const Interaction = require('../structures/Interaction')
-const { InteractionType, InteractionResponseType, MessageFlags } = require('slash-commands')
+const { InteractionType, MessageFlags } = require('slash-commands')
 
 exports.run = async function(packet, id) {
 	if (packet.t === 'INTERACTION_CREATE') {
@@ -13,11 +13,8 @@ exports.run = async function(packet, id) {
 		else if (!interaction.guildID) {
 			// command was run in DMs
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: '❌ Slash commands don\'t work in DMs.',
-					flags: MessageFlags.EPHEMERAL
-				}
+				content: '❌ Slash commands don\'t work in DMs.',
+				flags: MessageFlags.EPHEMERAL
 			})
 		}
 
@@ -28,32 +25,23 @@ exports.run = async function(packet, id) {
 		// check if bot should ignore guild entirely
 		else if (this.config.ignoredGuilds.includes(interaction.guildID)) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: '❌ This server cannot use the bot.',
-					flags: MessageFlags.EPHEMERAL
-				}
+				content: '❌ This server cannot use the bot.',
+				flags: MessageFlags.EPHEMERAL
 			})
 		}
 
 		// check if user is banned from bot
 		else if (await this.cd.getCD(interaction.member.user.id, 'banned')) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: '❌ You are banned from the bot. You can appeal here: https://lootcord.com/appeal',
-					flags: MessageFlags.EPHEMERAL
-				}
+				content: '❌ You are banned from the bot. You can appeal here: https://lootcord.com/appeal',
+				flags: MessageFlags.EPHEMERAL
 			})
 		}
 
 		else if (this.sets.disabledCommands.has(command.name)) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: '❌ That command has been disabled to prevent issues! Sorry about that...',
-					flags: MessageFlags.EPHEMERAL
-				}
+				content: '❌ That command has been disabled to prevent issues! Sorry about that...',
+				flags: MessageFlags.EPHEMERAL
 			})
 		}
 
@@ -65,11 +53,8 @@ exports.run = async function(packet, id) {
 		// check if user is under effects of 40mm_smoke_grenade
 		if (blindedCD) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: `❌ You are blinded by a ${this.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`! The smoke will clear in \`${blindedCD}\`.`,
-					flags: MessageFlags.EPHEMERAL
-				}
+				content: `❌ You are blinded by a ${this.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`! The smoke will clear in \`${blindedCD}\`.`,
+				flags: MessageFlags.EPHEMERAL
 			})
 		}
 
@@ -79,22 +64,16 @@ exports.run = async function(packet, id) {
 		// check if player meets the minimum level required to run the command
 		if (command.levelReq && ((account ? account.level : 1) < command.levelReq)) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: `❌ You must be at least level \`${command.levelReq}\` to use that command!`,
-					flags: MessageFlags.EPHEMERAL
-				}
+				content: `❌ You must be at least level \`${command.levelReq}\` to use that command!`,
+				flags: MessageFlags.EPHEMERAL
 			})
 		}
 
 		// check if command requires an active account (player would be elligible to be attacked) in the server
 		else if (command.requiresAcc && command.requiresActive && !await this.player.isActive(interaction.member.user.id, interaction.guildID)) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: '❌ You need to activate before using that command here! Use `t-activate` to activate.',
-					flags: MessageFlags.EPHEMERAL
-				}
+				content: '❌ You need to activate before using that command here! Use `t-activate` to activate.',
+				flags: MessageFlags.EPHEMERAL
 			})
 		}
 
@@ -122,11 +101,8 @@ exports.run = async function(packet, id) {
 		catch (err) {
 			console.error(err)
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: '❌ There was an error trying to run that command. If you keep seeing this, notify us in the support server!',
-					flags: MessageFlags.EPHEMERAL
-				}
+				content: '❌ There was an error trying to run that command. If you keep seeing this, notify us in the support server!',
+				flags: MessageFlags.EPHEMERAL
 			})
 		}
 	}

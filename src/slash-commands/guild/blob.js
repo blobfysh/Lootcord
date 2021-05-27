@@ -1,5 +1,3 @@
-const { InteractionResponseType } = require('slash-commands')
-
 exports.command = {
 	name: 'blob',
 	description: 'Why is this a command?',
@@ -11,10 +9,7 @@ exports.command = {
 
 	async execute(app, interaction, { guildInfo, serverSideGuildId }) {
 		return interaction.respond({
-			type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-			data: {
-				content: '<:bleh:816552098602418237>'
-			}
+			content: '<:bleh:816552098602418237>'
 		})
 	}
 }

@@ -1,5 +1,3 @@
-const { InteractionResponseType } = require('slash-commands')
-
 exports.command = {
 	name: 'farm',
 	description: 'Go farming for resources/loot.',
@@ -12,10 +10,7 @@ exports.command = {
 
 		if (hourlyCD) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: `You need to wait \`${hourlyCD}\` before farming again.`
-				}
+				content: `You need to wait \`${hourlyCD}\` before farming again.`
 			})
 		}
 
@@ -24,10 +19,7 @@ exports.command = {
 		const hasEnough = await app.itm.hasSpace(itemCt, 1)
 		if (!hasEnough) {
 			return interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: `❌ **You don't have enough space in your inventory!** (You need **1** open slot, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`
-				}
+				content: `❌ **You don't have enough space in your inventory!** (You need **1** open slot, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`
 			})
 		}
 
@@ -40,10 +32,7 @@ exports.command = {
 		if (chance >= 96) {
 			await app.itm.addItem(interaction.member.user.id, 'high_quality_metal', 1, serverSideGuildId)
 			await interaction.respond({
-				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-				data: {
-					content: `You decide to go ⛏️ mining and find a **RARE** ${app.itemdata.high_quality_metal.icon}\`high_quality_metal\`!`
-				}
+				content: `You decide to go ⛏️ mining and find a **RARE** ${app.itemdata.high_quality_metal.icon}\`high_quality_metal\`!`
 			})
 		}
 		else {
@@ -52,37 +41,25 @@ exports.command = {
 			if (rand < 0.6) {
 				await app.itm.addItem(interaction.member.user.id, 'crate', 1, serverSideGuildId)
 				await interaction.respond({
-					type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-					data: {
-						content: `You decide to scavenge for loot and find **1x** ${app.itemdata.crate.icon}\`crate\`!`
-					}
+					content: `You decide to scavenge for loot and find **1x** ${app.itemdata.crate.icon}\`crate\`!`
 				})
 			}
 			else if (rand < 0.7) {
 				await app.itm.addItem(interaction.member.user.id, 'metal', 1, serverSideGuildId)
 				await interaction.respond({
-					type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-					data: {
-						content: `You decide to go ⛏️ mining and bring back **1x** ${app.itemdata.metal.icon}\`metal\`!`
-					}
+					content: `You decide to go ⛏️ mining and bring back **1x** ${app.itemdata.metal.icon}\`metal\`!`
 				})
 			}
 			else if (rand < 0.85) {
 				await app.itm.addItem(interaction.member.user.id, 'stone', 1, serverSideGuildId)
 				await interaction.respond({
-					type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-					data: {
-						content: `You decide to go ⛏️ mining and bring back **1x** ${app.itemdata.stone.icon}\`stone\`!`
-					}
+					content: `You decide to go ⛏️ mining and bring back **1x** ${app.itemdata.stone.icon}\`stone\`!`
 				})
 			}
 			else {
 				await app.itm.addItem(interaction.member.user.id, 'wood', 1, serverSideGuildId)
 				await interaction.respond({
-					type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-					data: {
-						content: `You decide to go 🪓 chop some trees and receive **1x** ${app.itemdata.wood.icon}\`wood\`!`
-					}
+					content: `You decide to go 🪓 chop some trees and receive **1x** ${app.itemdata.wood.icon}\`wood\`!`
 				})
 			}
 		}
