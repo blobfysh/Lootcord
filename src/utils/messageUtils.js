@@ -33,7 +33,9 @@ exports.reply = async (msg, content) => {
 	}
 
 	Object.assign(content, {
-		messageReferenceID: msg.id
+		messageReference: {
+			messageID: msg.id
+		}
 	})
 
 	return msg.channel.createMessage(content)
