@@ -27,7 +27,7 @@ const PatreonHandler = require('./handlers/PatreonHandler')
 const EventHandler = require('./handlers/EventHandler')
 const BountyHandler = require('./handlers/BountyHandler')
 const PubSubHandler = require('./handlers/PubSubHandler')
-require('./utils/messageUtilsOld')
+require('./utils/messageUtils')
 
 const events = fs.readdirSync(path.join(__dirname, '/events'))
 const ipcEvents = fs.readdirSync(path.join(__dirname, '/ipc'))
