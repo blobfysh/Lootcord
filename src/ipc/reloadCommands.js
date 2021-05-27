@@ -1,4 +1,4 @@
-exports.run = function(msg) {
+exports.run = function (msg) {
 	console.log('[APP] Reloading commands')
 
 	for (const path of Object.keys(require.cache)) {

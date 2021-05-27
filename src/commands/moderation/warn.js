@@ -24,7 +24,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const userID = args[0]
 		const rule = args[1]
 

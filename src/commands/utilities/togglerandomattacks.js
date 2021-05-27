@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: true,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		if (guildInfo.randomOnly === 0) {
 			await app.query(`UPDATE guildinfo SET randomOnly = 1 WHERE guildId = ${message.channel.guild.id}`)
 

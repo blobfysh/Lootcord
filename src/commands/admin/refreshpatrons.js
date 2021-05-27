@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		try {
 			if (message.channel.guild.id !== app.config.supportGuildID) return message.reply('This only works in the support guild!')
 

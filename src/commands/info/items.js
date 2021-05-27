@@ -15,7 +15,7 @@ exports.command = {
 	guildModsOnly: false,
 	worksInDMs: true,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const itemsArraySorted = Object.keys(app.itemdata).sort(app.itm.sortItemsHighLow.bind(app))
 		const itemSearched = app.parse.items(args)[0]
 		const itemChoice = (args[0] || '').toLowerCase()
@@ -157,7 +157,7 @@ exports.command = {
 	}
 }
 
-function generatePages(app, items, prefix) {
+function generatePages (app, items, prefix) {
 	const messages = []
 	items = {
 		melee: items.filter(item => !app.itemdata[item].isHidden && app.itemdata[item].category === 'Melee'),
@@ -215,7 +215,7 @@ function generatePages(app, items, prefix) {
 	return messages
 }
 
-function getItemsPageCount(items) {
+function getItemsPageCount (items) {
 	let pages = 1
 
 	const pagesNeeded = {
@@ -237,7 +237,7 @@ function getItemsPageCount(items) {
 	return pages
 }
 
-function getStatusEffectStr(item) {
+function getStatusEffectStr (item) {
 	if (item.bleed > 0) {
 		return `** + 🩸 ${item.bleed} bleed**`
 	}

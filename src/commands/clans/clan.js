@@ -12,7 +12,7 @@ exports.command = {
 	guildModsOnly: false,
 	globalEconomyOnly: true,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 
 		const commandName = args[0] ? args[0].toLowerCase() : undefined

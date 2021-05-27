@@ -12,7 +12,7 @@ exports.command = {
 	guildModsOnly: false,
 	worksInDMs: true,
 
-	execute(app, message, { args, prefix, guildInfo }) {
+	execute (app, message, { args, prefix, guildInfo }) {
 		message.channel.createMessage('Come join the discord server! Suggest new ideas, submit bug reports, join giveaways, get an exclusive first look at updates on the LootDev bot,\n\nor just chill and play Lootcord with everyone 😃\nhttps://discord.gg/apKSxuE')
 	}
 }

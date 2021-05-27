@@ -13,7 +13,7 @@ exports.command = {
 	guildModsOnly: false,
 	patronTier1Only: true,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const userSpawns = await app.mysql.select('spawnchannels', 'userId', message.author.id, true)
 		if (userSpawns.length === 0) return message.reply('❌ You don\'t have any active spawn channels. You can spawn enemies with `enablespawns`.')
 

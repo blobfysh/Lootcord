@@ -1,4 +1,4 @@
-exports.run = async function({ vote, type }) {
+exports.run = async function ({ vote, type }) {
 	const voteCD = await this.cd.getCD(vote.user, type === 'topgg' ? 'vote' : 'vote2')
 
 	if (voteCD) {
@@ -34,7 +34,7 @@ exports.run = async function({ vote, type }) {
 	})
 }
 
-function getCounterEmbed(app, counterVal) {
+function getCounterEmbed (app, counterVal) {
 	let rewardString = ''
 	const counterDayVal = counterVal % 6 === 0 ? 6 : counterVal % 6
 

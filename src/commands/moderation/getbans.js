@@ -13,7 +13,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const page = (app.parse.numbers(args)[0] || 1) - 1
 
 		try {

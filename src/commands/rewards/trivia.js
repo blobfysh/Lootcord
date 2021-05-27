@@ -22,7 +22,7 @@ exports.command = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const triviaCD = await app.cd.getCD(message.author.id, 'trivia', { serverSideGuildId })
 
 		if (triviaCD) {
@@ -81,7 +81,7 @@ exports.command = {
 				m.reply(embedWrong)
 			}
 
-			async function triviaReward() {
+			async function triviaReward () {
 				if (reward.item === 'money') {
 					await app.player.addMoney(message.author.id, reward.amount, serverSideGuildId)
 				}
@@ -120,7 +120,7 @@ exports.command = {
 	}
 }
 
-const idiotBadgeCheck = exports.idiotBadgeCheck = async function idiotBadgeCheck(app, userId, serverSideGuildId) {
+const idiotBadgeCheck = exports.idiotBadgeCheck = async function idiotBadgeCheck (app, userId, serverSideGuildId) {
 	const correct = await app.player.getStat(userId, 'triviasCorrect', serverSideGuildId)
 	const attempts = await app.player.getStat(userId, 'trivias', serverSideGuildId)
 
@@ -129,13 +129,13 @@ const idiotBadgeCheck = exports.idiotBadgeCheck = async function idiotBadgeCheck
 	}
 }
 
-const geniusBadgeCheck = exports.geniusBadgeCheck = async function geniusBadgeCheck(app, userId, serverSideGuildId) {
+const geniusBadgeCheck = exports.geniusBadgeCheck = async function geniusBadgeCheck (app, userId, serverSideGuildId) {
 	if (await app.player.getStat(userId, 'triviasCorrect', serverSideGuildId) >= 100) {
 		await app.itm.addBadge(userId, 'genius', serverSideGuildId)
 	}
 }
 
-const getQuestion = exports.getQuestion = async function getQuestion() {
+const getQuestion = exports.getQuestion = async function getQuestion () {
 	try {
 		const res = await axios.get('https://opentdb.com/api.php?amount=1&type=multiple', {
 			timeout: 3000
@@ -153,7 +153,7 @@ const getQuestion = exports.getQuestion = async function getQuestion() {
 	}
 }
 
-const getReward = exports.getReward = function getReward(app, streak, hasSpace) {
+const getReward = exports.getReward = function getReward (app, streak, hasSpace) {
 	const reward = {
 		display: '',
 		item: '',

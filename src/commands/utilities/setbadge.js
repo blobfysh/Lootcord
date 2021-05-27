@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const playerBadges = await app.itm.getBadges(message.author.id, serverSideGuildId)
 		const badgeToSet = app.parse.badges(args)[0]
 

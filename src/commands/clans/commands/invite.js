@@ -13,7 +13,7 @@ exports.command = {
 	requiresActive: true,
 	minimumRank: 2,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 		const clanRow = await app.clans.getRow(scoreRow.clanId)
 		const user = app.parse.members(message, args)[0]
@@ -92,7 +92,7 @@ exports.command = {
 	}
 }
 
-async function joinClan(app, userId, clanId) {
+async function joinClan (app, userId, clanId) {
 	await app.query(`UPDATE scores SET clanId = ${clanId} WHERE userId = ${userId}`)
 	await app.query(`UPDATE scores SET clanRank = 0 WHERE userId = ${userId}`)
 }

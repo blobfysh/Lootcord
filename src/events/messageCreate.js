@@ -1,4 +1,4 @@
-exports.run = async function(message) {
+exports.run = async function (message) {
 	if (message.author.bot) return
 
 	// bot is not ready to accept commands

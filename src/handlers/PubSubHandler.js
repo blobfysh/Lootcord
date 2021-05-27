@@ -1,13 +1,13 @@
 const redis = require('ioredis')
 
 class PubSubHandler {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 
 		this.start()
 	}
 
-	async start() {
+	async start () {
 		this.subscriber = new redis({
 			host: this.app.config.redis.host,
 			password: this.app.config.redis.password
@@ -22,7 +22,7 @@ class PubSubHandler {
 		await this.subscriber.subscribe(['messageUser'])
 	}
 
-	async handleMessage(channel, message) {
+	async handleMessage (channel, message) {
 		message = JSON.parse(message)
 
 		// make sure message is meant for this shard (cluster really but there can be multiple clusters with same ID)

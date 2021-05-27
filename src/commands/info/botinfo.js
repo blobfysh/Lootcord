@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const used = process.memoryUsage().heapUsed / 1024 / 1024
 		const stats = JSON.parse(await app.cache.get('stats')) || {}
 
@@ -34,6 +34,6 @@ exports.command = {
 	}
 }
 
-function codeWrap(input, code) {
+function codeWrap (input, code) {
 	return `\`\`\`${code}\n${input}\`\`\``
 }

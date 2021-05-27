@@ -2,17 +2,17 @@ const CronJob = require('cron').CronJob
 const axios = require('axios')
 
 class BotListUpdater {
-	constructor(cache, config) {
+	constructor (cache, config) {
 		this.cache = cache
 		this.config = config
 		this.hourly = new CronJob('0 * * * *', this.postStats.bind(this), null, false, 'America/New_York')
 	}
 
-	start() {
+	start () {
 		this.hourly.start()
 	}
 
-	async postStats() {
+	async postStats () {
 		const stats = JSON.parse(await this.cache.get('stats')) || {}
 
 		if (this.config.debug || !stats.guilds || !stats.users) return

@@ -7,7 +7,7 @@ exports.command = {
 	requiresActive: false,
 	options: [],
 
-	async execute(app, interaction, { guildInfo, serverSideGuildId }) {
+	async execute (app, interaction, { guildInfo, serverSideGuildId }) {
 		const voteCD = await app.cd.getCD(interaction.member.user.id, 'vote')
 		const vote2CD = await app.cd.getCD(interaction.member.user.id, 'vote2')
 

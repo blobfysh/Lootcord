@@ -13,7 +13,7 @@ exports.command = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const jackpotCD = await app.cd.getCD(message.author.id, 'jackpot', { serverSideGuildId })
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		let gambleAmount = app.parse.numbers(args)[0]
@@ -68,7 +68,7 @@ exports.command = {
 	}
 }
 
-async function startJackpot(app, message, prefix, gambleAmount, serverSideGuildId) {
+async function startJackpot (app, message, prefix, gambleAmount, serverSideGuildId) {
 	const jackpotObj = {}
 
 	try {
@@ -164,7 +164,7 @@ async function startJackpot(app, message, prefix, gambleAmount, serverSideGuildI
 	}
 }
 
-function refreshEmbed(app, jackpotObj, prefix) {
+function refreshEmbed (app, jackpotObj, prefix) {
 	const usersArr = []
 	const usersChances = []
 
@@ -192,7 +192,7 @@ function refreshEmbed(app, jackpotObj, prefix) {
 	return jackpotEmbed
 }
 
-function getJackpotTotal(jackpotObj) {
+function getJackpotTotal (jackpotObj) {
 	let total = 0
 	Object.keys(jackpotObj).forEach(user => {
 		total += jackpotObj[user].amount
@@ -201,7 +201,7 @@ function getJackpotTotal(jackpotObj) {
 	return total
 }
 
-function pickWinner(jackpotObj) {
+function pickWinner (jackpotObj) {
 	const entrants = [] // add the entrants userid's to this array x amount of times based on their win chance
 
 	Object.keys(jackpotObj).forEach(user => {

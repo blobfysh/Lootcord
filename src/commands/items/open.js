@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const item = app.parse.items(args)[0]
 		let amount = app.parse.numbers(args)[0] || 1

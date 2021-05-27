@@ -1,11 +1,11 @@
 const axios = require('axios')
 
 class PatreonHandler {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 	}
 
-	async checkPatronLeft(member) {
+	async checkPatronLeft (member) {
 		for (let i = 1; i <= 4; i++) {
 			if (await this.app.cd.getCD(member.id, `patron${i}`)) {
 				this.lostTier(member.id, i, `\`${member.id}\` left support server...`)
@@ -19,16 +19,16 @@ class PatreonHandler {
 		}
 	}
 
-	async addPatronItems(userId) {
+	async addPatronItems (userId) {
 		await this.app.itm.addItem(userId, 'patron', 1)
 	}
 
-	async removePatronItems(userId) {
+	async removePatronItems (userId) {
 		await this.app.query('DELETE FROM user_items WHERE userId = ? AND item = \'patron\'', [userId])
 		await this.app.query('UPDATE scores SET banner = \'none\' WHERE userId = ? AND banner = \'patron\'', [userId])
 	}
 
-	async isPatron(user, minTier = 1) {
+	async isPatron (user, minTier = 1) {
 		const patron1CD = await this.app.cd.getCD(user, 'patron1')
 		const patron2CD = await this.app.cd.getCD(user, 'patron2')
 		const patron3CD = await this.app.cd.getCD(user, 'patron3')
@@ -42,7 +42,7 @@ class PatreonHandler {
 		return false
 	}
 
-	async getPatrons(minTier) {
+	async getPatrons (minTier) {
 		const patronRows = await this.app.query('SELECT * FROM patrons WHERE tier >= ?', [minTier])
 
 		const patrons = {}
@@ -64,7 +64,7 @@ class PatreonHandler {
 		return patrons
 	}
 
-	async removePatrons(supportGuild) {
+	async removePatrons (supportGuild) {
 		await this.removePatronRoles(supportGuild)
 
 		const members = supportGuild.members
@@ -89,7 +89,7 @@ class PatreonHandler {
 	/**
 	 * Fetches patrons using the patreon API
 	 */
-	async fetchPatrons() {
+	async fetchPatrons () {
 		const patrons = []
 		let paginatedLink = `https://www.patreon.com/api/oauth2/v2/campaigns/${this.app.config.patreon.campaignId}/members?include=user,currently_entitled_tiers&fields%5Bmember%5D=patron_status&fields%5Buser%5D=social_connections`
 
@@ -124,7 +124,7 @@ class PatreonHandler {
 	/**
 	 * Remove the patron role from users who are no longer pledged (doing this because the patreon bot sometimes fails to remove role)
 	 */
-	async removePatronRoles(supportGuild) {
+	async removePatronRoles (supportGuild) {
 		try {
 			const patrons = await this.fetchPatrons()
 
@@ -156,7 +156,7 @@ class PatreonHandler {
 		}
 	}
 
-	async gainedTier(userId, tier) {
+	async gainedTier (userId, tier) {
 		const patreonLogEmbed = new this.app.Embed()
 			.setTitle('New Patron!')
 			.addField('User', `\`\`\`fix\n${userId}\`\`\``, true)
@@ -191,7 +191,7 @@ class PatreonHandler {
 		}
 	}
 
-	async lostTier(userId, tier, msg = undefined) {
+	async lostTier (userId, tier, msg = undefined) {
 		try {
 			await this.app.query('DELETE FROM patrons WHERE userId = ? AND tier = ?', [userId, tier])
 			await this.app.cd.clearCD(userId, `patron${tier}`)
@@ -213,7 +213,7 @@ class PatreonHandler {
 		}
 	}
 
-	async refreshPatrons(supportGuild) {
+	async refreshPatrons (supportGuild) {
 		const members = supportGuild.members
 		const patronRows = await this.app.query('SELECT * FROM patrons')
 

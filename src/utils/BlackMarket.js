@@ -1,9 +1,9 @@
 class BlackMarket {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 	}
 
-	async getListingInfo(listingId) {
+	async getListingInfo (listingId) {
 		const listingRow = (await this.app.query(`SELECT * FROM blackmarket WHERE listingId = BINARY "${listingId}"`))[0]
 		if (!listingRow) return undefined
 
@@ -19,7 +19,7 @@ class BlackMarket {
 		}
 	}
 
-	async soldItem(listingInfo) {
+	async soldItem (listingInfo) {
 		const userRow = (await this.app.query(`SELECT * FROM scores WHERE userId = ${listingInfo.sellerId}`))[0]
 
 		await this.app.query(`DELETE FROM blackmarket WHERE listingId = "${listingInfo.listingId}"`)
@@ -41,7 +41,7 @@ class BlackMarket {
 		}
 	}
 
-	displayListings(embed, listings) {
+	displayListings (embed, listings) {
 		for (let i = 0; i < listings.length; i++) {
 			embed.addField(`${this.app.itemdata[listings[i].itemName].icon}\`${listings[i].itemName}\``,
 				`\`\`\`\nPrice: ${this.app.common.formatNumber(listings[i].price, true)}\nQuantity: ${listings[i].quantity}\nID: ${listings[i].listingId}\`\`\``,

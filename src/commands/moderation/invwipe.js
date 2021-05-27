@@ -18,7 +18,7 @@ exports.command = {
 	guildModsOnly: false,
 
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const userID = args[0]
 		let banReason = args.slice(1).join(' ')
 

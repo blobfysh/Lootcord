@@ -15,7 +15,7 @@ exports.command = {
 	levelReq: 3,
 	globalEconomyOnly: true,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const row = await app.player.getRow(message.author.id)
 
 		const convertAmnt = app.parse.numbers(args)[0]

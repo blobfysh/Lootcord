@@ -15,7 +15,7 @@ exports.command = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const upgrOpt = args[0] !== undefined ? args[0].toLowerCase() : ''
 		const upgrAmnt = upgrOptions.includes(upgrOpt) ? app.parse.numbers(args)[0] || 1 : 1
@@ -283,7 +283,7 @@ exports.command = {
 	}
 }
 
-async function incrUsedStats(app, userId, amount, serverSideGuildId = undefined) {
+async function incrUsedStats (app, userId, amount, serverSideGuildId = undefined) {
 	if (serverSideGuildId) {
 		await app.query(`UPDATE server_scores SET used_stats = used_stats + ${amount} WHERE userId = "${userId}" AND guildId = "${serverSideGuildId}"`)
 	}
@@ -292,7 +292,7 @@ async function incrUsedStats(app, userId, amount, serverSideGuildId = undefined)
 	}
 }
 
-async function purchaseSkills(app, message, type, amount, serverSideGuildId = undefined) {
+async function purchaseSkills (app, message, type, amount, serverSideGuildId = undefined) {
 	if (type === 'Health' && serverSideGuildId) {
 		await app.query(`UPDATE server_scores SET maxHealth = maxHealth + ${5 * amount} WHERE userId = "${message.author.id}" AND guildId = "${serverSideGuildId}"`)
 	}
@@ -315,7 +315,7 @@ async function purchaseSkills(app, message, type, amount, serverSideGuildId = un
 	}
 }
 
-function getType(type) {
+function getType (type) {
 	if (type === 'health') {
 		return {
 			title: 'Health',
@@ -340,7 +340,7 @@ function getType(type) {
 	return ''
 }
 
-function nextLevel(type, row, amount) {
+function nextLevel (type, row, amount) {
 	if (type.title === 'Health') {
 		return row[type.row] + (5 * amount)
 	}
@@ -352,7 +352,7 @@ function nextLevel(type, row, amount) {
 	}
 }
 
-function getPrice(used_stats, amount) {
+function getPrice (used_stats, amount) {
 	let total_price = 0
 	let initial_start = used_stats
 

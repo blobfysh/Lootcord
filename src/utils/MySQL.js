@@ -1,7 +1,7 @@
 const mysql = require('mysql')
 
 class MySQL {
-	constructor(config) {
+	constructor (config) {
 		this.db = mysql.createPool({
 			connectionLimit: 10,
 			host: config.sql.host,
@@ -25,7 +25,7 @@ class MySQL {
 		})
 	}
 
-	query(sql, args) {
+	query (sql, args) {
 		return new Promise((resolve, reject) => {
 			// query automatically releases connection after finished
 			this.db.query(sql, args, (err, rows) => {
@@ -39,7 +39,7 @@ class MySQL {
 	/**
 	 * Begins a database transaction, returns methods to query and commit transaction
 	 */
-	beginTransaction() {
+	beginTransaction () {
 		return new Promise((resolve, reject) => {
 			this.db.getConnection((conError, connection) => {
 				if (conError) {
@@ -102,7 +102,7 @@ class MySQL {
      * @param {*} conditionValue
      * @override
      */
-	async update(table, column, value, conditionColumn, conditionValue) {
+	async update (table, column, value, conditionColumn, conditionValue) {
 		let sql = 'UPDATE ?? SET ?? = ? WHERE ?? = ?'
 
 		sql = mysql.format(sql, [table, column, value, conditionColumn, conditionValue])
@@ -118,7 +118,7 @@ class MySQL {
      * @param {string} conditionCol
      * @param {*} conditionVal
      */
-	async updateIncr(table, column, value, conditionCol, conditionVal) {
+	async updateIncr (table, column, value, conditionCol, conditionVal) {
 		let sql = 'UPDATE ?? SET ?? = ?? + ? WHERE ?? = ?'
 
 		sql = mysql.format(sql, [table, column, column, value, conditionCol, conditionVal])
@@ -134,7 +134,7 @@ class MySQL {
      * @param {string} conditionCol Column to search for in WHERE clause
      * @param {*} conditionVal Value of column in WHERE clause
      */
-	async updateDecr(table, column, value, conditionCol, conditionVal) {
+	async updateDecr (table, column, value, conditionCol, conditionVal) {
 		let sql = 'UPDATE ?? SET ?? = ?? - ? WHERE ?? = ?'
 
 		sql = mysql.format(sql, [table, column, column, value, conditionCol, conditionVal])
@@ -149,7 +149,7 @@ class MySQL {
      * @param {*} conditionVal The condition
      * @param {boolean} selectRows Whether or not to return multiple rows
      */
-	async select(table, conditionCol, conditionVal, selectRows = false) {
+	async select (table, conditionCol, conditionVal, selectRows = false) {
 		let sql = 'SELECT * FROM ?? WHERE ?? = ?'
 
 		sql = mysql.format(sql, [table, conditionCol, conditionVal])

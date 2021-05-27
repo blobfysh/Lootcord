@@ -1,4 +1,4 @@
-exports.run = async function(msg) {
+exports.run = async function (msg) {
 	const guild = this.bot.guilds.get(msg.guildId)
 	if (guild) {
 		try {

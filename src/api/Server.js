@@ -7,7 +7,7 @@ const path = require('path')
 const routes = fs.readdirSync(path.join(__dirname, '/routes'))
 
 class Server {
-	constructor(sharder, mysql, cache, config) {
+	constructor (sharder, mysql, cache, config) {
 		this.sharder = sharder
 		this.mysql = mysql
 		this.cache = cache
@@ -15,7 +15,7 @@ class Server {
 		this.server = express()
 	}
 
-	launch() {
+	launch () {
 		this.server.use(bodyParser.json())
 		this.server.use(bodyParser.urlencoded({ extended: false }))
 

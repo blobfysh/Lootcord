@@ -18,7 +18,7 @@ exports.command = {
 	guildModsOnly: false,
 	patronTier1Only: true,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const weeklyCD = await app.cd.getCD(message.author.id, 'weekly', { serverSideGuildId })
 
 		if (weeklyCD) {

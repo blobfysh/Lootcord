@@ -1,4 +1,4 @@
-exports.run = async function(guild, member) {
+exports.run = async function (guild, member) {
 	// / deactivate user
 	this.query(`DELETE FROM userguilds WHERE userId = ${member.id} AND guildId = ${guild.id}`)
 

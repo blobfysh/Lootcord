@@ -12,7 +12,7 @@ catch (err) {
 }
 
 class Player {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 	}
 
@@ -21,7 +21,7 @@ class Player {
      * @param {string} id ID of player to get information for
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async getRow(id, serverSideGuildId = undefined) {
+	async getRow (id, serverSideGuildId = undefined) {
 		return serverSideGuildId ?
 			(await this.app.query('SELECT * FROM server_scores WHERE userId = ? AND guildId = ? AND userId > 0', [id, serverSideGuildId]))[0] :
 			(await this.app.query('SELECT * FROM scores WHERE userId = ? AND userId > 0', [id]))[0]
@@ -33,13 +33,13 @@ class Player {
      * @param {string} id ID of player to get information for
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async getRowForUpdate(query, id, serverSideGuildId = undefined) {
+	async getRowForUpdate (query, id, serverSideGuildId = undefined) {
 		return serverSideGuildId ?
 			(await query('SELECT * FROM server_scores WHERE userId = ? AND guildId = ? AND userId > 0 FOR UPDATE', [id, serverSideGuildId]))[0] :
 			(await query('SELECT * FROM scores WHERE userId = ? AND userId > 0 FOR UPDATE', [id]))[0]
 	}
 
-	async createAccount(id, serverSideGuildId = undefined) {
+	async createAccount (id, serverSideGuildId = undefined) {
 		let message
 
 		if (serverSideGuildId) {
@@ -88,7 +88,7 @@ class Player {
      * @param {string} id ID of player to activate
      * @param {string} guild ID of guild to activate player in
      */
-	async activate(id, guild) {
+	async activate (id, guild) {
 		await this.app.query(`INSERT INTO userguilds (userId, guildId) VALUES (${id}, ${guild})`)
 	}
 
@@ -97,7 +97,7 @@ class Player {
      * @param {string} id ID of user to deactivate
      * @param {string} guild ID of guild to deactivate user from
      */
-	async deactivate(id, guild) {
+	async deactivate (id, guild) {
 		// delete user from server
 		await this.app.query(`DELETE FROM userguilds WHERE userId = ${id} AND guildId = ${guild}`)
 	}
@@ -107,7 +107,7 @@ class Player {
      * @param {string} id ID of user to check
      * @param {string} guild Guild to check if user is active in
      */
-	async isActive(id, guild) {
+	async isActive (id, guild) {
 		if ((await this.app.query(`SELECT * FROM userguilds WHERE userId = ${id} AND guildId = ${guild}`)).length) {
 			return true
 		}
@@ -120,7 +120,7 @@ class Player {
      * @param {number} curHP Player's current health
      * @param {number} maxHP Player's maximum health
      */
-	getHealthIcon(curHP, maxHP, nextLine = false) {
+	getHealthIcon (curHP, maxHP, nextLine = false) {
 		const numHearts = Math.ceil(maxHP / 25)
 		let hpStr = ''
 
@@ -162,7 +162,7 @@ class Player {
      * @param {number} amount Amount to remove
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async removeMoney(id, amount, serverSideGuildId = undefined) {
+	async removeMoney (id, amount, serverSideGuildId = undefined) {
 		if (serverSideGuildId) {
 			await this.app.query(`UPDATE server_scores SET money = money - ${parseInt(amount)} WHERE userId = ${id} AND guildId = ${serverSideGuildId}`)
 		}
@@ -180,7 +180,7 @@ class Player {
      * @param {number} amount Amount to remove
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async removeMoneySafely(query, id, amount, serverSideGuildId = undefined) {
+	async removeMoneySafely (query, id, amount, serverSideGuildId = undefined) {
 		if (serverSideGuildId) {
 			await query(`UPDATE server_scores SET money = money - ${parseInt(amount)} WHERE userId = ${id} AND guildId = ${serverSideGuildId}`)
 		}
@@ -197,7 +197,7 @@ class Player {
      * @param {*} amount Amount of money to add.
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async addMoney(id, amount, serverSideGuildId = undefined) {
+	async addMoney (id, amount, serverSideGuildId = undefined) {
 		if (serverSideGuildId) {
 			await this.app.query(`UPDATE server_scores SET money = money + ${parseInt(amount)} WHERE userId = ${id} AND guildId = ${serverSideGuildId}`)
 		}
@@ -215,7 +215,7 @@ class Player {
      * @param {*} amount Amount of money to add.
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async addMoneySafely(query, id, amount, serverSideGuildId = undefined) {
+	async addMoneySafely (query, id, amount, serverSideGuildId = undefined) {
 		if (serverSideGuildId) {
 			await query(`UPDATE server_scores SET money = money + ${parseInt(amount)} WHERE userId = ${id} AND guildId = ${serverSideGuildId}`)
 		}
@@ -232,7 +232,7 @@ class Player {
      * @param {*} amount Amount of xp to add.
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async addPoints(id, amount, serverSideGuildId = undefined) {
+	async addPoints (id, amount, serverSideGuildId = undefined) {
 		if (serverSideGuildId) {
 			await this.app.query(`UPDATE server_scores SET points = points + ${parseInt(amount)} WHERE userId = ${id} AND guildId = ${serverSideGuildId}`)
 		}
@@ -241,7 +241,7 @@ class Player {
 		}
 	}
 
-	async subHealth(id, amount, serverSideGuildId = undefined) {
+	async subHealth (id, amount, serverSideGuildId = undefined) {
 		if (serverSideGuildId) {
 			await this.app.query('UPDATE server_scores SET health = health - ? WHERE userId = ? AND guildId = ?', [amount, id, serverSideGuildId])
 		}
@@ -250,7 +250,7 @@ class Player {
 		}
 	}
 
-	async addHealth(id, amount, serverSideGuildId = undefined) {
+	async addHealth (id, amount, serverSideGuildId = undefined) {
 		if (serverSideGuildId) {
 			await this.app.query('UPDATE server_scores SET health = health + ? WHERE userId = ? AND guildId = ?', [amount, id, serverSideGuildId])
 		}
@@ -266,7 +266,7 @@ class Player {
      * @param {*} value Value to increase stat by
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async addStat(id, stat, value, serverSideGuildId = undefined) {
+	async addStat (id, stat, value, serverSideGuildId = undefined) {
 		if (serverSideGuildId) {
 			await this.app.query('INSERT INTO server_stats (userId, guildId, stat, value) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE value = value + ?', [id, serverSideGuildId, stat, value, value])
 		}
@@ -281,7 +281,7 @@ class Player {
      * @param {*} stat Stat to retrieve value of
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async getStat(id, stat, serverSideGuildId = undefined) {
+	async getStat (id, stat, serverSideGuildId = undefined) {
 		let stats
 
 		if (serverSideGuildId) {
@@ -300,7 +300,7 @@ class Player {
 	 * @param {string} stat stat to reset to 0
 	 * @param {string|undefined} serverSideGuildId used for server-side economies
 	 */
-	async resetStat(id, stat, serverSideGuildId = undefined) {
+	async resetStat (id, stat, serverSideGuildId = undefined) {
 		if (serverSideGuildId) {
 			await this.app.query('UPDATE server_stats SET value = 0 WHERE userId = ? AND guildId = ? AND stat = ?', [id, serverSideGuildId, stat])
 		}
@@ -313,7 +313,7 @@ class Player {
      *
      * @param {string} badge Badge to get icon for
      */
-	getBadge(badge) {
+	getBadge (badge) {
 		const badgeInfo = this.app.badgedata[badge]
 
 		if (badgeInfo) {
@@ -328,7 +328,7 @@ class Player {
 	 * @param {string|undefined} [serverSideGuildId] server-side economy guild id to retrieve users armor for
 	 * @returns {Promise<string|undefined>}
      */
-	async getArmor(id, serverSideGuildId = undefined) {
+	async getArmor (id, serverSideGuildId = undefined) {
 		let armor
 
 		if (serverSideGuildId) {
@@ -345,7 +345,7 @@ class Player {
 		return undefined
 	}
 
-	async getLevelImage(playerImage, level) {
+	async getLevelImage (playerImage, level) {
 		const WIDTH = 108
 		const HEIGHT = 128
 		const image = await Canvas.loadImage('src/resources/images/LvlUp2.png')

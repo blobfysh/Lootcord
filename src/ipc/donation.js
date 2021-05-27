@@ -1,4 +1,4 @@
-exports.run = async function({ data }) {
+exports.run = async function ({ data }) {
 	const donateEmbed = new this.Embed()
 		.setTitle('Ko-fi Donation')
 		.setThumbnail('https://pbs.twimg.com/profile_images/1207570720034701314/dTLz6VR2_400x400.jpg')

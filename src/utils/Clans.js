@@ -1,7 +1,7 @@
 const { CLANS } = require('../resources/constants')
 
 class Clans {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 	}
 
@@ -9,7 +9,7 @@ class Clans {
      *
      * @param {string} id ID of clan to get information for
      */
-	async getRow(id) {
+	async getRow (id) {
 		return (await this.app.query('SELECT * FROM clans WHERE clanId = ?', [id]))[0]
 	}
 
@@ -18,17 +18,17 @@ class Clans {
 	 * @param {*} query
      * @param {string} id ID of clan to get information for
      */
-	async getRowForUpdate(query, id) {
+	async getRowForUpdate (query, id) {
 		return (await query('SELECT * FROM clans WHERE clanId = ? FOR UPDATE', [id]))[0]
 	}
 
-	async searchClanRow(search) {
+	async searchClanRow (search) {
 		if (!search.match(/^[a-zA-Z0-9 ]+$/)) return undefined
 
 		return (await this.app.query('SELECT * FROM clans WHERE LOWER(name) = ?', [search.match(/^[a-zA-Z0-9 ]+$/)[0].toLowerCase()]))[0]
 	}
 
-	async getMembers(clanId) {
+	async getMembers (clanId) {
 		const users = await this.app.query(`SELECT * FROM scores WHERE clanId = ${clanId} ORDER BY clanRank DESC`)
 
 		const memberIds = []
@@ -43,7 +43,7 @@ class Clans {
 		}
 	}
 
-	async disbandClan(clanId) {
+	async disbandClan (clanId) {
 		this.app.query(`UPDATE scores SET clanRank = 0 WHERE clanId = ${clanId}`)
 		this.app.query(`UPDATE scores SET clanId = 0 WHERE clanId = ${clanId}`)
 
@@ -51,7 +51,7 @@ class Clans {
 		this.app.query(`DELETE FROM clans WHERE clanId = ${clanId}`)
 	}
 
-	getUpkeep(level, bank, memberCount, inactiveMembers) {
+	getUpkeep (level, bank, memberCount, inactiveMembers) {
 		let upkeep = 0
 
 		upkeep += CLANS.levels[level].upkeep
@@ -61,7 +61,7 @@ class Clans {
 		return upkeep
 	}
 
-	async getClanData(clanRow, clanItems) {
+	async getClanData (clanRow, clanItems) {
 		let kills = 0
 		let deaths = 0
 		let timePlayed = 0
@@ -94,11 +94,11 @@ class Clans {
 		}
 	}
 
-	async hasSpace(clanData, amount) {
+	async hasSpace (clanData, amount) {
 		return clanData.vaultSlots - clanData.itemCount >= amount
 	}
 
-	async raidNotify(victimClanId, raiderClanName, moneyStolen, itemsStolenString) {
+	async raidNotify (victimClanId, raiderClanName, moneyStolen, itemsStolenString) {
 		const users = await this.app.query(`SELECT * FROM scores WHERE clanId = ${victimClanId}`)
 
 		for (let i = 0; i < users.length; i++) {
@@ -114,23 +114,23 @@ class Clans {
 		}
 	}
 
-	async removeMoney(clanId, amount) {
+	async removeMoney (clanId, amount) {
 		await this.app.query(`UPDATE clans SET money = money - ${parseInt(amount)} WHERE clanId = ${clanId}`)
 	}
 
-	async removeMoneySafely(query, clanId, amount) {
+	async removeMoneySafely (query, clanId, amount) {
 		await query(`UPDATE clans SET money = money - ${parseInt(amount)} WHERE clanId = ${clanId}`)
 	}
 
-	async addMoney(clanId, amount) {
+	async addMoney (clanId, amount) {
 		await this.app.query(`UPDATE clans SET money = money + ${parseInt(amount)} WHERE clanId = ${clanId}`)
 	}
 
-	async addMoneySafely(query, clanId, amount) {
+	async addMoneySafely (query, clanId, amount) {
 		await query(`UPDATE clans SET money = money + ${parseInt(amount)} WHERE clanId = ${clanId}`)
 	}
 
-	async addLog(clanId, details) {
+	async addLog (clanId, details) {
 		try {
 			await this.app.query('INSERT INTO clan_logs (clanId, details, logTime, logDate) VALUES (?, ?, ?, NOW())', [clanId, details, new Date().getTime()])
 		}

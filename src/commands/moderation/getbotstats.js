@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const stats = JSON.parse(await app.cache.get('stats')) || {}
 		const guildsJoined = await app.cache.get('servers_joined') || 0
 		const guildsLeft = await app.cache.get('servers_left') || 0
@@ -48,6 +48,6 @@ exports.command = {
 	}
 }
 
-function codeWrap(input, code) {
+function codeWrap (input, code) {
 	return `\`\`\`${code}\n${input}\`\`\``
 }

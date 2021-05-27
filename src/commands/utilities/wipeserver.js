@@ -34,7 +34,7 @@ exports.command = {
 	serverEconomyOnly: true,
 	guildModsOnly: true,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const botMessage = await message.reply({
 			content: 'Are you sure you want to wipe everyone in the server? Cooldowns will remain unaffected.',
 			components: BUTTONS.confirmation

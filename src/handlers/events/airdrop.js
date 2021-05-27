@@ -2,7 +2,7 @@ module.exports = {
 	name: 'airdrop',
 	cooldown: 3600 * 1000,
 
-	async execute(app, message, { prefix, serverSideGuildId }) {
+	async execute (app, message, { prefix, serverSideGuildId }) {
 		console.log('[EVENT] Airdrop started')
 
 		const collectorObj = app.msgCollector.createChannelCollector(message, m => m.channel.id === message.channel.id &&

@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: true,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		if (guildInfo.killChan === 0) {
 			await app.query(`UPDATE guildinfo SET killChan = ${message.channel.id} WHERE guildId = ${message.channel.guild.id}`)
 

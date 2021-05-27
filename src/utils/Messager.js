@@ -1,5 +1,5 @@
 class Messager {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 		this.config = app.config
 		this.modChannel = app.config.modChannel
@@ -11,7 +11,7 @@ class Messager {
      * @param {{content: string, embed: DiscordEmbed}} message Message object to send
      * @param {{ping: boolean}} options Ping will ping the moderators to notify of message
      */
-	async messageMods(message, options = { ping: false }) {
+	async messageMods (message, options = { ping: false }) {
 		try {
 			if (options.ping) {
 				message.content = `<@&${this.modRoleID}>, ${message.content ? message.content : ''}`
@@ -30,7 +30,7 @@ class Messager {
      *
      * @param {{content: string, embed: DiscordEmbed}|DiscordEmbed} message
      */
-	messageLogs(message) {
+	messageLogs (message) {
 		try {
 			if (!this.config.logWebhook.id.length) return
 

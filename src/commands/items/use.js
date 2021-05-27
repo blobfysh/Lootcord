@@ -13,7 +13,7 @@ exports.command = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const item = app.parse.items(args)[0]
 		const itemInfo = app.itemdata[item]
@@ -95,7 +95,7 @@ exports.command = {
 			}
 
 			// regardless if the attack was random or not, this function is used to attack players
-			const attackUser = async(victim, victimRow, victimItems) => {
+			const attackUser = async (victim, victimRow, victimItems) => {
 				const passiveShieldCD = await app.cd.getCD(message.author.id, 'passive_shield', { serverSideGuildId })
 				const victimArmor = await app.player.getArmor(victim.id, serverSideGuildId)
 				const victimLuck = victimRow.luck >= 10 ? 10 : victimRow.luck
@@ -366,7 +366,7 @@ exports.command = {
 			}
 
 			// used to remove the attackers weapon/ammo before an attack
-			const removeWeapon = async() => {
+			const removeWeapon = async () => {
 				if (await app.cd.getCD(message.author.id, 'attack', { serverSideGuildId })) {
 					return message.reply('❌ You need to wait before attacking again.')
 				}
@@ -724,7 +724,7 @@ exports.command = {
 	}
 }
 
-function logKill(app, guildID, killer, victim, item, ammo, damage, moneyStolen, itemsLost) {
+function logKill (app, guildID, killer, victim, item, ammo, damage, moneyStolen, itemsLost) {
 	const embed = new app.Embed()
 		.setTitle('Kill Log')
 		.setColor(2713128)
@@ -739,7 +739,7 @@ function logKill(app, guildID, killer, victim, item, ammo, damage, moneyStolen, 
 	app.messager.messageLogs(embed)
 }
 
-function generateAttackString(app, message, victim, victimRow, damage, itemUsed, ammoUsed, itemBroke, killed, armor, baseDamage) {
+function generateAttackString (app, message, victim, victimRow, damage, itemUsed, ammoUsed, itemBroke, killed, armor, baseDamage) {
 	let finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
 		.replace('{victim}', `<@${victim.id}>`)
 		.replace('{weaponIcon}', app.itemdata[itemUsed].icon)
@@ -780,7 +780,7 @@ function generateAttackString(app, message, victim, victimRow, damage, itemUsed,
 	return finalStr
 }
 
-function generateAttackMobString(app, message, monsterRow, damage, itemUsed, ammoUsed, itemBroke, killed) {
+function generateAttackMobString (app, message, monsterRow, damage, itemUsed, ammoUsed, itemBroke, killed) {
 	const monster = app.mobdata[monsterRow.monster]
 	const monsterDisplay = monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)
 	let finalStr = app.itemdata[itemUsed].phrase.replace('{attacker}', `<@${message.author.id}>`)
@@ -816,7 +816,7 @@ function generateAttackMobString(app, message, monsterRow, damage, itemUsed, amm
 	return finalStr
 }
 
-function generateMobAttack(app, message, monsterRow, playerRow, damage, itemUsed, ammoUsed, killed, armor, baseDamage) {
+function generateMobAttack (app, message, monsterRow, playerRow, damage, itemUsed, ammoUsed, killed, armor, baseDamage) {
 	const monster = app.mobdata[monsterRow.monster]
 	let finalStr = ''
 
@@ -843,7 +843,7 @@ function generateMobAttack(app, message, monsterRow, playerRow, damage, itemUsed
 	return finalStr
 }
 
-async function pickTarget(app, message, membersInfo) {
+async function pickTarget (app, message, membersInfo) {
 	try {
 		const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 16000 })
 
@@ -891,7 +891,7 @@ async function pickTarget(app, message, membersInfo) {
 	}
 }
 
-async function notifyAttackVictim(app, message, victim, itemUsed, damage, victimRow) {
+async function notifyAttackVictim (app, message, victim, itemUsed, damage, victimRow) {
 	const notifyEmbed = new app.Embed()
 		.setTitle('You were attacked!')
 		.setDescription(`${`${message.author.username}#${message.author.discriminator}`} hit you for **${damage}** damage using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`.
@@ -907,7 +907,7 @@ async function notifyAttackVictim(app, message, victim, itemUsed, damage, victim
 		// user disabled DMs
 	}
 }
-async function notifyDeathVictim(app, message, victim, itemUsed, damage, itemsLost) {
+async function notifyDeathVictim (app, message, victim, itemUsed, damage, itemsLost) {
 	const notifyEmbed = new app.Embed()
 		.setTitle('You were killed!')
 		.setDescription(`${`${message.author.username}#${message.author.discriminator}`} hit you for **${damage}** damage using a ${app.itemdata[itemUsed].icon}\`${itemUsed}\`.`)

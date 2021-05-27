@@ -15,7 +15,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const status = args[0]
 		const type = args[1]
 		const content = args.slice(2).join(' ')

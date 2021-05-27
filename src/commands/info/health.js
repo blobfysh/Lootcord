@@ -12,7 +12,7 @@ exports.command = {
 	guildModsOnly: false,
 	worksInDMs: true,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 
 		let healthStr = `You currently have: ${app.player.getHealthIcon(row.health, row.maxHealth)} **${row.health} / ${row.maxHealth}** HP (Gain more with the \`upgrade\` command)\n\n__**Effects**__`

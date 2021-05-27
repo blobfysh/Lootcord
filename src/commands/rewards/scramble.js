@@ -21,7 +21,7 @@ exports.command = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const scrambleCD = await app.cd.getCD(message.author.id, 'scramble', { serverSideGuildId })
 
 		if (scrambleCD) {
@@ -192,7 +192,7 @@ exports.command = {
 	}
 }
 
-const getWord = exports.getWord = async function getWord() {
+const getWord = exports.getWord = async function getWord () {
 	try {
 		const res = await axios.get('http://scrambledwords.xyz/api/random', {
 			timeout: 3000
@@ -210,7 +210,7 @@ const getWord = exports.getWord = async function getWord() {
 	}
 }
 
-function shuffle(word) {
+function shuffle (word) {
 	let shuffledWord = ''
 	word = word.split('')
 	while (word.length > 0) {
@@ -219,7 +219,7 @@ function shuffle(word) {
 	return shuffledWord
 }
 
-const shuffleWordNoDupe = exports.shuffleWordNoDupe = function shuffleWordNoDupe(word) {
+const shuffleWordNoDupe = exports.shuffleWordNoDupe = function shuffleWordNoDupe (word) {
 	let shuffled = shuffle(word)
 
 	while (shuffled === word) {

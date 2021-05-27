@@ -4,7 +4,7 @@ const { WebhookPayload } = require('eris')
 const { InteractionResponse, InteractionResponseType, InteractionType, InteractionApplicationCommandCallbackData } = require('slash-commands')
 
 class Interaction {
-	constructor(i, clientId) {
+	constructor (i, clientId) {
 		this.id = i.id
 		this.type = i.type
 		this.data = i.data
@@ -23,7 +23,7 @@ class Interaction {
 	/**
 	 * @param {InteractionResponse} response
 	 */
-	async callback(response) {
+	async callback (response) {
 		await axios({
 			url: `https://discord.com/api/v8/interactions/${this.id}/${this.token}/callback`,
 			method: 'POST',
@@ -38,7 +38,7 @@ class Interaction {
 	 * Respond to an interaction. Can only be used once, further responses should use the followUp method
 	 * @param {InteractionApplicationCommandCallbackData} content
 	 */
-	async respond(content) {
+	async respond (content) {
 		if (this.responded) {
 			throw new Error('Already responded to this interaction.')
 		}
@@ -63,7 +63,7 @@ class Interaction {
 	/**
 	 * Defers the interaction response
 	 */
-	async defer() {
+	async defer () {
 		if (this.type === InteractionType.APPLICATION_COMMAND) {
 			await this.callback({
 				type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE
@@ -83,7 +83,7 @@ class Interaction {
 	 *
 	 * @param {WebhookPayload} options
 	 */
-	async editResponse(options) {
+	async editResponse (options) {
 		await axios({
 			url: `https://discord.com/api/v8/webhooks/${this.clientId}/${this.token}/messages/@original${options.wait ? '?wait=true' : ''}`,
 			method: 'PATCH',
@@ -102,7 +102,7 @@ class Interaction {
 	 *
 	 * @param {WebhookPayload} options
 	 */
-	async followUp(options) {
+	async followUp (options) {
 		await axios({
 			url: `https://discord.com/api/v8/webhooks/${this.clientId}/${this.token}${options.wait ? '?wait=true' : ''}`,
 			method: 'POST',

@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: true,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const activatedUsers = await app.query('SELECT userId FROM userguilds WHERE guildId = ?', [message.channel.guild.id])
 		const monsterSpawn = await app.mysql.select('spawns', 'guildId', message.channel.guild.id)
 		const toggleCD = await app.cd.getCD(message.channel.guild.id, 'serversidetoggle')

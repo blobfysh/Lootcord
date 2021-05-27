@@ -8,7 +8,7 @@ exports.command = {
 	requiresActive: true,
 	options: [],
 
-	async execute(app, interaction, { guildInfo, serverSideGuildId }) {
+	async execute (app, interaction, { guildInfo, serverSideGuildId }) {
 		const triviaCD = await app.cd.getCD(interaction.member.user.id, 'trivia', { serverSideGuildId })
 
 		if (triviaCD) {
@@ -75,7 +75,7 @@ exports.command = {
 				})
 			}
 
-			async function triviaReward() {
+			async function triviaReward () {
 				if (reward.item === 'money') {
 					await app.player.addMoney(interaction.member.user.id, reward.amount, serverSideGuildId)
 				}

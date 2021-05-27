@@ -1,7 +1,7 @@
 const bt = require('big-time')
 
 class Cooldown {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 		this.timers = []
 		this.serverTimers = []
@@ -16,7 +16,7 @@ class Cooldown {
      * @param {{ignoreQuery: boolean, armor: string, serverSideGuildId: string}} options ignoreQuery is only used when bot starting up to prevent multiple table entries
      * @param {function()} callback Callback to run when finished
      */
-	async setCD(userId, type, time, options = { ignoreQuery: false, armor: undefined, serverSideGuildId: undefined }, callback = undefined) {
+	async setCD (userId, type, time, options = { ignoreQuery: false, armor: undefined, serverSideGuildId: undefined }, callback = undefined) {
 		options.ignoreQuery = options.ignoreQuery || false
 
 		const seconds = Math.round(time / 1000)
@@ -103,7 +103,7 @@ class Cooldown {
      * @param {string} type Type of cooldown to look for
      * @param {{getEstimate:boolean, serverSideGuildId: string}} options Options
      */
-	async getCD(userId, type, options = { getEstimate: false, serverSideGuildId: undefined }) {
+	async getCD (userId, type, options = { getEstimate: false, serverSideGuildId: undefined }) {
 		options.getEstimate = options.getEstimate || false
 
 		let key = `${type}|${userId}`
@@ -139,7 +139,7 @@ class Cooldown {
 		return this.convertTime(duration)
 	}
 
-	async clearTimers(userId, type, guildId = undefined) {
+	async clearTimers (userId, type, guildId = undefined) {
 		if (guildId) {
 			// server-side cooldown
 			for (let i = 0; i < this.serverTimers.length; i++) {
@@ -163,7 +163,7 @@ class Cooldown {
 		}
 	}
 
-	async clearCD(userId, type, guildId = undefined) {
+	async clearCD (userId, type, guildId = undefined) {
 		if (guildId) {
 			// server-side economy
 			await this.app.mysql.query(`DELETE FROM server_cooldown WHERE userId = '${userId}' AND guildId = '${guildId}' AND type = '${type}'`)
@@ -177,7 +177,7 @@ class Cooldown {
 		}
 	}
 
-	convertTime(ms) {
+	convertTime (ms) {
 		let remaining = ms
 		const finalStr = []
 

@@ -19,7 +19,7 @@ exports.command = {
 		}
 	],
 
-	async execute(app, interaction, { guildInfo, serverSideGuildId }) {
+	async execute (app, interaction, { guildInfo, serverSideGuildId }) {
 		const userOpt = interaction.data.options && interaction.data.options.find(opt => opt.name === 'user') && interaction.data.options.find(opt => opt.name === 'user').value
 		let pageOpt = interaction.data.options && interaction.data.options.find(opt => opt.name === 'page') && interaction.data.options.find(opt => opt.name === 'page').value
 		let response

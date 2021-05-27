@@ -16,7 +16,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		let statusToSet = message.cleanContent.slice(prefix.length).split(/ +/).slice(1).join(' ')
 
 		if (statusToSet.length > 120) {

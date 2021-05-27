@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 let client
 
-function setClient(c) {
+function setClient (c) {
 	client = c
 }
 

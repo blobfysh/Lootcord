@@ -13,7 +13,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		if (args[0]) {
 			const command = args[0].toLowerCase()
 			const cmd = app.commands.find(c => c.name === command && c.category === 'moderation') || app.commands.find(c => c.aliases && c.aliases.includes(command) && c.category === 'moderation')
@@ -45,7 +45,7 @@ exports.command = {
 	}
 }
 
-function getUsage(prefix, cmd) {
+function getUsage (prefix, cmd) {
 	let finalStr = `${prefix}${cmd.name}`
 
 	for (const arg of Object.keys(cmd.args)) {
@@ -55,7 +55,7 @@ function getUsage(prefix, cmd) {
 	return finalStr
 }
 
-function getOptions(cmd) {
+function getOptions (cmd) {
 	let finalStr = ''
 
 	for (const arg of Object.keys(cmd.args)) {

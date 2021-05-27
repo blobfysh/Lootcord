@@ -16,7 +16,7 @@ exports.command = {
 		}
 	],
 
-	async execute(app, interaction, { guildInfo, serverSideGuildId }) {
+	async execute (app, interaction, { guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(interaction.member.user.id, serverSideGuildId)
 		const coinflipCD = await app.cd.getCD(interaction.member.user.id, 'coinflip', { serverSideGuildId })
 		const gambleAmount = interaction.data.options.find(opt => opt.name === 'amount').value

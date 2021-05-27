@@ -13,7 +13,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const memberArg = app.parse.members(message, args)[0]
 
 		if (!memberArg) {
@@ -30,7 +30,7 @@ exports.command = {
 	}
 }
 
-const makeProfile = exports.makeProfile = async function makeProfile(app, user, serverSideGuildId) {
+const makeProfile = exports.makeProfile = async function makeProfile (app, user, serverSideGuildId) {
 	try {
 		const userRow = await app.player.getRow(user.id, serverSideGuildId)
 

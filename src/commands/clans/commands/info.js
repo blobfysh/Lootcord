@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: false,
 	minimumRank: 0,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 		const mentionedUser = app.parse.members(message, args)[0]
 
@@ -46,7 +46,7 @@ exports.command = {
 	}
 }
 
-async function getClanInfo(app, message, clanId) {
+async function getClanInfo (app, message, clanId) {
 	const clanRow = await app.clans.getRow(clanId)
 	const clanMembers = await app.clans.getMembers(clanId)
 	const clanData = await app.clans.getClanData(clanRow, await app.itm.getItemObject(clanId))
@@ -121,7 +121,7 @@ async function getClanInfo(app, message, clanId) {
 	}, 1000)
 }
 
-function getShortDate(date) {
+function getShortDate (date) {
 	let convertedTime = new Date(date).toLocaleString('en-US', {
 		timeZone: 'America/New_York'
 	})

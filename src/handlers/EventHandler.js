@@ -3,12 +3,12 @@ const path = require('path')
 const eventFiles = fs.readdirSync(path.join(__dirname, '/events'))
 
 class EventHandler {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 		this.events = this.loadEvents()
 	}
 
-	async initEvent(message, { prefix, serverSideGuildId }) {
+	async initEvent (message, { prefix, serverSideGuildId }) {
 		// prevent an event from occuring in the same guild within timeframe
 		if (await this.app.cd.getCD(message.channel.guild.id, 'event')) return
 
@@ -31,7 +31,7 @@ class EventHandler {
 		setTimeout(() => { event.execute(this.app, message, { prefix, serverSideGuildId }) }, 5 * 1000)
 	}
 
-	loadEvents() {
+	loadEvents () {
 		const eventsMap = new Map()
 
 		for (const file of eventFiles) {

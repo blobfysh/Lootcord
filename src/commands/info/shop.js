@@ -13,7 +13,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const allItems = Object.keys(app.itemdata).filter(item => app.itemdata[item].buy.currency !== undefined)
 
 		allItems.sort((a, b) => app.itemdata[a].buy.amount - app.itemdata[b].buy.amount)
@@ -23,7 +23,7 @@ exports.command = {
 }
 
 // returns an array of embeds
-async function generatePages(app, allItems, prefix, itemsPerPage, isServerSideEconomy) {
+async function generatePages (app, allItems, prefix, itemsPerPage, isServerSideEconomy) {
 	const pages = []
 	const maxPage = Math.ceil(allItems.length / itemsPerPage)
 
@@ -52,7 +52,7 @@ async function generatePages(app, allItems, prefix, itemsPerPage, isServerSideEc
 	return pages
 }
 
-async function getHomePage(app, prefix) {
+async function getHomePage (app, prefix) {
 	const saleItemRows = await app.query('SELECT * FROM sales ORDER BY price ASC')
 	const date = new Date()
 	const converted = new Date(date.toLocaleString('en-US', {

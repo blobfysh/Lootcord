@@ -12,7 +12,7 @@ const interactions = new DiscordInteractions({
 	authToken: token
 })
 
-async function removeCommands() {
+async function removeCommands () {
 	// remove current slash commands
 	const currentInteractions = await interactions.getApplicationCommands(debug ? supportGuildID : undefined)
 	for (const i of currentInteractions) {
@@ -22,7 +22,7 @@ async function removeCommands() {
 	console.log(`Removed ${currentInteractions.length} slash commands.`)
 }
 
-async function deleteCommand(commandId, guildId = undefined) {
+async function deleteCommand (commandId, guildId = undefined) {
 	const res = await interactions.deleteApplicationCommand(commandId, guildId)
 
 	if (!res) {
@@ -34,7 +34,7 @@ async function deleteCommand(commandId, guildId = undefined) {
 	}
 }
 
-async function wait(ms) {
+async function wait (ms) {
 	return new Promise(resolve => {
 		setTimeout(resolve, ms)
 	})

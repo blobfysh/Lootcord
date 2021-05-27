@@ -13,7 +13,7 @@ exports.command = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const guildUsers = []
 		const clans = []
 		let clanRows = []
@@ -85,7 +85,7 @@ exports.command = {
 	}
 }
 
-function getEmbedPage(app, guildUserList, guildClanList, pageNum, perPage) {
+function getEmbedPage (app, guildUserList, guildClanList, pageNum, perPage) {
 	const indexFirst = (perPage * pageNum) - perPage
 	const indexLast = perPage * pageNum
 

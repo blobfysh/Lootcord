@@ -1,4 +1,4 @@
-exports.run = async function(guild) {
+exports.run = async function (guild) {
 	this.cache.incr('servers_left')
 
 	// remove guild from tables

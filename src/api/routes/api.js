@@ -15,11 +15,11 @@ const monsters = require('../../resources/json/monsters')
 
 let client
 
-function setClient(c) {
+function setClient (c) {
 	client = c
 }
 
-router.post('/searchbm', async(req, res) => {
+router.post('/searchbm', async (req, res) => {
 	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
 
 	const listings = await client.mysql.query('SELECT * FROM blackmarket WHERE itemName = ? ORDER BY pricePer ASC LIMIT 50', [req.body.input])
@@ -27,7 +27,7 @@ router.post('/searchbm', async(req, res) => {
 	res.status(200).send(listings)
 })
 
-router.post('/leaderboard', async(req, res) => {
+router.post('/leaderboard', async (req, res) => {
 	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
 
 	const leaderboard = await client.cache.get('leaderboard')
@@ -37,7 +37,7 @@ router.post('/leaderboard', async(req, res) => {
 	res.status(200).send(JSON.parse(leaderboard).leadersOBJ)
 })
 
-router.post('/patrons', async(req, res) => {
+router.post('/patrons', async (req, res) => {
 	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
 
 	const patrons = await client.cache.get('patronsCache')
@@ -47,12 +47,12 @@ router.post('/patrons', async(req, res) => {
 	res.status(200).send(JSON.parse(patrons))
 })
 
-router.post('/commands', async(req, res) => {
+router.post('/commands', async (req, res) => {
 	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
 
 	const commandInfo = []
 
-	function getUsage(command) {
+	function getUsage (command) {
 		let finalStr = `t-${command.name}`
 
 		for (const arg in command.args) {
@@ -82,7 +82,7 @@ router.post('/commands', async(req, res) => {
 })
 
 
-router.post('/items', async(req, res) => {
+router.post('/items', async (req, res) => {
 	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
 
 	res.status(200).json({
@@ -96,13 +96,13 @@ router.post('/items', async(req, res) => {
 	})
 })
 
-router.post('/monsters', async(req, res) => {
+router.post('/monsters', async (req, res) => {
 	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
 
 	res.status(200).json(monsters)
 })
 
-router.get('/bans', async(req, res) => {
+router.get('/bans', async (req, res) => {
 	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
 
 	const bannedUsers = await client.mysql.query('SELECT * FROM banned')
@@ -110,7 +110,7 @@ router.get('/bans', async(req, res) => {
 	res.status(200).json(bannedUsers)
 })
 
-router.get('/tradebans', async(req, res) => {
+router.get('/tradebans', async (req, res) => {
 	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
 
 	const bannedUsers = await client.mysql.query('SELECT * FROM tradebanned')
@@ -118,7 +118,7 @@ router.get('/tradebans', async(req, res) => {
 	res.status(200).json(bannedUsers)
 })
 
-router.get('/guildbans', async(req, res) => {
+router.get('/guildbans', async (req, res) => {
 	if (req.headers.authorization !== client.config.apiAuth) return res.status(401).send('Unauthorized')
 
 	const bannedGuilds = await client.mysql.query('SELECT * FROM bannedguilds')

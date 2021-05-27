@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: false,
 	minimumRank: 0,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 		const user = app.parse.members(message, args)[0]
 
@@ -66,7 +66,7 @@ exports.command = {
 	}
 }
 
-function generatePages(app, logs, clanName) {
+function generatePages (app, logs, clanName) {
 	const maxPage = Math.ceil(logs.length / LOGS_PER_PAGE) || 1
 	const pages = []
 

@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		if (args[0] === 'g' || args[0] === 'global') {
 			const leaders = await getGlobalLB(app)
 
@@ -122,7 +122,7 @@ exports.command = {
 	}
 }
 
-async function getGlobalLB(app) {
+async function getGlobalLB (app) {
 	const cacheLB = await app.cache.get('leaderboard')
 
 	if (!cacheLB) {

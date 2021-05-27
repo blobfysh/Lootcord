@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: true,
 	minimumRank: 3,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 		const clanRow = await app.clans.getRow(scoreRow.clanId)
 

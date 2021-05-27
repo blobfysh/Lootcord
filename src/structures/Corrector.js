@@ -1,12 +1,12 @@
 const levenshtein = require('js-levenshtein')
 
 class Corrector {
-	constructor(words, maxDistance = 2) {
+	constructor (words, maxDistance = 2) {
 		this.words = words
 		this.maxDistance = maxDistance
 	}
 
-	getWord(input) {
+	getWord (input) {
 		if (!input) return undefined
 		else if (this.words.includes(input)) return input
 

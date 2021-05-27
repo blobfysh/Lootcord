@@ -12,7 +12,7 @@ exports.command = {
 	guildModsOnly: false,
 	worksInDMs: true,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const voteCD = await app.cd.getCD(message.author.id, 'vote')
 		const vote2CD = await app.cd.getCD(message.author.id, 'vote2')
 
@@ -20,7 +20,7 @@ exports.command = {
 	}
 }
 
-const getVotesAvailable = exports.getVotesAvailable = function getVotesAvailable(vote1CD, vote2CD) {
+const getVotesAvailable = exports.getVotesAvailable = function getVotesAvailable (vote1CD, vote2CD) {
 	let str = '🎟 Vote for the bot to collect a reward!'
 
 	if (vote1CD) str += `\n\n**Top.gg**: \`${vote1CD}\``

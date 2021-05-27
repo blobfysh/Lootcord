@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const slotsCD = await app.cd.getCD(message.author.id, 'slots', { serverSideGuildId })
 		let gambleAmount = app.parse.numbers(args)[0]
@@ -106,7 +106,7 @@ exports.command = {
 	}
 }
 
-const getSlot = exports.getSlot = function getSlot(randomInt) {
+const getSlot = exports.getSlot = function getSlot (randomInt) {
 	if (randomInt < 0.1) {
 		return {
 			top: '💰',

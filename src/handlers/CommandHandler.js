@@ -1,13 +1,13 @@
 const { PERMISSIONS } = require('../resources/constants')
 
 class CommandHandler {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 		this.spamCooldown = new Set()
 		this.prefix = app.config.prefix
 	}
 
-	async handle(message) {
+	async handle (message) {
 		const prefix = message.channel.guild ? await this.app.common.getPrefix(message.channel.guild.id) : this.prefix
 
 		if (!message.content.toLowerCase().startsWith(prefix)) return
@@ -164,7 +164,7 @@ class CommandHandler {
 		}
 	}
 
-	getNeededPermissions(message, requiredPerms) {
+	getNeededPermissions (message, requiredPerms) {
 		const botPerms = message.channel.permissionsOf(this.app.bot.user.id)
 		const neededPerms = []
 
@@ -185,7 +185,7 @@ class CommandHandler {
 		return { neededPerms, permsString }
 	}
 
-	async checkLevelXP(message, row, guildInfo, serverSideGuildId) {
+	async checkLevelXP (message, row, guildInfo, serverSideGuildId) {
 		try {
 			const xp = this.app.common.calculateXP(row.points, row.level)
 

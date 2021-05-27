@@ -1,10 +1,10 @@
 class Common {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 		this.icons = app.icons
 	}
 
-	formatNumber(number, noEmoji = false) {
+	formatNumber (number, noEmoji = false) {
 		if (noEmoji) {
 			return parseInt(number).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,')
 		}
@@ -12,7 +12,7 @@ class Common {
 		return `${this.icons.money} ${parseInt(number).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,')}`
 	}
 
-	shuffleArr(array) {
+	shuffleArr (array) {
 		let i, r, i3
 
 		for (i = array.length - 1; i > 0; i--) {
@@ -25,7 +25,7 @@ class Common {
 		return array
 	}
 
-	getShortDate(date) {
+	getShortDate (date) {
 		let convertedTime = new Date(date).toLocaleString('en-US', {
 			timeZone: 'America/New_York'
 		})
@@ -40,7 +40,7 @@ class Common {
 		return `${month}/${day}/${year.toString().slice(2)} ${time} EST`
 	}
 
-	async getGuildInfo(guildId) {
+	async getGuildInfo (guildId) {
 		let guildInfo = (await this.app.query('SELECT * FROM guildinfo WHERE guildId = ?', [guildId]))[0]
 
 		if (!guildInfo) {
@@ -52,7 +52,7 @@ class Common {
 		return guildInfo
 	}
 
-	calculateXP(playerXP, playerLVL) {
+	calculateXP (playerXP, playerLVL) {
 		let currLvlXP = 0
 		let xpNeededTotal = 0
 
@@ -85,7 +85,7 @@ class Common {
      * Retrieve guild information using ID
      * @param {string} id ID of guild to fetch
      */
-	async fetchGuild(id) {
+	async fetchGuild (id) {
 		const guild = this.app.bot.guilds.get(id)
 
 		if (guild) {
@@ -127,7 +127,7 @@ class Common {
      * @param {string} id ID of user to fetch tag for
      * @param {{cacheIPC:boolean}} options Whether or not to cache IPC user info
      */
-	async fetchUser(id, options = { cacheIPC: true, useIPC: true }) {
+	async fetchUser (id, options = { cacheIPC: true, useIPC: true }) {
 		let user = this.app.bot.users.get(id)
 
 		if (user) {
@@ -185,7 +185,7 @@ class Common {
 		}
 	}
 
-	async fetchMember(guild, id) {
+	async fetchMember (guild, id) {
 		const member = guild.members.get(id)
 
 		if (member) {
@@ -209,7 +209,7 @@ class Common {
      * @param {*} id ID of user to message
      * @param {*} message Message to DM
      */
-	async messageUser(id, message, options = { throwErr: false }) {
+	async messageUser (id, message, options = { throwErr: false }) {
 		try {
 			const user = await this.fetchUser(id, { cacheIPC: true })
 			const dm = await user.getDMChannel()
@@ -226,7 +226,7 @@ class Common {
      *
      * @param {*} user User object, must contain user ID, avatar and discriminator
      */
-	getAvatar(user) {
+	getAvatar (user) {
 		if (user.avatar) {
 			return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar.startsWith('a_') ? `${user.avatar}.gif` : `${user.avatar}.png`}`
 		}
@@ -238,7 +238,7 @@ class Common {
 	 *
 	 * @param {*} guildId ID of guild to get prefix of
 	 */
-	async getPrefix(guildId) {
+	async getPrefix (guildId) {
 		const cachePrefix = await this.app.cache.get(`prefix|${guildId}`)
 
 		if (!cachePrefix) {

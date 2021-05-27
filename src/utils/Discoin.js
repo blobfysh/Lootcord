@@ -1,11 +1,11 @@
 const axios = require('axios')
 
 class Discoin {
-	constructor(config) {
+	constructor (config) {
 		this.token = config.discoinToken
 	}
 
-	request(userId, exchAmount, currencyType) {
+	request (userId, exchAmount, currencyType) {
 		return new Promise((resolve, reject) => {
 			axios({
 				method: 'POST',
@@ -30,7 +30,7 @@ class Discoin {
 		})
 	}
 
-	handle(transId) {
+	handle (transId) {
 		return new Promise((resolve, reject) => {
 			axios({
 				method: 'PATCH',
@@ -51,7 +51,7 @@ class Discoin {
 		})
 	}
 
-	getUnhandled() {
+	getUnhandled () {
 		return new Promise((resolve, reject) => {
 			axios({
 				method: 'GET',
@@ -64,7 +64,7 @@ class Discoin {
 		})
 	}
 
-	getCurrencies() {
+	getCurrencies () {
 		return new Promise((resolve, reject) => {
 			axios({
 				method: 'GET',

@@ -14,7 +14,7 @@ exports.command = {
 	guildModsOnly: false,
 	globalEconomyOnly: true,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const listings = await app.query(`SELECT * FROM blackmarket WHERE sellerId = ${message.author.id}`)
 
 		if (listings.length <= ITEMS_PER_PAGE) {
@@ -25,7 +25,7 @@ exports.command = {
 	}
 }
 
-function generatePages(app, message, listings) {
+function generatePages (app, message, listings) {
 	const maxPage = Math.ceil(listings.length / ITEMS_PER_PAGE) || 1
 	const pages = []
 

@@ -2,14 +2,14 @@ const EventEmitter = require('events').EventEmitter
 const Interaction = require('../structures/Interaction')
 
 class ButtonCollector {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 		this.collectors = []
 
 		this.app.bot.on('rawWS', this.verify.bind(this))
 	}
 
-	async verify(packet) {
+	async verify (packet) {
 		if (packet.t !== 'INTERACTION_CREATE') {
 			return
 		}
@@ -44,7 +44,7 @@ class ButtonCollector {
 	 * @param {number | undefined} options.time time in milliseconds collector should last
 	 * @param {number | undefined} options.maxMatches max matches before stopping collector
      */
-	createCollector(messageId, filter, options = { time: 60000, maxMatches: undefined }) {
+	createCollector (messageId, filter, options = { time: 60000, maxMatches: undefined }) {
 		const eventCollector = new EventEmitter()
 
 		const collectorObj = {
@@ -67,7 +67,7 @@ class ButtonCollector {
 		}
 	}
 
-	awaitClicks(messageId, filter, options = { time: 15000, maxMatches: 1 }) {
+	awaitClicks (messageId, filter, options = { time: 15000, maxMatches: 1 }) {
 		options.maxMatches = options.maxMatches || 1
 
 		const { collector } = this.createCollector(messageId, filter, options)
@@ -84,7 +84,7 @@ class ButtonCollector {
 		})
 	}
 
-	async paginate(message, embeds, time = 60000) {
+	async paginate (message, embeds, time = 60000) {
 		if (embeds.length === 1) {
 			return message.channel.createMessage(embeds[0])
 		}
@@ -195,7 +195,7 @@ class ButtonCollector {
      * Clears timeout for collector and stops it
      * @param {*} collectorObj Collector to remove
      */
-	stopCollector(collectorObj, message = 'forced') {
+	stopCollector (collectorObj, message = 'forced') {
 		if (this.collectors.includes(collectorObj)) {
 			clearTimeout(collectorObj.timeout)
 			collectorObj.collector.emit('end', message)

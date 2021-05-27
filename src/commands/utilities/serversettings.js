@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const killfeedStr = message.channel.guild.channels.get(guildInfo.killChan) ? '(Disable with `togglekillfeed`)' : '(Set with `togglekillfeed`)'
 		const lvlChanStr = message.channel.guild.channels.get(guildInfo.levelChan) ? '(Disable with `togglelevelchannel`)' : '(Set with `togglelevelchannel`)'
 

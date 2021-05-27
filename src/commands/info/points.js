@@ -12,7 +12,7 @@ exports.command = {
 	guildModsOnly: false,
 	worksInDMs: true,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const xp = app.common.calculateXP(row.points, row.level)
 

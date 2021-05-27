@@ -15,7 +15,7 @@ exports.command = {
 	guildModsOnly: false,
 	globalEconomyOnly: true,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const category = args[0] || ''
 		const item = app.parse.items(args)[0]
 
@@ -54,7 +54,7 @@ exports.command = {
 	}
 }
 
-function generatePages(app, prefix, listings, stats, item) {
+function generatePages (app, prefix, listings, stats, item) {
 	const maxPage = Math.ceil(listings.length / ITEMS_PER_PAGE) || 1
 	const pages = []
 
@@ -78,7 +78,7 @@ function generatePages(app, prefix, listings, stats, item) {
 	return pages
 }
 
-function generateCategoryPages(app, prefix, listings, category) {
+function generateCategoryPages (app, prefix, listings, category) {
 	const maxPage = Math.ceil(listings.length / ITEMS_PER_PAGE) || 1
 	const pages = []
 

@@ -2,7 +2,7 @@ const SpellCorrector = require('../structures/Corrector')
 const ignoredItemCorrections = ['bounty', 'fuck', 'cock', 'armor', 'all', 'money', 'arms', 'arm', 'loot', 'og', 'dev', 'lord', 'none'] // don't correct these words into items
 
 class ArgParser {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 		this.badgedata = app.badgedata
 		this.itemCorrector = new SpellCorrector([...Object.keys(this.app.itemdata), ...this._getAliases().filter(item => item.length > 3)])
@@ -14,7 +14,7 @@ class ArgParser {
      * @param {string[]} args Array of args to find items from
      * @param {number} amount Max amount of items to find
      */
-	items(args, amount = 1) {
+	items (args, amount = 1) {
 		const itemArgs = []
 
 		for (let i = 0; i < args.length; i++) {
@@ -63,7 +63,7 @@ class ArgParser {
      * Corrects common typos into an actual item name
      * @param {string} itemName String to correct into an item
      */
-	correctItem(itemName = '') {
+	correctItem (itemName = '') {
 		const itemSearched = itemName.toLowerCase()
 		const itemParts = itemSearched.split('_')
 
@@ -87,7 +87,7 @@ class ArgParser {
      *
      * @param {string[]} args Array of args to find numbers from
      */
-	numbers(args) {
+	numbers (args) {
 		const numbers = []
 		for (let arg of args) {
 			arg = arg.replace(/,/g, '')
@@ -111,7 +111,7 @@ class ArgParser {
      * Finds all badge names from an array
      * @param {string[]} args Array of args to find badges from
      */
-	badges(args) {
+	badges (args) {
 		const badgeArgs = args.map((arg, i) => {
 			const badge = `${arg}_${args[i + 1]}`
 			// check if two args make up  badge
@@ -155,7 +155,7 @@ class ArgParser {
      * @param {string[]} args Array of args to find members from
      * @returns {Array<Member>} Array of members
      */
-	members(message, args) {
+	members (message, args) {
 		const newArgs = args.slice(0, 6)
 
 		const userArgs = newArgs.map((arg, i) => {
@@ -196,7 +196,7 @@ class ArgParser {
 		return userArgs.filter(arg => arg !== undefined)
 	}
 
-	_isNumber(arg) {
+	_isNumber (arg) {
 		if (!isNaN(arg) && Number(arg) && !arg.includes('.')) {
 			return true
 		}
@@ -209,7 +209,7 @@ class ArgParser {
 		return false
 	}
 
-	_getAliases() {
+	_getAliases () {
 		const aliases = []
 
 		for (const item in this.app.itemdata) {

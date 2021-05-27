@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const hourlyCD = await app.cd.getCD(message.author.id, 'hourly', { serverSideGuildId })
 
 		if (hourlyCD) {

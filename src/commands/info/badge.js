@@ -14,7 +14,7 @@ exports.command = {
 	guildModsOnly: false,
 	worksInDMs: true,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const badgeSearched = app.parse.badges(args)[0]
 
 		if (badgeSearched) {
@@ -49,7 +49,7 @@ exports.command = {
 	}
 }
 
-function generatePages(app, badges, itemsPerPage) {
+function generatePages (app, badges, itemsPerPage) {
 	const pages = []
 	const maxPage = Math.ceil(badges.length / itemsPerPage)
 

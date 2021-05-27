@@ -17,7 +17,7 @@ exports.command = {
 	guildModsOnly: false,
 	globalEconomyOnly: true,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const itemName = app.parse.items(args)[0]
 		const itemAmnt = app.parse.numbers(args)[0]
 		const itemCost = app.parse.numbers(args)[1]
@@ -283,7 +283,7 @@ exports.command = {
 	}
 }
 
-async function listItem(app, message, item, amount, price) {
+async function listItem (app, message, item, amount, price) {
 	const listId = shortid.generate()
 	const pricePer = Math.floor(price / amount)
 

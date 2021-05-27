@@ -25,7 +25,7 @@ exports.command = {
 		}
 	],
 
-	async execute(app, interaction, { guildInfo, serverSideGuildId }) {
+	async execute (app, interaction, { guildInfo, serverSideGuildId }) {
 		const scrambleCD = await app.cd.getCD(interaction.member.user.id, 'scramble', { serverSideGuildId })
 
 		if (scrambleCD) {

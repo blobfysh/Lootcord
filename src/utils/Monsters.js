@@ -1,10 +1,10 @@
 class Monsters {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 		this.mobdata = app.mobdata
 	}
 
-	async initSpawn(channelId) {
+	async initSpawn (channelId) {
 		const activeMob = await this.app.mysql.select('spawns', 'channelId', channelId)
 		if (activeMob && this.mobdata[activeMob.monster]) {
 			return false
@@ -24,7 +24,7 @@ class Monsters {
 		})
 	}
 
-	async spawnMob(channelId, monster) {
+	async spawnMob (channelId, monster) {
 		try {
 			const spawnInfo = await this.app.mysql.select('spawnchannels', 'channelId', channelId)
 			if (!spawnInfo) throw new Error('No spawn channel.')
@@ -56,7 +56,7 @@ class Monsters {
 		}
 	}
 
-	async genMobEmbed(channelId, monster, health, money) {
+	async genMobEmbed (channelId, monster, health, money) {
 		const spawnInfo = await this.app.mysql.select('spawns', 'channelId', channelId)
 		const remaining = await this.app.cd.getCD(channelId, 'mob')
 		const topDamageDealers = await this.getTopDamageDealt(channelId)
@@ -103,16 +103,16 @@ class Monsters {
 		return mobEmbed
 	}
 
-	async playerDealtDamage(userId, channelId, damage) {
+	async playerDealtDamage (userId, channelId, damage) {
 		await this.app.query('INSERT INTO spawnsdamage (userId, channelId, damage) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE damage = damage + ?',
 			[userId, channelId, damage, damage])
 	}
 
-	async getTopDamageDealt(channelId, limit = 3) {
+	async getTopDamageDealt (channelId, limit = 3) {
 		return this.app.query('SELECT * FROM spawnsdamage WHERE channelId = ? ORDER BY damage DESC LIMIT ?', [channelId, limit])
 	}
 
-	mobLeftEmbed(monster) {
+	mobLeftEmbed (monster) {
 		const mobEmbed = new this.app.Embed()
 			.setTitle(`${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} left...`)
 			.setDescription(`Nobody defeated ${monster.mentioned}!`)
@@ -122,7 +122,7 @@ class Monsters {
 		return mobEmbed
 	}
 
-	async onFinished(channelId, left = true) {
+	async onFinished (channelId, left = true) {
 		try {
 			const monsterStats = await this.app.mysql.select('spawns', 'channelId', channelId)
 			await this.app.query('DELETE FROM spawnsdamage WHERE channelId = ?', [channelId])
@@ -137,7 +137,7 @@ class Monsters {
 		}
 	}
 
-	async onHalf(channelId) {
+	async onHalf (channelId) {
 		try {
 			const monsterStats = await this.app.mysql.select('spawns', 'channelId', channelId)
 			const embed = await this.genMobEmbed(channelId, this.mobdata[monsterStats.monster], monsterStats.health, monsterStats.money)
@@ -154,14 +154,14 @@ class Monsters {
 		}
 	}
 
-	pickRandomLoot(monster, type, weightedArray) {
+	pickRandomLoot (monster, type, weightedArray) {
 		const rand = weightedArray[Math.floor(Math.random() * weightedArray.length)]
 		const rewards = monster.loot[type][rand].items
 
 		return rewards[Math.floor(Math.random() * rewards.length)]
 	}
 
-	async disperseRewards(channelId, monster, money, serverSideGuildId) {
+	async disperseRewards (channelId, monster, money, serverSideGuildId) {
 		const topDamageDealers = await this.getTopDamageDealt(channelId)
 		const weightedMain = this.app.itm.generateWeightedArray(monster.loot.main)
 		const weightedExtras = this.app.itm.generateWeightedArray(monster.loot.extras)
@@ -200,19 +200,19 @@ class Monsters {
 		return killedReward
 	}
 
-	async subHealth(channelId, amount) {
+	async subHealth (channelId, amount) {
 		await this.app.query('UPDATE spawns SET health = health - ? WHERE channelId = ?', [amount, channelId])
 	}
 
-	async subMoney(channelId, amount) {
+	async subMoney (channelId, amount) {
 		await this.app.query('UPDATE spawns SET money = money - ? WHERE channelId = ?', [amount, channelId])
 	}
 
-	async addBurn(channelId, amount) {
+	async addBurn (channelId, amount) {
 		await this.app.query('UPDATE spawns SET burn = burn + ? WHERE channelId = ?', [amount, channelId])
 	}
 
-	async addBleed(channelId, amount) {
+	async addBleed (channelId, amount) {
 		await this.app.query('UPDATE spawns SET bleed = bleed + ? WHERE channelId = ?', [amount, channelId])
 	}
 }

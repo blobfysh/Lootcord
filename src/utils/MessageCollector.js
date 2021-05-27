@@ -1,7 +1,7 @@
 const EventEmitter = require('events').EventEmitter
 
 class MessageCollector {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 		this.channelCollectors = []
 		this.userCollectors = []
@@ -9,7 +9,7 @@ class MessageCollector {
 		this.app.bot.on('messageCreate', this.verify.bind(this))
 	}
 
-	verify(msg) {
+	verify (msg) {
 		if (msg.author.bot) return
 
 		const channelCollectors = this.channelCollectors.filter(obj => obj.channelId === msg.channel.id)
@@ -39,7 +39,7 @@ class MessageCollector {
      * @param {*} filter custom filter options
      * @param {*} options options.time - time in milliseconds collector should last
      */
-	createChannelCollector(message, filter, options = { time: 15000 }) {
+	createChannelCollector (message, filter, options = { time: 15000 }) {
 		const eventCollector = new EventEmitter()
 
 		const collectorObj = {
@@ -63,7 +63,7 @@ class MessageCollector {
      * @param {*} filter custom filter options
      * @param {*} options options.time - time in milliseconds collector should last
      */
-	createUserCollector(userId, channelId, filter, options = { time: 15000, maxMatches: undefined }) {
+	createUserCollector (userId, channelId, filter, options = { time: 15000, maxMatches: undefined }) {
 		const eventCollector = new EventEmitter()
 
 		const collectorObj = {
@@ -84,7 +84,7 @@ class MessageCollector {
 		return collectorObj
 	}
 
-	awaitMessages(userId, channelId, filter, options = { time: 15000, maxMatches: 1 }) {
+	awaitMessages (userId, channelId, filter, options = { time: 15000, maxMatches: 1 }) {
 		const collectorObj = this.createUserCollector(userId, channelId, filter, options)
 
 		return new Promise(resolve => {
@@ -96,7 +96,7 @@ class MessageCollector {
      * Clears timeout for collector and stops it
      * @param {*} collectorObj Collector to remove
      */
-	stopCollector(collectorObj, message = 'forced') {
+	stopCollector (collectorObj, message = 'forced') {
 		if (this.userCollectors.includes(collectorObj)) {
 			clearTimeout(collectorObj.timeout)
 			collectorObj.collector.emit('end', message)

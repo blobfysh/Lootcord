@@ -16,7 +16,7 @@ exports.command = {
 	guildModsOnly: false,
 	worksInDMs: true,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		if (args[0]) {
 			const cmd = app.commands.find(c => c.name === args[0] || (c.aliases.length && c.aliases.includes(args[0])))
 
@@ -103,7 +103,7 @@ exports.command = {
 	}
 }
 
-function getUsage(prefix, cmd) {
+function getUsage (prefix, cmd) {
 	let finalStr = `${prefix}${cmd.name}`
 
 	for (const arg of Object.keys(cmd.args)) {
@@ -113,7 +113,7 @@ function getUsage(prefix, cmd) {
 	return finalStr
 }
 
-function getOptions(cmd) {
+function getOptions (cmd) {
 	let finalStr = ''
 
 	for (const arg of Object.keys(cmd.args)) {

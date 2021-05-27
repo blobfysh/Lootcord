@@ -14,7 +14,7 @@ exports.command = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const blackjackCD = await app.cd.getCD(message.author.id, 'blackjack', { serverSideGuildId })
 		let gambleAmount = app.parse.numbers(args)[0]
@@ -123,7 +123,7 @@ exports.command = {
 	}
 }
 
-function drawCard(deck) {
+function drawCard (deck) {
 	const index = Math.floor(Math.random() * deck.length)
 	const card = deck[index]
 	deck.splice(index, 1) // Removes card from original array
@@ -131,7 +131,7 @@ function drawCard(deck) {
 	return card
 }
 
-function initDeck() {
+function initDeck () {
 	const deck = []
 
 	for (let i = 0; i < suits.length; i++) {
@@ -157,7 +157,7 @@ function initDeck() {
 	return deck
 }
 
-function getScore(playersHand) {
+function getScore (playersHand) {
 	let score = 0
 	let minScore = 0 // Used if player has aces...
 
@@ -173,7 +173,7 @@ function getScore(playersHand) {
 	return { score, minScore }
 }
 
-function hasAce(playersHand) {
+function hasAce (playersHand) {
 	for (let i = 0; i < playersHand.length; i++) {
 		if (playersHand[i].face === 'A') {
 			return true
@@ -183,7 +183,7 @@ function hasAce(playersHand) {
 	return false
 }
 
-function genEmbed(app, message, playerCards, dealerCards, gambleAmount, dealerEmote = app.icons.blackjack_dealer_neutral) {
+function genEmbed (app, message, playerCards, dealerCards, gambleAmount, dealerEmote = app.icons.blackjack_dealer_neutral) {
 	const playerVal = getScore(playerCards)
 	const dealerVal = getScore(dealerCards)
 	let playerString = ''
@@ -209,7 +209,7 @@ function genEmbed(app, message, playerCards, dealerCards, gambleAmount, dealerEm
 	return embed
 }
 
-function winnerEmbed(app, message, playerCards, dealerCards, quote, gambleAmount, serverSideGuildId) {
+function winnerEmbed (app, message, playerCards, dealerCards, quote, gambleAmount, serverSideGuildId) {
 	const embed = genEmbed(app, message, playerCards, dealerCards, gambleAmount, app.icons.blackjack_dealer_lost)
 
 	embed.setDescription(quote)
@@ -224,7 +224,7 @@ function winnerEmbed(app, message, playerCards, dealerCards, quote, gambleAmount
 	return embed
 }
 
-function loserEmbed(app, message, playerCards, dealerCards, quote, gambleAmount) {
+function loserEmbed (app, message, playerCards, dealerCards, quote, gambleAmount) {
 	const embed = genEmbed(app, message, playerCards, dealerCards, gambleAmount, app.icons.blackjack_dealer_won)
 
 	embed.setDescription(quote)
@@ -234,7 +234,7 @@ function loserEmbed(app, message, playerCards, dealerCards, quote, gambleAmount)
 	return embed
 }
 
-function tieEmbed(app, message, playerCards, dealerCards, quote, gambleAmount, serverSideGuildId) {
+function tieEmbed (app, message, playerCards, dealerCards, quote, gambleAmount, serverSideGuildId) {
 	const embed = genEmbed(app, message, playerCards, dealerCards, gambleAmount, app.icons.blackjack_dealer_lost)
 
 	embed.setDescription(quote)

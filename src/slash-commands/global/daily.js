@@ -14,7 +14,7 @@ exports.command = {
 	requiresActive: true,
 	options: [],
 
-	async execute(app, interaction, { guildInfo, serverSideGuildId }) {
+	async execute (app, interaction, { guildInfo, serverSideGuildId }) {
 		const dailyCD = await app.cd.getCD(interaction.member.user.id, 'daily', { serverSideGuildId })
 
 		if (dailyCD) {

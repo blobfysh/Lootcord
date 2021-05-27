@@ -34,7 +34,7 @@ module.exports = {
 		'no-multiple-empty-lines': ['error', { max: 2, maxEOF: 1, maxBOF: 0 }],
 		'brace-style': ['error', 'stroustrup', { allowSingleLine: true }],
 		'space-before-blocks': 'error',
-		'space-before-function-paren': ['error', 'never'],
+		'space-before-function-paren': ['error', 'always'],
 		'eol-last': 'error',
 		'quote-props': ['error', 'consistent-as-needed'],
 		'prefer-template': 'error',

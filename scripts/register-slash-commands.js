@@ -18,7 +18,7 @@ const interactions = new DiscordInteractions({
 // of them here and remove guild slash commands that no longer exist.
 const guildsWithSlashCommands = ['497302646521069568', '454163538055790604']
 
-async function registerCommands() {
+async function registerCommands () {
 	await registerGlobal()
 
 	// guild slash commands will be registerd to support guild when debug is enabled so you can test them
@@ -26,7 +26,7 @@ async function registerCommands() {
 }
 
 // register all slash command in global folder
-async function registerGlobal() {
+async function registerGlobal () {
 	const currentInteractions = await interactions.getApplicationCommands(debug ? supportGuildID : undefined)
 	const commandFiles = fs.readdirSync(path.join(__dirname, '..', 'src', 'slash-commands', 'global'))
 	const commands = []
@@ -69,7 +69,7 @@ async function registerGlobal() {
 }
 
 // registers slash commands that are specific to guild
-async function registerGuild() {
+async function registerGuild () {
 	const guildFiles = fs.readdirSync(path.join(__dirname, '..', 'src', 'slash-commands', 'guild'))
 	const guildCommands = {}
 
@@ -131,7 +131,7 @@ async function registerGuild() {
 	}
 }
 
-async function createCommand(command, guildId = undefined) {
+async function createCommand (command, guildId = undefined) {
 	const res = await interactions.createApplicationCommand(command, guildId)
 
 	if (res.code === 30034) {
@@ -147,7 +147,7 @@ async function createCommand(command, guildId = undefined) {
 	}
 }
 
-async function updateCommand(commandId, command, guildId = undefined) {
+async function updateCommand (commandId, command, guildId = undefined) {
 	const res = await interactions.editApplicationCommand(commandId, command, guildId)
 
 	if (res.retry_after) {
@@ -159,7 +159,7 @@ async function updateCommand(commandId, command, guildId = undefined) {
 	}
 }
 
-async function deleteCommand(commandId, guildId = undefined) {
+async function deleteCommand (commandId, guildId = undefined) {
 	const res = await interactions.deleteApplicationCommand(commandId, guildId)
 
 	if (!res) {
@@ -171,7 +171,7 @@ async function deleteCommand(commandId, guildId = undefined) {
 	}
 }
 
-async function wait(ms) {
+async function wait (ms) {
 	return new Promise(resolve => {
 		setTimeout(resolve, ms)
 	})

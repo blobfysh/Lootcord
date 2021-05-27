@@ -13,7 +13,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const clanID = args[0]
 		const statusToSet = message.cleanContent.slice(prefix.length).split(/ +/).slice(2).join(' ')
 

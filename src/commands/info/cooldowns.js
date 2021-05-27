@@ -14,7 +14,7 @@ exports.command = {
 	guildModsOnly: false,
 	worksInDMs: true,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const memberArg = app.parse.members(message, args)[0]
 
 		// no member found in ArgParser
@@ -33,7 +33,7 @@ exports.command = {
 	}
 }
 
-const getCooldowns = exports.getCooldowns = async function getCooldowns(app, user, serverSideGuildId, prefix) {
+const getCooldowns = exports.getCooldowns = async function getCooldowns (app, user, serverSideGuildId, prefix) {
 	const isDonor = await app.patreonHandler.isPatron(user.id)
 
 	const cds = {

@@ -7,7 +7,7 @@ exports.command = {
 	// ids of the guilds the command should be registered to
 	guilds: ['454163538055790604'],
 
-	async execute(app, interaction, { guildInfo, serverSideGuildId }) {
+	async execute (app, interaction, { guildInfo, serverSideGuildId }) {
 		return interaction.respond({
 			content: '<:bleh:816552098602418237>'
 		})

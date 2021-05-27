@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 class NoFlyList {
-	constructor(config) {
+	constructor (config) {
 		this.token = config.nflToken
 	}
 
@@ -9,7 +9,7 @@ class NoFlyList {
      * Get a list of blacklisted users
      * @returns {Promise} Array of objects containing blacklist information
      */
-	getList() {
+	getList () {
 		return new Promise((resolve, reject) => {
 			axios({
 				method: 'GET',
@@ -31,7 +31,7 @@ class NoFlyList {
      * @param {string} id ID of user to get blacklist information for
      * @returns {Promise} Object containing user blacklist information or undefined if no user was found
      */
-	getUser(id) {
+	getUser (id) {
 		return new Promise((resolve, reject) => {
 			axios({
 				method: 'GET',

@@ -17,7 +17,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const userID = args[0]
 		const limit = args[1] || ''
 		const rule = args[2]
@@ -91,7 +91,7 @@ exports.command = {
 	}
 }
 
-function getTimeFromLimit(limit) {
+function getTimeFromLimit (limit) {
 	if (limit.endsWith('m') && !isNaN(limit.slice(0, -1)) && Number(limit.slice(0, -1))) {
 		return 1000 * 60 * limit.slice(0, -1)
 	}

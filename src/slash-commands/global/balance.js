@@ -5,7 +5,7 @@ exports.command = {
 	requiresActive: false,
 	options: [],
 
-	async execute(app, interaction, { guildInfo, serverSideGuildId }) {
+	async execute (app, interaction, { guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(interaction.member.user.id, serverSideGuildId)
 
 		return interaction.respond({

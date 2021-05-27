@@ -16,7 +16,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const memberArg = app.parse.members(message, args)[0]
 
 		// no member found in ArgParser
@@ -35,7 +35,7 @@ exports.command = {
 	}
 }
 
-const generatePages = exports.generatePages = async function generatePages(app, user, guildId, serverSideGuildId) {
+const generatePages = exports.generatePages = async function generatePages (app, user, guildId, serverSideGuildId) {
 	const messages = []
 
 	try {
@@ -148,7 +148,7 @@ const generatePages = exports.generatePages = async function generatePages(app, 
 	}
 }
 
-const getPageCount = exports.getPageCount = function getPageCount(items) {
+const getPageCount = exports.getPageCount = function getPageCount (items) {
 	let pages = 1
 	const pagesNeeded = {
 		melee: Math.ceil(items.melee.length / ITEMS_PER_PAGE),

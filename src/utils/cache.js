@@ -5,7 +5,7 @@ const client = new redis({
 	password: config.redis.password
 })
 
-exports.set = function(key, value, ttl = 3600) {
+exports.set = function (key, value, ttl = 3600) {
 	return new Promise((resolve, reject) => {
 		client.set(key, value, (err, result) => {
 			if (err) return reject(err)
@@ -18,7 +18,7 @@ exports.set = function(key, value, ttl = 3600) {
 	})
 }
 
-exports.setNoExpire = function(key, value) {
+exports.setNoExpire = function (key, value) {
 	return new Promise((resolve, reject) => {
 		client.set(key, value, (err, result) => {
 			if (err) return reject(err)
@@ -28,7 +28,7 @@ exports.setNoExpire = function(key, value) {
 	})
 }
 
-exports.hmset = function(key, value) {
+exports.hmset = function (key, value) {
 	return new Promise((resolve, reject) => {
 		client.hmset(key, value, (err, result) => {
 			if (err) return reject(err)
@@ -38,7 +38,7 @@ exports.hmset = function(key, value) {
 	})
 }
 
-exports.get = function(key) {
+exports.get = function (key) {
 	return new Promise((resolve, reject) => {
 		client.get(key, (err, result) => {
 			if (err) return reject(err)
@@ -48,7 +48,7 @@ exports.get = function(key) {
 	})
 }
 
-exports.hmget = function(key) {
+exports.hmget = function (key) {
 	return new Promise((resolve, reject) => {
 		client.hmget(key, (err, result) => {
 			if (err) return reject(err)
@@ -58,7 +58,7 @@ exports.hmget = function(key) {
 	})
 }
 
-exports.del = function(key) {
+exports.del = function (key) {
 	return new Promise((resolve, reject) => {
 		client.del(key, (err, result) => {
 			if (err) return reject(err)
@@ -68,7 +68,7 @@ exports.del = function(key) {
 	})
 }
 
-exports.getTTL = function(key, options = { formatDate: false, getEPOCH: false }) {
+exports.getTTL = function (key, options = { formatDate: false, getEPOCH: false }) {
 	return new Promise((resolve, reject) => {
 		client.ttl(key, (err, result) => {
 			if (err) return reject(err)
@@ -82,7 +82,7 @@ exports.getTTL = function(key, options = { formatDate: false, getEPOCH: false })
 	})
 }
 
-exports.incr = function(key) {
+exports.incr = function (key) {
 	return new Promise((resolve, reject) => {
 		client.incr(key, (err, result) => {
 			if (err) return reject(err)
@@ -92,7 +92,7 @@ exports.incr = function(key) {
 	})
 }
 
-exports.flushAll = function() {
+exports.flushAll = function () {
 	return new Promise((resolve, reject) => {
 		client.flushdb((err, result) => {
 			if (err) return reject(err)
@@ -101,7 +101,7 @@ exports.flushAll = function() {
 	})
 }
 
-exports.flushStats = function() {
+exports.flushStats = function () {
 	exports.del('servers_joined')
 	exports.del('servers_left')
 	exports.del('shards_disconnected')
@@ -114,7 +114,7 @@ exports.flushStats = function() {
 	exports.setNoExpire('stats_since', Date.now())
 }
 
-exports.getStats = function() {
+exports.getStats = function () {
 	return new Promise((resolve, reject) => {
 		client.info((err, result) => {
 			if (err) return reject(err)
@@ -123,7 +123,7 @@ exports.getStats = function() {
 	})
 }
 
-exports.getShortDate = function(date) {
+exports.getShortDate = function (date) {
 	let convertedTime = new Date(date).toLocaleString('en-US', {
 		timeZone: 'America/New_York'
 	})

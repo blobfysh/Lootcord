@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: true,
 	minimumRank: 1,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 		const raidCD = await app.cd.getCD(scoreRow.clanId, 'raid')
 
@@ -153,7 +153,7 @@ exports.command = {
 	}
 }
 
-function getRaidedItemDisplay(itemsStolen) {
+function getRaidedItemDisplay (itemsStolen) {
 	if (!itemsStolen) {
 		return 'Their clan storage was too full of items to steal anything!'
 	}

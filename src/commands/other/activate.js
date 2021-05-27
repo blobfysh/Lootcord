@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const activatedGuilds = await app.query('SELECT * FROM userguilds WHERE userId = ?', [message.author.id])
 
 		for (let i = 0; i < activatedGuilds.length; i++) {

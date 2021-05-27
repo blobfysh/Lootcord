@@ -1,9 +1,9 @@
 class Leaderboard {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 	}
 
-	async getLB() {
+	async getLB () {
 		const moneyRows = (await this.app.query('SELECT userId, money, badge FROM scores ORDER BY money DESC LIMIT 5')).filter(user => user.userId !== 0)
 		const levelRows = (await this.app.query('SELECT userId, level, badge FROM scores ORDER BY level DESC LIMIT 5')).filter(user => user.userId !== 0)
 		const killRows = (await this.app.query('SELECT userId, kills, badge FROM scores ORDER BY kills DESC LIMIT 5')).filter(user => user.userId !== 0)

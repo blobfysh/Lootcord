@@ -12,7 +12,7 @@ exports.command = {
 	guildModsOnly: false,
 	worksInDMs: true,
 
-	execute(app, message, { args, prefix, guildInfo }) {
+	execute (app, message, { args, prefix, guildInfo }) {
 		const invite = new app.Embed()
 			.setDescription('You can invite Lootcord using this [link](https://discord.com/oauth2/authorize?client_id=493316754689359874&permissions=388160&scope=bot%20applications.commands \'Click to invite Lootcord\')!')
 			.setColor(13451564)

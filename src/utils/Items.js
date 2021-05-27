@@ -1,5 +1,5 @@
 class Items {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 	}
 
@@ -10,7 +10,7 @@ class Items {
      * @param {string|number|null} amount Amount of item to add, must be number.
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async addItem(id, item, amount, serverSideGuildId = undefined) {
+	async addItem (id, item, amount, serverSideGuildId = undefined) {
 		if (Array.isArray(item)) {
 			if (item.length === 0) {
 				return 'item must be an array of items. ex. ["rock|1"]'
@@ -54,7 +54,7 @@ class Items {
      * @param {string|Array<string>} item Item to add, can be array ex.(["crate|2","semi_rifle|1"])
      * @param {string|number|null} amount Amount of item to add, must be number.
      */
-	async addItemGlobally(id, item, amount) {
+	async addItemGlobally (id, item, amount) {
 		await this.addItem(id, item, amount)
 
 		const serverSideEconomies = await this.app.query('SELECT guildId FROM server_scores WHERE userId = ?', [id])
@@ -76,7 +76,7 @@ class Items {
      * @param {string|number|null} amount Amount of item to add, must be number.
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async addItemSafely(query, id, item, amount, serverSideGuildId = undefined) {
+	async addItemSafely (query, id, item, amount, serverSideGuildId = undefined) {
 		if (Array.isArray(item)) {
 			if (item.length === 0) {
 				return 'item must be an array of items. ex. ["rock|1"]'
@@ -121,7 +121,7 @@ class Items {
      * @param {string|number|null} amount Amount of item to remove.
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async removeItem(id, item, amount, serverSideGuildId = undefined) {
+	async removeItem (id, item, amount, serverSideGuildId = undefined) {
 		if (Array.isArray(item)) {
 			if (item.length === 0) {
 				return 'item must be an array of items. ex. ["rock|1"]'
@@ -159,7 +159,7 @@ class Items {
      * @param {string|number|null} amount Amount of item to remove.
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async removeItemSafely(query, id, item, amount, serverSideGuildId = undefined) {
+	async removeItemSafely (query, id, item, amount, serverSideGuildId = undefined) {
 		if (Array.isArray(item)) {
 			if (item.length === 0) {
 				return 'item must be an array of items. ex. ["rock|1"]'
@@ -195,7 +195,7 @@ class Items {
      * @param {*} item   Item to check user has, can be an array ex.(["assault_rifle|1","rock|2"])
      * @param {*} amount Amount of item check for.
      */
-	hasItems(userItems, item, amount) {
+	hasItems (userItems, item, amount) {
 		if (Array.isArray(item)) {
 			if (item.length === 0) {
 				return true
@@ -227,14 +227,14 @@ class Items {
      * @param {*} itemCt Object containing the user's item count.
      * @param {number} amount Amount of items to check if user has space for
      */
-	async hasSpace(itemCt, amount = 0) {
+	async hasSpace (itemCt, amount = 0) {
 		console.log(`${itemCt.itemCt + parseInt(amount)} <= ${itemCt.maxCt}`)
 
 		if ((itemCt.itemCt + parseInt(amount)) <= itemCt.maxCt) return true
 		return false
 	}
 
-	async getItemCount(userItems, userRow, options = { cntBanners: false }) {
+	async getItemCount (userItems, userRow, options = { cntBanners: false }) {
 		options.cntBanners = options.cntBanners || false
 
 		let totalItemCt = 0
@@ -273,7 +273,7 @@ class Items {
      * @param {string} id User to retrieve items for (in an object format).
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async getItemObject(id, serverSideGuildId = undefined) {
+	async getItemObject (id, serverSideGuildId = undefined) {
 		const itemObj = {}
 		let itemRows
 
@@ -297,7 +297,7 @@ class Items {
      * @param {string} id User to retrieve items for (in an object format).
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async getItemObjectForUpdate(query, id, serverSideGuildId = undefined) {
+	async getItemObjectForUpdate (query, id, serverSideGuildId = undefined) {
 		const itemObj = {}
 		let itemRows
 
@@ -321,7 +321,7 @@ class Items {
      * @param {*} options
      * @returns {{onlyBanners:boolean,countBanners:boolean,countLimited:boolean}} Object with array for each item rarity, and value of all items in inventory
      */
-	async getUserItems(items, options = { onlyBanners: false, countBanners: false, countLimited: true }) {
+	async getUserItems (items, options = { onlyBanners: false, countBanners: false, countLimited: true }) {
 		options.onlyBanners = (options && options.onlyBanners) || false
 		options.countBanners = (options && options.countBanners) || false
 		options.countLimited = (options && options.countLimited) || true
@@ -393,7 +393,7 @@ class Items {
      * @param {string} id User to retrieve badges for (in an array format).
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async getBadges(id, serverSideGuildId = undefined) {
+	async getBadges (id, serverSideGuildId = undefined) {
 		const badgeArr = []
 		let badges
 
@@ -417,7 +417,7 @@ class Items {
      * @param {string} badge Badge to add
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async addBadge(userId, badge, serverSideGuildId = undefined) {
+	async addBadge (userId, badge, serverSideGuildId = undefined) {
 		return serverSideGuildId ?
 			this.app.query(`INSERT IGNORE INTO server_badges (userId, guildId, badge, earned) VALUES (${userId}, ${serverSideGuildId}, '${badge}', ${new Date().getTime()})`) :
 			this.app.query(`INSERT IGNORE INTO badges (userId, badge, earned) VALUES (${userId}, '${badge}', ${new Date().getTime()})`)
@@ -429,7 +429,7 @@ class Items {
      * @param {string} badge Badge to remove
 	 * @param {string|undefined} [serverSideGuildId] used for server-side economies
      */
-	async removeBadge(userId, badge, serverSideGuildId = undefined) {
+	async removeBadge (userId, badge, serverSideGuildId = undefined) {
 		if (serverSideGuildId) {
 			await this.app.query(`UPDATE server_scores SET badge = 'none' WHERE userId = ${userId} AND guildId = ${serverSideGuildId} AND badge = '${badge}'`)
 			return this.app.query(`DELETE FROM server_badges WHERE userId = ${userId} AND guildId = ${serverSideGuildId} AND badge = '${badge}'`)
@@ -439,7 +439,7 @@ class Items {
 		return this.app.query(`DELETE FROM badges WHERE userId = ${userId} AND badge = '${badge}'`)
 	}
 
-	getTotalItmCountFromList(list) {
+	getTotalItmCountFromList (list) {
 		if (list.length === 0) {
 			return 0
 		}
@@ -453,7 +453,7 @@ class Items {
 		return totalItemCt
 	}
 
-	openBox(type, amount = 1, luck) {
+	openBox (type, amount = 1, luck) {
 		const itemsDisplay = []
 		const finalItemsAmounts = []
 		const items = []
@@ -478,7 +478,7 @@ class Items {
 		}
 	}
 
-	generateWeightedArray(rates, luck) {
+	generateWeightedArray (rates, luck) {
 		const weightedArr = []
 		let luckMltplr = 0
 
@@ -499,7 +499,7 @@ class Items {
 		return weightedArr
 	}
 
-	pickRandomItem(type, weightedArray) {
+	pickRandomItem (type, weightedArray) {
 		const rand = weightedArray[Math.floor(Math.random() * weightedArray.length)]
 		const rewards = this.app.itemdata[type].rates[rand].items
 
@@ -514,7 +514,7 @@ class Items {
      * @param {object} userItems User's item object.
      * @param {number} amount Amount of items to get
      */
-	async getRandomUserItems(userItems, amount) {
+	async getRandomUserItems (userItems, amount) {
 		let randArr = []
 
 		for (const item in userItems) {
@@ -560,7 +560,7 @@ class Items {
 		}
 	}
 
-	sortItemsLowHigh(a, b) {
+	sortItemsLowHigh (a, b) {
 		if (a.includes('|')) {
 			a = a.split('|')[0]
 			b = b.split('|')[0]
@@ -580,7 +580,7 @@ class Items {
 		return 0
 	}
 
-	sortItemsHighLow(a, b) {
+	sortItemsHighLow (a, b) {
 		if (a.includes('|')) {
 			a = a.split('|')[0]
 			b = b.split('|')[0]
@@ -600,7 +600,7 @@ class Items {
 		return 0
 	}
 
-	combineItems(itemList) {
+	combineItems (itemList) {
 		const nameArr = []
 		const amountArr = []
 		const finalArr = []
@@ -626,7 +626,7 @@ class Items {
 		return finalArr
 	}
 
-	getDisplay(itemList) {
+	getDisplay (itemList) {
 		const combined = this.combineItems(itemList)
 		const finalArr = []
 

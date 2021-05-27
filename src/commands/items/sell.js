@@ -13,7 +13,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const sellItems = app.parse.items(args, 15)
 		const sellAmounts = app.parse.numbers(args)
 
@@ -167,7 +167,7 @@ exports.command = {
 	}
 }
 
-function getItemList(items, amounts) {
+function getItemList (items, amounts) {
 	const itemList = []
 
 	for (let i = 0; i < items.length; i++) {

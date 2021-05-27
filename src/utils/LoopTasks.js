@@ -9,7 +9,7 @@ const STATUS_LIST = [
 ]
 
 class LoopTasks {
-	constructor(app) {
+	constructor (app) {
 		this.app = app
 		this.daily = new CronJob('0 0 0 * * *', this.dailyTasks.bind(this), null, false, 'America/New_York')
 		this.refreshLBJob = new CronJob('0 */6 * * *', this.refreshLB.bind(this), null, false, 'America/New_York')
@@ -26,7 +26,7 @@ class LoopTasks {
 		this.bleed = new CronJob('*/5 * * * *', this.bleedTask.bind(this), null, false, 'America/New_York')
 	}
 
-	start() {
+	start () {
 		if (this.app.clusterID === 0) {
 			console.log('[LOOPTASKS] Starting daily/bi-hourly tasks...')
 			this.daily.start()
@@ -42,11 +42,11 @@ class LoopTasks {
 		this.hourly.start()
 	}
 
-	async monthlyTasks() {
+	async monthlyTasks () {
 		await this.app.query('UPDATE scores SET points = 0, level = 1')
 	}
 
-	async dailyTasks() {
+	async dailyTasks () {
 		console.log('[LOOPTASKS] Running daily tasks...')
 		// take clan upkeep costs
 		const clans = await this.app.query('SELECT clanId, money, level FROM clans')
@@ -148,7 +148,7 @@ class LoopTasks {
 		this.app.messager.messageLogs(dailyEmbed)
 	}
 
-	async restockShop() {
+	async restockShop () {
 		await this.app.query('DELETE FROM sales')
 
 		const items = this.app.common.shuffleArr(salesData).slice(0, 2)
@@ -170,7 +170,7 @@ class LoopTasks {
 		}
 	}
 
-	async refreshLB() {
+	async refreshLB () {
 		console.log('[LOOPTASKS] Refreshing global leaderboard...')
 		const leaders = await this.app.leaderboard.getLB()
 		const patrons = await this.app.patreonHandler.getPatrons(2)
@@ -178,7 +178,7 @@ class LoopTasks {
 		this.app.cache.setNoExpire('patronsCache', JSON.stringify(patrons))
 	}
 
-	async biHourlyTasks() {
+	async biHourlyTasks () {
 		console.log('[LOOPTASKS] Running bi-hourly tasks...')
 		// reroll scrap deals in shop
 		await this.restockShop()
@@ -191,7 +191,7 @@ class LoopTasks {
 		await this.app.query('DELETE FROM server_cooldown WHERE UNIX_TIMESTAMP() * 1000 > start + length')
 	}
 
-	async hourlyTasks() {
+	async hourlyTasks () {
 		const stats = JSON.parse(await this.app.cache.get('stats')) || {}
 
 		if (this.app.bot.shards.get([...this.app.bot.shards][0][0]).presence.game.type === 2) return
@@ -204,7 +204,7 @@ class LoopTasks {
 		}
 	}
 
-	async weeklyTasks() {
+	async weeklyTasks () {
 		console.log('[LOOPTASKS] Running weekly tasks...')
 		// remove all bounties and reimburse players
 		const bounties = await this.app.query('SELECT * FROM bounties')
@@ -248,7 +248,7 @@ class LoopTasks {
 		}
 	}
 
-	async frequentTasks() {
+	async frequentTasks () {
 		if (!this.app.config.debug && this.app.clusterID === 0) {
 			await this._handleDiscoinTransactions()
 		}
@@ -256,7 +256,7 @@ class LoopTasks {
 		await this.app.ipc.broadcast('refreshPatrons', {})
 	}
 
-	async bleedTask() {
+	async bleedTask () {
 		await this.app.query(`UPDATE scores SET health = CASE
 			WHEN bleed >= 5 AND burn >= 3 AND health > 8 THEN health - 8
 			WHEN bleed >= 5 AND burn >= 3 THEN 1
@@ -312,7 +312,7 @@ class LoopTasks {
 		WHERE bleed > 0 OR burn > 0`)
 	}
 
-	async _handleDiscoinTransactions() {
+	async _handleDiscoinTransactions () {
 		try {
 			const unhandled = await this.app.discoin.getUnhandled()
 			/* test transaction
@@ -412,7 +412,7 @@ class LoopTasks {
 		}
 	}
 
-	async _refreshBlacklist() {
+	async _refreshBlacklist () {
 		try {
 			const list = await this.app.noflylist.getList()
 			let totalBanned = 0

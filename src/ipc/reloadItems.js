@@ -1,6 +1,6 @@
 const ArgParser = require('../utils/ArgParser')
 
-exports.run = function(msg) {
+exports.run = function (msg) {
 	console.log('[APP] Reloading items')
 	delete require.cache[require.resolve('../resources/items/banners')]
 	delete require.cache[require.resolve('../resources/items/storage')]

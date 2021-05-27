@@ -13,7 +13,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const craftItem = app.parse.items(args)[0]
 		let craftAmount = app.parse.numbers(args)[0] || 1
@@ -109,7 +109,7 @@ exports.command = {
 	}
 }
 
-function getItemMats(itemMats, craftAmount) {
+function getItemMats (itemMats, craftAmount) {
 	const itemPrice = []
 
 	for (let i = 0; i < itemMats.length; i++) {

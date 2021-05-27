@@ -12,7 +12,7 @@ exports.command = {
 	guildModsOnly: false,
 	worksInDMs: true,
 
-	execute(app, message, { args, prefix, guildInfo }) {
+	execute (app, message, { args, prefix, guildInfo }) {
 		const rules = [
 			'**Do NOT exploit bugs.** Bugs, if found, should be reported to the moderators so we can remove it.',
 			'**Do not use alt or "puppet" accounts.** The use of secondary accounts operated by you to avoid cooldowns, hoard weapons to avoid loss upon death, organize attacks on a target, farm boxes or in any other way considered unfair to others will result in a warning or in later offenses punishment.',

@@ -9,7 +9,7 @@ exports.command = {
 	requiresActive: false,
 	minimumRank: 0,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		if (args[0]) {
 			const cmd = app.clanCommands.find(c => c.name === args[0] || (c.aliases.length && c.aliases.includes(args[0])))
 
@@ -39,11 +39,11 @@ exports.command = {
 	}
 }
 
-function getRank(app, cmd) {
+function getRank (app, cmd) {
 	return `\`${app.clan_ranks[cmd.minimumRank].title}\`+`
 }
 
-function getUsage(prefix, cmd) {
+function getUsage (prefix, cmd) {
 	let finalStr = `${prefix}clan ${cmd.name}`
 
 	for (const arg of Object.keys(cmd.args)) {
@@ -53,7 +53,7 @@ function getUsage(prefix, cmd) {
 	return finalStr
 }
 
-function getOptions(cmd) {
+function getOptions (cmd) {
 	let finalStr = ''
 
 	for (const arg of Object.keys(cmd.args)) {

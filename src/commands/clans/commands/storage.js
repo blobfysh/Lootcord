@@ -13,7 +13,7 @@ exports.command = {
 	requiresActive: false,
 	minimumRank: 0,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 		const mentionedUser = app.parse.members(message, args)[0]
 
@@ -47,7 +47,7 @@ exports.command = {
 	}
 }
 
-async function generatePages(app, clanId) {
+async function generatePages (app, clanId) {
 	const messages = []
 	const clanRow = await app.clans.getRow(clanId)
 	const clanItems = await app.itm.getUserItems(await app.itm.getItemObject(clanId))

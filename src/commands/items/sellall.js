@@ -13,7 +13,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const sellItem = args[0] || ''
 
 		if (Object.keys(ITEM_TYPES).includes(sellItem.toLowerCase())) {

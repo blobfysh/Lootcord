@@ -12,7 +12,7 @@ exports.command = {
 	minimumRank: 1,
 	levelReq: 3,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 		const itemName = app.parse.items(args)[0]
 		let itemAmnt = app.parse.numbers(args)[0]

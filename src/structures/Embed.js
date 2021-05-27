@@ -1,5 +1,5 @@
 class Embed {
-	constructor(options = { maxFieldWidth: undefined }) {
+	constructor (options = { maxFieldWidth: undefined }) {
 		this.maxFieldWidith = options.maxFieldWidth
 		this.embed = {
 			fields: [],
@@ -13,7 +13,7 @@ class Embed {
      * @param {string} value Value of field
      * @param {boolean} inline If field should be inline, defaults false
      */
-	addField(name, value, inline = false) {
+	addField (name, value, inline = false) {
 		if (!name) {
 			return this
 		}
@@ -47,7 +47,7 @@ class Embed {
      * Set the title of embed
      * @param {string} title Title to set
      */
-	setTitle(title) {
+	setTitle (title) {
 		if (!title) return this
 
 		this.embed.title = title.toString().substring(0, 256)
@@ -59,7 +59,7 @@ class Embed {
      * Set the URL of embed
      * @param {string} url URL to set
      */
-	setURL(url) {
+	setURL (url) {
 		if (!url) return this
 
 		this.embed.url = url
@@ -71,7 +71,7 @@ class Embed {
      * Set the description of embed
      * @param {string} desc Description to set
      */
-	setDescription(desc) {
+	setDescription (desc) {
 		if (!desc) return this
 
 		this.embed.description = desc.toString().substring(0, 2048)
@@ -83,7 +83,7 @@ class Embed {
      * Set the image of embed
      * @param {string} url URL of image
      */
-	setImage(url) {
+	setImage (url) {
 		if (!url) return this
 
 		this.embed.image = {
@@ -97,7 +97,7 @@ class Embed {
      * Set the thumbnail of embed
      * @param {string} url URL image for thumbnail
      */
-	setThumbnail(url) {
+	setThumbnail (url) {
 		if (!url) return this
 
 		this.embed.thumbnail = {
@@ -112,7 +112,7 @@ class Embed {
      * @param {string} text Footer text
      * @param {string} icon URL of icon to set in footer
      */
-	setFooter(text, icon) {
+	setFooter (text, icon) {
 		if (!text) return this
 
 		this.embed.footer = {
@@ -124,7 +124,7 @@ class Embed {
 	}
 
 
-	setTimestamp(timestamp = new Date()) {
+	setTimestamp (timestamp = new Date()) {
 		this.embed.timestamp = timestamp
 
 		return this
@@ -136,7 +136,7 @@ class Embed {
      * @param {string} icon URL of icon to set
      * @param {string} url URL of author
      */
-	setAuthor(name, icon, url) {
+	setAuthor (name, icon, url) {
 		if (!name) return this
 
 		this.embed.author = {
@@ -152,7 +152,7 @@ class Embed {
      * Sets color. Supports hex colors
      * @param {*} color
      */
-	setColor(color) {
+	setColor (color) {
 		if (!color) return this
 
 		if (typeof color === 'string') {
@@ -168,7 +168,7 @@ class Embed {
      * Adds a blank field to the embed
      * @param {boolean} inline If field should be inline, defaults false
      */
-	addBlankField(inline = false) {
+	addBlankField (inline = false) {
 		return this.addField('\u200B', '\u200B', inline)
 	}
 }

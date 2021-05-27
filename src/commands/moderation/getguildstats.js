@@ -16,7 +16,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const guildID = args[0]
 		const fetchAll = args[1]
 
@@ -81,7 +81,7 @@ exports.command = {
 	}
 }
 
-function getChannelType(icons, chan, guildID) {
+function getChannelType (icons, chan, guildID) {
 	const permissions = chan.permissionOverwrites instanceof Map ? chan.permissionOverwrites.get(guildID) : new Map(Object.entries(chan.permissionOverwrites)).get(guildID)
 
 	if (chan.type === 0n && permissions && permissions.deny & (1 << 10)) {
@@ -97,11 +97,11 @@ function getChannelType(icons, chan, guildID) {
 	return ''
 }
 
-function codeWrap(input, code) {
+function codeWrap (input, code) {
 	return `\`\`\`${code}\n${input}\`\`\``
 }
 
-function createCollection(object) {
+function createCollection (object) {
 	const collection = new Eris.Collection()
 
 	for (const item of Object.keys(object)) {

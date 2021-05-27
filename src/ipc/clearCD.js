@@ -1,3 +1,3 @@
-exports.run = function(msg) {
+exports.run = function (msg) {
 	this.cd.clearTimers(msg.userId, msg.type, msg.guildId)
 }

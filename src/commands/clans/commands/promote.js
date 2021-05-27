@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: true,
 	minimumRank: 3,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 		let member = app.parse.members(message, args)[0]
 		const number = app.parse.numbers(args)[0]
@@ -94,7 +94,7 @@ exports.command = {
 	}
 }
 
-async function transferLeadership(app, oldLeaderId, leaderId, clanId) {
+async function transferLeadership (app, oldLeaderId, leaderId, clanId) {
 	const newLeaderRow = (await app.query(`SELECT * FROM scores WHERE userId = ${leaderId}`))[0]
 	const oldLeaderRow = (await app.query(`SELECT * FROM scores WHERE userId = ${oldLeaderId}`))[0]
 	await app.query(`UPDATE scores SET clanRank = ${newLeaderRow.clanRank + 1} WHERE userId = ${leaderId}`)

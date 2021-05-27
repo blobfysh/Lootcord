@@ -1,6 +1,6 @@
 const { Message } = require('eris')
 
-Message.prototype.reply = function(content) {
+Message.prototype.reply = function (content) {
 	if (typeof content === 'string') {
 		content = {
 			content

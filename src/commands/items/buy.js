@@ -14,7 +14,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		let buyItem = app.parse.items(args)[0]
 		let buyAmount = app.parse.numbers(args)[0] || 1
 

@@ -14,7 +14,7 @@ exports.command = {
 	requiresActive: true,
 	minimumRank: 0,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		const scoreRow = await app.player.getRow(message.author.id)
 		const clanName = args.join(' ')
 
@@ -98,7 +98,7 @@ exports.command = {
 	}
 }
 
-async function createClan(app, clanTag, clanOwner) {
+async function createClan (app, clanTag, clanOwner) {
 	await app.query(insertClanSQL, [clanTag, clanOwner, new Date().getTime()])
 	const clanID = (await app.query(`SELECT clanId FROM clans WHERE ownerId = ${clanOwner}`))[0].clanId
 

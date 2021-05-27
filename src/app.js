@@ -27,13 +27,13 @@ const PatreonHandler = require('./handlers/PatreonHandler')
 const EventHandler = require('./handlers/EventHandler')
 const BountyHandler = require('./handlers/BountyHandler')
 const PubSubHandler = require('./handlers/PubSubHandler')
-require('./utils/MessageUtils')
+require('./utils/messageUtilsOld')
 
 const events = fs.readdirSync(path.join(__dirname, '/events'))
 const ipcEvents = fs.readdirSync(path.join(__dirname, '/ipc'))
 
 class Lootcord extends Base {
-	constructor(bot) {
+	constructor (bot) {
 		super(bot)
 
 		this.isReady = true
@@ -72,7 +72,7 @@ class Lootcord extends Base {
 		this.pubSub = new PubSubHandler(this)
 	}
 
-	async launch() {
+	async launch () {
 		this.initIPC()
 		this.loopTasks.start()
 
@@ -98,7 +98,7 @@ class Lootcord extends Base {
 		}
 	}
 
-	loadCommands() {
+	loadCommands () {
 		const categories = fs.readdirSync(path.join(__dirname, '/commands'))
 		const commands = []
 
@@ -120,7 +120,7 @@ class Lootcord extends Base {
 		return commands
 	}
 
-	loadClanCommands() {
+	loadClanCommands () {
 		const clanFiles = fs.readdirSync(path.join(__dirname, '/commands/clans/commands'))
 		const commands = []
 
@@ -135,7 +135,7 @@ class Lootcord extends Base {
 		return commands
 	}
 
-	loadSlashCommands() {
+	loadSlashCommands () {
 		const globalFiles = fs.readdirSync(path.join(__dirname, '/slash-commands/global'))
 		const guildFiles = fs.readdirSync(path.join(__dirname, '/slash-commands/guild'))
 		const commands = []
@@ -156,7 +156,7 @@ class Lootcord extends Base {
 		return commands
 	}
 
-	loadItems() {
+	loadItems () {
 		const ranged = require('./resources/items/ranged')
 		const melee = require('./resources/items/melee')
 		const items = require('./resources/items/items')
@@ -176,24 +176,24 @@ class Lootcord extends Base {
 		}
 	}
 
-	loadSets() {
+	loadSets () {
 		return {
 			adminUsers: new Set(this.config.adminUsers),
 			disabledCommands: new Set()
 		}
 	}
 
-	initIPC() {
+	initIPC () {
 		for (const event of ipcEvents) {
 			this.ipc.register(event.replace('.js', ''), require(`./ipc/${event}`).run.bind(this))
 		}
 	}
 
-	query(sql, args) {
+	query (sql, args) {
 		return this.mysql.query(sql, args)
 	}
 
-	async refreshCooldowns() {
+	async refreshCooldowns () {
 		const rows = await this.query('SELECT * FROM cooldown')
 		const serverRows = await this.query('SELECT * FROM server_cooldown')
 		let cdsAdded = 0
@@ -256,7 +256,7 @@ class Lootcord extends Base {
 		console.log(`[APP] ${cdsAdded} cooldowns refreshed.`)
 	}
 
-	async refreshLists() {
+	async refreshLists () {
 		// refreshes the list of moderators on startup
 		const modRows = await this.query('SELECT * FROM mods')
 		for (const mod of modRows) {
@@ -324,7 +324,7 @@ class Lootcord extends Base {
 		}
 	}
 
-	async startSpawns() {
+	async startSpawns () {
 		const spawnChannels = await this.query('SELECT * FROM spawnchannels')
 
 		for (let i = 0; i < spawnChannels.length; i++) {

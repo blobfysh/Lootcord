@@ -15,7 +15,7 @@ exports.command = {
 	guildModsOnly: false,
 	levelReq: 3,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const user = app.parse.members(message, args)[0]
 
 		if (!user) {
@@ -113,7 +113,7 @@ exports.command = {
 				})
 
 				// eslint-disable-next-line no-inner-declarations
-				async function handleMsg(m, userArgs, command, player) {
+				async function handleMsg (m, userArgs, command, player) {
 					if (command.toLowerCase() === 'cancel') {
 						app.msgCollector.stopCollector(player1Collector)
 						app.msgCollector.stopCollector(player2Collector)
@@ -325,7 +325,7 @@ exports.command = {
 	}
 }
 
-function refreshWindow(app, player1Member, player1Money, player1Items, player2Member, player2Money, player2Items, prefix, log = false) {
+function refreshWindow (app, player1Member, player1Money, player1Items, player2Member, player2Money, player2Items, prefix, log = false) {
 	const tradeWindow = new app.Embed()
 		.setTitle('Trade Window')
 		.setColor(2713128)
@@ -344,7 +344,7 @@ function refreshWindow(app, player1Member, player1Money, player1Items, player2Me
 	return tradeWindow
 }
 
-function getValue(app, playerMoney, playerItems) {
+function getValue (app, playerMoney, playerItems) {
 	let value = playerMoney
 
 	for (let i = 0; i < playerItems.length; i++) {
@@ -354,7 +354,7 @@ function getValue(app, playerMoney, playerItems) {
 	return value
 }
 
-function getDisplay(app, itemList, log = false) {
+function getDisplay (app, itemList, log = false) {
 	const items = []
 
 	for (let i = 0; i < itemList.length; i++) {
@@ -366,7 +366,7 @@ function getDisplay(app, itemList, log = false) {
 	return items
 }
 
-function listHasItem(itemList, item) {
+function listHasItem (itemList, item) {
 	for (let i = 0; i < itemList.length; i++) {
 		if (itemList[i].split('|')[0] === item) return true
 	}
@@ -374,7 +374,7 @@ function listHasItem(itemList, item) {
 	return false
 }
 
-async function tradeItems(app, player1, player1Money, player1Items, player2, player2Money, player2Items, serverSideGuildId) {
+async function tradeItems (app, player1, player1Money, player1Items, player2, player2Money, player2Items, serverSideGuildId) {
 	const transaction = await app.mysql.beginTransaction()
 	const player1Row = await app.player.getRowForUpdate(transaction.query, player1.id, serverSideGuildId)
 	const player2Row = await app.player.getRowForUpdate(transaction.query, player2.id, serverSideGuildId)
@@ -426,7 +426,7 @@ async function tradeItems(app, player1, player1Money, player1Items, player2, pla
 	await transaction.commit()
 }
 
-function tradeCompleted(app, embed, guildID, player1, player2, player1Val, player2Val, player1Items, player2Items) {
+function tradeCompleted (app, embed, guildID, player1, player2, player1Val, player2Val, player1Items, player2Items) {
 	try {
 		if (player1Val > player2Val * max_disparity && player1Val - player2Val >= flagged_threshold && app.itm.getTotalItmCountFromList(player1Items) > 1) {
 			embed.setTitle('Trade Log (Flagged)')

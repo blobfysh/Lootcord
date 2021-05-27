@@ -25,7 +25,7 @@ exports.command = {
 	guildModsOnly: false,
 
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const coinflipCD = await app.cd.getCD(message.author.id, 'coinflip', { serverSideGuildId })
 		const choice = getSide(args)
@@ -78,7 +78,7 @@ exports.command = {
 	}
 }
 
-function getSide(args) {
+function getSide (args) {
 	if (args.some(arg => ['heads', 'h'].includes(arg))) {
 		return 'heads'
 	}

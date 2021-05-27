@@ -16,7 +16,7 @@ exports.command = {
 	serverEconomyOnly: true,
 	guildModsOnly: true,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const item = app.parse.items(args)[0]
 		const member = app.parse.members(message, args)[0]
 		const amount = app.parse.numbers(args)[0] || 1

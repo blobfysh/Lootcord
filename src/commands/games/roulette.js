@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: true,
 	guildModsOnly: false,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const rouletteCD = await app.cd.getCD(message.author.id, 'roulette', { serverSideGuildId })
 		let gambleAmount = app.parse.numbers(args)[0]
@@ -75,7 +75,7 @@ exports.command = {
 	}
 }
 
-function getDamage(bet) {
+function getDamage (bet) {
 	// max damage at 10k+ bets.
 	const percDamageAdded = bet / 10000 > 1 ? 1 : bet / 10000
 

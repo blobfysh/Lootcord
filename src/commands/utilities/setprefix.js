@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: true,
 
-	async execute(app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo }) {
 		let prefixString = args[0]
 
 		if (prefixString === undefined || prefixString === '' || prefixString.length > 5) {

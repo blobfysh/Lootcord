@@ -14,7 +14,7 @@ exports.command = {
 	guildModsOnly: false,
 	worksInDMs: true,
 
-	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 		const itemsSorted = Object.keys(app.itemdata).sort(app.itm.sortItemsHighLow.bind(app))
@@ -32,7 +32,7 @@ exports.command = {
 			craftables[i] = `${itemAmount[1]}x ${app.itemdata[itemAmount[0]].icon}\`${itemAmount[0]}\``
 		}
 
-		function canCraft(item) {
+		function canCraft (item) {
 			const data = app.itemdata[item]
 
 			for (let i = 0; i < data.craftedWith.materials.length; i++) {
@@ -45,7 +45,7 @@ exports.command = {
 			return true
 		}
 
-		function maxCraft(item) {
+		function maxCraft (item) {
 			const data = app.itemdata[item]
 			const max = []
 
