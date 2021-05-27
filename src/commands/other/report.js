@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../resources/constants')
+
 exports.command = {
 	name: 'report',
 	aliases: [],
@@ -22,12 +24,15 @@ exports.command = {
 			return message.reply(`You forgot to put a message! \`${prefix}report <content>\``)
 		}
 
-		const botMessage = await message.reply('Submit report?\n\n**Spamming this command or using it for purposes other than reporting will result in a warning or ban.**')
+		const botMessage = await message.reply({
+			content: 'Submit report?\n\n**Spamming this command or using it for purposes other than reporting will result in a warning or ban.**',
+			components: BUTTONS.confirmation
+		})
 
 		try {
-			const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-			if (confirmed) {
+			if (confirmed.customID === 'confirmed') {
 				const imageAttached = message.attachments
 
 				const reportEmbed = new app.Embed()
@@ -50,16 +55,22 @@ exports.command = {
 
 				app.messager.messageMods({ embed: reportEmbed.embed }, { ping: false })
 
-				app.cd.setCD(message.author.id, 'report', 300 * 1000)
+				await app.cd.setCD(message.author.id, 'report', 300 * 1000)
 
-				botMessage.edit('Report successfully sent!')
+				await confirmed.respond({
+					content: 'Report successfully sent!',
+					components: []
+				})
 			}
 			else {
 				botMessage.delete()
 			}
 		}
 		catch (err) {
-			botMessage.edit('You didn\'t react in time!')
+			botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }

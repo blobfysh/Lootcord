@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../resources/constants')
+
 const upgrOptions = ['health', 'strength', 'luck']
 
 exports.command = {
@@ -26,29 +28,44 @@ exports.command = {
 		const price = getPrice(row.used_stats, upgrAmnt)
 
 		if (upgrOptions.includes(upgrOpt)) {
-			const botMessage = await message.reply(`Purchase ${upgrAmnt}x points of ${type.display} (${row[type.row]} → ${nextLevel(type, row, upgrAmnt)}) for ${app.common.formatNumber(price)}?`)
+			const botMessage = await message.reply({
+				content: `Purchase ${upgrAmnt}x points of ${type.display} (${row[type.row]} → ${nextLevel(type, row, upgrAmnt)}) for ${app.common.formatNumber(price)}?`,
+				components: BUTTONS.confirmation
+			})
 
 			try {
-				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+				const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-				if (confirmed) {
+				if (confirmed.customID === 'confirmed') {
 					const vRow = await app.player.getRow(message.author.id, serverSideGuildId)
 
 					if (vRow.money < price) {
-						botMessage.edit(`You don't have enough money! You currently have ${app.common.formatNumber(row.money)}`)
+						await confirmed.respond({
+							content: `You don't have enough money! You currently have ${app.common.formatNumber(row.money)}`,
+							components: []
+						})
 					}
 					else if (row.used_stats !== vRow.used_stats) {
-						botMessage.edit('❌ Error: did your stats change while upgrading?')
+						await confirmed.respond({
+							content: '❌ Error: did your stats change while upgrading?',
+							components: []
+						})
 					}
 					else if (row.used_stats + upgrAmnt > 30) {
-						botMessage.edit('❌ Upgrading that much would put you over the max (30 skills upgraded). You can use a `reroll_scroll` to reset your skills.')
+						await confirmed.respond({
+							content: '❌ Upgrading that much would put you over the max (30 skills upgraded). You can use a `reroll_scroll` to reset your skills.',
+							components: []
+						})
 					}
 					else {
 						await incrUsedStats(app, message.author.id, upgrAmnt, serverSideGuildId)
 						await app.player.removeMoney(message.author.id, price, serverSideGuildId)
 						await purchaseSkills(app, message, type.title, upgrAmnt, serverSideGuildId)
 
-						botMessage.edit(`Successfully allocated ${upgrAmnt} points to ${type.display}.`)
+						await confirmed.respond({
+							content: `Successfully allocated ${upgrAmnt} points to ${type.display}.`,
+							components: []
+						})
 					}
 				}
 				else {
@@ -56,7 +73,10 @@ exports.command = {
 				}
 			}
 			catch (err) {
-				botMessage.edit('You didn\'t react in time!')
+				await botMessage.edit({
+					content: '❌ Command timed out.',
+					components: []
+				})
 			}
 		}
 		else {
@@ -70,26 +90,77 @@ exports.command = {
 				.addField('🍀 Luck', `Increases luck by 2 (\`${row.luck}\` → \`${row.luck + 2}\`)`)
 				.setFooter('The cost to upgrade skills doubles after each purchase. You can reset skills with a reroll_scroll')
 
-			const botMessage = await message.channel.createMessage(skillEmbed)
+			const botMessage = await message.channel.createMessage({
+				embed: skillEmbed.embed,
+				components: [{
+					type: 1,
+					components: [
+						{
+							type: 2,
+							label: 'Health',
+							emoji: {
+								id: null,
+								name: '💗'
+							},
+							custom_id: 'health',
+							style: 2
+						},
+						{
+							type: 2,
+							label: 'Strength',
+							emoji: {
+								id: null,
+								name: '💥'
+							},
+							custom_id: 'strength',
+							style: 2
+						},
+						{
+							type: 2,
+							label: 'Luck',
+							emoji: {
+								id: null,
+								name: '🍀'
+							},
+							custom_id: 'luck',
+							style: 2
+						},
+						{
+							type: 2,
+							label: 'Cancel',
+							custom_id: 'canceled',
+							style: 4
+						}
+					]
+				}]
+			})
 
 			try {
-				const collected = await app.react.getFirstReaction(message.author.id, botMessage, 15000, ['💗', '💥', '🍀', '❌'])
+				const collected = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 				const vRow = await app.player.getRow(message.author.id, serverSideGuildId)
 
-				if (collected === '💗') {
+				if (collected.customID === 'health') {
 					type = getType('health')
 
 					if (vRow.money < price) {
 						const errorEmbed = new app.Embed()
 							.setColor(16734296)
-							.setDescription(`❌ You don't have enough money! You currently have ${app.common.formatNumber(vRow.money)}`)
-						botMessage.edit(errorEmbed)
+							.setDescription(`❌ You don't have enough money! You currently have **${app.common.formatNumber(vRow.money)}**`)
+
+						await collected.respond({
+							embeds: [errorEmbed.embed],
+							components: []
+						})
 					}
 					else if (row.used_stats !== vRow.used_stats) {
 						const errorEmbed = new app.Embed()
 							.setColor(16734296)
 							.setDescription('❌ Error: did your stats change while upgrading?')
-						botMessage.edit(errorEmbed)
+
+						await collected.respond({
+							embeds: [errorEmbed.embed],
+							components: []
+						})
 					}
 					else {
 						await incrUsedStats(app, message.author.id, upgrAmnt, serverSideGuildId)
@@ -103,23 +174,35 @@ exports.command = {
 							.setTitle(`Successfully allocated ${upgrAmnt} points to 💗 Health!`)
 							.setDescription(`You now have ${row.maxHealth + 5} max health.`)
 							.setFooter(`Total upgrades: ${row.used_stats + 1}`)
-						botMessage.edit(upgradedEmbed)
+
+						await collected.respond({
+							embeds: [upgradedEmbed.embed],
+							components: []
+						})
 					}
 				}
-				else if (collected === '💥') {
+				else if (collected.customID === 'strength') {
 					type = getType('strength')
 
 					if (vRow.money < price) {
 						const errorEmbed = new app.Embed()
 							.setColor(16734296)
-							.setDescription(`❌ You don't have enough money! You currently have ${app.common.formatNumber(vRow.money)}`)
-						botMessage.edit(errorEmbed)
+							.setDescription(`❌ You don't have enough money! You currently have **${app.common.formatNumber(vRow.money)}**`)
+
+						await collected.respond({
+							embeds: [errorEmbed.embed],
+							components: []
+						})
 					}
 					else if (row.used_stats !== vRow.used_stats) {
 						const errorEmbed = new app.Embed()
 							.setColor(16734296)
 							.setDescription('❌ Error: did your stats change while upgrading?')
-						botMessage.edit(errorEmbed)
+
+						await collected.respond({
+							embeds: [errorEmbed.embed],
+							components: []
+						})
 					}
 					else {
 						await incrUsedStats(app, message.author.id, upgrAmnt, serverSideGuildId)
@@ -134,23 +217,34 @@ exports.command = {
 							.setDescription(`You now deal ${(row.scaledDamage + 0.03).toFixed(2)}x damage.`)
 							.setFooter(`Total upgrades: ${row.used_stats + 1}`)
 
-						botMessage.edit(upgradedEmbed)
+						await collected.respond({
+							embeds: [upgradedEmbed.embed],
+							components: []
+						})
 					}
 				}
-				else if (collected === '🍀') {
+				else if (collected.customID === 'luck') {
 					type = getType('luck')
 
 					if (vRow.money < price) {
 						const errorEmbed = new app.Embed()
 							.setColor(16734296)
-							.setDescription(`❌ You don't have enough money! You currently have ${app.common.formatNumber(vRow.money)}`)
-						botMessage.edit(errorEmbed)
+							.setDescription(`❌ You don't have enough money! You currently have **${app.common.formatNumber(vRow.money)}**`)
+
+						await collected.respond({
+							embeds: [errorEmbed.embed],
+							components: []
+						})
 					}
 					else if (row.used_stats !== vRow.used_stats) {
 						const errorEmbed = new app.Embed()
 							.setColor(16734296)
 							.setDescription('❌ Error: did your stats change while upgrading?')
-						botMessage.edit(errorEmbed)
+
+						await collected.respond({
+							embeds: [errorEmbed.embed],
+							components: []
+						})
 					}
 					else {
 						await incrUsedStats(app, message.author.id, upgrAmnt, serverSideGuildId)
@@ -165,7 +259,10 @@ exports.command = {
 							.setDescription('**Luck increased by 2**\nYour chance to get rare items has been increased.')
 							.setFooter(`Total upgrades: ${row.used_stats + 1}`)
 
-						botMessage.edit(upgradedEmbed)
+						await collected.respond({
+							embeds: [upgradedEmbed.embed],
+							components: []
+						})
 					}
 				}
 				else {
@@ -176,7 +273,11 @@ exports.command = {
 				const errorEmbed = new app.Embed()
 					.setColor(16734296)
 					.setDescription('❌ Command timed out')
-				botMessage.edit(errorEmbed)
+
+				botMessage.edit({
+					embed: errorEmbed.embed,
+					components: []
+				})
 			}
 		}
 	}

@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../resources/constants')
+
 exports.command = {
 	name: 'silentban',
 	aliases: [],
@@ -34,20 +36,29 @@ exports.command = {
 		const warnings = await app.query(`SELECT * FROM warnings WHERE userId = '${userID}'`)
 		const user = await app.common.fetchUser(userID, { cacheIPC: false })
 
-		const botMessage = await message.reply(`**${user.username}#${user.discriminator}** currently has **${warnings.length}** warnings on record. Continue ban?`)
+		const botMessage = await message.reply({
+			content: `**${user.username}#${user.discriminator}** currently has **${warnings.length}** warnings on record. Continue ban?`,
+			components: BUTTONS.confirmation
+		})
 
 		try {
-			const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-			if (confirmed) {
+			if (confirmed.customID === 'confirmed') {
 				try {
 					await app.query('INSERT INTO banned (userId, reason, date) VALUES (?, ?, ?)', [userID, messageIn, new Date().getTime()])
 					await app.cache.setNoExpire(`banned|${userID}`, 'Banned perma')
 
-					botMessage.edit(`Successfully banned **${user.username}#${user.discriminator}**.`)
+					await confirmed.respond({
+						content: `Successfully banned **${user.username}#${user.discriminator}**.`,
+						components: []
+					})
 				}
 				catch (err) {
-					botMessage.edit(`Error banning user: \`\`\`js\n${err}\`\`\``)
+					await confirmed.respond({
+						content: `Error banning user: \`\`\`js\n${err}\`\`\``,
+						components: []
+					})
 				}
 			}
 			else {
@@ -55,7 +66,10 @@ exports.command = {
 			}
 		}
 		catch (err) {
-			botMessage.edit('❌ Timed out.')
+			await botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }

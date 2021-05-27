@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../../resources/constants')
+
 exports.command = {
 	name: 'leave',
 	aliases: [],
@@ -19,16 +21,22 @@ exports.command = {
 			leaveMsg = `Leaving a clan you are the leader of will disband the clan. Are you sure you want to disband \`${clanRow.name}\`?`
 		}
 
-		const botMessage = await message.channel.createMessage(leaveMsg)
+		const botMessage = await message.channel.createMessage({
+			content: leaveMsg,
+			components: BUTTONS.confirmation
+		})
 
 		try {
-			const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-			if (confirmed) {
+			if (confirmed.customID === 'confirmed') {
 				const scoreRow2 = await app.player.getRow(message.author.id)
 
 				if (scoreRow2.clanId === 0 || scoreRow2.clanId !== scoreRow.clanId) {
-					return message.reply('❌ You are not a member of any clan.')
+					return confirmed.respond({
+						content: '❌ You are not a member of any clan.',
+						components: []
+					})
 				}
 
 				leaveClan(app, message.author.id)
@@ -38,14 +46,20 @@ exports.command = {
 
 				await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} left`)
 
-				botMessage.edit(`✅ Successfully left clan: \`${clanRow.name}\``)
+				await confirmed.respond({
+					content: `✅ Successfully left clan: \`${clanRow.name}\``,
+					components: []
+				})
 			}
 			else {
 				botMessage.delete()
 			}
 		}
 		catch (err) {
-			botMessage.edit('You didn\'t react in time.')
+			await botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }

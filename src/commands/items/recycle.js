@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../resources/constants')
+
 exports.command = {
 	name: 'recycle',
 	aliases: [],
@@ -30,12 +32,16 @@ exports.command = {
 				.setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/601373249753841665/recycle.png')
 				.setFooter(`You will need ${app.itm.getTotalItmCountFromList(itemMats) - sellAmount} open slots in your inventory to recycle this.`)
 
-			const botMessage = await message.channel.createMessage({ content: `<@${message.author.id}>`, embed: embedInfo.embed })
+			const botMessage = await message.channel.createMessage({
+				content: `<@${message.author.id}>`,
+				embed: embedInfo.embed,
+				components: BUTTONS.confirmation
+			})
 
 			try {
-				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+				const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-				if (confirmed) {
+				if (confirmed.customID === 'confirmed') {
 					const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 					const itemCt = await app.itm.getItemCount(userItems, await app.player.getRow(message.author.id, serverSideGuildId))
 
@@ -44,7 +50,11 @@ exports.command = {
 						embedInfo.embed.thumbnail = undefined
 						embedInfo.embed.footer = undefined
 						embedInfo.setDescription(userItems[sellItem] ? `❌ You don't have enough of that item! You have **${userItems[sellItem]}x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.` : `❌ You don't have a ${app.itemdata[sellItem].icon}\`${sellItem}\`.`)
-						return botMessage.edit(embedInfo)
+
+						return confirmed.respond({
+							embeds: [embedInfo.embed],
+							components: []
+						})
 					}
 
 					if (!await app.itm.hasSpace(itemCt, app.itm.getTotalItmCountFromList(itemMats) - sellAmount)) {
@@ -52,7 +62,11 @@ exports.command = {
 						embedInfo.embed.thumbnail = undefined
 						embedInfo.embed.footer = undefined
 						embedInfo.setDescription(`❌ **You don't have enough space in your inventory!** (You need **${app.itm.getTotalItmCountFromList(itemMats) - sellAmount}** open slot${app.itm.getTotalItmCountFromList(itemMats) - sellAmount > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
-						return botMessage.edit(embedInfo)
+
+						return confirmed.respond({
+							embeds: [embedInfo.embed],
+							components: []
+						})
 					}
 
 					await app.itm.addItem(message.author.id, itemMats, null, serverSideGuildId)
@@ -60,7 +74,11 @@ exports.command = {
 
 					embedInfo.setColor(9043800)
 					embedInfo.setDescription(`Successfully recycled **${sellAmount}x** ${app.itemdata[sellItem].icon}\`${sellItem}\` for:\n\n${app.itm.getDisplay(itemMats).join('\n')}`)
-					botMessage.edit(embedInfo)
+
+					await confirmed.respond({
+						embeds: [embedInfo.embed],
+						components: []
+					})
 				}
 				else {
 					botMessage.delete()
@@ -70,7 +88,11 @@ exports.command = {
 				const errorEmbed = new app.Embed()
 					.setColor(16734296)
 					.setDescription('❌ Command timed out.')
-				botMessage.edit(errorEmbed)
+
+				botMessage.edit({
+					embed: errorEmbed.embed,
+					components: []
+				})
 			}
 		}
 		else {

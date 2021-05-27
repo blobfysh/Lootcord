@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../resources/constants')
+
 exports.command = {
 	name: 'untradeban',
 	aliases: [],
@@ -31,12 +33,15 @@ exports.command = {
 
 		const user = await app.common.fetchUser(userID, { cacheIPC: false })
 
-		const botMessage = await message.reply(`Unban **${user.username}#${user.discriminator}**?`)
+		const botMessage = await message.reply({
+			content: `Unban **${user.username}#${user.discriminator}**?`,
+			components: BUTTONS.confirmation
+		})
 
 		try {
-			const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-			if (confirmed) {
+			if (confirmed.customID === 'confirmed') {
 				const banMsg = new app.Embed()
 					.setTitle(`😃 Your tradeban was lifted by ${`${message.author.username}#${message.author.discriminator}`}`)
 					.setColor(720640)
@@ -47,10 +52,17 @@ exports.command = {
 					await app.cd.clearCD(userID, 'tradeban')
 
 					await app.common.messageUser(userID, banMsg, { throwErr: true })
-					botMessage.edit(`Successfully lifted **${user.username}#${user.discriminator}**'s tradeban.`)
+
+					await confirmed.respond({
+						content: `Successfully lifted **${user.username}#${user.discriminator}**'s tradeban.`,
+						components: []
+					})
 				}
 				catch (err) {
-					botMessage.edit(`Unable to send message to user, they were still unbanned. \`\`\`js\n${err}\`\`\``)
+					await confirmed.respond({
+						content: `Unable to send message to user, they were still unbanned. \`\`\`js\n${err}\`\`\``,
+						components: []
+					})
 				}
 			}
 			else {
@@ -58,7 +70,10 @@ exports.command = {
 			}
 		}
 		catch (err) {
-			botMessage.edit('❌ Timed out.')
+			await botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }

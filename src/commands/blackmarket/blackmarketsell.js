@@ -1,4 +1,5 @@
 const shortid = require('shortid')
+const { BUTTONS } = require('../../resources/constants')
 const listing_fee = 0.10
 const max_listings = 15
 
@@ -64,32 +65,64 @@ exports.command = {
 				.setColor(13451564)
 
 			const listingFee = Math.floor(itemCost * listing_fee)
-			const botMessage = await message.channel.createMessage({ content: `<@${message.author.id}>, This will cost **${app.common.formatNumber(listingFee)}** (${listing_fee * 100}%) to list. Are you sure?`, embed: bmEmbed.embed })
+			const botMessage = await message.channel.createMessage({
+				content: `<@${message.author.id}>, This will cost **${app.common.formatNumber(listingFee)}** (${listing_fee * 100}%) to list. Are you sure?`,
+				embed: bmEmbed.embed,
+				components: BUTTONS.confirmation
+			})
 
 			try {
-				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+				const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-				if (confirmed) {
+				if (confirmed.customID === 'confirmed') {
 					const row = await app.player.getRow(message.author.id)
 
 					if (row.money < listingFee) {
-						return botMessage.edit({ content: `Listing failed! You can't afford the **${app.common.formatNumber(listingFee)}** fee. You only have **${app.common.formatNumber(row.money)}**`, embed: null })
+						const failedEmbed = new app.Embed()
+							.setDescription(`You can't afford the **${app.common.formatNumber(listingFee)}** fee. You only have **${app.common.formatNumber(row.money)}**`)
+							.setColor(16734296)
+
+						return confirmed.respond({
+							content: 'Listing failed!',
+							embeds: [failedEmbed.embed],
+							components: []
+						})
 					}
 					else if (!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), itemName, itemAmnt)) {
-						return botMessage.edit({ content: `Listing failed! You don't have **${itemAmnt}** \`${itemName}\`'s.`, embed: null })
+						const failedEmbed = new app.Embed()
+							.setDescription(`You don't have **${itemAmnt}x** ${app.itemdata[itemName].icon}\`${itemName}\`.`)
+							.setColor(16734296)
+
+						return confirmed.respond({
+							content: 'Listing failed!',
+							embeds: [failedEmbed.embed],
+							components: []
+						})
 					}
 					await app.player.removeMoney(message.author.id, listingFee)
 					await app.itm.removeItem(message.author.id, itemName, itemAmnt)
 
 					const listingId = await listItem(app, message, itemName, itemAmnt, itemCost)
 
-					return botMessage.edit({ content: `Success! Your ${app.itemdata[itemName].icon}\`${itemName}\` was listed with the ID: \`${listingId}\`.`, embed: null })
+					const successEmbed = new app.Embed()
+						.setDescription(`Your ${app.itemdata[itemName].icon}\`${itemName}\` was listed with the ID: \`${listingId}\`.`)
+						.setColor(9043800)
+
+					return confirmed.respond({
+						content: 'Success!',
+						embeds: [successEmbed.embed],
+						components: []
+					})
 				}
 
 				botMessage.delete()
 			}
 			catch (e) {
-				botMessage.edit({ content: '❌ You didn\'t react in time!', embed: null })
+				await botMessage.edit({
+					content: '❌ Command timed out.',
+					embed: null,
+					components: []
+				})
 			}
 		}
 		else {
@@ -173,18 +206,41 @@ exports.command = {
 
 						bmEmbed.addField('Price:', app.common.formatNumber(price))
 						bmEmbed.setDescription(`List **${amount}x** \`${item}\` for ${app.common.formatNumber(price)}?`)
-						botMessage = await message.channel.createMessage({ content: `<@${message.author.id}>, This will cost ${app.common.formatNumber(listingFee)} to list. Are you sure?`, embed: bmEmbed.embed })
-						app.msgCollector.stopCollector(collectorObj)
-						try {
-							const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
 
-							if (confirmed) {
+						app.msgCollector.stopCollector(collectorObj)
+						botMessage = await message.channel.createMessage({
+							content: `<@${message.author.id}>, This will cost **${app.common.formatNumber(listingFee)}** (${listing_fee * 100}%) to list. Are you sure?`,
+							embed: bmEmbed.embed,
+							components: BUTTONS.confirmation
+						})
+
+						try {
+							const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
+
+							if (confirmed.customID === 'confirmed') {
 								const row = await app.player.getRow(message.author.id)
+
 								if (row.money < listingFee) {
-									return botMessage.edit({ content: `Listing failed! You can't afford the **${app.common.formatNumber(listingFee)}** fee. You only have **${app.common.formatNumber(row.money)}**`, embed: null })
+									const failedEmbed = new app.Embed()
+										.setDescription(`You can't afford the **${app.common.formatNumber(listingFee)}** fee. You only have **${app.common.formatNumber(row.money)}**`)
+										.setColor(16734296)
+
+									return confirmed.respond({
+										content: 'Listing failed!',
+										embeds: [failedEmbed.embed],
+										components: []
+									})
 								}
 								else if (!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), item, amount)) {
-									return botMessage.edit({ content: `Listing failed! You don't have **${amount}** \`${item}\`'s.`, embed: null })
+									const failedEmbed = new app.Embed()
+										.setDescription(`You don't have **${amount}x** ${app.itemdata[item].icon}\`${item}\`.`)
+										.setColor(16734296)
+
+									return confirmed.respond({
+										content: 'Listing failed!',
+										embeds: [failedEmbed.embed],
+										components: []
+									})
 								}
 
 								await app.player.removeMoney(message.author.id, listingFee)
@@ -192,13 +248,25 @@ exports.command = {
 
 								const listingId = await listItem(app, message, item, amount, price)
 
-								return botMessage.edit({ content: `Success! Your ${app.itemdata[item].icon}\`${item}\` was listed with the ID: \`${listingId}\`.`, embed: null })
+								const successEmbed = new app.Embed()
+									.setDescription(`Your ${app.itemdata[item].icon}\`${item}\` was listed with the ID: \`${listingId}\`.`)
+									.setColor(9043800)
+
+								return confirmed.respond({
+									content: 'Success!',
+									embeds: [successEmbed.embed],
+									components: []
+								})
 							}
 
 							botMessage.delete()
 						}
 						catch (e) {
-							botMessage.edit({ content: '❌ You didn\'t react in time!', embed: null })
+							await botMessage.edit({
+								content: '❌ Command timed out.',
+								embed: null,
+								components: []
+							})
 						}
 					}
 				})

@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../resources/constants')
+
 exports.command = {
 	name: 'jackpot',
 	aliases: [],
@@ -36,13 +38,21 @@ exports.command = {
 			return message.reply(`Woah there high roller, you cannot gamble more than ${app.common.formatNumber(50000)} on jackpot.`)
 		}
 
-		const botMessage = await message.reply(`You are about to start a server jackpot with an entry of: ${app.common.formatNumber(gambleAmount)}\nAre you sure?`)
+		const botMessage = await message.reply({
+			content: `You are about to start a server jackpot with an entry of: ${app.common.formatNumber(gambleAmount)}\nAre you sure?`,
+			components: BUTTONS.confirmation
+		})
 
 		try {
-			const result = await app.react.getConfirmation(message.author.id, botMessage, 15000)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 			const verifyRow = await app.player.getRow(message.author.id, serverSideGuildId)
 
-			if (result && gambleAmount <= verifyRow.money) {
+			if (confirmed.customID === 'confirmed' && gambleAmount <= verifyRow.money) {
+				await confirmed.respond({
+					content: '**A jackpot has started!** A winner will be chosen in `2 minutes`.',
+					components: []
+				})
+
 				startJackpot(app, message, prefix, gambleAmount, serverSideGuildId)
 			}
 			else {
@@ -50,7 +60,10 @@ exports.command = {
 			}
 		}
 		catch (err) {
-			botMessage.edit('You didn\'t react in time!')
+			botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }
@@ -65,7 +78,6 @@ async function startJackpot(app, message, prefix, gambleAmount, serverSideGuildI
             m.content.toLowerCase().startsWith(`${prefix}join`), { time: 120000 })
 
 		jackpotObj[message.author.id] = { name: message.author.username, amount: gambleAmount }
-		message.channel.createMessage('**A jackpot has started! A winner will be chosen in `2 minutes`**')
 		message.channel.createMessage(refreshEmbed(app, jackpotObj, prefix))
 
 		await app.player.removeMoney(message.author.id, gambleAmount, serverSideGuildId)

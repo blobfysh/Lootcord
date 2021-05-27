@@ -1,4 +1,4 @@
-const { RULES } = require('../../resources/constants')
+const { RULES, BUTTONS } = require('../../resources/constants')
 
 const ordinals = {
 	0: 'first',
@@ -51,12 +51,15 @@ exports.command = {
 			return message.reply(`❌ **${user.username}#${user.discriminator}** has already been warned **2**+ times. It is time to \`ban\`, \`tradeban\` or \`tempban\` this user.`)
 		}
 
-		const botMessage = await message.reply(`Warn **${user.username}#${user.discriminator}** for **${RULES[rule].desc}**? This will be their **${ordinals[warnings.length]}** warning.`)
+		const botMessage = await message.reply({
+			content: `Warn **${user.username}#${user.discriminator}** for **${RULES[rule].desc}**? This will be their **${ordinals[warnings.length]}** warning.`,
+			components: BUTTONS.confirmation
+		})
 
 		try {
-			const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-			if (confirmed) {
+			if (confirmed.customID === 'confirmed') {
 				const warnMsg = new app.Embed()
 					.setTitle(`You have been warned by ${`${message.author.username}#${message.author.discriminator}`}`)
 					.setDescription(`You have been warned for breaking rules. Future offenses will result in a ban.\`\`\`\n${RULES[rule].warn_message}\`\`\`\n${
@@ -67,10 +70,17 @@ exports.command = {
 				try {
 					await app.query('INSERT INTO warnings (userId, modId, reason, date) VALUES (?, ?, ?, ?)', [userID, message.author.id, RULES[rule].warn_message, new Date().getTime()])
 					await app.common.messageUser(userID, warnMsg, { throwErr: true })
-					botMessage.edit(`Successfully warned **${user.username}#${user.discriminator}**.`)
+
+					await confirmed.respond({
+						content: `Successfully warned **${user.username}#${user.discriminator}**.`,
+						components: []
+					})
 				}
 				catch (err) {
-					botMessage.edit(`Unable to send message to user, a warning was still saved. \`\`\`js\n${err}\`\`\``)
+					await confirmed.respond({
+						content: `Unable to send message to user, a warning was still saved. \`\`\`js\n${err}\`\`\``,
+						components: []
+					})
 				}
 			}
 			else {
@@ -79,7 +89,10 @@ exports.command = {
 		}
 		catch (err) {
 			console.log(err)
-			botMessage.edit('❌ Timed out.')
+			await botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }

@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../resources/constants')
+
 exports.command = {
 	name: 'craft',
 	aliases: [],
@@ -33,17 +35,24 @@ exports.command = {
 				.setColor('#818181')
 				.setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/601372871301791755/craft.png')
 
-			const botMessage = await message.channel.createMessage({ content: `<@${message.author.id}>`, embed: embedInfo.embed })
+			const botMessage = await message.channel.createMessage({
+				content: `<@${message.author.id}>`,
+				embed: embedInfo.embed,
+				components: BUTTONS.confirmation
+			})
 
 			try {
-				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+				const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-				if (confirmed) {
+				if (confirmed.customID === 'confirmed') {
 					const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 					const itemCt = await app.itm.getItemCount(userItems, row)
 
 					if (app.itemdata[craftItem].isBanner && itemCt.bannerCt + craftAmount > 100) {
-						botMessage.edit('❌ **Crafting that will put you over the banner limit!** (100)')
+						await confirmed.respond({
+							content: '❌ **Crafting that will put you over the banner limit!** (100)',
+							components: []
+						})
 					}
 					else if (await app.itm.hasItems(userItems, itemMats)) {
 						const xpReward = app.itemdata[craftItem].craftedWith.xpReward * craftAmount
@@ -53,7 +62,11 @@ exports.command = {
 
 						embedInfo.setColor(9043800)
 						embedInfo.setDescription(`Successfully crafted **${craftAmount}x** ${app.itemdata[craftItem].icon}\`${craftItem}\` (\`⭐ ${xpReward} XP EARNED\`)`)
-						botMessage.edit(embedInfo)
+
+						await confirmed.respond({
+							embeds: [embedInfo.embed],
+							components: []
+						})
 					}
 					else {
 						const needed = []
@@ -68,7 +81,11 @@ exports.command = {
 
 						embedInfo.setColor(16734296)
 						embedInfo.setDescription(`You are missing the required materials for this item:\n\n${app.itm.getDisplay(needed).join('\n')}`)
-						botMessage.edit(embedInfo)
+
+						await confirmed.respond({
+							embeds: [embedInfo.embed],
+							components: []
+						})
 					}
 				}
 				else {
@@ -79,7 +96,11 @@ exports.command = {
 				const errorEmbed = new app.Embed()
 					.setColor(16734296)
 					.setDescription('❌ Command timed out.')
-				botMessage.edit(errorEmbed)
+
+				botMessage.edit({
+					embed: errorEmbed.embed,
+					components: []
+				})
 			}
 		}
 		else {

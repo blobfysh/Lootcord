@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../resources/constants')
+
 exports.command = {
 	name: 'clankick',
 	aliases: [],
@@ -39,22 +41,31 @@ exports.command = {
 		const clanRow = await app.clans.getRow(userRow.clanId)
 
 		if (app.clan_ranks[userRow.clanRank].title === 'Leader') {
-			const botMessage = await message.reply(`Kicking **${user.username}#${user.discriminator}** will disband \`${clanRow.name}\`. Continue?`)
+			const botMessage = await message.reply({
+				content: `Kicking **${user.username}#${user.discriminator}** will disband \`${clanRow.name}\`. Continue?`,
+				components: BUTTONS.confirmation
+			})
 
 			try {
-				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+				const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-				if (confirmed) {
+				if (confirmed.customID === 'confirmed') {
 					app.clans.disbandClan(userRow.clanId)
 
-					botMessage.edit(`✅ Successfully disbanded \`${clanRow.name}\`.`)
+					await confirmed.respond({
+						content: `✅ Successfully disbanded \`${clanRow.name}\`.`,
+						components: []
+					})
 				}
 				else {
 					botMessage.delete()
 				}
 			}
 			catch (err) {
-				botMessage.edit('❌ Timed out.')
+				await botMessage.edit({
+					content: '❌ Command timed out.',
+					components: []
+				})
 			}
 		}
 		else {

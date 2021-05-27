@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../../resources/constants')
+
 const MEMBER_LIMIT = 20
 
 exports.command = {
@@ -38,36 +40,54 @@ exports.command = {
 			return message.reply(`❌ Your clan has the max limit of members! (${MEMBER_LIMIT}/${MEMBER_LIMIT})`)
 		}
 
-		const botMessage = await message.channel.createMessage(`<@${user.id}>, ${message.member.nick || message.member.username} invited you to join the clan: \`${clanRow.name}\`. Do you accept?`)
+		const botMessage = await message.channel.createMessage({
+			content: `<@${user.id}>, ${message.member.nick || message.member.username} invited you to join the clan: \`${clanRow.name}\`. Do you accept?`,
+			components: BUTTONS.confirmation
+		})
 
 		try {
-			const confirmed = await app.react.getConfirmation(user.id, botMessage)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-			if (confirmed) {
+			if (confirmed.customID === 'confirmed') {
 				const invitedScoreRow2 = await app.player.getRow(user.id)
 				const memberCount = (await app.clans.getMembers(scoreRow.clanId)).count
 
 				if (!invitedScoreRow2) {
-					return botMessage.edit(`<@${user.id}>, you don't have an account.`)
+					return confirmed.respond({
+						content: `<@${user.id}>, you don't have an account.`,
+						components: []
+					})
 				}
 				else if (invitedScoreRow2.clanId !== 0) {
-					return botMessage.edit(`<@${user.id}>, you are already in a clan!`)
+					return confirmed.respond({
+						content: `<@${user.id}>, you are already in a clan!`,
+						components: []
+					})
 				}
 				else if (memberCount >= MEMBER_LIMIT) {
-					return botMessage.edit(`The clan has hit the max limit of members! (${MEMBER_LIMIT}/${MEMBER_LIMIT})`)
+					return confirmed.respond({
+						content: `The clan has hit the max limit of members! (${MEMBER_LIMIT}/${MEMBER_LIMIT})`,
+						components: []
+					})
 				}
 
 				await joinClan(app, user.id, clanRow.clanId)
 				await app.clans.addLog(clanRow.clanId, `${user.username} joined (inv. by ${message.author.username})`)
 
-				botMessage.edit(`<@${user.id}>, You are now a member of \`${clanRow.name}\`\n\nView your clan information with \`${prefix}clan info\` and check the inventory with \`${prefix}clan inv\`.`)
+				await confirmed.respond({
+					content: `<@${user.id}>, You are now a member of \`${clanRow.name}\`\n\nView your clan information with \`${prefix}clan info\` and check the inventory with \`${prefix}clan inv\`.`,
+					components: []
+				})
 			}
 			else {
 				botMessage.delete()
 			}
 		}
 		catch (err) {
-			botMessage.edit('You didn\'t react in time.')
+			await botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }

@@ -1,4 +1,4 @@
-const { RULES } = require('../../resources/constants')
+const { RULES, BUTTONS } = require('../../resources/constants')
 
 exports.command = {
 	name: 'ban',
@@ -39,12 +39,15 @@ exports.command = {
 		const warnings = await app.query(`SELECT * FROM warnings WHERE userId = '${userID}'`)
 		const user = await app.common.fetchUser(userID, { cacheIPC: false })
 
-		const botMessage = await message.reply(`**${user.username}#${user.discriminator}** currently has **${warnings.length}** warnings on record. Continue ban for **${RULES[rule].desc}**?`)
+		const botMessage = await message.reply({
+			content: `**${user.username}#${user.discriminator}** currently has **${warnings.length}** warnings on record. Continue ban for **${RULES[rule].desc}**?`,
+			components: BUTTONS.confirmation
+		})
 
 		try {
-			const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-			if (confirmed) {
+			if (confirmed.customID === 'confirmed') {
 				const banMsg = new app.Embed()
 					.setTitle(`You have been banned by ${`${message.author.username}#${message.author.discriminator}`}`)
 					.setDescription(`You have been banned for breaking rules. If you wish to challenge this ban, you can appeal at our website.\`\`\`\n${RULES[rule].warn_message}\`\`\``)
@@ -56,10 +59,17 @@ exports.command = {
 					await app.cache.setNoExpire(`banned|${userID}`, 'Banned perma')
 
 					await app.common.messageUser(userID, banMsg, { throwErr: true })
-					botMessage.edit(`Successfully banned **${user.username}#${user.discriminator}**.`)
+
+					await confirmed.respond({
+						content: `Successfully banned **${user.username}#${user.discriminator}**.`,
+						components: []
+					})
 				}
 				catch (err) {
-					botMessage.edit(`Unable to send message to user, they were still banned. \`\`\`js\n${err}\`\`\``)
+					await confirmed.respond({
+						content: `Unable to send message to user, they were still banned. \`\`\`js\n${err}\`\`\``,
+						components: []
+					})
 				}
 			}
 			else {
@@ -67,7 +77,10 @@ exports.command = {
 			}
 		}
 		catch (err) {
-			botMessage.edit('❌ Timed out.')
+			await botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }

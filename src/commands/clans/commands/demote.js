@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../../resources/constants')
+
 exports.command = {
 	name: 'demote',
 	aliases: [],
@@ -46,28 +48,40 @@ exports.command = {
 			return message.reply('You cannot demote members of equal or higher rank!')
 		}
 
-		const botMessage = await message.channel.createMessage(`Demote **${member.username}#${member.discriminator}** to \`${app.clan_ranks[invitedScoreRow.clanRank - 1].title}\`? They will **LOSE** these permissions:\n\`\`\`${app.clan_ranks[invitedScoreRow.clanRank].perms.join('\n')}\`\`\``)
+		const botMessage = await message.channel.createMessage({
+			content: `Demote **${member.username}#${member.discriminator}** to \`${app.clan_ranks[invitedScoreRow.clanRank - 1].title}\`? They will **LOSE** these permissions:\n\`\`\`${app.clan_ranks[invitedScoreRow.clanRank].perms.join('\n')}\`\`\``,
+			components: BUTTONS.confirmation
+		})
 
 		try {
-			const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-			if (confirmed) {
+			if (confirmed.customID === 'confirmed') {
 				const invitedScoreRow2 = await app.player.getRow(member.id)
 
 				if (invitedScoreRow2.clanId !== invitedScoreRow.clanId || invitedScoreRow2.clanRank !== invitedScoreRow.clanRank || app.clan_ranks[invitedScoreRow2.clanRank].title === 'Recruit') {
-					return botMessage.edit('❌ Error demoting member, try again?')
+					return confirmed.respond({
+						content: '❌ Error demoting member, try again?',
+						components: []
+					})
 				}
 
 				await app.query(`UPDATE scores SET clanRank = ${invitedScoreRow2.clanRank - 1} WHERE userId = ${member.id}`)
 
-				botMessage.edit(`Demoted **${member.username}#${member.discriminator}** to rank \`${app.clan_ranks[invitedScoreRow2.clanRank - 1].title}\``)
+				await confirmed.respond({
+					content: `Demoted **${member.username}#${member.discriminator}** to rank \`${app.clan_ranks[invitedScoreRow2.clanRank - 1].title}\``,
+					components: []
+				})
 			}
 			else {
 				botMessage.delete()
 			}
 		}
 		catch (err) {
-			botMessage.edit('You didn\'t react in time.')
+			await botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }

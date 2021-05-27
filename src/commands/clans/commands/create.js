@@ -1,4 +1,5 @@
 const Filter = require('bad-words')
+const { BUTTONS } = require('../../../resources/constants')
 const filter = new Filter()
 const CREATION_COST = 10000
 
@@ -45,35 +46,54 @@ exports.command = {
 			return message.reply(`❌ You need at least ${app.common.formatNumber(CREATION_COST)} to create a clan! You only have ${app.common.formatNumber(scoreRow.money)}.\n\nCome back when you've racked up some more money...`)
 		}
 
-		const botMessage = await message.channel.createMessage(`**📤 Cost: ${app.common.formatNumber(CREATION_COST)}**\n\nCreate clan with the tag: \`${clanName}\`?`)
+		const botMessage = await message.channel.createMessage({
+			content: `**📤 Cost: ${app.common.formatNumber(CREATION_COST)}**\n\nCreate clan with the tag: \`${clanName}\`?`,
+			components: BUTTONS.confirmation
+		})
 
 		try {
-			const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-			if (confirmed) {
+			if (confirmed.customID === 'confirmed') {
 				const scoreRow2 = (await app.query(`SELECT * FROM scores WHERE userId = ${message.author.id}`))[0]
 				const clanRow2 = await app.clans.searchClanRow(clanName)
 
 				if (scoreRow2.clanId !== 0) {
-					return message.reply('❌ You are already in a clan!')
+					return confirmed.respond({
+						content: '❌ You are already in a clan!',
+						components: []
+					})
 				}
 				else if (scoreRow2.money < CREATION_COST) {
-					return message.reply(`❌ You need at least ${app.common.formatNumber(CREATION_COST)} to create a clan! You only have ${app.common.formatNumber(scoreRow2.money)}.\n\nCome back when you've racked up some more money...`)
+					return confirmed.respond({
+						content: `❌ You need at least ${app.common.formatNumber(CREATION_COST)} to create a clan! You only have ${app.common.formatNumber(scoreRow2.money)}.\n\nCome back when you've racked up some more money...`,
+						components: []
+					})
 				}
 				else if (clanRow2) {
-					return message.reply('❌ A clan with that tag already exists!')
+					return confirmed.respond({
+						content: '❌ A clan with that tag already exists!',
+						components: []
+					})
 				}
 
 				await app.player.removeMoney(message.author.id, CREATION_COST)
 				createClan(app, clanName, message.author.id)
-				botMessage.edit(`Congratulations! You are now the proud leader of the \`${clanName}\` clan!\n\nView your clan information with \`${prefix}clan info\` and check the inventory with \`${prefix}clan inv\`.`)
+
+				await confirmed.respond({
+					content: `Congratulations! You are now the proud leader of the \`${clanName}\` clan!\n\nView your clan information with \`${prefix}clan info\` and check the inventory with \`${prefix}clan inv\`.`,
+					components: []
+				})
 			}
 			else {
 				botMessage.delete()
 			}
 		}
 		catch (err) {
-			botMessage.edit('You didn\'t react in time.')
+			await botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }

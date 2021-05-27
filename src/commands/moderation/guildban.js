@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../resources/constants')
+
 exports.command = {
 	name: 'guildban',
 	aliases: ['banguild'],
@@ -35,12 +37,15 @@ exports.command = {
 
 		if (!fetchedGuildInfo) return message.reply('❌ I am not in a guild with that ID.')
 
-		const botMessage = await message.reply(`Ban and remove Lootcord from **${fetchedGuildInfo.name}**?`)
+		const botMessage = await message.reply({
+			content: `Ban and remove Lootcord from **${fetchedGuildInfo.name}**?`,
+			components: BUTTONS.confirmation
+		})
 
 		try {
-			const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-			if (confirmed) {
+			if (confirmed.customID === 'confirmed') {
 				try {
 					await app.query('INSERT INTO bannedguilds (guildId, reason, date) VALUES (?, ?, ?)', [guildID, reason, new Date().getTime()])
 					await app.cache.setNoExpire(`guildbanned|${guildID}`, 'Banned perma')
@@ -49,10 +54,16 @@ exports.command = {
 						guildId: guildID
 					})
 
-					botMessage.edit(`Successfully banned guild **${fetchedGuildInfo.name}**.`)
+					await confirmed.respond({
+						content: `Successfully banned guild **${fetchedGuildInfo.name}**.`,
+						components: []
+					})
 				}
 				catch (err) {
-					botMessage.edit(`Error banning guild: \`\`\`js\n${err}\`\`\``)
+					await confirmed.respond({
+						content: `Error banning guild: \`\`\`js\n${err}\`\`\``,
+						components: []
+					})
 				}
 			}
 			else {
@@ -60,7 +71,10 @@ exports.command = {
 			}
 		}
 		catch (err) {
-			botMessage.edit('❌ Timed out.')
+			await botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }

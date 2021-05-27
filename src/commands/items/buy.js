@@ -1,4 +1,5 @@
 const shortid = require('shortid')
+const { BUTTONS } = require('../../resources/constants')
 
 exports.command = {
 	name: 'buy',
@@ -19,7 +20,6 @@ exports.command = {
 
 		if (buyItem) {
 			const sale = (await app.query('SELECT * FROM sales WHERE item = ?', buyItem))[0]
-			const currency = sale ? 'money' : app.itemdata[buyItem].buy.currency
 			const itemPrice = sale ? sale.price : app.itemdata[buyItem].buy.amount
 
 			if (itemPrice === undefined) {
@@ -28,73 +28,55 @@ exports.command = {
 
 			if (buyAmount > 20) buyAmount = 20
 
-			if (currency === 'money') {
-				const botMessage = await message.channel.createMessage(`Purchase ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\` for **${app.common.formatNumber(itemPrice * buyAmount)}**?`)
+			const botMessage = await message.channel.createMessage({
+				content: `Purchase ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\` for **${app.common.formatNumber(itemPrice * buyAmount)}**?`,
+				components: BUTTONS.confirmation
+			})
 
-				try {
-					const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+			try {
+				const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-					if (confirmed) {
-						const row = await app.player.getRow(message.author.id, serverSideGuildId)
-						const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id, serverSideGuildId), row)
-						const hasSpace = await app.itm.hasSpace(itemCt, buyAmount)
+				if (confirmed.customID === 'confirmed') {
+					const row = await app.player.getRow(message.author.id, serverSideGuildId)
+					const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id, serverSideGuildId), row)
+					const hasSpace = await app.itm.hasSpace(itemCt, buyAmount)
 
-						if (row.money < itemPrice * buyAmount) {
-							return botMessage.edit(`You don't have enough scrap for that purchase! You only have **${app.common.formatNumber(row.money)}**.`)
-						}
-						else if (!hasSpace && !app.itemdata[buyItem].isBanner) {
-							return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${buyAmount}** open slot${buyAmount > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
-						}
-						else if (app.itemdata[buyItem].isBanner && itemCt.bannerCt + buyAmount > 100) {
-							return botMessage.edit('❌ **Buying that will put you over the banner limit!** (100)')
-						}
-
-						await app.player.removeMoney(message.author.id, itemPrice * buyAmount, serverSideGuildId)
-						await app.itm.addItem(message.author.id, buyItem, buyAmount, serverSideGuildId)
-
-						botMessage.edit(`Successfully bought ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\`!\n\nYou now have ${app.common.formatNumber(row.money - (itemPrice * buyAmount))}.`)
+					if (row.money < itemPrice * buyAmount) {
+						return confirmed.respond({
+							content: `❌ You don't have enough scrap! You only have **${app.common.formatNumber(row.money)}**`,
+							components: []
+						})
 					}
-					else {
-						botMessage.delete()
+					else if (!hasSpace && !app.itemdata[buyItem].isBanner) {
+						return confirmed.respond({
+							content: `❌ **You don't have enough space in your inventory!** (You need **${buyAmount}** open slot${buyAmount > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`,
+							components: []
+						})
 					}
+					else if (app.itemdata[buyItem].isBanner && itemCt.bannerCt + buyAmount > 100) {
+						return confirmed.respond({
+							content: '❌ **Buying that will put you over the banner limit!** (100)',
+							components: []
+						})
+					}
+
+					await app.player.removeMoney(message.author.id, itemPrice * buyAmount, serverSideGuildId)
+					await app.itm.addItem(message.author.id, buyItem, buyAmount, serverSideGuildId)
+
+					await confirmed.respond({
+						content: `Successfully bought ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\`!\n\nYou now have ${app.common.formatNumber(row.money - (itemPrice * buyAmount))}.`,
+						components: []
+					})
 				}
-				catch (err) {
-					botMessage.edit('You ran out of time.')
+				else {
+					botMessage.delete()
 				}
 			}
-			else {
-				const botMessage = await message.channel.createMessage(`Purchase ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\` for ${`${itemPrice * buyAmount}x ${app.itemdata[currency].icon}\`${currency}\``}?`)
-
-				try {
-					const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
-
-					if (confirmed) {
-						// if user bought 3 rocks at 5 tokens each, they would need 3 - 15 = -12 space in their inventory
-						// if they had 20/10 slots at time of purchasing, this would return true because 20 - 12 = 8/10 slots
-						const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
-						const itemCt = await app.itm.getItemCount(userItems, await app.player.getRow(message.author.id, serverSideGuildId))
-						const hasItems = await app.itm.hasItems(userItems, currency, itemPrice * buyAmount)
-						const hasSpace = await app.itm.hasSpace(itemCt, buyAmount - (buyAmount * itemPrice))
-
-						if (!hasItems) {
-							return botMessage.edit(`You are missing the following items needed to purchase this: ${itemPrice * buyAmount}x ${app.itemdata[currency].icon}\`${currency}\``)
-						}
-						if (!hasSpace) {
-							return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${buyAmount - (buyAmount * itemPrice)}** open slot${buyAmount - (buyAmount * itemPrice) > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
-						}
-
-						await app.itm.removeItem(message.author.id, currency, itemPrice * buyAmount, serverSideGuildId)
-						await app.itm.addItem(message.author.id, buyItem, buyAmount, serverSideGuildId)
-
-						botMessage.edit(`Successfully bought ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\`!`)
-					}
-					else {
-						botMessage.delete()
-					}
-				}
-				catch (err) {
-					botMessage.edit('You ran out of time.')
-				}
+			catch (err) {
+				botMessage.edit({
+					content: 'You ran out of time.',
+					components: []
+				})
 			}
 		}
 		else if (shortid.isValid(args[0]) && await app.bm.getListingInfo(args[0])) {
@@ -114,27 +96,42 @@ exports.command = {
 			}
 
 			const listInfo = await app.bm.getListingInfo(buyItem)
-			const botMessage = await message.channel.createMessage(`Purchase ${listInfo.amount}x ${app.itemdata[listInfo.item].icon}\`${listInfo.item}\` for **${app.common.formatNumber(listInfo.price)}**?`)
+			const botMessage = await message.channel.createMessage({
+				content: `Purchase ${listInfo.amount}x ${app.itemdata[listInfo.item].icon}\`${listInfo.item}\` for **${app.common.formatNumber(listInfo.price)}**?`,
+				components: BUTTONS.confirmation
+			})
 
 			try {
-				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+				const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-				if (confirmed) {
+				if (confirmed.customID === 'confirmed') {
 					const row = await app.player.getRow(message.author.id)
 					const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id), row)
 					const hasSpace = await app.itm.hasSpace(itemCt, listInfo.amount)
 
 					if (row.money < listInfo.price) {
-						return botMessage.edit(`❌ You don't have enough scrap! You only have **${app.common.formatNumber(row.money)}**`)
+						return confirmed.respond({
+							content: `❌ You don't have enough scrap! You only have **${app.common.formatNumber(row.money)}**`,
+							components: []
+						})
 					}
 					if (!hasSpace) {
-						return botMessage.edit(`❌ **You don't have enough space in your inventory!** (You need **${listInfo.amount}** open slot${listInfo.amount > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
+						return confirmed.respond({
+							content: `❌ **You don't have enough space in your inventory!** (You need **${listInfo.amount}** open slot${listInfo.amount > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`,
+							components: []
+						})
 					}
 					if (!await app.bm.getListingInfo(listInfo.listingId)) {
-						return botMessage.edit('❌ That listing already sold!')
+						return confirmed.respond({
+							content: '❌ That listing already sold!',
+							components: []
+						})
 					}
 					if (row.bmLimit >= 10) {
-						return botMessage.edit('❌ You are limited to purchasing **10** black market listings a day. This limit is to prevent players from purchasing all items on the market.')
+						return confirmed.respond({
+							content: '❌ You are limited to purchasing **10** black market listings a day. This limit is to prevent players from purchasing all items on the market.',
+							components: []
+						})
 					}
 
 					app.bm.soldItem(listInfo)
@@ -180,7 +177,10 @@ exports.command = {
 
 					app.messager.messageLogs(bmLogEmbed)
 
-					botMessage.edit(`Successfully bought ${listInfo.amount}x ${app.itemdata[listInfo.item].icon}\`${listInfo.item}\`!`)
+					await confirmed.respond({
+						content: `Successfully bought ${listInfo.amount}x ${app.itemdata[listInfo.item].icon}\`${listInfo.item}\`!`,
+						components: []
+					})
 				}
 				else {
 					botMessage.delete()
@@ -188,7 +188,10 @@ exports.command = {
 			}
 			catch (err) {
 				console.log(err)
-				botMessage.edit('You ran out of time.')
+				botMessage.edit({
+					content: 'You ran out of time.',
+					components: []
+				})
 			}
 		}
 		else {

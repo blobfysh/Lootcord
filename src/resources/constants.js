@@ -155,9 +155,32 @@ const PERMISSIONS = {
 	readMessageHistory: 'Read Message History'
 }
 
+const BUTTONS = {
+	confirmation: [
+		{
+			type: 1,
+			components: [
+				{
+					type: 2,
+					label: 'Confirm',
+					style: 3,
+					custom_id: 'confirmed'
+				},
+				{
+					type: 2,
+					label: 'Cancel',
+					style: 4,
+					custom_id: 'canceled'
+				}
+			]
+		}
+	]
+}
+
 module.exports = {
 	ITEM_TYPES,
 	RULES,
 	PERMISSIONS,
-	CLANS
+	CLANS,
+	BUTTONS
 }

@@ -58,12 +58,31 @@ exports.command = {
 			return message.reply(`❌ **${user.nick || user.username}** is blinded by a ${app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`!`)
 		}
 
-		const botMessage = await message.channel.createMessage(`<@${user.id}>, **${message.member.nick || message.member.username}** would like to trade with you!`)
+		const botMessage = await message.reply({
+			content: `<@${user.id}>, **${message.member.nick || message.member.username}** would like to trade with you!`,
+			components: [{
+				type: 1,
+				components: [
+					{
+						type: 2,
+						label: 'Accept',
+						custom_id: 'confirmed',
+						style: 3
+					},
+					{
+						type: 2,
+						label: 'Decline',
+						custom_id: 'canceled',
+						style: 4
+					}
+				]
+			}]
+		})
 
 		try {
-			const confirmed = await app.react.getConfirmation(user.id, botMessage)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === user.id))[0]
 
-			if (confirmed) {
+			if (confirmed.customID === 'confirmed') {
 				const player1Collector = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 180000 })
 				const player2Collector = app.msgCollector.createUserCollector(user.id, message.channel.id, m => m.author.id === user.id, { time: 180000 })
 
@@ -106,69 +125,81 @@ exports.command = {
 						app.msgCollector.stopCollector(player1Collector)
 						app.msgCollector.stopCollector(player2Collector)
 
+						let acceptedMessage
+						let declineMessage
+						let timeoutMessage
+
 						if (player === 1) {
-							const acceptMessage = await message.channel.createMessage(`<@${user.id}>, **${message.member.nick || message.member.username}** has accepted the trade! Do you accept?`)
-
-							try {
-								const accepted = await app.react.getConfirmation(user.id, acceptMessage)
-
-								if (accepted) {
-									try {
-										const player1Val = getValue(app, player1Money, player1Items)
-										const player2Val = getValue(app, player2Money, player2Items)
-
-										await tradeItems(app, message.member, player1Money, player1Items, user, player2Money, player2Items, serverSideGuildId)
-
-										acceptMessage.edit('✅ Trade completed!')
-
-										if (!serverSideGuildId) {
-											// only log trade if in global economy mode
-											tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, prefix, true), message.channel.guild.id, message.member, user, player1Val, player2Val, player1Items, player2Items)
-										}
-									}
-									catch (err) {
-										acceptMessage.edit(err.message)
-									}
-								}
-								else {
-									acceptMessage.edit(`❌ **${user.nick || user.username}** declined the trade.`)
-								}
-							}
-							catch (err) {
-								acceptMessage.edit(`❌ **${user.nick || user.username}** did not respond.`)
-							}
+							acceptedMessage = `<@${user.id}>, **${message.member.nick || message.member.username}** has accepted the trade! Do you accept?`
+							declineMessage = `❌ **${user.nick || user.username}** declined the trade.`
+							timeoutMessage = `❌ **${user.nick || user.username}** did not respond.`
 						}
 						else if (player === 2) {
-							const acceptMessage = await message.channel.createMessage(`<@${message.author.id}>, **${user.nick || user.username}** has accepted the trade! Do you accept?`)
+							acceptedMessage = `<@${message.author.id}>, **${user.nick || user.username}** has accepted the trade! Do you accept?`
+							declineMessage = `❌ **${message.member.nick || message.member.username}** declined the trade.`
+							timeoutMessage = `❌ **${message.member.nick || message.member.username}** did not respond.`
+						}
 
-							try {
-								const accepted = await app.react.getConfirmation(message.author.id, acceptMessage)
-
-								if (accepted) {
-									try {
-										const player1Val = getValue(app, player1Money, player1Items)
-										const player2Val = getValue(app, player2Money, player2Items)
-
-										await tradeItems(app, message.member, player1Money, player1Items, user, player2Money, player2Items, serverSideGuildId)
-
-										acceptMessage.edit('✅ Trade completed!')
-
-										if (!serverSideGuildId) {
-											// log trade when in global economy mode
-											tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, prefix, true), message.channel.guild.id, message.member, user, player1Val, player2Val, player1Items, player2Items)
-										}
+						const acceptMessage = await message.channel.createMessage({
+							content: acceptedMessage,
+							components: [{
+								type: 1,
+								components: [
+									{
+										type: 2,
+										label: 'Accept',
+										custom_id: 'confirmed',
+										style: 3
+									},
+									{
+										type: 2,
+										label: 'Decline',
+										custom_id: 'canceled',
+										style: 4
 									}
-									catch (err) {
-										acceptMessage.edit(err.message)
+								]
+							}]
+						})
+
+						try {
+							const accepted = (await app.btnCollector.awaitClicks(acceptMessage.id, i => i.user.id === (player === 1 ? user.id : message.author.id)))[0]
+
+							if (accepted.customID === 'confirmed') {
+								try {
+									const player1Val = getValue(app, player1Money, player1Items)
+									const player2Val = getValue(app, player2Money, player2Items)
+
+									await tradeItems(app, message.member, player1Money, player1Items, user, player2Money, player2Items, serverSideGuildId)
+
+									await accepted.respond({
+										content: '✅ Trade completed!',
+										components: []
+									})
+
+									if (!serverSideGuildId) {
+										// only log trade if in global economy mode
+										tradeCompleted(app, refreshWindow(app, message.member, player1Money, player1Items, user, player2Money, player2Items, prefix, true), message.channel.guild.id, message.member, user, player1Val, player2Val, player1Items, player2Items)
 									}
 								}
-								else {
-									acceptMessage.edit(`❌ **${message.member.nick || message.member.username}** declined the trade.`)
+								catch (err) {
+									await accepted.respond({
+										content: err.message,
+										components: []
+									})
 								}
 							}
-							catch (err) {
-								acceptMessage.edit(`❌ **${message.member.nick || message.member.username}** did not respond.`)
+							else {
+								await accepted.respond({
+									content: declineMessage,
+									components: []
+								})
 							}
+						}
+						catch (err) {
+							acceptMessage.edit({
+								content: timeoutMessage,
+								components: []
+							})
 						}
 					}
 					else if (command.toLowerCase() === 'addmoney') {
@@ -272,14 +303,24 @@ exports.command = {
 					}
 				}
 
-				message.channel.createMessage(refreshWindow(app, message.member, 0, [], user, 0, [], prefix))
+				await confirmed.respond({
+					content: 'Trade started',
+					embeds: [refreshWindow(app, message.member, 0, [], user, 0, [], prefix).embed],
+					components: []
+				})
 			}
 			else {
-				botMessage.edit(`❌ **${user.nick || user.username}** declined the trade.`)
+				botMessage.edit({
+					content: `❌ **${user.nick || user.username}** declined the trade.`,
+					components: []
+				})
 			}
 		}
 		catch (err) {
-			botMessage.edit(`❌ **${user.nick || user.username}** did not respond.`)
+			botMessage.edit({
+				content: `❌ **${user.nick || user.username}** did not respond.`,
+				components: []
+			})
 		}
 	}
 }

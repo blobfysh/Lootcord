@@ -1,4 +1,5 @@
 const shortid = require('shortid')
+const { BUTTONS } = require('../../resources/constants')
 
 exports.command = {
 	name: 'invwipe',
@@ -38,12 +39,15 @@ exports.command = {
 			banReason = 'No reason provided.'
 		}
 
-		const botMessage = await message.reply(`Wipe **${user.username}#${user.discriminator}**?`)
+		const botMessage = await message.reply({
+			content: `Wipe **${user.username}#${user.discriminator}**?`,
+			components: BUTTONS.confirmation
+		})
 
 		try {
-			const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-			if (confirmed) {
+			if (confirmed.customID === 'confirmed') {
 				const wipeId = shortid.generate()
 
 				await app.query('INSERT INTO wiped_data (wipeId, userId, item) SELECT ?, userId, item FROM user_items WHERE userId = ?', [wipeId, userID])
@@ -71,10 +75,16 @@ exports.command = {
 					app.messager.messageLogs(logMsg)
 					await app.common.messageUser(userID, invWipeMsg, { throwErr: true })
 
-					botMessage.edit(`Successfully wiped **${user.username}#${user.discriminator}**'s items and money. (Wipe ID: \`${wipeId}\`)`)
+					await confirmed.respond({
+						content: `Successfully wiped **${user.username}#${user.discriminator}**'s items and money. (Wipe ID: \`${wipeId}\`)`,
+						components: []
+					})
 				}
 				catch (err) {
-					botMessage.edit(`Unable to send message to user, their inventory was still wiped however. \`\`\`js\n${err}\`\`\``)
+					await confirmed.respond({
+						content: `Unable to send message to user, their inventory was still wiped however. \`\`\`js\n${err}\`\`\``,
+						components: []
+					})
 				}
 			}
 			else {
@@ -82,7 +92,10 @@ exports.command = {
 			}
 		}
 		catch (err) {
-			botMessage.edit('❌ Timed out.')
+			await botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }

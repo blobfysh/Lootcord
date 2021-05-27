@@ -1,4 +1,4 @@
-const { ITEM_TYPES } = require('../../resources/constants')
+const { ITEM_TYPES, BUTTONS } = require('../../resources/constants')
 
 exports.command = {
 	name: 'sellall',
@@ -38,11 +38,15 @@ exports.command = {
 				return message.reply(`❌ You don't have any **${ITEM_TYPES[sellItem.toLowerCase()].type}** items.`)
 			}
 
-			const botMessage = await message.reply(`Sell **${totalAmount}x** items (category: \`${ITEM_TYPES[sellItem.toLowerCase()].name}\`) for ${app.common.formatNumber(commonTotal)}?`)
-			try {
-				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+			const botMessage = await message.reply({
+				content: `Sell **${totalAmount}x** items (category: \`${ITEM_TYPES[sellItem.toLowerCase()].name}\`) for ${app.common.formatNumber(commonTotal)}?`,
+				components: BUTTONS.confirmation
+			})
 
-				if (confirmed) {
+			try {
+				const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
+
+				if (confirmed.customID === 'confirmed') {
 					const itemRow2 = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 
 					let testAmount = 0 // used to verify user didnt alter inventory while selling.
@@ -62,10 +66,16 @@ exports.command = {
 						}
 						await app.player.addMoney(message.author.id, parseInt(commonTotal), serverSideGuildId)
 
-						botMessage.edit(`Successfully sold all ${ITEM_TYPES[sellItem.toLowerCase()].name}.\n\nYou now have ${app.common.formatNumber(row.money + commonTotal)}.`)
+						await confirmed.respond({
+							content: `Successfully sold all ${ITEM_TYPES[sellItem.toLowerCase()].name}.\n\nYou now have ${app.common.formatNumber(row.money + commonTotal)}.`,
+							components: []
+						})
 					}
 					else {
-						botMessage.edit('❌ Sellall failed. Your inventory was altered during the sale.')
+						await confirmed.respond({
+							content: '❌ Sellall failed. Your inventory was altered during the sale.',
+							components: []
+						})
 					}
 				}
 				else {
@@ -73,7 +83,10 @@ exports.command = {
 				}
 			}
 			catch (err) {
-				botMessage.edit('❌ Command timed out.')
+				botMessage.edit({
+					content: '❌ Command timed out.',
+					components: []
+				})
 			}
 		}
 		else if (sellItem === '') {
@@ -96,12 +109,15 @@ exports.command = {
 				return message.reply('❌ You don\'t have any items you can sell.')
 			}
 
-			const botMessage = await message.reply(`Sell ${totalAmount}x items for ${app.common.formatNumber(commonTotal)}?`)
+			const botMessage = await message.reply({
+				content: `Sell ${totalAmount}x items for ${app.common.formatNumber(commonTotal)}?`,
+				components: BUTTONS.confirmation
+			})
 
 			try {
-				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+				const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-				if (confirmed) {
+				if (confirmed.customID === 'confirmed') {
 					const itemRow2 = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 
 					let testAmount = 0
@@ -121,10 +137,16 @@ exports.command = {
 
 						await app.player.addMoney(message.author.id, parseInt(commonTotal), serverSideGuildId)
 
-						botMessage.edit(`Successfully sold all items.\n\nYou now have ${app.common.formatNumber(row.money + commonTotal)}.`)
+						await confirmed.respond({
+							content: `Successfully sold all items.\n\nYou now have ${app.common.formatNumber(row.money + commonTotal)}.`,
+							components: []
+						})
 					}
 					else {
-						botMessage.edit('❌ Sellall failed. Your inventory was altered during the sale.')
+						await confirmed.respond({
+							content: '❌ Sellall failed. Your inventory was altered during the sale.',
+							components: []
+						})
 					}
 				}
 				else {
@@ -132,7 +154,10 @@ exports.command = {
 				}
 			}
 			catch (err) {
-				botMessage.edit('You didn\'t react in time.')
+				botMessage.edit({
+					content: '❌ Command timed out.',
+					components: []
+				})
 			}
 		}
 		else {

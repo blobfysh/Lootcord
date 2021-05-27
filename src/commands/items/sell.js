@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../resources/constants')
+
 exports.command = {
 	name: 'sell',
 	aliases: [],
@@ -43,25 +45,37 @@ exports.command = {
 				sellPrice += app.itemdata[itemAmnt[0]].sell * parseInt(itemAmnt[1])
 			}
 
-			const botMessage = await message.reply(`Sell ${app.itm.getDisplay(itemAmounts).join(', ')} for ${app.common.formatNumber(sellPrice)}?`)
+			const botMessage = await message.reply({
+				content: `Sell ${app.itm.getDisplay(itemAmounts).join(', ')} for ${app.common.formatNumber(sellPrice)}?`,
+				components: BUTTONS.confirmation
+			})
 
 			try {
-				const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+				const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-				if (confirmed) {
+				if (confirmed.customID === 'confirmed') {
 					const userItems2 = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 
 					for (let i = 0; i < itemAmounts.length; i++) {
 						const itemAmnt = itemAmounts[i].split('|')
 
 						if (app.itemdata[itemAmnt[0]].sell === '') {
-							return botMessage.edit(`❌ You can't sell ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`'s!`)
+							return confirmed.respond({
+								content: `❌ You can't sell ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`'s!`,
+								components: []
+							})
 						}
 						else if (!userItems2[itemAmnt[0]]) {
-							return botMessage.edit(`❌ You don't have a ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`.`)
+							return confirmed.respond({
+								content: `❌ You don't have a ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`.`,
+								components: []
+							})
 						}
 						else if (userItems2[itemAmnt[0]] < itemAmnt[1]) {
-							return botMessage.edit(`❌ You only have **${userItems2[itemAmnt[0]]}x** ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`.`)
+							return confirmed.respond({
+								content: `❌ You only have **${userItems2[itemAmnt[0]]}x** ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`.`,
+								components: []
+							})
 						}
 					}
 
@@ -69,14 +83,20 @@ exports.command = {
 					app.itm.removeItem(message.author.id, itemAmounts, null, serverSideGuildId)
 					app.player.addMoney(message.author.id, sellPrice, serverSideGuildId)
 
-					botMessage.edit(`Successfully sold ${app.itm.getDisplay(itemAmounts).join(', ')} for ${app.common.formatNumber(sellPrice)}.\n\nYou now have ${app.common.formatNumber(row.money + sellPrice)}.`)
+					await confirmed.respond({
+						content: `Successfully sold ${app.itm.getDisplay(itemAmounts).join(', ')} for ${app.common.formatNumber(sellPrice)}.\n\nYou now have ${app.common.formatNumber(row.money + sellPrice)}.`,
+						components: []
+					})
 				}
 				else {
 					botMessage.delete()
 				}
 			}
 			catch (err) {
-				botMessage.edit('You didn\'t react in time.')
+				botMessage.edit({
+					content: 'You didn\'t react in time.',
+					components: []
+				})
 			}
 		}
 		else if (sellItems[0]) {
@@ -96,24 +116,34 @@ exports.command = {
 					sellAmount = 30
 				}
 
-				const botMessage = await message.reply(`Sell ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(itemPrice * sellAmount)}?`)
+				const botMessage = await message.reply({
+					content: `Sell ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(itemPrice * sellAmount)}?`,
+					components: BUTTONS.confirmation
+				})
 
 				try {
-					const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+					const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-					if (confirmed) {
+					if (confirmed.customID === 'confirmed') {
 						const vUserItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 						const vHasItems = await app.itm.hasItems(vUserItems, sellItem, sellAmount)
 
 						if (vHasItems) {
 							const row = await app.player.getRow(message.author.id, serverSideGuildId)
 
-							app.player.addMoney(message.author.id, parseInt(itemPrice * sellAmount), serverSideGuildId)
-							app.itm.removeItem(message.author.id, sellItem, sellAmount, serverSideGuildId)
-							botMessage.edit(`Successfully sold ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(itemPrice * sellAmount)}.\n\nYou now have ${app.common.formatNumber(row.money + (itemPrice * sellAmount))}.`)
+							await app.player.addMoney(message.author.id, parseInt(itemPrice * sellAmount), serverSideGuildId)
+							await app.itm.removeItem(message.author.id, sellItem, sellAmount, serverSideGuildId)
+
+							await confirmed.respond({
+								content: `Successfully sold ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(itemPrice * sellAmount)}.\n\nYou now have ${app.common.formatNumber(row.money + (itemPrice * sellAmount))}.`,
+								components: []
+							})
 						}
 						else {
-							botMessage.edit(vUserItems[sellItem] ? `❌ You don't have enough of that item! You have **${vUserItems[sellItem]}x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.` : `❌ You don't have a ${app.itemdata[sellItem].icon}\`${sellItem}\`.`)
+							await confirmed.respond({
+								content: vUserItems[sellItem] ? `❌ You don't have enough of that item! You have **${vUserItems[sellItem]}x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.` : `❌ You don't have a ${app.itemdata[sellItem].icon}\`${sellItem}\`.`,
+								components: []
+							})
 						}
 					}
 					else {
@@ -121,7 +151,10 @@ exports.command = {
 					}
 				}
 				catch (err) {
-					botMessage.edit('You didn\'t react in time.')
+					botMessage.edit({
+						content: 'You didn\'t react in time.',
+						components: []
+					})
 				}
 			}
 			else {

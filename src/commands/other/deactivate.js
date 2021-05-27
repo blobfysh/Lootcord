@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../resources/constants')
+
 exports.command = {
 	name: 'deactivate',
 	aliases: [],
@@ -19,24 +21,35 @@ exports.command = {
 
 		else if (attackCD) return message.reply('You can\'t deactivate while you have an attack cooldown!')
 
-		const botMessage = await message.reply('Deactivating your account will prevent you from using commands or being targeted in **this** server.\n\n**Are you sure?**')
+		const botMessage = await message.reply({
+			content: 'Deactivating your account will prevent you from using commands or being targeted in **this** server.\n\n**Are you sure?**',
+			components: BUTTONS.confirmation
+		})
 
 		try {
-			const result = await app.react.getConfirmation(message.author.id, botMessage, 15000)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-			if (result) {
+			if (confirmed.customID === 'confirmed') {
 				const attackCDAfter = await app.cd.getCD(message.author.id, 'attack', { serverSideGuildId })
 
-				if (attackCDAfter) return botMessage.edit('You can\'t deactivate while you have an attack cooldown!')
+				if (attackCDAfter) {
+					return confirmed.respond({
+						content: 'You can\'t deactivate while you have an attack cooldown!',
+						components: []
+					})
+				}
 
 				// All checks passed, deactivate account
 				await app.player.deactivate(message.author.id, message.channel.guild.id)
 
-				botMessage.edit('Your account has been disabled on this server')
+				await confirmed.respond({
+					content: 'Your account has been disabled on this server.',
+					components: []
+				})
 
 				if (Object.keys(app.config.activeRoleGuilds).includes(message.channel.guild.id)) {
 					try {
-						message.member.removeRole(app.config.activeRoleGuilds[message.channel.guild.id].activeRoleID)
+						await message.member.removeRole(app.config.activeRoleGuilds[message.channel.guild.id].activeRoleID)
 					}
 					catch (err) {
 						console.warn('Failed to remove active role.')
@@ -48,7 +61,10 @@ exports.command = {
 			}
 		}
 		catch (err) {
-			botMessage.edit('You didn\'t react in time!')
+			botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }

@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../resources/constants')
+
 const resetData = {
 	money: 100,
 	backpack: '"none"',
@@ -33,26 +35,35 @@ exports.command = {
 	guildModsOnly: true,
 
 	async execute(app, message, { args, prefix, guildInfo, serverSideGuildId }) {
-		const botMessage = await message.reply('Are you sure you want to wipe everyone in the server? Cooldowns will remain unaffected.')
+		const botMessage = await message.reply({
+			content: 'Are you sure you want to wipe everyone in the server? Cooldowns will remain unaffected.',
+			components: BUTTONS.confirmation
+		})
 
 		try {
-			const result = await app.react.getConfirmation(message.author.id, botMessage, 15000)
+			const result = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-			if (result) {
+			if (result.customID === 'confirmed') {
 				// server-side economies
 				await app.query(`UPDATE server_scores SET ${Object.keys(resetData).map(key => `${key} = ${resetData[key]}`).join(', ')} WHERE guildId = ?`, [serverSideGuildId])
 				await app.query('DELETE FROM server_user_items WHERE guildId = ?', [serverSideGuildId])
 				await app.query('DELETE FROM server_stats WHERE guildId = ?', [serverSideGuildId])
 				await app.query('DELETE FROM server_badges WHERE guildId = ?', [serverSideGuildId])
 
-				await botMessage.edit('✅ Server data has been wiped!')
+				await result.respond({
+					content: '✅ Server data has been wiped!',
+					components: []
+				})
 			}
 			else {
 				await botMessage.delete()
 			}
 		}
 		catch (err) {
-			await botMessage.edit('You didn\'t react in time!')
+			await botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }

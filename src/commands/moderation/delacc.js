@@ -1,3 +1,5 @@
+const { BUTTONS } = require('../../resources/constants')
+
 exports.command = {
 	name: 'delacc',
 	aliases: [],
@@ -36,16 +38,22 @@ exports.command = {
 		const warnings = await app.query(`SELECT * FROM warnings WHERE userId = '${userID}'`)
 		const user = await app.common.fetchUser(userID, { cacheIPC: false })
 
-		const botMessage = await message.reply(`**${user.username}#${user.discriminator}** currently has **${warnings.length}** warnings on record. Continue delete?`)
+		const botMessage = await message.reply({
+			content: `**${user.username}#${user.discriminator}** currently has **${warnings.length}** warnings on record. Continue delete?`,
+			components: BUTTONS.confirmation
+		})
 
 		try {
 			const userRow2 = await app.player.getRow(userID)
 			const serverSideRows2 = await app.query('SELECT * FROM server_scores WHERE userId = ?', userID)
-			const confirmed = await app.react.getConfirmation(message.author.id, botMessage)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-			if (confirmed) {
+			if (confirmed.customID === 'confirmed') {
 				if (!userRow2 && !serverSideRows2.length) {
-					return message.reply('❌ User has no account.')
+					return confirmed.respond({
+						content: '❌ User has no account.',
+						components: []
+					})
 				}
 
 				if (userRow2) {
@@ -71,7 +79,10 @@ exports.command = {
 					await app.query(`DELETE FROM server_badges WHERE userId ="${userID}"`)
 				}
 
-				botMessage.edit(`Successfully deleted **${user.username}#${user.discriminator}**'s account data.`)
+				await confirmed.respond({
+					content: `Successfully deleted **${user.username}#${user.discriminator}**'s account data.`,
+					components: []
+				})
 
 				const deleteEmbed = new app.Embed()
 					.setTitle('⛔ Account Deleted by Moderators')
@@ -90,7 +101,10 @@ exports.command = {
 			}
 		}
 		catch (err) {
-			botMessage.edit('❌ Timed out.')
+			await botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }
