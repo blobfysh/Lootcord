@@ -18,7 +18,7 @@ exports.command = {
 
 		allItems.sort((a, b) => app.itemdata[a].buy.amount - app.itemdata[b].buy.amount)
 
-		app.react.paginate(message, await generatePages(app, allItems, prefix, max_items_per_page, serverSideGuildId))
+		app.btnCollector.paginate(message, await generatePages(app, allItems, prefix, max_items_per_page, serverSideGuildId))
 	}
 }
 

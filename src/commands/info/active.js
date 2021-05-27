@@ -74,7 +74,7 @@ exports.command = {
 				pages.push(page)
 			}
 
-			app.react.paginate(message, pages)
+			app.btnCollector.paginate(message, pages)
 		}
 		else {
 			const page = getEmbedPage(app, guildUsers, clans, 1, usersPerPage)

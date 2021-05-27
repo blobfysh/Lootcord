@@ -149,7 +149,7 @@ exports.command = {
 			message.channel.createMessage(embedItem)
 		}
 		else if (!itemChoice) {
-			app.react.paginate(message, generatePages(app, itemsArraySorted, prefix))
+			app.btnCollector.paginate(message, generatePages(app, itemsArraySorted, prefix))
 		}
 		else {
 			message.reply(`I don't recognize that item. Use \`${prefix}items\` to see a full list!`)

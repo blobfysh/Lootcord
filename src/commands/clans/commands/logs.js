@@ -26,7 +26,7 @@ exports.command = {
 				return message.channel.createMessage(generatePages(app, logs, clanRow.name)[0])
 			}
 
-			app.react.paginate(message, generatePages(app, logs, clanRow.name), 30000)
+			app.btnCollector.paginate(message, generatePages(app, logs, clanRow.name), 30000)
 		}
 		else if (user) {
 			const invitedScoreRow = (await app.query(`SELECT * FROM scores WHERE userId = ${user.id}`))[0]
@@ -45,7 +45,7 @@ exports.command = {
 				return message.channel.createMessage(generatePages(app, logs, clanRow.name)[0])
 			}
 
-			app.react.paginate(message, generatePages(app, logs, clanRow.name), 30000)
+			app.btnCollector.paginate(message, generatePages(app, logs, clanRow.name), 30000)
 		}
 		else {
 			const clanName = args.join(' ')
@@ -61,7 +61,7 @@ exports.command = {
 				return message.channel.createMessage(generatePages(app, logs, clanRow.name)[0])
 			}
 
-			app.react.paginate(message, generatePages(app, logs, clanRow.name), 30000)
+			app.btnCollector.paginate(message, generatePages(app, logs, clanRow.name), 30000)
 		}
 	}
 }

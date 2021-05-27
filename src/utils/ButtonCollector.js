@@ -61,13 +61,16 @@ class ButtonCollector {
 
 		this.collectors.push(collectorObj)
 
-		return collectorObj.collector
+		return {
+			collector: collectorObj.collector,
+			stopCollector: () => { this.stopCollector(collectorObj) }
+		}
 	}
 
 	awaitClicks(messageId, filter, options = { time: 15000, maxMatches: 1 }) {
 		options.maxMatches = options.maxMatches || 1
 
-		const collector = this.createCollector(messageId, filter, options)
+		const { collector } = this.createCollector(messageId, filter, options)
 
 		return new Promise((resolve, reject) => {
 			collector.once('end', val => {
@@ -78,6 +81,113 @@ class ButtonCollector {
 					reject(val)
 				}
 			})
+		})
+	}
+
+	async paginate(message, embeds, time = 60000) {
+		if (embeds.length === 1) {
+			return message.channel.createMessage(embeds[0])
+		}
+
+		let page = 0
+
+		embeds[0].setFooter(`Page 1/${embeds.length}`)
+
+		const previousButton = {
+			type: 2,
+			label: '⯇',
+			custom_id: 'previous',
+			style: 2
+		}
+		const nextButton = {
+			type: 2,
+			label: '⯈',
+			custom_id: 'next',
+			style: 2
+		}
+		const closeButton = {
+			type: 2,
+			label: '✖',
+			custom_id: 'closed',
+			style: 4
+		}
+
+		const botMessage = await message.channel.createMessage({
+			embed: embeds[0].embed,
+			components: [{
+				type: 1,
+				components: [
+					nextButton,
+					closeButton
+				]
+			}]
+		})
+
+		const { collector, stopCollector } = this.createCollector(botMessage.id, i => i.user.id === message.author.id, { time })
+
+		collector.on('collect', async i => {
+			try {
+				const components = []
+
+				if (i.customID === 'previous' && page !== 0) {
+					page--
+					embeds[page].setFooter(`Page ${page + 1}/${embeds.length}`)
+
+					if (page !== 0) {
+						components.push(previousButton)
+					}
+
+					components.push(nextButton, closeButton)
+
+					await i.respond({
+						embeds: [embeds[page].embed],
+						components: [{
+							type: 1,
+							components
+						}]
+					})
+				}
+				else if (i.customID === 'next' && page !== (embeds.length - 1)) {
+					page++
+					embeds[page].setFooter(`Page ${page + 1}/${embeds.length}`)
+
+					components.push(previousButton)
+
+					if (page !== (embeds.length - 1)) {
+						components.push(nextButton)
+					}
+
+					components.push(closeButton)
+
+					await i.respond({
+						embeds: [embeds[page].embed],
+						components: [{
+							type: 1,
+							components
+						}]
+					})
+				}
+				else if (i.customID === 'closed') {
+					await i.defer()
+
+					stopCollector()
+					await botMessage.delete()
+				}
+			}
+			catch (err) {
+				// continue
+			}
+		})
+
+		collector.on('end', msg => {
+			if (msg === 'time') {
+				embeds[page].setFooter(`Page ${page + 1} | Page buttons timed out`)
+
+				botMessage.edit({
+					embed: embeds[page].embed,
+					components: []
+				})
+			}
 		})
 	}
 

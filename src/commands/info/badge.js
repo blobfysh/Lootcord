@@ -38,7 +38,7 @@ exports.command = {
 			const badgeList = Object.keys(app.badgedata)
 
 			if (badgeList.length > BADGES_PER_PAGE) {
-				return app.react.paginate(message, generatePages(app, Object.keys(app.badgedata).sort(), BADGES_PER_PAGE))
+				return app.btnCollector.paginate(message, generatePages(app, Object.keys(app.badgedata).sort(), BADGES_PER_PAGE))
 			}
 
 			message.channel.createMessage(generatePages(app, badgeList, BADGES_PER_PAGE)[0])

@@ -27,10 +27,10 @@ exports.command = {
 				return
 			}
 
-			app.react.paginate(message, await generatePages(app, message.author, message.channel.guild.id, serverSideGuildId))
+			app.btnCollector.paginate(message, await generatePages(app, message.author, message.channel.guild.id, serverSideGuildId))
 		}
 		else {
-			app.react.paginate(message, await generatePages(app, memberArg, message.channel.guild.id, serverSideGuildId))
+			app.btnCollector.paginate(message, await generatePages(app, memberArg, message.channel.guild.id, serverSideGuildId))
 		}
 	}
 }

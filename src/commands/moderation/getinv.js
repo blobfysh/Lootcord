@@ -24,6 +24,6 @@ exports.command = {
 
 		const userInfo = await app.common.fetchUser(userID, { cacheIPC: false })
 
-		app.react.paginate(message, await generatePages(app, userInfo, message.channel.guild.id, undefined))
+		app.btnCollector.paginate(message, await generatePages(app, userInfo, message.channel.guild.id, undefined))
 	}
 }

@@ -21,7 +21,7 @@ exports.command = {
 			return message.reply('You are not a member of any clan! You can look up other clans by searching their name.')
 		}
 		else if (!args.length) {
-			app.react.paginate(message, await generatePages(app, scoreRow.clanId))
+			app.btnCollector.paginate(message, await generatePages(app, scoreRow.clanId))
 		}
 		else if (mentionedUser !== undefined) {
 			const mentionedScoreRow = await app.player.getRow(mentionedUser.id)
@@ -32,7 +32,7 @@ exports.command = {
 				return message.reply('❌ That user is not in a clan.')
 			}
 
-			app.react.paginate(message, await generatePages(app, mentionedScoreRow.clanId))
+			app.btnCollector.paginate(message, await generatePages(app, mentionedScoreRow.clanId))
 		}
 		else {
 			const clanName = args.join(' ')
@@ -42,7 +42,7 @@ exports.command = {
 				return message.reply('I could not find a clan with that name! Maybe you misspelled it?')
 			}
 
-			app.react.paginate(message, await generatePages(app, clanRow.clanId))
+			app.btnCollector.paginate(message, await generatePages(app, clanRow.clanId))
 		}
 	}
 }

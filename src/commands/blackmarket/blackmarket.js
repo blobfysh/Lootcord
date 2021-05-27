@@ -27,17 +27,17 @@ exports.command = {
 				return message.channel.createMessage(generateCategoryPages(app, prefix, listings, ITEM_TYPES[category.toLowerCase()].name)[0])
 			}
 
-			app.react.paginate(message, generateCategoryPages(app, prefix, listings, ITEM_TYPES[category.toLowerCase()].name), 30000)
+			app.btnCollector.paginate(message, generateCategoryPages(app, prefix, listings, ITEM_TYPES[category.toLowerCase()].name), 30000)
 		}
 		else if (item) {
-			const listings = await app.query('SELECT * FROM blackmarket WHERE itemName = ? ORDER BY pricePer ASC LIMIT 18', [item])
+			const listings = await app.query('SELECT * FROM blackmarket WHERE itemName = ? ORDER BY pricePer ASC LIMIT 27', [item])
 			const stats = (await app.query('SELECT AVG(price / quantity) AS averagePrice, SUM(quantity) AS amountSold FROM blackmarket_transactions WHERE itemName = ? AND soldDate > NOW() - INTERVAL 14 DAY', [item]))[0]
 
 			if (listings.length <= ITEMS_PER_PAGE) {
 				return message.channel.createMessage(generatePages(app, prefix, listings, stats, item)[0])
 			}
 
-			app.react.paginate(message, generatePages(app, prefix, listings, stats, item), 30000)
+			app.btnCollector.paginate(message, generatePages(app, prefix, listings, stats, item), 30000)
 		}
 		else {
 			const listings = await app.query('SELECT * FROM blackmarket ORDER BY RAND() LIMIT 9')

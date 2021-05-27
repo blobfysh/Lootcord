@@ -21,7 +21,7 @@ exports.command = {
 			return message.channel.createMessage(generatePages(app, message, listings)[0])
 		}
 
-		app.react.paginate(message, generatePages(app, message, listings), 30000)
+		app.btnCollector.paginate(message, generatePages(app, message, listings), 30000)
 	}
 }
 
