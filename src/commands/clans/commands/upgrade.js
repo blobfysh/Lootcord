@@ -1,4 +1,4 @@
-const { CLANS } = require('../../../resources/constants')
+const { CLANS, BUTTONS } = require('../../../resources/constants')
 const { reply } = require('../../../utils/messageUtils')
 
 exports.command = {
@@ -23,56 +23,86 @@ exports.command = {
 		const previousStats = CLANS.levels[clanRow.level]
 		const upgradedStats = CLANS.levels[clanRow.level + 1]
 
-		await reply(message, `Do you want to upgrade your clan base from **${previousStats.type}** to **${upgradedStats.type}**? ` +
-			`This will cost **${app.common.formatNumber(upgradedStats.cost.money)}** and ${app.itm.getDisplay(upgradedStats.cost.materials)}. The following will change:\n\n` +
-			`Max Health: ~~${previousStats.maxHealth}~~ ${app.icons.health.full} **${upgradedStats.maxHealth}**\n` +
-			`Item Storage: ~~${previousStats.itemLimit}~~ **${upgradedStats.itemLimit}** items max\n` +
-			`Scrap Storage: ~~${app.common.formatNumber(previousStats.bankLimit, true)}~~ **${app.common.formatNumber(upgradedStats.bankLimit)}**\n` +
-			`Upkeep Costs: ~~${app.common.formatNumber(previousStats.upkeep, true)}~~ **${app.common.formatNumber(upgradedStats.upkeep)}**\n\n` +
-			'Type `yes` to continue or `no` to cancel.')
-
-		const result = await app.msgCollector.awaitMessages(message.author.id, message.channel.id, m => m.author.id === message.author.id && ['yes', 'no'].includes(m.content.toLowerCase()))
-
-		if (result === 'time') {
-			return reply(message, 'You ran out of time.')
-		}
-		else if (result[0].content.toLowerCase() === 'no') {
-			return reply(result[0], 'Canceled upgrade.')
-		}
+		const botMessage = await reply(message, {
+			content: `Do you want to upgrade your clan base from **${previousStats.type}** to **${upgradedStats.type}**? ` +
+				`This will cost **${app.common.formatNumber(upgradedStats.cost.money)}** and ${app.itm.getDisplay(upgradedStats.cost.materials)}. The following will change:\n\n` +
+				`Max Health: ~~${previousStats.maxHealth}~~ ${app.icons.health.full} **${upgradedStats.maxHealth}**\n` +
+				`Item Storage: ~~${previousStats.itemLimit}~~ **${upgradedStats.itemLimit}** items max\n` +
+				`Scrap Storage: ~~${app.common.formatNumber(previousStats.bankLimit, true)}~~ **${app.common.formatNumber(upgradedStats.bankLimit)}**\n` +
+				`Upkeep Costs: ~~${app.common.formatNumber(previousStats.upkeep, true)}~~ **${app.common.formatNumber(upgradedStats.upkeep)}**`,
+			components: BUTTONS.confirmation
+		})
 
 		try {
-			const transaction = await app.mysql.beginTransaction()
-			const clanRowSafe = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId)
-			const clanItems = await app.itm.getItemObjectForUpdate(transaction.query, scoreRow.clanId)
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-			if (clanRow.level !== clanRowSafe.level) {
-				await transaction.commit()
-				return reply(result[0], '❌ Upgrade failed.')
-			}
-			else if (clanRowSafe.level === 5) {
-				await transaction.commit()
-				return reply(result[0], '❌ Upgrade failed.')
-			}
-			else if (clanRowSafe.money < upgradedStats.cost.money) {
-				await transaction.commit()
-				return reply(result[0], `❌ Your clan only has **${app.common.formatNumber(clanRowSafe.money)}**, you need **${app.common.formatNumber(upgradedStats.cost.money)}** to upgrade.`)
-			}
-			else if (!app.itm.hasItems(clanItems, upgradedStats.cost.materials)) {
-				await transaction.commit()
-				return reply(result[0], `❌ Your clan is missing the materials needed to upgrade. Make sure you deposit ${app.itm.getDisplay(upgradedStats.cost.materials)} in the clan item storage.`)
-			}
+			if (confirmed.customID === 'confirmed') {
+				try {
+					const transaction = await app.mysql.beginTransaction()
+					const clanRowSafe = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId)
+					const clanItems = await app.itm.getItemObjectForUpdate(transaction.query, scoreRow.clanId)
 
-			await app.clans.removeMoneySafely(transaction.query, scoreRow.clanId, upgradedStats.cost.money)
-			await app.itm.removeItemSafely(transaction.query, scoreRow.clanId, upgradedStats.cost.materials)
+					if (clanRow.level !== clanRowSafe.level) {
+						await transaction.commit()
 
-			await transaction.query('UPDATE clans SET level = level + 1, maxHealth = ? WHERE clanId = ?', [upgradedStats.maxHealth, scoreRow.clanId])
-			await transaction.commit()
+						return confirmed.respond({
+							content: '❌ Upgrade failed.',
+							components: []
+						})
+					}
+					else if (clanRowSafe.level === 5) {
+						await transaction.commit()
 
-			return reply(result[0], `✅ Successfully upgraded the clan to **${upgradedStats.type}**. Make sure to pay the daily upkeep!`)
+						return confirmed.respond({
+							content: '❌ Upgrade failed.',
+							components: []
+						})
+					}
+					else if (clanRowSafe.money < upgradedStats.cost.money) {
+						await transaction.commit()
+
+						return confirmed.respond({
+							content: `❌ Your clan only has **${app.common.formatNumber(clanRowSafe.money)}**. You need **${app.common.formatNumber(upgradedStats.cost.money)}** to upgrade.`,
+							components: []
+						})
+					}
+					else if (!app.itm.hasItems(clanItems, upgradedStats.cost.materials)) {
+						await transaction.commit()
+
+						return confirmed.respond({
+							content: `❌ Your clan is missing the materials needed to upgrade. Make sure you deposit ${app.itm.getDisplay(upgradedStats.cost.materials)} to the clan item storage.`,
+							components: []
+						})
+					}
+
+					await app.clans.removeMoneySafely(transaction.query, scoreRow.clanId, upgradedStats.cost.money)
+					await app.itm.removeItemSafely(transaction.query, scoreRow.clanId, upgradedStats.cost.materials)
+
+					await transaction.query('UPDATE clans SET level = level + 1, maxHealth = ? WHERE clanId = ?', [upgradedStats.maxHealth, scoreRow.clanId])
+					await transaction.commit()
+
+					return confirmed.respond({
+						content: `✅ Successfully upgraded the clan to **${upgradedStats.type}**. Make sure to pay the daily upkeep!`,
+						components: []
+					})
+				}
+				catch (err) {
+					console.log(err)
+					await confirmed.respond({
+						content: '❌ Upgrade failed.',
+						components: []
+					})
+				}
+			}
+			else {
+				await botMessage.delete()
+			}
 		}
 		catch (err) {
-			console.log(err)
-			await reply(result[0], '❌ Upgrade failed.')
+			await botMessage.edit({
+				content: '❌ Command timed out.',
+				components: []
+			})
 		}
 	}
 }
