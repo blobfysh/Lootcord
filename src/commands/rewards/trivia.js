@@ -48,7 +48,7 @@ exports.command = {
 			.setDescription(`🇦 ${decode(questionA)}\n🇧 ${decode(questionB)}\n🇨 ${decode(questionC)}\n🇩 ${decode(questionD)}`)
 			.addField('Reward', `${reward.display}`, true)
 			.addField('Trivia Streak', `${triviaStreak > 2 ? '🔥' : ''} **${triviaStreak}** in a row\nHigher streak = better reward`, true)
-			.setFooter('You have 20 seconds to answer. Type A, B, C, or D to pick.')
+			.setFooter('You have 20 seconds to answer.')
 
 		const botMessage = await reply(message, {
 			embed: embedTrivia.embed,

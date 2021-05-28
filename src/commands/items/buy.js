@@ -75,7 +75,7 @@ exports.command = {
 			}
 			catch (err) {
 				await botMessage.edit({
-					content: 'You ran out of time.',
+					content: '❌ Command timed out.',
 					components: []
 				})
 			}
@@ -190,7 +190,7 @@ exports.command = {
 			catch (err) {
 				console.log(err)
 				botMessage.edit({
-					content: 'You ran out of time.',
+					content: '❌ Command timed out.',
 					components: []
 				})
 			}

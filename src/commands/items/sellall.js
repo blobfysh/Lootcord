@@ -80,11 +80,11 @@ exports.command = {
 					}
 				}
 				else {
-					botMessage.delete()
+					await botMessage.delete()
 				}
 			}
 			catch (err) {
-				botMessage.edit({
+				await botMessage.edit({
 					content: '❌ Command timed out.',
 					components: []
 				})

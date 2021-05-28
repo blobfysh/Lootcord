@@ -53,7 +53,7 @@ exports.command = {
 				openStr = `You open **${amount}x** ${app.itemdata[item].icon}\`${item}\`'s and find:\n\n${app.itm.getDisplay(results.itemAmounts).join('\n')}\n\n...and \`⭐ ${results.xp} XP\`!`
 			}
 
-			message.channel.createMessage(`<@${message.author.id}>, ${openStr}`)
+			await message.channel.createMessage(`<@${message.author.id}>, ${openStr}`)
 		}
 		else {
 			return reply(message, '❌ That item cannot be opened.')

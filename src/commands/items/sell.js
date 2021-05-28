@@ -95,7 +95,7 @@ exports.command = {
 			}
 			catch (err) {
 				await botMessage.edit({
-					content: 'You didn\'t react in time.',
+					content: '❌ Command timed out.',
 					components: []
 				})
 			}
@@ -148,12 +148,12 @@ exports.command = {
 						}
 					}
 					else {
-						botMessage.delete()
+						await botMessage.delete()
 					}
 				}
 				catch (err) {
-					botMessage.edit({
-						content: 'You didn\'t react in time.',
+					await botMessage.edit({
+						content: '❌ Command timed out.',
 						components: []
 					})
 				}
