@@ -27,7 +27,7 @@ exports.command = {
 				return message.channel.createMessage(generateCategoryPages(app, prefix, listings, ITEM_TYPES[category.toLowerCase()].name)[0])
 			}
 
-			app.btnCollector.paginate(message, generateCategoryPages(app, prefix, listings, ITEM_TYPES[category.toLowerCase()].name), 30000)
+			app.btnCollector.paginate(message, generateCategoryPages(app, prefix, listings, ITEM_TYPES[category.toLowerCase()].name), 60000)
 		}
 		else if (item) {
 			const listings = await app.query('SELECT * FROM blackmarket WHERE itemName = ? ORDER BY pricePer ASC LIMIT 27', [item])
@@ -37,7 +37,7 @@ exports.command = {
 				return message.channel.createMessage(generatePages(app, prefix, listings, stats, item)[0])
 			}
 
-			app.btnCollector.paginate(message, generatePages(app, prefix, listings, stats, item), 30000)
+			app.btnCollector.paginate(message, generatePages(app, prefix, listings, stats, item), 60000)
 		}
 		else {
 			const listings = await app.query('SELECT * FROM blackmarket ORDER BY RAND() LIMIT 9')
@@ -49,7 +49,7 @@ exports.command = {
 
 			app.bm.displayListings(embed, listings)
 
-			message.channel.createMessage(embed)
+			await message.channel.createMessage(embed)
 		}
 	}
 }
@@ -67,7 +67,7 @@ function generatePages (app, prefix, listings, stats, item) {
 
 		const pageEmbed = new app.Embed()
 			.setTitle(`Black Market Listings for: ${app.itemdata[item].icon}${item}`)
-			.setDescription(`These listings were made by other players!\nPurchase one with \`${prefix}buy <Listing ID>\` command (ex. \`t-buy Jq0cG_YY\`)\n\n${statsPhrase}\n\n**Sorted lowest price to highest:**`)
+			.setDescription(`These listings were made by other players!\nPurchase one with \`${prefix}buy <Listing ID>\` command (ex. \`t-buy Jq0cG_YY\`)\n\n${statsPhrase}\n\n__**Sorted lowest price to highest:**__`)
 			.setColor(13451564)
 
 		app.bm.displayListings(pageEmbed, selectedListings)
@@ -89,7 +89,7 @@ function generateCategoryPages (app, prefix, listings, category) {
 
 		const pageEmbed = new app.Embed()
 			.setTitle(`Black Market Listings for: ${category}`)
-			.setDescription(`These listings were made by other players!\nPurchase one with \`${prefix}buy <Listing ID>\` command (ex. \`t-buy Jq0cG_YY\`)\n\n**Sorted lowest price to highest:**`)
+			.setDescription(`These listings were made by other players!\nPurchase one with \`${prefix}buy <Listing ID>\` command (ex. \`t-buy Jq0cG_YY\`)\n\n__**Sorted lowest price to highest:**__`)
 			.setColor(13451564)
 
 		app.bm.displayListings(pageEmbed, selectedListings)

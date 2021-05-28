@@ -1,4 +1,4 @@
-const BADGES_PER_PAGE = 20
+const BADGES_PER_PAGE = 10
 const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
@@ -61,7 +61,7 @@ function generatePages (app, badges, itemsPerPage) {
 
 		const pageEmbed = new app.Embed()
 			.setTitle('Badge List')
-			.setDescription(filteredBadges.sort().map(badge => `${app.badgedata[badge].icon} \`${badge}\``).join('\n'))
+			.setDescription(filteredBadges.sort().map((badge, badgeIndex) => `${(badgeIndex + 1) + (BADGES_PER_PAGE * (i - 1))}. ${app.badgedata[badge].icon} \`${badge}\``).join('\n'))
 			.setFooter('Use badge <badge> to see more information about a badge.')
 			.setColor(13451564)
 

@@ -53,7 +53,7 @@ const makeProfile = exports.makeProfile = async function makeProfile (app, user,
 		const bannersList = `**Equipped:** ${bannerIcon}\`${userRow.banner}\`\n${userItems.banners.join('\n')}`
 		let userStatus = 'Change your status with the `setstatus` command!'
 		let badgeList = ''
-		let healthStr = `**${userRow.health} / ${userRow.maxHealth}** HP${app.player.getHealthIcon(userRow.health, userRow.maxHealth, true)}`
+		let healthStr = `${app.player.getHealthIcon(userRow.health, userRow.maxHealth)} ${userRow.health} / ${userRow.maxHealth} HP`
 
 		if (userRow.bleed > 0) {
 			healthStr += `\n🩸 Bleeding: **${userRow.bleed}**`
@@ -79,19 +79,21 @@ const makeProfile = exports.makeProfile = async function makeProfile (app, user,
 
 		const profileEmbed = new app.Embed()
 			.setColor(13451564)
-			.setAuthor(`${user.username}#${user.discriminator}'s Profile`, app.common.getAvatar(user))
-			.setDescription(userStatus)
-			.addField('Clan', userRow.clanId !== 0 ? (await app.clans.getRow(userRow.clanId)).name : 'None', true)
-			.addField('Level', `${userRow.level} (${xp.curLvlXp} / ${xp.neededForLvl} XP)`, true)
-			.addField('K/D Ratio', userRow.deaths === 0 ? `${userRow.kills} Kills\n${userRow.deaths} Deaths (${userRow.kills} K/D)\n` : `${userRow.kills} Kills\n${userRow.deaths} Deaths (${(userRow.kills / userRow.deaths).toFixed(2)} K/D)`, true)
-			.addField('Trivia Stats', `Attempts: ${trivias}\nCorrect: ${triviasCorrect}`, true)
-			.addField('Scramble Stats', `Attempts: ${scrambles}\nCorrect: ${scramblesCorrect}`, true)
-			.addField('Health', healthStr, true)
-			.addField('Strength', `${parseFloat(userRow.scaledDamage).toFixed(2)}x damage`, true)
-			.addField('Luck', userRow.luck.toString(), true)
+			.setTitle(`${user.username}#${user.discriminator}'s Profile`)
+			.setThumbnail(app.common.getAvatar(user))
+			.setDescription(`${userStatus}\n\n` +
+				`**Clan**: ${userRow.clanId !== 0 ? `Member of \`${(await app.clans.getRow(userRow.clanId)).name}\`` : 'None'}\n` +
+				`**Level**: ${userRow.level}\n` +
+				`**XP**: ${xp.curLvlXp} / ${xp.neededForLvl} (${((xp.curLvlXp / xp.neededForLvl) * 100).toFixed(0)}%)\n` +
+				`**Kills / Deaths**: ${userRow.kills} / ${userRow.deaths} (${(userRow.kills / Math.max(userRow.deaths, 1)).toFixed(2)} K/D Ratio)\n` +
+				`**Trivia (Correct / Attempts)**: ${triviasCorrect} / ${trivias} (${((triviasCorrect / Math.max(trivias, 1)) * 100).toFixed(0)}%)\n` +
+				`**Scramble (Correct / Attempts)**: ${scramblesCorrect} / ${scrambles} (${((scramblesCorrect / Math.max(scrambles, 1)) * 100).toFixed(0)}%)`)
+			.addField('Upgrades', `Skills upgraded **${userRow.used_stats}** times.\n` +
+				`**Health**: ${healthStr}\n` +
+				`**Strength**: ${parseFloat(userRow.scaledDamage).toFixed(2)}x damage\n` +
+				`**Luck**: ${userRow.luck.toString()}`)
 			.addField('Banners', bannersList, true)
 			.addField('Badges', badgeList, true)
-			.setFooter(`🌟 Skills upgraded ${userRow.used_stats} times`)
 
 		if (userRow.banner !== 'none') {
 			profileEmbed.setImage(app.itemdata[userRow.banner].image)

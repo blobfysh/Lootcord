@@ -44,7 +44,7 @@ class BlackMarket {
 	displayListings (embed, listings) {
 		for (let i = 0; i < listings.length; i++) {
 			embed.addField(`${this.app.itemdata[listings[i].itemName].icon}\`${listings[i].itemName}\``,
-				`\`\`\`\nPrice: ${this.app.common.formatNumber(listings[i].price, true)}\nQuantity: ${listings[i].quantity}\nID: ${listings[i].listingId}\`\`\``,
+				`**Price**: ${this.app.common.formatNumber(listings[i].price)}\n**Quantity**: ${listings[i].quantity}\n**ID**: ${listings[i].listingId}`,
 				true)
 		}
 

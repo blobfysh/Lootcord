@@ -1,6 +1,6 @@
 const { ITEM_TYPES } = require('../../resources/constants')
 const { reply } = require('../../utils/messageUtils')
-const ITEMS_PER_PAGE = 15
+const ITEMS_PER_PAGE = 10
 
 exports.command = {
 	name: 'items',
@@ -182,33 +182,19 @@ function generatePages (app, items, prefix) {
 			.setDescription(`Use \`${prefix}item <item>\` to retrieve more information!`)
 
 		// item fields
-		if (items.ranged.slice(indexFirst, indexLast).length) {
-			embedInfo.addField(ITEM_TYPES.ranged.name, items.ranged.slice(indexFirst, indexLast).map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-		}
+		embedInfo.addField(ITEM_TYPES.ranged.name, items.ranged.slice(indexFirst, indexLast).map((item, itemI) => `${(itemI + 1) + (ITEMS_PER_PAGE * (i - 1))}. ${app.itemdata[item].icon}\`${item}\``).join('\n') || 'None on this page.', true)
 
-		if (items.melee.slice(indexFirst, indexLast).length) {
-			embedInfo.addField(ITEM_TYPES.melee.name, items.melee.slice(indexFirst, indexLast).map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-		}
+		embedInfo.addField(ITEM_TYPES.melee.name, items.melee.slice(indexFirst, indexLast).map((item, itemI) => `${(itemI + 1) + (ITEMS_PER_PAGE * (i - 1))}. ${app.itemdata[item].icon}\`${item}\``).join('\n') || 'None on this page.', true)
 
-		if (items.items.slice(indexFirst, indexLast).length) {
-			embedInfo.addField(ITEM_TYPES.items.name, items.items.slice(indexFirst, indexLast).map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-		}
+		embedInfo.addField(ITEM_TYPES.items.name, items.items.slice(indexFirst, indexLast).map((item, itemI) => `${(itemI + 1) + (ITEMS_PER_PAGE * (i - 1))}. ${app.itemdata[item].icon}\`${item}\``).join('\n') || 'None on this page.', true)
 
-		if (items.ammo.slice(indexFirst, indexLast).length) {
-			embedInfo.addField(ITEM_TYPES.ammo.name, items.ammo.slice(indexFirst, indexLast).map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-		}
+		embedInfo.addField(ITEM_TYPES.ammo.name, items.ammo.slice(indexFirst, indexLast).map((item, itemI) => `${(itemI + 1) + (ITEMS_PER_PAGE * (i - 1))}. ${app.itemdata[item].icon}\`${item}\``).join('\n') || 'None on this page.', true)
 
-		if (items.resources.slice(indexFirst, indexLast).length) {
-			embedInfo.addField(ITEM_TYPES.resources.name, items.resources.slice(indexFirst, indexLast).map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-		}
+		embedInfo.addField(ITEM_TYPES.resources.name, items.resources.slice(indexFirst, indexLast).map((item, itemI) => `${(itemI + 1) + (ITEMS_PER_PAGE * (i - 1))}. ${app.itemdata[item].icon}\`${item}\``).join('\n') || 'None on this page.', true)
 
-		if (items.storage.slice(indexFirst, indexLast).length) {
-			embedInfo.addField(ITEM_TYPES.storage.name, items.storage.slice(indexFirst, indexLast).map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-		}
+		embedInfo.addField(ITEM_TYPES.storage.name, items.storage.slice(indexFirst, indexLast).map((item, itemI) => `${(itemI + 1) + (ITEMS_PER_PAGE * (i - 1))}. ${app.itemdata[item].icon}\`${item}\``).join('\n') || 'None on this page.', true)
 
-		if (items.banners.slice(indexFirst, indexLast).length) {
-			embedInfo.addField(ITEM_TYPES.banners.name, items.banners.slice(indexFirst, indexLast).map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n'), true)
-		}
+		embedInfo.addField(ITEM_TYPES.banners.name, items.banners.slice(indexFirst, indexLast).map((item, itemI) => `${(itemI + 1) + (ITEMS_PER_PAGE * (i - 1))}. ${app.itemdata[item].icon}\`${item}\``).join('\n') || 'None on this page.', true)
 
 		messages.push(embedInfo)
 	}
