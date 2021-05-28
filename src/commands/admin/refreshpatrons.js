@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'refreshpatrons',
 	aliases: [],
@@ -13,7 +15,7 @@ exports.command = {
 
 	async execute (app, message, { args, prefix, guildInfo }) {
 		try {
-			if (message.channel.guild.id !== app.config.supportGuildID) return message.reply('This only works in the support guild!')
+			if (message.channel.guild.id !== app.config.supportGuildID) return reply(message, 'This only works in the support guild!')
 
 			const patrons = await app.query('SELECT * FROM patrons')
 			let removed = 0
@@ -35,10 +37,10 @@ exports.command = {
 				}
 			}
 
-			message.reply(`Removed **${removed}** expired patrons from DB.`)
+			await reply(message, `Removed **${removed}** expired patrons from DB.`)
 		}
 		catch (err) {
-			message.reply(`Error: \`\`\`\n${err}\`\`\``)
+			await reply(message, `Error: \`\`\`\n${err}\`\`\``)
 		}
 	}
 }

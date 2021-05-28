@@ -1,4 +1,5 @@
 const { RULES, BUTTONS } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 
 const ordinals = {
 	0: 'first',
@@ -29,29 +30,29 @@ exports.command = {
 		const rule = args[1]
 
 		if (message.channel.id !== app.config.modChannel) {
-			return message.reply('❌ You must be in the moderator channel to use this command.')
+			return reply(message, '❌ You must be in the moderator channel to use this command.')
 		}
 		else if (!userID) {
-			return message.reply('❌ You forgot to include a user ID.')
+			return reply(message, '❌ You forgot to include a user ID.')
 		}
 		else if (!rule || !Object.keys(RULES).includes(rule)) {
-			return message.reply('❌ You need to specify what rule was broken:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts\n**6** - False reports')
+			return reply(message, '❌ You need to specify what rule was broken:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts\n**6** - False reports')
 		}
 		else if (await app.cd.getCD(userID, 'mod')) {
-			return message.reply('Hey stop trying to warn a moderator!!! >:(')
+			return reply(message, 'Hey stop trying to warn a moderator!!! >:(')
 		}
 
 		const warnings = await app.query(`SELECT * FROM warnings WHERE userId = '${userID}'`)
 		const user = await app.common.fetchUser(userID, { cacheIPC: false })
 
 		if (!user) {
-			return message.reply('❌ A user with that ID does not exist!')
+			return reply(message, '❌ A user with that ID does not exist!')
 		}
 		else if (warnings.length >= 2) {
-			return message.reply(`❌ **${user.username}#${user.discriminator}** has already been warned **2**+ times. It is time to \`ban\`, \`tradeban\` or \`tempban\` this user.`)
+			return reply(message, `❌ **${user.username}#${user.discriminator}** has already been warned **2**+ times. It is time to \`ban\`, \`tradeban\` or \`tempban\` this user.`)
 		}
 
-		const botMessage = await message.reply({
+		const botMessage = await reply(message, {
 			content: `Warn **${user.username}#${user.discriminator}** for **${RULES[rule].desc}**? This will be their **${ordinals[warnings.length]}** warning.`,
 			components: BUTTONS.confirmation
 		})
@@ -84,7 +85,7 @@ exports.command = {
 				}
 			}
 			else {
-				botMessage.delete()
+				await botMessage.delete()
 			}
 		}
 		catch (err) {

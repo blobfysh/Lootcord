@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'findalts',
 	aliases: [],
@@ -46,10 +48,10 @@ exports.command = {
 				alts.addField(user, `This user is alone in ${userPool[user]} ${userPool[user] > 1 ? 'servers' : 'server'} with ${userInfo.username}`)
 			}
 
-			message.channel.createMessage(alts)
+			await message.channel.createMessage(alts)
 		}
 		catch (err) {
-			message.reply(`Error:\`\`\`${err}\`\`\``)
+			await reply(message, `Error:\`\`\`${err}\`\`\``)
 		}
 	}
 }

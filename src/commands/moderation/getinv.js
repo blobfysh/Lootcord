@@ -1,4 +1,5 @@
 const { generatePages } = require('../info/inventory')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'getinv',
@@ -19,7 +20,7 @@ exports.command = {
 		const userID = args[0]
 
 		if (!userID) {
-			return message.reply('❌ You forgot to include a user ID.')
+			return reply(message, '❌ You forgot to include a user ID.')
 		}
 
 		const userInfo = await app.common.fetchUser(userID, { cacheIPC: false })

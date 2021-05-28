@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'togglerandomattacks',
 	aliases: ['randomonly', 'togglerandomattack', 'togglerandattacks', 'togglerandattack', 'togglerandonly'],
@@ -15,12 +17,12 @@ exports.command = {
 		if (guildInfo.randomOnly === 0) {
 			await app.query(`UPDATE guildinfo SET randomOnly = 1 WHERE guildId = ${message.channel.guild.id}`)
 
-			message.reply('✅ This server is now in random-only mode.')
+			await reply(message, '✅ This server is now in random-only mode.')
 		}
 		else {
 			await app.query(`UPDATE guildinfo SET randomOnly = 0 WHERE guildId = "${message.channel.guild.id}"`)
 
-			message.reply('❌ Server no longer in random-only mode.')
+			await reply(message, '❌ Server no longer in random-only mode.')
 		}
 	}
 }

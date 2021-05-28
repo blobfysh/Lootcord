@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'message',
 	aliases: [],
@@ -19,13 +21,13 @@ exports.command = {
 		const messageIn = args.slice(1).join(' ')
 
 		if (message.channel.id !== app.config.modChannel) {
-			return message.reply('❌ You must be in the moderator channel to use this command.')
+			return reply(message, '❌ You must be in the moderator channel to use this command.')
 		}
 		else if (!userID) {
-			return message.reply('❌ You forgot to include a user ID.')
+			return reply(message, '❌ You forgot to include a user ID.')
 		}
 		else if (!messageIn) {
-			return message.reply('❌ You need to include a message. `message <id> <message>`.')
+			return reply(message, '❌ You need to include a message. `message <id> <message>`.')
 		}
 
 		const user = await app.common.fetchUser(userID, { cacheIPC: false })
@@ -51,10 +53,10 @@ exports.command = {
 		try {
 			await app.common.messageUser(userID, userMsg, { throwErr: true })
 
-			message.reply(`📨 Message sent to **${user.username}#${user.discriminator}**!`)
+			await reply(message, `📨 Message sent to **${user.username}#${user.discriminator}**!`)
 		}
 		catch (err) {
-			message.reply(`Error sending message:\`\`\`js\n${err}\`\`\``)
+			await reply(message, `Error sending message:\`\`\`js\n${err}\`\`\``)
 		}
 	}
 }

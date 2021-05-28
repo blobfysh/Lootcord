@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'cooldowns',
 	aliases: ['cooldown', 'cd'],
@@ -21,8 +23,7 @@ exports.command = {
 		if (!memberArg) {
 			// player was trying to search someone
 			if (args.length) {
-				message.reply('❌ Could not find anyone matching that description!\nYou can mention someone, use their Discord#tag, or type their user ID')
-				return
+				return reply(message, '❌ Could not find anyone matching that description!\nYou can mention someone, use their Discord#tag, or type their user ID')
 			}
 
 			await message.channel.createMessage(await getCooldowns(app, message.author, serverSideGuildId, prefix))

@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'changeclanstatus',
 	aliases: [],
@@ -18,19 +20,19 @@ exports.command = {
 		const statusToSet = message.cleanContent.slice(prefix.length).split(/ +/).slice(2).join(' ')
 
 		if (message.channel.id !== app.config.modChannel) {
-			return message.reply('❌ You must be in the moderator channel to use this command.')
+			return reply(message, '❌ You must be in the moderator channel to use this command.')
 		}
 		else if (!clanID) {
-			return message.reply('❌ You forgot to include a clan ID.')
+			return reply(message, '❌ You forgot to include a clan ID.')
 		}
 
 		try {
 			await app.query('UPDATE clans SET status = ? WHERE clanId = ?', [statusToSet, clanID])
 
-			message.reply(`✅ Successfully changed status of clan with ID \`${clanID}\` to: ${statusToSet}`)
+			await reply(message, `✅ Successfully changed status of clan with ID \`${clanID}\` to: ${statusToSet}`)
 		}
 		catch (err) {
-			message.reply(`Error:\`\`\`\n${err}\`\`\``)
+			await reply(message, `Error:\`\`\`\n${err}\`\`\``)
 		}
 	}
 }

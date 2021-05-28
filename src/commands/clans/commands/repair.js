@@ -1,4 +1,5 @@
 const { CLANS } = require('../../../resources/constants')
+const { reply } = require('../../../utils/messageUtils')
 
 exports.command = {
 	name: 'repair',
@@ -20,7 +21,7 @@ exports.command = {
 		let amount = app.parse.numbers(args)[0] || 1
 
 		if (clanRow.health >= clanRow.maxHealth) {
-			return message.reply('❌ Your clan is at max health, there\'s no need to repair it!')
+			return reply(message, '❌ Your clan is at max health, there\'s no need to repair it!')
 		}
 
 		// calculate max times clan can be repaired
@@ -28,17 +29,17 @@ exports.command = {
 
 		const maxRepair = Math.min(clanRow.maxHealth - clanRow.health, clanStats.repair.heals * amount)
 
-		await message.reply(`Do you want to repair the clan base from ${app.icons.health.full} **${clanRow.health} / ${clanRow.maxHealth}** to ${app.icons.health.full} **${clanRow.health + maxRepair} / ${clanRow.maxHealth}**? ` +
+		await reply(message, `Do you want to repair the clan base from ${app.icons.health.full} **${clanRow.health} / ${clanRow.maxHealth}** to ${app.icons.health.full} **${clanRow.health + maxRepair} / ${clanRow.maxHealth}**? ` +
 			`This will cost **${amount}x** ${app.itemdata[clanStats.repair.item].icon}\`${clanStats.repair.item}\`.\n\n` +
 			'Type `yes` to continue or `no` to cancel.')
 
 		const result = await app.msgCollector.awaitMessages(message.author.id, message.channel.id, m => m.author.id === message.author.id && ['yes', 'no'].includes(m.content.toLowerCase()))
 
 		if (result === 'time') {
-			return message.reply('You ran out of time.')
+			return reply(message, 'You ran out of time.')
 		}
 		else if (result[0].content.toLowerCase() === 'no') {
-			return result[0].reply('Canceled repair.')
+			return reply(result[0], 'Canceled repair.')
 		}
 
 		try {
@@ -48,15 +49,15 @@ exports.command = {
 
 			if (clanRow.health !== clanRowSafe.health) {
 				await transaction.commit()
-				return result[0].reply('❌ Repair failed.')
+				return reply(result[0], '❌ Repair failed.')
 			}
 			else if (clanRowSafe.health >= clanRowSafe.maxHealth) {
 				await transaction.commit()
-				return result[0].reply('❌ Your clan is at max health, there\'s no need to repair it!')
+				return reply(result[0], '❌ Your clan is at max health, there\'s no need to repair it!')
 			}
 			else if (!app.itm.hasItems(clanItems, clanStats.repair.item, amount)) {
 				await transaction.commit()
-				return result[0].reply(`❌ Your clan is missing the materials needed to repair. Make sure you deposit **${amount}x** ${app.itemdata[clanStats.repair.item].icon}\`${clanStats.repair.item}\` in the clan item storage.`)
+				return reply(result[0], `❌ Your clan is missing the materials needed to repair. Make sure you deposit **${amount}x** ${app.itemdata[clanStats.repair.item].icon}\`${clanStats.repair.item}\` in the clan item storage.`)
 			}
 
 			await app.itm.removeItemSafely(transaction.query, scoreRow.clanId, clanStats.repair.item, amount)
@@ -64,11 +65,11 @@ exports.command = {
 			await transaction.query('UPDATE clans SET health = health + ? WHERE clanId = ?', [maxRepair, scoreRow.clanId])
 			await transaction.commit()
 
-			return result[0].reply(`✅ Successfully repaired the clan from ${app.icons.health.full} **${clanRowSafe.health} / ${clanRowSafe.maxHealth}** to ${app.icons.health.full} **${clanRowSafe.health + maxRepair} / ${clanRowSafe.maxHealth}** health!`)
+			return reply(result[0], `✅ Successfully repaired the clan from ${app.icons.health.full} **${clanRowSafe.health} / ${clanRowSafe.maxHealth}** to ${app.icons.health.full} **${clanRowSafe.health + maxRepair} / ${clanRowSafe.maxHealth}** health!`)
 		}
 		catch (err) {
 			console.log(err)
-			await result[0].reply('❌ Repair failed.')
+			await reply(result[0], '❌ Repair failed.')
 		}
 	}
 }

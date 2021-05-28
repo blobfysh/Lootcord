@@ -1,5 +1,6 @@
 const shortid = require('shortid')
 const { BUTTONS } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'invwipe',
@@ -23,23 +24,23 @@ exports.command = {
 		let banReason = args.slice(1).join(' ')
 
 		if (message.channel.id !== app.config.modChannel) {
-			return message.reply('❌ You must be in the moderator channel to use this command.')
+			return reply(message, '❌ You must be in the moderator channel to use this command.')
 		}
 		else if (!userID) {
-			return message.reply('❌ You forgot to include a user ID.')
+			return reply(message, '❌ You forgot to include a user ID.')
 		}
 
 		const row = await app.player.getRow(userID)
 		const user = await app.common.fetchUser(userID, { cacheIPC: false })
 
 		if (!row) {
-			return message.reply('❌ User has no account.')
+			return reply(message, '❌ User has no account.')
 		}
 		if (!banReason || banReason === '') {
 			banReason = 'No reason provided.'
 		}
 
-		const botMessage = await message.reply({
+		const botMessage = await reply(message, {
 			content: `Wipe **${user.username}#${user.discriminator}**?`,
 			components: BUTTONS.confirmation
 		})
@@ -88,7 +89,7 @@ exports.command = {
 				}
 			}
 			else {
-				botMessage.delete()
+				await botMessage.delete()
 			}
 		}
 		catch (err) {

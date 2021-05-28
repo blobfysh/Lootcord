@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'toggleservereconomy',
 	aliases: [],
@@ -17,10 +19,10 @@ exports.command = {
 		const toggleCD = await app.cd.getCD(message.channel.guild.id, 'serversidetoggle')
 
 		if (toggleCD) {
-			return message.reply(`You must wait \`${toggleCD}\` before toggling server-side economy mode. This is because the command deactivates everyone in the server and would be abused if we didn't have this cooldown.`)
+			return reply(message, `You must wait \`${toggleCD}\` before toggling server-side economy mode. This is because the command deactivates everyone in the server and would be abused if we didn't have this cooldown.`)
 		}
 		else if (monsterSpawn) {
-			return message.reply('❌ You cannot toggle server-side economy while there is an enemy spawned. Try again after the enemy has been killed or leaves.')
+			return reply(message, '❌ You cannot toggle server-side economy while there is an enemy spawned. Try again after the enemy has been killed or leaves.')
 		}
 
 		if (Object.keys(app.config.activeRoleGuilds).includes(message.channel.guild.id)) {
@@ -43,12 +45,12 @@ exports.command = {
 		if (guildInfo.serverOnly === 0) {
 			await app.query(`UPDATE guildinfo SET serverOnly = 1 WHERE guildId = "${message.channel.guild.id}"`)
 
-			message.reply('✅ Server-side economy is now enabled!')
+			await reply(message, '✅ Server-side economy is now enabled!')
 		}
 		else {
 			await app.query(`UPDATE guildinfo SET serverOnly = 0 WHERE guildId = "${message.channel.guild.id}"`)
 
-			message.reply('✅ Server-side economy is now disabled!')
+			await reply(message, '✅ Server-side economy is now disabled!')
 		}
 	}
 }

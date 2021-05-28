@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'modhelp',
 	aliases: [],
@@ -18,7 +20,7 @@ exports.command = {
 			const command = args[0].toLowerCase()
 			const cmd = app.commands.find(c => c.name === command && c.category === 'moderation') || app.commands.find(c => c.aliases && c.aliases.includes(command) && c.category === 'moderation')
 
-			if (!cmd) return message.reply('❌ I don\'t recognize that moderator command.')
+			if (!cmd) return reply(message, '❌ I don\'t recognize that moderator command.')
 
 			const embed = new app.Embed()
 				.setTitle(`🔎 ${cmd.name}`)
@@ -41,7 +43,7 @@ exports.command = {
 			.setFooter(`To see more about a command, use ${prefix}modhelp <command>`)
 			.setColor('#ff7272')
 
-		message.channel.createMessage(embed)
+		await message.channel.createMessage(embed)
 	}
 }
 

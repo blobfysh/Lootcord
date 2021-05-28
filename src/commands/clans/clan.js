@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'clan',
 	aliases: ['clans'],
@@ -32,16 +34,16 @@ exports.command = {
 			}
 		}
 		else if (scoreRow.clanId === 0 && command.requiresClan) {
-			return message.reply('❌ That command requires that you are a member of a clan.')
+			return reply(message, '❌ That command requires that you are a member of a clan.')
 		}
 		else if (command.requiresActive && !await app.player.isActive(message.author.id, message.channel.guild.id)) {
 			return message.channel.createMessage(`❌ You need to activate before using that clan command here! Use \`${prefix}activate\` to activate.`)
 		}
 		else if (scoreRow.clanRank < command.minimumRank) {
-			return message.reply(`❌ Your clan rank is not high enough to use this command! Your rank: \`${app.clan_ranks[scoreRow.clanRank].title}\` Required: \`${app.clan_ranks[command.minimumRank].title}\`+`)
+			return reply(message, `❌ Your clan rank is not high enough to use this command! Your rank: \`${app.clan_ranks[scoreRow.clanRank].title}\` Required: \`${app.clan_ranks[command.minimumRank].title}\`+`)
 		}
 		else if (command.levelReq && scoreRow.level < command.levelReq) {
-			return message.reply(`❌ You must be at least level \`${command.levelReq}\` to use this command!`)
+			return reply(message, `❌ You must be at least level \`${command.levelReq}\` to use this command!`)
 		}
 
 		try {

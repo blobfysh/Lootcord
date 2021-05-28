@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'setprefix',
 	aliases: ['prefix'],
@@ -15,10 +17,10 @@ exports.command = {
 		let prefixString = args[0]
 
 		if (prefixString === undefined || prefixString === '' || prefixString.length > 5) {
-			return message.reply(`Please enter a prefix up to 5 characters long! \`${prefix}setprefix *****\``)
+			return reply(message, `Please enter a prefix up to 5 characters long! \`${prefix}setprefix *****\``)
 		}
 		else if (!/^[\w!$%^&*()\-+=~'";<>,.?|\\{}[\]:]+$/.test(prefixString)) {
-			return message.reply('❌ White space and some special characters (@, #, `) are not supported in prefixes.')
+			return reply(message, '❌ White space and some special characters (@, #, `) are not supported in prefixes.')
 		}
 
 		const prefixRow = (await app.query(`SELECT * FROM guildprefix WHERE guildId = "${message.channel.guild.id}"`))[0]
@@ -30,6 +32,6 @@ exports.command = {
 		await app.query('INSERT IGNORE INTO guildprefix (guildId, prefix) VALUES (?, ?)', [message.channel.guild.id, prefixString])
 		await app.cache.set(`prefix|${message.channel.guild.id}`, prefixString, 43200)
 
-		message.reply(`Server prefix successfully changed to \`${prefixString}\`. For example, you can now use \`${prefixString}help\``)
+		await reply(message, `Server prefix successfully changed to \`${prefixString}\`. For example, you can now use \`${prefixString}help\``)
 	}
 }

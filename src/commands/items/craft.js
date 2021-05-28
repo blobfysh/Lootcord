@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'craft',
@@ -20,10 +21,10 @@ exports.command = {
 
 		if (craftItem) {
 			if (app.itemdata[craftItem].craftedWith === '') {
-				return message.reply(`${app.itemdata[craftItem].icon}\`${craftItem}\` cannot be crafted!`)
+				return reply(message, `${app.itemdata[craftItem].icon}\`${craftItem}\` cannot be crafted!`)
 			}
 			else if (app.itemdata[craftItem].craftedWith.level > row.level) {
-				return message.reply(`❌ You must be at least level **${app.itemdata[craftItem].craftedWith.level}** to craft a ${app.itemdata[craftItem].icon}\`${craftItem}\`. You are only level **${row.level}**.`)
+				return reply(message, `❌ You must be at least level **${app.itemdata[craftItem].craftedWith.level}** to craft a ${app.itemdata[craftItem].icon}\`${craftItem}\`. You are only level **${row.level}**.`)
 			}
 
 			if (craftAmount > 20) craftAmount = 20
@@ -89,7 +90,7 @@ exports.command = {
 					}
 				}
 				else {
-					botMessage.delete()
+					await botMessage.delete()
 				}
 			}
 			catch (err) {
@@ -97,14 +98,14 @@ exports.command = {
 					.setColor(16734296)
 					.setDescription('❌ Command timed out.')
 
-				botMessage.edit({
+				await botMessage.edit({
 					embed: errorEmbed.embed,
 					components: []
 				})
 			}
 		}
 		else {
-			message.reply(`I don't recognize that item. \`${prefix}craft <item>\``)
+			await reply(message, `I don't recognize that item. \`${prefix}craft <item>\``)
 		}
 	}
 }

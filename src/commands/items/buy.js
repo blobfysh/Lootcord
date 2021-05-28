@@ -1,4 +1,5 @@
 const shortid = require('shortid')
+const { reply } = require('../../utils/messageUtils')
 const { BUTTONS } = require('../../resources/constants')
 
 exports.command = {
@@ -23,7 +24,7 @@ exports.command = {
 			const itemPrice = sale ? sale.price : app.itemdata[buyItem].buy.amount
 
 			if (itemPrice === undefined) {
-				return message.reply(`That item is not for sale, try checking the black market instead: \`${prefix}bm ${buyItem}\``)
+				return reply(message, `That item is not for sale, try checking the black market instead: \`${prefix}bm ${buyItem}\``)
 			}
 
 			if (buyAmount > 20) buyAmount = 20
@@ -73,7 +74,7 @@ exports.command = {
 				}
 			}
 			catch (err) {
-				botMessage.edit({
+				await botMessage.edit({
 					content: 'You ran out of time.',
 					components: []
 				})
@@ -83,16 +84,16 @@ exports.command = {
 			buyItem = args[0]
 
 			if (serverSideGuildId) {
-				return message.reply('❌ The black market is disabled for server-side economies.')
+				return reply(message, '❌ The black market is disabled for server-side economies.')
 			}
 			else if (await app.cd.getCD(message.author.id, 'tradeban')) {
-				return message.reply('❌ You are trade banned and cannot use the black market.')
+				return reply(message, '❌ You are trade banned and cannot use the black market.')
 			}
 			else if (Math.floor((message.author.id / 4194304) + 1420070400000) > Date.now() - (30 * 24 * 60 * 60 * 1000)) {
-				return message.reply('❌ Your Discord account must be at least 30 days old to use the black market! This helps us prevent alt abuse. 😭')
+				return reply(message, '❌ Your Discord account must be at least 30 days old to use the black market! This helps us prevent alt abuse. 😭')
 			}
 			else if ((await app.player.getRow(message.author.id)).bmLimit >= 10) {
-				return message.reply('❌ You are limited to purchasing **10** black market listings a day. This limit helps prevent a single player from purchasing all items on the market.')
+				return reply(message, '❌ You are limited to purchasing **10** black market listings a day. This limit helps prevent a single player from purchasing all items on the market.')
 			}
 
 			const listInfo = await app.bm.getListingInfo(buyItem)
@@ -195,7 +196,7 @@ exports.command = {
 			}
 		}
 		else {
-			message.reply(`You need to enter a valid item to buy! \`${prefix}buy <item> <amount>\``)
+			await reply(message, `You need to enter a valid item to buy! \`${prefix}buy <item> <amount>\``)
 		}
 	}
 }

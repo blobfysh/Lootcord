@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'roulette',
 	aliases: [],
@@ -21,23 +23,23 @@ exports.command = {
 		}
 
 		if (rouletteCD) {
-			return message.reply(`You need to wait  \`${rouletteCD}\`  before using this command again.`)
+			return reply(message, `You need to wait  \`${rouletteCD}\`  before using this command again.`)
 		}
 
 		if (row.health < 25) {
-			return message.reply(`⚠ You need at least **25 HP** to use the \`roulette\` command, you currently have ${app.player.getHealthIcon(row.health, row.maxHealth)} **${row.health} / ${row.maxHealth}**.`)
+			return reply(message, `⚠ You need at least **25 HP** to use the \`roulette\` command, you currently have ${app.player.getHealthIcon(row.health, row.maxHealth)} **${row.health} / ${row.maxHealth}**.`)
 		}
 
 		if (!gambleAmount || gambleAmount < 100) {
-			return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100)}** to gamble!`)
+			return reply(message, `Please specify an amount of at least **${app.common.formatNumber(100)}** to gamble!`)
 		}
 
 		if (gambleAmount > row.money) {
-			return message.reply(`❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
+			return reply(message, `❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
 		}
 
 		if (gambleAmount > 50000) {
-			return message.reply(`You cannot gamble more than **${app.common.formatNumber(50000)}**`)
+			return reply(message, `You cannot gamble more than **${app.common.formatNumber(50000)}**`)
 		}
 
 		await app.player.removeMoney(message.author.id, gambleAmount, serverSideGuildId)
@@ -55,20 +57,20 @@ exports.command = {
 
 			await app.player.subHealth(message.author.id, healthDeduct, serverSideGuildId)
 
-			message.reply('***Click***').then(msg => {
-				setTimeout(() => {
-					msg.edit(`<@${message.author.id}>, 💥 The gun fires! You took ***${healthDeduct}*** damage and now have ${app.player.getHealthIcon(row.health - healthDeduct, row.maxHealth)} **${row.health - healthDeduct} / ${row.maxHealth}** health. Oh, and you also lost **${app.common.formatNumber(gambleAmount)}** scrap`)
-				}, 1500)
-			})
+			const botMessage = await reply(message, '****Click***')
+
+			setTimeout(() => {
+				botMessage.edit(`<@${message.author.id}>, 💥 The gun fires! You took ***${healthDeduct}*** damage and now have ${app.player.getHealthIcon(row.health - healthDeduct, row.maxHealth)} **${row.health - healthDeduct} / ${row.maxHealth}** health. Oh, and you also lost **${app.common.formatNumber(gambleAmount)}** scrap`)
+			}, 1500)
 		}
 		else {
 			await app.player.addMoney(message.author.id, winnings, serverSideGuildId)
 
-			message.reply('***Click***').then(msg => {
+			reply(message, '***Click***').then(msg => {
 				setTimeout(() => {
 					msg.edit(`<@${message.author.id}>, You survived! Your winnings are: **${app.common.formatNumber(winnings)}**`)
 				}, 1500)
-			})
+			}).catch(err => console.log)
 		}
 
 		await app.cd.setCD(message.author.id, 'roulette', 1000 * app.config.cooldowns.roulette, { serverSideGuildId })

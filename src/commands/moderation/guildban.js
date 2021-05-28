@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'guildban',
@@ -21,23 +22,23 @@ exports.command = {
 		const reason = args.slice(1).join(' ')
 
 		if (message.channel.id !== app.config.modChannel) {
-			return message.reply('❌ You must be in the moderator channel to use this command.')
+			return reply(message, '❌ You must be in the moderator channel to use this command.')
 		}
 		else if (!guildID) {
-			return message.reply('❌ You forgot to include a guild ID.')
+			return reply(message, '❌ You forgot to include a guild ID.')
 		}
 		else if (!reason) {
-			return message.reply('❌ You need to specify a reason for banning this guild.')
+			return reply(message, '❌ You need to specify a reason for banning this guild.')
 		}
 		else if (await app.cd.getCD(guildID, 'guildbanned')) {
-			return message.reply('❌ Guild is already banned.')
+			return reply(message, '❌ Guild is already banned.')
 		}
 
 		const fetchedGuildInfo = await app.common.fetchGuild(guildID)
 
-		if (!fetchedGuildInfo) return message.reply('❌ I am not in a guild with that ID.')
+		if (!fetchedGuildInfo) return reply(message, '❌ I am not in a guild with that ID.')
 
-		const botMessage = await message.reply({
+		const botMessage = await reply(message, {
 			content: `Ban and remove Lootcord from **${fetchedGuildInfo.name}**?`,
 			components: BUTTONS.confirmation
 		})
@@ -67,7 +68,7 @@ exports.command = {
 				}
 			}
 			else {
-				botMessage.delete()
+				await botMessage.delete()
 			}
 		}
 		catch (err) {

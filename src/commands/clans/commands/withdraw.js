@@ -1,3 +1,5 @@
+const { reply } = require('../../../utils/messageUtils')
+
 exports.command = {
 	name: 'withdraw',
 	aliases: ['take'],
@@ -26,10 +28,10 @@ exports.command = {
 		}
 
 		if (await app.cd.getCD(message.author.id, 'tradeban')) {
-			return message.reply('❌ You are trade banned.')
+			return reply(message, '❌ You are trade banned.')
 		}
 		else if (!itemName && !itemAmnt && !isAll) {
-			return message.reply('You need to specify an item or scrap to withdraw from the clan! `clan withdraw <item/scrap> <amount>`')
+			return reply(message, 'You need to specify an item or scrap to withdraw from the clan! `clan withdraw <item/scrap> <amount>`')
 		}
 
 		if (isMoney) {
@@ -43,7 +45,7 @@ exports.command = {
 
 				if (clanRow.money < itemAmnt) {
 					await transaction.commit()
-					return message.reply(`Your clan bank only has ${app.common.formatNumber(clanRow.money)}...`)
+					return reply(message, `Your clan bank only has ${app.common.formatNumber(clanRow.money)}...`)
 				}
 
 				await app.clans.removeMoneySafely(transaction.query, scoreRow.clanId, itemAmnt)
@@ -52,11 +54,11 @@ exports.command = {
 
 				await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} withdrew ${app.common.formatNumber(itemAmnt, true)}`)
 
-				return message.reply(`Withdrew **${app.common.formatNumber(itemAmnt)}**\n\nThe clan bank now has **${app.common.formatNumber(clanRow.money - itemAmnt)}**`)
+				return reply(message, `Withdrew **${app.common.formatNumber(itemAmnt)}**\n\nThe clan bank now has **${app.common.formatNumber(clanRow.money - itemAmnt)}**`)
 			}
 			catch (err) {
 				console.log(err)
-				return message.reply('There was an error trying to withdraw.')
+				return reply(message, 'There was an error trying to withdraw.')
 			}
 		}
 
@@ -64,7 +66,7 @@ exports.command = {
 		itemAmnt = itemAmnt || 1
 
 		if (!itemName) {
-			return message.reply('❌ I don\'t recognize that item.')
+			return reply(message, '❌ I don\'t recognize that item.')
 		}
 
 		try {
@@ -75,7 +77,7 @@ exports.command = {
 
 			if (!hasItems) {
 				await transaction.commit()
-				return message.reply(`Your clan has **${clanItems[itemName] !== undefined ? `${clanItems[itemName]}x` : '0'}** ${app.itemdata[itemName].icon}\`${itemName}\`${!clanItems[itemName] || clanItems[itemName] > 1 ? '\'s' : ''}...`)
+				return reply(message, `Your clan has **${clanItems[itemName] !== undefined ? `${clanItems[itemName]}x` : '0'}** ${app.itemdata[itemName].icon}\`${itemName}\`${!clanItems[itemName] || clanItems[itemName] > 1 ? '\'s' : ''}...`)
 			}
 
 			const itemCt = await app.itm.getItemCount(await app.itm.getItemObjectForUpdate(transaction.query, message.author.id), scoreRow)
@@ -83,7 +85,7 @@ exports.command = {
 
 			if (!hasSpace) {
 				await transaction.commit()
-				return message.reply(`❌ **You don't have enough space in your inventory!** (You need **${itemAmnt}** open slot${itemAmnt > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
+				return reply(message, `❌ **You don't have enough space in your inventory!** (You need **${itemAmnt}** open slot${itemAmnt > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
 			}
 
 			await app.itm.removeItemSafely(transaction.query, scoreRow.clanId, itemName, itemAmnt)
@@ -92,10 +94,10 @@ exports.command = {
 
 			await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} withdrew ${itemAmnt}x ${itemName}`)
 
-			message.reply(`Withdrew ${itemAmnt}x ${app.itemdata[itemName].icon}\`${itemName}\` from your clan.\n\nThe clan storage now has **${clanItems[itemName] - itemAmnt}x** ${app.itemdata[itemName].icon}\`${itemName}\`.`)
+			await reply(message, `Withdrew ${itemAmnt}x ${app.itemdata[itemName].icon}\`${itemName}\` from your clan.\n\nThe clan storage now has **${clanItems[itemName] - itemAmnt}x** ${app.itemdata[itemName].icon}\`${itemName}\`.`)
 		}
 		catch (err) {
-			return message.reply('There was an error trying to withdraw.')
+			return reply(message, 'There was an error trying to withdraw.')
 		}
 	}
 }

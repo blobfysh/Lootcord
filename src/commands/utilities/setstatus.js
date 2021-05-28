@@ -2,6 +2,7 @@ const Filter = require('bad-words')
 const emojiRegex = require('emoji-regex/RGI_Emoji')
 const regex = new RegExp(`^(${emojiRegex().source}|${/[\w!$%^&*()\-+=~`'";<>,.?|\\{}[\]: ]/.source})*$`)
 const filter = new Filter({ placeHolder: 'x' })
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'setstatus',
@@ -20,10 +21,10 @@ exports.command = {
 		let statusToSet = message.cleanContent.slice(prefix.length).split(/ +/).slice(1).join(' ')
 
 		if (statusToSet.length > 120) {
-			return message.reply(`Your status can only be up to 120 characters long! You tried to set one that was ${statusToSet.length} characters long.`)
+			return reply(message, `Your status can only be up to 120 characters long! You tried to set one that was ${statusToSet.length} characters long.`)
 		}
 		else if (!regex.test(statusToSet)) {
-			return message.reply('❌ New lines and some special characters (@, #) are not supported in statuses. 😺 Emojis are supported!')
+			return reply(message, '❌ New lines and some special characters (@, #) are not supported in statuses. 😺 Emojis are supported!')
 		}
 
 		// TODO update bad-words once this gets fixed
@@ -40,7 +41,7 @@ exports.command = {
 				await app.query('UPDATE scores SET status = ? WHERE userId = ?', [!statusToSet ? '' : statusToSet, message.author.id])
 			}
 
-			message.reply(`✅ Successfully set status to: ${!statusToSet ? 'Nothing?' : statusToSet}`)
+			await reply(message, `✅ Successfully set status to: ${!statusToSet ? 'Nothing?' : statusToSet}`)
 
 			const logEmbed = new app.Embed()
 				.setTitle('Modified Status')
@@ -53,7 +54,7 @@ exports.command = {
 			app.messager.messageLogs(logEmbed)
 		}
 		catch (err) {
-			message.reply('❌ There was an error trying to modify your status.')
+			await reply(message, '❌ There was an error trying to modify your status.')
 		}
 	}
 }

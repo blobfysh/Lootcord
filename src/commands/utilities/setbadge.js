@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'setbadge',
 	aliases: [],
@@ -23,13 +25,13 @@ exports.command = {
 				await app.query(`UPDATE scores SET badge = 'none' WHERE userId = ${message.author.id}`)
 			}
 
-			return message.reply('✅ Successfully cleared your display badge!')
+			return reply(message, '✅ Successfully cleared your display badge!')
 		}
 		else if (!badgeToSet) {
-			return message.reply('❌ I don\'t recognize that badge.')
+			return reply(message, '❌ I don\'t recognize that badge.')
 		}
 		else if (!playerBadges.includes(badgeToSet)) {
-			return message.reply('❌ You don\'t own that badge!')
+			return reply(message, '❌ You don\'t own that badge!')
 		}
 
 		if (serverSideGuildId) {
@@ -39,6 +41,6 @@ exports.command = {
 			await app.query(`UPDATE scores SET badge = '${badgeToSet}' WHERE userId = ${message.author.id}`)
 		}
 
-		message.reply(`✅ Successfully made ${app.badgedata[badgeToSet].icon}\`${badgeToSet}\` your display badge!`)
+		await reply(message, `✅ Successfully made ${app.badgedata[badgeToSet].icon}\`${badgeToSet}\` your display badge!`)
 	}
 }

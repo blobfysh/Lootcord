@@ -1,3 +1,4 @@
+const { reply } = require('../../../utils/messageUtils')
 const LOGS_PER_PAGE = 5
 
 exports.command = {
@@ -16,7 +17,7 @@ exports.command = {
 		const user = app.parse.members(message, args)[0]
 
 		if (!args.length && scoreRow.clanId === 0) {
-			return message.reply('You are not a member of any clan! You can look up other clans by searching their name.')
+			return reply(message, 'You are not a member of any clan! You can look up other clans by searching their name.')
 		}
 		else if (!args.length) {
 			const clanRow = await app.clans.getRow(scoreRow.clanId)
@@ -32,10 +33,10 @@ exports.command = {
 			const invitedScoreRow = (await app.query(`SELECT * FROM scores WHERE userId = ${user.id}`))[0]
 
 			if (!invitedScoreRow) {
-				return message.reply('❌ The person you\'re trying to search doesn\'t have an account!')
+				return reply(message, '❌ The person you\'re trying to search doesn\'t have an account!')
 			}
 			else if (invitedScoreRow.clanId === 0) {
-				return message.reply('❌ That user is not in a clan.')
+				return reply(message, '❌ That user is not in a clan.')
 			}
 
 			const clanRow = await app.clans.getRow(invitedScoreRow.clanId)
@@ -52,7 +53,7 @@ exports.command = {
 			const clanRow = await app.clans.searchClanRow(clanName)
 
 			if (!clanRow) {
-				return message.reply('I could not find a clan with that name! Maybe you misspelled it?')
+				return reply(message, 'I could not find a clan with that name! Maybe you misspelled it?')
 			}
 
 			const logs = await app.query(`SELECT * FROM clan_logs WHERE clanId = ${clanRow.clanId} ORDER BY logDate DESC LIMIT 50`)

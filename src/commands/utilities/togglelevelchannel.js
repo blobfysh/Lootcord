@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'togglelevelchannel',
 	aliases: ['setlevelchan', 'setlevelchannel', 'togglelevelchan', 'togglelvlchan', 'togglelvlchannel'],
@@ -15,12 +17,12 @@ exports.command = {
 		if (guildInfo.levelChan === 0) {
 			await app.query(`UPDATE guildinfo SET levelChan = "${message.channel.id}" WHERE guildId = "${message.channel.guild.id}"`)
 
-			message.reply('✅ Now sending level up messages to this channel!')
+			await reply(message, '✅ Now sending level up messages to this channel!')
 		}
 		else {
 			await app.query(`UPDATE guildinfo SET levelChan = 0 WHERE guildId = "${message.channel.guild.id}"`)
 
-			message.reply('✅ Disabled level channel for this server!')
+			await reply(message, '✅ Disabled level channel for this server!')
 		}
 	}
 }

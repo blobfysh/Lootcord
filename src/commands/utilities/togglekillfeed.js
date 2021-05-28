@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'togglekillfeed',
 	aliases: ['setkillfeed', 'setkillchan', 'togglekillchan'],
@@ -15,12 +17,12 @@ exports.command = {
 		if (guildInfo.killChan === 0) {
 			await app.query(`UPDATE guildinfo SET killChan = ${message.channel.id} WHERE guildId = ${message.channel.guild.id}`)
 
-			message.reply('✅ Set this channel as the kill feed channel!')
+			await reply(message, '✅ Set this channel as the kill feed channel!')
 		}
 		else {
 			await app.query(`UPDATE guildinfo SET killChan = 0 WHERE guildId = "${message.channel.guild.id}"`)
 
-			message.reply('✅ Disabled kill feed for this server!')
+			await reply(message, '✅ Disabled kill feed for this server!')
 		}
 	}
 }

@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'activate',
 	aliases: ['play'],
@@ -15,13 +17,13 @@ exports.command = {
 		const activatedGuilds = await app.query('SELECT * FROM userguilds WHERE userId = ?', [message.author.id])
 
 		for (let i = 0; i < activatedGuilds.length; i++) {
-			if (activatedGuilds[i].guildId === message.channel.guild.id) return message.reply('❌ Your account is already active on this server!')
+			if (activatedGuilds[i].guildId === message.channel.guild.id) return reply(message, '❌ Your account is already active on this server!')
 		}
 
 		const isPatron = await app.patreonHandler.isPatron(message.author.id)
 
-		if (activatedGuilds.length >= 3 && !isPatron) return message.reply('❌ You cannot be active in more than **3** servers at once!\n\nIf you wish to activate in this server, you should use the `deactivate` command in a server you are already activated in.')
-		else if (activatedGuilds.length >= 5) return message.reply('❌ You cannot be active in more than **5** servers at once!\n\nIf you wish to activate in this server, you should use the `deactivate` command in a server you are already activated in.')
+		if (activatedGuilds.length >= 3 && !isPatron) return reply(message, '❌ You cannot be active in more than **3** servers at once!\n\nIf you wish to activate in this server, you should use the `deactivate` command in a server you are already activated in.')
+		else if (activatedGuilds.length >= 5) return reply(message, '❌ You cannot be active in more than **5** servers at once!\n\nIf you wish to activate in this server, you should use the `deactivate` command in a server you are already activated in.')
 
 		await app.cd.clearCD(message.author.id, `activate|${message.channel.guild.id}`)
 		await app.cd.setCD(message.author.id, `activate|${message.channel.guild.id}`, 3600 * 1000)
@@ -36,6 +38,6 @@ exports.command = {
 			}
 		}
 
-		return message.reply('✅ Account activated in this server')
+		return reply(message, '✅ Account activated in this server')
 	}
 }

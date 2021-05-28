@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'enemy',
 	aliases: ['boss', 'spawn', 'spawns'],
@@ -16,12 +18,14 @@ exports.command = {
 		const monsterRow = await app.mysql.select('spawnchannels', 'channelId', message.channel.id)
 		const monsterSpawn = await app.mysql.select('spawns', 'channelId', message.channel.id)
 
-		if (!monsterRow && !monsterSpawn) { return message.reply('❌ Enemies won\'t spawn in this channel.') }
+		if (!monsterRow && !monsterSpawn) {
+			return reply(message, '❌ Enemies won\'t spawn in this channel.')
+		}
 		else if (monsterRow && !monsterSpawn) {
-			return message.reply(`❌ There are no enemies spawned in this channel, but something tells me one may arrive **${await app.cd.getCD(message.channel.id, 'spawnCD', { getEstimate: true })}...**`)
+			return reply(message, `❌ There are no enemies spawned in this channel, but something tells me one may arrive **${await app.cd.getCD(message.channel.id, 'spawnCD', { getEstimate: true })}...**`)
 		}
 
 		const mobEmbed = await app.monsters.genMobEmbed(message.channel.id, app.mobdata[monsterSpawn.monster], monsterSpawn.health, monsterSpawn.money)
-		message.channel.createMessage(mobEmbed)
+		await message.channel.createMessage(mobEmbed)
 	}
 }

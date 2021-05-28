@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'balance',
 	aliases: ['cash', 'money', 'bal', 'scrap'],
@@ -15,6 +17,6 @@ exports.command = {
 	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 
-		message.reply(`You currently have ${app.common.formatNumber(row.money)}`)
+		await reply(message, `You currently have ${app.common.formatNumber(row.money)}`)
 	}
 }

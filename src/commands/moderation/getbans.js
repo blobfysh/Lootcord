@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'getbans',
 	aliases: [],
@@ -38,7 +40,7 @@ exports.command = {
 			}, 1000)
 		}
 		catch (err) {
-			message.reply(`Error: \`\`\`${err}\`\`\``)
+			await reply(message, `Error: \`\`\`${err}\`\`\``)
 		}
 	}
 }

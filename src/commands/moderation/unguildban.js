@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'unguildban',
 	aliases: ['guildunban', 'unbanguild'],
@@ -17,18 +19,18 @@ exports.command = {
 		const guildID = args[0]
 
 		if (message.channel.id !== app.config.modChannel) {
-			return message.reply('❌ You must be in the moderator channel to use this command.')
+			return reply(message, '❌ You must be in the moderator channel to use this command.')
 		}
 		else if (!guildID) {
-			return message.reply('❌ You forgot to include a guild ID.')
+			return reply(message, '❌ You forgot to include a guild ID.')
 		}
 		else if (!await app.cd.getCD(guildID, 'guildbanned')) {
-			return message.reply('❌ Guild is not banned.')
+			return reply(message, '❌ Guild is not banned.')
 		}
 
 		await app.query(`DELETE FROM bannedguilds WHERE guildId ="${guildID}"`)
 		await app.cd.clearCD(guildID, 'guildbanned')
 
-		message.reply(`Successfully unbanned guild \`${guildID}\`.`)
+		await reply(message, `Successfully unbanned guild \`${guildID}\`.`)
 	}
 }

@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../../resources/constants')
+const { reply } = require('../../../utils/messageUtils')
 
 const MEMBER_LIMIT = 20
 
@@ -19,25 +20,25 @@ exports.command = {
 		const user = app.parse.members(message, args)[0]
 
 		if (!user) {
-			return message.reply('Please specify someone to invite. You can mention someone, use their Discord#tag, or type their user ID')
+			return reply(message, 'Please specify someone to invite. You can mention someone, use their Discord#tag, or type their user ID')
 		}
 
 		const invitedScoreRow = await app.player.getRow(user.id)
 
 		if (!invitedScoreRow) {
-			return message.reply('❌ The person you\'re trying to search doesn\'t have an account!')
+			return reply(message, '❌ The person you\'re trying to search doesn\'t have an account!')
 		}
 		else if (user.id === app.bot.user.id) {
-			return message.reply(`${app.icons.blackjack_dealer_neutral} I don't join loser clans`)
+			return reply(message, `${app.icons.blackjack_dealer_neutral} I don't join loser clans`)
 		}
 		else if (Math.floor((user.id / 4194304) + 1420070400000) > Date.now() - (30 * 24 * 60 * 60 * 1000)) {
-			return message.reply(`❌ **${user.nick || user.username}**'s Discord account must be at least 30 days old to join a clan! This helps us prevent alt abuse. 😭`)
+			return reply(message, `❌ **${user.nick || user.username}**'s Discord account must be at least 30 days old to join a clan! This helps us prevent alt abuse. 😭`)
 		}
 		else if (invitedScoreRow.clanId !== 0) {
-			return message.reply('❌ That user is already in a clan!')
+			return reply(message, '❌ That user is already in a clan!')
 		}
 		else if ((await app.clans.getMembers(scoreRow.clanId)).count >= MEMBER_LIMIT) {
-			return message.reply(`❌ Your clan has the max limit of members! (${MEMBER_LIMIT}/${MEMBER_LIMIT})`)
+			return reply(message, `❌ Your clan has the max limit of members! (${MEMBER_LIMIT}/${MEMBER_LIMIT})`)
 		}
 
 		const botMessage = await message.channel.createMessage({

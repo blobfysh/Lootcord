@@ -1,4 +1,5 @@
 const shortid = require('shortid')
+const { reply } = require('../../utils/messageUtils')
 const { BUTTONS } = require('../../resources/constants')
 const listing_fee = 0.10
 const max_listings = 15
@@ -23,38 +24,38 @@ exports.command = {
 		const itemCost = app.parse.numbers(args)[1]
 
 		if (await app.cd.getCD(message.author.id, 'tradeban')) {
-			return message.reply('❌ You are trade banned.')
+			return reply(message, '❌ You are trade banned.')
 		}
 		else if (Math.floor((message.author.id / 4194304) + 1420070400000) > Date.now() - (30 * 24 * 60 * 60 * 1000)) {
-			return message.reply('❌ Your Discord account must be at least 30 days old to use the black market! This helps us prevent alt abuse. 😭')
+			return reply(message, '❌ Your Discord account must be at least 30 days old to use the black market! This helps us prevent alt abuse. 😭')
 		}
 		else if ((await app.query(`SELECT * FROM blackmarket WHERE sellerId = ${message.author.id}`)).length >= max_listings) {
-			return message.reply(`❌ You have ${max_listings} listings on the market already! Remove some or wait for them to sell.`)
+			return reply(message, `❌ You have ${max_listings} listings on the market already! Remove some or wait for them to sell.`)
 		}
 		else if (itemName && itemAmnt && itemCost) {
 			// skip listing process...
 			const userItems = await app.itm.getItemObject(message.author.id)
 
 			if (!await app.itm.hasItems(userItems, itemName, 1)) {
-				return message.reply('You don\'t have that item.')
+				return reply(message, 'You don\'t have that item.')
 			}
 			else if (!app.itemdata[itemName].canBeStolen) {
-				return message.reply('That item cannot be sold on the market!')
+				return reply(message, 'That item cannot be sold on the market!')
 			}
 			else if (itemAmnt >= 2147483647) {
-				return message.reply('Please enter a lower value.')
+				return reply(message, 'Please enter a lower value.')
 			}
 			else if (!await app.itm.hasItems(userItems, itemName, itemAmnt)) {
-				return message.reply('You don\'t have enough of that item.')
+				return reply(message, 'You don\'t have enough of that item.')
 			}
 			else if (itemCost >= 2147483647) {
-				return message.reply('Please enter a lower price o.o')
+				return reply(message, 'Please enter a lower price o.o')
 			}
 			else if (itemCost < 100) {
-				return message.reply(`Please enter a higher price! Minimum **${app.common.formatNumber(100)}**`)
+				return reply(message, `Please enter a higher price! Minimum **${app.common.formatNumber(100)}**`)
 			}
 			else if (itemCost <= (app.itemdata[itemName].sell * itemAmnt)) {
-				return message.reply('You can `sell` that for more money! You should list for more money, or sell them to the bot instead.')
+				return reply(message, 'You can `sell` that for more money! You should list for more money, or sell them to the bot instead.')
 			}
 
 			const bmEmbed = new app.Embed()
@@ -148,7 +149,7 @@ exports.command = {
 					if (m.content.toLowerCase() === 'cancel' || m.content.toLowerCase() === 'stop') {
 						app.msgCollector.stopCollector(collectorObj)
 
-						return message.reply('Listing canceled.')
+						return reply(message, 'Listing canceled.')
 					}
 					else if (newItem && !item) {
 						if (!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), newItem, 1)) {
@@ -277,7 +278,7 @@ exports.command = {
 				})
 			}
 			catch (err) {
-				return message.reply('❌ There was an error starting the command, you may have another command waiting for your input. If you believe this is an issue with the bot, join the support `discord`.')
+				return reply(message, '❌ There was an error starting the command, you may have another command waiting for your input. If you believe this is an issue with the bot, join the support `discord`.')
 			}
 		}
 	}

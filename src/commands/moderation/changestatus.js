@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'changestatus',
 	aliases: [],
@@ -18,20 +20,20 @@ exports.command = {
 		const statusToSet = message.cleanContent.slice(prefix.length).split(/ +/).slice(2).join(' ')
 
 		if (message.channel.id !== app.config.modChannel) {
-			return message.reply('❌ You must be in the moderator channel to use this command.')
+			return reply(message, '❌ You must be in the moderator channel to use this command.')
 		}
 		else if (!userID) {
-			return message.reply('❌ You forgot to include a user ID.')
+			return reply(message, '❌ You forgot to include a user ID.')
 		}
 
 		try {
 			const user = await app.common.fetchUser(userID, { cacheIPC: false })
 			await app.query('UPDATE scores SET status = ? WHERE userId = ?', [statusToSet, userID])
 
-			message.reply(`✅ Successfully changed **${user.username}#${user.discriminator}**'s status to: ${statusToSet}`)
+			await reply(message, `✅ Successfully changed **${user.username}#${user.discriminator}**'s status to: ${statusToSet}`)
 		}
 		catch (err) {
-			message.reply(`Error:\`\`\`\n${err}\`\`\``)
+			await reply(message, `Error:\`\`\`\n${err}\`\`\``)
 		}
 	}
 }

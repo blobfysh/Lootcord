@@ -1,4 +1,5 @@
 const { CLANS } = require('../../../resources/constants')
+const { reply } = require('../../../utils/messageUtils')
 
 exports.command = {
 	name: 'upgrade',
@@ -16,13 +17,13 @@ exports.command = {
 		const clanRow = await app.clans.getRow(scoreRow.clanId)
 
 		if (clanRow.level === 5) {
-			return message.reply('❌ Your clan is fully upgraded!')
+			return reply(message, '❌ Your clan is fully upgraded!')
 		}
 
 		const previousStats = CLANS.levels[clanRow.level]
 		const upgradedStats = CLANS.levels[clanRow.level + 1]
 
-		await message.reply(`Do you want to upgrade your clan base from **${previousStats.type}** to **${upgradedStats.type}**? ` +
+		await reply(message, `Do you want to upgrade your clan base from **${previousStats.type}** to **${upgradedStats.type}**? ` +
 			`This will cost **${app.common.formatNumber(upgradedStats.cost.money)}** and ${app.itm.getDisplay(upgradedStats.cost.materials)}. The following will change:\n\n` +
 			`Max Health: ~~${previousStats.maxHealth}~~ ${app.icons.health.full} **${upgradedStats.maxHealth}**\n` +
 			`Item Storage: ~~${previousStats.itemLimit}~~ **${upgradedStats.itemLimit}** items max\n` +
@@ -33,10 +34,10 @@ exports.command = {
 		const result = await app.msgCollector.awaitMessages(message.author.id, message.channel.id, m => m.author.id === message.author.id && ['yes', 'no'].includes(m.content.toLowerCase()))
 
 		if (result === 'time') {
-			return message.reply('You ran out of time.')
+			return reply(message, 'You ran out of time.')
 		}
 		else if (result[0].content.toLowerCase() === 'no') {
-			return result[0].reply('Canceled upgrade.')
+			return reply(result[0], 'Canceled upgrade.')
 		}
 
 		try {
@@ -46,19 +47,19 @@ exports.command = {
 
 			if (clanRow.level !== clanRowSafe.level) {
 				await transaction.commit()
-				return result[0].reply('❌ Upgrade failed.')
+				return reply(result[0], '❌ Upgrade failed.')
 			}
 			else if (clanRowSafe.level === 5) {
 				await transaction.commit()
-				return result[0].reply('❌ Upgrade failed.')
+				return reply(result[0], '❌ Upgrade failed.')
 			}
 			else if (clanRowSafe.money < upgradedStats.cost.money) {
 				await transaction.commit()
-				return result[0].reply(`❌ Your clan only has **${app.common.formatNumber(clanRowSafe.money)}**, you need **${app.common.formatNumber(upgradedStats.cost.money)}** to upgrade.`)
+				return reply(result[0], `❌ Your clan only has **${app.common.formatNumber(clanRowSafe.money)}**, you need **${app.common.formatNumber(upgradedStats.cost.money)}** to upgrade.`)
 			}
 			else if (!app.itm.hasItems(clanItems, upgradedStats.cost.materials)) {
 				await transaction.commit()
-				return result[0].reply(`❌ Your clan is missing the materials needed to upgrade. Make sure you deposit ${app.itm.getDisplay(upgradedStats.cost.materials)} in the clan item storage.`)
+				return reply(result[0], `❌ Your clan is missing the materials needed to upgrade. Make sure you deposit ${app.itm.getDisplay(upgradedStats.cost.materials)} in the clan item storage.`)
 			}
 
 			await app.clans.removeMoneySafely(transaction.query, scoreRow.clanId, upgradedStats.cost.money)
@@ -67,11 +68,11 @@ exports.command = {
 			await transaction.query('UPDATE clans SET level = level + 1, maxHealth = ? WHERE clanId = ?', [upgradedStats.maxHealth, scoreRow.clanId])
 			await transaction.commit()
 
-			return result[0].reply(`✅ Successfully upgraded the clan to **${upgradedStats.type}**. Make sure to pay the daily upkeep!`)
+			return reply(result[0], `✅ Successfully upgraded the clan to **${upgradedStats.type}**. Make sure to pay the daily upkeep!`)
 		}
 		catch (err) {
 			console.log(err)
-			await result[0].reply('❌ Upgrade failed.')
+			await reply(result[0], '❌ Upgrade failed.')
 		}
 	}
 }

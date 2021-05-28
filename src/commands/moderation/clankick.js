@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'clankick',
@@ -19,29 +20,29 @@ exports.command = {
 		const userID = args[0]
 
 		if (message.channel.id !== app.config.modChannel) {
-			return message.reply('❌ You must be in the moderator channel to use this command.')
+			return reply(message, '❌ You must be in the moderator channel to use this command.')
 		}
 		else if (!userID) {
-			return message.reply('❌ You forgot to include a user ID.')
+			return reply(message, '❌ You forgot to include a user ID.')
 		}
 		else if (await app.cd.getCD(userID, 'mod')) {
-			return message.reply('Hey stop kick a moderator! >:(')
+			return reply(message, 'Hey stop kick a moderator! >:(')
 		}
 
 		const userRow = await app.player.getRow(userID)
 
 		if (!userRow) {
-			return message.reply('❌ User has no account.')
+			return reply(message, '❌ User has no account.')
 		}
 		else if (userRow.clanId === 0) {
-			return message.reply('❌ User is not in a clan.')
+			return reply(message, '❌ User is not in a clan.')
 		}
 
 		const user = await app.common.fetchUser(userID, { cacheIPC: false })
 		const clanRow = await app.clans.getRow(userRow.clanId)
 
 		if (app.clan_ranks[userRow.clanRank].title === 'Leader') {
-			const botMessage = await message.reply({
+			const botMessage = await reply(message, {
 				content: `Kicking **${user.username}#${user.discriminator}** will disband \`${clanRow.name}\`. Continue?`,
 				components: BUTTONS.confirmation
 			})
@@ -72,7 +73,7 @@ exports.command = {
 			await app.query('UPDATE scores SET clanId = 0 WHERE userId = ?', [userID])
 			await app.query('UPDATE scores SET clanRank = 0 WHERE userId = ?', [userID])
 
-			message.reply(`✅ Successfully kicked **${user.username}#${user.discriminator}** from \`${clanRow.name}\`.`)
+			await reply(message, `✅ Successfully kicked **${user.username}#${user.discriminator}** from \`${clanRow.name}\`.`)
 		}
 	}
 }

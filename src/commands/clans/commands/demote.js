@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../../resources/constants')
+const { reply } = require('../../../utils/messageUtils')
 
 exports.command = {
 	name: 'demote',
@@ -21,31 +22,31 @@ exports.command = {
 			const memberId = members.memberIds[number - 1]
 
 			if (!memberId) {
-				return message.reply(`Please specify someone to demote. You can mention someone, use their Discord#tag, type their user ID, or use their number from \`${prefix}clan info\``)
+				return reply(message, `Please specify someone to demote. You can mention someone, use their Discord#tag, type their user ID, or use their number from \`${prefix}clan info\``)
 			}
 
 			member = await app.common.fetchUser(memberId, { cacheIPC: false })
 		}
 		else if (!member) {
-			return message.reply(`Please specify someone to demote. You can mention someone, use their Discord#tag, type their user ID, or use their number from \`${prefix}clan info\``)
+			return reply(message, `Please specify someone to demote. You can mention someone, use their Discord#tag, type their user ID, or use their number from \`${prefix}clan info\``)
 		}
 
 		const invitedScoreRow = await app.player.getRow(member.id)
 
 		if (!invitedScoreRow) {
-			return message.reply('❌ The person you\'re trying to search doesn\'t have an account!')
+			return reply(message, '❌ The person you\'re trying to search doesn\'t have an account!')
 		}
 		else if (invitedScoreRow.clanId !== scoreRow.clanId) {
-			return message.reply('❌ That user is not in your clan.')
+			return reply(message, '❌ That user is not in your clan.')
 		}
 		else if (message.author.id === member.id) {
-			return message.reply('❌ You cannot demote yourself.')
+			return reply(message, '❌ You cannot demote yourself.')
 		}
 		else if (app.clan_ranks[invitedScoreRow.clanRank].title === 'Recruit') {
-			return message.reply('❌ That member is already the lowest possible rank.')
+			return reply(message, '❌ That member is already the lowest possible rank.')
 		}
 		else if (invitedScoreRow.clanRank >= scoreRow.clanRank) {
-			return message.reply('You cannot demote members of equal or higher rank!')
+			return reply(message, 'You cannot demote members of equal or higher rank!')
 		}
 
 		const botMessage = await message.channel.createMessage({

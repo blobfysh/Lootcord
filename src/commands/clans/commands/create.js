@@ -1,5 +1,6 @@
 const Filter = require('bad-words')
 const { BUTTONS } = require('../../../resources/constants')
+const { reply } = require('../../../utils/messageUtils')
 const filter = new Filter()
 const CREATION_COST = 10000
 
@@ -19,31 +20,31 @@ exports.command = {
 		const clanName = args.join(' ')
 
 		if (!args.length) {
-			return message.reply('Please specify a clan tag.')
+			return reply(message, 'Please specify a clan tag.')
 		}
 		else if (Math.floor((message.author.id / 4194304) + 1420070400000) > Date.now() - (30 * 24 * 60 * 60 * 1000)) {
-			return message.reply('❌ Your Discord account must be at least 30 days old to create a clan! This helps us prevent alt abuse. 😭')
+			return reply(message, '❌ Your Discord account must be at least 30 days old to create a clan! This helps us prevent alt abuse. 😭')
 		}
 		else if (scoreRow.clanId !== 0) {
-			return message.reply('❌ You are already in a clan!')
+			return reply(message, '❌ You are already in a clan!')
 		}
 		else if (!/^[a-zA-Z0-9 ]+$/.test(clanName)) {
-			return message.reply('❌ Special characters are not supported in clan tags. Supported: Alphanumeric characters and space')
+			return reply(message, '❌ Special characters are not supported in clan tags. Supported: Alphanumeric characters and space')
 		}
 		else if (clanName.length < 4 || clanName.length > 20) {
-			return message.reply(`Clan tags must be at least 4 characters long up to a max of 20 characters. The one you entered is ${clanName.length} characters.`)
+			return reply(message, `Clan tags must be at least 4 characters long up to a max of 20 characters. The one you entered is ${clanName.length} characters.`)
 		}
 		else if (filter.isProfane(clanName)) {
-			return message.reply('❌ The clan tag you are trying to use contains innappropiate language. **Vulgar clan tags will not be tolerated.**')
+			return reply(message, '❌ The clan tag you are trying to use contains innappropiate language. **Vulgar clan tags will not be tolerated.**')
 		}
 
 		const clanRow = await app.clans.searchClanRow(clanName)
 
 		if (clanRow) {
-			return message.reply('❌ A clan with that tag already exists!')
+			return reply(message, '❌ A clan with that tag already exists!')
 		}
 		else if (scoreRow.money < CREATION_COST) {
-			return message.reply(`❌ You need at least ${app.common.formatNumber(CREATION_COST)} to create a clan! You only have ${app.common.formatNumber(scoreRow.money)}.\n\nCome back when you've racked up some more money...`)
+			return reply(message, `❌ You need at least ${app.common.formatNumber(CREATION_COST)} to create a clan! You only have ${app.common.formatNumber(scoreRow.money)}.\n\nCome back when you've racked up some more money...`)
 		}
 
 		const botMessage = await message.channel.createMessage({

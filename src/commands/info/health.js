@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'health',
 	aliases: ['hp'],
@@ -28,6 +30,6 @@ exports.command = {
 			healthStr += '\nNone, effects such as bleeding or burning will show here.'
 		}
 
-		message.reply(healthStr)
+		await reply(message, healthStr)
 	}
 }

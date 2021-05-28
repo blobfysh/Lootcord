@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'getstats',
 	aliases: ['getinfo'],
@@ -17,7 +19,7 @@ exports.command = {
 		const userID = args[0]
 
 		if (!userID) {
-			return message.reply('❌ You forgot to include a user ID.')
+			return reply(message, '❌ You forgot to include a user ID.')
 		}
 
 		try {
@@ -99,10 +101,10 @@ exports.command = {
 				statEmbed.addField('Patreon Tier', codeWrap('Active - Tier 4 Donator', 'cs'))
 			}
 
-			message.channel.createMessage(statEmbed)
+			await message.channel.createMessage(statEmbed)
 		}
 		catch (err) {
-			message.reply(`Error:\`\`\`${err}\`\`\``)
+			await reply(message, `Error:\`\`\`${err}\`\`\``)
 		}
 	}
 }

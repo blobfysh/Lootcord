@@ -1,3 +1,4 @@
+const { reply } = require('../../utils/messageUtils')
 const RANDOM_SELECTION_MINIMUM = 8 // # of active players required for an attack menu to show when using random
 
 exports.command = {
@@ -21,7 +22,7 @@ exports.command = {
 		let amount = app.parse.numbers(args)[0] || 1
 
 		if (!item) {
-			return message.reply(`❌ You need to specify an item to use! \`${prefix}use <item>\`. For more information and examples, type \`${prefix}help use\`.`)
+			return reply(message, `❌ You need to specify an item to use! \`${prefix}use <item>\`. For more information and examples, type \`${prefix}help use\`.`)
 		}
 		else if (['Ranged', 'Melee'].includes(itemInfo.category)) {
 			// used weapon
@@ -36,10 +37,10 @@ exports.command = {
 			let burnDamage = 0
 
 			if (!app.itm.hasItems(userItems, item, 1)) {
-				return message.reply(`❌ You don't have a ${itemInfo.icon}\`${item}\`.`)
+				return reply(message, `❌ You don't have a ${itemInfo.icon}\`${item}\`.`)
 			}
 			else if (attackCD) {
-				return message.reply(`❌ You need to wait \`${attackCD}\` before attacking again.`)
+				return reply(message, `❌ You need to wait \`${attackCD}\` before attacking again.`)
 			}
 
 			// check for ammo and add ammo damage
@@ -54,33 +55,33 @@ exports.command = {
 				}
 
 				if (!availableAmmo.length) {
-					return message.reply(`❌ You don't have any ammo for that weapon! The ${itemInfo.icon}\`${item}\` uses ${possibleAmmo.map(itm => `${app.itemdata[itm].icon}\`${itm}\``).join(', ')} as ammunition.`)
+					return reply(message, `❌ You don't have any ammo for that weapon! The ${itemInfo.icon}\`${item}\` uses ${possibleAmmo.map(itm => `${app.itemdata[itm].icon}\`${itm}\``).join(', ')} as ammunition.`)
 				}
 				else if (availableAmmo.length > 1) {
-					await message.reply(`You have multiple ammo types for that weapon! Which ammo do you want to use?\n\n${availableAmmo.map(ammo => `${app.itemdata[ammo].icon}\`${ammo}\``).join(', ')}`)
+					await reply(message, `You have multiple ammo types for that weapon! Which ammo do you want to use?\n\n${availableAmmo.map(ammo => `${app.itemdata[ammo].icon}\`${ammo}\``).join(', ')}`)
 
 					const result = await app.msgCollector.awaitMessages(message.author.id, message.channel.id, m => m.author.id === message.author.id)
 
 					if (result === 'time') {
-						return message.reply('❌ You ran out of time to choose your ammo.')
+						return reply(message, '❌ You ran out of time to choose your ammo.')
 					}
 
 					const ammoChoice = app.parse.items(result[0].content.split(/ +/))[0]
 
 					if (!ammoChoice) {
-						return result[0].reply('❌ That isn\'t a valid ammo choice!')
+						return reply(result[0], '❌ That isn\'t a valid ammo choice!')
 					}
 					else if (!availableAmmo.includes(ammoChoice)) {
-						return result[0].reply(`❌ ${app.itemdata[ammoChoice].icon}\`${ammoChoice}\` isn't a valid ammo choice!`)
+						return reply(result[0], `❌ ${app.itemdata[ammoChoice].icon}\`${ammoChoice}\` isn't a valid ammo choice!`)
 					}
 
 					userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 
 					if (!app.itm.hasItems(userItems, ammoChoice, 1)) {
-						return message.reply(`❌ You have **0x** ${app.itemdata[ammoChoice].icon}\`${ammoChoice}\`.`)
+						return reply(message, `❌ You have **0x** ${app.itemdata[ammoChoice].icon}\`${ammoChoice}\`.`)
 					}
 					else if (!app.itm.hasItems(userItems, item, 1)) {
-						return message.reply(`❌ You don't have a ${itemInfo.icon}\`${item}\`.`)
+						return reply(message, `❌ You don't have a ${itemInfo.icon}\`${item}\`.`)
 					}
 
 					ammoUsed = ammoChoice
@@ -368,7 +369,7 @@ exports.command = {
 			// used to remove the attackers weapon/ammo before an attack
 			const removeWeapon = async () => {
 				if (await app.cd.getCD(message.author.id, 'attack', { serverSideGuildId })) {
-					return message.reply('❌ You need to wait before attacking again.')
+					return reply(message, '❌ You need to wait before attacking again.')
 				}
 				else if (ammoUsed) {
 					await app.itm.removeItem(message.author.id, ammoUsed, 1, serverSideGuildId)
@@ -407,17 +408,17 @@ exports.command = {
 				const monsterRow = await app.mysql.select('spawns', 'channelId', message.channel.id)
 
 				if (!monsterRow) {
-					return message.reply(`❌ There are no enemies in this channel! You can check when one will spawn with \`${prefix}enemy\``)
+					return reply(message, `❌ There are no enemies in this channel! You can check when one will spawn with \`${prefix}enemy\``)
 				}
 				else if (itemInfo.category === 'Melee' && app.mobdata[monsterRow.monster].title === 'Patrol Helicopter') {
-					return message.reply('❌ The Patrol Helicopter is immune to melee weapons!')
+					return reply(message, '❌ The Patrol Helicopter is immune to melee weapons!')
 				}
 
 				await removeWeapon()
 				await attackMonster(monsterRow)
 			}
 			else if (guildInfo.randomOnly === 1 && member) {
-				return message.reply(`❌ This server allows only random attacks, specifying a target will not work. You can use the item without a mention to attack a random player: \`${prefix}use <item>\``)
+				return reply(message, `❌ This server allows only random attacks, specifying a target will not work. You can use the item without a mention to attack a random player: \`${prefix}use <item>\``)
 			}
 			else if (guildInfo.randomOnly === 1 || ['rand', 'random'].some(str => args.map(arg => arg.toLowerCase()).includes(str))) {
 				// attack is random, find a random active player
@@ -464,7 +465,7 @@ exports.command = {
 				}
 
 				if (membersInfo[0] === undefined) {
-					return message.reply('❌ There aren\'t any players you can attack in this server!')
+					return reply(message, '❌ There aren\'t any players you can attack in this server!')
 				}
 				else if (activeUsers.length < RANDOM_SELECTION_MINIMUM || membersInfo.length < 3) {
 					await removeWeapon()
@@ -488,7 +489,7 @@ exports.command = {
 				}
 			}
 			else if (!member) {
-				return message.reply('❌ You need to mention someone to attack.')
+				return reply(message, '❌ You need to mention someone to attack.')
 			}
 			else {
 				// verify chosen target can be attacked
@@ -501,22 +502,22 @@ exports.command = {
 					return message.channel.createMessage('ow...')
 				}
 				else if (member.id === message.author.id) {
-					return message.reply('❌ You can\'t attack yourself!')
+					return reply(message, '❌ You can\'t attack yourself!')
 				}
 				else if (!victimRow) {
-					return message.reply('❌ The person you\'re trying to attack doesn\'t have an account!')
+					return reply(message, '❌ The person you\'re trying to attack doesn\'t have an account!')
 				}
 				else if (row.clanId !== 0 && victimRow.clanId === row.clanId) {
-					return message.reply('❌ You can\'t attack members of your own clan!')
+					return reply(message, '❌ You can\'t attack members of your own clan!')
 				}
 				else if (!await app.player.isActive(member.id, message.channel.guild.id)) {
-					return message.reply(`❌ **${member.nick || member.username}** has not activated their account in this server!`)
+					return reply(message, `❌ **${member.nick || member.username}** has not activated their account in this server!`)
 				}
 				else if (victimPassiveShield) {
-					return message.reply(`🛡 **${member.nick || member.username}** was killed recently and has a **passive shield**!\nThey are untargetable for \`${victimPassiveShield}\`.`)
+					return reply(message, `🛡 **${member.nick || member.username}** was killed recently and has a **passive shield**!\nThey are untargetable for \`${victimPassiveShield}\`.`)
 				}
 				else if (ammoUsed === '40mm_smoke_grenade' && victimBlindedCD) {
-					return message.reply(`❌ **${member.nick || member.username}** is already blinded by a ${app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`!`)
+					return reply(message, `❌ **${member.nick || member.username}** is already blinded by a ${app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`!`)
 				}
 
 				await removeWeapon()
@@ -525,7 +526,7 @@ exports.command = {
 		}
 		else if (member) {
 			// tried to use non-weapon on someone
-			return message.reply('❌ That item cannot be used to attack another player.')
+			return reply(message, '❌ That item cannot be used to attack another player.')
 		}
 		else if (itemInfo.category === 'Item') {
 			let userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
@@ -533,16 +534,16 @@ exports.command = {
 			if (amount > 10) amount = 10
 
 			if (!userItems[item]) {
-				return message.reply(`❌ You don't have a ${app.itemdata[item].icon}\`${item}\`!`)
+				return reply(message, `❌ You don't have a ${app.itemdata[item].icon}\`${item}\`!`)
 			}
 			else if (item !== 'c4' && userItems[item] < amount) {
-				return message.reply(`❌ You don't have enough of that item! You have **${userItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\`.`)
+				return reply(message, `❌ You don't have enough of that item! You have **${userItems[item] || 0}x** ${app.itemdata[item].icon}\`${item}\`.`)
 			}
 
 			if (['crate', 'military_crate', 'candy_pail', 'small_present', 'medium_present', 'large_present', 'supply_drop', 'elite_crate', 'small_loot_bag', 'medium_loot_bag', 'large_loot_bag', 'egg_basket'].includes(item)) {
 				// open box
 				if (!await app.itm.hasSpace(itemCt)) {
-					return message.reply(`❌ **You don't have enough space in your inventory!** (You have **${itemCt.open}** open slots)\n\nYou can clear up space by selling some items.`)
+					return reply(message, `❌ **You don't have enough space in your inventory!** (You have **${itemCt.open}** open slots)\n\nYou can clear up space by selling some items.`)
 				}
 
 				await app.itm.removeItem(message.author.id, item, amount, serverSideGuildId)
@@ -569,7 +570,7 @@ exports.command = {
 			else if (item === 'supply_signal') {
 				await app.itm.removeItem(message.author.id, item, 1, serverSideGuildId)
 
-				message.reply('📻 Requesting immediate airdrop...').then(msg => {
+				reply(message, '📻 Requesting immediate airdrop...').then(msg => {
 					setTimeout(() => {
 						message.channel.createMessage('**📻 Airdrop arriving in `10 seconds`!**')
 					}, 3000)
@@ -592,19 +593,19 @@ exports.command = {
 				const armor = await app.player.getArmor(message.author.id, serverSideGuildId)
 
 				if (armorCD) {
-					return message.reply(`Your ${armor ? `${app.itemdata[armor].icon}\`${armor}\`` : 'current armor'} is still active for \`${armorCD}\`!`)
+					return reply(message, `Your ${armor ? `${app.itemdata[armor].icon}\`${armor}\`` : 'current armor'} is still active for \`${armorCD}\`!`)
 				}
 
 				await app.itm.removeItem(message.author.id, item, 1, serverSideGuildId)
 				await app.cd.setCD(message.author.id, 'shield', itemInfo.shieldInfo.seconds * 1000, { armor: item, serverSideGuildId })
 
-				message.reply(`You put on the ${itemInfo.icon}\`${item}\`. You now take **${Math.floor(itemInfo.shieldInfo.protection * 100)}%** less damage from attacks for \`${app.cd.convertTime(itemInfo.shieldInfo.seconds * 1000)}\``)
+				await reply(message, `You put on the ${itemInfo.icon}\`${item}\`. You now take **${Math.floor(itemInfo.shieldInfo.protection * 100)}%** less damage from attacks for \`${app.cd.convertTime(itemInfo.shieldInfo.seconds * 1000)}\``)
 			}
 			else if (itemInfo.isHeal) {
 				const healCD = await app.cd.getCD(message.author.id, 'heal', { serverSideGuildId })
 
 				if (healCD) {
-					return message.reply(`You need to wait \`${healCD}\` before healing again.`)
+					return reply(message, `You need to wait \`${healCD}\` before healing again.`)
 				}
 
 				const minHeal = itemInfo.healMin
@@ -616,7 +617,7 @@ exports.command = {
 				const healBleed = itemBleedHeal && row.bleed > 0
 
 				if (userMaxHeal === 0 && !healBleed) {
-					return message.reply('❌ You are already at max health!')
+					return reply(message, '❌ You are already at max health!')
 				}
 
 				await app.cd.setCD(message.author.id, 'heal', itemInfo.cooldown.seconds * 1000, { serverSideGuildId })
@@ -632,11 +633,11 @@ exports.command = {
 						await app.query(`UPDATE scores SET health = health + ${userMaxHeal}, bleed = ${bleedingVal} WHERE userId = '${message.author.id}'`)
 					}
 
-					message.reply(`You have healed for **${userMaxHeal}** health! You now have ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} ${row.health + userMaxHeal} / ${row.maxHealth} HP. Bleeding reduced from 🩸**${row.bleed}** to 🩸**${bleedingVal}**.`)
+					await reply(message, `You have healed for **${userMaxHeal}** health! You now have ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} ${row.health + userMaxHeal} / ${row.maxHealth} HP. Bleeding reduced from 🩸**${row.bleed}** to 🩸**${bleedingVal}**.`)
 				}
 				else {
 					await app.player.addHealth(message.author.id, userMaxHeal, serverSideGuildId)
-					message.reply(`You have healed for **${userMaxHeal}** health! You now have ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} ${row.health + userMaxHeal} / ${row.maxHealth} HP.`)
+					await reply(message, `You have healed for **${userMaxHeal}** health! You now have ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} ${row.health + userMaxHeal} / ${row.maxHealth} HP.`)
 				}
 			}
 			else if (itemInfo.givesMoneyOnUse) {
@@ -647,7 +648,7 @@ exports.command = {
 
 				await app.player.addMoney(message.author.id, randAmt, serverSideGuildId)
 				await app.itm.removeItem(message.author.id, item, 1, serverSideGuildId)
-				message.reply(`You open the ${itemInfo.icon}\`${item}\` and find... **${app.common.formatNumber(randAmt)}**`)
+				await reply(message, `You open the ${itemInfo.icon}\`${item}\` and find... **${app.common.formatNumber(randAmt)}**`)
 			}
 			else if (item === 'reroll_scroll') {
 				await app.itm.removeItem(message.author.id, item, 1, serverSideGuildId)
@@ -671,38 +672,38 @@ exports.command = {
 					}
 				}
 
-				message.reply(`You read the ${app.itemdata.reroll_scroll.icon}\`reroll_scroll\` and feel a sense of renewal. Your skills have been reset.`)
+				await reply(message, `You read the ${app.itemdata.reroll_scroll.icon}\`reroll_scroll\` and feel a sense of renewal. Your skills have been reset.`)
 			}
 			else if (['c4'].includes(item)) {
 				if (serverSideGuildId) {
-					return message.reply('❌ You cannot use explosives with server-side economy mode enabled.')
+					return reply(message, '❌ You cannot use explosives with server-side economy mode enabled.')
 				}
 
-				await message.reply(`What clan do you want to use ${app.itemdata[item].icon}\`${item}\` on?\n\nType the name of the clan:`)
+				await reply(message, `What clan do you want to use ${app.itemdata[item].icon}\`${item}\` on?\n\nType the name of the clan:`)
 
 				const result = await app.msgCollector.awaitMessages(message.author.id, message.channel.id, m => m.author.id === message.author.id)
 
 				if (result === 'time') {
-					return message.reply('You ran out of time to specify a clan.')
+					return reply(message, 'You ran out of time to specify a clan.')
 				}
 
 				const clanName = result[0].content.split(/ +/)
 				userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 
 				if (!userItems[item]) {
-					return message.reply(`❌ You don't have a ${app.itemdata[item].icon}\`${item}\`!`)
+					return reply(message, `❌ You don't have a ${app.itemdata[item].icon}\`${item}\`!`)
 				}
 
 				const clanRow = await app.clans.searchClanRow(clanName.join(' '))
 
 				if (!clanRow) {
-					return result[0].reply('I could not find a clan with that name! Maybe you misspelled it?')
+					return reply(result[0], 'I could not find a clan with that name! Maybe you misspelled it?')
 				}
 				else if (row.clanId === clanRow.clanId) {
-					return result[0].reply('❌ You cannot use explosives on your own clan.')
+					return reply(result[0], '❌ You cannot use explosives on your own clan.')
 				}
 				else if (clanRow.health <= 0) {
-					return result[0].reply(`❌ That clan can already be raided! Raid them with \`${prefix}clan raid ${clanRow.name}\``)
+					return reply(result[0], `❌ That clan can already be raided! Raid them with \`${prefix}clan raid ${clanRow.name}\``)
 				}
 
 				await app.itm.removeItem(message.author.id, item, 1)
@@ -719,7 +720,7 @@ exports.command = {
 			}
 		}
 		else {
-			return message.reply(`❌ That item cannot be used on yourself or other players. \`${prefix}use <item> <@user>\``)
+			return reply(message, `❌ That item cannot be used on yourself or other players. \`${prefix}use <item> <@user>\``)
 		}
 	}
 }

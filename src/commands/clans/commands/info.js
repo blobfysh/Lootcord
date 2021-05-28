@@ -1,4 +1,5 @@
 const { CLANS } = require('../../../resources/constants')
+const { reply } = require('../../../utils/messageUtils')
 
 exports.command = {
 	name: 'info',
@@ -16,7 +17,7 @@ exports.command = {
 		const mentionedUser = app.parse.members(message, args)[0]
 
 		if (!args.length && scoreRow.clanId === 0) {
-			return message.reply('You are not a member of any clan! You can look up other clans by searching their name.')
+			return reply(message, 'You are not a member of any clan! You can look up other clans by searching their name.')
 		}
 		else if (!args.length) {
 			await getClanInfo(app, message, scoreRow.clanId)
@@ -25,10 +26,10 @@ exports.command = {
 			const invitedScoreRow = await app.player.getRow(mentionedUser.id)
 
 			if (!invitedScoreRow) {
-				return message.reply('❌ The person you\'re trying to search doesn\'t have an account!')
+				return reply(message, '❌ The person you\'re trying to search doesn\'t have an account!')
 			}
 			else if (invitedScoreRow.clanId === 0) {
-				return message.reply('❌ That user is not in a clan.')
+				return reply(message, '❌ That user is not in a clan.')
 			}
 
 			await getClanInfo(app, message, invitedScoreRow.clanId)
@@ -38,7 +39,7 @@ exports.command = {
 			const clanRow = await app.clans.searchClanRow(clanName)
 
 			if (!clanRow) {
-				return message.reply('I could not find a clan with that name! Maybe you misspelled it?')
+				return reply(message, 'I could not find a clan with that name! Maybe you misspelled it?')
 			}
 
 			await getClanInfo(app, message, clanRow.clanId)

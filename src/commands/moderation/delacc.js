@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'delacc',
@@ -19,26 +20,26 @@ exports.command = {
 		const userID = args[0]
 
 		if (message.channel.id !== app.config.modChannel) {
-			return message.reply('❌ You must be in the moderator channel to use this command.')
+			return reply(message, '❌ You must be in the moderator channel to use this command.')
 		}
 		else if (!userID) {
-			return message.reply('❌ You forgot to include a user ID.')
+			return reply(message, '❌ You forgot to include a user ID.')
 		}
 		else if (await app.cd.getCD(userID, 'mod')) {
-			return message.reply('Hey stop trying to delete a moderator!!! >:(')
+			return reply(message, 'Hey stop trying to delete a moderator!!! >:(')
 		}
 
 		const userRow = await app.player.getRow(userID)
 		const serverSideRows = await app.query('SELECT * FROM server_scores WHERE userId = ?', userID)
 
 		if (!userRow && !serverSideRows.length) {
-			return message.reply('❌ User has no account.')
+			return reply(message, '❌ User has no account.')
 		}
 
 		const warnings = await app.query(`SELECT * FROM warnings WHERE userId = '${userID}'`)
 		const user = await app.common.fetchUser(userID, { cacheIPC: false })
 
-		const botMessage = await message.reply({
+		const botMessage = await reply(message, {
 			content: `**${user.username}#${user.discriminator}** currently has **${warnings.length}** warnings on record. Continue delete?`,
 			components: BUTTONS.confirmation
 		})
@@ -97,7 +98,7 @@ exports.command = {
 				}
 			}
 			else {
-				botMessage.delete()
+				await botMessage.delete()
 			}
 		}
 		catch (err) {

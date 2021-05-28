@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 
 const upgrOptions = ['health', 'strength', 'luck']
 
@@ -21,14 +22,14 @@ exports.command = {
 		const upgrAmnt = upgrOptions.includes(upgrOpt) ? app.parse.numbers(args)[0] || 1 : 1
 
 		if (row.used_stats + upgrAmnt > 30) {
-			return message.reply(`❌ Upgrading that much would put you over the max (30 skills upgraded, you've upgraded \`${row.used_stats}\` times). You can use a \`reroll_scroll\` to reset your skills.`)
+			return reply(message, `❌ Upgrading that much would put you over the max (30 skills upgraded, you've upgraded \`${row.used_stats}\` times). You can use a \`reroll_scroll\` to reset your skills.`)
 		}
 
 		let type = getType(upgrOpt)
 		const price = getPrice(row.used_stats, upgrAmnt)
 
 		if (upgrOptions.includes(upgrOpt)) {
-			const botMessage = await message.reply({
+			const botMessage = await reply(message, {
 				content: `Purchase ${upgrAmnt}x points of ${type.display} (${row[type.row]} → ${nextLevel(type, row, upgrAmnt)}) for ${app.common.formatNumber(price)}?`,
 				components: BUTTONS.confirmation
 			})
@@ -69,7 +70,7 @@ exports.command = {
 					}
 				}
 				else {
-					botMessage.delete()
+					await botMessage.delete()
 				}
 			}
 			catch (err) {

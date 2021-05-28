@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'togglebmnotify',
 	aliases: ['toggleblackmarketnotify'],
@@ -18,12 +20,12 @@ exports.command = {
 		if (row.notify1 === 0) {
 			await app.query(`UPDATE scores SET notify1 = 1 WHERE userId = ${message.author.id}`)
 
-			message.reply('✅ You will now receive notifications for sold items on the Black Market.')
+			await reply(message, '✅ You will now receive notifications for sold items on the Black Market.')
 		}
 		else {
 			await app.query(`UPDATE scores SET notify1 = 0 WHERE userId = ${message.author.id}`)
 
-			message.reply('❌ You will no longer receive notifications for sold items on the Black Market.')
+			await reply(message, '❌ You will no longer receive notifications for sold items on the Black Market.')
 		}
 	}
 }

@@ -1,4 +1,5 @@
 const { CLANS } = require('../../../resources/constants')
+const { reply } = require('../../../utils/messageUtils')
 
 exports.command = {
 	name: 'raid',
@@ -16,23 +17,23 @@ exports.command = {
 		const raidCD = await app.cd.getCD(scoreRow.clanId, 'raid')
 
 		if (!args.length) {
-			return message.reply('❌ You need to specify the name of the clan you want to raid.')
+			return reply(message, '❌ You need to specify the name of the clan you want to raid.')
 		}
 		else if (raidCD) {
-			return message.reply(`Your clan just raided! Wait \`${raidCD}\` before raiding another clan.`)
+			return reply(message, `Your clan just raided! Wait \`${raidCD}\` before raiding another clan.`)
 		}
 
 		const clanName = args.join(' ')
 		const clanRow = await app.clans.searchClanRow(clanName)
 
 		if (!clanRow) {
-			return message.reply('I could not find a clan with that name! Maybe you misspelled it?')
+			return reply(message, 'I could not find a clan with that name! Maybe you misspelled it?')
 		}
 		else if (clanRow.clanId === scoreRow.clanId) {
-			return message.reply('Raiding yourself???? What.')
+			return reply(message, 'Raiding yourself???? What.')
 		}
 		else if (await app.cd.getCD(clanRow.clanId, 'raided')) {
-			return message.reply('That clan just got raided! Let the clan recuperate before raiding them again.')
+			return reply(message, 'That clan just got raided! Let the clan recuperate before raiding them again.')
 		}
 
 		try {

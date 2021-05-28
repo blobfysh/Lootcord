@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'profile',
 	aliases: ['p', 'kills', 'deaths', 'banners'],
@@ -18,14 +20,13 @@ exports.command = {
 
 		if (!memberArg) {
 			if (args.length) {
-				message.reply('❌ Could not find anyone matching that description!\nYou can mention someone, use their Discord#tag, or type their user ID')
-				return
+				return reply(message, '❌ Could not find anyone matching that description!\nYou can mention someone, use their Discord#tag, or type their user ID')
 			}
 
-			message.reply(await makeProfile(app, message.author, serverSideGuildId))
+			await reply(message, await makeProfile(app, message.author, serverSideGuildId))
 		}
 		else {
-			message.reply(await makeProfile(app, memberArg, serverSideGuildId))
+			await reply(message, await makeProfile(app, memberArg, serverSideGuildId))
 		}
 	}
 }

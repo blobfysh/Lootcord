@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'ping',
 	aliases: [],
@@ -13,7 +15,7 @@ exports.command = {
 
 
 	async execute (app, message, { args, prefix, guildInfo }) {
-		message.reply(`Pong! ws: ${app.bot.shards.get(app.bot.guildShardMap[message.channel.guild.id]).latency} ms`)
+		await reply(message, `Pong! ws: ${app.bot.shards.get(app.bot.guildShardMap[message.channel.guild.id]).latency} ms`)
 
 		/*
 

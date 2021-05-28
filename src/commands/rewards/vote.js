@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'vote',
 	aliases: [],
@@ -16,7 +18,7 @@ exports.command = {
 		const voteCD = await app.cd.getCD(message.author.id, 'vote')
 		const vote2CD = await app.cd.getCD(message.author.id, 'vote2')
 
-		message.reply(getVotesAvailable(voteCD, vote2CD))
+		await reply(message, getVotesAvailable(voteCD, vote2CD))
 	}
 }
 

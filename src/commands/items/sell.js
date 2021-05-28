@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'sell',
@@ -26,26 +27,26 @@ exports.command = {
 				itemAmounts = app.itm.combineItems(getItemList(sellItems, sellAmounts))
 			}
 			catch (err) {
-				return message.reply(`❌ You need to specify amounts when bulk selling multiple items! For example: \`${prefix}sell rock 1 assault_rifle 3 crate 2\``)
+				return reply(message, `❌ You need to specify amounts when bulk selling multiple items! For example: \`${prefix}sell rock 1 assault_rifle 3 crate 2\``)
 			}
 
 			for (let i = 0; i < itemAmounts.length; i++) {
 				const itemAmnt = itemAmounts[i].split('|')
 
 				if (app.itemdata[itemAmnt[0]].sell === '') {
-					return message.reply(`❌ You can't sell ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`'s!`)
+					return reply(message, `❌ You can't sell ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`'s!`)
 				}
 				else if (!userItems[itemAmnt[0]]) {
-					return message.reply(`❌ You have **0x** ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`.`)
+					return reply(message, `❌ You have **0x** ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`.`)
 				}
 				else if (userItems[itemAmnt[0]] < itemAmnt[1]) {
-					return message.reply(`❌ You only have **${userItems[itemAmnt[0]]}x** ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`.`)
+					return reply(message, `❌ You only have **${userItems[itemAmnt[0]]}x** ${app.itemdata[itemAmnt[0]].icon}\`${itemAmnt[0]}\`.`)
 				}
 
 				sellPrice += app.itemdata[itemAmnt[0]].sell * parseInt(itemAmnt[1])
 			}
 
-			const botMessage = await message.reply({
+			const botMessage = await reply(message, {
 				content: `Sell ${app.itm.getDisplay(itemAmounts).join(', ')} for ${app.common.formatNumber(sellPrice)}?`,
 				components: BUTTONS.confirmation
 			})
@@ -89,11 +90,11 @@ exports.command = {
 					})
 				}
 				else {
-					botMessage.delete()
+					await botMessage.delete()
 				}
 			}
 			catch (err) {
-				botMessage.edit({
+				await botMessage.edit({
 					content: 'You didn\'t react in time.',
 					components: []
 				})
@@ -108,7 +109,7 @@ exports.command = {
 			const itemPrice = app.itemdata[sellItem].sell
 
 			if (!hasItems) {
-				return message.reply(userItems[sellItem] ? `❌ You don't have enough of that item! You have **${userItems[sellItem]}x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.` : `❌ You have **0x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.`)
+				return reply(message, userItems[sellItem] ? `❌ You don't have enough of that item! You have **${userItems[sellItem]}x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.` : `❌ You have **0x** ${app.itemdata[sellItem].icon}\`${sellItem}\`.`)
 			}
 
 			if (itemPrice !== '') {
@@ -116,7 +117,7 @@ exports.command = {
 					sellAmount = 30
 				}
 
-				const botMessage = await message.reply({
+				const botMessage = await reply(message, {
 					content: `Sell ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(itemPrice * sellAmount)}?`,
 					components: BUTTONS.confirmation
 				})
@@ -158,11 +159,11 @@ exports.command = {
 				}
 			}
 			else {
-				message.reply('❌ You can\'t sell that item!')
+				await reply(message, '❌ You can\'t sell that item!')
 			}
 		}
 		else {
-			message.reply(`You need to enter a valid item to sell! \`${prefix}sell <item> <amount>\``)
+			await reply(message, `You need to enter a valid item to sell! \`${prefix}sell <item> <amount>\``)
 		}
 	}
 }

@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'jackpot',
@@ -23,22 +24,22 @@ exports.command = {
 		}
 
 		if (jackpotCD) {
-			return message.reply(`You recently started a server jackpot! You can create another in \`${jackpotCD}\`.`)
+			return reply(message, `You recently started a server jackpot! You can create another in \`${jackpotCD}\`.`)
 		}
 
 		if (!gambleAmount || gambleAmount < 100) {
-			return message.reply(`Please specify an amount of at least ${app.common.formatNumber(100)} to gamble!`)
+			return reply(message, `Please specify an amount of at least ${app.common.formatNumber(100)} to gamble!`)
 		}
 
 		if (gambleAmount > row.money) {
-			return message.reply(`❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
+			return reply(message, `❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
 		}
 
 		if (gambleAmount > 50000) {
-			return message.reply(`Woah there high roller, you cannot gamble more than ${app.common.formatNumber(50000)} on jackpot.`)
+			return reply(message, `Woah there high roller, you cannot gamble more than ${app.common.formatNumber(50000)} on jackpot.`)
 		}
 
-		const botMessage = await message.reply({
+		const botMessage = await reply(message, {
 			content: `You are about to start a server jackpot with an entry of: ${app.common.formatNumber(gambleAmount)}\nAre you sure?`,
 			components: BUTTONS.confirmation
 		})
@@ -160,7 +161,7 @@ async function startJackpot (app, message, prefix, gambleAmount, serverSideGuild
 		})
 	}
 	catch (err) {
-		return message.reply('There is already an active jackpot in this channel.')
+		return reply(message, 'There is already an active jackpot in this channel.')
 	}
 }
 

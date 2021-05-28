@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../../resources/constants')
+const { reply } = require('../../../utils/messageUtils')
 
 exports.command = {
 	name: 'promote',
@@ -22,28 +23,28 @@ exports.command = {
 			const memberId = members.memberIds[number - 1]
 
 			if (!memberId) {
-				return message.reply(`Please specify someone to promote. You can mention someone, use their Discord#tag, type their user ID, or use their number from \`${prefix}clan info\``)
+				return reply(message, `Please specify someone to promote. You can mention someone, use their Discord#tag, type their user ID, or use their number from \`${prefix}clan info\``)
 			}
 
 			member = await app.common.fetchUser(memberId, { cacheIPC: false })
 		}
 		else if (!member) {
-			return message.reply(`Please specify someone to promote. You can mention someone, use their Discord#tag, type their user ID, or use their number from \`${prefix}clan info\``)
+			return reply(message, `Please specify someone to promote. You can mention someone, use their Discord#tag, type their user ID, or use their number from \`${prefix}clan info\``)
 		}
 
 		const invitedScoreRow = await app.player.getRow(member.id)
 
 		if (!invitedScoreRow) {
-			return message.reply('❌ The person you\'re trying to search doesn\'t have an account!')
+			return reply(message, '❌ The person you\'re trying to search doesn\'t have an account!')
 		}
 		else if (invitedScoreRow.clanId !== scoreRow.clanId) {
-			return message.reply('❌ That user is not in your clan.')
+			return reply(message, '❌ That user is not in your clan.')
 		}
 		else if (message.author.id === member.id) {
-			return message.reply('❌ You cannot promote yourself.')
+			return reply(message, '❌ You cannot promote yourself.')
 		}
 		else if (app.clan_ranks[invitedScoreRow.clanRank + 1].title !== 'Leader' && (invitedScoreRow.clanRank + 1) >= scoreRow.clanRank) {
-			return message.reply('You cannot promote members to an equal or higher rank!')
+			return reply(message, 'You cannot promote members to an equal or higher rank!')
 		}
 		else if (app.clan_ranks[invitedScoreRow.clanRank + 1].title === 'Leader') {
 			promoteMessage = `Promoting this member will make them the leader of the clan! Are you sure you want to give leadership to **${member.username}#${member.discriminator}**?`

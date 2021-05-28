@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'botstatus',
 	aliases: [],
@@ -21,13 +23,13 @@ exports.command = {
 		const content = args.slice(2).join(' ')
 
 		if (!status) {
-			return message.reply('❌ You forgot to include a status.')
+			return reply(message, '❌ You forgot to include a status.')
 		}
 		else if (!type) {
-			return message.reply('❌ You forgot to include the type of status.')
+			return reply(message, '❌ You forgot to include the type of status.')
 		}
 		else if (!content) {
-			return message.reply('❌ You forgot to include the content of the status.')
+			return reply(message, '❌ You forgot to include the content of the status.')
 		}
 
 		app.ipc.broadcast('setStatus', {
@@ -36,6 +38,6 @@ exports.command = {
 			content
 		})
 
-		message.reply('✅ Set status across all shards.')
+		await reply(message, '✅ Set status across all shards.')
 	}
 }

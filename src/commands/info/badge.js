@@ -1,4 +1,5 @@
 const BADGES_PER_PAGE = 20
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'badge',
@@ -32,7 +33,7 @@ exports.command = {
 				badgeEmbed.setFooter(`Art by ${artistInfo.username}#${artistInfo.discriminator}`)
 			}
 
-			message.channel.createMessage(badgeEmbed)
+			await message.channel.createMessage(badgeEmbed)
 		}
 		else if (!args.length) {
 			const badgeList = Object.keys(app.badgedata)
@@ -41,10 +42,10 @@ exports.command = {
 				return app.btnCollector.paginate(message, generatePages(app, Object.keys(app.badgedata).sort(), BADGES_PER_PAGE))
 			}
 
-			message.channel.createMessage(generatePages(app, badgeList, BADGES_PER_PAGE)[0])
+			await message.channel.createMessage(generatePages(app, badgeList, BADGES_PER_PAGE)[0])
 		}
 		else {
-			return message.reply('❌ I don\'t recognize that badge.')
+			return reply(message, '❌ I don\'t recognize that badge.')
 		}
 	}
 }

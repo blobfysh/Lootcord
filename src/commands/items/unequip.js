@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'unequip',
 	aliases: [],
@@ -29,10 +31,10 @@ exports.command = {
 					await app.itm.addItem(message.author.id, userRow.backpack, 1)
 				}
 
-				message.reply(`✅ Successfully unequipped ${app.itemdata[userRow.backpack].icon}\`${userRow.backpack}\`.\nYour carry capacity is now **${app.config.baseInvSlots + (userRow.inv_slots - app.itemdata[userRow.backpack].inv_slots)}** items.`)
+				await reply(message, `✅ Successfully unequipped ${app.itemdata[userRow.backpack].icon}\`${userRow.backpack}\`.\nYour carry capacity is now **${app.config.baseInvSlots + (userRow.inv_slots - app.itemdata[userRow.backpack].inv_slots)}** items.`)
 			}
 			else {
-				message.reply('❌ You don\'t have a storage container equipped! You can check what containers you own in your `inventory`.')
+				await reply(message, '❌ You don\'t have a storage container equipped! You can check what containers you own in your `inventory`.')
 			}
 		}
 
@@ -47,10 +49,10 @@ exports.command = {
 					await app.itm.addItem(message.author.id, userRow.banner, 1)
 				}
 
-				message.reply(`✅ Successfully unequipped ${app.itemdata[userRow.banner].icon}\`${userRow.banner}\`.`)
+				await reply(message, `✅ Successfully unequipped ${app.itemdata[userRow.banner].icon}\`${userRow.banner}\`.`)
 			}
 			else {
-				message.reply('❌ You don\'t have a banner equipped! You can check what banners you own on your `profile`.')
+				await reply(message, '❌ You don\'t have a banner equipped! You can check what banners you own on your `profile`.')
 			}
 		}
 
@@ -62,11 +64,11 @@ exports.command = {
 				await app.query(`UPDATE scores SET badge = 'none' WHERE userId = ${message.author.id}`)
 			}
 
-			return message.reply('✅ Successfully unequipped your display badge!')
+			return reply(message, '✅ Successfully unequipped your display badge!')
 		}
 
 		else {
-			message.reply(`Specify a storage container, banner, or badge to unequip. \`${prefix}unequip <item/badge>\``)
+			await reply(message, `Specify a storage container, banner, or badge to unequip. \`${prefix}unequip <item/badge>\``)
 		}
 	}
 }

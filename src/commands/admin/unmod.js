@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'unmod',
 	aliases: [],
@@ -17,10 +19,10 @@ exports.command = {
 		const userID = args[0]
 
 		if (!userID) {
-			return message.reply('❌ You forgot to include a user ID.')
+			return reply(message, '❌ You forgot to include a user ID.')
 		}
 		else if (!await app.cd.getCD(userID, 'mod')) {
-			return message.reply('❌ User is not a moderator.')
+			return reply(message, '❌ User is not a moderator.')
 		}
 
 		try {
@@ -29,10 +31,10 @@ exports.command = {
 			await app.cd.clearCD(userID, 'mod')
 			await app.query(`DELETE FROM mods WHERE userId ="${userID}"`)
 
-			message.reply(`Successfully unmodded **${user.username}#${user.discriminator}**!`)
+			await reply(message, `Successfully unmodded **${user.username}#${user.discriminator}**!`)
 		}
 		catch (err) {
-			message.reply(`Error messaging user:\`\`\`\n${err}\`\`\``)
+			await reply(message, `Error messaging user:\`\`\`\n${err}\`\`\``)
 		}
 	}
 }

@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'getmods',
 	aliases: [],
@@ -30,7 +32,7 @@ exports.command = {
 			message.channel.createMessage(modMsg)
 		}
 		catch (err) {
-			message.reply(`Error: \`\`\`${err}\`\`\``)
+			await reply(message, `Error: \`\`\`${err}\`\`\``)
 		}
 	}
 }

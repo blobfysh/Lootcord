@@ -1,4 +1,5 @@
 const Eris = require('eris')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'getguildstats',
@@ -21,15 +22,15 @@ exports.command = {
 		const fetchAll = args[1]
 
 		if (!guildID) {
-			return message.reply('❌ You forgot to include a guild ID.')
+			return reply(message, '❌ You forgot to include a guild ID.')
 		}
 
 		try {
-			if (await app.cd.getCD(guildID, 'guildbanned')) return message.reply('❌ That guild has been banned from using the bot.')
+			if (await app.cd.getCD(guildID, 'guildbanned')) return reply(message, '❌ That guild has been banned from using the bot.')
 
 			let fetchedGuildInfo = await app.common.fetchGuild(guildID)
 
-			if (!fetchedGuildInfo) return message.reply('❌ I am not in a guild with that ID.')
+			if (!fetchedGuildInfo) return reply(message, '❌ I am not in a guild with that ID.')
 
 			if (fetchAll && fetchAll.toLowerCase() === '-fetchall') {
 				await app.ipc.broadcast('fetchAllMembers', { guildId: guildID })
@@ -72,11 +73,11 @@ exports.command = {
 
 			if (fetchedGuildInfo.icon) statEmbed.setThumbnail(app.bot._formatImage(`/icons/${guildID}/${fetchedGuildInfo.icon}`))
 
-			message.channel.createMessage(statEmbed)
+			await message.channel.createMessage(statEmbed)
 		}
 		catch (err) {
 			console.log(err)
-			message.reply(`Error:\`\`\`${err}\`\`\``)
+			await reply(message, `Error:\`\`\`${err}\`\`\``)
 		}
 	}
 }

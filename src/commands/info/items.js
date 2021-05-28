@@ -1,4 +1,5 @@
 const { ITEM_TYPES } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 const ITEMS_PER_PAGE = 15
 
 exports.command = {
@@ -146,13 +147,13 @@ exports.command = {
 				embedItem.addField('Recycled from:', recycledFrom.join('\n'), true)
 			}
 
-			message.channel.createMessage(embedItem)
+			await message.channel.createMessage(embedItem)
 		}
 		else if (!itemChoice) {
 			app.btnCollector.paginate(message, generatePages(app, itemsArraySorted, prefix))
 		}
 		else {
-			message.reply(`I don't recognize that item. Use \`${prefix}items\` to see a full list!`)
+			await reply(message, `I don't recognize that item. Use \`${prefix}items\` to see a full list!`)
 		}
 	}
 }

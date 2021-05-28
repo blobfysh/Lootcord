@@ -1,4 +1,5 @@
 const { ITEM_TYPES, BUTTONS } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'sellall',
@@ -23,7 +24,7 @@ exports.command = {
 			const itemsToCheck = Object.keys(app.itemdata).filter(item => app.itemdata[item].category === ITEM_TYPES[sellItem.toLowerCase()].type)
 
 			if (itemsToCheck.length < 1) {
-				return message.reply(`You need to enter a valid type to sell! \`${prefix}sellall <type>\``)
+				return reply(message, `You need to enter a valid type to sell! \`${prefix}sellall <type>\``)
 			}
 
 			const itemRow = await app.itm.getItemObject(message.author.id, serverSideGuildId)
@@ -35,10 +36,10 @@ exports.command = {
 				}
 			}
 			if (totalAmount <= 0) {
-				return message.reply(`❌ You don't have any **${ITEM_TYPES[sellItem.toLowerCase()].type}** items.`)
+				return reply(message, `❌ You don't have any **${ITEM_TYPES[sellItem.toLowerCase()].type}** items.`)
 			}
 
-			const botMessage = await message.reply({
+			const botMessage = await reply(message, {
 				content: `Sell **${totalAmount}x** items (category: \`${ITEM_TYPES[sellItem.toLowerCase()].name}\`) for ${app.common.formatNumber(commonTotal)}?`,
 				components: BUTTONS.confirmation
 			})
@@ -106,10 +107,10 @@ exports.command = {
 			}
 
 			if (totalAmount <= 0) {
-				return message.reply('❌ You don\'t have any items you can sell.')
+				return reply(message, '❌ You don\'t have any items you can sell.')
 			}
 
-			const botMessage = await message.reply({
+			const botMessage = await reply(message, {
 				content: `Sell ${totalAmount}x items for ${app.common.formatNumber(commonTotal)}?`,
 				components: BUTTONS.confirmation
 			})
@@ -150,18 +151,18 @@ exports.command = {
 					}
 				}
 				else {
-					botMessage.delete()
+					await botMessage.delete()
 				}
 			}
 			catch (err) {
-				botMessage.edit({
+				await botMessage.edit({
 					content: '❌ Command timed out.',
 					components: []
 				})
 			}
 		}
 		else {
-			message.reply('You need to enter a valid item type to sell! Ex. `sellall ranged`')
+			await reply(message, 'You need to enter a valid item type to sell! Ex. `sellall ranged`')
 		}
 	}
 }

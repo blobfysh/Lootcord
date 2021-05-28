@@ -1,4 +1,5 @@
 const { makeProfile } = require('../info/profile')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'getprofile',
@@ -19,12 +20,12 @@ exports.command = {
 		const userID = args[0]
 
 		if (!userID) {
-			return message.reply('❌ You forgot to include a user ID.')
+			return reply(message, '❌ You forgot to include a user ID.')
 		}
 
 		const userInfo = await app.common.fetchUser(userID, { cacheIPC: false })
 		const profile = await makeProfile(app, userInfo, undefined)
 
-		message.reply(profile)
+		await reply(message, profile)
 	}
 }

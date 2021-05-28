@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'restart',
 	aliases: [],
@@ -17,19 +19,19 @@ exports.command = {
 		const clusterID = args[0]
 
 		if (clusterID === undefined) {
-			return message.reply('❌ You forgot to include a cluster ID.')
+			return reply(message, '❌ You forgot to include a cluster ID.')
 		}
 		else if (!parseInt(clusterID) && clusterID !== '0') {
-			return message.reply('❌ Only numbers are supported.')
+			return reply(message, '❌ Only numbers are supported.')
 		}
 
 		try {
-			message.reply(`Restarting cluster \`${clusterID}\`...`)
+			await reply(message, `Restarting cluster \`${clusterID}\`...`)
 
 			app.restartCluster(parseInt(clusterID))
 		}
 		catch (err) {
-			message.reply(`Error messaging user:\`\`\`\n${err}\`\`\``)
+			await reply(message, `Error messaging user:\`\`\`\n${err}\`\`\``)
 		}
 	}
 }

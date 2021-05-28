@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'disablecommand',
 	aliases: [],
@@ -17,7 +19,7 @@ exports.command = {
 		const command = args[0]
 
 		if (!command) {
-			return message.reply('❌ You forgot to include a command.')
+			return reply(message, '❌ You forgot to include a command.')
 		}
 
 		if (app.sets.disabledCommands.has(command)) {
@@ -25,14 +27,14 @@ exports.command = {
 				cmd: command
 			})
 
-			message.reply(`✅ Successfully enabled \`${command}\`.`)
+			await reply(message, `✅ Successfully enabled \`${command}\`.`)
 		}
 		else {
 			app.ipc.broadcast('disableCmd', {
 				cmd: command
 			})
 
-			message.reply(`❌ Successfully disabled \`${command}\`.`)
+			await reply(message, `❌ Successfully disabled \`${command}\`.`)
 		}
 	}
 }

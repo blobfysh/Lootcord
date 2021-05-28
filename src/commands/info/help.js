@@ -1,4 +1,5 @@
 // const tips = require('../../resources/json/tips')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'help',
@@ -20,12 +21,12 @@ exports.command = {
 		if (args[0]) {
 			const cmd = app.commands.find(c => c.name === args[0] || (c.aliases.length && c.aliases.includes(args[0])))
 
-			if (!cmd) return message.reply('❌ That command doesn\'t exist!')
+			if (!cmd) return reply(message, '❌ That command doesn\'t exist!')
 
 			// disable command lookup of admin/moderator commands
-			if (cmd.category === 'admin' && !app.sets.adminUsers.has(message.author.id)) return message.reply('❌ That command doesn\'t exist!')
+			if (cmd.category === 'admin' && !app.sets.adminUsers.has(message.author.id)) return reply(message, '❌ That command doesn\'t exist!')
 
-			if (cmd.category === 'moderation' && !(await app.cd.getCD(message.author.id, 'mod') || app.sets.adminUsers.has(message.author.id))) return message.reply('❌ That command doesn\'t exist!')
+			if (cmd.category === 'moderation' && !(await app.cd.getCD(message.author.id, 'mod') || app.sets.adminUsers.has(message.author.id))) return reply(message, '❌ That command doesn\'t exist!')
 
 			const embed = new app.Embed()
 				.setTitle(`🔎 ${cmd.name}`)
@@ -99,7 +100,7 @@ exports.command = {
 		if (categoriesArr.includes('other')) embed.addField('📈 Other', categories.other.map(cmd => `\`${cmd}\``).join(' '))
 		if (!serverSideGuildId) embed.addField('⚔️ Clans', `For details on using clan commands, you can type \`${prefix}clan help\`, or check this [link](https://lootcord.com/guides/clans).\n\n${app.clanCommands.map(cmd => `\`${cmd.name}\``).join(' ')}`)
 
-		message.channel.createMessage(embed)
+		await message.channel.createMessage(embed)
 	}
 }
 

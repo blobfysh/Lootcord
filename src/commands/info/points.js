@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'points',
 	aliases: ['xp'],
@@ -16,6 +18,6 @@ exports.command = {
 		const row = await app.player.getRow(message.author.id, serverSideGuildId)
 		const xp = app.common.calculateXP(row.points, row.level)
 
-		message.reply(`You currently have **${xp.curLvlXp} / ${xp.neededForLvl}** XP towards level **${row.level + 1}**.`)
+		await reply(message, `You currently have **${xp.curLvlXp} / ${xp.neededForLvl}** XP towards level **${row.level + 1}**.`)
 	}
 }

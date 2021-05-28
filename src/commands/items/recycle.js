@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'recycle',
@@ -19,7 +20,7 @@ exports.command = {
 
 		if (sellItem) {
 			if (!app.itemdata[sellItem].recyclesTo.materials.length) {
-				return message.reply('That item cannot be recycled.')
+				return reply(message, 'That item cannot be recycled.')
 			}
 
 			if (sellAmount > 20) sellAmount = 20
@@ -81,7 +82,7 @@ exports.command = {
 					})
 				}
 				else {
-					botMessage.delete()
+					await botMessage.delete()
 				}
 			}
 			catch (err) {
@@ -89,14 +90,14 @@ exports.command = {
 					.setColor(16734296)
 					.setDescription('❌ Command timed out.')
 
-				botMessage.edit({
+				await botMessage.edit({
 					embed: errorEmbed.embed,
 					components: []
 				})
 			}
 		}
 		else {
-			message.reply(`I don't recognize that item. \`${prefix}recycle <item>\``)
+			await reply(message, `I don't recognize that item. \`${prefix}recycle <item>\``)
 		}
 	}
 }

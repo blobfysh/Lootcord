@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'revokepremium',
 	aliases: [],
@@ -17,13 +19,13 @@ exports.command = {
 		const userID = args[0]
 
 		if (!userID) {
-			return message.reply('❌ You forgot to include a user ID.')
+			return reply(message, '❌ You forgot to include a user ID.')
 		}
 
 		const patronCD = await app.cd.getCD(userID, 'patron')
 
 		if (!patronCD) {
-			return message.reply('❌ User is not a donator.')
+			return reply(message, '❌ User is not a donator.')
 		}
 
 		await app.cache.del(`patron|${userID}`)
@@ -45,6 +47,6 @@ exports.command = {
 			console.warn(err)
 		}
 
-		message.reply('✅ Successfully revoked donator perks.')
+		await reply(message, '✅ Successfully revoked donator perks.')
 	}
 }

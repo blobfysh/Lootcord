@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 
 const resetData = {
 	money: 100,
@@ -35,7 +36,7 @@ exports.command = {
 	guildModsOnly: true,
 
 	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
-		const botMessage = await message.reply({
+		const botMessage = await reply(message, {
 			content: 'Are you sure you want to wipe everyone in the server? Cooldowns will remain unaffected.',
 			components: BUTTONS.confirmation
 		})

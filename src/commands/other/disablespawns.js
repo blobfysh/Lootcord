@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'disablespawns',
 	aliases: ['disablebounty', 'disablespawn'],
@@ -15,13 +17,13 @@ exports.command = {
 
 	async execute (app, message, { args, prefix, guildInfo }) {
 		const userSpawns = await app.mysql.select('spawnchannels', 'userId', message.author.id, true)
-		if (userSpawns.length === 0) return message.reply('❌ You don\'t have any active spawn channels. You can spawn enemies with `enablespawns`.')
+		if (userSpawns.length === 0) return reply(message, '❌ You don\'t have any active spawn channels. You can spawn enemies with `enablespawns`.')
 
 		for (let i = 0; i < userSpawns.length; i++) {
 			await app.cd.clearCD(userSpawns[i].channelId, 'spawnCD')
 			await app.query('DELETE FROM spawnchannels WHERE channelId = ?', [userSpawns[i].channelId])
 		}
 
-		message.reply(`✅ Successfully stopped \`${userSpawns.length}\` active spawn channels.`)
+		await reply(message, `✅ Successfully stopped \`${userSpawns.length}\` active spawn channels.`)
 	}
 }

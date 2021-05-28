@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'shardsinfo',
 	aliases: ['shardinfo'],
@@ -14,7 +16,7 @@ exports.command = {
 	async execute (app, message, { args, prefix, guildInfo }) {
 		const stats = JSON.parse(await app.cache.get('stats'))
 
-		if (!stats) return message.reply('❌ Shard info not ready')
+		if (!stats) return reply(message, '❌ Shard info not ready')
 
 		const shardInfo = new app.Embed()
 			.setTitle('Shards')
@@ -26,7 +28,7 @@ exports.command = {
 			}
 		}
 
-		message.channel.createMessage(shardInfo)
+		await message.channel.createMessage(shardInfo)
 	}
 }
 

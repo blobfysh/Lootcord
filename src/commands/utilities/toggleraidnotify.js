@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'toggleraidnotify',
 	aliases: ['toggleclannotify'],
@@ -18,12 +20,12 @@ exports.command = {
 		if (row.notify3 === 0) {
 			await app.query(`UPDATE scores SET notify3 = 1 WHERE userId = ${message.author.id}`)
 
-			message.reply('✅ You will now receive a DM when your clan is raided.')
+			await reply(message, '✅ You will now receive a DM when your clan is raided.')
 		}
 		else {
 			await app.query(`UPDATE scores SET notify3 = 0 WHERE userId = ${message.author.id}`)
 
-			message.reply('❌ You will no longer receive a DM when your clan is raided.')
+			await reply(message, '❌ You will no longer receive a DM when your clan is raided.')
 		}
 	}
 }

@@ -1,3 +1,5 @@
+const { reply } = require('../../../utils/messageUtils')
+
 exports.command = {
 	name: 'help',
 	aliases: [],
@@ -13,7 +15,7 @@ exports.command = {
 		if (args[0]) {
 			const cmd = app.clanCommands.find(c => c.name === args[0] || (c.aliases.length && c.aliases.includes(args[0])))
 
-			if (!cmd) return message.reply('❌ That isn\'t a clan command, use `clan help` to see available clan commands.')
+			if (!cmd) return reply(message, '❌ That isn\'t a clan command, use `clan help` to see available clan commands.')
 
 			const embed = new app.Embed()
 				.setTitle(`🔎 clan ${cmd.name}`)

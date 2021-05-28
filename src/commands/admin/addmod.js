@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'addmod',
 	aliases: [],
@@ -17,10 +19,10 @@ exports.command = {
 		const userID = args[0]
 
 		if (!userID) {
-			return message.reply('❌ You forgot to include a user ID.')
+			return reply(message, '❌ You forgot to include a user ID.')
 		}
 		else if (await app.cd.getCD(userID, 'mod')) {
-			return message.reply('❌ User is already a moderator.')
+			return reply(message, '❌ User is already a moderator.')
 		}
 
 		const modMsg = new app.Embed()
@@ -37,10 +39,10 @@ exports.command = {
 
 			await app.common.messageUser(userID, modMsg, { throwErr: true })
 
-			message.reply(`Successfully modded **${user.username}#${user.discriminator}**!`)
+			await reply(message, `Successfully modded **${user.username}#${user.discriminator}**!`)
 		}
 		catch (err) {
-			message.reply(`Error messaging user:\`\`\`\n${err}\`\`\``)
+			await reply(message, `Error messaging user:\`\`\`\n${err}\`\`\``)
 		}
 	}
 }

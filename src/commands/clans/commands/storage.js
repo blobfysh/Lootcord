@@ -1,5 +1,7 @@
 const { ITEM_TYPES, CLANS } = require('../../../resources/constants')
 const { getPageCount } = require('../../info/inventory')
+const { reply } = require('../../../utils/messageUtils')
+
 const ITEMS_PER_PAGE = 15
 
 exports.command = {
@@ -18,7 +20,7 @@ exports.command = {
 		const mentionedUser = app.parse.members(message, args)[0]
 
 		if (!args.length && scoreRow.clanId === 0) {
-			return message.reply('You are not a member of any clan! You can look up other clans by searching their name.')
+			return reply(message, 'You are not a member of any clan! You can look up other clans by searching their name.')
 		}
 		else if (!args.length) {
 			app.btnCollector.paginate(message, await generatePages(app, scoreRow.clanId))
@@ -26,10 +28,10 @@ exports.command = {
 		else if (mentionedUser !== undefined) {
 			const mentionedScoreRow = await app.player.getRow(mentionedUser.id)
 			if (!mentionedScoreRow) {
-				return message.reply('❌ The person you\'re trying to search doesn\'t have an account!')
+				return reply(message, '❌ The person you\'re trying to search doesn\'t have an account!')
 			}
 			else if (mentionedScoreRow.clanId === 0) {
-				return message.reply('❌ That user is not in a clan.')
+				return reply(message, '❌ That user is not in a clan.')
 			}
 
 			app.btnCollector.paginate(message, await generatePages(app, mentionedScoreRow.clanId))
@@ -39,7 +41,7 @@ exports.command = {
 			const clanRow = await app.clans.searchClanRow(clanName)
 
 			if (!clanRow) {
-				return message.reply('I could not find a clan with that name! Maybe you misspelled it?')
+				return reply(message, 'I could not find a clan with that name! Maybe you misspelled it?')
 			}
 
 			app.btnCollector.paginate(message, await generatePages(app, clanRow.clanId))

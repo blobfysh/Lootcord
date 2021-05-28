@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'level',
 	aliases: ['lvl'],
@@ -23,7 +25,7 @@ exports.command = {
 				`\n\nCrafting recipes you'll unlock next level:\n${craftableItems.map(item => `${app.itemdata[item].icon}\`${item}\``).join('\n')}` :
 				''
 
-			message.channel.createMessage({
+			await message.channel.createMessage({
 				content: `Your current level is **${row.level}** (XP: **${xp.curLvlXp} / ${xp.neededForLvl}**)${recipes}`
 			}, {
 				file: await app.player.getLevelImage(message.author.avatarURL, row.level),
@@ -32,7 +34,7 @@ exports.command = {
 		}
 		catch (err) {
 			console.log(err)
-			message.reply('There was an error creating your level image! woops...')
+			await reply(message, 'There was an error creating your level image! woops...')
 		}
 	}
 }

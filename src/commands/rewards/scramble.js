@@ -1,4 +1,5 @@
 const axios = require('axios')
+const { reply } = require('../../utils/messageUtils')
 let scrambleFile
 
 try {
@@ -25,14 +26,14 @@ exports.command = {
 		const scrambleCD = await app.cd.getCD(message.author.id, 'scramble', { serverSideGuildId })
 
 		if (scrambleCD) {
-			return message.reply(`You need to wait \`${scrambleCD}\` before playing another game of scramble.`)
+			return reply(message, `You need to wait \`${scrambleCD}\` before playing another game of scramble.`)
 		}
 
 		const itemCt = await app.itm.getItemCount(await app.itm.getItemObject(message.author.id, serverSideGuildId), await app.player.getRow(message.author.id, serverSideGuildId))
 		const option = args[0] ? args[0].toLowerCase() : undefined
 
 		if (!option || (option !== 'easy' && option !== 'hard')) {
-			return message.reply(`You need to choose a difficulty \`${prefix}scramble easy/hard\`\nEasy: Hint but less reward\nHard: Better reward, no hint`)
+			return reply(message, `You need to choose a difficulty \`${prefix}scramble easy/hard\`\nEasy: Hint but less reward\nHard: Better reward, no hint`)
 		}
 
 		await app.cd.setCD(message.author.id, 'scramble', app.config.cooldowns.scramble * 1000, { serverSideGuildId })
@@ -155,27 +156,32 @@ exports.command = {
 
 		const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 20000 })
 
-		message.reply(embedScramble)
+		await reply(message, embedScramble)
 
 		collectorObj.collector.on('collect', async m => {
-			if (m.content.toLowerCase() === word.toLowerCase()) {
-				app.msgCollector.stopCollector(collectorObj)
+			try {
+				if (m.content.toLowerCase() === word.toLowerCase()) {
+					app.msgCollector.stopCollector(collectorObj)
 
-				if (reward.item === 'money') {
-					await app.player.addMoney(message.author.id, reward.amount, serverSideGuildId)
+					if (reward.item === 'money') {
+						await app.player.addMoney(message.author.id, reward.amount, serverSideGuildId)
+					}
+					else {
+						await app.itm.addItem(message.author.id, reward.item, reward.amount, serverSideGuildId)
+					}
+
+					await app.player.addStat(message.author.id, 'scramblesCorrect', 1, serverSideGuildId)
+
+					const winScramble = new app.Embed()
+						.setTitle('You got it correct!')
+						.addField('Reward', reward.display)
+						.setColor(9043800)
+
+					await reply(m, winScramble)
 				}
-				else {
-					await app.itm.addItem(message.author.id, reward.item, reward.amount, serverSideGuildId)
-				}
-
-				await app.player.addStat(message.author.id, 'scramblesCorrect', 1, serverSideGuildId)
-
-				const winScramble = new app.Embed()
-					.setTitle('You got it correct!')
-					.addField('Reward', reward.display)
-					.setColor(9043800)
-
-				m.reply(winScramble)
+			}
+			catch (err) {
+				console.log(err)
 			}
 		})
 
@@ -186,7 +192,7 @@ exports.command = {
 					.setDescription(`The word was: \`\`\`\n${word}\`\`\``)
 					.setColor(16734296)
 
-				message.reply(lostScramble)
+				reply(message, lostScramble).catch(err => console.log)
 			}
 		})
 	}

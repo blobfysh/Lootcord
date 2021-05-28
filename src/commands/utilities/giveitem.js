@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'giveitem',
 	aliases: [],
@@ -22,13 +24,13 @@ exports.command = {
 		const amount = app.parse.numbers(args)[0] || 1
 
 		if (!item) {
-			return message.reply('❌ You must specify what item to give!')
+			return reply(message, '❌ You must specify what item to give!')
 		}
 		else if (!member) {
-			return message.reply('❌ You must specify who you want to give the item to!')
+			return reply(message, '❌ You must specify who you want to give the item to!')
 		}
 		else if (app.itemdata[item].isSpecial) {
-			return message.reply('❌ You cannot give limited items.')
+			return reply(message, '❌ You cannot give limited items.')
 		}
 
 		// using transaction for safety
@@ -37,7 +39,7 @@ exports.command = {
 
 		if (!row) {
 			await transaction.commit()
-			return message.reply(`❌ **${member.username} has not created an account yet.** Have them use some commands first.`)
+			return reply(message, `❌ **${member.username} has not created an account yet.** Have them use some commands first.`)
 		}
 
 		const userItems = await app.itm.getItemObjectForUpdate(transaction.query, member.id, serverSideGuildId)
@@ -46,16 +48,16 @@ exports.command = {
 
 		if (!hasSpace && !app.itemdata[item].isBanner) {
 			await transaction.commit()
-			return message.reply(`❌ **${member.username} is out of inventory space!** (Open slots: **${itemCt.open}** Required: **${amount}**)\nHave them clear space by selling some items.`)
+			return reply(message, `❌ **${member.username} is out of inventory space!** (Open slots: **${itemCt.open}** Required: **${amount}**)\nHave them clear space by selling some items.`)
 		}
 		else if (app.itemdata[item].isBanner && itemCt.bannerCt + amount > 100) {
 			await transaction.commit()
-			return message.reply(`❌ **${member.username} cannot hold that many banners!** (100 max).`)
+			return reply(message, `❌ **${member.username} cannot hold that many banners!** (100 max).`)
 		}
 
 		await app.itm.addItemSafely(transaction.query, member.id, item, amount, serverSideGuildId)
 		await transaction.commit()
 
-		return message.reply(`✅ Gave **${amount}x** ${app.itemdata[item].icon}\`${item}\` to **${member.username}#${member.discriminator}**.`)
+		return reply(message, `✅ Gave **${amount}x** ${app.itemdata[item].icon}\`${item}\` to **${member.username}#${member.discriminator}**.`)
 	}
 }

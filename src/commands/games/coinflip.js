@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 const WIN_QUOTES = [
 	'You chose **{choice}** and the coin landed on **{side}**\n\nYou just won **{bet}**!',
 	'You chose **{choice}** and the coin landed on **{side}**\n\nWow you\'re pretty good at flipping this coin 👀 You won **{bet}**!',
@@ -36,19 +38,19 @@ exports.command = {
 		}
 
 		if (coinflipCD) {
-			return message.reply(`You need to wait \`${coinflipCD}\` before flipping another coin.`)
+			return reply(message, `You need to wait \`${coinflipCD}\` before flipping another coin.`)
 		}
 
 		if (!gambleAmount || gambleAmount < 100) {
-			return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100)}** to gamble!`)
+			return reply(message, `Please specify an amount of at least **${app.common.formatNumber(100)}** to gamble!`)
 		}
 
 		if (gambleAmount > row.money) {
-			return message.reply(`❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
+			return reply(message, `❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
 		}
 
 		if (gambleAmount > 50000) {
-			return message.reply(`Woah there high roller, you cannot gamble more than **${app.common.formatNumber(50000)}** on coinflip.`)
+			return reply(message, `Woah there high roller, you cannot gamble more than **${app.common.formatNumber(50000)}** on coinflip.`)
 		}
 
 
@@ -59,7 +61,7 @@ exports.command = {
 				await app.itm.addBadge(message.author.id, 'gambler', serverSideGuildId)
 			}
 
-			message.reply(WIN_QUOTES[Math.floor(Math.random() * WIN_QUOTES.length)]
+			await reply(message, WIN_QUOTES[Math.floor(Math.random() * WIN_QUOTES.length)]
 				.replace('{bet}', app.common.formatNumber(gambleAmount * 2))
 				.replace('{choice}', choice)
 				.replace('{side}', choice)
@@ -67,7 +69,7 @@ exports.command = {
 		}
 		else {
 			await app.player.removeMoney(message.author.id, gambleAmount, serverSideGuildId)
-			message.reply(LOSE_QUOTES[Math.floor(Math.random() * LOSE_QUOTES.length)]
+			await reply(message, LOSE_QUOTES[Math.floor(Math.random() * LOSE_QUOTES.length)]
 				.replace('{bet}', app.common.formatNumber(gambleAmount))
 				.replace('{choice}', choice)
 				.replace('{side}', choice === 'heads' ? 'tails' : 'heads')

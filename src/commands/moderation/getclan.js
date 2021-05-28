@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'getclan',
 	aliases: ['getclaninfo', 'getclanid'],
@@ -18,7 +20,7 @@ exports.command = {
 		const clanRow = await app.clans.searchClanRow(clanName)
 
 		if (!clanRow) {
-			return message.reply('❌ A clan with that name does not exist.')
+			return reply(message, '❌ A clan with that name does not exist.')
 		}
 
 		const clanMembers = await app.clans.getMembers(clanRow.clanId)
@@ -45,6 +47,6 @@ exports.command = {
 			.addField('Clan ID', `\`\`\`\n${clanRow.clanId}\`\`\``)
 			.addField(`Members (${clanMembers.count})`, membersRanksList.map(member => member[0]).join('\n'))
 
-		message.channel.createMessage(baseEmbed)
+		await message.channel.createMessage(baseEmbed)
 	}
 }

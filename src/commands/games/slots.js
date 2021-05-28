@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'slots',
 	aliases: ['slot'],
@@ -21,19 +23,19 @@ exports.command = {
 		}
 
 		if (slotsCD) {
-			return message.reply(`You need to wait \`${slotsCD}\` before playing another game of slots.`)
+			return reply(message, `You need to wait \`${slotsCD}\` before playing another game of slots.`)
 		}
 
 		else if (!gambleAmount || gambleAmount < 100) {
-			return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100)}** to gamble!`)
+			return reply(message, `Please specify an amount of at least **${app.common.formatNumber(100)}** to gamble!`)
 		}
 
 		else if (gambleAmount > row.money) {
-			return message.reply(`❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
+			return reply(message, `❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
 		}
 
 		else if (gambleAmount > 50000) {
-			return message.reply(`You cannot gamble more than **${app.common.formatNumber(50000)}**`)
+			return reply(message, `You cannot gamble more than **${app.common.formatNumber(50000)}**`)
 		}
 
 		await app.player.removeMoney(message.author.id, gambleAmount, serverSideGuildId)

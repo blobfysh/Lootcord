@@ -1,3 +1,4 @@
+const { reply } = require('../../utils/messageUtils')
 const max_disparity = 2
 const flagged_threshold = 50000
 
@@ -19,46 +20,46 @@ exports.command = {
 		const user = app.parse.members(message, args)[0]
 
 		if (!user) {
-			return message.reply('❌ You need to mention the user you want to trade with.')
+			return reply(message, '❌ You need to mention the user you want to trade with.')
 		}
 
 		const victimRow = await app.player.getRow(user.id, serverSideGuildId)
 
 		if (user.id === app.bot.user.id) {
-			return message.reply('I respectfully DECLINE')
+			return reply(message, 'I respectfully DECLINE')
 		}
 		else if (user.id === message.author.id) {
-			return message.reply('❌ You can\'t trade with yourself.')
+			return reply(message, '❌ You can\'t trade with yourself.')
 		}
 		else if (!victimRow) {
-			return message.reply('❌ The person you\'re trying to trade with doesn\'t have an account.')
+			return reply(message, '❌ The person you\'re trying to trade with doesn\'t have an account.')
 		}
 		else if (await app.cd.getCD(message.author.id, 'tradeban')) {
-			return message.reply('❌ You are trade banned.')
+			return reply(message, '❌ You are trade banned.')
 		}
 		else if (await app.cd.getCD(user.id, 'tradeban')) {
-			return message.reply(`❌ **${user.nick || user.username}** is trade banned.`)
+			return reply(message, `❌ **${user.nick || user.username}** is trade banned.`)
 		}
 		else if (await app.cd.getCD(user.id, 'banned')) {
-			return message.reply(`❌ **${user.nick || user.username}** is banned.`)
+			return reply(message, `❌ **${user.nick || user.username}** is banned.`)
 		}
 		else if (Math.floor((message.author.id / 4194304) + 1420070400000) > Date.now() - (30 * 24 * 60 * 60 * 1000)) {
-			return message.reply('❌ Your Discord account must be at least 30 days old to trade! This helps us prevent alt abuse. 😭')
+			return reply(message, '❌ Your Discord account must be at least 30 days old to trade! This helps us prevent alt abuse. 😭')
 		}
 		else if (Math.floor((user.id / 4194304) + 1420070400000) > Date.now() - (30 * 24 * 60 * 60 * 1000)) {
-			return message.reply(`❌ **${user.nick || user.username}**'s Discord account must be at least 30 days old to trade! This helps us prevent alt abuse. 😭`)
+			return reply(message, `❌ **${user.nick || user.username}**'s Discord account must be at least 30 days old to trade! This helps us prevent alt abuse. 😭`)
 		}
 		else if (!await app.player.isActive(user.id, message.channel.guild.id)) {
-			return message.reply(`❌ **${user.nick || user.username}** has not activated their account in this server.`)
+			return reply(message, `❌ **${user.nick || user.username}** has not activated their account in this server.`)
 		}
 		else if (victimRow.level < this.levelReq) {
-			return message.reply(`❌ **${user.nick || user.username}** is not level 3. The target player must be at least level 3.`)
+			return reply(message, `❌ **${user.nick || user.username}** is not level 3. The target player must be at least level 3.`)
 		}
 		else if (await app.cd.getCD(user.id, 'blinded', { serverSideGuildId })) {
-			return message.reply(`❌ **${user.nick || user.username}** is blinded by a ${app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`!`)
+			return reply(message, `❌ **${user.nick || user.username}** is blinded by a ${app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`!`)
 		}
 
-		const botMessage = await message.reply({
+		const botMessage = await reply(message, {
 			content: `<@${user.id}>, **${message.member.nick || message.member.username}** would like to trade with you!`,
 			components: [{
 				type: 1,

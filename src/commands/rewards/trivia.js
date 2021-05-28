@@ -1,5 +1,6 @@
 const axios = require('axios')
 const { decode } = require('html-entities')
+const { reply } = require('../../utils/messageUtils')
 let triviaFile
 
 try {
@@ -26,7 +27,7 @@ exports.command = {
 		const triviaCD = await app.cd.getCD(message.author.id, 'trivia', { serverSideGuildId })
 
 		if (triviaCD) {
-			return message.reply(`You just played a game of trivia! Please wait \`${triviaCD}\` before playing another.`)
+			return reply(message, `You just played a game of trivia! Please wait \`${triviaCD}\` before playing another.`)
 		}
 
 		await app.cd.setCD(message.author.id, 'trivia', app.config.cooldowns.trivia * 1000, { serverSideGuildId })
@@ -53,32 +54,37 @@ exports.command = {
 		const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id && ['a', 'b', 'c', 'd'].includes(m.content.toLowerCase()), { time: 20000, maxMatches: 1 })
 
 		collectorObj.collector.on('collect', async m => {
-			const collected = m.content.toLowerCase()
+			try {
+				const collected = m.content.toLowerCase()
 
-			if (collected === 'a' && questionA === correct_answer) {
-				triviaReward()
-			}
-			else if (collected === 'b' && questionB === correct_answer) {
-				triviaReward()
-			}
-			else if (collected === 'c' && questionC === correct_answer) {
-				triviaReward()
-			}
-			else if (collected === 'd' && questionD === correct_answer) {
-				triviaReward()
-			}
-			else {
-				const embedWrong = new app.Embed()
-					.setTitle('Incorrect')
-					.setColor(13632027)
-					.addField('Reward:', '`shame`')
+				if (collected === 'a' && questionA === correct_answer) {
+					await triviaReward()
+				}
+				else if (collected === 'b' && questionB === correct_answer) {
+					await triviaReward()
+				}
+				else if (collected === 'c' && questionC === correct_answer) {
+					await triviaReward()
+				}
+				else if (collected === 'd' && questionD === correct_answer) {
+					await triviaReward()
+				}
+				else {
+					const embedWrong = new app.Embed()
+						.setTitle('Incorrect')
+						.setColor(13632027)
+						.addField('Reward:', '`shame`')
 
-				// check if user recieves idiot badge
-				idiotBadgeCheck(app, message.author.id, serverSideGuildId)
-				// reset trivia streak
-				app.player.resetStat(message.author.id, 'triviaStreak', serverSideGuildId)
+					// check if user recieves idiot badge
+					await idiotBadgeCheck(app, message.author.id, serverSideGuildId)
+					// reset trivia streak
+					await app.player.resetStat(message.author.id, 'triviaStreak', serverSideGuildId)
 
-				m.reply(embedWrong)
+					await reply(m, embedWrong)
+				}
+			}
+			catch (err) {
+				console.log(err)
 			}
 
 			async function triviaReward () {
@@ -99,22 +105,27 @@ exports.command = {
 					.setTitle(`${decode(correct_answer)} is correct!`)
 					.setColor(720640)
 					.addField('Reward:', reward.display)
-				m.reply(embedReward)
+				await reply(m, embedReward)
 			}
 		})
 
-		collectorObj.collector.on('end', reason => {
-			if (reason === 'time') {
-				const errorEmbed = new app.Embed()
-					.setColor(16734296)
-					.setDescription('❌ You ran out of time!')
+		collectorObj.collector.on('end', async reason => {
+			try {
+				if (reason === 'time') {
+					const errorEmbed = new app.Embed()
+						.setColor(16734296)
+						.setDescription('❌ You ran out of time!')
 
-				// check if user receives idiot badge
-				idiotBadgeCheck(app, message.author.id, serverSideGuildId)
-				// reset trivia streak
-				app.player.resetStat(message.author.id, 'triviaStreak', serverSideGuildId)
+					// check if user receives idiot badge
+					await idiotBadgeCheck(app, message.author.id, serverSideGuildId)
+					// reset trivia streak
+					await app.player.resetStat(message.author.id, 'triviaStreak', serverSideGuildId)
 
-				message.reply(errorEmbed)
+					await reply(message, errorEmbed)
+				}
+			}
+			catch (err) {
+				console.log(err)
 			}
 		})
 	}

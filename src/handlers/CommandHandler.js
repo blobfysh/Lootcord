@@ -1,4 +1,5 @@
 const { PERMISSIONS } = require('../resources/constants')
+const { reply } = require('../utils/messageUtils')
 
 class CommandHandler {
 	constructor (app) {
@@ -97,7 +98,7 @@ class CommandHandler {
 
 		// check if user is under effects of 40mm_smoke_grenade
 		if (blindedCD && command.category !== 'admin' && command.category !== 'moderation') {
-			return message.reply(`❌ You are blinded by a ${this.app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`! The smoke will clear in \`${blindedCD}\`.`)
+			return reply(message, `❌ You are blinded by a ${this.app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`! The smoke will clear in \`${blindedCD}\`.`)
 		}
 
 		// check if player leveled up

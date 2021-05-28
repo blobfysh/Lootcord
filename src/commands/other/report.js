@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'report',
@@ -18,13 +19,13 @@ exports.command = {
 		const reportCD = await app.cd.getCD(message.author.id, 'report')
 
 		if (reportCD) {
-			return message.reply(`You just sent a report! Wait \`${reportCD}\` before sending another.`)
+			return reply(message, `You just sent a report! Wait \`${reportCD}\` before sending another.`)
 		}
 		else if (messageIn === '') {
-			return message.reply(`You forgot to put a message! \`${prefix}report <content>\``)
+			return reply(message, `You forgot to put a message! \`${prefix}report <content>\``)
 		}
 
-		const botMessage = await message.reply({
+		const botMessage = await reply(message, {
 			content: 'Submit report?\n\n**Spamming this command or using it for purposes other than reporting will result in a warning or ban.**',
 			components: BUTTONS.confirmation
 		})
@@ -63,11 +64,11 @@ exports.command = {
 				})
 			}
 			else {
-				botMessage.delete()
+				await botMessage.delete()
 			}
 		}
 		catch (err) {
-			botMessage.edit({
+			await botMessage.edit({
 				content: '❌ Command timed out.',
 				components: []
 			})

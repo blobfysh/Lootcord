@@ -1,4 +1,5 @@
 const { ITEM_TYPES } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 const ITEMS_PER_PAGE = 15
 
 exports.command = {
@@ -23,8 +24,7 @@ exports.command = {
 		if (!memberArg) {
 			// player was trying to search someone
 			if (args.length) {
-				message.reply('❌ Could not find anyone matching that description!\nYou can mention someone, use their Discord#tag, or type their user ID')
-				return
+				return reply(message, '❌ Could not find anyone matching that description!\nYou can mention someone, use their Discord#tag, or type their user ID')
 			}
 
 			app.btnCollector.paginate(message, await generatePages(app, message.author, message.channel.guild.id, serverSideGuildId))

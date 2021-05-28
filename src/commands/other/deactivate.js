@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'deactivate',
@@ -17,11 +18,11 @@ exports.command = {
 		const activateCD = await app.cd.getCD(message.author.id, `activate|${message.channel.guild.id}`)
 		const attackCD = await app.cd.getCD(message.author.id, 'attack', { serverSideGuildId })
 
-		if (activateCD) return message.reply(`You must wait \`${activateCD}\` after activating in order to deactivate`)
+		if (activateCD) return reply(message, `You must wait \`${activateCD}\` after activating in order to deactivate`)
 
-		else if (attackCD) return message.reply('You can\'t deactivate while you have an attack cooldown!')
+		else if (attackCD) return reply(message, 'You can\'t deactivate while you have an attack cooldown!')
 
-		const botMessage = await message.reply({
+		const botMessage = await reply(message, {
 			content: 'Deactivating your account will prevent you from using commands or being targeted in **this** server.\n\n**Are you sure?**',
 			components: BUTTONS.confirmation
 		})
@@ -57,11 +58,11 @@ exports.command = {
 				}
 			}
 			else {
-				botMessage.delete()
+				await botMessage.delete()
 			}
 		}
 		catch (err) {
-			botMessage.edit({
+			await botMessage.edit({
 				content: '❌ Command timed out.',
 				components: []
 			})

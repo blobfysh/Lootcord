@@ -1,4 +1,5 @@
 // const CONVERT_LIMIT = 100000
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'convert',
@@ -23,20 +24,20 @@ exports.command = {
 		currency = currency.toUpperCase()
 
 		if (!convertAmnt) {
-			return message.reply('❌ Please specify an amount to convert.')
+			return reply(message, '❌ Please specify an amount to convert.')
 		}
 		else if (await app.cd.getCD(message.author.id, 'tradeban')) {
-			return message.reply('❌ Trade banned users are not allowed to convert.')
+			return reply(message, '❌ Trade banned users are not allowed to convert.')
 		}
 		else if (convertAmnt < 100) {
-			return message.reply(`❌ Please enter an amount of at least ${app.common.formatNumber(100)}`)
+			return reply(message, `❌ Please enter an amount of at least ${app.common.formatNumber(100)}`)
 		}
 		else if (row.money < convertAmnt) {
-			return message.reply(`❌ You don't have enough money for that conversion! You currently have **${app.common.formatNumber(row.money)}**`)
+			return reply(message, `❌ You don't have enough money for that conversion! You currently have **${app.common.formatNumber(row.money)}**`)
 		}
 		/*
         else if(row.discoinLimit + convertAmnt > CONVERT_LIMIT){
-            return message.reply(`❌ You are limited to converting ${app.common.formatNumber(CONVERT_LIMIT)} a day.${CONVERT_LIMIT - row.discoinLimit > 0 ? ' You can still convert ' + app.common.formatNumber(CONVERT_LIMIT - row.discoinLimit) + ' today.' : ''}\n\nThis limit helps prevent players from inflating other bot currencies.`);
+            return reply(message, `❌ You are limited to converting ${app.common.formatNumber(CONVERT_LIMIT)} a day.${CONVERT_LIMIT - row.discoinLimit > 0 ? ' You can still convert ' + app.common.formatNumber(CONVERT_LIMIT - row.discoinLimit) + ' today.' : ''}\n\nThis limit helps prevent players from inflating other bot currencies.`);
         }
         */
 
@@ -44,10 +45,10 @@ exports.command = {
 			const currencies = await app.discoin.getCurrencies()
 
 			if (!currencies.includes(currency)) {
-				return message.reply('That isn\'t a currency available on Discoin. Check out the currencies here: https://dash.discoin.zws.im/#/currencies')
+				return reply(message, 'That isn\'t a currency available on Discoin. Check out the currencies here: https://dash.discoin.zws.im/#/currencies')
 			}
 			else if (currency === 'LCN') {
-				return message.reply('You\'re trying to convert LCN to LCN? Pick a different currency to convert to.')
+				return reply(message, 'You\'re trying to convert LCN to LCN? Pick a different currency to convert to.')
 			}
 
 			// valid currency and user has money
@@ -63,7 +64,7 @@ exports.command = {
 				.setFooter(`Transaction ID: ${response.data.id}`)
 				.setColor(13451564)
 
-			message.channel.createMessage(embed)
+			await message.channel.createMessage(embed)
 
 
 			const logEmbed = new app.Embed()
@@ -79,7 +80,7 @@ exports.command = {
 			app.messager.messageLogs(logEmbed)
 		}
 		catch (err) {
-			return message.reply('Discoin API error, try again later or contact the moderators.')
+			return reply(message, 'Discoin API error, try again later or contact the moderators.')
 		}
 	}
 }

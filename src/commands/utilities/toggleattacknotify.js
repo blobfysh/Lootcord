@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'toggleattacknotify',
 	aliases: [],
@@ -18,12 +20,12 @@ exports.command = {
 		if (row.notify2 === 0) {
 			await app.query(`UPDATE scores SET notify2 = 1 WHERE userId = ${message.author.id}`)
 
-			message.reply('✅ You will now receive a DM when you are attacked.')
+			await reply(message, '✅ You will now receive a DM when you are attacked.')
 		}
 		else {
 			await app.query(`UPDATE scores SET notify2 = 0 WHERE userId = ${message.author.id}`)
 
-			message.reply('❌ You will no longer receive a DM when you are attacked.')
+			await reply(message, '❌ You will no longer receive a DM when you are attacked.')
 		}
 	}
 }

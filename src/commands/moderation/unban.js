@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../resources/constants')
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'unban',
@@ -19,21 +20,21 @@ exports.command = {
 		const userID = args[0]
 
 		if (message.channel.id !== app.config.modChannel) {
-			return message.reply('❌ You must be in the moderator channel to use this command.')
+			return reply(message, '❌ You must be in the moderator channel to use this command.')
 		}
 		else if (!userID) {
-			return message.reply('❌ You forgot to include a user ID.')
+			return reply(message, '❌ You forgot to include a user ID.')
 		}
 		else if (await app.cd.getCD(userID, 'mod')) {
-			return message.reply('Hey stop trying to ban a moderator!!! >:(')
+			return reply(message, 'Hey stop trying to ban a moderator!!! >:(')
 		}
 		else if (!await app.cd.getCD(userID, 'banned')) {
-			return message.reply('❌ That user is not banned')
+			return reply(message, '❌ That user is not banned')
 		}
 
 		const user = await app.common.fetchUser(userID, { cacheIPC: false })
 
-		const botMessage = await message.reply({
+		const botMessage = await reply(message, {
 			content: `Unban **${user.username}#${user.discriminator}**?`,
 			components: BUTTONS.confirmation
 		})
@@ -66,7 +67,7 @@ exports.command = {
 				}
 			}
 			else {
-				botMessage.delete()
+				await botMessage.delete()
 			}
 		}
 		catch (err) {

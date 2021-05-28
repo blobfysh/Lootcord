@@ -1,5 +1,6 @@
 const suits = ['♥', '♠', '♦', '♣']
 const faces = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'J', 'K', 'Q']
+const { reply } = require('../../utils/messageUtils')
 
 exports.command = {
 	name: 'blackjack',
@@ -24,19 +25,19 @@ exports.command = {
 		}
 
 		if (blackjackCD) {
-			return message.reply(`You need to wait \`${blackjackCD}\` before playing another game of blackjack.`)
+			return reply(message, `You need to wait \`${blackjackCD}\` before playing another game of blackjack.`)
 		}
 
 		if (!gambleAmount || gambleAmount < 100) {
-			return message.reply(`Please specify an amount of at least **${app.common.formatNumber(100)}** to gamble!`)
+			return reply(message, `Please specify an amount of at least **${app.common.formatNumber(100)}** to gamble!`)
 		}
 
 		if (gambleAmount > row.money) {
-			return message.reply(`❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
+			return reply(message, `❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
 		}
 
 		if (gambleAmount > 50000) {
-			return message.reply(`Woah there high roller, you cannot gamble more than **${app.common.formatNumber(50000)}** on blackjack.`)
+			return reply(message, `Woah there high roller, you cannot gamble more than **${app.common.formatNumber(50000)}** on blackjack.`)
 		}
 
 		try {
@@ -113,12 +114,12 @@ exports.command = {
 			})
 			collectorObj.collector.on('end', reason => {
 				if (reason === 'time') {
-					message.reply('**You took too long to make a decision!** Your game of blackjack has expired.')
+					reply(message, '**You took too long to make a decision!** Your game of blackjack has expired.')
 				}
 			})
 		}
 		catch (err) {
-			return message.reply('You have an active command running!')
+			return reply(message, 'You have an active command running!')
 		}
 	}
 }

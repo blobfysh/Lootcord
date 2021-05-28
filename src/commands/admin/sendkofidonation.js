@@ -1,3 +1,5 @@
+const { reply } = require('../../utils/messageUtils')
+
 exports.command = {
 	name: 'sendkofidonation',
 	aliases: [],
@@ -19,10 +21,10 @@ exports.command = {
 		const coffees = args[1]
 
 		if (!userID) {
-			return message.reply('❌ You forgot to include a user ID.')
+			return reply(message, '❌ You forgot to include a user ID.')
 		}
 		else if (!coffees) {
-			return message.reply('❌ You forgot to include the number of coffees.')
+			return reply(message, '❌ You forgot to include the number of coffees.')
 		}
 
 		const donateObj = {
@@ -32,6 +34,6 @@ exports.command = {
 
 		app.ipc.sendTo(0, 'donation', { data: JSON.stringify(donateObj) })
 
-		message.reply('✅ Sent donation request.')
+		await reply(message, '✅ Sent donation request.')
 	}
 }
