@@ -96,7 +96,7 @@ exports.command = {
 				endString = `You won **${app.common.formatNumber(winnings)}** scrap (${multiplier}x)`
 			}
 			else {
-				newEmbed.setColor(13632027)
+				newEmbed.setColor(16734296)
 				endString = `You lost **${app.common.formatNumber(gambleAmount)}** scrap!`
 			}
 

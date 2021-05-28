@@ -49,85 +49,124 @@ exports.command = {
 			.addField('Reward', `${reward.display}`, true)
 			.addField('Trivia Streak', `${triviaStreak > 2 ? '🔥' : ''} **${triviaStreak}** in a row\nHigher streak = better reward`, true)
 			.setFooter('You have 20 seconds to answer. Type A, B, C, or D to pick.')
-		await message.channel.createMessage(embedTrivia)
 
-		const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id && ['a', 'b', 'c', 'd'].includes(m.content.toLowerCase()), { time: 20000, maxMatches: 1 })
-
-		collectorObj.collector.on('collect', async m => {
-			try {
-				const collected = m.content.toLowerCase()
-
-				if (collected === 'a' && questionA === correct_answer) {
-					await triviaReward()
-				}
-				else if (collected === 'b' && questionB === correct_answer) {
-					await triviaReward()
-				}
-				else if (collected === 'c' && questionC === correct_answer) {
-					await triviaReward()
-				}
-				else if (collected === 'd' && questionD === correct_answer) {
-					await triviaReward()
-				}
-				else {
-					const embedWrong = new app.Embed()
-						.setTitle('Incorrect')
-						.setColor(13632027)
-						.addField('Reward:', '`shame`')
-
-					// check if user recieves idiot badge
-					await idiotBadgeCheck(app, message.author.id, serverSideGuildId)
-					// reset trivia streak
-					await app.player.resetStat(message.author.id, 'triviaStreak', serverSideGuildId)
-
-					await reply(m, embedWrong)
-				}
-			}
-			catch (err) {
-				console.log(err)
-			}
-
-			async function triviaReward () {
-				if (reward.item === 'money') {
-					await app.player.addMoney(message.author.id, reward.amount, serverSideGuildId)
-				}
-				else {
-					await app.itm.addItem(message.author.id, reward.item, reward.amount, serverSideGuildId)
-				}
-
-				await app.player.addStat(message.author.id, 'triviaStreak', 1, serverSideGuildId)
-				await app.player.addStat(message.author.id, 'triviasCorrect', 1, serverSideGuildId)
-
-				// check if user receives genius badge
-				await geniusBadgeCheck(app, message.author.id, serverSideGuildId)
-
-				const embedReward = new app.Embed()
-					.setTitle(`${decode(correct_answer)} is correct!`)
-					.setColor(720640)
-					.addField('Reward:', reward.display)
-				await reply(m, embedReward)
-			}
+		const botMessage = await reply(message, {
+			embed: embedTrivia.embed,
+			components: [{
+				type: 1,
+				components: [
+					{
+						type: 2,
+						emoji: {
+							id: null,
+							name: '🇦'
+						},
+						custom_id: 'a',
+						style: 2
+					},
+					{
+						type: 2,
+						emoji: {
+							id: null,
+							name: '🇧'
+						},
+						custom_id: 'b',
+						style: 2
+					},
+					{
+						type: 2,
+						emoji: {
+							id: null,
+							name: '🇨'
+						},
+						custom_id: 'c',
+						style: 2
+					},
+					{
+						type: 2,
+						emoji: {
+							id: null,
+							name: '🇩'
+						},
+						custom_id: 'd',
+						style: 2
+					}
+				]
+			}]
 		})
 
-		collectorObj.collector.on('end', async reason => {
-			try {
-				if (reason === 'time') {
-					const errorEmbed = new app.Embed()
-						.setColor(16734296)
-						.setDescription('❌ You ran out of time!')
+		try {
+			const collected = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-					// check if user receives idiot badge
-					await idiotBadgeCheck(app, message.author.id, serverSideGuildId)
-					// reset trivia streak
-					await app.player.resetStat(message.author.id, 'triviaStreak', serverSideGuildId)
+			if (collected.customID === 'a' && questionA === correct_answer) {
+				await triviaReward(collected)
+			}
+			else if (collected.customID === 'b' && questionB === correct_answer) {
+				await triviaReward(collected)
+			}
+			else if (collected.customID === 'c' && questionC === correct_answer) {
+				await triviaReward(collected)
+			}
+			else if (collected.customID === 'd' && questionD === correct_answer) {
+				await triviaReward(collected)
+			}
+			else {
+				const embedWrong = new app.Embed()
+					.setTitle('Incorrect')
+					.setColor(16734296)
+					.addField('Reward:', '`shame`')
 
-					await reply(message, errorEmbed)
-				}
+				// check if user recieves idiot badge
+				await idiotBadgeCheck(app, message.author.id, serverSideGuildId)
+				// reset trivia streak
+				await app.player.resetStat(message.author.id, 'triviaStreak', serverSideGuildId)
+
+				await collected.respond({
+					embeds: [embedWrong.embed],
+					components: []
+				})
 			}
-			catch (err) {
-				console.log(err)
+		}
+		catch (err) {
+			const errorEmbed = new app.Embed()
+				.setColor(16734296)
+				.setDescription('❌ You ran out of time!')
+
+			// check if user receives idiot badge
+			await idiotBadgeCheck(app, message.author.id, serverSideGuildId)
+			// reset trivia streak
+			await app.player.resetStat(message.author.id, 'triviaStreak', serverSideGuildId)
+
+			await botMessage.edit({
+				embed: errorEmbed.embed,
+				components: []
+			})
+		}
+
+		async function triviaReward (interaction) {
+			if (reward.item === 'money') {
+				await app.player.addMoney(message.author.id, reward.amount, serverSideGuildId)
 			}
-		})
+			else {
+				await app.itm.addItem(message.author.id, reward.item, reward.amount, serverSideGuildId)
+			}
+
+			await app.player.addStat(message.author.id, 'triviaStreak', 1, serverSideGuildId)
+			await app.player.addStat(message.author.id, 'triviasCorrect', 1, serverSideGuildId)
+
+			// check if user receives genius badge
+			await geniusBadgeCheck(app, message.author.id, serverSideGuildId)
+
+			const embedReward = new app.Embed()
+				.setTitle(`${decode(correct_answer)} is correct!`)
+				.setColor(720640)
+				.addField('Reward:', reward.display)
+
+			await interaction.respond({
+				embeds: [embedReward.embed],
+				components: []
+			})
+		}
 	}
 }
 

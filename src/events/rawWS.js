@@ -3,7 +3,7 @@ const { InteractionType, MessageFlags } = require('slash-commands')
 
 exports.run = async function (packet, id) {
 	if (packet.t === 'INTERACTION_CREATE') {
-		const interaction = new Interaction(packet.d, this.bot.user.id)
+		const interaction = new Interaction(packet.d, this.bot)
 		const command = this.slashCommands.find(cmd => (cmd.guilds && cmd.guilds.includes(interaction.guildID) && cmd.name === interaction.data.name) || cmd.name === interaction.data.name)
 
 		if (interaction.type !== InteractionType.APPLICATION_COMMAND) {

@@ -14,7 +14,7 @@ class ButtonCollector {
 			return
 		}
 
-		const interaction = new Interaction(packet.d, this.app.bot.user.id)
+		const interaction = new Interaction(packet.d, this.app.bot)
 
 		if (interaction.type !== 3) {
 			return

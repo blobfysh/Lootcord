@@ -229,7 +229,7 @@ function loserEmbed (app, message, playerCards, dealerCards, quote, gambleAmount
 	const embed = genEmbed(app, message, playerCards, dealerCards, gambleAmount, app.icons.blackjack_dealer_won)
 
 	embed.setDescription(quote)
-	embed.setColor(13632027)
+	embed.setColor(16734296)
 	embed.embed.footer = undefined
 
 	return embed

@@ -4,7 +4,7 @@ const { WebhookPayload } = require('eris')
 const { InteractionResponse, InteractionResponseType, InteractionType, InteractionApplicationCommandCallbackData } = require('slash-commands')
 
 class Interaction {
-	constructor (i, clientId) {
+	constructor (i, client) {
 		this.id = i.id
 		this.type = i.type
 		this.data = i.data
@@ -16,7 +16,8 @@ class Interaction {
 		this.token = i.token
 		this.version = i.version
 		this.message = i.message
-		this.clientId = clientId
+		this.clientID = client.user.id
+		this.client = client
 		this.responded = false
 	}
 
@@ -48,6 +49,9 @@ class Interaction {
 				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 				data: content
 			})
+
+			// return the response
+			return this.client.getWebhookMessage(this.clientID, this.token, '@original')
 		}
 		// component interaction
 		else if (this.type === 3) {
@@ -85,7 +89,7 @@ class Interaction {
 	 */
 	async editResponse (options) {
 		await axios({
-			url: `https://discord.com/api/v8/webhooks/${this.clientId}/${this.token}/messages/@original${options.wait ? '?wait=true' : ''}`,
+			url: `https://discord.com/api/v8/webhooks/${this.clientID}/${this.token}/messages/@original${options.wait ? '?wait=true' : ''}`,
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json'
@@ -104,7 +108,7 @@ class Interaction {
 	 */
 	async followUp (options) {
 		await axios({
-			url: `https://discord.com/api/v8/webhooks/${this.clientId}/${this.token}${options.wait ? '?wait=true' : ''}`,
+			url: `https://discord.com/api/v8/webhooks/${this.clientID}/${this.token}${options.wait ? '?wait=true' : ''}`,
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
