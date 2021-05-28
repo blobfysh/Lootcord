@@ -9,7 +9,7 @@ exports.command = {
 	name: 'weekly',
 	aliases: [],
 	description: 'Receive a free supply_drop every week!',
-	long: 'Use this command to receive a free supply_drop every week.\n\nThe weekly command is exclusive to patreon donators: https://www.patreon.com/lootcord.',
+	long: 'Use this command to receive a free supply_drop every week.\n\nThe weekly command is exclusive to patreon donators: https://www.patreon.com/bePatron?u=14199989.',
 	args: {},
 	examples: [],
 	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],

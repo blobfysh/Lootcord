@@ -63,7 +63,7 @@ exports.command = {
 			timeZone: 'America/New_York'
 		}))
 		const todaysMonth = converted.getMonth()
-		let description = '**[Help keep the bot running and get rewards!](https://www.patreon.com/lootcord)**'
+		let description = '**[Help keep the bot running and get rewards!](https://www.patreon.com/bePatron?u=14199989)**'
 
 		if (serverSideGuildId) {
 			description += '\n*Server-side economy enabled*'
@@ -100,7 +100,32 @@ exports.command = {
 		if (categoriesArr.includes('other')) embed.addField('📈 Other', categories.other.map(cmd => `\`${cmd}\``).join(' '))
 		if (!serverSideGuildId) embed.addField('⚔️ Clans', `For details on using clan commands, you can type \`${prefix}clan help\`, or check this [link](https://lootcord.com/guides/clans).\n\n${app.clanCommands.map(cmd => `\`${cmd.name}\``).join(' ')}`)
 
-		await message.channel.createMessage(embed)
+		await message.channel.createMessage({
+			embed: embed.embed,
+			components: [{
+				type: 1,
+				components: [
+					{
+						type: 2,
+						label: 'Donate',
+						url: 'https://www.patreon.com/bePatron?u=14199989',
+						style: 5
+					},
+					{
+						type: 2,
+						label: 'Guides',
+						url: 'https://lootcord.com/guides',
+						style: 5
+					},
+					{
+						type: 2,
+						label: 'Discord Server',
+						url: 'https://discord.gg/apKSxuE',
+						style: 5
+					}
+				]
+			}]
+		})
 	}
 }
 

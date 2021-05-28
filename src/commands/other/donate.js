@@ -2,7 +2,7 @@ exports.command = {
 	name: 'donate',
 	aliases: ['patreon'],
 	description: 'Help support the bot!',
-	long: '[Help support the development of Lootcord and get some cool rewards!](https://www.patreon.com/lootcord)',
+	long: '[Help support the development of Lootcord and get some cool rewards!](https://www.patreon.com/bePatron?u=14199989)',
 	args: {},
 	examples: [],
 	permissions: ['sendMessages', 'embedLinks', 'externalEmojis'],
