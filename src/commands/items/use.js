@@ -1,5 +1,5 @@
 const { reply } = require('../../utils/messageUtils')
-const RANDOM_SELECTION_MINIMUM = 8 // # of active players required for an attack menu to show when using random
+const RANDOM_SELECTION_MINIMUM = 5 // # of active players required for an attack menu to show when using random
 
 exports.command = {
 	name: 'use',
@@ -58,33 +58,52 @@ exports.command = {
 					return reply(message, `❌ You don't have any ammo for that weapon! The ${itemInfo.icon}\`${item}\` uses ${possibleAmmo.map(itm => `${app.itemdata[itm].icon}\`${itm}\``).join(', ')} as ammunition.`)
 				}
 				else if (availableAmmo.length > 1) {
-					await reply(message, `You have multiple ammo types for that weapon! Which ammo do you want to use?\n\n${availableAmmo.map(ammo => `${app.itemdata[ammo].icon}\`${ammo}\``).join(', ')}`)
+					const botMessage = await reply(message, {
+						content: 'You have multiple ammo types for that weapon! Which ammo do you want to use?',
+						components: [{
+							type: 1,
+							components: availableAmmo.map(ammo => ({
+								type: 2,
+								label: ammo,
+								emoji: {
+									id: app.itemdata[ammo].icon.match(/:([0-9]*)>/)[1]
+								},
+								custom_id: ammo,
+								style: 2
+							}))
+						}]
+					})
 
-					const result = await app.msgCollector.awaitMessages(message.author.id, message.channel.id, m => m.author.id === message.author.id)
+					try {
+						const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-					if (result === 'time') {
-						return reply(message, '❌ You ran out of time to choose your ammo.')
+						userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
+
+						if (!app.itm.hasItems(userItems, confirmed.customID, 1)) {
+							return confirmed.respond({
+								content: `❌ You have **0x** ${app.itemdata[confirmed.customID].icon}\`${confirmed.customID}\`.`,
+								components: []
+							})
+						}
+						else if (!app.itm.hasItems(userItems, item, 1)) {
+							return confirmed.respond({
+								content: `❌ You don't have a ${itemInfo.icon}\`${item}\`.`,
+								components: []
+							})
+						}
+
+						// remove buttons
+						await confirmed.defer()
+						await botMessage.delete()
+
+						ammoUsed = confirmed.customID
 					}
-
-					const ammoChoice = app.parse.items(result[0].content.split(/ +/))[0]
-
-					if (!ammoChoice) {
-						return reply(result[0], '❌ That isn\'t a valid ammo choice!')
+					catch (err) {
+						return botMessage.edit({
+							content: '❌ You ran out of time to choose your ammo.',
+							components: []
+						})
 					}
-					else if (!availableAmmo.includes(ammoChoice)) {
-						return reply(result[0], `❌ ${app.itemdata[ammoChoice].icon}\`${ammoChoice}\` isn't a valid ammo choice!`)
-					}
-
-					userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
-
-					if (!app.itm.hasItems(userItems, ammoChoice, 1)) {
-						return reply(message, `❌ You have **0x** ${app.itemdata[ammoChoice].icon}\`${ammoChoice}\`.`)
-					}
-					else if (!app.itm.hasItems(userItems, item, 1)) {
-						return reply(message, `❌ You don't have a ${itemInfo.icon}\`${item}\`.`)
-					}
-
-					ammoUsed = ammoChoice
 				}
 				else {
 					ammoUsed = availableAmmo[0]
@@ -845,50 +864,40 @@ function generateMobAttack (app, message, monsterRow, playerRow, damage, itemUse
 }
 
 async function pickTarget (app, message, membersInfo) {
+	const atkEmbed = new app.Embed()
+		.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
+		.setTitle('Pick someone to attack!')
+		.setDescription(`${app.player.getBadge(membersInfo[0].row.badge)} **${`${membersInfo[0].member.username}#${membersInfo[0].member.discriminator}`}** ${app.icons.health.full} ${membersInfo[0].row.health} - ${app.common.formatNumber(membersInfo[0].row.money)} - ${(await app.itm.getItemCount(membersInfo[0].items, membersInfo[0].row)).itemCt} items\n\n` +
+			`${app.player.getBadge(membersInfo[1].row.badge)} **${`${membersInfo[1].member.username}#${membersInfo[1].member.discriminator}`}** ${app.icons.health.full} ${membersInfo[1].row.health} - ${app.common.formatNumber(membersInfo[1].row.money)} - ${(await app.itm.getItemCount(membersInfo[1].items, membersInfo[1].row)).itemCt} items\n\n` +
+			`${app.player.getBadge(membersInfo[2].row.badge)} **${`${membersInfo[2].member.username}#${membersInfo[2].member.discriminator}`}** ${app.icons.health.full} ${membersInfo[2].row.health} - ${app.common.formatNumber(membersInfo[2].row.money)} - ${(await app.itm.getItemCount(membersInfo[2].items, membersInfo[2].row)).itemCt} items`)
+		.setColor(13451564)
+		.setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
+
+	const botMessage = await reply(message, {
+		embed: atkEmbed.embed,
+		components: [{
+			type: 1,
+			components: membersInfo.map((member, i) => ({
+				type: 2,
+				label: `${member.member.username}#${member.member.discriminator}`,
+				custom_id: i,
+				style: 2
+			}))
+		}]
+	})
+
 	try {
-		const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 16000 })
+		const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
-		const atkEmbed = new app.Embed()
-			.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
-			.setTitle('Pick someone to attack!')
-			.setDescription(`Type 1, 2, or 3 to select.\n
-			1. ${app.player.getBadge(membersInfo[0].row.badge)} **${`${membersInfo[0].member.username}#${membersInfo[0].member.discriminator}`}** ${app.icons.health.full} ${membersInfo[0].row.health} - ${app.common.formatNumber(membersInfo[0].row.money)} - ${(await app.itm.getItemCount(membersInfo[0].items, membersInfo[0].row)).itemCt} items\n
-			2. ${app.player.getBadge(membersInfo[1].row.badge)} **${`${membersInfo[1].member.username}#${membersInfo[1].member.discriminator}`}** ${app.icons.health.full} ${membersInfo[1].row.health} - ${app.common.formatNumber(membersInfo[1].row.money)} - ${(await app.itm.getItemCount(membersInfo[1].items, membersInfo[1].row)).itemCt} items\n
-			3. ${app.player.getBadge(membersInfo[2].row.badge)} **${`${membersInfo[2].member.username}#${membersInfo[2].member.discriminator}`}** ${app.icons.health.full} ${membersInfo[2].row.health} - ${app.common.formatNumber(membersInfo[2].row.money)} - ${(await app.itm.getItemCount(membersInfo[2].items, membersInfo[2].row)).itemCt} items`)
-			.setColor(13451564)
-			.setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
+		await confirmed.defer()
+		await botMessage.delete()
 
-		const botMessage = await message.channel.createMessage(atkEmbed)
-
-		return new Promise(resolve => {
-			collectorObj.collector.on('collect', m => {
-				if (m.content === '1') {
-					botMessage.delete()
-					app.msgCollector.stopCollector(collectorObj)
-					resolve(membersInfo[0])
-				}
-				else if (m.content === '2') {
-					botMessage.delete()
-					app.msgCollector.stopCollector(collectorObj)
-					resolve(membersInfo[1])
-				}
-				else if (m.content === '3') {
-					botMessage.delete()
-					app.msgCollector.stopCollector(collectorObj)
-					resolve(membersInfo[2])
-				}
-			})
-			collectorObj.collector.on('end', reason => {
-				if (reason === 'time') {
-					botMessage.delete()
-					resolve(membersInfo[Math.floor(Math.random() * membersInfo.length)])
-				}
-			})
-		})
+		return membersInfo[confirmed.customID]
 	}
 	catch (err) {
-		console.log(err)
-		// if bot is lagging and attack message does not send...
+		await botMessage.delete()
+
+		return membersInfo[Math.floor(Math.random() * membersInfo.length)]
 	}
 }
 
