@@ -95,19 +95,25 @@ class ButtonCollector {
 
 		const previousButton = {
 			type: 2,
-			label: '⯇',
+			emoji: {
+				id: '848267764186742834'
+			},
 			custom_id: 'previous',
 			style: 2
 		}
 		const nextButton = {
 			type: 2,
-			label: '⯈',
+			emoji: {
+				id: '848267764090142742'
+			},
 			custom_id: 'next',
 			style: 2
 		}
 		const closeButton = {
 			type: 2,
-			label: '✖',
+			emoji: {
+				id: '848269516504694814'
+			},
 			custom_id: 'closed',
 			style: 4
 		}
