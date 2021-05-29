@@ -42,12 +42,7 @@ module.exports = {
 
 					await app.itm.addItem(winner, 'supply_drop', 1, serverSideGuildId)
 
-					const resultsEmb = new app.Embed()
-						.setColor(13451564)
-						.setTitle('Event Results - __AIRDROP__')
-						.setDescription(`<@${winner}> runs away with the ${app.itemdata.supply_drop.icon}\`supply_drop\`!`)
-
-					await message.channel.createMessage(resultsEmb)
+					await message.channel.createMessage(`**Event Results - __AIRDROP__**\n\n<@${winner}> runs away with the ${app.itemdata.supply_drop.icon}\`supply_drop\`!`)
 				}
 			})
 		}
