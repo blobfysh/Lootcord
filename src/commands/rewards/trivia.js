@@ -96,7 +96,7 @@ exports.command = {
 		})
 
 		try {
-			const collected = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
+			const collected = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id, { time: 20000 }))[0]
 
 			if (collected.customID === 'a' && questionA === correct_answer) {
 				await triviaReward(collected)
