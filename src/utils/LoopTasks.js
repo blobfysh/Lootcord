@@ -152,6 +152,7 @@ class LoopTasks {
 		await this.app.query('DELETE FROM sales')
 
 		const items = this.app.common.shuffleArr(salesData).slice(0, 2)
+		const deals = []
 
 		for (const item of items) {
 			// 20 - 30% off
@@ -166,7 +167,31 @@ class LoopTasks {
 				price = Math.floor(this.app.itemdata[item].sell * 15 * (1 - (percentOff / 100)))
 			}
 
+			deals.push({
+				item,
+				price
+			})
+
 			await this.app.query('INSERT INTO sales (item, price) VALUES (?, ?)', [item, price])
+		}
+
+		if (this.app.config.scrapDealsChannel) {
+			try {
+				const dealsEmbed = new this.app.Embed()
+					.setTitle('Scrap Deals')
+					.setDescription(deals.map(deal => `${this.app.itemdata[deal.item].icon}\`${deal.item}\`\n` +
+						`Price: ${this.app.itemdata[deal.item].buy.currency ? `~~${this.app.common.formatNumber(this.app.itemdata[deal.item].buy.amount, true)}~~ ` : ''}${this.app.common.formatNumber(deal.price)}`).join('\n\n'))
+					.setColor(13451564)
+					.setFooter('These deals will last 2 hours.')
+
+				const botMessage = await this.app.bot.createMessage(this.app.config.scrapDealsChannel, dealsEmbed)
+
+				await botMessage.crosspost()
+			}
+			catch (err) {
+				console.warn('Error crossposting scrap deals message:')
+				console.warn(err)
+			}
 		}
 	}
 

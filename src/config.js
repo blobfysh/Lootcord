@@ -24,6 +24,9 @@ exports.modChannel = process.env.BOT_MODERATION_CHANNEL
 // ID of role to ping mods
 exports.modRoleID = process.env.MOD_ROLE_ID
 
+// ID of channel where bot will send scrap deals
+exports.scrapDealsChannel = process.env.SCRAP_DEALS_CHANNEL
+
 // The amount of inventory slots with no backpack
 exports.baseInvSlots = 15
 
