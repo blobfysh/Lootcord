@@ -267,12 +267,13 @@ exports.command = {
 				if (!monster.canBurn && ammoUsed && app.itemdata[ammoUsed].burn > 0) {
 					burnDamage = 0
 				}
-				if (monster.title === 'Bradley' && ammoUsed && ammoUsed === 'hv_rocket') {
-					// multiply hv_rocket damage by 3 when used against bradley
-					ammoDamage *= 3
-				}
 
-				const totalDamage = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + ammoDamage) * row.scaledDamage)
+				let totalDamage = Math.floor(((Math.floor(Math.random() * (damageMax - damageMin + 1)) + damageMin) + ammoDamage) * row.scaledDamage)
+
+				if (monster.title === 'Bradley' && ammoUsed && ammoUsed === 'hv_rocket') {
+					// multiply damage by 3 when hv_rocket is used against bradley
+					totalDamage *= 3
+				}
 
 				// player attacked, remove passive shield
 				if (passiveShieldCD) await app.cd.clearCD(message.author.id, 'passive_shield', serverSideGuildId)
