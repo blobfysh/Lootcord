@@ -12,15 +12,16 @@
             "currency": "money"
         },
         "sell": 2485,
-        "desc": "Open this to get a random item!",
+        "desc": "Open this to get **2** random items!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/733744349636198470/crate_icon.png",
         "icon": "<:crate_icon:733737806287077427>",
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
+		"dropsItems": 2,
         "rates": {
             "2": {
-                "xp": 50,
+                "xp": 25,
                 "items": [
                     "metal_spring|1",
                     "pump_shotgun|1",
@@ -33,7 +34,7 @@
                 ]
             },
             "8": {
-                "xp": 35,
+                "xp": 17,
                 "items": [
                     "crossbow|1",
                     "f1_grenade|1",
@@ -45,7 +46,7 @@
                 ]
             },
             "15": {
-                "xp": 25,
+                "xp": 12,
                 "items": [
                     "metal_pipe|1",
                     "bow|1",
@@ -56,7 +57,7 @@
                 ]
             },
             "25": {
-                "xp": 15,
+                "xp": 7,
                 "items": [
                     "bandage|1",
                     "mace|1",
@@ -66,7 +67,7 @@
                 ]
             },
             "50": {
-                "xp": 10,
+                "xp": 5,
                 "items": [
                     "hatchet|1",
                     "rock|1",
@@ -247,6 +248,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
+		"dropsItems": 1,
         "rates": {
             "2": {
                 "xp": 50,
@@ -335,6 +337,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
+		"dropsItems": 1,
         "rates": {
             "1": {
                 "xp": 140,
@@ -415,6 +418,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
+		"dropsItems": 1,
         "rates": {
             "8": {
                 "xp": 90,
@@ -707,6 +711,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
+		"dropsItems": 1,
         "rates": {
             "20": {
                 "xp": 30,
@@ -761,6 +766,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
+		"dropsItems": 1,
         "rates": {
             "10": {
                 "xp": 20,
@@ -821,6 +827,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
+		"dropsItems": 1,
         "rates": {
             "10": {
                 "xp": 60,
@@ -866,6 +873,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
+		"dropsItems": 1,
         "rates": {
             "5": {
                 "xp": 45,
@@ -1139,6 +1147,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
+		"dropsItems": 1,
         "rates": {
             "20": {
                 "xp": 10,
@@ -1189,6 +1198,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
+		"dropsItems": 1,
         "rates": {
             "10": {
                 "xp": 20,
@@ -1245,6 +1255,7 @@
         "breaksOnUse": "",
         "canBeStolen": true,
         "cooldown": "",
+		"dropsItems": 1,
         "rates": {
             "10": {
                 "xp": 60,

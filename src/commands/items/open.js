@@ -21,7 +21,7 @@ exports.command = {
 		if (!item) {
 			return reply(message, `❌ You need to specify a box to open! \`${prefix}open <item>\`.`)
 		}
-		else if (['crate', 'military_crate', 'candy_pail', 'small_present', 'medium_present', 'large_present', 'supply_drop', 'elite_crate', 'small_loot_bag', 'medium_loot_bag', 'large_loot_bag', 'egg_basket'].includes(item)) {
+		else if (app.itemdata[item].dropsItems) {
 			const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 			const itemCt = await app.itm.getItemCount(userItems, row)
 			if (amount > 10) amount = 10
@@ -31,29 +31,18 @@ exports.command = {
 			}
 
 			// open box
-			if (!await app.itm.hasSpace(itemCt)) {
-				return reply(message, `❌ **You don't have enough space in your inventory!** (You have **${itemCt.open}** open slots)\n\nYou can clear up space by selling some items.`)
+			if (!await app.itm.hasSpace(itemCt, (app.itemdata[item].dropsItems * amount) - amount)) {
+				return reply(message, `❌ **You don't have enough space in your inventory!** (You have **${itemCt.capacity}** items in your inventory and you need space for **${(app.itemdata[item].dropsItems * amount) - amount}**)\n\nYou can clear up space by selling some items.`)
 			}
 
 			await app.itm.removeItem(message.author.id, item, amount, serverSideGuildId)
 
-			const results = app.itm.openBox(item, amount, row.luck)
-			const bestItem = results.items.sort(app.itm.sortItemsHighLow.bind(app))
-			let openStr = ''
+			const results = app.itm.openBox(item, app.itemdata[item].dropsItems * amount, row.luck)
 
 			await app.itm.addItem(message.author.id, results.itemAmounts, null, serverSideGuildId)
 			await app.player.addPoints(message.author.id, results.xp, serverSideGuildId)
 
-			if (amount === 1) {
-				console.log(bestItem[0])
-
-				openStr = `You open the ${app.itemdata[item].icon}\`${item}\` and find... **1x ${app.itemdata[bestItem[0]].icon}\`${bestItem[0]}\` and \`⭐ ${results.xp} XP\`!**`
-			}
-			else {
-				openStr = `You open **${amount}x** ${app.itemdata[item].icon}\`${item}\`'s and find:\n\n${app.itm.getDisplay(results.itemAmounts).join('\n')}\n\n...and \`⭐ ${results.xp} XP\`!`
-			}
-
-			await message.channel.createMessage(`<@${message.author.id}>, ${openStr}`)
+			await reply(message, `You open **${amount}x** ${app.itemdata[item].icon}\`${item}\`'s and find:\n\n${app.itm.getDisplay(results.itemAmounts.sort(app.itm.sortItemsHighLow.bind(app))).join('\n')}\n\n...and \`⭐ ${results.xp} XP\`!`)
 		}
 		else {
 			return reply(message, '❌ That item cannot be opened.')
