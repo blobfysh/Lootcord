@@ -139,7 +139,7 @@ class LoopTasks {
 			ON userguilds.userId = server_scores.userId
 			INNER JOIN guildinfo
 			ON userguilds.guildId = guildinfo.guildId
-			WHERE server_scores.lastActive < NOW() - INTERVAL 7 DAY AND serverOnly = 1`)
+			WHERE server_scores.lastActive < NOW() - INTERVAL 7 DAY AND serverOnly = 1 AND server_scores.guildId = guildinfo.guildId`)
 
 		const dailyEmbed = new this.app.Embed()
 			.setTitle('Daily Tasks')
