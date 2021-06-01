@@ -10,7 +10,6 @@ const resetData = {
 	maxHealth: 100,
 	bleed: 0,
 	burn: 0,
-	power: 5,
 	banner: '"recruit"',
 	scaledDamage: 1.00,
 	luck: 0,
@@ -61,6 +60,8 @@ exports.command = {
 			}
 		}
 		catch (err) {
+			console.log(err)
+
 			await botMessage.edit({
 				content: '❌ Command timed out.',
 				components: []
