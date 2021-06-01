@@ -422,6 +422,41 @@
         ],
         "tier": 3
     },
+	"l96_rifle": {
+        "minDmg": 94,
+        "maxDmg": 97,
+        "ammo": [
+            "explosive_bullet",
+            "incen_rifle_bullet",
+            "hv_rifle_bullet",
+            "rifle_bullet"
+        ],
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": [
+				"high_quality_metal|2",
+                "rifle_body|1"
+            ]
+        },
+        "buy": "",
+        "sell": 250266,
+        "desc": "High powered military rifle.",
+        "image": "https://cdn.discordapp.com/attachments/610503377679548446/845046623134285834/l96_rifle.png",
+        "icon": "<:l96_rifle:750105297930158080>",
+        "breaksOnUse": false,
+        "chanceToBreak": 0.13,
+        "canBeStolen": true,
+        "cooldown": {
+            "seconds": 13060
+        },
+        "phrase": "{attacker} headshots {victim} using an {weaponIcon}`{weapon}` (Ammo: {ammoIcon}`{ammo}`)! **{damage}** damage dealt!",
+        "artist": "",
+        "category": "Ranged",
+        "aliases": [
+            "l96"
+        ],
+        "tier": 3
+    },
     "semi_rifle": {
         "minDmg": 5,
         "maxDmg": 17,
