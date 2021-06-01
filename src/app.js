@@ -27,6 +27,7 @@ const PatreonHandler = require('./handlers/PatreonHandler')
 const EventHandler = require('./handlers/EventHandler')
 const BountyHandler = require('./handlers/BountyHandler')
 const PubSubHandler = require('./handlers/PubSubHandler')
+const { init } = require('./utils/codeChallenge')
 
 const events = fs.readdirSync(path.join(__dirname, '/events'))
 const ipcEvents = fs.readdirSync(path.join(__dirname, '/ipc'))
@@ -84,6 +85,10 @@ class Lootcord extends Base {
 			await this.refreshCooldowns()
 			await this.refreshLists()
 			await this.startSpawns()
+		}
+
+		if (this.config.codeEventChannel && this.bot.guilds.find(guild => guild.channels.has(this.config.codeEventChannel))) {
+			init(this, this.bot.guilds.find(guild => guild.channels.has(this.config.codeEventChannel)).channels.get(this.config.codeEventChannel))
 		}
 
 		this.bot.editStatus('online', {

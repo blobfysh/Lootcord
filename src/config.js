@@ -27,6 +27,9 @@ exports.modRoleID = process.env.MOD_ROLE_ID
 // ID of channel where bot will send scrap deals
 exports.scrapDealsChannel = process.env.SCRAP_DEALS_CHANNEL
 
+// ID of channel the bot will host a challenge where people have to guess a 4 digit code for a prize
+exports.codeEventChannel = process.env.CODE_EVENT_CHANNEL
+
 // The amount of inventory slots with no backpack
 exports.baseInvSlots = 15
 

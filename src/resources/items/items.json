@@ -402,6 +402,82 @@
         ],
         "tier": 0
     },
+	"locked_crate": {
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": []
+        },
+        "buy": "",
+        "sell": 90626,
+        "desc": "A highly contested crate that is often dropped off in the official Discord server. Drops **3** items.",
+        "image": "https://cdn.discordapp.com/attachments/610502203672756295/849185803392778260/locked_crate_large.png",
+        "icon": "<:locked_crate:849185709096042506>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+		"dropsItems": 3,
+        "rates": {
+            "1": {
+                "xp": 47,
+                "items": [
+                    "rocket|1",
+                    "bolt_rifle|1",
+					"l96_rifle|1"
+                ]
+            },
+            "33.5": {
+                "xp": 30,
+                "items": [
+                    "semi_pistol|1",
+                    "custom_smg|1",
+                    "m92_pistol|1",
+                    "pump_shotgun|1",
+                    "gunpowder|1",
+                    "semi_rifle|1",
+                    "large_medkit|1",
+                    "incen_pistol_bullet|1",
+                    "hv_pistol_bullet|1",
+					"metal_armor|1",
+					"hv_rocket|1"
+                ]
+            },
+            "60": {
+                "xp": 25,
+                "items": [
+                    "tech_trash|1",
+                    "rifle_body|1",
+                    "pistol_bullet|1",
+                    "12g_buckshot|1",
+                    "metal_spring|1",
+					"rifle_bullet|1",
+					"medical_syringe|1"
+                ]
+            },
+            "5": {
+                "xp": 37,
+                "items": [
+                    "12g_slug|1",
+                    "thompson|1",
+                    "rocket_launcher|1",
+                    "hv_rifle_bullet|1",
+                    "incen_rifle_bullet|1",
+					"m39_rifle|1",
+					"spas-12|1",
+					"assault_rifle|1"
+                ]
+            }
+        },
+        "artist": "",
+        "category": "Item",
+        "aliases": [
+            "locked",
+			"chinook"
+        ],
+        "tier": 0
+    },
     "elite_crate": {
         "minDmg": "",
         "maxDmg": "",
