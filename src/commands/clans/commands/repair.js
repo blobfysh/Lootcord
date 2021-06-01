@@ -30,7 +30,7 @@ exports.command = {
 		const maxRepair = Math.min(clanRow.maxHealth - clanRow.health, clanStats.repair.heals * amount)
 
 		const botMessage = await reply(message, {
-			content: `Do you want to repair the clan base from ${app.icons.health.full} **${clanRow.health} / ${clanRow.maxHealth}** to ${app.icons.health.full} **${clanRow.health + maxRepair} / ${clanRow.maxHealth}**? ` +
+			content: `Do you want to repair the clan base from ${app.player.getHealthIcon(clanRow.health, clanRow.maxHealth)} **${clanRow.health} / ${clanRow.maxHealth}** to ${app.player.getHealthIcon(clanRow.health + maxRepair, clanRow.maxHealth)} **${clanRow.health + maxRepair} / ${clanRow.maxHealth}**? ` +
 				`This will cost **${amount}x** ${app.itemdata[clanStats.repair.item].icon}\`${clanStats.repair.item}\`.`,
 			components: BUTTONS.confirmation
 		})
@@ -75,7 +75,7 @@ exports.command = {
 					await transaction.commit()
 
 					return confirmed.respond({
-						content: `✅ Successfully repaired the clan from ${app.icons.health.full} **${clanRowSafe.health} / ${clanRowSafe.maxHealth}** to ${app.icons.health.full} **${clanRowSafe.health + maxRepair} / ${clanRowSafe.maxHealth}** health!`,
+						content: `✅ Successfully repaired the clan from ${app.player.getHealthIcon(clanRowSafe.health, clanRowSafe.maxHealth)} **${clanRowSafe.health} / ${clanRowSafe.maxHealth}** to ${app.player.getHealthIcon(clanRowSafe.health + maxRepair, clanRowSafe.maxHealth)} **${clanRowSafe.health + maxRepair} / ${clanRowSafe.maxHealth}** health!`,
 						components: []
 					})
 				}

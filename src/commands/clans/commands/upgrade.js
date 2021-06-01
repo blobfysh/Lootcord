@@ -26,7 +26,7 @@ exports.command = {
 		const botMessage = await reply(message, {
 			content: `Do you want to upgrade your clan base from **${previousStats.type}** to **${upgradedStats.type}**? ` +
 				`This will cost **${app.common.formatNumber(upgradedStats.cost.money)}** and ${app.itm.getDisplay(upgradedStats.cost.materials)}. The following will change:\n\n` +
-				`Max Health: ~~${previousStats.maxHealth}~~ ${app.icons.health.full} **${upgradedStats.maxHealth}**\n` +
+				`Max Health: ~~${previousStats.maxHealth}~~ **${upgradedStats.maxHealth}**\n` +
 				`Item Storage: ~~${previousStats.itemLimit}~~ **${upgradedStats.itemLimit}** items max\n` +
 				`Scrap Storage: ~~${app.common.formatNumber(previousStats.bankLimit, true)}~~ **${app.common.formatNumber(upgradedStats.bankLimit)}**\n` +
 				`Upkeep Costs: ~~${app.common.formatNumber(previousStats.upkeep, true)}~~ **${app.common.formatNumber(upgradedStats.upkeep)}**`,

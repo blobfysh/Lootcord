@@ -53,13 +53,13 @@ const makeProfile = exports.makeProfile = async function makeProfile (app, user,
 		const bannersList = `**Equipped:** ${bannerIcon}\`${userRow.banner}\`\n${userItems.banners.join('\n')}`
 		let userStatus = 'Change your status with the `setstatus` command!'
 		let badgeList = ''
-		let healthStr = `${app.player.getHealthIcon(userRow.health, userRow.maxHealth)} ${userRow.health} / ${userRow.maxHealth} HP`
+		let healthStr = `${userRow.health} / ${userRow.maxHealth} HP`
 
 		if (userRow.bleed > 0) {
-			healthStr += `\n🩸 Bleeding: **${userRow.bleed}**`
+			healthStr += ` 🩸 **${userRow.bleed}**`
 		}
 		if (userRow.burn > 0) {
-			healthStr += `\n🔥 Burning: **${userRow.burn}**`
+			healthStr += ` 🔥 **${userRow.burn}**`
 		}
 
 		if (userRow.status !== '') {

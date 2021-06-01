@@ -143,14 +143,14 @@ module.exports = {
 									if (randomItem.items.length) {
 										await app.itm.removeItem(user, randomItem.amounts, null, serverSideGuildId)
 
-										quote += `\n${app.icons.minus} **${joined[user].username}** lost ${randomItem.display[0]} and now has ${app.icons.health.full} **${userRow.health - healthReduct}** health.`
+										quote += `\n${app.icons.minus} **${joined[user].username}** lost ${randomItem.display[0]} and now has ${app.player.getHealthIcon(userRow.health - healthReduct, userRow.maxHealth)} **${userRow.health - healthReduct} / ${userRow.maxHealth}** health.`
 									}
 									else {
-										quote += `\n${app.icons.minus} **${joined[user].username}** now has ${app.icons.health.full} **${userRow.health - healthReduct}** health.`
+										quote += `\n${app.icons.minus} **${joined[user].username}** now has ${app.player.getHealthIcon(userRow.health - healthReduct, userRow.maxHealth)} **${userRow.health - healthReduct} / ${userRow.maxHealth}** health.`
 									}
 								}
 								else {
-									quote += `\n${app.icons.minus} **${joined[user].username}** now has ${app.icons.health.full} **${userRow.health - healthReduct}** health.`
+									quote += `\n${app.icons.minus} **${joined[user].username}** now has ${app.player.getHealthIcon(userRow.health - healthReduct, userRow.maxHealth)} **${userRow.health - healthReduct} / ${userRow.maxHealth}** health.`
 								}
 							}
 						}

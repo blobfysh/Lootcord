@@ -21,11 +21,16 @@
   "locked_text_channel": "<:locked_text_channel:741087747212836865>",
   "voice_channel": "<:voice_channel:741087747661365269>",
   "health": {
-    "full": "<:heart_full:708361975922556990>",
-    "empty": "<:heart_empty_new:708362448121495644>",
-    "percent_25": "<:heart_13rd:708363044639604767>",
-    "percent_50": "<:heart_half:708363065279905912>",
-    "percent_75": "<:heart_23rd:708363054479573012>"
+	"start_full": "<:health_bar_start_full:849053369368313906>",
+	"mid_full": "<:health_bar_mid_full:849053369317326868>",
+	"end_full": "<:health_bar_end_full:849053369385615431>",
+    "percent_25": "<:health_bar_25:849055032875810816>",
+    "percent_50": "<:health_bar_50:849055033126944828>",
+    "percent_75": "<:health_bar_75:849055032879218718>",
+	"start_25": "<:health_bar_start_25:849056171821236224>",
+	"start_50": "<:health_bar_start_50:849056171792007168>",
+	"start_75": "<:health_bar_start_75:849056171540348959>",
+	"empty": "<:health_bar_empty:849065056363872318>"
   },
   "accounts": {
     "active": "<:active_in_this_server:601375984347774977>",

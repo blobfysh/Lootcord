@@ -121,32 +121,59 @@ class Player {
      * @param {number} maxHP Player's maximum health
      */
 	getHealthIcon (curHP, maxHP, nextLine = false) {
-		const numHearts = Math.ceil(maxHP / 25)
+		const hpPerBar = maxHP / 5
 		let hpStr = ''
 
-		for (let i = 0; i < numHearts; i++) {
-			const hpPerc = curHP / 25
+		for (let i = 0; i < 5; i++) {
+			const barPerc = (curHP - (hpPerBar * i)) / hpPerBar
 
-			// add new line of hearts every 5 hearts
-			if (nextLine && i % 5 === 0) hpStr += '\n'
-
-			if (hpPerc >= 1) {
-				hpStr += this.app.icons.health.full
-
-				curHP -= 25
-			}
-			else if (hpPerc > 0) {
-				if (hpPerc >= 0.66) {
-					hpStr += this.app.icons.health.percent_75
+			if (i === 0) {
+				if (barPerc >= 1) {
+					hpStr += this.app.icons.health.start_full
 				}
-				else if (hpPerc >= 0.33) {
-					hpStr += this.app.icons.health.percent_50
+				else if (barPerc >= 0.75) {
+					hpStr += this.app.icons.health.start_75
+				}
+				else if (barPerc >= 0.5) {
+					hpStr += this.app.icons.health.start_50
+				}
+				else if (barPerc >= 0.25) {
+					hpStr += this.app.icons.health.start_25
 				}
 				else {
+					hpStr += this.app.icons.health.empty
+				}
+			}
+			else if (i === 4) {
+				if (barPerc >= 1) {
+					hpStr += this.app.icons.health.end_full
+				}
+				else if (barPerc >= 0.75) {
+					hpStr += this.app.icons.health.percent_75
+				}
+				else if (barPerc >= 0.5) {
+					hpStr += this.app.icons.health.percent_50
+				}
+				else if (barPerc >= 0.25) {
 					hpStr += this.app.icons.health.percent_25
 				}
+				else {
+					hpStr += this.app.icons.health.empty
+				}
+			}
 
-				curHP = 0
+			// middle health block
+			else if (barPerc >= 1) {
+				hpStr += this.app.icons.health.mid_full
+			}
+			else if (barPerc >= 0.75) {
+				hpStr += this.app.icons.health.percent_75
+			}
+			else if (barPerc >= 0.5) {
+				hpStr += this.app.icons.health.percent_50
+			}
+			else if (barPerc >= 0.25) {
+				hpStr += this.app.icons.health.percent_25
 			}
 			else {
 				hpStr += this.app.icons.health.empty

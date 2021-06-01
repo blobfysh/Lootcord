@@ -75,7 +75,7 @@ const generatePages = exports.generatePages = async function generatePages (app,
 				embedInfo.addField('🛡️ Passive Shield', `\`${passiveShield}\` [?](https://lootcord.com/faq#what-is-a-passive-shield 'A passive shield is a 24 hour attack shield given to you when you are killed.\n\nThis shield will automatically be removed if you decide to attack someone.')`)
 			}
 
-			let healthStr = `**${userRow.health} / ${userRow.maxHealth}** HP${app.player.getHealthIcon(userRow.health, userRow.maxHealth, true)}`
+			let healthStr = `**${userRow.health} / ${userRow.maxHealth}** HP\n${app.player.getHealthIcon(userRow.health, userRow.maxHealth)}`
 
 			if (userRow.bleed > 0) {
 				healthStr += `\n🩸 Bleeding: **${userRow.bleed}**`

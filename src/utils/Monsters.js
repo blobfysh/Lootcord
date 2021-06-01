@@ -72,7 +72,7 @@ class Monsters {
 			return arr
 		}, [])
 
-		let healthStr = `**${health} / ${monster.health}** HP${this.app.player.getHealthIcon(health, monster.health, true)}`
+		let healthStr = `**${health} / ${monster.health}** HP\n${this.app.player.getHealthIcon(health, monster.health)}`
 		let topDamageStr = `Nobody has attacked ${monster.mentioned} yet.\nThe top **3** damage dealers will receive loot!`
 
 		if (spawnInfo.bleed > 0) {

@@ -53,7 +53,7 @@ exports.command = {
 
 				const raidableEmbed = new app.Embed()
 					.setAuthor(`${message.author.username} | ${raiderRow.name}`, message.author.avatarURL)
-					.setDescription(`❌ Raid failed!\n\n\`${clanRow.name}\` has ${app.icons.health.full} **${clanRow.health} / ${clanRow.maxHealth}** health.\n\nYou can lower the health of this clan with explosives such as ${app.itemdata.c4.icon}\`c4\`.`)
+					.setDescription(`❌ Raid failed!\n\n\`${clanRow.name}\` has ${app.player.getHealthIcon(clanRow.health, clanRow.maxHealth)} **${clanRow.health} / ${clanRow.maxHealth}** health.\n\nYou can lower the health of this clan with explosives such as ${app.itemdata.c4.icon}\`c4\`.`)
 					.setColor(15083840)
 
 				setTimeout(() => {

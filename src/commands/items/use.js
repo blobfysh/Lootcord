@@ -641,11 +641,11 @@ exports.command = {
 						await app.query(`UPDATE scores SET health = health + ${userMaxHeal}, bleed = ${bleedingVal} WHERE userId = '${message.author.id}'`)
 					}
 
-					await reply(message, `You have healed for **${userMaxHeal}** health! You now have ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} ${row.health + userMaxHeal} / ${row.maxHealth} HP. Bleeding reduced from 🩸**${row.bleed}** to 🩸**${bleedingVal}**.`)
+					await reply(message, `You have healed for **${userMaxHeal}** health! You now have ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} **${row.health + userMaxHeal} / ${row.maxHealth}** HP. Bleeding reduced from 🩸 **${row.bleed}** to 🩸 **${bleedingVal}**.`)
 				}
 				else {
 					await app.player.addHealth(message.author.id, userMaxHeal, serverSideGuildId)
-					await reply(message, `You have healed for **${userMaxHeal}** health! You now have ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} ${row.health + userMaxHeal} / ${row.maxHealth} HP.`)
+					await reply(message, `You have healed for **${userMaxHeal}** health! You now have ${app.player.getHealthIcon(row.health + userMaxHeal, row.maxHealth)} **${row.health + userMaxHeal} / ${row.maxHealth}** HP.`)
 				}
 			}
 			else if (itemInfo.givesMoneyOnUse) {
@@ -721,7 +721,7 @@ exports.command = {
 
 				const msgEmbed = new app.Embed()
 					.setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
-					.setDescription(`💥 ***BOOM***\n\nThe health of \`${clanRow.name}\` drops from ${app.icons.health.full} **${clanRow.health}** to ${app.icons.health.full} **${clanRow.health - app.itemdata[item].explosiveDamage}**.`)
+					.setDescription(`💥 ***BOOM***\n\nThe health of \`${clanRow.name}\` drops from **${clanRow.health} / ${clanRow.maxHealth}** to **${clanRow.health - app.itemdata[item].explosiveDamage} / ${clanRow.maxHealth}**.`)
 					.setColor(16734296)
 
 				message.channel.createMessage(msgEmbed)
@@ -804,7 +804,7 @@ function generateAttackMobString (app, message, monsterRow, damage, itemUsed, am
 		finalStr += `\n${app.icons.death_skull} ${monsterDisplay} DIED!`
 	}
 	else {
-		finalStr += `\n${monsterDisplay} is left with ${app.icons.health.full} **${monsterRow.health - damage}** health.`
+		finalStr += `\n${monsterDisplay} is left with ${app.player.getHealthIcon(monsterRow.health - damage, monster.health)} **${monsterRow.health - damage}** health.`
 	}
 
 	if (ammoUsed === '40mm_smoke_grenade') {
@@ -856,9 +856,9 @@ async function pickTarget (app, message, membersInfo) {
 	const atkEmbed = new app.Embed()
 		.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
 		.setTitle('Pick someone to attack!')
-		.setDescription(`${app.player.getBadge(membersInfo[0].row.badge)} **${`${membersInfo[0].member.username}#${membersInfo[0].member.discriminator}`}** ${app.icons.health.full} ${membersInfo[0].row.health} - ${app.common.formatNumber(membersInfo[0].row.money)} - ${(await app.itm.getItemCount(membersInfo[0].items, membersInfo[0].row)).itemCt} items\n\n` +
-			`${app.player.getBadge(membersInfo[1].row.badge)} **${`${membersInfo[1].member.username}#${membersInfo[1].member.discriminator}`}** ${app.icons.health.full} ${membersInfo[1].row.health} - ${app.common.formatNumber(membersInfo[1].row.money)} - ${(await app.itm.getItemCount(membersInfo[1].items, membersInfo[1].row)).itemCt} items\n\n` +
-			`${app.player.getBadge(membersInfo[2].row.badge)} **${`${membersInfo[2].member.username}#${membersInfo[2].member.discriminator}`}** ${app.icons.health.full} ${membersInfo[2].row.health} - ${app.common.formatNumber(membersInfo[2].row.money)} - ${(await app.itm.getItemCount(membersInfo[2].items, membersInfo[2].row)).itemCt} items`)
+		.setDescription(`${app.player.getBadge(membersInfo[0].row.badge)} **${`${membersInfo[0].member.username}#${membersInfo[0].member.discriminator}`}** **${membersInfo[0].row.health} / ${membersInfo[0].row.maxHealth}** HP - ${app.common.formatNumber(membersInfo[0].row.money)} - ${(await app.itm.getItemCount(membersInfo[0].items, membersInfo[0].row)).itemCt} items\n\n` +
+			`${app.player.getBadge(membersInfo[1].row.badge)} **${`${membersInfo[1].member.username}#${membersInfo[1].member.discriminator}`}** **${membersInfo[1].row.health} / ${membersInfo[1].row.maxHealth}** HP - ${app.common.formatNumber(membersInfo[1].row.money)} - ${(await app.itm.getItemCount(membersInfo[1].items, membersInfo[1].row)).itemCt} items\n\n` +
+			`${app.player.getBadge(membersInfo[2].row.badge)} **${`${membersInfo[2].member.username}#${membersInfo[2].member.discriminator}`}** **${membersInfo[2].row.health} / ${membersInfo[2].row.maxHealth}** HP - ${app.common.formatNumber(membersInfo[2].row.money)} - ${(await app.itm.getItemCount(membersInfo[2].items, membersInfo[2].row)).itemCt} items`)
 		.setColor(13451564)
 		.setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
 

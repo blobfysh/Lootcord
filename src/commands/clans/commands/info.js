@@ -76,7 +76,7 @@ async function getClanInfo (app, message, clanId) {
 		baseEmbed.setThumbnail(CLANS.levels[clanRow.level].image)
 	}
 
-	baseEmbed.addField('Health', `**${clanRow.health} / ${clanRow.maxHealth}** HP${app.player.getHealthIcon(clanRow.health, clanRow.maxHealth, true)}`, true)
+	baseEmbed.addField('Health', `**${clanRow.health} / ${clanRow.maxHealth}** HP\n${app.player.getHealthIcon(clanRow.health, clanRow.maxHealth)}`, true)
 	baseEmbed.addField('Clan Stats', `Level: **${clanRow.level} (${CLANS.levels[clanRow.level].type})**\nItems in storage: **${clanData.itemCount} / ${clanData.vaultSlots}**`, true)
 	baseEmbed.addBlankField()
 	baseEmbed.addField('Scrap Bank', `${app.common.formatNumber(clanRow.money)} / ${app.common.formatNumber(CLANS.levels[clanRow.level].bankLimit, true)} max`, true)
