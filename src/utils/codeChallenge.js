@@ -22,7 +22,10 @@ async function start (app, channel) {
 		.setColor(13451564)
 		.setFooter('You have 10 minutes to guess the code.')
 
-	await channel.createMessage(startedEmbed)
+	await channel.createMessage({
+		content: `<@&${app.config.codeEventRoleID}>`,
+		embed: startedEmbed.embed
+	})
 
 	const collectorObj = app.msgCollector.createChannelCollector(channel.id, m => m.content.length === 4 && !isNaN(m.content) && !isNaN(parseInt(m.content)), { time: 10 * 60 * 1000 })
 
@@ -37,7 +40,6 @@ async function start (app, channel) {
 			if (guess === code) {
 				app.msgCollector.stopCollector(collectorObj)
 
-				await app.itm.addItem(m.author.id, reward, 1)
 				await app.itm.addItem(m.author.id, reward, 1, m.channel.guild.id)
 
 				await reply(m, `<@${m.author.id}> CRACKED THE CODE AND TOOK THE ${app.itemdata[reward].icon}\`${reward}\``)
