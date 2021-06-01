@@ -7,8 +7,7 @@ module.exports = {
 	async execute (app, message, { prefix, serverSideGuildId }) {
 		console.log('[EVENT] Exploration started')
 
-		const collectorObj = app.msgCollector.createChannelCollector(message, m => m.channel.id === message.channel.id &&
-            m.content.toLowerCase() === 'roam', { time: 40000 })
+		const collectorObj = app.msgCollector.createChannelCollector(message.channel.id, m => m.content.toLowerCase() === 'roam', { time: 40000 })
 
 		const monumentsArr = Object.keys(monuments)
 		const monument = monuments[monumentsArr[Math.floor(Math.random() * monumentsArr.length)]]

@@ -75,8 +75,7 @@ async function startJackpot (app, message, prefix, gambleAmount, serverSideGuild
 	try {
 		if (app.msgCollector.channelCollectors.filter(obj => obj.channelId === message.channel.id).length) throw new Error('Jackpot already started!')
 
-		const collectorObj = app.msgCollector.createChannelCollector(message, m => m.channel.id === message.channel.id &&
-            m.content.toLowerCase().startsWith(`${prefix}join`), { time: 120000 })
+		const collectorObj = app.msgCollector.createChannelCollector(message.channel.id, m => m.content.toLowerCase().startsWith(`${prefix}join`), { time: 120000 })
 
 		jackpotObj[message.author.id] = { name: message.author.username, amount: gambleAmount }
 		message.channel.createMessage(refreshEmbed(app, jackpotObj, prefix))

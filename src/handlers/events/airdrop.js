@@ -5,8 +5,7 @@ module.exports = {
 	async execute (app, message, { prefix, serverSideGuildId }) {
 		console.log('[EVENT] Airdrop started')
 
-		const collectorObj = app.msgCollector.createChannelCollector(message, m => m.channel.id === message.channel.id &&
-            m.content.toLowerCase() === 'claimdrop', { time: 40000 })
+		const collectorObj = app.msgCollector.createChannelCollector(message.channel.id, m => m.content.toLowerCase() === 'claimdrop', { time: 40000 })
 
 		const exploreEmbed = new app.Embed()
 			.setColor(13451564)

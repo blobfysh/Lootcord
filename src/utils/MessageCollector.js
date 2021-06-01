@@ -35,15 +35,15 @@ class MessageCollector {
 
 	/**
      * Collects messages from all users in a channel
-     * @param {*} message Discord message object
+     * @param {string} channelId Discord channel ID
      * @param {*} filter custom filter options
      * @param {*} options options.time - time in milliseconds collector should last
      */
-	createChannelCollector (message, filter, options = { time: 15000 }) {
+	createChannelCollector (channelId, filter, options = { time: 15000 }) {
 		const eventCollector = new EventEmitter()
 
 		const collectorObj = {
-			channelId: message.channel.id,
+			channelId,
 			timeout: options.time && setTimeout(() => {
 				eventCollector.emit('end', 'time')
 				this.channelCollectors.splice(this.channelCollectors.indexOf(collectorObj), 1)
