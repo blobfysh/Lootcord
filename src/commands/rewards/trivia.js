@@ -200,6 +200,8 @@ const getReward = exports.getReward = function getReward (app, streak, hasSpace)
 		amount: 1
 	}
 
+	streak %= 10
+
 	if (streak <= 2) {
 		reward.item = 'crate'
 		reward.display = `${app.itemdata.crate.icon}\`crate\``
@@ -208,7 +210,7 @@ const getReward = exports.getReward = function getReward (app, streak, hasSpace)
 		reward.item = 'military_crate'
 		reward.display = `${app.itemdata.military_crate.icon}\`military_crate\``
 	}
-	else if (streak % 10 === 0) {
+	else if (streak === 9) {
 		reward.item = 'elite_crate'
 		reward.display = `${app.itemdata.elite_crate.icon}\`elite_crate\``
 	}
