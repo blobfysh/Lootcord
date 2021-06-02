@@ -856,9 +856,9 @@ async function pickTarget (app, message, membersInfo) {
 	const atkEmbed = new app.Embed()
 		.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
 		.setTitle('Pick someone to attack!')
-		.setDescription(`${app.player.getBadge(membersInfo[0].row.badge)} **${`${membersInfo[0].member.username}#${membersInfo[0].member.discriminator}`}** **${membersInfo[0].row.health} / ${membersInfo[0].row.maxHealth}** HP - ${app.common.formatNumber(membersInfo[0].row.money)} - ${(await app.itm.getItemCount(membersInfo[0].items, membersInfo[0].row)).itemCt} items\n\n` +
-			`${app.player.getBadge(membersInfo[1].row.badge)} **${`${membersInfo[1].member.username}#${membersInfo[1].member.discriminator}`}** **${membersInfo[1].row.health} / ${membersInfo[1].row.maxHealth}** HP - ${app.common.formatNumber(membersInfo[1].row.money)} - ${(await app.itm.getItemCount(membersInfo[1].items, membersInfo[1].row)).itemCt} items\n\n` +
-			`${app.player.getBadge(membersInfo[2].row.badge)} **${`${membersInfo[2].member.username}#${membersInfo[2].member.discriminator}`}** **${membersInfo[2].row.health} / ${membersInfo[2].row.maxHealth}** HP - ${app.common.formatNumber(membersInfo[2].row.money)} - ${(await app.itm.getItemCount(membersInfo[2].items, membersInfo[2].row)).itemCt} items`)
+		.setDescription(`${app.player.getBadge(membersInfo[0].row.badge)} **${`${membersInfo[0].member.username}#${membersInfo[0].member.discriminator}`}** **${membersInfo[0].row.health}** HP - ${app.common.formatNumber(membersInfo[0].row.money)} - ${(await app.itm.getItemCount(membersInfo[0].items, membersInfo[0].row)).itemCt} items\n\n` +
+			`${app.player.getBadge(membersInfo[1].row.badge)} **${`${membersInfo[1].member.username}#${membersInfo[1].member.discriminator}`}** **${membersInfo[1].row.health}** HP - ${app.common.formatNumber(membersInfo[1].row.money)} - ${(await app.itm.getItemCount(membersInfo[1].items, membersInfo[1].row)).itemCt} items\n\n` +
+			`${app.player.getBadge(membersInfo[2].row.badge)} **${`${membersInfo[2].member.username}#${membersInfo[2].member.discriminator}`}** **${membersInfo[2].row.health}** HP - ${app.common.formatNumber(membersInfo[2].row.money)} - ${(await app.itm.getItemCount(membersInfo[2].items, membersInfo[2].row)).itemCt} items`)
 		.setColor(13451564)
 		.setFooter('You have 15 seconds to choose. Otherwise one will be chosen for you.')
 
