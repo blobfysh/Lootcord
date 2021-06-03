@@ -88,7 +88,7 @@ class Lootcord extends Base {
 		}
 
 		if (this.config.codeEventChannel && this.bot.guilds.find(guild => guild.channels.has(this.config.codeEventChannel))) {
-			init(this, this.bot.guilds.find(guild => guild.channels.has(this.config.codeEventChannel)).channels.get(this.config.codeEventChannel))
+			init(this, this.bot.guilds.find(guild => guild.channels.has(this.config.codeEventChannel)).channels.get(this.config.codeEventChannel), true)
 		}
 
 		this.bot.editStatus('online', {

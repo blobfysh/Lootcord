@@ -2,7 +2,7 @@ const { reply } = require('./messageUtils')
 
 const reward = 'locked_crate'
 
-exports.init = function (app, channel) {
+exports.init = function (app, channel, firstRun = false) {
 	setTimeout(async () => {
 		try {
 			await start(app, channel)
@@ -10,7 +10,7 @@ exports.init = function (app, channel) {
 		catch (err) {
 			console.warn(err)
 		}
-	}, Math.round(Math.random() * (3600 * 1000)) + (3600 * 1000))
+	}, firstRun ? 1000 * 60 * 20 : Math.round(Math.random() * (3600 * 1000)) + (3600 * 1000))
 }
 
 async function start (app, channel) {
@@ -40,6 +40,7 @@ async function start (app, channel) {
 			if (guess === code) {
 				app.msgCollector.stopCollector(collectorObj)
 
+				// await app.itm.addItem(m.author.id, reward, 1)
 				await app.itm.addItem(m.author.id, reward, 1, m.channel.guild.id)
 
 				await reply(m, `<@${m.author.id}> CRACKED THE CODE AND TOOK THE ${app.itemdata[reward].icon}\`${reward}\``)
