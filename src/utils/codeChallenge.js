@@ -46,10 +46,10 @@ async function start (app, channel) {
 				await reply(m, `<@${m.author.id}> CRACKED THE CODE AND TOOK THE ${app.itemdata[reward].icon}\`${reward}\``)
 			}
 			else if (guess < code) {
-				await reply(m, '```js\n❌ Error: Code is a higher number\n  at guessCode (c:\\system\\notporn\\tools\\codebreak.exe:69:420)```')
+				await reply(m, `\`\`\`js\n❌ Error: Code is higher than ${m.content}\n  at guessCode (c:\\system\\notporn\\tools\\codebreak.exe:69:420)\`\`\``)
 			}
 			else if (guess > code) {
-				await reply(m, '```js\n❌ Error: Code is a lower number\n  at guessCode (c:\\system\\notporn\\tools\\codebreak.exe:506:35)```')
+				await reply(m, `\`\`\`js\n❌ Error: Code is lower than ${m.content}\n  at guessCode (c:\\system\\notporn\\tools\\codebreak.exe:506:35)\`\`\``)
 			}
 		}
 		catch (err) {
