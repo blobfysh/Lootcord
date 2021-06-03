@@ -8,7 +8,7 @@ exports.run = async function (guild, member) {
 
 	if (await this.cd.getCD(member.id, `activate|${guild.id}`)) {
 		// cooldown dodged... >:(
-		const guildInfo = await this.app.common.getGuildInfo(guild.id)
+		const guildInfo = await this.common.getGuildInfo(guild.id)
 		const serverSideGuildId = guildInfo.serverOnly ? guild.id : undefined
 		const userItems = await this.itm.getItemObject(member.id, serverSideGuildId)
 		const randomItems = await this.itm.getRandomUserItems(userItems, 1)
