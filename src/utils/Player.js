@@ -137,11 +137,8 @@ class Player {
 				else if (barPerc >= 0.5) {
 					hpStr += this.app.icons.health.start_50
 				}
-				else if (barPerc >= 0.25) {
-					hpStr += this.app.icons.health.start_25
-				}
 				else {
-					hpStr += this.app.icons.health.empty
+					hpStr += this.app.icons.health.start_25
 				}
 			}
 			else if (i === 4) {
