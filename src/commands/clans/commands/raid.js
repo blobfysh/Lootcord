@@ -12,9 +12,9 @@ exports.command = {
 	requiresActive: true,
 	minimumRank: 1,
 
-	async execute (app, message, { args, prefix, guildInfo }) {
-		const scoreRow = await app.player.getRow(message.author.id)
-		const raidCD = await app.cd.getCD(scoreRow.clanId, 'raid')
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const scoreRow = await app.player.getRow(message.author.id, serverSideGuildId)
+		const raidCD = await app.cd.getCD(scoreRow.clanId, 'raid', { serverSideGuildId })
 
 		if (!args.length) {
 			return reply(message, '❌ You need to specify the name of the clan you want to raid.')
@@ -24,7 +24,7 @@ exports.command = {
 		}
 
 		const clanName = args.join(' ')
-		const clanRow = await app.clans.searchClanRow(clanName)
+		const clanRow = await app.clans.searchClanRow(clanName, serverSideGuildId)
 
 		if (!clanRow) {
 			return reply(message, 'I could not find a clan with that name! Maybe you misspelled it?')
@@ -32,14 +32,14 @@ exports.command = {
 		else if (clanRow.clanId === scoreRow.clanId) {
 			return reply(message, 'Raiding yourself???? What.')
 		}
-		else if (await app.cd.getCD(clanRow.clanId, 'raided')) {
+		else if (await app.cd.getCD(clanRow.clanId, 'raided', { serverSideGuildId })) {
 			return reply(message, 'That clan just got raided! Let the clan recuperate before raiding them again.')
 		}
 
 		try {
 			const transaction = await app.mysql.beginTransaction()
-			const raiderRow = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId)
-			const victimRow = await app.clans.getRowForUpdate(transaction.query, clanRow.clanId)
+			const raiderRow = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId, serverSideGuildId)
+			const victimRow = await app.clans.getRowForUpdate(transaction.query, clanRow.clanId, serverSideGuildId)
 
 			const raidEmbed = new app.Embed()
 				.setAuthor(`${message.author.username} | ${raiderRow.name}`, message.author.avatarURL)
@@ -61,10 +61,10 @@ exports.command = {
 				}, 2000)
 			}
 			else {
-				const raiderItems = await app.itm.getItemObjectForUpdate(transaction.query, scoreRow.clanId)
-				const victimItems = await app.itm.getItemObjectForUpdate(transaction.query, clanRow.clanId)
+				const raiderItems = await app.clans.getItemObjectForUpdate(transaction.query, scoreRow.clanId, serverSideGuildId)
+				const victimItems = await app.clans.getItemObjectForUpdate(transaction.query, clanRow.clanId, serverSideGuildId)
 
-				const raiderClanData = await app.clans.getClanData(raiderRow, raiderItems)
+				const raiderClanData = await app.clans.getClanData(raiderRow, raiderItems, serverSideGuildId)
 				const itemsToSteal = raiderClanData.vaultSlots - raiderClanData.itemCount
 				const moneyToSteal = Math.max(0, CLANS.levels[raiderRow.level].bankLimit - raiderRow.money)
 				const moneyStolen = Math.min(victimRow.money, moneyToSteal)
@@ -104,19 +104,19 @@ exports.command = {
 				}
 
 				// all checks passed, add cooldowns
-				await app.cd.setCD(victimRow.clanId, 'raided', 3600 * 1000 * 24)
-				await app.cd.setCD(raiderRow.clanId, 'raid', 3600 * 1000)
-				await app.clans.addLog(raiderRow.clanId, `${message.author.username} raided ${victimRow.name}`)
-				await app.clans.addLog(victimRow.clanId, `Raided by ${raiderRow.name} (${`${message.author.username}#${message.author.discriminator}`})`)
+				await app.cd.setCD(victimRow.clanId, 'raided', 3600 * 1000 * 24, { serverSideGuildId })
+				await app.cd.setCD(raiderRow.clanId, 'raid', 3600 * 1000, { serverSideGuildId })
+				await app.clans.addLog(raiderRow.clanId, `${message.author.username} raided ${victimRow.name}`, serverSideGuildId)
+				await app.clans.addLog(victimRow.clanId, `Raided by ${raiderRow.name} (${`${message.author.username}#${message.author.discriminator}`})`, serverSideGuildId)
 
 				// transfer money
-				await app.clans.removeMoneySafely(transaction.query, victimRow.clanId, moneyStolen)
-				await app.clans.addMoneySafely(transaction.query, raiderRow.clanId, moneyStolen)
+				await app.clans.removeMoneySafely(transaction.query, victimRow.clanId, moneyStolen, serverSideGuildId)
+				await app.clans.addMoneySafely(transaction.query, raiderRow.clanId, moneyStolen, serverSideGuildId)
 
 				// transfer items
 				if (itemsStolen && itemsStolen.amounts.length) {
-					await app.itm.removeItemSafely(transaction.query, victimRow.clanId, itemsStolen.amounts)
-					await app.itm.addItemSafely(transaction.query, raiderRow.clanId, itemsStolen.amounts)
+					await app.clans.removeItemSafely(transaction.query, victimRow.clanId, itemsStolen.amounts, null, serverSideGuildId)
+					await app.clans.addItemSafely(transaction.query, raiderRow.clanId, itemsStolen.amounts, null, serverSideGuildId)
 				}
 
 				const raidedEmbed = new app.Embed()
@@ -128,7 +128,7 @@ exports.command = {
 
 				// degrade clans level
 				if (victimRow.level - 1 >= 1) {
-					await transaction.query('UPDATE clans SET level = ?, maxHealth = ? WHERE clanId = ?', [victimRow.level - 1, CLANS.levels[victimRow.level - 1].maxHealth, victimRow.clanId])
+					await transaction.query(`UPDATE ${serverSideGuildId ? 'server_clans' : 'clans'} SET level = ?, maxHealth = ? WHERE clanId = ?`, [victimRow.level - 1, CLANS.levels[victimRow.level - 1].maxHealth, victimRow.clanId])
 					raidedEmbed.setFooter(`The base of ${victimRow.name} degraded from ${CLANS.levels[victimRow.level].type} to ${CLANS.levels[victimRow.level - 1].type}.`)
 				}
 
@@ -139,7 +139,24 @@ exports.command = {
 					botMsg.edit(raidedEmbed)
 				}, 2000)
 
-				await app.clans.raidNotify(victimRow.clanId, raiderRow.name, moneyStolen, getRaidedItemDisplay(itemsStolen))
+				// notify raided members
+				const raidedMembers = (await app.clans.getMembers(victimRow.clanId, serverSideGuildId)).rows
+
+				for (const user of raidedMembers) {
+					if (user.notify3) {
+						const raidedEmb = new app.Embed()
+							.setDescription(`Your clan was raided by \`${raiderRow.name}\`!`)
+							.addField('Scrap Lost', app.common.formatNumber(moneyStolen), true)
+							.addField('Items Lost', getRaidedItemDisplay(itemsStolen))
+							.setColor(16734296)
+
+						if (serverSideGuildId) {
+							raidedEmb.setDescription(`Your clan was raided by \`${raiderRow.name}\` in the server **${message.channel.guild.name}**`)
+						}
+
+						await app.common.messageUser(user.userId, raidedEmb)
+					}
+				}
 			}
 		}
 		catch (err) {
@@ -149,7 +166,7 @@ exports.command = {
 				.setAuthor(`${message.author.username} | ${clanRow.name}`, message.author.avatarURL)
 				.setDescription('There was an error while trying to raid, you should probably contact the bot developer.')
 
-			await message.channel.createMessage(errorEmbed).catch(console.log)
+			await message.channel.createMessage(errorEmbed)
 		}
 	}
 }

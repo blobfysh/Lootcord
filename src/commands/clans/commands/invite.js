@@ -14,16 +14,16 @@ exports.command = {
 	requiresActive: true,
 	minimumRank: 2,
 
-	async execute (app, message, { args, prefix, guildInfo }) {
-		const scoreRow = await app.player.getRow(message.author.id)
-		const clanRow = await app.clans.getRow(scoreRow.clanId)
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const scoreRow = await app.player.getRow(message.author.id, serverSideGuildId)
+		const clanRow = await app.clans.getRow(scoreRow.clanId, serverSideGuildId)
 		const user = app.parse.members(message, args)[0]
 
 		if (!user) {
 			return reply(message, 'Please specify someone to invite. You can mention someone, use their Discord#tag, or type their user ID')
 		}
 
-		const invitedScoreRow = await app.player.getRow(user.id)
+		const invitedScoreRow = await app.player.getRow(user.id, serverSideGuildId)
 
 		if (!invitedScoreRow) {
 			return reply(message, '❌ The person you\'re trying to search doesn\'t have an account!')
@@ -37,7 +37,7 @@ exports.command = {
 		else if (invitedScoreRow.clanId !== 0) {
 			return reply(message, '❌ That user is already in a clan!')
 		}
-		else if ((await app.clans.getMembers(scoreRow.clanId)).count >= MEMBER_LIMIT) {
+		else if ((await app.clans.getMembers(scoreRow.clanId, serverSideGuildId)).count >= MEMBER_LIMIT) {
 			return reply(message, `❌ Your clan has the max limit of members! (${MEMBER_LIMIT}/${MEMBER_LIMIT})`)
 		}
 
@@ -47,33 +47,47 @@ exports.command = {
 		})
 
 		try {
-			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
+			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === user.id))[0]
 
 			if (confirmed.customID === 'confirmed') {
-				const invitedScoreRow2 = await app.player.getRow(user.id)
-				const memberCount = (await app.clans.getMembers(scoreRow.clanId)).count
+				const transaction = await app.mysql.beginTransaction()
+				const invitedScoreRow2 = await app.player.getRowForUpdate(transaction.query, user.id, serverSideGuildId)
+				const memberCount = (await app.clans.getMembers(scoreRow.clanId, serverSideGuildId)).count
 
 				if (!invitedScoreRow2) {
+					await transaction.commit()
+
 					return confirmed.respond({
 						content: `<@${user.id}>, you don't have an account.`,
 						components: []
 					})
 				}
 				else if (invitedScoreRow2.clanId !== 0) {
+					await transaction.commit()
+
 					return confirmed.respond({
 						content: `<@${user.id}>, you are already in a clan!`,
 						components: []
 					})
 				}
 				else if (memberCount >= MEMBER_LIMIT) {
+					await transaction.commit()
+
 					return confirmed.respond({
 						content: `The clan has hit the max limit of members! (${MEMBER_LIMIT}/${MEMBER_LIMIT})`,
 						components: []
 					})
 				}
 
-				await joinClan(app, user.id, clanRow.clanId)
-				await app.clans.addLog(clanRow.clanId, `${user.username} joined (inv. by ${message.author.username})`)
+				if (serverSideGuildId) {
+					await transaction.query('UPDATE server_scores SET clanId = ?, clanRank = 0 WHERE userId = ? AND guildId = ?', [clanRow.clanId, user.id, message.channel.guild.id])
+				}
+				else {
+					await transaction.query('UPDATE scores SET clanId = ?, clanRank = 0 WHERE userId = ?', [clanRow.clanId, user.id])
+				}
+
+				await transaction.commit()
+				await app.clans.addLog(clanRow.clanId, `${user.username} joined (inv. by ${message.author.username})`, serverSideGuildId)
 
 				await confirmed.respond({
 					content: `<@${user.id}>, You are now a member of \`${clanRow.name}\`\n\nView your clan information with \`${prefix}clan info\` and check the inventory with \`${prefix}clan inv\`.`,
@@ -91,9 +105,4 @@ exports.command = {
 			})
 		}
 	}
-}
-
-async function joinClan (app, userId, clanId) {
-	await app.query(`UPDATE scores SET clanId = ${clanId} WHERE userId = ${userId}`)
-	await app.query(`UPDATE scores SET clanRank = 0 WHERE userId = ${userId}`)
 }

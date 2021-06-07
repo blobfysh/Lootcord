@@ -12,8 +12,8 @@ exports.command = {
 	minimumRank: 1,
 	levelReq: 3,
 
-	async execute (app, message, { args, prefix, guildInfo }) {
-		const scoreRow = await app.player.getRow(message.author.id)
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const scoreRow = await app.player.getRow(message.author.id, serverSideGuildId)
 		const itemName = app.parse.items(args)[0]
 		let itemAmnt = app.parse.numbers(args)[0]
 		let isMoney = false
@@ -37,7 +37,7 @@ exports.command = {
 		if (isMoney) {
 			try {
 				const transaction = await app.mysql.beginTransaction()
-				const clanRow = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId)
+				const clanRow = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId, serverSideGuildId)
 
 				if (isAll) {
 					itemAmnt = clanRow.money
@@ -48,11 +48,11 @@ exports.command = {
 					return reply(message, `Your clan bank only has ${app.common.formatNumber(clanRow.money)}...`)
 				}
 
-				await app.clans.removeMoneySafely(transaction.query, scoreRow.clanId, itemAmnt)
-				await app.player.addMoneySafely(transaction.query, message.author.id, itemAmnt)
+				await app.clans.removeMoneySafely(transaction.query, scoreRow.clanId, itemAmnt, serverSideGuildId)
+				await app.player.addMoneySafely(transaction.query, message.author.id, itemAmnt, serverSideGuildId)
 				await transaction.commit()
 
-				await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} withdrew ${app.common.formatNumber(itemAmnt, true)}`)
+				await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} withdrew ${app.common.formatNumber(itemAmnt, true)}`, serverSideGuildId)
 
 				return reply(message, `Withdrew **${app.common.formatNumber(itemAmnt)}**\n\nThe clan bank now has **${app.common.formatNumber(clanRow.money - itemAmnt)}**`)
 			}
@@ -71,7 +71,7 @@ exports.command = {
 
 		try {
 			const transaction = await app.mysql.beginTransaction()
-			const clanItems = await app.itm.getItemObjectForUpdate(transaction.query, scoreRow.clanId)
+			const clanItems = await app.clans.getItemObjectForUpdate(transaction.query, scoreRow.clanId, serverSideGuildId)
 
 			const hasItems = await app.itm.hasItems(clanItems, itemName, itemAmnt)
 
@@ -80,7 +80,7 @@ exports.command = {
 				return reply(message, `Your clan has **${clanItems[itemName] !== undefined ? `${clanItems[itemName]}x` : '0'}** ${app.itemdata[itemName].icon}\`${itemName}\`${!clanItems[itemName] || clanItems[itemName] > 1 ? '\'s' : ''}...`)
 			}
 
-			const itemCt = await app.itm.getItemCount(await app.itm.getItemObjectForUpdate(transaction.query, message.author.id), scoreRow)
+			const itemCt = await app.itm.getItemCount(await app.itm.getItemObjectForUpdate(transaction.query, message.author.id, serverSideGuildId), scoreRow)
 			const hasSpace = await app.itm.hasSpace(itemCt, itemAmnt)
 
 			if (!hasSpace) {
@@ -88,8 +88,8 @@ exports.command = {
 				return reply(message, `❌ **You don't have enough space in your inventory!** (You need **${itemAmnt}** open slot${itemAmnt > 1 ? 's' : ''}, you have **${itemCt.open}**)\n\nYou can clear up space by selling some items.`)
 			}
 
-			await app.itm.removeItemSafely(transaction.query, scoreRow.clanId, itemName, itemAmnt)
-			await app.itm.addItemSafely(transaction.query, message.author.id, itemName, itemAmnt)
+			await app.clans.removeItemSafely(transaction.query, scoreRow.clanId, itemName, itemAmnt, serverSideGuildId)
+			await app.itm.addItemSafely(transaction.query, message.author.id, itemName, itemAmnt, serverSideGuildId)
 			await transaction.commit()
 
 			await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} withdrew ${itemAmnt}x ${itemName}`)

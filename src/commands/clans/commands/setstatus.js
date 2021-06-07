@@ -15,8 +15,8 @@ exports.command = {
 	requiresActive: true,
 	minimumRank: 2,
 
-	async execute (app, message, { args, prefix, guildInfo }) {
-		const scoreRow = await app.player.getRow(message.author.id)
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const scoreRow = await app.player.getRow(message.author.id, serverSideGuildId)
 
 		let statusToSet = message.cleanContent.slice(prefix.length).split(/ +/).slice(2).join(' ')
 
@@ -34,19 +34,21 @@ exports.command = {
 		statusToSet = statusToSet.slice(2)
 
 		try {
-			await app.query('UPDATE clans SET status = ? WHERE clanId = ?', [!statusToSet ? '' : statusToSet, scoreRow.clanId])
+			await app.query(`UPDATE ${serverSideGuildId ? 'server_clans' : 'clans'} SET status = ? WHERE clanId = ?`, [!statusToSet ? '' : statusToSet, scoreRow.clanId])
 
-			await app.clans.addLog(scoreRow.clanId, `${message.author.username} set the clan status to: ${!statusToSet ? 'Nothing?' : statusToSet}`)
+			await app.clans.addLog(scoreRow.clanId, `${message.author.username} set the clan status to: ${!statusToSet ? 'Nothing?' : statusToSet}`, serverSideGuildId)
 			await reply(message, `✅ Successfully set status to: ${!statusToSet ? 'Nothing?' : statusToSet}`)
 
-			const logEmbed = new app.Embed()
-				.setTitle('Modified Clan Status')
-				.setThumbnail(message.author.avatarURL)
-				.setDescription(`${`${message.author.username}#${message.author.discriminator}`} ID: \`\`\`\n${message.author.id}\`\`\`Clan ID:\`\`\`\n${scoreRow.clanId}\`\`\``)
-				.addField('Status Changed', !statusToSet ? 'Nothing?' : statusToSet)
-				.setColor('#8E588E')
-				.setFooter('Make sure status does not violate TOS or is vulgar')
-			app.messager.messageLogs(logEmbed)
+			if (!serverSideGuildId) {
+				const logEmbed = new app.Embed()
+					.setTitle('Modified Clan Status')
+					.setThumbnail(message.author.avatarURL)
+					.setDescription(`${`${message.author.username}#${message.author.discriminator}`} ID: \`\`\`\n${message.author.id}\`\`\`Clan ID:\`\`\`\n${scoreRow.clanId}\`\`\``)
+					.addField('Status Changed', !statusToSet ? 'Nothing?' : statusToSet)
+					.setColor('#8E588E')
+					.setFooter('Make sure status does not violate TOS or is vulgar')
+				app.messager.messageLogs(logEmbed)
+			}
 		}
 		catch (err) {
 			await reply(message, '❌ There was an error trying to modify your status.')

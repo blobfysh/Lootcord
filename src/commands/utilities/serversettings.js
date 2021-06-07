@@ -11,7 +11,7 @@ exports.command = {
 	requiresActive: false,
 	guildModsOnly: false,
 
-	async execute (app, message, { args, prefix, guildInfo }) {
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const killfeedStr = message.channel.guild.channels.get(guildInfo.killChan) ? '(Disable with `togglekillfeed`)' : '(Set with `togglekillfeed`)'
 		const lvlChanStr = message.channel.guild.channels.get(guildInfo.levelChan) ? '(Disable with `togglelevelchannel`)' : '(Set with `togglelevelchannel`)'
 
@@ -24,7 +24,14 @@ exports.command = {
 			.addField('Attack Mode\n(Change with `togglerandomattacks`)', guildInfo.randomOnly ? 'Random only' : 'Selectable')
 			.addField('Server-side Economy Mode\n(Change with `toggleservereconomy`)', guildInfo.serverOnly ? 'Enabled' : 'Disabled (global economy mode)')
 
-		if (message.channel.guild.iconURL) settings.setThumbnail(message.channel.guild.iconURL)
-		message.channel.createMessage(settings)
+		if (serverSideGuildId) {
+			settings.addField('Clans\n(Enable/disable with `toggleclans`)', guildInfo.clansDisabled ? 'Disabled' : 'Enabled')
+		}
+
+		if (message.channel.guild.iconURL) {
+			settings.setThumbnail(message.channel.guild.iconURL)
+		}
+
+		await message.channel.createMessage(settings)
 	}
 }

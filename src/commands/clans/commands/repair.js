@@ -14,9 +14,9 @@ exports.command = {
 	requiresActive: true,
 	minimumRank: 3,
 
-	async execute (app, message, { args, prefix, guildInfo }) {
-		const scoreRow = await app.player.getRow(message.author.id)
-		const clanRow = await app.clans.getRow(scoreRow.clanId)
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const scoreRow = await app.player.getRow(message.author.id, serverSideGuildId)
+		const clanRow = await app.clans.getRow(scoreRow.clanId, serverSideGuildId)
 		const clanStats = CLANS.levels[clanRow.level]
 		let amount = app.parse.numbers(args)[0] || 1
 
@@ -41,8 +41,8 @@ exports.command = {
 			if (confirmed.customID === 'confirmed') {
 				try {
 					const transaction = await app.mysql.beginTransaction()
-					const clanRowSafe = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId)
-					const clanItems = await app.itm.getItemObjectForUpdate(transaction.query, scoreRow.clanId)
+					const clanRowSafe = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId, serverSideGuildId)
+					const clanItems = await app.clans.getItemObjectForUpdate(transaction.query, scoreRow.clanId, serverSideGuildId)
 
 					if (clanRow.health !== clanRowSafe.health) {
 						await transaction.commit()
@@ -69,9 +69,10 @@ exports.command = {
 						})
 					}
 
-					await app.itm.removeItemSafely(transaction.query, scoreRow.clanId, clanStats.repair.item, amount)
+					await app.clans.removeItemSafely(transaction.query, scoreRow.clanId, clanStats.repair.item, amount, serverSideGuildId)
 
-					await transaction.query('UPDATE clans SET health = health + ? WHERE clanId = ?', [maxRepair, scoreRow.clanId])
+					await transaction.query(`UPDATE ${serverSideGuildId ? 'server_clans' : 'clans'} SET health = health + ? WHERE clanId = ?`, [maxRepair, scoreRow.clanId])
+
 					await transaction.commit()
 
 					return confirmed.respond({

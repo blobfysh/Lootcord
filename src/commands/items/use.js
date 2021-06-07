@@ -683,10 +683,6 @@ exports.command = {
 				await reply(message, `You read the ${app.itemdata.reroll_scroll.icon}\`reroll_scroll\` and feel a sense of renewal. Your skills have been reset.`)
 			}
 			else if (['c4'].includes(item)) {
-				if (serverSideGuildId) {
-					return reply(message, '❌ You cannot use explosives with server-side economy mode enabled.')
-				}
-
 				await reply(message, `What clan do you want to use ${app.itemdata[item].icon}\`${item}\` on?\n\nType the name of the clan:`)
 
 				const result = await app.msgCollector.awaitMessages(message.author.id, message.channel.id, m => m.author.id === message.author.id)
@@ -702,7 +698,7 @@ exports.command = {
 					return reply(message, `❌ You don't have a ${app.itemdata[item].icon}\`${item}\`!`)
 				}
 
-				const clanRow = await app.clans.searchClanRow(clanName.join(' '))
+				const clanRow = await app.clans.searchClanRow(clanName.join(' '), serverSideGuildId)
 
 				if (!clanRow) {
 					return reply(result[0], 'I could not find a clan with that name! Maybe you misspelled it?')
@@ -714,17 +710,17 @@ exports.command = {
 					return reply(result[0], `❌ That clan can already be raided! Raid them with \`${prefix}clan raid ${clanRow.name}\``)
 				}
 
-				await app.itm.removeItem(message.author.id, item, 1)
-				await app.query('UPDATE clans SET health = health - ? WHERE clanId = ?', [app.itemdata[item].explosiveDamage, clanRow.clanId])
+				await app.itm.removeItem(message.author.id, item, 1, serverSideGuildId)
+				await app.query(`UPDATE ${serverSideGuildId ? 'server_clans' : 'clans'} SET health = health - ? WHERE clanId = ?`, [app.itemdata[item].explosiveDamage, clanRow.clanId])
 
-				await app.clans.addLog(clanRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} used explosives on the clan! (${item})`)
+				await app.clans.addLog(clanRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} used explosives on the clan! (${item})`, serverSideGuildId)
 
 				const msgEmbed = new app.Embed()
 					.setAuthor(message.member.nick || message.member.username, message.author.avatarURL)
 					.setDescription(`💥 ***BOOM***\n\nThe health of \`${clanRow.name}\` drops from **${clanRow.health} / ${clanRow.maxHealth}** to **${clanRow.health - app.itemdata[item].explosiveDamage} / ${clanRow.maxHealth}**.`)
 					.setColor(16734296)
 
-				message.channel.createMessage(msgEmbed)
+				await message.channel.createMessage(msgEmbed)
 			}
 		}
 		else {

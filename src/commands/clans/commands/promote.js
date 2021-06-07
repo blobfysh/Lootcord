@@ -12,14 +12,14 @@ exports.command = {
 	requiresActive: true,
 	minimumRank: 3,
 
-	async execute (app, message, { args, prefix, guildInfo }) {
-		const scoreRow = await app.player.getRow(message.author.id)
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const scoreRow = await app.player.getRow(message.author.id, serverSideGuildId)
 		let member = app.parse.members(message, args)[0]
 		const number = app.parse.numbers(args)[0]
 		let promoteMessage = ''
 
 		if (!member && number) {
-			const members = await app.clans.getMembers(scoreRow.clanId)
+			const members = await app.clans.getMembers(scoreRow.clanId, serverSideGuildId)
 			const memberId = members.memberIds[number - 1]
 
 			if (!memberId) {
@@ -32,7 +32,7 @@ exports.command = {
 			return reply(message, `Please specify someone to promote. You can mention someone, use their Discord#tag, type their user ID, or use their number from \`${prefix}clan info\``)
 		}
 
-		const invitedScoreRow = await app.player.getRow(member.id)
+		const invitedScoreRow = await app.player.getRow(member.id, serverSideGuildId)
 
 		if (!invitedScoreRow) {
 			return reply(message, '❌ The person you\'re trying to search doesn\'t have an account!')
@@ -62,20 +62,40 @@ exports.command = {
 			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
 			if (confirmed.customID === 'confirmed') {
-				const invitedScoreRow2 = await app.player.getRow(member.id)
+				const transaction = await app.mysql.beginTransaction()
+				const invitedScoreRow2 = await app.player.getRowForUpdate(transaction.query, member.id, serverSideGuildId)
+				const oldLeaderRow = await app.player.getRowForUpdate(transaction.query, message.author.id, serverSideGuildId)
+				const clanRow = await app.clans.getRowForUpdate(transaction.query, oldLeaderRow.clanId, serverSideGuildId)
 
 				if (invitedScoreRow2.clanId !== invitedScoreRow.clanId || invitedScoreRow2.clanRank !== invitedScoreRow.clanRank) {
+					await transaction.commit()
+
 					return confirmed.respond({
 						content: '❌ Error promoting user, try again?',
 						components: []
 					})
 				}
+
+				if (serverSideGuildId && app.clan_ranks[invitedScoreRow2.clanRank + 1].title === 'Leader') {
+					await transaction.query('UPDATE server_scores SET clanRank = clanRank + 1 WHERE userId = ? AND guildId = ?', [member.id, message.channel.guild.id])
+					await transaction.query('UPDATE server_scores SET clanRank = clanRank - 1 WHERE userId = ? AND guildId = ?', [message.author.id, message.channel.guild.id])
+
+					await transaction.query('UPDATE server_clans SET ownerId = ? WHERE clanId = ?', [member.id, clanRow.clanId])
+				}
 				else if (app.clan_ranks[invitedScoreRow2.clanRank + 1].title === 'Leader') {
-					await transferLeadership(app, message.author.id, member.id, scoreRow.clanId)
+					await transaction.query('UPDATE scores SET clanRank = clanRank + 1 WHERE userId = ?', [member.id])
+					await transaction.query('UPDATE scores SET clanRank = clanRank - 1 WHERE userId = ?', [message.author.id])
+
+					await transaction.query('UPDATE clans SET ownerId = ? WHERE clanId = ?', [member.id, clanRow.clanId])
+				}
+				else if (serverSideGuildId) {
+					await transaction.query('UPDATE server_scores SET clanRank = clanRank + 1 WHERE userId = ? AND guildId = ?', [member.id, message.channel.guild.id])
 				}
 				else {
-					await app.query(`UPDATE scores SET clanRank = ${invitedScoreRow2.clanRank + 1} WHERE userId = ${member.id}`)
+					await transaction.query('UPDATE scores SET clanRank = clanRank + 1 WHERE userId = ?', [member.id])
 				}
+
+				await transaction.commit()
 
 				await confirmed.respond({
 					content: `✅ Successfully promoted **${member.username}#${member.discriminator}** to rank \`${app.clan_ranks[invitedScoreRow2.clanRank + 1].title}\``,
@@ -93,13 +113,4 @@ exports.command = {
 			})
 		}
 	}
-}
-
-async function transferLeadership (app, oldLeaderId, leaderId, clanId) {
-	const newLeaderRow = (await app.query(`SELECT * FROM scores WHERE userId = ${leaderId}`))[0]
-	const oldLeaderRow = (await app.query(`SELECT * FROM scores WHERE userId = ${oldLeaderId}`))[0]
-	await app.query(`UPDATE scores SET clanRank = ${newLeaderRow.clanRank + 1} WHERE userId = ${leaderId}`)
-	await app.query(`UPDATE scores SET clanRank = ${oldLeaderRow.clanRank - 1} WHERE userId = ${oldLeaderId}`)
-
-	await app.query(`UPDATE clans SET ownerId = ${leaderId} WHERE clanId = ${clanId}`)
 }

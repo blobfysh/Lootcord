@@ -12,9 +12,9 @@ exports.command = {
 	requiresActive: true,
 	minimumRank: 3,
 
-	async execute (app, message, { args, prefix, guildInfo }) {
-		const scoreRow = await app.player.getRow(message.author.id)
-		const clanRow = await app.clans.getRow(scoreRow.clanId)
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const scoreRow = await app.player.getRow(message.author.id, serverSideGuildId)
+		const clanRow = await app.clans.getRow(scoreRow.clanId, serverSideGuildId)
 
 		if (clanRow.level === 5) {
 			return reply(message, '❌ Your clan is fully upgraded!')
@@ -39,8 +39,8 @@ exports.command = {
 			if (confirmed.customID === 'confirmed') {
 				try {
 					const transaction = await app.mysql.beginTransaction()
-					const clanRowSafe = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId)
-					const clanItems = await app.itm.getItemObjectForUpdate(transaction.query, scoreRow.clanId)
+					const clanRowSafe = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId, serverSideGuildId)
+					const clanItems = await app.clans.getItemObjectForUpdate(transaction.query, scoreRow.clanId, serverSideGuildId)
 
 					if (clanRow.level !== clanRowSafe.level) {
 						await transaction.commit()
@@ -75,10 +75,10 @@ exports.command = {
 						})
 					}
 
-					await app.clans.removeMoneySafely(transaction.query, scoreRow.clanId, upgradedStats.cost.money)
-					await app.itm.removeItemSafely(transaction.query, scoreRow.clanId, upgradedStats.cost.materials)
+					await app.clans.removeMoneySafely(transaction.query, scoreRow.clanId, upgradedStats.cost.money, serverSideGuildId)
+					await app.clans.removeItemSafely(transaction.query, scoreRow.clanId, upgradedStats.cost.materials, serverSideGuildId)
 
-					await transaction.query('UPDATE clans SET level = level + 1, maxHealth = ? WHERE clanId = ?', [upgradedStats.maxHealth, scoreRow.clanId])
+					await transaction.query(`UPDATE ${serverSideGuildId ? 'server_clans' : 'clans'} SET level = level + 1, maxHealth = ? WHERE clanId = ?`, [upgradedStats.maxHealth, scoreRow.clanId])
 					await transaction.commit()
 
 					return confirmed.respond({

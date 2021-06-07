@@ -12,18 +12,18 @@ exports.command = {
 	requiresActive: false,
 	minimumRank: 0,
 
-	async execute (app, message, { args, prefix, guildInfo }) {
-		const scoreRow = await app.player.getRow(message.author.id)
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const scoreRow = await app.player.getRow(message.author.id, serverSideGuildId)
 		const mentionedUser = app.parse.members(message, args)[0]
 
 		if (!args.length && scoreRow.clanId === 0) {
 			return reply(message, 'You are not a member of any clan! You can look up other clans by searching their name.')
 		}
 		else if (!args.length) {
-			await getClanInfo(app, message, scoreRow.clanId)
+			await getClanInfo(app, message, scoreRow.clanId, serverSideGuildId)
 		}
 		else if (mentionedUser) {
-			const invitedScoreRow = await app.player.getRow(mentionedUser.id)
+			const invitedScoreRow = await app.player.getRow(mentionedUser.id, serverSideGuildId)
 
 			if (!invitedScoreRow) {
 				return reply(message, '❌ The person you\'re trying to search doesn\'t have an account!')
@@ -32,28 +32,28 @@ exports.command = {
 				return reply(message, '❌ That user is not in a clan.')
 			}
 
-			await getClanInfo(app, message, invitedScoreRow.clanId)
+			await getClanInfo(app, message, invitedScoreRow.clanId, serverSideGuildId)
 		}
 		else {
 			const clanName = args.join(' ')
-			const clanRow = await app.clans.searchClanRow(clanName)
+			const clanRow = await app.clans.searchClanRow(clanName, serverSideGuildId)
 
 			if (!clanRow) {
 				return reply(message, 'I could not find a clan with that name! Maybe you misspelled it?')
 			}
 
-			await getClanInfo(app, message, clanRow.clanId)
+			await getClanInfo(app, message, clanRow.clanId, serverSideGuildId)
 		}
 	}
 }
 
-async function getClanInfo (app, message, clanId) {
-	const clanRow = await app.clans.getRow(clanId)
-	const clanMembers = await app.clans.getMembers(clanId)
-	const clanData = await app.clans.getClanData(clanRow, await app.itm.getItemObject(clanId))
+async function getClanInfo (app, message, clanId, serverSideGuildId) {
+	const clanRow = await app.clans.getRow(clanId, serverSideGuildId)
+	const clanMembers = await app.clans.getMembers(clanId, serverSideGuildId)
+	const clanData = await app.clans.getClanData(clanRow, await app.clans.getItemObject(clanId, serverSideGuildId), serverSideGuildId)
 	const upkeep = app.clans.getUpkeep(clanRow.level, clanRow.money, clanMembers.count, clanData.inactiveMemberCount)
-	const raidCD = await app.cd.getCD(clanId, 'raid')
-	const raidedCD = await app.cd.getCD(clanId, 'raided')
+	const raidCD = await app.cd.getCD(clanId, 'raid', { serverSideGuildId })
+	const raidedCD = await app.cd.getCD(clanId, 'raided', { serverSideGuildId })
 
 	const baseEmbed = new app.Embed()
 	baseEmbed.setColor(13451564)
@@ -100,7 +100,7 @@ async function getClanInfo (app, message, clanId) {
 
 	for (let i = 0; i < clanMembers.count; i++) {
 		const clanUser = await app.common.fetchUser(clanMembers.memberIds[i], { cacheIPC: false })
-		const clanUserRow = await app.player.getRow(clanMembers.memberIds[i])
+		const clanUserRow = await app.player.getRow(clanMembers.memberIds[i], serverSideGuildId)
 
 		if (clanUser.id === message.author.id) {
 			membersRanksList.push([`${i + 1}. **${app.clan_ranks[clanUserRow.clanRank].title} ${app.player.getBadge(clanUserRow.badge)} ${clanUser.username}#${clanUser.discriminator}**`, clanUserRow.clanRank])

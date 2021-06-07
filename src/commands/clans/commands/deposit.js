@@ -13,8 +13,8 @@ exports.command = {
 	minimumRank: 1,
 	levelReq: 3,
 
-	async execute (app, message, { args, prefix, guildInfo }) {
-		const scoreRow = await app.player.getRow(message.author.id)
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const scoreRow = await app.player.getRow(message.author.id, serverSideGuildId)
 		const itemName = app.parse.items(args)[0]
 		let itemAmnt = app.parse.numbers(args)[0]
 		let isMoney = false
@@ -39,8 +39,8 @@ exports.command = {
 		if (isMoney) {
 			try {
 				const transaction = await app.mysql.beginTransaction()
-				const userRow = await app.player.getRowForUpdate(transaction.query, message.author.id)
-				const clanRow = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId)
+				const userRow = await app.player.getRowForUpdate(transaction.query, message.author.id, serverSideGuildId)
+				const clanRow = await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId, serverSideGuildId)
 				const bankLimit = CLANS.levels[clanRow.level].bankLimit
 
 				if (isAll) {
@@ -61,11 +61,11 @@ exports.command = {
 					return reply(message, `Your clan can only hold **${app.common.formatNumber(bankLimit - clanRow.money)}** more in the bank. You can increase this by upgrading the clan with \`${prefix}clan upgrade\`.`)
 				}
 
-				await app.clans.addMoneySafely(transaction.query, scoreRow.clanId, itemAmnt)
-				await app.player.removeMoneySafely(transaction.query, message.author.id, itemAmnt)
+				await app.clans.addMoneySafely(transaction.query, scoreRow.clanId, itemAmnt, serverSideGuildId)
+				await app.player.removeMoneySafely(transaction.query, message.author.id, itemAmnt, serverSideGuildId)
 				await transaction.commit()
 
-				await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} deposited ${app.common.formatNumber(itemAmnt, true)} scrap`)
+				await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} deposited ${app.common.formatNumber(itemAmnt, true)} scrap`, serverSideGuildId)
 
 				return reply(message, `Deposited **${app.common.formatNumber(itemAmnt)}**\n\nThe clan bank now has **${app.common.formatNumber(clanRow.money + itemAmnt)}**`)
 			}
@@ -86,14 +86,14 @@ exports.command = {
 
 		try {
 			const transaction = await app.mysql.beginTransaction()
-			const clanData = await app.clans.getClanData(await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId), await app.itm.getItemObjectForUpdate(transaction.query, scoreRow.clanId))
+			const clanData = await app.clans.getClanData(await app.clans.getRowForUpdate(transaction.query, scoreRow.clanId, serverSideGuildId), await app.clans.getItemObjectForUpdate(transaction.query, scoreRow.clanId, serverSideGuildId), serverSideGuildId)
 
 			if (!await app.clans.hasSpace(clanData, itemAmnt)) {
 				await transaction.commit()
 				return reply(message, `❌ Theres not enough space in the clan! Your clan is currently holding **${clanData.itemCount} / ${clanData.vaultSlots}** items.`)
 			}
 
-			const userItems = await app.itm.getItemObjectForUpdate(transaction.query, message.author.id)
+			const userItems = await app.itm.getItemObjectForUpdate(transaction.query, message.author.id, serverSideGuildId)
 			const hasItems = await app.itm.hasItems(userItems, itemName, itemAmnt)
 
 			if (!hasItems) {
@@ -101,11 +101,11 @@ exports.command = {
 				return reply(message, `❌ You don't have enough of that item! You have **${userItems[itemName] || 0}x** ${app.itemdata[itemName].icon}\`${itemName}\``)
 			}
 
-			await app.itm.addItemSafely(transaction.query, scoreRow.clanId, itemName, itemAmnt)
-			await app.itm.removeItemSafely(transaction.query, message.author.id, itemName, itemAmnt)
+			await app.clans.addItemSafely(transaction.query, scoreRow.clanId, itemName, itemAmnt, serverSideGuildId)
+			await app.itm.removeItemSafely(transaction.query, message.author.id, itemName, itemAmnt, serverSideGuildId)
 			await transaction.commit()
 
-			await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} deposited ${itemAmnt}x ${itemName}`)
+			await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} deposited ${itemAmnt}x ${itemName}`, serverSideGuildId)
 
 			await reply(message, `Deposited ${itemAmnt}x ${app.itemdata[itemName].icon}\`${itemName}\` to the clan storage.`)
 		}

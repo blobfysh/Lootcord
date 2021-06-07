@@ -210,6 +210,7 @@ class LoopTasks {
 
 		// add 5 health to clans every 2 hours
 		await this.app.query('UPDATE clans SET health = health + 5 WHERE health < maxHealth')
+		await this.app.query('UPDATE server_clans SET health = health + 5 WHERE health < maxHealth')
 
 		// clean up cooldown tables
 		await this.app.query('DELETE FROM cooldown WHERE UNIX_TIMESTAMP() * 1000 > start + length')

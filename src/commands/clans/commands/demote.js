@@ -12,13 +12,13 @@ exports.command = {
 	requiresActive: true,
 	minimumRank: 3,
 
-	async execute (app, message, { args, prefix, guildInfo }) {
-		const scoreRow = await app.player.getRow(message.author.id)
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const scoreRow = await app.player.getRow(message.author.id, serverSideGuildId)
 		let member = app.parse.members(message, args)[0]
 		const number = app.parse.numbers(args)[0]
 
 		if (!member && number) {
-			const members = await app.clans.getMembers(scoreRow.clanId)
+			const members = await app.clans.getMembers(scoreRow.clanId, serverSideGuildId)
 			const memberId = members.memberIds[number - 1]
 
 			if (!memberId) {
@@ -31,7 +31,7 @@ exports.command = {
 			return reply(message, `Please specify someone to demote. You can mention someone, use their Discord#tag, type their user ID, or use their number from \`${prefix}clan info\``)
 		}
 
-		const invitedScoreRow = await app.player.getRow(member.id)
+		const invitedScoreRow = await app.player.getRow(member.id, serverSideGuildId)
 
 		if (!invitedScoreRow) {
 			return reply(message, '❌ The person you\'re trying to search doesn\'t have an account!')
@@ -58,16 +58,26 @@ exports.command = {
 			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
 			if (confirmed.customID === 'confirmed') {
-				const invitedScoreRow2 = await app.player.getRow(member.id)
+				const transaction = await app.mysql.beginTransaction()
+				const invitedScoreRow2 = await app.player.getRowForUpdate(transaction.query, member.id, serverSideGuildId)
 
 				if (invitedScoreRow2.clanId !== invitedScoreRow.clanId || invitedScoreRow2.clanRank !== invitedScoreRow.clanRank || app.clan_ranks[invitedScoreRow2.clanRank].title === 'Recruit') {
+					await transaction.commit()
+
 					return confirmed.respond({
 						content: '❌ Error demoting member, try again?',
 						components: []
 					})
 				}
 
-				await app.query(`UPDATE scores SET clanRank = ${invitedScoreRow2.clanRank - 1} WHERE userId = ${member.id}`)
+				if (serverSideGuildId) {
+					await transaction.query('UPDATE server_scores SET clanRank = ? WHERE userId = ? AND guildId = ?', [invitedScoreRow2.clanRank - 1, member.id, message.channel.guild.id])
+				}
+				else {
+					await transaction.query('UPDATE scores SET clanRank = ? WHERE userId = ?', [invitedScoreRow2.clanRank - 1, member.id])
+				}
+
+				await transaction.commit()
 
 				await confirmed.respond({
 					content: `Demoted **${member.username}#${member.discriminator}** to rank \`${app.clan_ranks[invitedScoreRow2.clanRank - 1].title}\``,

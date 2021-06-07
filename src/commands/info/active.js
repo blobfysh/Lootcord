@@ -20,6 +20,16 @@ exports.command = {
 		let userRows
 
 		if (serverSideGuildId) {
+			clanRows = await app.query(`SELECT DISTINCT server_clans.name FROM (
+				SELECT server_scores.clanId
+				FROM userguilds
+				INNER JOIN server_scores
+				ON userguilds.userId = server_scores.userId
+				WHERE userguilds.guildId = ${message.channel.guild.id} AND server_scores.guildId = "${message.channel.guild.id}"
+			) c
+			INNER JOIN server_clans
+			ON c.clanId = server_clans.clanId`)
+
 			userRows = await app.query(`SELECT server_scores.userId, badge
 				FROM server_scores
 				INNER JOIN userguilds

@@ -11,9 +11,9 @@ exports.command = {
 	requiresActive: true,
 	minimumRank: 0,
 
-	async execute (app, message, { args, prefix, guildInfo }) {
-		const scoreRow = await app.player.getRow(message.author.id)
-		const clanRow = await app.clans.getRow(scoreRow.clanId)
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const scoreRow = await app.player.getRow(message.author.id, serverSideGuildId)
+		const clanRow = await app.clans.getRow(scoreRow.clanId, serverSideGuildId)
 
 		let leaveMsg = `Leave clan: \`${clanRow.name}\`?`
 
@@ -30,21 +30,34 @@ exports.command = {
 			const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
 			if (confirmed.customID === 'confirmed') {
-				const scoreRow2 = await app.player.getRow(message.author.id)
+				const transaction = await app.mysql.beginTransaction()
+				const scoreRow2 = await app.player.getRowForUpdate(transaction.query, message.author.id, serverSideGuildId)
 
 				if (scoreRow2.clanId === 0 || scoreRow2.clanId !== scoreRow.clanId) {
+					await transaction.commit()
+
 					return confirmed.respond({
 						content: '❌ You are not a member of any clan.',
 						components: []
 					})
 				}
 
-				leaveClan(app, message.author.id)
-				if (app.clan_ranks[scoreRow.clanRank].title === 'Leader') {
-					app.clans.disbandClan(scoreRow.clanId)
+				if (serverSideGuildId) {
+					await transaction.query('UPDATE server_scores SET clanId = 0, clanRank = 0 WHERE userId = ? AND guildId = ?', [message.author.id, message.channel.guild.id])
+				}
+				else {
+					await transaction.query('UPDATE scores SET clanId = 0, clanRank = 0 WHERE userId = ?', [message.author.id])
 				}
 
-				await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} left`)
+				if (app.clan_ranks[scoreRow.clanRank].title === 'Leader') {
+					await transaction.query(`UPDATE ${serverSideGuildId ? 'server_scores' : 'scores'} SET clanId = 0, clanRank = 0 WHERE clanId = ?`, [scoreRow2.clanId])
+
+					await transaction.query(`DELETE FROM ${serverSideGuildId ? 'server_clan_items' : 'clan_items'} WHERE id = ?`, [scoreRow2.clanId])
+					await transaction.query(`DELETE FROM ${serverSideGuildId ? 'server_clans' : 'clans'} WHERE clanId = ?`, [scoreRow2.clanId])
+				}
+
+				await transaction.commit()
+				await app.clans.addLog(scoreRow2.clanId, `${`${message.author.username}#${message.author.discriminator}`} left`, serverSideGuildId)
 
 				await confirmed.respond({
 					content: `✅ Successfully left clan: \`${clanRow.name}\``,
@@ -56,15 +69,12 @@ exports.command = {
 			}
 		}
 		catch (err) {
+			console.log(err)
+
 			await botMessage.edit({
 				content: '❌ Command timed out.',
 				components: []
 			})
 		}
 	}
-}
-
-async function leaveClan (app, userId) {
-	await app.query(`UPDATE scores SET clanId = 0 WHERE userId = ${userId}`)
-	await app.query(`UPDATE scores SET clanRank = 0 WHERE userId = ${userId}`)
 }

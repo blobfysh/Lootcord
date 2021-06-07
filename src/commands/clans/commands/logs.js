@@ -12,16 +12,16 @@ exports.command = {
 	requiresActive: false,
 	minimumRank: 0,
 
-	async execute (app, message, { args, prefix, guildInfo }) {
-		const scoreRow = await app.player.getRow(message.author.id)
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		const scoreRow = await app.player.getRow(message.author.id, serverSideGuildId)
 		const user = app.parse.members(message, args)[0]
 
 		if (!args.length && scoreRow.clanId === 0) {
 			return reply(message, 'You are not a member of any clan! You can look up other clans by searching their name.')
 		}
 		else if (!args.length) {
-			const clanRow = await app.clans.getRow(scoreRow.clanId)
-			const logs = await app.query(`SELECT * FROM clan_logs WHERE clanId = ${scoreRow.clanId} ORDER BY logDate DESC LIMIT 50`)
+			const clanRow = await app.clans.getRow(scoreRow.clanId, serverSideGuildId)
+			const logs = await app.query(`SELECT * FROM ${serverSideGuildId ? 'server_clan_logs' : 'clan_logs'} WHERE clanId = ? ORDER BY logDate DESC LIMIT 50`, [scoreRow.clanId])
 
 			if (logs.length <= LOGS_PER_PAGE) {
 				return message.channel.createMessage(generatePages(app, logs, clanRow.name)[0])
@@ -30,7 +30,7 @@ exports.command = {
 			app.btnCollector.paginate(message, generatePages(app, logs, clanRow.name), 30000)
 		}
 		else if (user) {
-			const invitedScoreRow = (await app.query(`SELECT * FROM scores WHERE userId = ${user.id}`))[0]
+			const invitedScoreRow = await app.player.getRow(user.id, serverSideGuildId)
 
 			if (!invitedScoreRow) {
 				return reply(message, '❌ The person you\'re trying to search doesn\'t have an account!')
@@ -39,8 +39,8 @@ exports.command = {
 				return reply(message, '❌ That user is not in a clan.')
 			}
 
-			const clanRow = await app.clans.getRow(invitedScoreRow.clanId)
-			const logs = await app.query(`SELECT * FROM clan_logs WHERE clanId = ${invitedScoreRow.clanId} ORDER BY logDate DESC LIMIT 50`)
+			const clanRow = await app.clans.getRow(invitedScoreRow.clanId, serverSideGuildId)
+			const logs = await app.query(`SELECT * FROM ${serverSideGuildId ? 'server_clan_logs' : 'clan_logs'} WHERE clanId = ? ORDER BY logDate DESC LIMIT 50`, [invitedScoreRow.clanId])
 
 			if (logs.length <= LOGS_PER_PAGE) {
 				return message.channel.createMessage(generatePages(app, logs, clanRow.name)[0])
@@ -50,13 +50,13 @@ exports.command = {
 		}
 		else {
 			const clanName = args.join(' ')
-			const clanRow = await app.clans.searchClanRow(clanName)
+			const clanRow = await app.clans.searchClanRow(clanName, serverSideGuildId)
 
 			if (!clanRow) {
 				return reply(message, 'I could not find a clan with that name! Maybe you misspelled it?')
 			}
 
-			const logs = await app.query(`SELECT * FROM clan_logs WHERE clanId = ${clanRow.clanId} ORDER BY logDate DESC LIMIT 50`)
+			const logs = await app.query(`SELECT * FROM ${serverSideGuildId ? 'server_clan_logs' : 'clan_logs'} WHERE clanId = ? ORDER BY logDate DESC LIMIT 50`, [clanRow.clanId])
 
 			if (logs.length <= LOGS_PER_PAGE) {
 				return message.channel.createMessage(generatePages(app, logs, clanRow.name)[0])

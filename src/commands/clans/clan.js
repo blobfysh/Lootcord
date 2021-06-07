@@ -12,10 +12,13 @@ exports.command = {
 	requiresAcc: true,
 	requiresActive: false,
 	guildModsOnly: false,
-	globalEconomyOnly: true,
 
-	async execute (app, message, { args, prefix, guildInfo }) {
-		const scoreRow = await app.player.getRow(message.author.id)
+	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
+		if (serverSideGuildId && guildInfo.clansDisabled) {
+			return reply(message, '❌ Clans have been disabled in this server.')
+		}
+
+		const scoreRow = await app.player.getRow(message.author.id, serverSideGuildId)
 
 		const commandName = args[0] ? args[0].toLowerCase() : undefined
 		const command = app.clanCommands.find(cmd => cmd.name === commandName || (cmd.aliases.length && cmd.aliases.includes(commandName)))
@@ -24,10 +27,10 @@ exports.command = {
 			try {
 				// show help command if user has no clan and wasn't trying to search for any
 				if (scoreRow.clanId === 0 && !args.length) {
-					return app.clanCommands.find(cmd => cmd.name === 'help').execute(app, message, { args, prefix, guildInfo })
+					return app.clanCommands.find(cmd => cmd.name === 'help').execute(app, message, { args, prefix, guildInfo, serverSideGuildId })
 				}
 
-				return app.clanCommands.find(cmd => cmd.name === 'info').execute(app, message, { args, prefix, guildInfo })
+				return app.clanCommands.find(cmd => cmd.name === 'info').execute(app, message, { args, prefix, guildInfo, serverSideGuildId })
 			}
 			catch (err) {
 				console.log(err)
@@ -47,7 +50,7 @@ exports.command = {
 		}
 
 		try {
-			command.execute(app, message, { args: args.slice(1), prefix })
+			command.execute(app, message, { args: args.slice(1), prefix, guildInfo, serverSideGuildId })
 		}
 		catch (err) {
 			console.log(err)

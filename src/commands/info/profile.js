@@ -82,7 +82,7 @@ const makeProfile = exports.makeProfile = async function makeProfile (app, user,
 			.setTitle(`${user.username}#${user.discriminator}'s Profile`)
 			.setThumbnail(app.common.getAvatar(user))
 			.setDescription(`${userStatus}\n\n` +
-				`**Clan**: ${userRow.clanId !== 0 ? `Member of \`${(await app.clans.getRow(userRow.clanId)).name}\`` : 'None'}\n` +
+				`**Clan**: ${userRow.clanId !== 0 ? `Member of \`${(await app.clans.getRow(userRow.clanId, serverSideGuildId)).name}\`` : 'None'}\n` +
 				`**Level**: ${userRow.level}\n` +
 				`**XP**: ${xp.curLvlXp} / ${xp.neededForLvl} (${((xp.curLvlXp / xp.neededForLvl) * 100).toFixed(0)}%)\n` +
 				`**Kills / Deaths**: ${userRow.kills} / ${userRow.deaths} (${(userRow.kills / Math.max(userRow.deaths, 1)).toFixed(2)} K/D Ratio)\n` +
