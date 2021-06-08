@@ -48,30 +48,12 @@ class LoopTasks {
 
 	async dailyTasks () {
 		console.log('[LOOPTASKS] Running daily tasks...')
-		// take clan upkeep costs
-		const clans = await this.app.query('SELECT clanId, money, level FROM clans')
-		let moneyRemoved = 0
-		let itemsRemoved = 0
-		let decayingClans = 0
 
-		for (let i = 0; i < clans.length; i++) {
-			const clanItems = await this.app.itm.getItemObject(clans[i].clanId)
-			const clanData = await this.app.clans.getClanData(clans[i], clanItems)
-			const upkeep = this.app.clans.getUpkeep(clans[i].level, clans[i].money, clanData.memberCount, clanData.inactiveMemberCount)
+		// remove upkeep from global clans
+		await this._takeClansUpkeep(false)
 
-			if (clans[i].money >= upkeep) {
-				await this.app.clans.removeMoney(clans[i].clanId, upkeep)
-				moneyRemoved += upkeep
-				decayingClans++
-			}
-			else if (clanData.itemCount >= 1) {
-				const randomItem = await this.app.itm.getRandomUserItems(clanItems, 1)
-				await this.app.itm.removeItem(clans[i].clanId, randomItem.items[0], 1)
-				await this.app.clans.addLog(clans[i].clanId, `The item storage lost 1x ${randomItem.items[0]} due to cost of upkeep`)
-				itemsRemoved++
-				decayingClans++
-			}
-		}
+		// remove upkeep from server-side clans
+		await this._takeClansUpkeep(true)
 
 		// remove old logs
 		await this.app.query('DELETE FROM clan_logs WHERE logDate < NOW() - INTERVAL 30 DAY')
@@ -140,12 +122,6 @@ class LoopTasks {
 			INNER JOIN guildinfo
 			ON userguilds.guildId = guildinfo.guildId
 			WHERE server_scores.lastActive < NOW() - INTERVAL 7 DAY AND serverOnly = 1 AND server_scores.guildId = guildinfo.guildId`)
-
-		const dailyEmbed = new this.app.Embed()
-			.setTitle('Daily Tasks')
-			.setDescription(`Removed ${this.app.common.formatNumber(moneyRemoved)} and **${itemsRemoved}** items from **${decayingClans}** decaying clans.`)
-			.setColor('#ffffff')
-		this.app.messager.messageLogs(dailyEmbed)
 	}
 
 	async restockShop () {
@@ -336,6 +312,77 @@ class LoopTasks {
 			ELSE 0
 		END
 		WHERE bleed > 0 OR burn > 0`)
+	}
+
+	async _takeClansUpkeep (serverSide = false) {
+		try {
+			const transaction = await this.app.mysql.beginTransaction()
+			let moneyRemoved = 0
+			let itemsRemoved = 0
+			let decayingClans = 0
+
+			if (!serverSide) {
+				const globalClans = await transaction.query('SELECT clanId, money, level FROM clans FOR UPDATE')
+
+				for (const clan of globalClans) {
+					const clanItems = await this.app.clans.getItemObjectForUpdate(transaction.query, clan.clanId)
+					const clanData = await this.app.clans.getClanData(clan, clanItems)
+					const upkeep = this.app.clans.getUpkeep(clan.level, clan.money, clanData.memberCount, clanData.inactiveMemberCount)
+
+					if (clan.money >= upkeep) {
+						await this.app.clans.removeMoneySafely(transaction.query, clan.clanId, upkeep)
+						moneyRemoved += upkeep
+						decayingClans++
+					}
+					else if (clanData.itemCount >= 1) {
+						const randomItem = await this.app.itm.getRandomUserItems(clanItems, 1)
+						await this.app.clans.removeItemSafely(transaction.query, clan.clanId, randomItem.items[0], 1)
+						await this.app.clans.addLog(clan.clanId, `The item storage lost 1x ${randomItem.items[0]} due to cost of upkeep`)
+						itemsRemoved++
+						decayingClans++
+					}
+				}
+			}
+			else {
+				const serverSideClans = await transaction.query('SELECT clanId, guildId, money, level FROM server_clans FOR UPDATE')
+
+				for (const clan of serverSideClans) {
+					const clanItems = await this.app.clans.getItemObjectForUpdate(transaction.query, clan.clanId, clan.guildId)
+					const clanData = await this.app.clans.getClanData(clan, clanItems, clan.guildId)
+					const upkeep = this.app.clans.getUpkeep(clan.level, clan.money, clanData.memberCount, clanData.inactiveMemberCount)
+
+					if (clan.money >= upkeep) {
+						await this.app.clans.removeMoneySafely(transaction.query, clan.clanId, upkeep, clan.guildId)
+						moneyRemoved += upkeep
+						decayingClans++
+					}
+					else if (clanData.itemCount >= 1) {
+						const randomItem = await this.app.itm.getRandomUserItems(clanItems, 1)
+						await this.app.clans.removeItemSafely(transaction.query, clan.clanId, randomItem.items[0], 1, clan.guildId)
+						await this.app.clans.addLog(clan.clanId, `The item storage lost 1x ${randomItem.items[0]} due to cost of upkeep`, clan.guildId)
+						itemsRemoved++
+						decayingClans++
+					}
+				}
+			}
+
+			await transaction.commit()
+
+			const dailyEmbed = new this.app.Embed()
+				.setTitle('Daily Tasks')
+				.setDescription(`Removed ${this.app.common.formatNumber(moneyRemoved)} and **${itemsRemoved}** items from **${decayingClans}** decaying ${serverSide ? 'server-side' : 'global'} clans.`)
+				.setColor('#ffffff')
+			this.app.messager.messageLogs(dailyEmbed)
+		}
+		catch (err) {
+			console.error(err)
+
+			const errorEmbed = new this.app.Embed()
+				.setTitle('Daily Tasks')
+				.setDescription(`Error removing upkeep from ${serverSide ? 'server-side' : 'global'} clans:\n\`\`\`\n${err}\`\`\``)
+				.setColor('#ffffff')
+			this.app.messager.messageLogs(errorEmbed)
+		}
 	}
 
 	async _handleDiscoinTransactions () {
