@@ -210,10 +210,6 @@ const getReward = exports.getReward = function getReward (app, streak, hasSpace)
 		reward.item = 'military_crate'
 		reward.display = `${app.itemdata.military_crate.icon}\`military_crate\``
 	}
-	else if (streak === 9) {
-		reward.item = 'elite_crate'
-		reward.display = `${app.itemdata.elite_crate.icon}\`elite_crate\``
-	}
 	else {
 		reward.item = 'supply_drop'
 		reward.display = `${app.itemdata.supply_drop.icon}\`supply_drop\``
