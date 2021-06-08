@@ -1,6 +1,8 @@
 const { BUTTONS } = require('../../resources/constants')
 const { reply } = require('../../utils/messageUtils')
 
+const activeJackpots = new Set()
+
 exports.command = {
 	name: 'jackpot',
 	aliases: [],
@@ -27,16 +29,20 @@ exports.command = {
 			return reply(message, `You recently started a server jackpot! You can create another in \`${jackpotCD}\`.`)
 		}
 
-		if (!gambleAmount || gambleAmount < 100) {
+		else if (!gambleAmount || gambleAmount < 100) {
 			return reply(message, `Please specify an amount of at least ${app.common.formatNumber(100)} to gamble!`)
 		}
 
-		if (gambleAmount > row.money) {
+		else if (gambleAmount > row.money) {
 			return reply(message, `❌ You don't have that much scrap! You currently have **${app.common.formatNumber(row.money)}**.`)
 		}
 
-		if (gambleAmount > 50000) {
+		else if (gambleAmount > 50000) {
 			return reply(message, `Woah there high roller, you cannot gamble more than ${app.common.formatNumber(50000)} on jackpot.`)
+		}
+
+		else if (activeJackpots.has(message.channel.id)) {
+			return reply(message, 'There is already an active jackpot in this channel.')
 		}
 
 		const botMessage = await reply(message, {
@@ -72,96 +78,93 @@ exports.command = {
 async function startJackpot (app, message, prefix, gambleAmount, serverSideGuildId) {
 	const jackpotObj = {}
 
-	try {
-		if (app.msgCollector.channelCollectors.filter(obj => obj.channelId === message.channel.id).length) throw new Error('Jackpot already started!')
+	const collectorObj = app.msgCollector.createChannelCollector(message.channel.id, m => m.content.toLowerCase().startsWith(`${prefix}join`), { time: 120000 })
 
-		const collectorObj = app.msgCollector.createChannelCollector(message.channel.id, m => m.content.toLowerCase().startsWith(`${prefix}join`), { time: 120000 })
+	activeJackpots.add(message.channel.id)
+	jackpotObj[message.author.id] = { name: message.author.username, amount: gambleAmount }
 
-		jackpotObj[message.author.id] = { name: message.author.username, amount: gambleAmount }
-		message.channel.createMessage(refreshEmbed(app, jackpotObj, prefix))
+	await message.channel.createMessage(refreshEmbed(app, jackpotObj, prefix))
 
-		await app.player.removeMoney(message.author.id, gambleAmount, serverSideGuildId)
-		await app.cd.setCD(message.author.id, 'jackpot', app.config.cooldowns.jackpot * 1000, { serverSideGuildId })
+	await app.player.removeMoney(message.author.id, gambleAmount, serverSideGuildId)
+	await app.cd.setCD(message.author.id, 'jackpot', app.config.cooldowns.jackpot * 1000, { serverSideGuildId })
 
-		setTimeout(() => {
-			message.channel.createMessage(`⏱ **\`1 minute\` remaining to enter the jackpot! Use \`${prefix}join <amount>\` to enter!**`)
-		}, 60000)
+	setTimeout(() => {
+		message.channel.createMessage(`⏱ **\`1 minute\` remaining to enter the jackpot! Use \`${prefix}join <amount>\` to enter!**`)
+	}, 60000)
 
-		setTimeout(() => {
-			message.channel.createMessage(`⏱ **\`30 seconds\` remaining to enter the jackpot! Use \`${prefix}join <amount>\` to enter!**`)
-		}, 90000)
+	setTimeout(() => {
+		message.channel.createMessage(`⏱ **\`30 seconds\` remaining to enter the jackpot! Use \`${prefix}join <amount>\` to enter!**`)
+	}, 90000)
 
-		setTimeout(() => {
-			message.channel.createMessage('⏱ **Jackpot ends in... 10**')
-		}, 110000)
+	setTimeout(() => {
+		message.channel.createMessage('⏱ **Jackpot ends in... 10**')
+	}, 110000)
 
-		setTimeout(() => {
-			message.channel.createMessage('⏱ **Jackpot ends in... 5**')
-		}, 115000)
+	setTimeout(() => {
+		message.channel.createMessage('⏱ **Jackpot ends in... 5**')
+	}, 115000)
 
-		setTimeout(() => {
-			message.channel.createMessage('And the winner is...')
-		}, 119000)
+	setTimeout(() => {
+		message.channel.createMessage('And the winner is...')
+	}, 119000)
 
-		collectorObj.collector.on('collect', async m => {
-			if (!await app.player.isActive(m.author.id, m.channel.guild.id)) return m.channel.createMessage(`Your account is not active in this server! Use \`${prefix}play\` to activate it here`)
-			const userArgs = m.content.slice(prefix.length).split(/ +/).slice(1)
-			const userRow = await app.player.getRow(m.author.id, serverSideGuildId)
-			let gambleAmnt = app.parse.numbers(userArgs)[0]
+	collectorObj.collector.on('collect', async m => {
+		if (!await app.player.isActive(m.author.id, m.channel.guild.id)) return m.channel.createMessage(`Your account is not active in this server! Use \`${prefix}play\` to activate it here`)
+		const userArgs = m.content.slice(prefix.length).split(/ +/).slice(1)
+		const userRow = await app.player.getRow(m.author.id, serverSideGuildId)
+		let gambleAmnt = app.parse.numbers(userArgs)[0]
 
-			if (!userRow) {
-				// in case server-side economy gets disabled mid-jackpot, user might have global account but not server-side account
-				return
+		if (!userRow) {
+			// in case server-side economy gets disabled mid-jackpot, user might have global account but not server-side account
+			return
+		}
+		else if (!gambleAmnt && userArgs[0] && userArgs[0].toLowerCase() === 'all') {
+			gambleAmnt = userRow.money >= 50000 ? 50000 : userRow.money
+		}
+
+		if (Object.keys(jackpotObj).length >= 15) {
+			return m.channel.createMessage('Sorry, this jackpot is full!')
+		}
+		else if (!gambleAmnt || gambleAmnt < 100) {
+			return m.channel.createMessage(`Please enter an amount of at least ${app.common.formatNumber(100)}`)
+		}
+		else if (gambleAmnt > userRow.money) {
+			return m.channel.createMessage(`❌ You don't have that much scrap! You currently have ${app.common.formatNumber(userRow.money)}`)
+		}
+		else if (gambleAmnt > 50000) {
+			return m.channel.createMessage(`❌ You cannot enter more than ${app.common.formatNumber(50000)}!`)
+		}
+		else if (jackpotObj.hasOwnProperty(m.author.id) && (gambleAmnt + jackpotObj[m.author.id].amount) > 50000) {
+			return m.channel.createMessage(`❌ Adding ${app.common.formatNumber(gambleAmnt)} would put your entry over the ${app.common.formatNumber(50000)} entry limit!`)
+		}
+
+		if (jackpotObj.hasOwnProperty(m.author.id)) {
+			jackpotObj[m.author.id] = {
+				name: m.author.username,
+				amount: gambleAmnt + jackpotObj[m.author.id].amount
 			}
-			else if (!gambleAmnt && userArgs[0] && userArgs[0].toLowerCase() === 'all') {
-				gambleAmnt = userRow.money >= 50000 ? 50000 : userRow.money
+		}
+		else {
+			jackpotObj[m.author.id] = {
+				name: m.author.username,
+				amount: gambleAmnt
 			}
+		}
 
-			if (Object.keys(jackpotObj).length >= 15) {
-				return m.channel.createMessage('Sorry, this jackpot is full!')
-			}
-			else if (!gambleAmnt || gambleAmnt < 100) {
-				return m.channel.createMessage(`Please enter an amount of at least ${app.common.formatNumber(100)}`)
-			}
-			else if (gambleAmnt > userRow.money) {
-				return m.channel.createMessage(`❌ You don't have that much scrap! You currently have ${app.common.formatNumber(userRow.money)}`)
-			}
-			else if (gambleAmnt > 50000) {
-				return m.channel.createMessage(`❌ You cannot enter more than ${app.common.formatNumber(50000)}!`)
-			}
-			else if (jackpotObj.hasOwnProperty(m.author.id) && (gambleAmnt + jackpotObj[m.author.id].amount) > 50000) {
-				return m.channel.createMessage(`❌ Adding ${app.common.formatNumber(gambleAmnt)} would put your entry over the ${app.common.formatNumber(50000)} entry limit!`)
-			}
+		await app.player.removeMoney(m.author.id, gambleAmnt, serverSideGuildId)
+		m.channel.createMessage(refreshEmbed(app, jackpotObj, prefix))
+	})
 
-			if (jackpotObj.hasOwnProperty(m.author.id)) {
-				jackpotObj[m.author.id] = {
-					name: m.author.username,
-					amount: gambleAmnt + jackpotObj[m.author.id].amount
-				}
-			}
-			else {
-				jackpotObj[m.author.id] = {
-					name: m.author.username,
-					amount: gambleAmnt
-				}
-			}
+	collectorObj.collector.on('end', async reason => {
+		activeJackpots.delete(message.channel.id)
 
-			await app.player.removeMoney(m.author.id, gambleAmnt, serverSideGuildId)
-			m.channel.createMessage(refreshEmbed(app, jackpotObj, prefix))
-		})
+		const winnerId = pickWinner(jackpotObj)
+		const winAmount = getJackpotTotal(jackpotObj)
 
-		collectorObj.collector.on('end', async reason => {
-			const winnerId = pickWinner(jackpotObj)
-			const winAmount = getJackpotTotal(jackpotObj)
+		await app.player.addMoney(winnerId, winAmount, serverSideGuildId)
 
-			await app.player.addMoney(winnerId, winAmount, serverSideGuildId)
-
-			message.channel.createMessage(`**${jackpotObj[winnerId].name}** won the ${app.common.formatNumber(winAmount)} jackpot with a ${(jackpotObj[winnerId].amount / getJackpotTotal(jackpotObj) * 100).toFixed(1)}% chance of winning!`)
-		})
-	}
-	catch (err) {
-		return reply(message, 'There is already an active jackpot in this channel.')
-	}
+		message.channel.createMessage(`**${jackpotObj[winnerId].name}** won the ${app.common.formatNumber(winAmount)} jackpot with a ${(jackpotObj[winnerId].amount / getJackpotTotal(jackpotObj) * 100).toFixed(1)}% chance of winning!`)
+	})
 }
 
 function refreshEmbed (app, jackpotObj, prefix) {
