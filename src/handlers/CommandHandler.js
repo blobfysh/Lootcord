@@ -132,7 +132,7 @@ class CommandHandler {
 				this.app.query(`UPDATE scores SET lastActive = NOW() WHERE userId = ${message.author.id}`)
 			}
 
-			command.execute(this.app, message, {
+			await command.execute(this.app, message, {
 				args,
 				prefix,
 				guildInfo,

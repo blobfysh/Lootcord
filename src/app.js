@@ -87,9 +87,8 @@ class Lootcord extends Base {
 			await this.startSpawns()
 		}
 
-		if (this.config.codeEventChannel && this.bot.guilds.find(guild => guild.channels.has(this.config.codeEventChannel))) {
-			init(this, this.bot.guilds.find(guild => guild.channels.has(this.config.codeEventChannel)).channels.get(this.config.codeEventChannel), true)
-		}
+		// searched for locked crate channel and initializes the event
+		await this.startLockedCrateEvents()
 
 		this.bot.editStatus('online', {
 			name: 't-help | Join the discord!',
@@ -333,6 +332,20 @@ class Lootcord extends Base {
 
 		for (let i = 0; i < spawnChannels.length; i++) {
 			await this.monsters.initSpawn(spawnChannels[i].channelId)
+		}
+	}
+
+	async startLockedCrateEvents () {
+		const eventChannels = await this.query('SELECT * FROM locked_crate_channels')
+
+		for (const row of eventChannels) {
+			const foundGuild = this.bot.guilds.find(guild => guild.channels.has(row.channelId))
+
+			if (foundGuild) {
+				console.log(`Initializing locked crate event for channel ${row.channelId} in guild ${foundGuild.name}`)
+
+				init(this, foundGuild.channels.get(row.channelId), row.pingRoleId, true)
+			}
 		}
 	}
 }
