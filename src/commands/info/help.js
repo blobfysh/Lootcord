@@ -98,7 +98,7 @@ exports.command = {
 		if (categoriesArr.includes('blackmarket') && !serverSideGuildId) embed.addField('💰 Black Market', categories.blackmarket.map(cmd => `\`${cmd}\``).join(' '))
 		if (categoriesArr.includes('utilities')) embed.addField('⚙ Utility', categories.utilities.map(cmd => `\`${cmd}\``).join(' '))
 		if (categoriesArr.includes('other')) embed.addField('📈 Other', categories.other.map(cmd => `\`${cmd}\``).join(' '))
-		if (!serverSideGuildId) embed.addField('⚔️ Clans', `For details on using clan commands, you can type \`${prefix}clan help\`, or check this [link](https://lootcord.com/guides/clans).\n\n${app.clanCommands.map(cmd => `\`${cmd.name}\``).join(' ')}`)
+		if (!serverSideGuildId || !guildInfo.clansDisabled) embed.addField('⚔️ Clans', `For details on using clan commands, you can type \`${prefix}clan help\`, or check this [link](https://lootcord.com/guides/clans).\n\n${app.clanCommands.map(cmd => `\`${cmd.name}\``).join(' ')}`)
 
 		await message.channel.createMessage({
 			embed: embed.embed,
