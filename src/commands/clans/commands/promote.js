@@ -43,7 +43,7 @@ exports.command = {
 		else if (message.author.id === member.id) {
 			return reply(message, '❌ You cannot promote yourself.')
 		}
-		else if (app.clan_ranks[invitedScoreRow.clanRank + 1].title !== 'Leader' && (invitedScoreRow.clanRank + 1) >= scoreRow.clanRank) {
+		else if (!app.clan_ranks[invitedScoreRow.clanRank + 1] || (app.clan_ranks[invitedScoreRow.clanRank + 1].title !== 'Leader' && (invitedScoreRow.clanRank + 1) >= scoreRow.clanRank)) {
 			return reply(message, 'You cannot promote members to an equal or higher rank!')
 		}
 		else if (app.clan_ranks[invitedScoreRow.clanRank + 1].title === 'Leader') {

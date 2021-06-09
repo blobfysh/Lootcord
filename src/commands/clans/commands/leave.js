@@ -1,4 +1,5 @@
 const { BUTTONS } = require('../../../resources/constants')
+const { reply } = require('../../../utils/messageUtils')
 
 exports.command = {
 	name: 'leave',
@@ -21,7 +22,7 @@ exports.command = {
 			leaveMsg = `Leaving a clan you are the leader of will disband the clan. Are you sure you want to disband \`${clanRow.name}\`?`
 		}
 
-		const botMessage = await message.channel.createMessage({
+		const botMessage = await reply(message, {
 			content: leaveMsg,
 			components: BUTTONS.confirmation
 		})

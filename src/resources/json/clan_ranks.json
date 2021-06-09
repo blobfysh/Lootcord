@@ -1,12 +1,14 @@
 {
   "0": {
     "title": "Recruit",
+	"display": "Member",
     "perms": [
       "Pledge your undying loyalty to the clan."
     ]
   },
   "1": {
     "title": "Trusted",
+	"display": "Member",
     "perms": [
       "Deposit and withdraw items from the clan storage.",
       "Deposit and withdraw scrap from the clan bank."
@@ -14,6 +16,7 @@
   },
   "2": {
     "title": "Officer",
+	"display": "Officer",
     "perms": [
       "Invite new members to the clan.",
       "Change the clan status."
@@ -21,12 +24,14 @@
   },
   "3": {
     "title": "Co-Leader",
+	"display": "Co-Leader",
     "perms": [
       "Promote and demote other members."
     ]
   },
   "4": {
     "title": "Leader",
+	"display": "Leader",
     "perms": [
       "Disband the clan."
     ]
