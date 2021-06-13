@@ -78,9 +78,9 @@ class PatreonHandler {
 		}
 
 		for (const tier in roles) {
-			for (let i = 0; i < patronRows.filter(row => row.tier.toString() === tier).length; i++) {
-				if (!roles[tier].includes(patronRows[i].userId)) {
-					this.lostTier(patronRows[i].userId, tier, `\`${patronRows[i].userId}\`'s tier ${tier} pledge was not renewed.`)
+			for (const patronRow of patronRows.filter(row => row.tier.toString() === tier)) {
+				if (!roles[tier].includes(patronRow.userId)) {
+					this.lostTier(patronRow.userId, tier, `\`${patronRow.userId}\`'s tier ${tier} pledge was not renewed.`)
 				}
 			}
 		}
