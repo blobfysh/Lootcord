@@ -59,6 +59,10 @@ exports.command = {
 
 		if (winnings > 0) {
 			await app.player.addMoney(message.author.id, winnings, serverSideGuildId)
+			await app.player.addStat(message.author.id, 'gamblingWon', winnings - gambleAmount, serverSideGuildId)
+		}
+		else {
+			await app.player.addStat(message.author.id, 'gamblingLost', gambleAmount, serverSideGuildId)
 		}
 
 		if (winnings >= 100000) {

@@ -56,6 +56,7 @@ exports.command = {
 			}
 
 			await app.player.subHealth(message.author.id, healthDeduct, serverSideGuildId)
+			await app.player.addStat(message.author.id, 'gamblingLost', gambleAmount, serverSideGuildId)
 
 			const botMessage = await reply(message, '****Click***')
 
@@ -65,6 +66,7 @@ exports.command = {
 		}
 		else {
 			await app.player.addMoney(message.author.id, winnings, serverSideGuildId)
+			await app.player.addStat(message.author.id, 'gamblingWon', winnings - gambleAmount, serverSideGuildId)
 
 			reply(message, '***Click***').then(msg => {
 				setTimeout(() => {

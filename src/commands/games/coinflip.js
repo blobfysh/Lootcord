@@ -56,6 +56,7 @@ exports.command = {
 
 		if (Math.random() < 0.44) {
 			await app.player.addMoney(message.author.id, gambleAmount, serverSideGuildId)
+			await app.player.addStat(message.author.id, 'gamblingWon', gambleAmount, serverSideGuildId)
 
 			if (gambleAmount >= 50000) {
 				await app.itm.addBadge(message.author.id, 'gambler', serverSideGuildId)
@@ -69,6 +70,8 @@ exports.command = {
 		}
 		else {
 			await app.player.removeMoney(message.author.id, gambleAmount, serverSideGuildId)
+			await app.player.addStat(message.author.id, 'gamblingLost', gambleAmount, serverSideGuildId)
+
 			await reply(message, LOSE_QUOTES[Math.floor(Math.random() * LOSE_QUOTES.length)]
 				.replace('{bet}', app.common.formatNumber(gambleAmount))
 				.replace('{choice}', choice)

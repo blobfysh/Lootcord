@@ -85,6 +85,8 @@ exports.command = {
 				if (playerScore.minScore > 21) {
 					stopCollector()
 
+					await app.player.addStat(message.author.id, 'gamblingLost', gambleAmount, serverSideGuildId)
+
 					await i.respond({
 						embeds: [loserEmbed(app, message, playerCards, dealerCards, `You busted and lost **${app.common.formatNumber(gambleAmount)}**...`, gambleAmount).embed],
 						components: []
@@ -111,35 +113,45 @@ exports.command = {
 				while (getScore(dealerCards).minScore < 17) {
 					dealerCards.push(drawCard(deck))
 
-					if (getScore(dealerCards).score > 17 && getScore(dealerCards).score <= 21) {
-						dealerFinal = getScore(dealerCards).score
+					const dealerScore = getScore(dealerCards)
+
+					if (dealerScore.score > 17 && dealerScore.score <= 21) {
+						dealerFinal = dealerScore.score
 						break
 					}
 
-					dealerFinal = getScore(dealerCards).minScore
+					dealerFinal = dealerScore.minScore
 				}
 
 				if (dealerFinal > 21) {
+					await userWon()
+
 					await i.respond({
-						embeds: [winnerEmbed(app, message, playerCards, dealerCards, `The dealer busted! You won **${app.common.formatNumber(gambleAmount * 2)}**`, gambleAmount, serverSideGuildId).embed],
+						embeds: [winnerEmbed(app, message, playerCards, dealerCards, `The dealer busted! You won **${app.common.formatNumber(gambleAmount * 2)}**`, gambleAmount).embed],
 						components: []
 					})
 				}
 				else if (playerFinal > dealerFinal) {
+					await userWon()
+
 					await i.respond({
-						embeds: [winnerEmbed(app, message, playerCards, dealerCards, `You won **${app.common.formatNumber(gambleAmount * 2)}**!`, gambleAmount, serverSideGuildId).embed],
+						embeds: [winnerEmbed(app, message, playerCards, dealerCards, `You won **${app.common.formatNumber(gambleAmount * 2)}**!`, gambleAmount).embed],
 						components: []
 					})
 				}
 				else if (playerFinal < dealerFinal) {
+					await app.player.addStat(message.author.id, 'gamblingLost', gambleAmount, serverSideGuildId)
+
 					await i.respond({
 						embeds: [loserEmbed(app, message, playerCards, dealerCards, `You lost **${app.common.formatNumber(gambleAmount)}**...`, gambleAmount).embed],
 						components: []
 					})
 				}
 				else { // player and dealer tied...
+					await app.player.addMoney(message.author.id, gambleAmount, serverSideGuildId)
+
 					await i.respond({
-						embeds: [tieEmbed(app, message, playerCards, dealerCards, `Tied with dealer (You lose **${app.common.formatNumber(0)}**)`, gambleAmount, serverSideGuildId).embed],
+						embeds: [tieEmbed(app, message, playerCards, dealerCards, `Tied with dealer (You lose **${app.common.formatNumber(0)}**)`, gambleAmount).embed],
 						components: []
 					})
 				}
@@ -158,6 +170,15 @@ exports.command = {
 				})
 			}
 		})
+
+		async function userWon () {
+			await app.player.addMoney(message.author.id, gambleAmount * 2, serverSideGuildId)
+			await app.player.addStat(message.author.id, 'gamblingWon', gambleAmount, serverSideGuildId)
+
+			if (gambleAmount * 2 >= 100000) {
+				await app.itm.addBadge(message.author.id, 'gambler', serverSideGuildId)
+			}
+		}
 	}
 }
 
@@ -246,17 +267,12 @@ function genEmbed (app, message, playerCards, dealerCards, gambleAmount, dealerE
 	return embed
 }
 
-function winnerEmbed (app, message, playerCards, dealerCards, quote, gambleAmount, serverSideGuildId) {
+function winnerEmbed (app, message, playerCards, dealerCards, quote, gambleAmount) {
 	const embed = genEmbed(app, message, playerCards, dealerCards, gambleAmount, app.icons.blackjack_dealer_lost)
 
 	embed.setDescription(quote)
 	embed.setColor(720640)
 	embed.embed.footer = undefined
-	app.player.addMoney(message.author.id, gambleAmount * 2, serverSideGuildId)
-
-	if (gambleAmount * 2 >= 100000) {
-		app.itm.addBadge(message.author.id, 'gambler', serverSideGuildId)
-	}
 
 	return embed
 }
@@ -271,13 +287,12 @@ function loserEmbed (app, message, playerCards, dealerCards, quote, gambleAmount
 	return embed
 }
 
-function tieEmbed (app, message, playerCards, dealerCards, quote, gambleAmount, serverSideGuildId) {
+function tieEmbed (app, message, playerCards, dealerCards, quote, gambleAmount) {
 	const embed = genEmbed(app, message, playerCards, dealerCards, gambleAmount, app.icons.blackjack_dealer_lost)
 
 	embed.setDescription(quote)
 	embed.setColor(10395294)
 	embed.embed.footer = undefined
-	app.player.addMoney(message.author.id, gambleAmount, serverSideGuildId)
 
 	return embed
 }

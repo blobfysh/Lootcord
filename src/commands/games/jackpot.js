@@ -161,6 +161,14 @@ async function startJackpot (app, message, prefix, gambleAmount, serverSideGuild
 		const winnerId = pickWinner(jackpotObj)
 		const winAmount = getJackpotTotal(jackpotObj)
 
+		await app.player.addStat(winnerId, 'gamblingWon', winAmount - jackpotObj[winnerId].amount, serverSideGuildId)
+
+		for (const user in jackpotObj) {
+			if (user !== winnerId) {
+				await app.player.addStat(user, 'gamblingLost', jackpotObj[user].amount, serverSideGuildId)
+			}
+		}
+
 		await app.player.addMoney(winnerId, winAmount, serverSideGuildId)
 
 		message.channel.createMessage(`**${jackpotObj[winnerId].name}** won the ${app.common.formatNumber(winAmount)} jackpot with a ${(jackpotObj[winnerId].amount / getJackpotTotal(jackpotObj) * 100).toFixed(1)}% chance of winning!`)

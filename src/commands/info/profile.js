@@ -48,6 +48,8 @@ const makeProfile = exports.makeProfile = async function makeProfile (app, user,
 		const triviasCorrect = await app.player.getStat(user.id, 'triviasCorrect', serverSideGuildId)
 		const scrambles = await app.player.getStat(user.id, 'scrambles', serverSideGuildId)
 		const scramblesCorrect = await app.player.getStat(user.id, 'scramblesCorrect', serverSideGuildId)
+		const gamblingWon = await app.player.getStat(user.id, 'gamblingWon', serverSideGuildId)
+		const gamblingLost = await app.player.getStat(user.id, 'gamblingLost', serverSideGuildId)
 
 		const bannerIcon = app.itemdata[userRow.banner] !== undefined ? app.itemdata[userRow.banner].icon : ''
 		const bannersList = `**Equipped:** ${bannerIcon}\`${userRow.banner}\`\n${userItems.banners.join('\n')}`
@@ -87,7 +89,9 @@ const makeProfile = exports.makeProfile = async function makeProfile (app, user,
 				`**XP**: ${xp.curLvlXp} / ${xp.neededForLvl} (${((xp.curLvlXp / xp.neededForLvl) * 100).toFixed(0)}%)\n` +
 				`**Kills / Deaths**: ${userRow.kills} / ${userRow.deaths} (${(userRow.kills / Math.max(userRow.deaths, 1)).toFixed(2)} K/D Ratio)\n` +
 				`**Trivia (Correct / Attempts)**: ${triviasCorrect} / ${trivias} (${((triviasCorrect / Math.max(trivias, 1)) * 100).toFixed(0)}%)\n` +
-				`**Scramble (Correct / Attempts)**: ${scramblesCorrect} / ${scrambles} (${((scramblesCorrect / Math.max(scrambles, 1)) * 100).toFixed(0)}%)`)
+				`**Scramble (Correct / Attempts)**: ${scramblesCorrect} / ${scrambles} (${((scramblesCorrect / Math.max(scrambles, 1)) * 100).toFixed(0)}%)\n` +
+				`**Gambling (Won)**: ${app.common.formatNumber(gamblingWon)}\n` +
+				`**Gambling (Lost)**: ${app.common.formatNumber(gamblingLost)}`)
 			.addField('Upgrades', `Skills upgraded **${userRow.used_stats}** times.\n` +
 				`**Health**: ${healthStr}\n` +
 				`**Strength**: ${parseFloat(userRow.scaledDamage).toFixed(2)}x damage\n` +
