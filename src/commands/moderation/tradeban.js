@@ -5,7 +5,7 @@ exports.command = {
 	name: 'tradeban',
 	aliases: [],
 	description: 'Bans a user from trading.',
-	long: 'Bans a user from being able to use the trade command as well as the black market, clan deposit/withdraw, and Discoin conversions. You must provide one of the following rules:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts\n**6** - False reports',
+	long: 'Bans a user from being able to use the trade command as well as the black market, clan deposit/withdraw, and Discoin conversions. You must provide one of the following rules:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - False reports',
 	args: {
 		'User ID': 'ID of user to ban.',
 		'rule': 'Rule broken.'
@@ -28,7 +28,7 @@ exports.command = {
 			return reply(message, '❌ You forgot to include a user ID.')
 		}
 		else if (!rule || !Object.keys(RULES).includes(rule)) {
-			return reply(message, '❌ You need to specify what rule was broken:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts\n**6** - False reports')
+			return reply(message, '❌ You need to specify what rule was broken:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - False reports')
 		}
 		else if (await app.cd.getCD(userID, 'mod')) {
 			return reply(message, 'Hey stop trying to ban a moderator!!! >:(')

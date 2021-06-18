@@ -330,7 +330,7 @@ function refreshWindow (app, player1Member, player1Money, player1Items, player2M
 	const tradeWindow = new app.Embed()
 		.setTitle('Trade Window')
 		.setColor(2713128)
-		.setDescription(`Reminder that handouts are not allowed, **giving** items/money to another player may result in punishment.\n\n**Commands:**\n\`${prefix}add <item> <amount>\`\n\`${prefix}addmoney <amount>\`\n\`${prefix}remove <item/money>\`\n\`${prefix}accept\`\n\`${prefix}cancel\``)
+		.setDescription(`**Commands:**\n\`${prefix}add <item> <amount>\`\n\`${prefix}addmoney <amount>\`\n\`${prefix}remove <item/money>\`\n\`${prefix}accept\`\n\`${prefix}cancel\``)
 		.addField(log ? player1Member.username : `${player1Member.nick || player1Member.username}'s Offer`, app.common.formatNumber(player1Money), true)
 		.addField(log ? player2Member.username : `${player2Member.nick || player2Member.username}'s Offer`, app.common.formatNumber(player2Money), true)
 		.addBlankField(true)

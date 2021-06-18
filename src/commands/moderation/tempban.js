@@ -5,7 +5,7 @@ exports.command = {
 	name: 'tempban',
 	aliases: [],
 	description: 'Bans a user.',
-	long: 'Temporarily bans a user and sends them a message containing the reason. The time can be either m (minutes), h (hours) or d (days). You must provide one of the following rules:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts\n**6** - False reports',
+	long: 'Temporarily bans a user and sends them a message containing the reason. The time can be either m (minutes), h (hours) or d (days). You must provide one of the following rules:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - False reports',
 	args: {
 		'User ID': 'ID of user to ban.',
 		'limit': 'Length of ban.',
@@ -34,7 +34,7 @@ exports.command = {
 			return reply(message, '❌ You must specify a length of time to ban for (use `modhelp tempban` to see examples).')
 		}
 		else if (!rule || !Object.keys(RULES).includes(rule)) {
-			return reply(message, '❌ You need to specify what rule was broken:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - Handouts\n**6** - False reports')
+			return reply(message, '❌ You need to specify what rule was broken:\n\n**1** - Bug exploitation\n**2** - Alt accounts\n**3** - Leaving servers to avoid deactivate cooldown\n**4** - Kill-farming\n**5** - False reports')
 		}
 		else if (await app.cd.getCD(userID, 'banned')) {
 			return reply(message, '❌ User is already banned.')
