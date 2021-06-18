@@ -51,7 +51,7 @@ async function getClanInfo (app, message, clanId, serverSideGuildId) {
 	const clanRow = await app.clans.getRow(clanId, serverSideGuildId)
 	const clanMembers = await app.clans.getMembers(clanId, serverSideGuildId)
 	const clanData = await app.clans.getClanData(clanRow, await app.clans.getItemObject(clanId, serverSideGuildId), serverSideGuildId)
-	const upkeep = app.clans.getUpkeep(clanRow.level, clanRow.money, clanMembers.count, clanData.inactiveMemberCount)
+	const upkeep = app.clans.getUpkeep(clanRow.level)
 	const raidCD = await app.cd.getCD(clanId, 'raid', { serverSideGuildId })
 	const raidedCD = await app.cd.getCD(clanId, 'raided', { serverSideGuildId })
 

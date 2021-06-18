@@ -52,7 +52,7 @@ exports.command = {
 async function generatePages (app, clanId, serverSideGuildId) {
 	const messages = []
 	const clanRow = await app.clans.getRow(clanId, serverSideGuildId)
-	const clanItems = await app.itm.getUserItems(await app.clans.getItemObject(clanId, serverSideGuildId))
+	const clanItems = app.itm.getUserItems(await app.clans.getItemObject(clanId, serverSideGuildId))
 
 	const vaultPageCount = getPageCount(clanItems)
 

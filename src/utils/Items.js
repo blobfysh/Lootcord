@@ -321,7 +321,7 @@ class Items {
      * @param {*} options
      * @returns {{onlyBanners:boolean,countBanners:boolean,countLimited:boolean}} Object with array for each item rarity, and value of all items in inventory
      */
-	async getUserItems (items, options = { onlyBanners: false, countBanners: false, countLimited: true }) {
+	getUserItems (items, options = { onlyBanners: false, countBanners: false, countLimited: true }) {
 		options.onlyBanners = (options && options.onlyBanners) || false
 		options.countBanners = (options && options.countBanners) || false
 		options.countLimited = (options && options.countLimited) || true

@@ -326,15 +326,15 @@ class LoopTasks {
 
 				for (const clan of globalClans) {
 					const clanItems = await this.app.clans.getItemObjectForUpdate(transaction.query, clan.clanId)
-					const clanData = await this.app.clans.getClanData(clan, clanItems)
-					const upkeep = this.app.clans.getUpkeep(clan.level, clan.money, clanData.memberCount, clanData.inactiveMemberCount)
+					const { itemCount } = this.app.itm.getUserItems(clanItems)
+					const upkeep = this.app.clans.getUpkeep(clan.level)
 
 					if (clan.money >= upkeep) {
 						await this.app.clans.removeMoneySafely(transaction.query, clan.clanId, upkeep)
 						moneyRemoved += upkeep
 						decayingClans++
 					}
-					else if (clanData.itemCount >= 1) {
+					else if (itemCount >= 1) {
 						const randomItem = await this.app.itm.getRandomUserItems(clanItems, 1)
 						await this.app.clans.removeItemSafely(transaction.query, clan.clanId, randomItem.items[0], 1)
 						await this.app.clans.addLog(clan.clanId, `The item storage lost 1x ${randomItem.items[0]} due to cost of upkeep`)
@@ -348,15 +348,15 @@ class LoopTasks {
 
 				for (const clan of serverSideClans) {
 					const clanItems = await this.app.clans.getItemObjectForUpdate(transaction.query, clan.clanId, clan.guildId)
-					const clanData = await this.app.clans.getClanData(clan, clanItems, clan.guildId)
-					const upkeep = this.app.clans.getUpkeep(clan.level, clan.money, clanData.memberCount, clanData.inactiveMemberCount)
+					const { itemCount } = this.app.itm.getUserItems(clanItems)
+					const upkeep = this.app.clans.getUpkeep(clan.level)
 
 					if (clan.money >= upkeep) {
 						await this.app.clans.removeMoneySafely(transaction.query, clan.clanId, upkeep, clan.guildId)
 						moneyRemoved += upkeep
 						decayingClans++
 					}
-					else if (clanData.itemCount >= 1) {
+					else if (itemCount >= 1) {
 						const randomItem = await this.app.itm.getRandomUserItems(clanItems, 1)
 						await this.app.clans.removeItemSafely(transaction.query, clan.clanId, randomItem.items[0], 1, clan.guildId)
 						await this.app.clans.addLog(clan.clanId, `The item storage lost 1x ${randomItem.items[0]} due to cost of upkeep`, clan.guildId)

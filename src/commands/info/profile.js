@@ -41,7 +41,7 @@ const makeProfile = exports.makeProfile = async function makeProfile (app, user,
 			}
 		}
 
-		const userItems = await app.itm.getUserItems(await app.itm.getItemObject(user.id, serverSideGuildId), { onlyBanners: true })
+		const userItems = app.itm.getUserItems(await app.itm.getItemObject(user.id, serverSideGuildId), { onlyBanners: true })
 		const badges = await app.itm.getBadges(user.id, serverSideGuildId)
 		const xp = app.common.calculateXP(userRow.points, userRow.level)
 		const trivias = await app.player.getStat(user.id, 'trivias', serverSideGuildId)

@@ -73,14 +73,8 @@ class Clans {
 		await this.app.query(`DELETE FROM ${serverSideGuildId ? 'server_clans' : 'clans'} WHERE clanId = ?`, [clanId])
 	}
 
-	getUpkeep (level, bank, memberCount, inactiveMembers) {
-		let upkeep = 0
-
-		upkeep += CLANS.levels[level].upkeep
-
-		if (inactiveMembers > Math.floor(memberCount / 2)) return upkeep + Math.floor(bank / 2)
-
-		return upkeep
+	getUpkeep (level) {
+		return CLANS.levels[level].upkeep
 	}
 
 	async getClanData (clanRow, clanItems, serverSideGuildId = undefined) {
@@ -90,7 +84,7 @@ class Clans {
 		let inactiveMembers = 0
 		const dateTime = Date.now()
 
-		const { itemCount, invValue } = await this.app.itm.getUserItems(clanItems)
+		const { itemCount, invValue } = this.app.itm.getUserItems(clanItems)
 		const memberRows = await this.app.query(`SELECT * FROM ${serverSideGuildId ? 'server_scores' : 'scores'} WHERE clanId = ${clanRow.clanId}`)
 
 		for (let i = 0; i < memberRows.length; i++) {

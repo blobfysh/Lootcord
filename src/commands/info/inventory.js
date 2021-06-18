@@ -51,7 +51,7 @@ const generatePages = exports.generatePages = async function generatePages (app,
 
 		const isActive = guildId ? await app.player.isActive(user.id, guildId) : false
 		const itemObject = await app.itm.getItemObject(user.id, serverSideGuildId)
-		const usersItems = await app.itm.getUserItems(itemObject)
+		const usersItems = app.itm.getUserItems(itemObject)
 		const itemCt = await app.itm.getItemCount(itemObject, userRow)
 		const armorLeft = await app.cd.getCD(user.id, 'shield', { serverSideGuildId })
 		const armor = await app.player.getArmor(user.id, serverSideGuildId)
