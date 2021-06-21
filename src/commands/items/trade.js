@@ -447,7 +447,6 @@ function tradeCompleted (app, embed, guildID, player1, player2, player1Val, play
 
 		embed.setDescription(`${player1.username}#${player1.discriminator} ID: \`\`\`\n${player1.id}\`\`\`${player2.username}#${player2.discriminator} ID: \`\`\`\n${player2.id}\`\`\`Guild ID: \`\`\`\n${guildID}\`\`\``)
 		embed.setTimestamp()
-		embed.setFooter('Keep an eye on users that trade low-value for high-value')
 
 		app.messager.messageLogs(embed)
 	}
