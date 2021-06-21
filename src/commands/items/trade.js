@@ -1,6 +1,6 @@
 const { reply } = require('../../utils/messageUtils')
 const max_disparity = 2
-const flagged_threshold = 50000
+const flagged_threshold = 500000
 
 exports.command = {
 	name: 'trade',
