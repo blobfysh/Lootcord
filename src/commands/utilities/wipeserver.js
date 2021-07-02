@@ -4,6 +4,7 @@ const { reply } = require('../../utils/messageUtils')
 const resetData = {
 	money: 100,
 	backpack: '"none"',
+	clanId: 0,
 	badge: '"none"',
 	inv_slots: 0,
 	health: 100,
@@ -49,6 +50,15 @@ exports.command = {
 				await app.query('DELETE FROM server_user_items WHERE guildId = ?', [serverSideGuildId])
 				await app.query('DELETE FROM server_stats WHERE guildId = ?', [serverSideGuildId])
 				await app.query('DELETE FROM server_badges WHERE guildId = ?', [serverSideGuildId])
+
+				const clans = await app.query('SELECT * FROM server_clans WHERE guildId = ?', [serverSideGuildId])
+
+				for (const clan of clans) {
+					await app.query('DELETE FROM server_clan_items WHERE id = ?', [clan.clanId])
+					await app.query('DELETE FROM server_clan_logs WHERE clanId = ?', [clan.clanId])
+				}
+
+				await app.query('DELETE FROM server_clans WHERE guildId = ?', [serverSideGuildId])
 
 				await result.respond({
 					content: '✅ Server data has been wiped!',
