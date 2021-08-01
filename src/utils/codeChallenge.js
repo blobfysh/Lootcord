@@ -3,7 +3,7 @@ const { reply } = require('./messageUtils')
 const reward = 'locked_crate'
 
 exports.init = function (app, channel, roleId = undefined, firstRun = false) {
-	const countDown = firstRun ? 1000 * 60 * 20 : Math.round(Math.random() * (3600 * 1000)) + (3600 * 1000)
+	const countDown = firstRun ? 1000 * 60 * 20 : Math.round(Math.random() * (3600 * 1000)) + (7200 * 1000)
 
 	console.log(`Starting locked crate event for ${channel.id} in ${app.cd.convertTime(countDown)}`)
 
