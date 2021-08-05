@@ -16,7 +16,7 @@ class Monsters {
 			await this.app.cd.clearCD(channelId, 'mob')
 			await this.app.cd.clearCD(channelId, 'mobHalf')
 		}
-		const rand = Math.round(Math.random() * (14400 * 1000)) + (28800 * 1000) // Generate random time from 8 - 12 hours
+		const rand = Math.round(Math.random() * (14400 * 1000)) + (14400 * 1000) // Generate random time from 4 - 8 hours
 		console.log(`[MONSTERS] Counting down from ${this.app.cd.convertTime(rand)}`)
 
 		this.app.cd.setCD(channelId, 'spawnCD', rand, { ignoreQuery: true }, () => {
