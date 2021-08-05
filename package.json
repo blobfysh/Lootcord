@@ -25,7 +25,7 @@
     "bad-words": "^3.0.4",
     "big-time": "^2.0.1",
     "body-parser": "^1.19.0",
-    "canvas": "^2.7.0",
+    "canvas": "^2.8.0",
     "cron": "^1.8.2",
     "db-migrate": "^0.11.12",
     "db-migrate-mysql": "^2.1.2",
