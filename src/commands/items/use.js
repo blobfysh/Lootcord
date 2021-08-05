@@ -352,7 +352,7 @@ exports.command = {
 						if (guildInfo.killChan !== undefined && guildInfo.killChan !== 0 && guildInfo.killChan !== '') {
 							const killEmbed = new app.Embed()
 								.setDescription(`${monster.title} 🗡 <@${message.author.id}> 💀`)
-								.addField('Weapon Used', `${app.itemdata[monster.weapon].icon}\`${monster.weapon}\` - **${mobDmg} damage**`)
+								.addField('Weapon Used', `${monster.weapon.icon}\`${monster.weapon.name}\` - **${mobDmg} damage**`)
 								.addField('Items Stolen', randomItems.items.length !== 0 ? randomItems.display.join('\n') : 'Nothing', true)
 								.addField('Balance Stolen', app.common.formatNumber(moneyStolen), true)
 								.setColor(16734296)
