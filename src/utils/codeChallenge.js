@@ -27,10 +27,15 @@ async function start (app, channel, roleId) {
 		.setFooter('You have 10 minutes to guess the code.')
 
 	try {
-		await channel.createMessage({
-			content: roleId ? `<@&${roleId}>` : undefined,
-			embed: startedEmbed.embed
-		})
+		try {
+			await channel.createMessage({
+				content: roleId ? `<@&${roleId}>` : undefined,
+				embed: startedEmbed.embed
+			})
+		}
+		catch (err) {
+			console.error(err)
+		}
 
 		console.log('[CODE CHALLENGE] Locked crate challenge started')
 
