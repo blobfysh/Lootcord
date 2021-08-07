@@ -32,8 +32,8 @@ module.exports = {
 				// ignore users who have already joined this event
 				else if (Object.keys(joined).includes(m.author.id)) return
 
-				// max 6 people per event (to prevent hitting the character limit)
-				else if (Object.keys(joined).length >= 6) return
+				// max 5 people per event (to prevent hitting the character limit)
+				else if (Object.keys(joined).length >= 5) return
 
 				joined[m.author.id] = m.author
 				m.addReaction(app.icons.confirm)
