@@ -72,7 +72,7 @@ class CommandHandler {
 				return message.channel.createMessage(`❌ The \`${command.name}\` command requires that server-side economy mode is disabled.`)
 			}
 
-			if (Math.random() <= 0.05) this.app.eventHandler.initEvent(message, { prefix, serverSideGuildId })
+			if (Math.random() <= 0.05) this.app.eventHandler.initEvent(message, { prefix, serverSideGuildId, eventPingRole: guildInfo.eventPingRole })
 		}
 		else if (!command.worksInDMs) {
 			// command does not support being run in DMs

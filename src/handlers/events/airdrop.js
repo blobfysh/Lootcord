@@ -2,7 +2,7 @@ module.exports = {
 	name: 'airdrop',
 	cooldown: 3600 * 1000,
 
-	async execute (app, message, { prefix, serverSideGuildId }) {
+	async execute (app, message, { prefix, serverSideGuildId, eventPingRole }) {
 		console.log('[EVENT] Airdrop started')
 
 		const collectorObj = app.msgCollector.createChannelCollector(message.channel.id, m => m.content.toLowerCase() === 'claimdrop', { time: 40000 })
@@ -14,7 +14,10 @@ module.exports = {
 			.setImage(app.itemdata.supply_drop.image)
 
 		try {
-			const startedMessage = await message.channel.createMessage(exploreEmbed)
+			const startedMessage = await message.channel.createMessage({
+				content: eventPingRole ? `<@&${eventPingRole}>` : undefined,
+				embed: exploreEmbed.embed
+			})
 			const joined = {}
 
 			collectorObj.collector.on('collect', async m => {

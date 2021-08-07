@@ -1,0 +1,2 @@
+ALTER TABLE guildinfo ADD COLUMN eventPingRole VARCHAR(255) DEFAULT NULL AFTER clansDisabled;
+ALTER TABLE spawnchannels ADD COLUMN spawnPingRole VARCHAR(255) DEFAULT NULL AFTER userId;

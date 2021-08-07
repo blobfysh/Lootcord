@@ -4,7 +4,7 @@ module.exports = {
 	name: 'exploration',
 	cooldown: 300 * 1000,
 
-	async execute (app, message, { prefix, serverSideGuildId }) {
+	async execute (app, message, { prefix, serverSideGuildId, eventPingRole }) {
 		console.log('[EVENT] Exploration started')
 
 		const collectorObj = app.msgCollector.createChannelCollector(message.channel.id, m => m.content.toLowerCase() === 'roam', { time: 40000 })
@@ -20,7 +20,10 @@ module.exports = {
 			.setImage(monument.image)
 
 		try {
-			const startedMessage = await message.channel.createMessage(exploreEmbed)
+			const startedMessage = await message.channel.createMessage({
+				content: eventPingRole ? `<@&${eventPingRole}>` : undefined,
+				embed: exploreEmbed.embed
+			})
 			const joined = {}
 
 			collectorObj.collector.on('collect', async m => {
