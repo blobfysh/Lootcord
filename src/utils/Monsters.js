@@ -44,7 +44,10 @@ class Monsters {
 
 			const mobEmbed = await this.genMobEmbed(channelId, this.mobdata[monster], this.mobdata[monster].health, randMoney)
 
-			await this.app.bot.createMessage(channelId, { content: spawnInfo.spawnPingRole ? `<@&${spawnInfo.spawnPingRole}>, An enemy has spawned...` : 'An enemy has spawned...', embed: mobEmbed.embed })
+			await this.app.bot.createMessage(channelId, {
+				content: spawnInfo.spawnPingRole ? `<@&${spawnInfo.spawnPingRole}>, An enemy has spawned...` : 'An enemy has spawned...',
+				embed: mobEmbed.embed
+			})
 		}
 		catch (err) {
 			await this.app.query('DELETE FROM spawnsdamage WHERE channelId = ?', [channelId])
@@ -140,12 +143,12 @@ class Monsters {
 	async onHalf (channelId, spawnPingRole) {
 		try {
 			const monsterStats = await this.app.mysql.select('spawns', 'channelId', channelId)
-			const embed = await this.genMobEmbed(channelId, this.mobdata[monsterStats.monster], monsterStats.health, monsterStats.money)
-			embed.setTitle(`${this.mobdata[monsterStats.monster].title} - Only half the time remains!`)
+			const mobEmbed = await this.genMobEmbed(channelId, this.mobdata[monsterStats.monster], monsterStats.health, monsterStats.money)
+			mobEmbed.setTitle(`${this.mobdata[monsterStats.monster].title} - Only half the time remains!`)
 
 			await this.app.bot.createMessage(channelId, {
 				content: spawnPingRole ? `<@&${spawnPingRole}>` : undefined,
-				embed
+				embed: mobEmbed.embed
 			})
 		}
 		catch (err) {
