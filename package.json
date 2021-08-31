@@ -29,23 +29,23 @@
     "cron": "^1.8.2",
     "db-migrate": "^0.11.12",
     "db-migrate-mysql": "^2.1.2",
-    "dotenv": "^8.2.0",
+    "dotenv": "^8.6.0",
     "emoji-regex": "^9.2.2",
     "eris": "github:abalabahaha/eris#dev",
     "eris-sharder": "github:discordware/eris-sharder#eris-dev",
     "express": "^4.17.1",
     "html-entities": "^2.3.2",
-    "ioredis": "^4.27.3",
+    "ioredis": "^4.27.9",
     "js-levenshtein": "^1.1.6",
     "mysql": "^2.18.1",
     "shortid": "^2.2.16",
-    "slash-commands": "^1.4.0"
+    "slash-commands": "^1.5.0"
   },
   "devDependencies": {
-    "eslint": "^7.24.0",
-    "eslint-plugin-jest": "^24.3.5",
+    "eslint": "^7.32.0",
+    "eslint-plugin-jest": "^24.4.0",
     "jest": "^26.6.3",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.12"
   },
   "nodemonConfig": {
     "ignore": [
