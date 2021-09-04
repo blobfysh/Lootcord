@@ -37,7 +37,8 @@ const sharder = new Sharder(`Bot ${config.botToken}`, '/src/app.js', {
 			'guildMessages',
 			'guildMessageReactions',
 			'directMessages'
-		]
+		],
+		requestTimeout: 35000
 	}
 })
 
