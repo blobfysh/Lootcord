@@ -196,7 +196,7 @@ class LoopTasks {
 	async hourlyTasks () {
 		const stats = JSON.parse(await this.app.cache.get('stats')) || {}
 
-		if (this.app.bot.shards.get([...this.app.bot.shards][0][0]).presence.game.type === 2) return
+		if (this.app.bot.shards.get([...this.app.bot.shards][0][0]).presence.activities[0].type === 2) return
 
 		if (stats.guilds) {
 			this.app.bot.editStatus('online', {
