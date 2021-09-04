@@ -13,11 +13,20 @@ exports.reply = async (msg, content) => {
 		}
 	}
 
-	Object.assign(content, {
+	const replyObj = Object.assign({}, content, {
 		messageReference: {
 			messageID: msg.id
 		}
 	})
 
-	return msg.channel.createMessage(content)
+	try {
+		const m = await msg.channel.createMessage(replyObj)
+		return m
+	}
+	catch (err) {
+		// replied message was deleted, send message without reply:
+		if (err.code === 50035) {
+			return msg.channel.createMessage(content)
+		}
+	}
 }
