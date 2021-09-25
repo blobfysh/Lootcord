@@ -21,7 +21,7 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "bad-words": "^3.0.4",
     "big-time": "^2.0.1",
     "body-parser": "^1.19.0",
