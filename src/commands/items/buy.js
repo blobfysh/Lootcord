@@ -54,9 +54,9 @@ exports.command = {
 							components: []
 						})
 					}
-					else if (app.itemdata[buyItem].isBanner && itemCt.bannerCt + buyAmount > 100) {
+					else if (app.itemdata[buyItem].isBanner && itemCt.bannerCt + buyAmount > 1000) {
 						return confirmed.respond({
-							content: '❌ **Buying that will put you over the banner limit!** (100)',
+							content: '❌ **Buying that will put you over the banner limit!** (1,000)',
 							components: []
 						})
 					}

@@ -50,9 +50,9 @@ exports.command = {
 			await transaction.commit()
 			return reply(message, `❌ **${member.username} is out of inventory space!** (Open slots: **${itemCt.open}** Required: **${amount}**)\nHave them clear space by selling some items.`)
 		}
-		else if (app.itemdata[item].isBanner && itemCt.bannerCt + amount > 100) {
+		else if (app.itemdata[item].isBanner && itemCt.bannerCt + amount > 1000) {
 			await transaction.commit()
-			return reply(message, `❌ **${member.username} cannot hold that many banners!** (100 max).`)
+			return reply(message, `❌ **${member.username} cannot hold that many banners!** (1,000 max).`)
 		}
 
 		await app.itm.addItemSafely(transaction.query, member.id, item, amount, serverSideGuildId)

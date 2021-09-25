@@ -49,9 +49,9 @@ exports.command = {
 					const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 					const itemCt = await app.itm.getItemCount(userItems, row)
 
-					if (app.itemdata[craftItem].isBanner && itemCt.bannerCt + craftAmount > 100) {
+					if (app.itemdata[craftItem].isBanner && itemCt.bannerCt + craftAmount > 1000) {
 						await confirmed.respond({
-							content: '❌ **Crafting that will put you over the banner limit!** (100)',
+							content: '❌ **Crafting that will put you over the banner limit!** (1,000)',
 							components: []
 						})
 					}
