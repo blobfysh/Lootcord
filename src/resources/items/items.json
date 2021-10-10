@@ -1276,13 +1276,7 @@
         "cooldown": "",
 		"dropsItems": 1,
         "rates": {
-            "10": {
-                "xp": 20,
-                "items": [
-                    "coffin|1"
-                ]
-            },
-            "20": {
+            "30": {
                 "xp": 15,
                 "items": [
                     "pump_shotgun|1",
@@ -1333,13 +1327,14 @@
         "cooldown": "",
 		"dropsItems": 1,
         "rates": {
-            "10": {
+            "13": {
                 "xp": 60,
                 "items": [
-                    "m249|1"
+                    "m249|1",
+                    "coffin|1"
                 ]
             },
-            "90": {
+            "87": {
                 "xp": 50,
                 "items": [
                     "rifle_bullet|1",
