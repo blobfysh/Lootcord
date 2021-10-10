@@ -63,7 +63,8 @@ exports.command = {
 			timeZone: 'America/New_York'
 		}))
 		const todaysMonth = converted.getMonth()
-		let description = '**[Help keep the bot running and get rewards!](https://www.patreon.com/bePatron?u=14199989)**'
+		let description = '🎃 **It\'s Halloween! Use the `daily` command to collect candy bags! Fight spooky monsters with `enablespawns` and look out for new events!**' +
+			'\n\n**[Help keep the bot running and get rewards!](https://www.patreon.com/bePatron?u=14199989)**'
 
 		if (serverSideGuildId) {
 			description += '\n*Server-side economy enabled*'
