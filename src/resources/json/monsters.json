@@ -129,72 +129,6 @@
             "seconds": 18000
         }
     },
-	"m39_tunnel_dweller": {
-        "title": "Tunnel Dweller",
-        "mentioned": "the **Tunnel Dweller**",
-        "artist": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/843530025999401060/m39_tunnel_dweller.png",
-        "leftImage": "https://cdn.discordapp.com/attachments/497302646521069570/843530025999401060/m39_tunnel_dweller.png",
-        "pronoun": "he",
-        "special": "",
-        "health": 100,
-        "minDamage": 22,
-        "maxDamage": 27,
-        "minMoney": 14000,
-        "maxMoney": 25000,
-        "canBurn": true,
-        "canBleed": true,
-        "xp": 75,
-        "weapon": {
-            "name": "m39_rifle",
-            "icon": "<:m39_rifle:843539216470376508>"
-        },
-        "ammo": "rifle_bullet",
-        "loot": {
-            "main": {
-                "40": {
-                    "items": [
-                        "custom_smg|1",
-                        "semi_rifle|1",
-                        "thompson|1",
-						"12g_buckshot|1"
-                    ]
-                },
-                "60": {
-                    "items": [
-                        "semi_pistol|1",
-                        "rifle_bullet|1"
-                    ]
-                }
-            },
-            "extras": {
-                "50": {
-                    "items": [
-                        "cloth|1",
-                        "wood|1",
-                        "semi_body|1",
-                        "pickaxe|1",
-						"medical_syringe|1"
-                    ]
-                },
-                "35": {
-                    "items": [
-                        "f1_grenade|1",
-                        "12g_buckshot|1",
-						"pistol_bullet|1"
-                    ]
-                },
-                "15": {
-                    "items": [
-                        "rifle_bullet|1"
-                    ]
-                }
-            }
-        },
-        "staysFor": {
-            "seconds": 18000
-        }
-    },
     "knife_mummy": {
         "title": "Mummy",
         "mentioned": "the **Mummy**",
@@ -218,7 +152,12 @@
         "ammo": "",
         "loot": {
             "main": {
-                "100": {
+                "15": {
+                    "items": [
+                        "mummy_suit|1"
+                    ]
+                },
+                "85": {
                     "items": [
                         "butcher_knife|1",
                         "human_skull|1",
@@ -264,7 +203,12 @@
         "ammo": "",
         "loot": {
             "main": {
-                "100": {
+                "15": {
+                    "items": [
+                        "mummy_suit|1"
+                    ]
+                },
+                "85": {
                     "items": [
                         "sickle|1",
                         "human_skull|1",
@@ -310,7 +254,12 @@
         "ammo": "",
         "loot": {
             "main": {
-                "100": {
+                "15": {
+                    "items": [
+                        "mummy_suit|1"
+                    ]
+                },
+                "85": {
                     "items": [
                         "sickle|1",
                         "human_skull|1",
@@ -356,7 +305,12 @@
         "ammo": "",
         "loot": {
             "main": {
-                "100": {
+				"15": {
+                    "items": [
+                        "mummy_suit|1"
+                    ]
+                },
+                "85": {
                     "items": [
                         "pitchfork|1",
                         "human_skull|1",

@@ -1356,8 +1356,8 @@
     "scarecrow_suit": {
         "isShield": true,
         "shieldInfo": {
-            "seconds": 14400,
-            "protection": 0.5
+            "seconds": 43200,
+            "protection": 0.4
         },
         "minDmg": "",
         "maxDmg": "",
@@ -1368,7 +1368,7 @@
         },
         "buy": "",
         "sell": 18159,
-        "desc": "Use this armor to reduce damage taken from attacks by **50%** for **4 hours**.",
+        "desc": "Use this armor to reduce damage taken from attacks by **40%** for **12 hours**.",
         "image": "https://cdn.discordapp.com/attachments/750103329257816085/758453069280968754/scarecrow_armor_ingame.png",
         "icon": "<:scarecrow_suit:758442991886401546>",
         "breaksOnUse": "",
@@ -1378,6 +1378,37 @@
         "category": "Item",
         "aliases": [
             "scarecrow"
+        ],
+        "tier": 0,
+        "isHidden": false,
+        "isSpecial": true
+    },
+	"mummy_suit": {
+        "isShield": true,
+        "shieldInfo": {
+            "seconds": 28800,
+            "protection": 0.25
+        },
+        "minDmg": "",
+        "maxDmg": "",
+        "ammo": "",
+        "craftedWith": "",
+        "recyclesTo": {
+            "materials": []
+        },
+        "buy": "",
+        "sell": 9561,
+        "desc": "Use this armor to reduce damage taken from attacks by **25%** for **8 hours**.",
+        "image": "https://cdn.discordapp.com/attachments/610503377679548446/896566777805418547/mummy_suit.png",
+        "icon": "<:mummy_suit:896566730388819989>",
+        "breaksOnUse": "",
+        "canBeStolen": true,
+        "cooldown": "",
+        "artist": "",
+        "category": "Item",
+        "aliases": [
+            "mummy",
+			"mummy_wraps"
         ],
         "tier": 0,
         "isHidden": false,
