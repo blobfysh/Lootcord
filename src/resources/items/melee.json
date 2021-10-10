@@ -363,7 +363,7 @@
         "category": "Melee",
         "aliases": [],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "sickle": {
@@ -389,7 +389,7 @@
         "category": "Melee",
         "aliases": [],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "pitchfork": {
@@ -415,7 +415,7 @@
         "category": "Melee",
         "aliases": [],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "chainsaw": {
@@ -441,7 +441,7 @@
         "category": "Melee",
         "aliases": [],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     }
 }

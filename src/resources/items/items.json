@@ -1116,7 +1116,7 @@
         "category": "Item",
         "aliases": [],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "pumpkin": {
@@ -1144,7 +1144,7 @@
         "category": "Item",
         "aliases": [],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "corn": {
@@ -1172,7 +1172,7 @@
         "category": "Item",
         "aliases": [],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "candy_bar": {
@@ -1204,7 +1204,7 @@
             "chocolate_bar"
         ],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "small_loot_bag": {
@@ -1249,7 +1249,7 @@
             "loot_bag"
         ],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "medium_loot_bag": {
@@ -1306,7 +1306,7 @@
         "category": "Item",
         "aliases": [],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "large_loot_bag": {
@@ -1355,7 +1355,7 @@
         "category": "Item",
         "aliases": [],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "scarecrow_suit": {
@@ -1385,7 +1385,7 @@
             "scarecrow"
         ],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "bunny_suit": {

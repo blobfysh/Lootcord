@@ -134,7 +134,7 @@
         "category": "Storage",
         "aliases": [],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "rolads_pack": {
