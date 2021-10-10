@@ -1327,14 +1327,20 @@
         "cooldown": "",
 		"dropsItems": 1,
         "rates": {
-            "13": {
+            "5": {
+                "xp": 75,
+                "items": [
+                    "l96_rifle|1"
+                ]
+            },
+			"10": {
                 "xp": 60,
                 "items": [
                     "m249|1",
                     "coffin|1"
                 ]
             },
-            "87": {
+            "85": {
                 "xp": 50,
                 "items": [
                     "rifle_bullet|1",
