@@ -92,7 +92,7 @@ class Monsters {
 		const mobEmbed = new this.app.Embed()
 			.setTitle(monster.title)
 			.setDescription(`Attack with \`${guildPrefix}use <weapon> ${monster.title.toLowerCase()}\`\n\nYou have \`${remaining}\` to defeat ${monster.mentioned} before ${monster.pronoun} leaves the server.${monster.special !== '' ? `\n\n**Special:** ${monster.special}` : ''}`)
-			.setColor(13451564)
+			.setColor('#9449d6')
 			.addField('Health', healthStr, true)
 			.addField('Balance', this.app.common.formatNumber(money), true)
 			.addField('Damage', `${monster.weapon.icon}\`${monster.weapon.name}\` ${monster.minDamage} - ${monster.maxDamage}`, true)
@@ -119,7 +119,7 @@ class Monsters {
 		const mobEmbed = new this.app.Embed()
 			.setTitle(`${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} left...`)
 			.setDescription(`Nobody defeated ${monster.mentioned}!`)
-			.setColor(13451564)
+			.setColor('#9449d6')
 			.setImage(monster.leftImage)
 
 		return mobEmbed

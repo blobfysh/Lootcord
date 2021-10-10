@@ -58,7 +58,7 @@ const getCooldowns = exports.getCooldowns = async function getCooldowns (app, us
 
 	const cdEmbed = new app.Embed()
 		.setAuthor(`${user.username}#${user.discriminator}'s Cooldowns`, app.common.getAvatar(user))
-		.setColor(13451564)
+		.setColor('#9449d6')
 		.addField('farm', `\`${cds.hourly}\``, true)
 		.addField('daily', `\`${cds.daily}\``, true)
 		.addField('weekly', isDonor ? `\`${cds.weekly}\`` : '❌ Patreon only', true)

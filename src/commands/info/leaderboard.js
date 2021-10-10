@@ -105,7 +105,7 @@ exports.command = {
 
 		const embedLeader = new app.Embed()
 			.setTitle('Server Leaderboard')
-			.setColor(13451564)
+			.setColor('#9449d6')
 			.setFooter(`Top ${leaders.length}`)
 
 		if (leaders.length) {
