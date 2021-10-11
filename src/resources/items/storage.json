@@ -128,7 +128,7 @@
         "inv_slots": 55,
         "icon": "<:coffin_box:758292645666881536>",
         "breaksOnUse": "",
-        "canBeStolen": false,
+        "canBeStolen": true,
         "cooldown": "",
         "artist": "",
         "category": "Storage",
