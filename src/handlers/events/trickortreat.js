@@ -3,7 +3,7 @@ const SUCCESS_QUOTES = ['{user} received {reward}', '{user} was given {reward}']
 
 module.exports = {
 	name: 'trickortreat',
-	cooldown: 300 * 1000,
+	cooldown: 600 * 1000,
 
 	async execute (app, message, { prefix, serverSideGuildId, eventPingRole }) {
 		console.log('[EVENT] Halloween event started')

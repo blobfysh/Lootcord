@@ -25,6 +25,9 @@ class EventHandler {
 		else if (rand <= 0.4) {
 			event = this.events.get('trickortreatrare')
 		}
+		else if (rand <= 0.7) {
+			event = this.events.get('mummyattack')
+		}
 		else {
 			// common event
 			event = this.events.get('trickortreat')
