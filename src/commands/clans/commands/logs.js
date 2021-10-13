@@ -79,7 +79,7 @@ function generatePages (app, logs, clanName) {
 		const logsEmbed = new app.Embed()
 			.setAuthor(clanName, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
 			.setTitle('Logs (Newest to Oldest)')
-			.setColor(13451564)
+			.setColor('#9449d6')
 
 		for (const log of selectedLogs) {
 			logsEmbed.addField(app.common.getShortDate(log.logTime), `\`\`\`\n${log.details}\`\`\``)

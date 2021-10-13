@@ -80,7 +80,7 @@ const makeProfile = exports.makeProfile = async function makeProfile (app, user,
 		}
 
 		const profileEmbed = new app.Embed()
-			.setColor(13451564)
+			.setColor('#9449d6')
 			.setTitle(`${user.username}#${user.discriminator}'s Profile`)
 			.setThumbnail(app.common.getAvatar(user))
 			.setDescription(`${userStatus}\n\n` +

@@ -346,7 +346,7 @@
             "skull"
         ],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "coal": {

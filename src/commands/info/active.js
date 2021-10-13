@@ -100,7 +100,7 @@ function getEmbedPage (app, guildUserList, guildClanList, pageNum, perPage) {
 	const indexLast = perPage * pageNum
 
 	const newEmbed = new app.Embed()
-		.setColor(13451564)
+		.setColor('#9449d6')
 		.addField(`**Active Players** (${guildUserList.length})`, guildUserList.map((user, index) => `${index + 1}. **${user}**`).slice(indexFirst, indexLast).join('\n'))
 
 	if (guildClanList.length) newEmbed.addField(`**Active Clans** (${guildClanList.length})`, guildClanList.map((clan, index) => `${index + 1}. \`${clan}\``).slice(indexFirst, indexLast).join('\n') || '\u200b')

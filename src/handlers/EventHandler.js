@@ -15,13 +15,22 @@ class EventHandler {
 		const rand = Math.random()
 		let event
 
-		if (rand <= 0.15) {
+		if (rand <= 0.1) {
 			// rare event
 			event = this.events.get('airdrop')
 		}
+		else if (rand <= 0.25) {
+			event = this.events.get('exploration')
+		}
+		else if (rand <= 0.4) {
+			event = this.events.get('trickortreatrare')
+		}
+		else if (rand <= 0.7) {
+			event = this.events.get('mummyattack')
+		}
 		else {
 			// common event
-			event = this.events.get('exploration')
+			event = this.events.get('trickortreat')
 		}
 
 		// prevent further events from happening based on cooldown of current event

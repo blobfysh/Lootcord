@@ -6,10 +6,11 @@ class Monsters {
 
 	async initSpawn (channelId) {
 		const activeMob = await this.app.mysql.select('spawns', 'channelId', channelId)
-		if (activeMob && this.mobdata[activeMob.monster]) {
+		const activeMobRemaining = await this.app.cd.getCD(channelId, 'mob')
+		if (activeMob && activeMobRemaining && this.mobdata[activeMob.monster]) {
 			return false
 		}
-		else if (activeMob) {
+		else if (activeMob || activeMobRemaining) {
 			// monster was removed from mobdata, need to restart the spawning process
 			await this.app.query('DELETE FROM spawnsdamage WHERE channelId = ?', [channelId])
 			await this.app.query('DELETE FROM spawns WHERE channelId = ?', [channelId])
@@ -29,7 +30,7 @@ class Monsters {
 			const spawnInfo = await this.app.mysql.select('spawnchannels', 'channelId', channelId)
 			if (!spawnInfo) throw new Error('No spawn channel.')
 
-			if (!await this.app.patreonHandler.isPatron(spawnInfo.userId) && !this.app.sets.adminUsers.has(spawnInfo.userId)) throw new Error('User is not a patron.')
+			// if (!await this.app.patreonHandler.isPatron(spawnInfo.userId) && !this.app.sets.adminUsers.has(spawnInfo.userId)) throw new Error('User is not a patron.')
 
 			const randMoney = Math.floor(Math.random() * (this.mobdata[monster].maxMoney - this.mobdata[monster].minMoney + 1)) + this.mobdata[monster].minMoney
 
@@ -92,7 +93,7 @@ class Monsters {
 		const mobEmbed = new this.app.Embed()
 			.setTitle(monster.title)
 			.setDescription(`Attack with \`${guildPrefix}use <weapon> ${monster.title.toLowerCase()}\`\n\nYou have \`${remaining}\` to defeat ${monster.mentioned} before ${monster.pronoun} leaves the server.${monster.special !== '' ? `\n\n**Special:** ${monster.special}` : ''}`)
-			.setColor(13451564)
+			.setColor('#9449d6')
 			.addField('Health', healthStr, true)
 			.addField('Balance', this.app.common.formatNumber(money), true)
 			.addField('Damage', `${monster.weapon.icon}\`${monster.weapon.name}\` ${monster.minDamage} - ${monster.maxDamage}`, true)
@@ -119,7 +120,7 @@ class Monsters {
 		const mobEmbed = new this.app.Embed()
 			.setTitle(`${monster.mentioned.charAt(0).toUpperCase() + monster.mentioned.slice(1)} left...`)
 			.setDescription(`Nobody defeated ${monster.mentioned}!`)
-			.setColor(13451564)
+			.setColor('#9449d6')
 			.setImage(monster.leftImage)
 
 		return mobEmbed
