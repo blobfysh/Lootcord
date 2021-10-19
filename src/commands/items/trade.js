@@ -14,7 +14,7 @@ exports.command = {
 	requiresAcc: true,
 	requiresActive: true,
 	guildModsOnly: false,
-	levelReq: 3,
+	levelReq: 1,
 
 	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const user = app.parse.members(message, args)[0]
@@ -51,9 +51,6 @@ exports.command = {
 		}
 		else if (!await app.player.isActive(user.id, message.channel.guild.id)) {
 			return reply(message, `❌ **${user.nick || user.username}** has not activated their account in this server.`)
-		}
-		else if (victimRow.level < this.levelReq) {
-			return reply(message, `❌ **${user.nick || user.username}** is not level 3. The target player must be at least level 3.`)
 		}
 		else if (await app.cd.getCD(user.id, 'blinded', { serverSideGuildId })) {
 			return reply(message, `❌ **${user.nick || user.username}** is blinded by a ${app.itemdata['40mm_smoke_grenade'].icon}\`40mm_smoke_grenade\`!`)
