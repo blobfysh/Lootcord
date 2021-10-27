@@ -3,7 +3,6 @@ const { reply } = require('../../utils/messageUtils')
 
 const resetData = {
 	money: 100,
-	backpack: '"none"',
 	clanId: 0,
 	badge: '"none"',
 	inv_slots: 0,
@@ -11,7 +10,6 @@ const resetData = {
 	maxHealth: 100,
 	bleed: 0,
 	burn: 0,
-	banner: '"recruit"',
 	scaledDamage: 1.00,
 	luck: 0,
 	used_stats: 0,
@@ -37,7 +35,7 @@ exports.command = {
 
 	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const botMessage = await reply(message, {
-			content: 'Are you sure you want to wipe everyone in the server? Cooldowns will remain unaffected.',
+			content: 'Are you sure you want to wipe everyone in the server? Cooldowns will remain unaffected. Limited event items will remain unaffected (such as halloween items).',
 			components: BUTTONS.confirmation
 		})
 
@@ -45,9 +43,15 @@ exports.command = {
 			const result = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
 			if (result.customID === 'confirmed') {
+				const specialBanners = Object.keys(app.itemdata).filter(i => app.itemdata[i].isSpecial && app.itemdata[i].category === 'Banner')
+				const specialStorage = Object.keys(app.itemdata).filter(i => app.itemdata[i].isSpecial && app.itemdata[i].category === 'Storage')
+				const specialItems = Object.keys(app.itemdata).filter(i => app.itemdata[i].isSpecial)
+
 				// server-side economies
 				await app.query(`UPDATE server_scores SET ${Object.keys(resetData).map(key => `${key} = ${resetData[key]}`).join(', ')} WHERE guildId = ?`, [serverSideGuildId])
-				await app.query('DELETE FROM server_user_items WHERE guildId = ?', [serverSideGuildId])
+				await app.query(`UPDATE server_scores SET banner = 'recruit' WHERE guildId = ? AND banner NOT IN (${specialBanners.map(i => `'${i}'`).join(', ')})`, [serverSideGuildId])
+				await app.query(`UPDATE server_scores SET backpack = 'none' WHERE guildId = ? AND backpack NOT IN (${specialStorage.map(i => `'${i}'`).join(', ')})`, [serverSideGuildId])
+				await app.query(`DELETE FROM server_user_items WHERE guildId = ? AND item NOT IN (${specialItems.map(i => `'${i}'`).join(', ')})`, [serverSideGuildId])
 				await app.query('DELETE FROM server_stats WHERE guildId = ?', [serverSideGuildId])
 				await app.query('DELETE FROM server_badges WHERE guildId = ?', [serverSideGuildId])
 
