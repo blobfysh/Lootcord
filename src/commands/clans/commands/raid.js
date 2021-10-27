@@ -65,13 +65,15 @@ exports.command = {
 				const victimItems = await app.clans.getItemObjectForUpdate(transaction.query, clanRow.clanId, serverSideGuildId)
 
 				const raiderClanData = await app.clans.getClanData(raiderRow, raiderItems, serverSideGuildId)
-				const itemsToSteal = raiderClanData.vaultSlots - raiderClanData.itemCount
+				const victimClanData = await app.clans.getClanData(victimRow, victimItems, serverSideGuildId)
+				const maxItemsCanSteal = raiderClanData.vaultSlots - raiderClanData.itemCount
+				const itemsToSteal = Math.min(maxItemsCanSteal, Math.ceil(victimClanData.itemCount / 2))
 				const moneyToSteal = Math.max(0, CLANS.levels[raiderRow.level].bankLimit - raiderRow.money)
-				const moneyStolen = Math.min(victimRow.money, moneyToSteal)
+				const moneyStolen = Math.min(Math.floor(victimRow.money * 0.75), moneyToSteal)
 				let itemsStolen
 				let itemsStolenDisplay
 
-				if (itemsToSteal <= 0 && moneyToSteal === 0) {
+				if (maxItemsCanSteal <= 0 && moneyToSteal === 0) {
 					await transaction.commit()
 
 					const raidedEmbed = new app.Embed()
@@ -86,7 +88,7 @@ exports.command = {
 					return
 				}
 
-				if (itemsToSteal > 0) {
+				if (maxItemsCanSteal > 0) {
 					itemsStolen = await app.itm.getRandomUserItems(victimItems, itemsToSteal)
 
 					if (itemsStolen.items.length !== 0 && itemsStolen.display.length > 17) {
