@@ -159,6 +159,19 @@ exports.command = {
 						await app.common.messageUser(user.userId, raidedEmb)
 					}
 				}
+
+				if (!serverSideGuildId) {
+					const raidLogEmbed = new app.Embed()
+						.setTitle('Clan Raid')
+						.addField('Raider', `${message.author.username}#${message.author.discriminator} ID:\n\`\`\`\n${message.author.id}\`\`\``)
+						.addField('Raider Clan', `${raiderRow.name} ID: \`\`\`\n${raiderRow.clanId}\`\`\``)
+						.addField('Victim Clan', `${victimRow.name} ID: \`\`\`\n${victimRow.clanId}\`\`\``)
+						.addField('Scrap Stolen', app.common.formatNumber(moneyStolen))
+						.addField(`Items (${itemsStolen ? itemsStolen.items.length : 0})`, itemsStolenDisplay)
+						.setColor(15083840)
+
+					app.messager.messageLogs(raidLogEmbed)
+				}
 			}
 		}
 		catch (err) {
