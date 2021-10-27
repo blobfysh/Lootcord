@@ -67,7 +67,7 @@ exports.command = {
 				const raiderClanData = await app.clans.getClanData(raiderRow, raiderItems, serverSideGuildId)
 				const victimClanData = await app.clans.getClanData(victimRow, victimItems, serverSideGuildId)
 				const maxItemsCanSteal = raiderClanData.vaultSlots - raiderClanData.itemCount
-				const itemsToSteal = Math.min(maxItemsCanSteal, Math.ceil(victimClanData.itemCount / 2))
+				const itemsToSteal = Math.min(maxItemsCanSteal, Math.ceil(victimClanData.vaultSlots / 2))
 				const moneyToSteal = Math.max(0, CLANS.levels[raiderRow.level].bankLimit - raiderRow.money)
 				const moneyStolen = Math.min(Math.floor(victimRow.money * 0.75), moneyToSteal)
 				let itemsStolen
