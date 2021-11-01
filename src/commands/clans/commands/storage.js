@@ -61,7 +61,7 @@ async function generatePages (app, clanId, serverSideGuildId) {
 		const indexLast = ITEMS_PER_PAGE * i
 
 		const embedInfo = new app.Embed({ maxFieldWidth: 2 })
-			.setColor('#9449d6')
+			.setColor(13451564)
 			.setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
 			.setTitle('Clan Storage')
 

@@ -56,7 +56,7 @@ async function getClanInfo (app, message, clanId, serverSideGuildId) {
 	const raidedCD = await app.cd.getCD(clanId, 'raided', { serverSideGuildId })
 
 	const baseEmbed = new app.Embed()
-	baseEmbed.setColor('#9449d6')
+	baseEmbed.setColor(13451564)
 	baseEmbed.setAuthor(clanRow.name, 'https://cdn.discordapp.com/attachments/497302646521069570/695319745003520110/clan-icon-zoomed-out.png')
 	baseEmbed.setTitle('Info')
 	baseEmbed.setDescription(clanRow.status !== '' ? clanRow.status : 'This clan is too mysterious for a status...')

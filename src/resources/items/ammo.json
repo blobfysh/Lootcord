@@ -57,36 +57,6 @@
         "aliases": [],
         "tier": 0
     },
-	"fire_arrow": {
-        "damage": 18,
-        "minDmg": "",
-        "maxDmg": "",
-        "ammo": "",
-        "craftedWith": {
-            "xpReward": 15,
-            "level": 5,
-            "materials": [
-                "wood|1",
-                "low_grade_fuel|1"
-            ]
-        },
-        "recyclesTo": {
-            "materials": []
-        },
-        "buy": "",
-        "sell": 4203,
-        "desc": "",
-        "image": "https://cdn.discordapp.com/attachments/842856697885884416/896968486759313479/fire_arrow.png",
-        "icon": "<:fire_arrow:896970012659695647>",
-        "breaksOnUse": "",
-        "canBeStolen": true,
-        "cooldown": "",
-        "artist": "",
-        "category": "Ammo",
-        "aliases": [],
-        "tier": 1,
-        "burn": 6
-    },
     "pistol_bullet": {
         "damage": 15,
         "minDmg": "",

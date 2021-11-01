@@ -176,10 +176,7 @@
         "recyclesTo": {
             "materials": []
         },
-        "buy": {
-            "amount": 600000,
-            "currency": "money"
-        },
+        "buy": "",
         "sell": "",
         "desc": "Very spooky banner...\nEquip this to give your profile a fresh new look!",
         "image": "https://cdn.discordapp.com/attachments/497302646521069570/631885680175480852/batbanner.png",
@@ -192,7 +189,7 @@
         "category": "Banner",
         "aliases": [],
         "tier": 0,
-        "isHidden": false,
+        "isHidden": true,
         "isSpecial": true
     },
     "sheriff": {

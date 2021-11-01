@@ -23,7 +23,7 @@ async function start (app, channel, roleId) {
 	const startedEmbed = new app.Embed()
 		.setDescription(`**A ${app.itemdata[reward].icon}\`${reward}\` has arrived!**\n\nThe first person to guess the 4-digit code gets it!`)
 		.setImage(app.itemdata[reward].image)
-		.setColor('#9449d6')
+		.setColor(13451564)
 		.setFooter('You have 10 minutes to guess the code.')
 
 	try {
