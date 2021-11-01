@@ -32,7 +32,7 @@ const ITEM_TYPES = {
 const CLANS = {
 	levels: {
 		1: {
-			itemLimit: 3,
+			itemLimit: 5,
 			bankLimit: 50000,
 			maxHealth: 50,
 			upkeep: 1000,
@@ -44,7 +44,7 @@ const CLANS = {
 			image: 'https://cdn.discordapp.com/attachments/610502203672756295/843342638681423902/base_twig_level1.png'
 		},
 		2: {
-			itemLimit: 5,
+			itemLimit: 10,
 			bankLimit: 150000,
 			maxHealth: 75,
 			upkeep: 5000,
@@ -62,7 +62,7 @@ const CLANS = {
 			}
 		},
 		3: {
-			itemLimit: 10,
+			itemLimit: 20,
 			bankLimit: 300000,
 			maxHealth: 100,
 			upkeep: 10000,
@@ -80,7 +80,7 @@ const CLANS = {
 			}
 		},
 		4: {
-			itemLimit: 20,
+			itemLimit: 40,
 			bankLimit: 1000000,
 			maxHealth: 200,
 			upkeep: 20000,
@@ -98,7 +98,7 @@ const CLANS = {
 			}
 		},
 		5: {
-			itemLimit: 40,
+			itemLimit: 60,
 			bankLimit: 2000000,
 			maxHealth: 300,
 			upkeep: 50000,
