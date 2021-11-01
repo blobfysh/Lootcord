@@ -92,7 +92,7 @@ exports.command = {
 			await app.itm.addItemSafely(transaction.query, message.author.id, itemName, itemAmnt, serverSideGuildId)
 			await transaction.commit()
 
-			await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} withdrew ${itemAmnt}x ${itemName}`)
+			await app.clans.addLog(scoreRow.clanId, `${`${message.author.username}#${message.author.discriminator}`} withdrew ${itemAmnt}x ${itemName}`, serverSideGuildId)
 
 			await reply(message, `Withdrew ${itemAmnt}x ${app.itemdata[itemName].icon}\`${itemName}\` from your clan.\n\nThe clan storage now has **${clanItems[itemName] - itemAmnt}x** ${app.itemdata[itemName].icon}\`${itemName}\`.`)
 		}
