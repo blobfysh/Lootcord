@@ -25,14 +25,14 @@ exports.command = {
 			if (cmd.aliases.length && cmd.aliases[0].length) embed.addField('Aliases', cmd.aliases.map(alias => `\`${alias}\``).join(', '))
 			embed.addField('Usage', `\`${getUsage(prefix, cmd)}\``)
 			if (Object.keys(cmd.args).length) embed.addField('Options', getOptions(cmd))
-			embed.setColor('#9449d6')
+			embed.setColor(13451564)
 
 			return message.channel.createMessage(embed)
 		}
 
 		const helpEmbed = new app.Embed()
 			.setTitle('Clan Help')
-			.setColor('#9449d6')
+			.setColor(13451564)
 			.setDescription(`Check out this [guide](https://lootcord.com/guides/clans) on how to use clans.\nTo use a clan command: \`${prefix}clan <command>\`` +
 				`\n\n${app.clanCommands.map(cmd => `\`${prefix}clan ${cmd.name}\` - ${cmd.description}${cmd.levelReq ? ` (Lvl Required: ${cmd.levelReq}+)` : ''}`).join('\n')}`)
 			.setFooter(`To see more about a clan command, use ${prefix}clan help <command>`)

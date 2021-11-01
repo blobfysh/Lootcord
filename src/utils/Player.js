@@ -375,8 +375,8 @@ class Player {
 	async getLevelImage (playerImage, level) {
 		const WIDTH = 108
 		const HEIGHT = 128
-		const image = await Canvas.loadImage('src/resources/images/LvlUpHalloween.png')
-		const overlay = await Canvas.loadImage('src/resources/images/LvlUpHalloweenOverlay.png')
+		const image = await Canvas.loadImage('src/resources/images/LvlUp2.png')
+		// const overlay = await Canvas.loadImage('src/resources/images/LvlUpChristmasOverlay.png')
 		const avatar = await Canvas.loadImage(playerImage)
 		const canvas = Canvas.createCanvas(WIDTH, HEIGHT)
 		const ctx = canvas.getContext('2d')
@@ -387,16 +387,17 @@ class Player {
 		// avatar
 		ctx.drawImage(avatar, 22, 16, 64, 64)
 
-		// overlay
+		/* overlay
 		ctx.drawImage(overlay, 0, 0, WIDTH, HEIGHT)
+		*/
 
 		// text
-		ctx.fillStyle = '#282828'
+		ctx.fillStyle = '#E8E8E8'
 		ctx.font = '45px Bebas Neue'
-		ctx.lineWidth = 3
-		ctx.strokeStyle = '#CCCCCC'
 		ctx.textAlign = 'center'
-		ctx.strokeText(`LVL ${level}`, WIDTH / 2, 120)
+		// ctx.lineWidth = 3
+		// ctx.strokeStyle = '#161616'
+		// ctx.strokeText(`LVL ${level}`, WIDTH / 2, 120)
 		ctx.fillText(`LVL ${level}`, WIDTH / 2, 120)
 
 		return canvas.toBuffer()

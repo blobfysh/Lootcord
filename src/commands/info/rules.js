@@ -24,7 +24,7 @@ exports.command = {
 		const ruleInfo = new app.Embed()
 			.setTitle('Official Lootcord Bot Rules')
 			.setDescription(rules.map((rule, i) => `${i + 1}. ${rule}`).join('\n\n'))
-			.setColor('#9449d6')
+			.setColor(13451564)
 			.setFooter('Rules subject to change.')
 
 		message.channel.createMessage(ruleInfo)

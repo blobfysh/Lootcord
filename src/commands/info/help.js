@@ -36,7 +36,7 @@ exports.command = {
 			if (cmd.aliases.length && cmd.aliases[0].length) embed.addField('Aliases', cmd.aliases.map(alias => `\`${alias}\``).join(', '))
 			embed.addField('Usage', `\`${getUsage(prefix, cmd)}\``)
 			if (Object.keys(cmd.args).length) embed.addField('Options', getOptions(cmd))
-			embed.setColor('#9449d6')
+			embed.setColor(13451564)
 
 			return message.channel.createMessage(embed)
 		}
@@ -63,8 +63,7 @@ exports.command = {
 			timeZone: 'America/New_York'
 		}))
 		const todaysMonth = converted.getMonth()
-		let description = '🎃 **It\'s Halloween! Use the `daily` command to collect candy bags! Fight spooky monsters with `enablespawns` and look out for new events!**' +
-			'\n\n**[Help keep the bot running and get rewards!](https://www.patreon.com/bePatron?u=14199989)**'
+		let description = '**[Help keep the bot running and get rewards!](https://www.patreon.com/bePatron?u=14199989)**'
 
 		if (serverSideGuildId) {
 			description += '\n*Server-side economy enabled*'
@@ -75,7 +74,7 @@ exports.command = {
 		const embed = new app.Embed()
 			.setAuthor('Lootcord Commands', message.author.avatarURL)
 			.setFooter(`To see more about a command, use ${prefix}help <command>`)
-			.setColor('#9449d6')
+			.setColor(13451564)
 
 		if (!serverSideGuildId && todaysMonth !== converted.getMonth()) {
 			const daysUntilWipe = 10 - converted.getDate()

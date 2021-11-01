@@ -63,6 +63,144 @@
             "seconds": 18000
         }
     },
+    "lr_scientist": {
+        "title": "Scientist",
+        "mentioned": "the **Scientist**",
+        "artist": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733807895447076885/lr300_scientist.png",
+        "leftImage": "https://cdn.discordapp.com/attachments/732785161661317224/733807916037046364/lr300_scientist_left.png",
+        "pronoun": "he",
+        "special": "",
+        "health": 100,
+        "minDamage": 21,
+        "maxDamage": 30,
+        "minMoney": 17000,
+        "maxMoney": 40000,
+        "canBurn": true,
+        "canBleed": true,
+        "xp": 80,
+        "weapon": {
+            "name": "lr-300",
+            "icon": "<:lr300:732853687222927400>"
+        },
+        "ammo": "rifle_bullet",
+        "loot": {
+            "main": {
+                "30": {
+                    "items": [
+                        "custom_smg|1",
+                        "semi_rifle|1",
+                        "thompson|1"
+                    ]
+                },
+                "65": {
+                    "items": [
+                        "semi_pistol|1",
+                        "revolver|1"
+                    ]
+                },
+                "5": {
+                    "items": [
+                        "lr-300|1"
+                    ]
+                }
+            },
+            "extras": {
+                "70": {
+                    "items": [
+                        "cloth|1",
+                        "wood|1",
+                        "semi_body|1",
+                        "pickaxe|1"
+                    ]
+                },
+                "25": {
+                    "items": [
+                        "f1_grenade|1",
+                        "12g_buckshot|1"
+                    ]
+                },
+                "5": {
+                    "items": [
+                        "rifle_bullet|1",
+                        "pistol_bullet|1"
+                    ]
+                }
+            }
+        },
+        "staysFor": {
+            "seconds": 18000
+        }
+    },
+    "scientist": {
+        "title": "Scientist",
+        "mentioned": "the **Scientist**",
+        "artist": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733788547940614144/mp5_scientist.png",
+        "leftImage": "https://cdn.discordapp.com/attachments/732785161661317224/733788552021934120/mp5_scientist_left.png",
+        "pronoun": "he",
+        "special": "",
+        "health": 100,
+        "minDamage": 27,
+        "maxDamage": 33,
+        "minMoney": 22000,
+        "maxMoney": 40000,
+        "canBurn": true,
+        "canBleed": true,
+        "xp": 85,
+        "weapon": {
+            "name": "mp5",
+            "icon": "<:mp5:732853715966623794>"
+        },
+        "ammo": "pistol_bullet",
+        "loot": {
+            "main": {
+                "35": {
+                    "items": [
+                        "custom_smg|1",
+                        "semi_rifle|1",
+                        "thompson|1"
+                    ]
+                },
+                "60": {
+                    "items": [
+                        "semi_pistol|1",
+                        "revolver|1"
+                    ]
+                },
+                "5": {
+                    "items": [
+                        "mp5|1"
+                    ]
+                }
+            },
+            "extras": {
+                "70": {
+                    "items": [
+                        "cloth|1",
+                        "wood|1",
+                        "semi_body|1",
+                        "pickaxe|1"
+                    ]
+                },
+                "25": {
+                    "items": [
+                        "f1_grenade|1",
+                        "12g_buckshot|1"
+                    ]
+                },
+                "5": {
+                    "items": [
+                        "rifle_bullet|1",
+                        "pistol_bullet|1"
+                    ]
+                }
+            }
+        },
+        "staysFor": {
+            "seconds": 18000
+        }
+    },
 	"m92_tunnel_dweller": {
         "title": "Tunnel Dweller",
         "mentioned": "the **Tunnel Dweller**",
@@ -129,260 +267,283 @@
             "seconds": 18000
         }
     },
-    "knife_mummy": {
-        "title": "Mummy",
-        "mentioned": "the **Mummy**",
+	"m39_tunnel_dweller": {
+        "title": "Tunnel Dweller",
+        "mentioned": "the **Tunnel Dweller**",
         "artist": "",
-        "image": "https://cdn.discordapp.com/attachments/750103329257816085/760502364791767060/knife_mummy.png",
-        "leftImage": "https://cdn.discordapp.com/attachments/750103329257816085/760502364791767060/knife_mummy.png",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/843530025999401060/m39_tunnel_dweller.png",
+        "leftImage": "https://cdn.discordapp.com/attachments/497302646521069570/843530025999401060/m39_tunnel_dweller.png",
         "pronoun": "he",
         "special": "",
-        "health": 150,
-        "minDamage": 12,
-        "maxDamage": 20,
-        "minMoney": 11000,
-        "maxMoney": 27000,
-        "canBurn": true,
-        "canBleed": true,
-        "xp": 150,
-        "weapon": {
-            "name": "butcher_knife",
-            "icon": "<:butcher_knife:758296100133142559>"
-        },
-        "ammo": "",
-        "loot": {
-            "main": {
-                "15": {
-                    "items": [
-                        "mummy_suit|1"
-                    ]
-                },
-                "85": {
-                    "items": [
-                        "butcher_knife|1",
-                        "human_skull|1",
-                        "machete|1",
-                        "candy_bar|1",
-                        "corn|1",
-                        "f1_grenade|1"
-                    ]
-                }
-            },
-            "extras": {
-                "100": {
-                    "items": [
-                        "small_loot_bag|1"
-                    ]
-                }
-            }
-        },
-        "staysFor": {
-            "seconds": 18000
-        }
-    },
-    "sickle_mummy": {
-        "title": "Mummy",
-        "mentioned": "the **Mummy**",
-        "artist": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/758460752284614676/sickle_mummy2.png",
-        "leftImage": "https://cdn.discordapp.com/attachments/497302646521069570/758460752284614676/sickle_mummy2.png",
-        "pronoun": "he",
-        "special": "",
-        "health": 150,
-        "minDamage": 15,
-        "maxDamage": 24,
-        "minMoney": 11000,
-        "maxMoney": 27000,
-        "canBurn": true,
-        "canBleed": true,
-        "xp": 150,
-        "weapon": {
-            "name": "sickle",
-            "icon": "<:sickle:734410650461405285>"
-        },
-        "ammo": "",
-        "loot": {
-            "main": {
-                "15": {
-                    "items": [
-                        "mummy_suit|1"
-                    ]
-                },
-                "85": {
-                    "items": [
-                        "sickle|1",
-                        "human_skull|1",
-                        "machete|1",
-                        "candy_bar|1",
-                        "corn|1",
-                        "f1_grenade|1"
-                    ]
-                }
-            },
-            "extras": {
-                "100": {
-                    "items": [
-                        "small_loot_bag|1"
-                    ]
-                }
-            }
-        },
-        "staysFor": {
-            "seconds": 18000
-        }
-    },
-    "sickle_mummy2": {
-        "title": "Mummy",
-        "mentioned": "the **Mummy**",
-        "artist": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/758472498508595210/sickle_mummy.png",
-        "leftImage": "https://cdn.discordapp.com/attachments/497302646521069570/758472498508595210/sickle_mummy.png",
-        "pronoun": "he",
-        "special": "",
-        "health": 150,
-        "minDamage": 16,
-        "maxDamage": 23,
-        "minMoney": 11000,
-        "maxMoney": 27000,
-        "canBurn": true,
-        "canBleed": true,
-        "xp": 150,
-        "weapon": {
-            "name": "sickle",
-            "icon": "<:sickle:734410650461405285>"
-        },
-        "ammo": "",
-        "loot": {
-            "main": {
-                "15": {
-                    "items": [
-                        "mummy_suit|1"
-                    ]
-                },
-                "85": {
-                    "items": [
-                        "sickle|1",
-                        "human_skull|1",
-                        "machete|1",
-                        "candy_bar|1",
-                        "corn|1",
-                        "f1_grenade|1"
-                    ]
-                }
-            },
-            "extras": {
-                "100": {
-                    "items": [
-                        "small_loot_bag|1"
-                    ]
-                }
-            }
-        },
-        "staysFor": {
-            "seconds": 18000
-        }
-    },
-    "pitchfork_mummy": {
-        "title": "Mummy",
-        "mentioned": "the **Mummy**",
-        "artist": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/758495049524314133/pitchfork_mummy.png",
-        "leftImage": "https://cdn.discordapp.com/attachments/497302646521069570/758495049524314133/pitchfork_mummy.png",
-        "pronoun": "he",
-        "special": "",
-        "health": 150,
-        "minDamage": 21,
-        "maxDamage": 24,
-        "minMoney": 16000,
-        "maxMoney": 23000,
-        "canBurn": true,
-        "canBleed": true,
-        "xp": 50,
-        "weapon": {
-            "name": "pitchfork",
-            "icon": "<:pitchfork:758293300272431134>"
-        },
-        "ammo": "",
-        "loot": {
-            "main": {
-				"15": {
-                    "items": [
-                        "mummy_suit|1"
-                    ]
-                },
-                "85": {
-                    "items": [
-                        "pitchfork|1",
-                        "human_skull|1",
-                        "machete|1",
-                        "candy_bar|1",
-                        "corn|1",
-                        "f1_grenade|1"
-                    ]
-                }
-            },
-            "extras": {
-                "100": {
-                    "items": [
-                        "small_loot_bag|1"
-                    ]
-                }
-            }
-        },
-        "staysFor": {
-            "seconds": 18000
-        }
-    },
-    "chainsaw_scarecrow": {
-        "title": "Scarecrow",
-        "mentioned": "the **Scarecrow**",
-        "artist": "",
-        "image": "https://cdn.discordapp.com/attachments/497302646521069570/758472842618208276/chainsaw_scarecrow.png",
-        "leftImage": "https://cdn.discordapp.com/attachments/497302646521069570/758472842618208276/chainsaw_scarecrow.png",
-        "pronoun": "he",
-        "special": "",
-        "health": 150,
-        "minDamage": 25,
-        "maxDamage": 31,
-        "minMoney": 19000,
+        "health": 100,
+        "minDamage": 22,
+        "maxDamage": 27,
+        "minMoney": 14000,
         "maxMoney": 25000,
         "canBurn": true,
         "canBleed": true,
-        "xp": 50,
+        "xp": 75,
         "weapon": {
-            "name": "chainsaw",
-            "icon": "<:chainsaw:758295192150343742>"
+            "name": "m39_rifle",
+            "icon": "<:m39_rifle:843539216470376508>"
         },
-        "ammo": "",
+        "ammo": "rifle_bullet",
         "loot": {
             "main": {
-                "30": {
+                "40": {
                     "items": [
-                        "chainsaw|1",
-                        "scarecrow_suit|1"
+                        "custom_smg|1",
+                        "semi_rifle|1",
+                        "thompson|1",
+						"12g_buckshot|1"
                     ]
                 },
-                "70": {
+                "60": {
                     "items": [
-                        "sickle|1",
-                        "human_skull|1",
-                        "machete|1",
-                        "candy_bar|1",
-                        "corn|1",
-                        "f1_grenade|1"
+                        "semi_pistol|1",
+                        "rifle_bullet|1"
                     ]
                 }
             },
             "extras": {
-                "100": {
+                "50": {
                     "items": [
-                        "small_loot_bag|1"
+                        "cloth|1",
+                        "wood|1",
+                        "semi_body|1",
+                        "pickaxe|1",
+						"medical_syringe|1"
+                    ]
+                },
+                "35": {
+                    "items": [
+                        "f1_grenade|1",
+                        "12g_buckshot|1",
+						"pistol_bullet|1"
+                    ]
+                },
+                "15": {
+                    "items": [
+                        "rifle_bullet|1"
                     ]
                 }
             }
         },
         "staysFor": {
             "seconds": 18000
+        }
+    },
+    "heavy_scientist": {
+        "title": "Heavy Scientist",
+        "mentioned": "the **Heavy Scientist**",
+        "artist": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733788484988436521/m249_heavy_scientist.png",
+        "leftImage": "https://cdn.discordapp.com/attachments/732785161661317224/733788489635725322/m249_heavy_scientist_left.png",
+        "pronoun": "he",
+        "special": "",
+        "health": 200,
+        "minDamage": 32,
+        "maxDamage": 46,
+        "minMoney": 30000,
+        "maxMoney": 70000,
+        "canBurn": true,
+        "canBleed": true,
+        "xp": 70,
+        "weapon": {
+            "name": "m249",
+            "icon": "<:m249:732853728146882675>"
+        },
+        "ammo": "rifle_bullet",
+        "loot": {
+            "main": {
+                "15": {
+                    "items": [
+                        "40mm_he_grenade|1"
+                    ]
+                },
+                "30": {
+                    "items": [
+                        "mp5|1",
+                        "assault_rifle|1",
+                        "spas-12|1",
+                        "grenade_launcher|1",
+                        "40mm_smoke_grenade|1",
+                        "incen_pistol_bullet|1",
+                        "hv_pistol_bullet|1",
+						"m39_rifle|1"
+                    ]
+                },
+                "55": {
+                    "items": [
+                        "thompson|1",
+                        "custom_smg|1"
+                    ]
+                }
+            },
+            "extras": {
+                "70": {
+                    "items": [
+                        "cloth|1",
+                        "semi_body|1",
+                        "12g_slug|1",
+                        "pickaxe|1"
+                    ]
+                },
+                "25": {
+                    "items": [
+                        "f1_grenade|1",
+                        "12g_buckshot|1",
+                        "rifle_bullet|1",
+                        "pistol_bullet|1",
+                        "semi_rifle|1"
+                    ]
+                },
+                "5": {
+                    "items": [
+                        "custom_smg|1",
+                        "pump_shotgun|1"
+                    ]
+                }
+            }
+        },
+        "staysFor": {
+            "seconds": 28800
+        }
+    },
+    "patrol_helicopter": {
+        "title": "Patrol Helicopter",
+        "mentioned": "the **Patrol Helicopter**",
+        "artist": "",
+        "image": "https://cdn.discordapp.com/attachments/497302646521069570/758646986529308672/patrol_helicopter.png",
+        "leftImage": "https://cdn.discordapp.com/attachments/497302646521069570/758646986529308672/patrol_helicopter.png",
+        "pronoun": "it",
+        "special": "Immune to melee weapons!",
+        "health": 400,
+        "minDamage": 45,
+        "maxDamage": 64,
+        "minMoney": 140000,
+        "maxMoney": 175000,
+        "canBurn": true,
+        "canBleed": false,
+        "xp": 230,
+        "weapon": {
+            "name": "m249",
+            "icon": "<:m249:732853728146882675>"
+        },
+        "ammo": "rifle_bullet",
+        "loot": {
+            "main": {
+                "40": {
+                    "items": [
+                        "m249|1",
+                        "c4|1"
+                    ]
+                },
+                "60": {
+                    "items": [
+                        "rocket|1"
+                    ]
+                }
+            },
+            "extras": {
+                "75": {
+                    "items": [
+                        "assault_rifle|1",
+                        "thompson|1",
+                        "rifle_bullet|1",
+                        "large_medkit|1",
+                        "rocket_launcher|1",
+                        "m39_rifle|1",
+                        "medical_syringe|2",
+                        "high_quality_metal|1"
+                    ]
+                },
+                "15": {
+                    "items": [
+                        "hv_rifle_bullet|1",
+                        "incen_rifle_bullet|1",
+                        "incen_pistol_bullet|1",
+                        "hv_pistol_bullet|1"
+                    ]
+                },
+                "10": {
+                    "items": [
+                        "rocket|1",
+                        "explosive_bullet|1"
+                    ]
+                }
+            }
+        },
+        "staysFor": {
+            "seconds": 36000
+        }
+    },
+    "bradley": {
+        "title": "Bradley",
+        "mentioned": "**Bradley**",
+        "artist": "",
+        "image": "https://cdn.discordapp.com/attachments/732785161661317224/733788471705206905/bradley.png",
+        "leftImage": "https://cdn.discordapp.com/attachments/732785161661317224/733788474804535428/bradley_left.png",
+        "pronoun": "it",
+        "special": "",
+        "health": 600,
+        "minDamage": 27,
+        "maxDamage": 35,
+        "minMoney": 230000,
+        "maxMoney": 320000,
+        "canBurn": true,
+        "canBleed": false,
+        "xp": 240,
+        "weapon": {
+            "name": "rocket_launcher",
+            "icon": "<:rocket_launcher:732853816675926066>"
+        },
+        "ammo": "rocket",
+        "loot": {
+            "main": {
+                "55": {
+                    "items": [
+                        "m249|1",
+                        "c4|1"
+                    ]
+                },
+                "45": {
+                    "items": [
+                        "rocket|1"
+                    ]
+                }
+            },
+            "extras": {
+                "50": {
+                    "items": [
+                        "large_medkit|1",
+                        "hv_rifle_bullet|1",
+                        "incen_rifle_bullet|1",
+                        "thompson|1",
+                        "assault_rifle|1",
+                        "m39_rifle|1"
+                    ]
+                },
+                "35": {
+                    "items": [
+                        "bolt_rifle|1",
+                        "rocket_launcher|1",
+                        "incen_pistol_bullet|1",
+                        "hv_pistol_bullet|1",
+                        "high_quality_metal|1"
+                    ]
+                },
+                "15": {
+                    "items": [
+                        "supply_signal|1",
+                        "rocket|1",
+                        "explosive_bullet|1"
+                    ]
+                }
+            }
+        },
+        "staysFor": {
+            "seconds": 43200
         }
     }
 }

@@ -28,7 +28,7 @@ exports.command = {
 
 			const embedItem = new app.Embed()
 				.setTitle(`${itemInfo.icon} ${itemSearched}`)
-				.setColor('#9449d6')
+				.setColor(13451564)
 
 			if (itemInfo.isBanner) {
 				embedItem.setImage(itemInfo.image)
@@ -177,7 +177,7 @@ function generatePages (app, items, prefix) {
 		const indexLast = ITEMS_PER_PAGE * i
 
 		const embedInfo = new app.Embed()
-			.setColor('#9449d6')
+			.setColor(13451564)
 			.setTitle('Full Items List')
 			.setDescription(`Use \`${prefix}item <item>\` to retrieve more information!`)
 
