@@ -106,6 +106,7 @@
         "minDmg": 0,
         "maxDmg": 7,
         "ammo": [
+			"fire_arrow",
             "bone_arrow",
             "arrow"
         ],
@@ -582,6 +583,7 @@
         "minDmg": 6,
         "maxDmg": 21,
         "ammo": [
+			"fire_arrow",
             "bone_arrow",
             "arrow"
         ],
