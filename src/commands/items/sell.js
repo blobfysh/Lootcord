@@ -1,6 +1,8 @@
 const { BUTTONS } = require('../../resources/constants')
 const { reply } = require('../../utils/messageUtils')
 
+const active = new Set()
+
 exports.command = {
 	name: 'sell',
 	aliases: [],
@@ -18,7 +20,10 @@ exports.command = {
 		const sellItems = app.parse.items(args, 15)
 		const sellAmounts = app.parse.numbers(args)
 
-		if (sellItems.length > 1) {
+		if (active.has(message.author.id)) {
+			return reply(message, '❌ You already have a `sell` command active.')
+		}
+		else if (sellItems.length > 1) {
 			const userItems = await app.itm.getItemObject(message.author.id, serverSideGuildId)
 			let itemAmounts
 			let sellPrice = 0
@@ -45,6 +50,8 @@ exports.command = {
 
 				sellPrice += app.itemdata[itemAmnt[0]].sell * parseInt(itemAmnt[1])
 			}
+
+			active.add(message.author.id)
 
 			const botMessage = await reply(message, {
 				content: `Sell ${app.itm.getDisplay(itemAmounts).join(', ')} for ${app.common.formatNumber(sellPrice)}?`,
@@ -99,6 +106,9 @@ exports.command = {
 					components: []
 				})
 			}
+			finally {
+				active.delete(message.author.id)
+			}
 		}
 		else if (sellItems[0]) {
 			const sellItem = sellItems[0]
@@ -116,6 +126,8 @@ exports.command = {
 				if (sellAmount > 30) {
 					sellAmount = 30
 				}
+
+				active.add(message.author.id)
 
 				const botMessage = await reply(message, {
 					content: `Sell ${sellAmount}x ${app.itemdata[sellItem].icon}\`${sellItem}\` for ${app.common.formatNumber(itemPrice * sellAmount)}?`,
@@ -156,6 +168,9 @@ exports.command = {
 						content: '❌ Command timed out.',
 						components: []
 					})
+				}
+				finally {
+					active.delete(message.author.id)
 				}
 			}
 			else {

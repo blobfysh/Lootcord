@@ -1,6 +1,8 @@
 const { BUTTONS } = require('../../resources/constants')
 const { reply } = require('../../utils/messageUtils')
 
+const active = new Set()
+
 exports.command = {
 	name: 'recycle',
 	aliases: [],
@@ -18,7 +20,10 @@ exports.command = {
 		const sellItem = app.parse.items(args)[0]
 		let sellAmount = app.parse.numbers(args)[0] || 1
 
-		if (sellItem) {
+		if (active.has(message.author.id)) {
+			return reply(message, '❌ You already have a `recycle` command active.')
+		}
+		else if (sellItem) {
 			if (!app.itemdata[sellItem].recyclesTo.materials.length) {
 				return reply(message, 'That item cannot be recycled.')
 			}
@@ -32,6 +37,8 @@ exports.command = {
 				.setColor('#4CAD4C')
 				.setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/601373249753841665/recycle.png')
 				.setFooter(`You will need ${app.itm.getTotalItmCountFromList(itemMats) - sellAmount} open slots in your inventory to recycle this.`)
+
+			active.add(message.author.id)
 
 			const botMessage = await message.channel.createMessage({
 				content: `<@${message.author.id}>`,
@@ -94,6 +101,9 @@ exports.command = {
 					embed: errorEmbed.embed,
 					components: []
 				})
+			}
+			finally {
+				active.delete(message.author.id)
 			}
 		}
 		else {

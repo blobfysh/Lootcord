@@ -2,6 +2,8 @@ const shortid = require('shortid')
 const { reply } = require('../../utils/messageUtils')
 const { BUTTONS } = require('../../resources/constants')
 
+const active = new Set()
+
 exports.command = {
 	name: 'buy',
 	aliases: ['purchase'],
@@ -19,7 +21,10 @@ exports.command = {
 		let buyItem = app.parse.items(args)[0]
 		let buyAmount = app.parse.numbers(args)[0] || 1
 
-		if (buyItem) {
+		if (active.has(message.author.id)) {
+			return reply(message, '❌ You already have a `buy` command active.')
+		}
+		else if (buyItem) {
 			const sale = (await app.query('SELECT * FROM sales WHERE item = ?', buyItem))[0]
 			const itemPrice = sale ? sale.price : app.itemdata[buyItem].buy.amount
 
@@ -28,6 +33,8 @@ exports.command = {
 			}
 
 			if (buyAmount > 20) buyAmount = 20
+
+			active.add(message.author.id)
 
 			const botMessage = await message.channel.createMessage({
 				content: `Purchase ${buyAmount}x ${app.itemdata[buyItem].icon}\`${buyItem}\` for **${app.common.formatNumber(itemPrice * buyAmount)}**?`,
@@ -79,6 +86,9 @@ exports.command = {
 					components: []
 				})
 			}
+			finally {
+				active.delete(message.author.id)
+			}
 		}
 		else if (shortid.isValid(args[0]) && await app.bm.getListingInfo(args[0])) {
 			buyItem = args[0]
@@ -95,6 +105,8 @@ exports.command = {
 			else if ((await app.player.getRow(message.author.id)).bmLimit >= 10) {
 				return reply(message, '❌ You are limited to purchasing **10** black market listings a day. This limit helps prevent a single player from purchasing all items on the market.')
 			}
+
+			active.add(message.author.id)
 
 			const listInfo = await app.bm.getListingInfo(buyItem)
 			const botMessage = await message.channel.createMessage({
@@ -193,6 +205,9 @@ exports.command = {
 					content: '❌ Command timed out.',
 					components: []
 				})
+			}
+			finally {
+				active.delete(message.author.id)
 			}
 		}
 		else {

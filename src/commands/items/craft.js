@@ -1,6 +1,8 @@
 const { BUTTONS } = require('../../resources/constants')
 const { reply } = require('../../utils/messageUtils')
 
+const active = new Set()
+
 exports.command = {
 	name: 'craft',
 	aliases: [],
@@ -19,7 +21,10 @@ exports.command = {
 		const craftItem = app.parse.items(args)[0]
 		let craftAmount = app.parse.numbers(args)[0] || 1
 
-		if (craftItem) {
+		if (active.has(message.author.id)) {
+			return reply(message, '❌ You already have a `craft` command active.')
+		}
+		else if (craftItem) {
 			if (app.itemdata[craftItem].craftedWith === '') {
 				return reply(message, `${app.itemdata[craftItem].icon}\`${craftItem}\` cannot be crafted!`)
 			}
@@ -35,6 +40,8 @@ exports.command = {
 				.setDescription(`Craft **${craftAmount}x** ${app.itemdata[craftItem].icon}\`${craftItem}\` for:\n\n${app.itm.getDisplay(itemMats).join('\n')}`)
 				.setColor('#818181')
 				.setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/601372871301791755/craft.png')
+
+			active.add(message.author.id)
 
 			const botMessage = await message.channel.createMessage({
 				content: `<@${message.author.id}>`,
@@ -102,6 +109,9 @@ exports.command = {
 					embed: errorEmbed.embed,
 					components: []
 				})
+			}
+			finally {
+				active.delete(message.author.id)
 			}
 		}
 		else {
