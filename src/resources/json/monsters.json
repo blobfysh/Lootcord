@@ -39,10 +39,7 @@
             "extras": {
                 "70": {
                     "items": [
-                        "cloth|1",
-                        "wood|1",
-                        "semi_body|1",
-                        "pickaxe|1"
+                        "small_present|1"
                     ]
                 },
                 "25": {
@@ -108,10 +105,7 @@
             "extras": {
                 "70": {
                     "items": [
-                        "cloth|1",
-                        "wood|1",
-                        "semi_body|1",
-                        "pickaxe|1"
+                        "small_present|1"
                     ]
                 },
                 "25": {
@@ -177,10 +171,7 @@
             "extras": {
                 "70": {
                     "items": [
-                        "cloth|1",
-                        "wood|1",
-                        "semi_body|1",
-                        "pickaxe|1"
+                        "small_present|1"
                     ]
                 },
                 "25": {
@@ -242,11 +233,7 @@
             "extras": {
                 "50": {
                     "items": [
-                        "cloth|1",
-                        "wood|1",
-                        "semi_body|1",
-                        "pickaxe|1",
-						"medical_syringe|1"
+                        "small_present|1"
                     ]
                 },
                 "35": {
@@ -308,11 +295,7 @@
             "extras": {
                 "50": {
                     "items": [
-                        "cloth|1",
-                        "wood|1",
-                        "semi_body|1",
-                        "pickaxe|1",
-						"medical_syringe|1"
+                        "small_present|1"
                     ]
                 },
                 "35": {
@@ -383,10 +366,7 @@
             "extras": {
                 "70": {
                     "items": [
-                        "cloth|1",
-                        "semi_body|1",
-                        "12g_slug|1",
-                        "pickaxe|1"
+                        "small_present|1"
                     ]
                 },
                 "25": {
@@ -455,7 +435,7 @@
                         "rocket_launcher|1",
                         "m39_rifle|1",
                         "medical_syringe|2",
-                        "high_quality_metal|1"
+                        "medium_present|1"
                     ]
                 },
                 "15": {
@@ -519,7 +499,7 @@
                         "large_medkit|1",
                         "hv_rifle_bullet|1",
                         "incen_rifle_bullet|1",
-                        "thompson|1",
+                        "medium_present|1",
                         "assault_rifle|1",
                         "m39_rifle|1"
                     ]
