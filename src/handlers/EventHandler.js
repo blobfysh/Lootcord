@@ -19,7 +19,7 @@ class EventHandler {
 			// rare event
 			event = this.events.get('airdrop')
 		}
-		else if (rand <= 0.3) {
+		else if (rand <= 0.75) {
 			event = this.events.get('elfattack')
 		}
 		else {
