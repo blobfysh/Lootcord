@@ -14,10 +14,23 @@ exports.command = {
 	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		if (args[0] === 'g' || args[0] === 'global') {
 			const leaders = await getGlobalLB(app)
+			const presentRows = await app.query('SELECT userId, item, COUNT(item) AS amount FROM user_items WHERE item = \'large_present\' GROUP BY userId ORDER BY amount DESC LIMIT 5')
+			const presentLeaders = []
+
+			for (const row of presentRows) {
+				try {
+					const user = await app.common.fetchUser(row.userId, { cacheIPC: false })
+					presentLeaders.push(`${`${user.username}#${user.discriminator}`} - ${row.amount}x ${app.itemdata.large_present.icon}\`large_present\``)
+				}
+				catch (err) {
+					console.log(err)
+				}
+			}
 
 			const embedLeader = new app.Embed()
 				.setTitle('Global Leaderboard')
 				.setColor('#000000')
+				.addField('🎄 Most Large Presents 🎁', presentLeaders.length ? presentLeaders.map((r, i) => `${i + 1}. ${r}`).join('\n') : 'Nobody has any large presents')
 				.addField('Richest', leaders.moneyLB.join('\n'), true)
 				.addField('Level', leaders.levelLB.join('\n'))
 				.addField('Kills', leaders.killLB.join('\n'))
@@ -105,7 +118,7 @@ exports.command = {
 
 		const embedLeader = new app.Embed()
 			.setTitle('Server Leaderboard')
-			.setColor(13451564)
+			.setColor('#ADADAD')
 			.setFooter(`Top ${leaders.length}`)
 
 		if (leaders.length) {

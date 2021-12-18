@@ -370,7 +370,7 @@
         "category": "Resource",
         "aliases": [],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
 	"low_grade_fuel": {

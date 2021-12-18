@@ -38,7 +38,7 @@ function generatePages (app, badges, itemsPerPage) {
 			.setTitle('Badge List')
 			.setDescription('You can view the badges you own by checking your `profile`. You can set a display badge using `setbadge` to have it show next to your name on some commands.')
 			.setFooter('Use badge <badge> to see more information about a badge.')
-			.setColor(13451564)
+			.setColor('#ADADAD')
 
 		for (const badge of filteredBadges.sort()) {
 			pageEmbed.addField(`${app.badgedata[badge].icon}\`${badge}\``, app.badgedata[badge].description, true)
