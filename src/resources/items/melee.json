@@ -308,7 +308,7 @@
         "category": "Melee",
         "aliases": [],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "snowball": {
@@ -337,7 +337,7 @@
             "snow"
         ],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "butcher_knife": {

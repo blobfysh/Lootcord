@@ -741,7 +741,7 @@
             "stocking"
         ],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "gingerbread": {
@@ -769,7 +769,7 @@
         "category": "Item",
         "aliases": [],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "small_present": {
@@ -818,7 +818,7 @@
             "present"
         ],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "medium_present": {
@@ -859,7 +859,8 @@
                     "12g_buckshot|1",
                     "rifle_bullet|1",
                     "custom_smg|1",
-                    "semi_rifle|1"
+                    "semi_rifle|1",
+					"fire_arrow|1"
                 ]
             },
             "70": {
@@ -879,7 +880,7 @@
             "med_present"
         ],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "large_present": {
@@ -897,7 +898,7 @@
             "materials": []
         },
         "buy": "",
-        "sell": 20592,
+        "sell": 21592,
         "desc": "Unwrap it to see what's inside!\n**Christmas event item.**",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/784227939188342834/large_present.png",
         "icon": "<:large_present:784227884155273276>",
@@ -906,13 +907,19 @@
         "cooldown": "",
 		"dropsItems": 1,
         "rates": {
+			"5": {
+                "xp": 75,
+                "items": [
+                    "l96_rifle|1"
+                ]
+            },
             "10": {
                 "xp": 60,
                 "items": [
                     "m249|1"
                 ]
             },
-            "90": {
+            "85": {
                 "xp": 50,
                 "items": [
                     "explosive_bullet|1",
@@ -931,7 +938,7 @@
             "big_present"
         ],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "egg_basket": {
@@ -1065,8 +1072,8 @@
     "santa_hat": {
         "isShield": true,
         "shieldInfo": {
-            "seconds": 7200,
-            "protection": 0.2
+            "seconds": 28800,
+            "protection": 0.25
         },
         "minDmg": "",
         "maxDmg": "",
@@ -1076,8 +1083,8 @@
             "materials": []
         },
         "buy": "",
-        "sell": 5281,
-        "desc": "Equip this festive hat to reduce damage taken from attacks by **20%** for **2 hours**.",
+        "sell": 9281,
+        "desc": "Equip this festive hat to reduce damage taken from attacks by **25%** for **8 hours**.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/784486202346700800/santa_hat.png",
         "icon": "<:santa_hat:784486175149654087>",
         "breaksOnUse": "",
@@ -1087,7 +1094,7 @@
         "category": "Item",
         "aliases": [],
         "tier": 0,
-        "isHidden": true,
+        "isHidden": false,
         "isSpecial": true
     },
     "apple": {
