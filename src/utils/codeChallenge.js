@@ -30,7 +30,12 @@ async function start (app, channel, roleId) {
 		try {
 			await channel.createMessage({
 				content: roleId ? `<@&${roleId}>` : undefined,
-				embed: startedEmbed.embed
+				embed: startedEmbed.embed,
+				allowedMentions: {
+					everyone: false,
+					roles: true,
+					users: true
+				}
 			})
 		}
 		catch (err) {

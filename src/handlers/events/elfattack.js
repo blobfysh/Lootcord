@@ -15,7 +15,12 @@ module.exports = {
 		try {
 			const startedMessage = await message.channel.createMessage({
 				content: eventPingRole ? `<@&${eventPingRole}>` : undefined,
-				embed: exploreEmbed.embed
+				embed: exploreEmbed.embed,
+				allowedMentions: {
+					everyone: false,
+					roles: true,
+					users: true
+				}
 			})
 			const joined = {}
 
