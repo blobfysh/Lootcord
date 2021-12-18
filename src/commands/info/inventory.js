@@ -66,7 +66,7 @@ const generatePages = exports.generatePages = async function generatePages (app,
 
 			const embedInfo = new app.Embed()
 				.setTitle(`${isActive ? app.icons.accounts.active : app.icons.accounts.inactive} ${`${user.username}#${user.discriminator}`}'s Inventory`)
-				.setColor(13451564)
+				.setColor('#ADADAD')
 
 			if (armorLeft) {
 				embedInfo.addField(armor ? 'Armor' : '🛡️ Armor', armor ? `${app.itemdata[armor].icon}\`${armor}\` (\`${armorLeft}\`)` : `\`${armorLeft}\``)

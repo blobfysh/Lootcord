@@ -39,7 +39,7 @@ exports.command = {
 
 
 			const alts = new app.Embed()
-				.setColor(13451564)
+				.setColor('#ADADAD')
 				.setAuthor(`${userInfo.username}#${userInfo.discriminator}`)
 				.setTitle('Possible Alts')
 				.setThumbnail(app.common.getAvatar(userInfo))

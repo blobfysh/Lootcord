@@ -36,7 +36,7 @@ exports.command = {
 			if (cmd.aliases.length && cmd.aliases[0].length) embed.addField('Aliases', cmd.aliases.map(alias => `\`${alias}\``).join(', '))
 			embed.addField('Usage', `\`${getUsage(prefix, cmd)}\``)
 			if (Object.keys(cmd.args).length) embed.addField('Options', getOptions(cmd))
-			embed.setColor(13451564)
+			embed.setColor('#ADADAD')
 
 			return message.channel.createMessage(embed)
 		}
@@ -75,7 +75,7 @@ exports.command = {
 		const embed = new app.Embed()
 			.setAuthor('Lootcord Commands', message.author.avatarURL)
 			.setFooter(`To see more about a command, use ${prefix}help <command>`)
-			.setColor(13451564)
+			.setColor('#ADADAD')
 
 		if (!serverSideGuildId && todaysMonth !== converted.getMonth()) {
 			const daysUntilWipe = 10 - converted.getDate()

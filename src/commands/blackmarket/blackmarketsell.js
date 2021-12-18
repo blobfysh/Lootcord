@@ -63,7 +63,7 @@ exports.command = {
 				.addField('Item:', `${app.itemdata[itemName].icon}\`${itemName}\``, true)
 				.addField('Quantity:', itemAmnt, true)
 				.addField('Price:', `**${app.common.formatNumber(itemCost)}**`)
-				.setColor(13451564)
+				.setColor('#ADADAD')
 
 			const listingFee = Math.floor(itemCost * listing_fee)
 			const botMessage = await message.channel.createMessage({
@@ -135,7 +135,7 @@ exports.command = {
 				.setTitle('List an item on the Black Market')
 				.setDescription('Enter the name of the item you would like to list:')
 				.setFooter('Type cancel to stop the command.')
-				.setColor(13451564)
+				.setColor('#ADADAD')
 
 			try {
 				const collectorObj = app.msgCollector.createUserCollector(message.author.id, message.channel.id, m => m.author.id === message.author.id, { time: 60000 })
