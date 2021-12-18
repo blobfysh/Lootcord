@@ -13,7 +13,7 @@ exports.command = {
 	requiresAcc: true,
 	requiresActive: true,
 	guildModsOnly: false,
-	patronTier1Only: true,
+	patronTier1Only: false,
 
 	async execute (app, message, { args, prefix, guildInfo }) {
 		const userSpawns = await app.mysql.select('spawnchannels', 'userId', message.author.id, true)
