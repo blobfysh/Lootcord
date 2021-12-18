@@ -6,10 +6,11 @@ class Monsters {
 
 	async initSpawn (channelId) {
 		const activeMob = await this.app.mysql.select('spawns', 'channelId', channelId)
-		if (activeMob && this.mobdata[activeMob.monster]) {
+		const activeMobRemaining = await this.app.cd.getCD(channelId, 'mob')
+		if (activeMob && activeMobRemaining && this.mobdata[activeMob.monster]) {
 			return false
 		}
-		else if (activeMob) {
+		else if (activeMob || activeMobRemaining) {
 			// monster was removed from mobdata, need to restart the spawning process
 			await this.app.query('DELETE FROM spawnsdamage WHERE channelId = ?', [channelId])
 			await this.app.query('DELETE FROM spawns WHERE channelId = ?', [channelId])
