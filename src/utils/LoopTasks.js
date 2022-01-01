@@ -1,10 +1,10 @@
 const CronJob = require('cron').CronJob
 const salesData = require('../resources/json/sales')
 const STATUS_LIST = [
-	'☃️ Looting {users} players',
-	'🎄 {users} workshop elves',
-	'🎁 Use t-daily for a present!',
-	'❄️ Join the discord!',
+	'Looting {users} players',
+	'{users} loot goblins',
+	'{guilds} servers!',
+	'Join the discord!',
 	'lootcord.com 👀'
 ]
 
@@ -157,7 +157,7 @@ class LoopTasks {
 					.setTitle('Scrap Deals')
 					.setDescription(deals.map(deal => `${this.app.itemdata[deal.item].icon}\`${deal.item}\`\n` +
 						`Price: ${this.app.itemdata[deal.item].buy.currency ? `~~${this.app.common.formatNumber(this.app.itemdata[deal.item].buy.amount, true)}~~ ` : ''}${this.app.common.formatNumber(deal.price)}`).join('\n\n'))
-					.setColor('#ADADAD')
+					.setColor(13451564)
 					.setFooter('These deals will last 2 hours.')
 
 				const botMessage = await this.app.bot.createMessage(this.app.config.scrapDealsChannel, dealsEmbed)
@@ -243,7 +243,7 @@ class LoopTasks {
 			}
 
 			const bountyEmbed = new this.app.Embed()
-				.setColor('#ADADAD')
+				.setColor(13451564)
 				.setDescription(`**${this.app.icons.death_skull} The following bounties you placed have expired:**\n\n${bountyList.join('\n')}\n\n**You have been reimbursed ${this.app.common.formatNumber(userBounties[user].money)}.**`)
 
 			this.app.common.messageUser(user, bountyEmbed)
@@ -434,7 +434,7 @@ class LoopTasks {
 					.setTitle('Conversion Successful')
 					.setThumbnail('https://cdn.discordapp.com/attachments/497302646521069570/662369574720765994/spaces2F-LQzahLixLnvmbDfQ1K02Favatar.png')
 					.setDescription(`You received ${this.app.common.formatNumber(payout)} (${transaction.payout} rounded) through Discoin! [Click this to see more details.](https://dash.discoin.zws.im/#/transactions/${transaction.id}/show)\n\nKeep in mind there is a daily limit of ${this.app.common.formatNumber(100000)} on incoming transactions.`)
-					.setColor('#ADADAD')
+					.setColor(13451564)
 
 				if (userRow.discoinLimit + payout > 100000) {
 					if (userRow.discoinLimit >= 100000) {
@@ -471,7 +471,7 @@ class LoopTasks {
 					.addField('Scrap Payout', `${this.app.common.formatNumber(payout)} (${this.app.common.formatNumber(refunded)} refunded)`, true)
 					.addField('User', `\`\`\`\n${transaction.user}\`\`\``)
 					.setFooter(`Transaction ID: ${transaction.id}`)
-					.setColor('#ADADAD')
+					.setColor(13451564)
 
 				logTransactions.push(logEmbed)
 			}

@@ -8,7 +8,7 @@ module.exports = {
 		const collectorObj = app.msgCollector.createChannelCollector(message.channel.id, m => m.content.toLowerCase() === 'claimdrop', { time: 40000 })
 
 		const exploreEmbed = new app.Embed()
-			.setColor('#ADADAD')
+			.setColor(13451564)
 			.setTitle('Event - __AIRDROP__')
 			.setDescription(`**A ${app.itemdata.supply_drop.icon}\`supply_drop\` has arrived!**\n\nType \`claimdrop\` to try and steal it!`)
 			.setImage(app.itemdata.supply_drop.image)

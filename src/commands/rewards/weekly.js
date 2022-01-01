@@ -1,11 +1,9 @@
 const { reply } = require('../../utils/messageUtils')
 
-/*
 const QUOTES = [
 	'✨ Oh look, I found this {icon}{item} and {icon2}{item2} for you!',
 	'{ez} Here\'s a free {icon}{item} and {icon2}{item2}!'
 ]
-*/
 
 exports.command = {
 	name: 'weekly',
@@ -37,17 +35,12 @@ exports.command = {
 
 		await app.itm.addItem(message.author.id, 'supply_drop', 1, serverSideGuildId)
 		await app.itm.addItem(message.author.id, 'reroll_scroll', 1, serverSideGuildId)
-		await app.itm.addItem(message.author.id, 'medium_present', 1, serverSideGuildId)
 
-		await reply(message, `🎄 **HO HO HO**\n✨ You found:\n\n**1x** ${app.itemdata.supply_drop.icon}\`supply_drop\`\n**1x** ${app.itemdata.reroll_scroll.icon}\`reroll_scroll\`\nand **1x** ${app.itemdata.medium_present.icon}\`medium_present\``)
-
-		/*
 		await reply(message, QUOTES[Math.floor(Math.random() * QUOTES.length)]
 			.replace('{ez}', app.icons.blackjack_dealer_neutral)
 			.replace('{icon}', app.itemdata.supply_drop.icon)
 			.replace('{item}', '`supply_drop`')
 			.replace('{icon2}', app.itemdata.reroll_scroll.icon)
 			.replace('{item2}', '`reroll_scroll`'))
-		*/
 	}
 }

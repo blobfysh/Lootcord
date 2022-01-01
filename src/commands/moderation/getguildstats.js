@@ -55,7 +55,7 @@ exports.command = {
 			const serverSideMode = guildRow.serverOnly ? 'Enabled' : 'Disabled (global)'
 
 			const statEmbed = new app.Embed()
-				.setColor('#ADADAD')
+				.setColor(13451564)
 				.setAuthor(`${fetchedGuildInfo.name}`)
 				.setDescription('Only a max of 15 members/channels will be shown due to length limitations.')
 				.addField('Guild Created', guildCreated, true)

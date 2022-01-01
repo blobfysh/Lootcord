@@ -932,7 +932,7 @@
             "snow_gun"
         ],
         "tier": 0,
-        "isHidden": false,
+        "isHidden": true,
         "isSpecial": true
     }
 }

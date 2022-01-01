@@ -741,7 +741,7 @@
             "stocking"
         ],
         "tier": 0,
-        "isHidden": false,
+        "isHidden": true,
         "isSpecial": true
     },
     "gingerbread": {
@@ -769,7 +769,7 @@
         "category": "Item",
         "aliases": [],
         "tier": 0,
-        "isHidden": false,
+        "isHidden": true,
         "isSpecial": true
     },
     "small_present": {
@@ -818,7 +818,7 @@
             "present"
         ],
         "tier": 0,
-        "isHidden": false,
+        "isHidden": true,
         "isSpecial": true
     },
     "medium_present": {
@@ -860,7 +860,7 @@
                     "rifle_bullet|1",
                     "custom_smg|1",
                     "semi_rifle|1",
-					"fire_arrow|1"
+                    "fire_arrow|1"
                 ]
             },
             "70": {
@@ -880,7 +880,7 @@
             "med_present"
         ],
         "tier": 0,
-        "isHidden": false,
+        "isHidden": true,
         "isSpecial": true
     },
     "large_present": {
@@ -898,7 +898,7 @@
             "materials": []
         },
         "buy": "",
-        "sell": 21592,
+        "sell": 20592,
         "desc": "Unwrap it to see what's inside!\n**Christmas event item.**",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/784227939188342834/large_present.png",
         "icon": "<:large_present:784227884155273276>",
@@ -907,7 +907,7 @@
         "cooldown": "",
 		"dropsItems": 1,
         "rates": {
-			"5": {
+            "5": {
                 "xp": 75,
                 "items": [
                     "l96_rifle|1"
@@ -938,7 +938,7 @@
             "big_present"
         ],
         "tier": 0,
-        "isHidden": false,
+        "isHidden": true,
         "isSpecial": true
     },
     "egg_basket": {
@@ -1083,7 +1083,7 @@
             "materials": []
         },
         "buy": "",
-        "sell": 9281,
+        "sell": 5281,
         "desc": "Equip this festive hat to reduce damage taken from attacks by **25%** for **8 hours**.",
         "image": "https://cdn.discordapp.com/attachments/732785297363959902/784486202346700800/santa_hat.png",
         "icon": "<:santa_hat:784486175149654087>",
@@ -1094,7 +1094,7 @@
         "category": "Item",
         "aliases": [],
         "tier": 0,
-        "isHidden": false,
+        "isHidden": true,
         "isSpecial": true
     },
     "apple": {

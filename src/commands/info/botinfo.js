@@ -17,7 +17,7 @@ exports.command = {
 
 		const embedInfo = new app.Embed()
 			.setTitle('Lootcord Update Info')
-			.setColor('#ADADAD')
+			.setColor(13451564)
 			.setThumbnail(app.bot.user.avatarURL)
 			.setDescription('Read [here](https://lootcord.com/blog) for update details.\n\nLootcord is created by fans and is not affilated with Facepunch.')
 			.addField('Shard ID', codeWrap(message.channel.guild.shard.id.toString(), 'js'), true)

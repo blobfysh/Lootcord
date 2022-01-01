@@ -37,7 +37,7 @@ exports.command = {
 			.setTitle(`New message from ${`${message.author.username}#${message.author.discriminator}`}`)
 			.setThumbnail(message.author.avatarURL)
 			.setDescription(messageIn)
-			.setColor('#ADADAD')
+			.setColor(13451564)
 			.addBlankField()
 			.setFooter('https://lootcord.com | Only moderators can send you messages.')
 

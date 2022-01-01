@@ -19,9 +19,6 @@ class EventHandler {
 			// rare event
 			event = this.events.get('airdrop')
 		}
-		else if (rand <= 0.3) {
-			event = this.events.get('elfattack')
-		}
 		else {
 			// common event
 			event = this.events.get('exploration')
