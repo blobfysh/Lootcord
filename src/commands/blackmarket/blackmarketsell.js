@@ -76,9 +76,14 @@ exports.command = {
 				const confirmed = (await app.btnCollector.awaitClicks(botMessage.id, i => i.user.id === message.author.id))[0]
 
 				if (confirmed.customID === 'confirmed') {
-					const row = await app.player.getRow(message.author.id)
+					const transaction = await app.mysql.beginTransaction()
+					const row = await app.player.getRowForUpdate(transaction.query, message.author.id)
+					const userItemsV = await app.itm.getItemObjectForUpdate(transaction.query, message.author.id)
+					const hasItems = await app.itm.hasItems(userItemsV, itemName, itemAmnt)
 
 					if (row.money < listingFee) {
+						await transaction.commit()
+
 						const failedEmbed = new app.Embed()
 							.setDescription(`You can't afford the **${app.common.formatNumber(listingFee)}** fee. You only have **${app.common.formatNumber(row.money)}**`)
 							.setColor(16734296)
@@ -89,7 +94,9 @@ exports.command = {
 							components: []
 						})
 					}
-					else if (!await app.itm.hasItems(await app.itm.getItemObject(message.author.id), itemName, itemAmnt)) {
+					else if (!hasItems) {
+						await transaction.commit()
+
 						const failedEmbed = new app.Embed()
 							.setDescription(`You don't have **${itemAmnt}x** ${app.itemdata[itemName].icon}\`${itemName}\`.`)
 							.setColor(16734296)
@@ -100,8 +107,10 @@ exports.command = {
 							components: []
 						})
 					}
-					await app.player.removeMoney(message.author.id, listingFee)
-					await app.itm.removeItem(message.author.id, itemName, itemAmnt)
+
+					await app.player.removeMoneySafely(transaction.query, message.author.id, listingFee)
+					await app.itm.removeItemSafely(transaction.query, message.author.id, itemName, itemAmnt)
+					await transaction.commit()
 
 					const listingId = await listItem(app, message, itemName, itemAmnt, itemCost)
 
