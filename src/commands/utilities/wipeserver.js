@@ -35,7 +35,7 @@ exports.command = {
 
 	async execute (app, message, { args, prefix, guildInfo, serverSideGuildId }) {
 		const botMessage = await reply(message, {
-			content: 'Are you sure you want to wipe everyone in the server? Cooldowns will remain unaffected. Limited event items will remain unaffected (such as halloween items).',
+			content: 'Are you sure you want to wipe and deactivate everyone in the server? Cooldowns will remain unaffected. Limited event items will remain unaffected (such as halloween items).',
 			components: BUTTONS.confirmation
 		})
 
@@ -54,6 +54,8 @@ exports.command = {
 				await app.query(`DELETE FROM server_user_items WHERE guildId = ? AND item NOT IN (${specialItems.map(i => `'${i}'`).join(', ')})`, [serverSideGuildId])
 				await app.query('DELETE FROM server_stats WHERE guildId = ?', [serverSideGuildId])
 				await app.query('DELETE FROM server_badges WHERE guildId = ?', [serverSideGuildId])
+				await app.query('DELETE FROM userguilds WHERE guildId = ?', [serverSideGuildId])
+
 
 				const clans = await app.query('SELECT * FROM server_clans WHERE guildId = ?', [serverSideGuildId])
 
