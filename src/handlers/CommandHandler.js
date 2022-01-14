@@ -72,6 +72,12 @@ class CommandHandler {
 				return message.channel.createMessage(`❌ The \`${command.name}\` command requires that server-side economy mode is disabled.`)
 			}
 
+			const isCrateChannel = (await this.app.query('SELECT * FROM locked_crate_channels WHERE channelId = ?', [message.channel.id]))[0]
+
+			if (isCrateChannel) {
+				return message.channel.createMessage('❌ Commands cannot be used here.')
+			}
+
 			if (Math.random() <= 0.05) this.app.eventHandler.initEvent(message, { prefix, serverSideGuildId, eventPingRole: guildInfo.eventPingRole })
 		}
 		else if (!command.worksInDMs) {
