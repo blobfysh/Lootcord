@@ -44,10 +44,15 @@ class Monsters {
 
 			const mobEmbed = await this.genMobEmbed(channelId, this.mobdata[monster], this.mobdata[monster].health, randMoney)
 
-			await this.app.bot.createMessage(channelId, {
-				content: spawnInfo.spawnPingRole ? `<@&${spawnInfo.spawnPingRole}>, An enemy has spawned...` : 'An enemy has spawned...',
-				embed: mobEmbed.embed
-			})
+			try {
+				await this.app.bot.createMessage(channelId, {
+					content: spawnInfo.spawnPingRole ? `<@&${spawnInfo.spawnPingRole}>, An enemy has spawned...` : 'An enemy has spawned...',
+					embed: mobEmbed.embed
+				})
+			}
+			catch (err) {
+				// discord error, continue
+			}
 		}
 		catch (err) {
 			await this.app.query('DELETE FROM spawnsdamage WHERE channelId = ?', [channelId])
@@ -146,10 +151,15 @@ class Monsters {
 			const mobEmbed = await this.genMobEmbed(channelId, this.mobdata[monsterStats.monster], monsterStats.health, monsterStats.money)
 			mobEmbed.setTitle(`${this.mobdata[monsterStats.monster].title} - Only half the time remains!`)
 
-			await this.app.bot.createMessage(channelId, {
-				content: spawnPingRole ? `<@&${spawnPingRole}>` : undefined,
-				embed: mobEmbed.embed
-			})
+			try {
+				await this.app.bot.createMessage(channelId, {
+					content: spawnPingRole ? `<@&${spawnPingRole}>` : undefined,
+					embed: mobEmbed.embed
+				})
+			}
+			catch (err) {
+				// discord error, continue
+			}
 		}
 		catch (err) {
 			console.log(err)
