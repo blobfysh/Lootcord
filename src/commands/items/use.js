@@ -302,6 +302,17 @@ exports.command = {
 						await app.itm.addBadge(message.author.id, 'executioner', serverSideGuildId)
 					}
 
+					const enemyLog = new app.Embed()
+						.setTitle('Enemy Death Log')
+						.setColor(2713128)
+						.setDescription(`**Weapon**: \`${item}\` - **${totalDamage} damage**\n**Ammo**: ${ammoUsed ? `\`${ammoUsed}\`` : 'Not required'}`)
+						.addField('Killer', `${message.member.username}#${message.member.discriminator} ID: \`\`\`\n${message.member.id}\`\`\``)
+						.addField('Mob', monster.title)
+						.setTimestamp()
+						.setFooter(`Guild ID: ${message.channel.guild.id}`)
+
+					app.messager.messageLogs(enemyLog)
+
 					message.channel.createMessage({
 						content: generateAttackMobString(app, message, monsterRow, totalDamage, item, ammoUsed, weaponBreaks, true),
 						embed: rewardsEmbed.embed
