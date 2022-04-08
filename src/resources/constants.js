@@ -124,8 +124,8 @@ const RULES = {
 		warn_message: 'Exploiting bugs to gain an unfair advantage over other players is not allowed, bugs should be reported to the bug-reports channel in the official Lootcord server.'
 	},
 	2: {
-		desc: 'Alt accounts',
-		warn_message: 'Alt abuse violates rule #2, please refrain from using alts to gain an unfair advantage over other players.'
+		desc: 'Alt/puppet accounts',
+		warn_message: 'Alt abuse or the use of "puppet" accounts violates rule #2, please refrain from using these accounts to gain an unfair advantage over other players.'
 	},
 	3: {
 		desc: 'Cooldown dodging',
@@ -133,7 +133,7 @@ const RULES = {
 	},
 	4: {
 		desc: 'Kill-farming',
-		warn_message: 'Killing another player and trading items back to avoid loss of items is against rule #4!'
+		warn_message: 'Killing another player on purpose so that they receive a passive shield OR trading items back after killing someone to avoid loss of items is against rule #4.'
 	},
 	5: {
 		desc: 'False reports',
