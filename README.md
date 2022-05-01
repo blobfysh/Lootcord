@@ -1,3 +1,5 @@
+⚠️ Lootcord no longer runs on this codebase, it has been rewritten to Typescript and made private. This code is outdated and does not support Discord slash commands which will be a requirement in the future for Discord bots. I will not provide any assistance regarding this repository.
+
 <div>
   <p align="center">
     <a href="https://discordapp.com/oauth2/authorize?client_id=493316754689359874&permissions=388160&scope=bot"><img src="https://cdn.discordapp.com/attachments/497302646521069570/764344112299507763/lootcord_icon_transparent_small.png"/></a>
