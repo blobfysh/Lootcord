@@ -1,4 +1,4 @@
-⚠️ Lootcord will no longer run on this code in the near future, it has been rewritten to Typescript and made private. This code is outdated and does not support Discord slash commands which will be a requirement in the future for Discord bots. I will not provide any assistance regarding this repository.
+⚠️ Lootcord no longer runs on this code, it has been rewritten to Typescript and made private. This code is outdated and does not fully support Discord slash commands which will be a requirement in the future for Discord bots. I will not provide any assistance regarding this repository.
 
 <div>
   <p align="center">
