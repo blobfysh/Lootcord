@@ -2,7 +2,7 @@
 
 <div>
   <p align="center">
-    <a href="https://discordapp.com/oauth2/authorize?client_id=493316754689359874&permissions=388160&scope=bot"><img src="https://cdn.discordapp.com/attachments/497302646521069570/764344112299507763/lootcord_icon_transparent_small.png"/></a>
+    <a href="https://discord.com/oauth2/authorize?client_id=493316754689359874&permissions=274878221504&scope=bot%20applications.commands"><img src="https://cdn.discordapp.com/attachments/497302646521069570/764344112299507763/lootcord_icon_transparent_small.png"/></a>
   </p>
   <h1 align="center">
     Lootcord
@@ -16,7 +16,7 @@
 
 ## About
 Website: https://lootcord.com<br>
-Invite: https://discord.com/oauth2/authorize?client_id=493316754689359874&permissions=388160&scope=bot%20applications.commands<br>
+Invite: https://discord.com/oauth2/authorize?client_id=493316754689359874&permissions=274878221504&scope=bot%20applications.commands<br>
 Discord Server: https://discord.gg/apKSxuE<br>
 
 ## Commands
